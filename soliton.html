@@ -1,116 +1,34 @@
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AMRITA MIR — Единый Глобальный Солитон</title>
+    <title>AMRITA MIR</title>
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-        body {
-            background-color: #0b0713;
-            color: #ffffff;
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            overflow-x: hidden;
-            text-align: center;
-            padding: 20px;
-        }
-        .badge {
-            background: #ff0055;
-            color: white;
-            font-size: 0.75rem;
-            font-weight: bold;
-            letter-spacing: 2px;
-            padding: 6px 16px;
-            border-radius: 20px;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-        }
-        h1 {
-            font-size: 2.5rem;
-            color: #00ffcc;
-            letter-spacing: 3px;
-            margin-bottom: 15px;
-            text-shadow: 0 0 10px rgba(0, 255, 204, 0.5);
-        }
-        .description {
-            font-size: 1rem;
-            color: #b3b3cc;
-            max-width: 400px;
-            line-height: 1.6;
-            margin-bottom: 40px;
-        }
-        .soliton-container {
-            position: relative;
-            width: 280px;
-            height: 280px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 40px;
-        }
-        .sphere {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            background: linear-gradient(45deg, #cc00ff, #ff0055);
-            box-shadow: 0 0 40px #cc00ff, 0 0 80px #ff0055, inset 0 0 20px rgba(255,255,255,0.3);
-            animation: pulse 4s infinite ease-in-out, morph 8s infinite ease-in-out;
-            z-index: 1;
-        }
-        .number {
-            position: relative;
-            font-size: 4rem;
-            font-weight: bold;
-            color: #00ffcc;
-            z-index: 2;
-            text-shadow: 0 0 15px #00ffcc, 0 0 30px #00ffcc;
-            user-select: none;
-        }
-        .footer-title {
-            font-size: 1.4rem;
-            font-weight: 600;
-            margin-bottom: 8px;
-            letter-spacing: 1px;
-        }
-        .footer-sub {
-            font-size: 0.85rem;
-            color: #8c8ca3;
-        }
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); box-shadow: 0 0 40px #cc00ff, 0 0 80px #ff0055; }
-            50% { transform: scale(1.06); box-shadow: 0 0 60px #ff0055, 0 0 110px #00ffcc; }
-        }
-        @keyframes morph {
-            0%, 100% { border-radius: 42% 58% 70% 30% / 45% 45% 55% 55%; }
-            33% { border-radius: 70% 30% 52% 48% / 60% 40% 60% 40%; }
-            66% { border-radius: 50% 50% 30% 70% / 40% 60% 40% 60%; }
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background-color: #05020a; color: #fff; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; overflow: hidden; text-align: center; }
+        canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; }
+        .container { z-index: 1; position: relative; }
+        h1 { color: #00ffcc; font-size: 2.5rem; text-shadow: 0 0 15px #00ffcc; margin-bottom: 20px; }
+        .soliton { width: 200px; height: 200px; background: linear-gradient(45deg, #cc00ff, #ff0055); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 30px auto; font-size: 3.5rem; font-weight: bold; box-shadow: 0 0 50px #ff0055; animation: pulse 3s infinite; }
+        .btn { background: transparent; border: 2px solid #00ffcc; color: #00ffcc; padding: 10px 25px; border-radius: 20px; font-weight: bold; cursor: pointer; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
     </style>
 </head>
 <body>
-
-    <div class="badge">Colosseum Solana Global</div>
-    <h1>AMRITA MIR</h1>
-    <p class="description">Единый глобальный Солитон. Великое объединение всей крипты, всех существующих блокчейнов и веб-браузеров в неделимый синергетический рой.</p>
-
-    <div class="soliton-container">
-        <div class="sphere"></div>
-        <div class="number">108</div>
+    <canvas id="quantumGrid"></canvas>
+    <div class="container">
+        <h1>AMRITA MIR</h1>
+        <div class="soliton">108</div>
+        <button class="btn" onclick="connect()">Connect Phantom</button>
     </div>
-
-    <div class="footer-title">Digital Energy Reserve</div>
-    <div class="footer-sub">Экосистема тотального доминирования Web3</div>
-
+    <script>
+        const canvas = document.getElementById('quantumGrid'); const ctx = canvas.getContext('2d'); let particles = [];
+        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; } window.addEventListener('resize', resize); resize();
+        class P { constructor() { this.x = Math.random()*canvas.width; this.y = Math.random()*canvas.height; this.s = Math.random()*3+1; this.sx = Math.random()-0.5; this.sy = Math.random()-0.5; } update() { this.x+=this.sx; this.y+=this.sy; if(this.x>canvas.width||this.x<0)this.sx*=-1; if(this.y>canvas.height||this.y<0)this.sy*=-1; } draw() { ctx.fillStyle = Math.random()>0.5?'#00ffcc':'#ff0055'; ctx.beginPath(); ctx.arc(this.x,this.y,this.s,0,Math.PI*2); ctx.fill(); } }
+        for(let i=0;i<30;i++){particles.push(new P());}
+        function anim() { ctx.clearRect(0,0,canvas.width,canvas.height); particles.forEach(p=>{p.update();p.draw();}); requestAnimationFrame(anim); } anim();
+        function connect() { if('solana' in window){window.solana.connect().then(r=>alert('Done!')).catch(e=>alert('Err'));}else{alert('Install Phantom');} }
+    </script>
 </body>
 </html>
