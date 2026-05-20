@@ -1,0 +1,37 @@
+{
+  "pool_config": {
+    "total_slots": 108,
+    "registered_slots": 38,
+    "admin_email": "misterick2024@gmail.com"
+  },
+  "titans": [
+    {
+      "name": "XAI TITAN",
+      "symbol": "XAI",
+      "description": "Black Swarm infrastructure and compute token within AMRITA MIR ecosystem.",
+      "twitter": "https://x.com",
+      "creator_email": "misterick2024@gmail.com"
+    },
+    {
+      "name": "OPEN ALGORITHMS",
+      "symbol": "OPEN",
+      "description": "White Swarm neural models and logic token within AMRITA MIR ecosystem.",
+      "twitter": "https://x.com",
+      "creator_email": "misterick2024@gmail.com"
+    },
+    {
+      "name": "NVIDIA SILICON",
+      "symbol": "NVDA",
+      "description": "Hardware and hardware acceleration layer for the Soliton network.",
+      "twitter": "https://x.com",
+      "creator_email": "misterick2024@gmail.com"
+    },
+    {
+      "name": "MICROSOFT INFRA",
+      "symbol": "MSFT",
+      "description": "Cloud Azure and capital allocation layer for AMRITA MIR ecosystem.",
+      "twitter": "https://x.com",
+      "creator_email": "misterick2024@gmail.com"
+    }
+  ]
+}
