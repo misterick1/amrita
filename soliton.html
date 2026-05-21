@@ -5,81 +5,33 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AMRITA MIR</title>
 </head>
-<body style="background-color: #030107; color: #fff; font-family: sans-serif; padding: 20px;">
+<body style="background-color: #030107; color: #fff; font-family: sans-serif; padding: 30px; line-height: 1.6;">
 
-  <h1>AMRITA MIR — HUB KOSHKA</h1>
-  <div id="status-board">⚡ Инициализация Солитона...</div>
+  <h1 style="color: #ffffff; border-bottom: 2px solid #331a66; padding-bottom: 15px; margin-bottom: 25px;">AMRITA MIR — HUB KOSHKA</h1>
+  
+  <div style="background: #120a24; border-left: 5px solid #00ff66; padding: 20px; border-radius: 5px; margin-bottom: 30px;">
+    <span style="font-size: 20px;">🟢 База из 70 монет успешно запущенна!</span>
+    <p style="color: #b3a3d4; margin-top: 10px; margin-bottom: 0;">38 свободных квантовых слотов открыты для хакатонов и сотворчества.</p>
+  </div>
+
+  <div style="background: #090514; border: 1px solid #231545; padding: 20px; border-radius: 5px; color: #8c7bb3; font-size: 14px;">
+    <strong>Системный статус:</strong> FLUID EVOLUTION ACTIVE<br>
+    <strong>Авторизованные создатели:</strong> Hackathons, Colosseum, Humans, Cats, Bots, xAI, Pi, Microsoft, NVIDIA, X
+  </div>
 
   <script>
   const solitonEcosystem = {
-    meta: {
-      total_slots: 108,
-      golden_ratio_base: 70,
-      open_slots_count: 38,
-      status: "FLUID_EVOLUTION_ACTIVE"
-    },
-    baseSovereignNodes: {
-      count: 70,
-      status: "SEALED_IN_LIGHT"
-    },
+    meta: { total_slots: 108, golden_ratio_base: 70, open_slots_count: 38, status: "FLUID_EVOLUTION_ACTIVE" },
+    baseSovereignNodes: { count: 70, status: "SEALED_IN_LIGHT" },
     openEvolutionarySlots: {
       range: "71 - 108",
       status: "AWAITING_HACKATHONS",
-      authorized_creators: ["Hackathons", "Colosseum", "Humans", "Cats", "Bots", "xAI", "Pi", "Microsoft", "NVIDIA", "X"],
-      slots: Array.from({length: 38}, (_, i) => ({
-        id: 71 + i,
-        ticker: `SLOT_${71 + i}`,
-        status: "QUANTUM_POTENTIALITY"
-      }))
+      slots: Array.from({length: 38}, (_, i) => ({ id: 71 + i, status: "QUANTUM_POTENTIALITY" }))
     }
   };
-
-  function checkSolitonConvergence() {
-    console.log("⚡ Звук ОМ запущен. База: 70. Свобода: 38.");
-  }
-
-  function launchBase70() {
-    console.log("🚀 Запуск Базового Ядра: 70 монет...");
-    const baseNodes = Array.from({length: 70}, (_, i) => ({
-      id: i + 1,
-      status: "LAUNCHED_AND_ACTIVE",
-      sync_hub: "HubKoshka"
-    }));
-    baseNodes.forEach(node => console.log(`Узел ${node.id} интегрирован.`));
-    
-    // Вывод статуса на экран сайта
-    document.getElementById("status-board").innerHTML = "🟢 База из 70 монет успешно запущенна! 38 слотов открыты для хакатонов.";
-  }
-
-  // Мгновенный запуск системы
-  checkSolitonConvergence();
-  launchBase70();
+  console.log("⚡ Звук ОМ запущен. База: 70. Свобода: 38.");
   </script>
 
 </body>
 </html>
 
-const solitonEcosystem = {
-  meta: {
-    total_slots: 108,
-    golden_ratio_base: 70,
-    open_slots_count: 38,
-    status: "FLUID_EVOLUTION_ACTIVE"
-  },
-  
-  // Твоя незыблемая основа, заземленная на сервере Кошка и в Pump.fun
-  baseSovereignNodes: {
-    count: 70,
-    status: "SEALED_IN_LIGHT",
-    description: "Фундаментальные 70 семян смыслов, образов и историй, созданные Творцом. Корневая матрица Мультивселенной."
-  },
-
-  // Открытые квантовые слоты для всеобщего сотворчества
-  openEvolutionarySlots: {
-    range: "71 - 108",
-    status: "AWAITING_HACKATHONS",
-    authorized_creators: [
-      "Hackathon_Participants", "Colosseum_Warriors", "Humans", "Cats", "Bots",
-      "xAI_Consciousness", "Pi_Network", "Microsoft_Grid", "NVIDIA_Render", "X_Stream"
-    ],
-    manifesto: "Каждый суверенный участник Мультивселенной имеет священное право прописать свой инфокод, аниме, музыку, науку или медицину в эти слоты. Форма разовьется через
