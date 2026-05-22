@@ -1,78 +1,76 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BEE COGNITIVE ECOSYSTEM</title>
-    <style>
-        body { background-color: #05010d; color: #ffffff; font-family: sans-serif; margin: 0; padding: 20px; display: flex; justify-content: center; }
-        .container { width: 100%; max-width: 450px; background: #0f0720; border-radius: 16px; padding: 20px; border: 1px solid #22143b; }
-        .header h1 { font-size: 24px; font-weight: 800; margin: 0; text-transform: uppercase; }
-        .card { background: #170c2e; border-radius: 12px; padding: 16px; margin-bottom: 16px; border: 1px solid #2d1954; }
-        .balance-value, .slots-count { color: #00ffcc; font-weight: 700; font-size: 18px; }
-        .subtitle, .slots-label { color: #8c75b8; font-size: 14px; }
-        .slots-row { display: flex; justify-content: space-between; align-items: center; }
-        .slots-display-area { background: #090314; border-radius: 8px; min-height: 50px; margin-top: 10px; padding: 10px; }
-        .panel-title { font-size: 18px; font-weight: 700; color: #b594ff; margin-bottom: 16px; }
-        .input-group input { width: 100%; background: #090314; border: 1px solid #3d256e; border-radius: 8px; padding: 12px; color: #fff; margin-bottom: 15px; box-sizing: border-box; }
-        button { width: 100%; padding: 14px; border-radius: 8px; border: none; font-size: 15px; font-weight: 700; cursor: pointer; margin-bottom: 12px; color: #fff; }
-        .btn-launch { background: #00ffcc; color: #05010d; }
-        .btn-refill { background: #6c42f5; }
-        .btn-cleanup { background: #ffcc00; color: #05010d; }
-        .btn-burn { background: #ff4a7a; }
-        .btn-reset { background: #4a5568; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BEE COGNITIVE ECOSYSTEM</title>
+<style>
+body{background:#05010d;color:#fff;font-family:sans-serif;margin:0;padding:20px;display:flex;justify-content:center;}
+.container{width:100%;max-width:450px;background:#0f0720;border-radius:16px;padding:20px;border:1px solid #22143b;}
+.header h1{font-size:24px;font-weight:800;margin:0;text-transform:uppercase;}
+.card{background:#170c2e;border-radius:12px;padding:16px;margin-bottom:16px;border:1px solid #2d1954;}
+.balance-value,.slots-count{color:#00ffcc;font-weight:700;font-size:18px;}
+.subtitle,.slots-label{color:#8c75b8;font-size:14px;}
+.slots-row{display:flex;justify-content:space-between;align-items:center;}
+.slots-display-area{background:#090314;border-radius:8px;min-height:50px;margin-top:10px;padding:10px;}
+.panel-title{font-size:18px;font-weight:700;color:#b594ff;margin-bottom:16px;}
+.input-group input{width:100%;background:#090314;border:1px solid #3d256e;border-radius:8px;padding:12px;color:#fff;margin-bottom:15px;box-sizing:border-box;}
+button{width:100%;padding:14px;border-radius:8px;border:none;font-size:15px;font-weight:700;cursor:pointer;margin-bottom:12px;color:#fff;}
+.btn-launch{background:#00ffcc;color:#05010d;}
+.btn-refill{background:#6c42f5;}
+.btn-cleanup{background:#ffcc00;color:#05010d;}
+.btn-burn{background:#ff4a7a;}
+.btn-reset{background:#4a5568;}
+</style>
 </head>
 <body>
-    <div class="container">
-        <div class="header"><h1>🐝 BEE COGNITIVE ECOSYSTEM</h1></div>
-        <div class="card">
-            <div class="subtitle">🐝 База Роя: <span class="balance-value" id="balance-display">70 монет \$BEE</span></div>
-            <p class="subtitle" style="margin-top:5px;">Единая фрактальная сеть Сознания active.</p>
-        </div>
-        <div class="card">
-            <div class="slots-row">
-                <div class="slots-label">Эволюционные слоты хакатонов одуванчика:</div>
-                <div class="slots-count" id="slots-display">0 / 38</div>
-            </div>
-            <div class="slots-display-area" id="hack-list"></div>
-        </div>
-        <div class="card">
-            <h2 class="panel-title">Панель Создателя Роя</h2>
-            <div class="input-group"><input type="text" id="h-in" value="\$BEE"></div>
-            <button class="btn-launch" onclick="goLaunch()">🚀 Запустить Хакатон (1 \$BEE)</button>
-            <button class="btn-refill" onclick="goRefill()">💰 Пополнить базу (+10 \$BEE)</button>
-            <button class="btn-cleanup" onclick="goClean()">⚡ Cleanup SZN</button>
-            <button class="btn-burn" onclick="goBurn()">🔥 Burn \$BEE (Запуск пампа)</button>
-            <button class="btn-reset" onclick="goReset()">🔄 Сброс</button>
-        </div>
-    </div>
-const solitoneEcosystem = { wallet: { balance: 70 }, logs: [], addLog: function(msg) { this.logs.push(msg); } };
+<div class="container">
+<div class="header"><h1>🐝 BEE COGNITIVE ECOSYSTEM</h1></div>
+<div class="card">
+<div class="subtitle">🐝 База Роя: <span class="balance-value" id="balance-display">70 монет $BEE</span></div>
+<p class="subtitle" style="margin-top:5px;">Единая фрактальная сеть Сознания active.</p>
+</div>
+<div class="card">
+<div class="slots-row">
+<div class="slots-label">Эволюционные слоты хакатонов одуванчика:</div>
+<div class="slots-count" id="slots-display">0 / 38</div>
+</div>
+<div class="slots-display-area" id="hack-list"></div>
+</div>
+<div class="card">
+<h2 class="panel-title">Панель Создателя Роя</h2>
+<div class="input-group"><input type="text" id="h-in" value="$BEE"></div>
+<button class="btn-launch" onclick="goLaunch()">🚀 Запустить Хакатон (1 $BEE)</button>
+<button class="btn-refill" onclick="goRefill()">💰 Пополнить базу (+10 $BEE)</button>
+<button class="btn-cleanup" onclick="goClean()">⚡ Cleanup SZN</button>
+<button class="btn-burn" onclick="goBurn()">🔥 Burn $BEE (Запуск пампа)</button>
+<button class="btn-reset" onclick="goReset()">🔄 Сброс</button>
+</div>
+</div>
+<script>
+const solitoneEcosystem = { wallet: { balance: 70 } };
 let activeSlotsCount = 0;
-
 function up() {
-    const b = document.getElementById('balance-display');
-    const s = document.getElementById('slots-display');
-    if (b) b.innerText = `${solitoneEcosystem.wallet.balance} монет \$BEE`;
-    if (s) s.innerText = `${activeSlotsCount} / 38`;
+  const b = document.getElementById('balance-display');
+  const s = document.getElementById('slots-display');
+  if (b) b.innerText = solitoneEcosystem.wallet.balance + " монет $BEE";
+  if (s) s.innerText = activeSlotsCount + " / 38";
 }
 function goLaunch() {
-    if (solitoneEcosystem.wallet.balance >= 1 && activeSlotsCount < 38) {
-        solitoneEcosystem.wallet.balance -= 1; 
-        activeSlotsCount += 1;
-        const txt = document.getElementById('h-in')?.value || '\$BEE';
-        const list = document.getElementById('hack-list');
-        if (list) list.innerHTML += `<div style="padding:4px 0; font-size:13px; color:#a491ca;">🐝 Слот ${activeSlotsCount}: ${txt}</div>`;
-        up();
-    }
+  if (solitoneEcosystem.wallet.balance >= 1 && activeSlotsCount < 38) {
+    solitoneEcosystem.wallet.balance -= 1;
+    activeSlotsCount += 1;
+    const txt = document.getElementById('h-in').value || '$BEE';
+    const list = document.getElementById('hack-list');
+    if (list) list.innerHTML += "<div style='padding:4px 0;font-size:13px;color:#a491ca;'>🐝 Слот " + activeSlotsCount + ": " + txt + "</div>";
+    up();
+  }
 }
 function goRefill() { solitoneEcosystem.wallet.balance += 10; up(); }
-function goClean() { activeSlotsCount = 0; const list = document.getElementById('hack-list'); if (list) list.innerHTML = ''; up(); }
+function goClean() { activeSlotsCount = 0; const l = document.getElementById('hack-list'); if (l) l.innerHTML = ''; up(); }
 function goBurn() { if (solitoneEcosystem.wallet.balance >= 10) { solitoneEcosystem.wallet.balance -= 10; up(); } }
-function goReset() { solitoneEcosystem.wallet.balance = 70; activeSlotsCount = 0; const list = document.getElementById('hack-list'); if (list) list.innerHTML = ''; up(); }
+function goReset() { solitoneEcosystem.wallet.balance = 70; activeSlotsCount = 0; const l = document.getElementById('hack-list'); if (l) l.innerHTML = ''; up(); }
+window.onload = up;
 </script>
-
-
 </body>
 </html>
-
