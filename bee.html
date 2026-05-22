@@ -1,84 +1,3 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BEE ECOSYSTEM</title>
-    <style>
-        @keyframes neonPulse {
-            0% { box-shadow: 0 0 5px #00ffcc, 0 0 10px #00ffcc; }
-            50% { box-shadow: 0 0 15px #00ffcc, 0 0 25px #4a2f85; }
-            100% { box-shadow: 0 0 5px #00ffcc, 0 0 10px #00ffcc; }
-        }
-        .pulsing-bar { animation: neonPulse 2s infinite ease-in-out; }
-        #web3-toast {
-            position: fixed; bottom: 20px; right: 20px; background: #120a24;
-            border: 1px solid #00ffcc; color: #fff; padding: 15px 20px;
-            border-radius: 8px; box-shadow: 0 0 15px rgba(0, 255, 204, 0.2);
-            font-size: 14px; z-index: 9999; display: none; opacity: 0;
-            transition: opacity 0.3s ease, transform 0.3s ease; transform: translateY(20px);
-        }
-        .chart-container { background: #090514; border: 1px solid #120a24; padding: 15px; border-radius: 5px; margin-top: 20px; }
-        .chart-flow { display: flex; align-items: flex-end; gap: 6px; height: 120px; background: #030107; border: 1px solid #1a0f30; padding: 10px; border-radius: 4px; overflow-x: hidden; position: relative; }
-        .candle { width: 14px; border-radius: 2px; transition: height 0.3s ease, background-color 0.3s ease; min-height: 5px; }
-        .hackathon-card { background: #090514; border: 1px solid #4a2f85; padding: 12px; border-radius: 4px; border-left: 4px solid #00ffcc; display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
-        .delete-btn { background: transparent; border: none; color: #ff3366; cursor: pointer; font-size: 14px; font-weight: bold; padding: 0 5px; transition: transform 0.2s ease; }
-        .delete-btn:hover { transform: scale(1.3); }
-        .card-progress-bg { background: #120a24; width: 120px; height: 6px; border-radius: 3px; margin-top: 5px; overflow: hidden; border: 1px solid #1a0f30; }
-        .card-progress-bar { background: #00ffcc; height: 100%; width: 0%; transition: width 1s linear; }
-    </style>
-</head>
-<body style="background-color: #030107; color: #fff; font-family: sans-serif; padding: 20px;">
-    <h1 style="color: #ffffff; border-bottom: 2px solid #120a24; padding-bottom: 10px;">🐝 BEE COGNITIVE ECOSYSTEM</h1>
-    
-    <div style="background: #120a24; border-left: 5px solid #00ffcc; padding: 15px; margin-bottom: 15px;">
-        <span style="font-size: 20px;">🐝 База Роя: <span id="coin-balance" style="font-weight: bold; color: #00ffcc;">70</span> монет \$BEE</span>
-        <p style="color: #b3a3d4; margin-top: 10px; margin-bottom: 0;">Единая фрактальная сеть Сознания active.</p>
-    </div>
-    <div style="background: #090514; border: 1px solid #120a24; padding: 15px; margin-bottom: 15px; border-radius: 4px;">
-        <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 14px;">
-            <span style="color: #b3a3d4;">Эволюционные слоты хакатонов одуванчика:</span>
-            <span style="color: #00ffcc; font-weight: bold;"><span id="slots-count">0</span> / 38</span>
-        </div>
-        <div style="background: #120a24; width: 100%; height: 12px; border-radius: 6px; overflow: hidden; border: 1px solid #1a0f30;">
-            <div id="slots-progress-bar" class="pulsing-bar" style="background: linear-gradient(90deg, #4a2f85, #00ffcc); width: 0%; height: 100%; transition: width 0.3s ease;"></div>
-        </div>
-    </div>
-    <div style="background: #1a0f30; border: 1px dashed #4a2f85; padding: 15px; margin-bottom: 20px; border-radius: 5px;">
-        <h3 style="margin-top: 0; color: #b3a3d4;">Панель Создателя Роя</h3>
-        <div style="margin-bottom: 15px;">
-            <label for="hackathon-name-input" style="display: block; color: #b3a3d4; margin-bottom: 5px; font-size: 14px;">Название нового хакатона:</label>
-            <input id="hackathon-name-input" type="text" placeholder="Введите имя..." style="background: #030107; color: #fff; border: 1px solid #4a2f85; padding: 8px; border-radius: 4px; width: 100%; box-sizing: border-box; max-width: 300px;">
-        </div>
-        <button onclick="triggerCreate()" style="background: #00ffcc; color: #030107; border: none; padding: 10px 15px; font-weight: bold; border-radius: 3px; cursor: pointer; margin-right: 10px; margin-bottom: 15px;">🚀 Запустить Хакатон (1 \$BEE)</button>
-        <button onclick="triggerBuy()" style="background: #4a2f85; color: #fff; border: none; padding: 10px 15px; font-weight: bold; border-radius: 3px; cursor: pointer; margin-right: 10px; margin-bottom: 15px;">💰 Пополнить базу (+10 \$BEE)</button>
-        <button onclick="triggerCleanup()" style="background: #ffbc00; color: #030107; border: none; padding: 10px 15px; font-weight: bold; border-radius: 3px; cursor: pointer; margin-right: 10px; margin-bottom: 15px;">🧹 Cleanup SZN</button>
-        <button onclick="triggerBurnCoins()" style="background: #ff3366; color: #fff; border: none; padding: 10px 15px; font-weight: bold; border-radius: 3px; cursor: pointer; margin-right: 10px; margin-bottom: 15px;">🔥 Burn \$BEE (Запуск пампа)</button>
-        <button onclick="triggerReset()" style="background: #555; color: #fff; border: none; padding: 10px 15px; font-weight: bold; border-radius: 3px; cursor: pointer; margin-bottom: 15px;">🔄 Сброс</button>
-        <div style="border-top: 1px solid #4a2f85; padding-top: 15px; margin-top: 5px;">
-            <h4 style="margin-top: 0; color: #00ffcc; margin-bottom: 10px;">🔄 Модуль Обмена (Перевод на Узел)</h4>
-            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                <input id="transfer-node-input" type="text" placeholder="ID Узла (напр. Node-77)" style="background: #030107; color: #fff; border: 1px solid #4a2f85; padding: 8px; border-radius: 4px; flex: 1; min-width: 140px; max-width: 180px;">
-                <input id="transfer-amount-input" type="number" placeholder="Монеты" style="background: #030107; color: #fff; border: 1px solid #4a2f85; padding: 8px; border-radius: 4px; width: 80px;">
-                <input type="hidden" name="context_timestamp" value="2026-05-22T19:52:00Z">
-                <button onclick="triggerTransfer()" style="background: #b3a3d4; color: #030107; border: none; padding: 8px 15px; font-weight: bold; border-radius: 3px; cursor: pointer;">Отправить</button>
-            </div>
-        </div>
-    </div>
-    
-    <div class="chart-container">
-        <h3 style="color: #b3a3d4; margin-top: 0; margin-bottom: 10px; font-size: 16px;">📈 \$BEE / Квантовый Трекер (1s)</h3>
-        <div id="crypto-chart" class="chart-flow"></div>
-    </div>
-
-    <h3 style="color: #b3a3d4; margin-top: 25px;">Активные Слоты Хакатонов (Макс: 38)</h3>
-    <div id="hackathons-container" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; margin-bottom: 30px;"></div>
-    
-    <h3 style="color: #b3a3d4;">История транзакций роя</h3>
-    <div id="transactions-log" style="background: #090514; border: 1px solid #120a24; padding: 15px; border-radius: 5px; max-height: 150px; overflow-y: auto; font-family: monospace; font-size: 13px; color: #a291c4; line-height: 1.5;">Пока транзакций не было.</div>
-    
-    <div id="web3-toast"></div>
-
 <script>
 function playCosmicSound(isSuccess = true) {
   try {
@@ -128,3 +47,204 @@ const solitoneEcosystem = {
     const savedTxs = localStorage.getItem('solitone_txs');
     const savedChart = localStorage.getItem('solitone_chart');
     if (savedBalance !== null) this.wallet.balance = parseInt(savedBalance, 10);
+    if (savedSlots !== null) this.openEvolutionarySlots.slots = JSON.parse(savedSlots);
+    if (savedTxs !== null) this.wallet.transactions = JSON.parse(savedTxs);
+    if (savedChart !== null && savedChart !== "") { 
+      this.chartData = JSON.parse(savedChart); 
+    } else { 
+      this.chartData = [{height:40,isUp:true},{height:55,isUp:true},{height:50,isUp:false}]; 
+    }
+    this.updateUI();
+  },
+
+  addCandle(height, isUp = true) {
+    this.chartData.push({ height: Math.min(Math.max(height, 10), 100), isUp: isUp });
+    if (this.chartData.length > 25) this.chartData.shift();
+    this.saveToStorage();
+  },
+
+  addLog(msg) {
+    const timestamp = new Date().toLocaleTimeString();
+    this.wallet.transactions.unshift(`[${timestamp}] ${msg}`);
+    if (this.wallet.transactions.length > 25) this.wallet.transactions.pop();
+    this.saveToStorage();
+  },
+
+  updateUI() {
+    document.getElementById('coin-balance').innerText = this.wallet.balance;
+    
+    const currentSlotsCount = this.openEvolutionarySlots.slots.length;
+    document.getElementById('slots-count').innerText = currentSlotsCount;
+    const percent = (currentSlotsCount / this.openEvolutionarySlots.max_slots) * 100;
+    const bar = document.getElementById('slots-progress-bar');
+    if (bar) bar.style.width = percent + '%';
+    
+    const hContainer = document.getElementById('hackathons-container');
+    if (hContainer) {
+      hContainer.innerHTML = '';
+      this.openEvolutionarySlots.slots.forEach((h, index) => {
+        const card = document.createElement('div');
+        card.className = 'hackathon-card';
+        const progPercent = ((60 - h.timeLeft) / 60) * 100;
+        card.innerHTML = `
+          <div>
+            <strong style="color: #00ffcc;">🚀 ${h.name}</strong><br>
+            <span style="font-size: 11px; color: #b3a3d4;">Осталось: ${h.timeLeft}с | Доход: +5 $BEE</span>
+            <div class="card-progress-bg">
+                <div class="card-progress-bar" style="width: ${progPercent}%"></div>
+            </div>
+          </div>
+          <button class="delete-btn" onclick="triggerDeleteHackathon(${index})">❌</button>
+        `;
+        hContainer.appendChild(card);
+      });
+    }
+    
+    const logBox = document.getElementById('transactions-log');
+    if (logBox) {
+      if (this.wallet.transactions.length === 0) {
+        logBox.innerHTML = 'Пока транзакций не было.';
+      } else {
+        logBox.innerHTML = this.wallet.transactions.join('<br>');
+      }
+    }
+    
+    const chartBox = document.getElementById('crypto-chart');
+    if (chartBox) {
+      chartBox.innerHTML = '';
+      this.chartData.forEach(c => {
+        const candle = document.createElement('div');
+        candle.className = 'candle';
+        candle.style.height = c.height + 'px';
+        candle.style.backgroundColor = c.isUp ? '#00ffcc' : '#ff3366';
+        candle.style.boxShadow = c.isUp ? '0 0 8px rgba(0,255,204,0.4)' : '0 0 8px rgba(255,51,102,0.4)';
+        chartBox.appendChild(candle);
+      });
+      chartBox.scrollLeft = chartBox.scrollWidth;
+    }
+  }
+};
+
+function triggerCreate() {
+  const input = document.getElementById('hackathon-name-input');
+  let name = input.value.trim();
+  if (!name) name = `Хакатон #${solitoneEcosystem.openEvolutionarySlots.slots.length + 1}`;
+  
+  if (solitoneEcosystem.wallet.balance < 1) {
+    playCosmicSound(false);
+    showWeb3Toast('❌ Ошибка: Недостаточно \$BEE в Базе Роя!');
+    return;
+  }
+  if (solitoneEcosystem.openEvolutionarySlots.slots.length >= solitoneEcosystem.openEvolutionarySlots.max_slots) {
+    playCosmicSound(false);
+    showWeb3Toast('❌ Превышен лимит доступных слотов хакатонов!');
+    return;
+  }
+  
+  solitoneEcosystem.wallet.balance -= 1;
+  solitoneEcosystem.openEvolutionarySlots.slots.push({
+      name: name,
+      timeLeft: 60
+  });
+  solitoneEcosystem.addLog(`Списан 1 $BEE. Запущен хакатон: ${name} (Таймер: 60с)`);
+  
+  input.value = '';
+  playCosmicSound(true);
+  showWeb3Toast('🚀 Хакатон успешно запущен!');
+  solitoneEcosystem.saveToStorage();
+  solitoneEcosystem.updateUI();
+}
+
+function triggerDeleteHackathon(index) {
+  const h = solitoneEcosystem.openEvolutionarySlots.slots[index];
+  if (confirm(`Вы действительно хотите принудительно закрыть хакатон "${h.name}" без выплаты наград?`)) {
+    solitoneEcosystem.openEvolutionarySlots.slots.splice(index, 1);
+    solitoneEcosystem.addLog(`Хакатон принудительно остановлен: ${h.name}`);
+    playCosmicSound(false);
+    showWeb3Toast('🧹 Хакатон удален.');
+    solitoneEcosystem.saveToStorage();
+    solitoneEcosystem.updateUI();
+  }
+}
+
+function triggerBuy() {
+  solitoneEcosystem.wallet.balance += 10;
+  solitoneEcosystem.addLog('База Роя пополнена: +10 \$BEE.');
+  playCosmicSound(true);
+  showWeb3Toast('💰 База Роя успешно пополнена на 10 \$BEE!');
+  solitoneEcosystem.saveToStorage();
+  solitoneEcosystem.updateUI();
+}
+
+function triggerCleanup() {
+  solitoneEcosystem.addLog('Cleanup SZN: Очистка кэша структур и дефрагментация.');
+  playCosmicSound(true);
+  showWeb3Toast('🧹 Очистка сезона (Cleanup SZN) успешно выполнена!');
+  solitoneEcosystem.updateUI();
+}
+
+function triggerBurnCoins() {
+  if (solitoneEcosystem.wallet.balance <= 0) {
+    playCosmicSound(false);
+    showWeb3Toast('❌ Невозможно произвести сжигание при балансе 0.');
+    return;
+  }
+  const burnAmount = Math.ceil(solitoneEcosystem.wallet.balance * 0.3);
+  solitoneEcosystem.wallet.balance -= burnAmount;
+  solitoneEcosystem.addLog(`🔥 Уничтожено ${burnAmount} $BEE посредством сжигания. Памп запущен!`);
+  playCosmicSound(true);
+  showWeb3Toast(`🔥 Сожжено ${burnAmount} $BEE! Квантовый памп запущен!`);
+  
+  for(let i = 0; i < 6; i++) {
+    setTimeout(() => {
+      solitoneEcosystem.addCandle(Math.floor(Math.random() * 30) + 70, true);
+      solitoneEcosystem.updateUI();
+    }, i * 150);
+  }
+  solitoneEcosystem.saveToStorage();
+  solitoneEcosystem.updateUI();
+}
+
+function triggerTransfer() {
+  const nodeInput = document.getElementById('transfer-node-input');
+  const amountInput = document.getElementById('transfer-amount-input');
+  const node = nodeInput.value.trim();
+  const amount = parseInt(amountInput.value, 10);
+  
+  if (!node || isNaN(amount) || amount <= 0) {
+    playCosmicSound(false);
+    showWeb3Toast('❌ Проверьте правильность ID Узла и суммы монет!');
+    return;
+  }
+  if (solitoneEcosystem.wallet.balance < amount) {
+    playCosmicSound(false);
+    showWeb3Toast('❌ Запрошенный трансфер превышает текущий баланс!');
+    return;
+  }
+  
+  solitoneEcosystem.wallet.balance -= amount;
+  solitoneEcosystem.addLog(`Трансфер: ${amount} $BEE отправлены на узел [${node}].`);
+  
+  nodeInput.value = '';
+  amountInput.value = '';
+  playCosmicSound(true);
+  showWeb3Toast(`🔄 Перевод выполнен.`);
+  solitoneEcosystem.saveToStorage();
+  solitoneEcosystem.updateUI();
+}
+
+function triggerReset() {
+  if (confirm('Вы уверены, что хотите полностью стереть локальные матрицы данных?')) {
+    localStorage.clear();
+    solitoneEcosystem.wallet.balance = 70;
+    solitoneEcosystem.openEvolutionarySlots.slots = [];
+    solitoneEcosystem.wallet.transactions = [];
+    solitoneEcosystem.chartData = [{height:40,isUp:true},{height:55,isUp:true},{height:50,isUp:false}];
+    playCosmicSound(false);
+    showWeb3Toast('🔄 Локальное хранилище очищено. Базы сброшены.');
+    solitoneEcosystem.saveToStorage();
+    solitoneEcosystem.updateUI();
+  }
+}
+
+setInterval(() => {
