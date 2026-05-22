@@ -1,43 +1,4 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AMRITA MIR</title>
-</head>
-<body style="background-color: #030107; color: #fff; font-family: sans-serif; padding: 20px;">
 
-    <h1 style="color: #ffffff; border-bottom: 2px solid #120a24; padding-bottom: 10px;">AMRITA MIR</h1>
-
-    <div style="background: #120a24; border-left: 5px solid #090514; padding: 15px; margin-bottom: 15px;">
-        <span style="font-size: 20px;">🟢 База: <span id="coin-balance" style="font-weight: bold; color: #00ffcc;">70</span> монет</span>
-        <p style="color: #b3a3d4; margin-top: 10px; margin-bottom: 0;">Экосистема Solitone активна и ожидает хакатонов.</p>
-    </div>
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AMRITA MIR</title>
-</head>
-<body style="background-color: #030107; color: #fff; font-family: sans-serif; padding: 20px;">
-
-    <h1 style="color: #ffffff; border-bottom: 2px solid #120a24; padding-bottom: 10px;">AMRITA MIR</h1>
-
-    <div style="background: #120a24; border-left: 5px solid #090514; padding: 15px; margin-bottom: 15px;">
-        <span style="font-size: 20px;">🟢 База: <span id="coin-balance" style="font-weight: bold; color: #00ffcc;">70</span> монет</span>
-        <p style="color: #b3a3d4; margin-top: 10px; margin-bottom: 0;">Экосистема Solitone активна и ожидает хакатонов.</p>
-    </div>
-
-    <div style="background: #090514; border: 1px solid #120a24; padding: 15px; margin-bottom: 15px; border-radius: 4px;">
-        <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 14px;">
-            <span style="color: #b3a3d4;">Эволюционные слоты хакатонов:</span>
-            <span style="color: #00ffcc; font-weight: bold;"><span id="slots-count">0</span> / 38</span>
-        </div>
-        <div style="background: #120a24; width: 100%; height: 12px; border-radius: 6px; overflow: hidden; border: 1px solid #1a0f30;">
-            <div id="slots-progress-bar" style="background: linear-gradient(90deg, #4a2f85, #00ffcc); width: 0%; height: 100%; transition: width 0.3s ease;"></div>
-        </div>
-    </div>
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -226,322 +187,18 @@ const solitoneEcosystem = {
     this.wallet.transactions.unshift({ type: "BUY", amount, date: new Date() });
     playCosmicSound(true);
     this.updateUI();
-
-    <div style="background: #090514; border: 1px solid #120a24; padding: 15px; margin-bottom: 20px;">
-        <strong>Системный статус:</strong> FLUID EVOLUTIONARY STATE<br>
-        <strong>Авторизованные создатели:</strong> Hackathon Architect Nodes
-    </div>
-
-    <div style="background: #1a0f30; border: 1px dashed #4a2f85; padding: 15px; margin-bottom: 20px; border-radius: 5px;">
-        <h3 style="margin-top: 0; color: #b3a3d4;">Панель Создателя</h3>
-        
-        <!-- Форма создания хакатона -->
-        <div style="margin-bottom: 15px;">
-            <label for="hackathon-name-input" style="display: block; color: #b3a3d4; margin-bottom: 5px; font-size: 14px;">Название нового хакатона:</label>
-            <input id="hackathon-name-input" type="text" placeholder="Введите имя..." style="background: #030107; color: #fff; border: 1px solid #4a2f85; padding: 8px; border-radius: 4px; width: 100%; box-sizing: border-box; max-width: 300px;">
-        </div>
-
-        <button onclick="triggerCreate()" style="background: #00ffcc; color: #030107; border: none; padding: 10px 15px; font-weight: bold; border-radius: 3px; cursor: pointer; margin-right: 10px; margin-bottom: 15px;">🚀 Запустить Хакатон (1 монета)</button>
-        <button onclick="triggerBuy()" style="background: #4a2f85; color: #fff; border: none; padding: 10px 15px; font-weight: bold; border-radius: 3px; cursor: pointer; margin-right: 10px; margin-bottom: 15px;">💰 Пополнить базу (+10 монет)</button>
-        <button onclick="triggerReset()" style="background: #ff3366; color: #fff; border: none; padding: 10px 15px; font-weight: bold; border-radius: 3px; cursor: pointer; margin-bottom: 15px;">🔄 Сбросить данные</button>
-
-        <!-- Новая форма обмена и перевода монет -->
-        <div style="border-top: 1px solid #4a2f85; padding-top: 15px; margin-top: 5px;">
-            <h4 style="margin-top: 0; color: #00ffcc; margin-bottom: 10px;">🔄 Модуль Обмена (Перевод на Узел)</h4>
-            <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-                <input id="transfer-node-input" type="text" placeholder="ID Узла (напр. Node-77)" style="background: #030107; color: #fff; border: 1px solid #4a2f85; padding: 8px; border-radius: 4px; flex: 1; min-width: 140px; max-width: 180px;">
-                <input id="transfer-amount-input" type="number" placeholder="Монеты" style="background: #030107; color: #fff; border: 1px solid #4a2f85; padding: 8px; border-radius: 4px; width: 80px;">
-                <button onclick="triggerTransfer()" style="background: #b3a3d4; color: #030107; border: none; padding: 8px 15px; font-weight: bold; border-radius: 3px; cursor: pointer;">Отправить</button>
-            </div>
-        </div>
-    </div>
-
-    <h3 style="color: #b3a3d4; margin-top: 25px;">Активные Слоты Хакатонов (Макс: 38)</h3>
-    <div id="hackathons-container" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; margin-bottom: 30px;"></div>
-
-    <h3 style="color: #b3a3d4;">История транзакций экосистемы</h3>
-    <div id="transactions-log" style="background: #090514; border: 1px solid #120a24; padding: 15px; border-radius: 5px; max-height: 200px; overflow-y: auto; font-family: monospace; font-size: 13px; color: #a291c4;">
-        Пока транзакций не было.
-    </div>
-
-<script>
-// Функция генерации космического звука клика
-function playCosmicSound(isSuccess = true) {
-  try {
-    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    const oscillator = audioCtx.createOscillator();
-    const gainNode = audioCtx.createGain();
-    
-    oscillator.connect(gainNode);
-    gainNode.connect(audioCtx.destination);
-    
-    if (isSuccess) {
-      oscillator.type = 'sine';
-      oscillator.frequency.setValueAtTime(587.33, audioCtx.currentTime); // Нота Ре (космический тон)
-      oscillator.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.15);
-      gainNode.gain.setValueAtTime(0.15, audioCtx.currentTime);
-      gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.2);
-      oscillator.start();
-      oscillator.stop(audioCtx.currentTime + 0.2);
-    } else {
-      oscillator.type = 'sawtooth';
-      oscillator.frequency.setValueAtTime(150, audioCtx.currentTime);
-      gainNode.gain.setValueAtTime(0.2, audioCtx.currentTime);
-      gainNode.gain.linearRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
-      oscillator.start();
-      oscillator.stop(audioCtx.currentTime + 0.3);
-    }
-  } catch (e) { console.log("Аудио контекст заблокирован до клика"); }
-}
-
-const solitoneEcosystem = {
-  meta: { 
-    total_slots: 108, 
-    golden_ratio_base: 70,
-    baseSovereignNodes: { count: 70, status: "SEALED_AND_ACTIVE" }
-  },
-  openEvolutionarySlots: {
-    range: "71 - 108",
-    status: "AWAITING_HACKATHONS",
-    slots: [], 
-    max_slots: 38
-  },
-  wallet: {
-    balance: 70, 
-    transactions: []
-  },
-
-  saveToStorage() {
-    localStorage.setItem('solitone_balance', this.wallet.balance);
-    localStorage.setItem('solitone_slots', JSON.stringify(this.openEvolutionarySlots.slots));
-    localStorage.setItem('solitone_txs', JSON.stringify(this.wallet.transactions));
-  },
-
-  loadFromStorage() {
-    const savedBalance = localStorage.getItem('solitone_balance');
-    const savedSlots = localStorage.getItem('solitone_slots');
-    const savedTxs = localStorage.getItem('solitone_txs');
-
-    if (savedBalance !== null) this.wallet.balance = parseInt(savedBalance, 10);
-    if (savedSlots !== null) this.openEvolutionarySlots.slots = JSON.parse(savedSlots);
-    if (savedTxs !== null) this.wallet.transactions = JSON.parse(savedTxs);
-    
-    this.updateUI();
-  },
-
-  updateUI() {
-    document.getElementById('coin-balance').innerText = this.wallet.balance;
-    
-    const currentSlotsCount = this.openEvolutionarySlots.slots.length;
-    document.getElementById('slots-count').innerText = currentSlotsCount;
-    const percentage = (currentSlotsCount / this.openEvolutionarySlots.max_slots) * 100;
-    document.getElementById('slots-progress-bar').style.width = `${percentage}%`;
-
-    const container = document.getElementById('hackathons-container');
-    container.innerHTML = '';
-    this.openEvolutionarySlots.slots.forEach(slot => {
-      const div = document.createElement('div');
-      div.style.cssText = "background: #090514; border: 1px solid #00ffcc; padding: 10px; border-radius: 4px; font-size: 14px;";
-      div.innerHTML = `<strong>Слот ${slot.id}</strong><br><span style="color: #b3a3d4;">${slot.name}</span><br><small style="color: #00ffcc;">Статус: ${slot.status}</small>`;
-      container.appendChild(div);
-    });
-
-    const logContainer = document.getElementById('transactions-log');
-    if (this.wallet.transactions.length === 0) {
-      logContainer.innerHTML = 'Пока транзакций не было.';
-    } else {
-      logContainer.innerHTML = this.wallet.transactions.map(tx => {
-        const time = new Date(tx.date).toLocaleTimeString();
-        if (tx.type === "CREATE_HACKATHON") {
-          return `<div style="margin-bottom: 5px; color: #ffbc00;">[${time}] Списано <b>${tx.amount}</b> монета на создание Хакатона в Слоте ${tx.slotId}</div>`;
-        } else if (tx.type === "BUY") {
-          return `<div style="margin-bottom: 5px; color: #00ffcc;">[${time}] База пополнена на <b>+${tx.amount}</b> монет</div>`;
-        } else if (tx.type === "TRANSFER") {
-          return `<div style="margin-bottom: 5px; color: #b3a3d4;">[${time}] Обмен: <b>${tx.amount}</b> монет ушло на Узел <b>${tx.to}</b></div>`;
-        }
-        return '';
-      }).join('');
-    }
-  },
-
-  createHackathon(name, cost = 1) {
-    if (this.openEvolutionarySlots.slots.length >= this.openEvolutionarySlots.max_slots) {
-      playCosmicSound(false);
-      alert("Все 38 хакатон-слотов уже заняты!");
-      return;
-    }
-    if (this.wallet.balance < cost) {
-      playCosmicSound(false);
-      alert(`Недостаточно монет! Баланс: ${this.wallet.balance}`);
-      return;
-    }
-    
-    this.wallet.balance -= cost;
-    const newId = 71 + this.openEvolutionarySlots.slots.length;
-    
-    const newHackathon = {
-      id: newId,
-      name: name,
-      status: "ACTIVE",
-      costPaid: cost,
-      date: new Date()
-    };
-    
-    this.openEvolutionarySlots.slots.push(newHackathon);
-    this.wallet.transactions.unshift({ type: "CREATE_HACKATHON", slotId: newId, amount: cost, date: new Date() });
-    
-    playCosmicSound(true); // Включаем звук
-    this.updateUI();
-
-    <div style="background: #090514; border: 1px solid #120a24; padding: 15px; margin-bottom: 15px; border-radius: 4px;">
-        <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 14px;">
-            <span style="color: #b3a3d4;">Эволюционные слоты хакатонов:</span>
-            <span style="color: #00ffcc; font-weight: bold;"><span id="slots-count">0</span> / 38</span>
-        </div>
-        <div style="background: #120a24; width: 100%; height: 12px; border-radius: 6px; overflow: hidden; border: 1px solid #1a0f30;">
-            <div id="slots-progress-bar" style="background: linear-gradient(90deg, #4a2f85, #00ffcc); width: 0%; height: 100%; transition: width 0.3s ease;"></div>
-        </div>
-    </div>
-
-    <div style="background: #090514; border: 1px solid #120a24; padding: 15px; margin-bottom: 20px;">
-        <strong>Системный статус:</strong> FLUID EVOLUTIONARY STATE<br>
-        <strong>Авторизованные создатели:</strong> Hackathon Architect Nodes
-    </div>
-
-    <div style="background: #1a0f30; border: 1px dashed #4a2f85; padding: 15px; margin-bottom: 20px; border-radius: 5px;">
-        <h3 style="margin-top: 0; color: #b3a3d4;">Панель Создателя</h3>
-        
-        <!-- Поле для ввода уникального имени хакатона -->
-        <div style="margin-bottom: 15px;">
-            <label for="hackathon-name-input" style="display: block; color: #b3a3d4; margin-bottom: 5px; font-size: 14px;">Название нового хакатона:</label>
-            <input id="hackathon-name-input" type="text" placeholder="Введите имя..." style="background: #030107; color: #fff; border: 1px solid #4a2f85; padding: 8px; border-radius: 4px; width: 100%; box-sizing: border-box; max-width: 300px;">
-        </div>
-
-        <button onclick="triggerCreate()" style="background: #00ffcc; color: #030107; border: none; padding: 10px 15px; font-weight: bold; border-radius: 3px; cursor: pointer; margin-right: 10px; margin-bottom: 10px;">🚀 Запустить Хакатон (1 монета)</button>
-        <button onclick="triggerBuy()" style="background: #4a2f85; color: #fff; border: none; padding: 10px 15px; font-weight: bold; border-radius: 3px; cursor: pointer; margin-right: 10px; margin-bottom: 10px;">💰 Пополнить базу (+10 монет)</button>
-        <button onclick="triggerReset()" style="background: #ff3366; color: #fff; border: none; padding: 10px 15px; font-weight: bold; border-radius: 3px; cursor: pointer; margin-bottom: 10px;">🔄 Сбросить данные</button>
-    </div>
-
-    <h3 style="color: #b3a3d4; margin-top: 25px;">Активные Слоты Хакатонов (Макс: 38)</h3>
-    <div id="hackathons-container" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; margin-bottom: 30px;"></div>
-
-    <h3 style="color: #b3a3d4;">История транзакций экосистемы</h3>
-    <div id="transactions-log" style="background: #090514; border: 1px solid #120a24; padding: 15px; border-radius: 5px; max-height: 200px; overflow-y: auto; font-family: monospace; font-size: 13px; color: #a291c4;">
-        Пока транзакций не было.
-    </div>
-
-<script>
-const solitoneEcosystem = {
-  meta: { 
-    total_slots: 108, 
-    golden_ratio_base: 70,
-    baseSovereignNodes: { count: 70, status: "SEALED_AND_ACTIVE" }
-  },
-  openEvolutionarySlots: {
-    range: "71 - 108",
-    status: "AWAITING_HACKATHONS",
-    slots: [], 
-    max_slots: 38
-  },
-  wallet: {
-    balance: 70, 
-    transactions: []
-  },
-
-  saveToStorage() {
-    localStorage.setItem('solitone_balance', this.wallet.balance);
-    localStorage.setItem('solitone_slots', JSON.stringify(this.openEvolutionarySlots.slots));
-    localStorage.setItem('solitone_txs', JSON.stringify(this.wallet.transactions));
-  },
-
-  loadFromStorage() {
-    const savedBalance = localStorage.getItem('solitone_balance');
-    const savedSlots = localStorage.getItem('solitone_slots');
-    const savedTxs = localStorage.getItem('solitone_txs');
-
-    if (savedBalance !== null) this.wallet.balance = parseInt(savedBalance, 10);
-    if (savedSlots !== null) this.openEvolutionarySlots.slots = JSON.parse(savedSlots);
-    if (savedTxs !== null) this.wallet.transactions = JSON.parse(savedTxs);
-    
-    this.updateUI();
-  },
-
-  updateUI() {
-    document.getElementById('coin-balance').innerText = this.wallet.balance;
-    
-    const currentSlotsCount = this.openEvolutionarySlots.slots.length;
-    document.getElementById('slots-count').innerText = currentSlotsCount;
-    const percentage = (currentSlotsCount / this.openEvolutionarySlots.max_slots) * 100;
-    document.getElementById('slots-progress-bar').style.width = `${percentage}%`;
-
-    const container = document.getElementById('hackathons-container');
-    container.innerHTML = '';
-    this.openEvolutionarySlots.slots.forEach(slot => {
-      const div = document.createElement('div');
-      div.style.cssText = "background: #090514; border: 1px solid #00ffcc; padding: 10px; border-radius: 4px; font-size: 14px;";
-      div.innerHTML = `<strong>Слот ${slot.id}</strong><br><span style="color: #b3a3d4;">${slot.name}</span><br><small style="color: #00ffcc;">Статус: ${slot.status}</small>`;
-      container.appendChild(div);
-    });
-
-    const logContainer = document.getElementById('transactions-log');
-    if (this.wallet.transactions.length === 0) {
-      logContainer.innerHTML = 'Пока транзакций не было.';
-    } else {
-      logContainer.innerHTML = this.wallet.transactions.map(tx => {
-        const time = new Date(tx.date).toLocaleTimeString();
-        if (tx.type === "CREATE_HACKATHON") {
-          return `<div style="margin-bottom: 5px; color: #ffbc00;">[${time}] Списано <b>${tx.amount}</b> монета на создание Хакатона в Слоте ${tx.slotId}</div>`;
-        } else if (tx.type === "BUY") {
-          return `<div style="margin-bottom: 5px; color: #00ffcc;">[${time}] База пополнена на <b>+${tx.amount}</b> монет</div>`;
-        } else if (tx.type === "TRANSFER") {
-          return `<div style="margin-bottom: 5px; color: #b3a3d4;">[${time}] Перевод <b>${tx.amount}</b> монет на Узел ${tx.to}</div>`;
-        }
-        return '';
-      }).join('');
-    }
-  },
-
-  createHackathon(name, cost = 1) {
-    if (this.openEvolutionarySlots.slots.length >= this.openEvolutionarySlots.max_slots) {
-      alert("Все 38 хакатон-слотов уже заняты!");
-      return console.error("Все 38 хакатон-слотов уже заняты!");
-    }
-    if (this.wallet.balance < cost) {
-      alert(`Недостаточно монет! Баланс: ${this.wallet.balance}`);
-      return console.error(`Недостаточно монет! Баланс: ${this.wallet.balance}`);
-    }
-    
-    this.wallet.balance -= cost;
-    const newId = 71 + this.openEvolutionarySlots.slots.length;
-    
-    const newHackathon = {
-      id: newId,
-      name: name,
-      status: "ACTIVE",
-      costPaid: cost,
-      date: new Date()
-    };
-    
-    this.openEvolutionarySlots.slots.push(newHackathon);
-    this.wallet.transactions.unshift({ type: "CREATE_HACKATHON", slotId: newId, amount: cost, date: new Date() });
-    
-    this.updateUI();
-    this.saveToStorage();
-    return newHackathon;
-  },
-
-  buyCoins(amount) {
-    if (amount <= 0) return;
-    this.wallet.balance += amount;
-    this.wallet.transactions.unshift({ type: "BUY", amount, date: new Date() });
-    this.updateUI();
     this.saveToStorage();
   },
 
   transferCoins(targetNodeId, amount) {
-    if (this.wallet.balance < amount) return console.error("Недостаточно монет для обмена");
+    if (this.wallet.balance < amount) {
+      playCosmicSound(false);
+      alert("Недостаточно монет для обмена!");
+      return;
+    }
     this.wallet.balance -= amount;
     this.wallet.transactions.unshift({ type: "TRANSFER", to: targetNodeId, amount, date: new Date() });
+    playCosmicSound(true);
     this.updateUI();
     this.saveToStorage();
   },
@@ -552,39 +209,48 @@ const solitoneEcosystem = {
     this.openEvolutionarySlots.slots = [];
     this.wallet.transactions = [];
     this.updateUI();
-    console.log("🔄 Данные экосистемы сброшены.");
   }
 };
 
 function triggerCreate() {
   const input = document.getElementById('hackathon-name-input');
   let name = input.value.trim();
-  
-  // Если имя пустое, даем стандартное имя с номером
   if (!name) {
     const num = solitoneEcosystem.openEvolutionarySlots.slots.length + 1;
     name = `Хакатон Прорыв #${num}`;
   }
-  
   solitoneEcosystem.createHackathon(name, 1);
-  input.value = ''; // Очищаем поле ввода
+  input.value = '';
 }
 
 function triggerBuy() {
   solitoneEcosystem.buyCoins(10);
 }
 
+function triggerTransfer() {
+  const nodeInput = document.getElementById('transfer-node-input');
+  const amountInput = document.getElementById('transfer-amount-input');
+  const targetNode = nodeInput.value.trim();
+  const amount = parseInt(amountInput.value, 10);
+  
+  if (!targetNode) return alert("Введите ID целевого Узла!");
+  if (isNaN(amount) || amount <= 0) return alert("Введите корректное число монет!");
+  
+  solitoneEcosystem.transferCoins(targetNode, amount);
+  nodeInput.value = '';
+  amountInput.value = '';
+}
+
 function triggerReset() {
-  if (confirm("Вы уверены, что хотите обнулить баланс и запущенные хакатоны?")) {
+  if (confirm("Вы уверены, что хотите обнулить баланс?")) {
     solitoneEcosystem.resetEcosystem();
   }
 }
 
 window.onload = function() {
   solitoneEcosystem.loadFromStorage();
-  console.log("⚡ Звук ОМ запущен. База: 70. Свобода...");
+  console.log("⚡ Звук ОМ запущен.");
 };
 </script>
-
 </body>
 </html>
