@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -13,6 +12,17 @@
     <div style="background: #120a24; border-left: 5px solid #090514; padding: 15px; margin-bottom: 15px;">
         <span style="font-size: 20px;">🟢 База: <span id="coin-balance" style="font-weight: bold; color: #00ffcc;">70</span> монет</span>
         <p style="color: #b3a3d4; margin-top: 10px; margin-bottom: 0;">Экосистема Solitone активна и ожидает хакатонов.</p>
+    </div>
+
+    <!-- Новая шкала прогресса для 38 слотов -->
+    <div style="background: #090514; border: 1px solid #120a24; padding: 15px; margin-bottom: 15px; border-radius: 4px;">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 14px;">
+            <span style="color: #b3a3d4;">Эволюционные слоты хакатонов:</span>
+            <span style="color: #00ffcc; font-weight: bold;"><span id="slots-count">0</span> / 38</span>
+        </div>
+        <div style="background: #120a24; width: 100%; height: 12px; border-radius: 6px; overflow: hidden; border: 1px solid #1a0f30;">
+            <div id="slots-progress-bar" style="background: linear-gradient(90deg, #4a2f85, #00ffcc); width: 0%; height: 100%; transition: width 0.3s ease;"></div>
+        </div>
     </div>
 
     <div style="background: #090514; border: 1px solid #120a24; padding: 15px; margin-bottom: 20px;">
@@ -30,7 +40,6 @@
     <h3 style="color: #b3a3d4; margin-top: 25px;">Активные Слоты Хакатонов (Макс: 38)</h3>
     <div id="hackathons-container" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; margin-bottom: 30px;"></div>
 
-    <!-- Новый блок для отображения истории транзакций -->
     <h3 style="color: #b3a3d4;">История транзакций экосистемы</h3>
     <div id="transactions-log" style="background: #090514; border: 1px solid #120a24; padding: 15px; border-radius: 5px; max-height: 200px; overflow-y: auto; font-family: monospace; font-size: 13px; color: #a291c4;">
         Пока транзакций не было.
@@ -73,10 +82,14 @@ const solitoneEcosystem = {
   },
 
   updateUI() {
-    // 1. Обновление баланса монет
     document.getElementById('coin-balance').innerText = this.wallet.balance;
     
-    // 2. Рендеринг активных слотов хакатонов
+    // Обновление счетчика и шкалы прогресса слотов
+    const currentSlotsCount = this.openEvolutionarySlots.slots.length;
+    document.getElementById('slots-count').innerText = currentSlotsCount;
+    const percentage = (currentSlotsCount / this.openEvolutionarySlots.max_slots) * 100;
+    document.getElementById('slots-progress-bar').style.width = `${percentage}%`;
+
     const container = document.getElementById('hackathons-container');
     container.innerHTML = '';
     this.openEvolutionarySlots.slots.forEach(slot => {
@@ -86,7 +99,6 @@ const solitoneEcosystem = {
       container.appendChild(div);
     });
 
-    // 3. Рендеринг логов транзакций на экран
     const logContainer = document.getElementById('transactions-log');
     if (this.wallet.transactions.length === 0) {
       logContainer.innerHTML = 'Пока транзакций не было.';
