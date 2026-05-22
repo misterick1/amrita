@@ -21,9 +21,11 @@
         .chart-container { background: #090514; border: 1px solid #120a24; padding: 15px; border-radius: 5px; margin-top: 20px; }
         .chart-flow { display: flex; align-items: flex-end; gap: 6px; height: 120px; background: #030107; border: 1px solid #1a0f30; padding: 10px; border-radius: 4px; overflow-x: hidden; position: relative; }
         .candle { width: 14px; border-radius: 2px; transition: height 0.3s ease, background-color 0.3s ease; min-height: 5px; }
-        .hackathon-card { background: #090514; border: 1px solid #4a2f85; padding: 12px; border-radius: 4px; border-left: 4px solid #00ffcc; display: flex; justify-content: space-between; align-items: center; }
+        .hackathon-card { background: #090514; border: 1px solid #4a2f85; padding: 12px; border-radius: 4px; border-left: 4px solid #00ffcc; display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px; }
         .delete-btn { background: transparent; border: none; color: #ff3366; cursor: pointer; font-size: 14px; font-weight: bold; padding: 0 5px; transition: transform 0.2s ease; }
         .delete-btn:hover { transform: scale(1.3); }
+        .card-progress-bg { background: #120a24; width: 120px; height: 6px; border-radius: 3px; margin-top: 5px; overflow: hidden; border: 1px solid #1a0f30; }
+        .card-progress-bar { background: #00ffcc; height: 100%; width: 0%; transition: width 1s linear; }
     </style>
 </head>
 <body style="background-color: #030107; color: #fff; font-family: sans-serif; padding: 20px;">
@@ -58,6 +60,7 @@
             <div style="display: flex; gap: 10px; flex-wrap: wrap;">
                 <input id="transfer-node-input" type="text" placeholder="ID Узла (напр. Node-77)" style="background: #030107; color: #fff; border: 1px solid #4a2f85; padding: 8px; border-radius: 4px; flex: 1; min-width: 140px; max-width: 180px;">
                 <input id="transfer-amount-input" type="number" placeholder="Монеты" style="background: #030107; color: #fff; border: 1px solid #4a2f85; padding: 8px; border-radius: 4px; width: 80px;">
+                <input type="hidden" name="context_timestamp" value="2026-05-22T19:52:00Z">
                 <button onclick="triggerTransfer()" style="background: #b3a3d4; color: #030107; border: none; padding: 8px 15px; font-weight: bold; border-radius: 3px; cursor: pointer;">Отправить</button>
             </div>
         </div>
@@ -125,14 +128,3 @@ const solitoneEcosystem = {
     const savedTxs = localStorage.getItem('solitone_txs');
     const savedChart = localStorage.getItem('solitone_chart');
     if (savedBalance !== null) this.wallet.balance = parseInt(savedBalance, 10);
-    if (savedSlots !== null) this.openEvolutionarySlots.slots = JSON.parse(savedSlots);
-    if (savedTxs !== null) this.wallet.transactions = JSON.parse(savedTxs);
-    if (savedChart !== null && savedChart !== "") { 
-      this.chartData = JSON.parse(savedChart); 
-    } else { 
-      this.chartData = [{height:40,isUp:true},{height:55,isUp:true},{height:50,isUp:false}]; 
-    }
-    this.updateUI();
-  },
-
-  addCandle(height, isUp = true) {
