@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -47,7 +48,11 @@
         <button onclick="triggerCreate()" style="background: #00ffcc; color: #030107; border: none; padding: 10px 15px; font-weight: bold; border-radius: 3px; cursor: pointer; margin-right: 10px; margin-bottom: 15px;">🚀 Запустить Хакатон (1 монета)</button>
         <button onclick="triggerBuy()" style="background: #4a2f85; color: #fff; border: none; padding: 10px 15px; font-weight: bold; border-radius: 3px; cursor: pointer; margin-right: 10px; margin-bottom: 15px;">💰 Пополнить базу (+10 монет)</button>
         <button onclick="triggerCleanup()" style="background: #ffbc00; color: #030107; border: none; padding: 10px 15px; font-weight: bold; border-radius: 3px; cursor: pointer; margin-right: 10px; margin-bottom: 15px;">🧹 Cleanup SZN</button>
-        <button onclick="triggerReset()" style="background: #ff3366; color: #fff; border: none; padding: 10px 15px; font-weight: bold; border-radius: 3px; cursor: pointer; margin-bottom: 15px;">🔄 Сбросить данные</button>
+        
+        <!-- НАША НОВАЯ КНОПКА СЖИГАНИЯ ДЛЯ СПАСЕНИЯ КУРСА ОТ ПАДЕНИЯ -->
+        <button onclick="triggerBurnCoins()" style="background: #ff3366; color: #fff; border: none; padding: 10px 15px; font-weight: bold; border-radius: 3px; cursor: pointer; margin-right: 10px; margin-bottom: 15px;">🔥 Burn MIR (Запуск пампа)</button>
+        <button onclick="triggerReset()" style="background: #555; color: #fff; border: none; padding: 10px 15px; font-weight: bold; border-radius: 3px; cursor: pointer; margin-bottom: 15px;">🔄 Сброс</button>
+        
         <div style="border-top: 1px solid #4a2f85; padding-top: 15px; margin-top: 5px;">
             <h4 style="margin-top: 0; color: #00ffcc; margin-bottom: 10px;">🔄 Модуль Обмена (Перевод на Узел)</h4>
             <div style="display: flex; gap: 10px; flex-wrap: wrap;">
@@ -115,7 +120,7 @@ const solitoneEcosystem = {
     if (savedSlots !== null) this.openEvolutionarySlots.slots = JSON.parse(savedSlots);
     if (savedTxs !== null) this.wallet.transactions = JSON.parse(savedTxs);
     if (savedChart !== null) { this.chartData = JSON.parse(savedChart); } 
-    else { this.chartData = [{height:30,isUp:true},{height:45,isUp:true},{height:40,isUp:false}]; }
+    else { this.chartData = [{height:40,isUp:true},{height:55,isUp:true},{height:50,isUp:false}]; }
     this.updateUI();
   },
   addCandle(height, isUp = true) {
@@ -128,7 +133,3 @@ const solitoneEcosystem = {
     const currentSlotsCount = this.openEvolutionarySlots.slots.length;
     document.getElementById('slots-count').innerText = currentSlotsCount;
     const percentage = (currentSlotsCount / this.openEvolutionarySlots.max_slots) * 100;
-    document.getElementById('slots-progress-bar').style.width = `${percentage}%`;
-    const container = document.getElementById('hackathons-container'); container.innerHTML = '';
-    this.openEvolutionarySlots.slots.forEach(slot => {
-      const div = document.createElement('div');
