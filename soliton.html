@@ -10,7 +10,8 @@
     <h1 style="color: #ffffff; border-bottom: 2px solid #120a24; padding-bottom: 10px;">AMRITA MIR</h1>
 
     <div style="background: #120a24; border-left: 5px solid #090514; padding: 15px; margin-bottom: 15px;">
-        <span style="font-size: 20px;">🟢 База из 70 монет</span>
+        <!-- Добавили id="coin-balance", чтобы скрипт мог динамически менять число монет -->
+        <span style="font-size: 20px;">🟢 База: <span id="coin-balance" style="font-weight: bold; color: #00ffcc;">70</span> монет</span>
         <p style="color: #b3a3d4; margin-top: 10px; margin-bottom: 0;">Экосистема Solitone активна и ожидает хакатонов.</p>
     </div>
 
@@ -18,6 +19,16 @@
         <strong>Системный статус:</strong> FLUID EVOLUTIONARY STATE<br>
         <strong>Авторизованные создатели:</strong> Hackathon Architect Nodes
     </div>
+
+    <!-- Раздел для интерактивного управления и создания элементов -->
+    <div style="background: #1a0f30; border: 1px dashed #4a2f85; padding: 15px; margin-bottom: 20px; border-radius: 5px;">
+        <h3 style="margin-top: 0; color: #b3a3d4;">Панель Создателя</h3>
+        <button onclick="triggerCreate()" style="background: #00ffcc; color: #030107; border: none; padding: 10px 15px; font-weight: bold; border-radius: 3px; cursor: pointer; margin-right: 10px; margin-bottom: 10px;">🚀 Запустить Хакатон (1 монета)</button>
+        <button onclick="triggerBuy()" style="background: #4a2f85; color: #fff; border: none; padding: 10px 15px; font-weight: bold; border-radius: 3px; cursor: pointer; margin-bottom: 10px;">💰 Пополнить базу (+10 монет)</button>
+    </div>
+
+    <!-- Место, куда будут визуально рендериться созданные хакатоны -->
+    <div id="hackathons-container" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px;"></div>
 
 <script>
 const solitoneEcosystem = {
@@ -29,20 +40,36 @@ const solitoneEcosystem = {
   openEvolutionarySlots: {
     range: "71 - 108",
     status: "AWAITING_HACKATHONS",
-    slots: [], // Изначально пусто, заполняется при создании хакатона
+    slots: [], 
     max_slots: 38
   },
   wallet: {
-    balance: 70, // Твоя база из 70 монет
+    balance: 70, 
     transactions: []
   },
 
-  // 1. Создание хакатона (Списание из базы 70 монет и генерация слота)
+  // Функция автоматического обновления экрана при любых изменениях
+  updateUI() {
+    document.getElementById('coin-balance').innerText = this.wallet.balance;
+    const container = document.getElementById('hackathons-container');
+    container.innerHTML = '';
+    
+    this.openEvolutionarySlots.slots.forEach(slot => {
+      const div = document.createElement('div');
+      div.style.cssText = "background: #090514; border: 1px solid #00ffcc; padding: 10px; border-radius: 4px; font-size: 14px;";
+      div.innerHTML = `<strong>Слот ${slot.id}</strong><br><span style="color: #b3a3d4;">${slot.name}</span><br><small style="color: #00ffcc;">Статус: ${slot.status}</small>`;
+      container.appendChild(div);
+    });
+  },
+
+  // 1. Создание хакатона
   createHackathon(name, cost = 1) {
     if (this.openEvolutionarySlots.slots.length >= this.openEvolutionarySlots.max_slots) {
+      alert("Все 38 хакатон-слотов уже заняты!");
       return console.error("Все 38 хакатон-слотов уже заняты!");
     }
     if (this.wallet.balance < cost) {
+      alert(`Недостаточно монет! Баланс: ${this.wallet.balance}`);
       return console.error(`Недостаточно монет! Баланс: ${this.wallet.balance}`);
     }
     
@@ -60,6 +87,8 @@ const solitoneEcosystem = {
     this.openEvolutionarySlots.slots.push(newHackathon);
     this.wallet.transactions.push({ type: "CREATE_HACKATHON", slotId: newId, amount: cost });
     console.log(`🚀 Хакатон создан в слоте ${newId}. Остаток базы: ${this.wallet.balance}`);
+    
+    this.updateUI(); // Обновляем экран
     return newHackathon;
   },
 
@@ -69,6 +98,7 @@ const solitoneEcosystem = {
     this.wallet.balance += amount;
     this.wallet.transactions.push({ type: "BUY", amount, date: new Date() });
     console.log(`💰 База пополнена на ${amount}. Новый баланс: ${this.wallet.balance}`);
+    this.updateUI(); // Обновляем экран
   },
 
   // 3. Обмен / Перевод монет из базы на внешний узел
@@ -77,8 +107,19 @@ const solitoneEcosystem = {
     this.wallet.balance -= amount;
     this.wallet.transactions.push({ type: "TRANSFER", to: targetNodeId, amount, date: new Date() });
     console.log(`🔄 Обмен: ${amount} монет ушло на узел ${targetNodeId}. База: ${this.wallet.balance}`);
+    this.updateUI(); // Обновляем экран
   }
 };
+
+// Функции-обработчики для кнопок интерфейса
+function triggerCreate() {
+  const num = solitoneEcosystem.openEvolutionarySlots.slots.length + 1;
+  solitoneEcosystem.createHackathon(`Хакатон Прорыв #${num}`, 1);
+}
+
+function triggerBuy() {
+  solitoneEcosystem.buyCoins(10);
+}
 
 // Старт логики в консоли
 console.log("⚡ Звук ОМ запущен. База: 70. Свобода...");
@@ -86,4 +127,5 @@ console.log("⚡ Звук ОМ запущен. База: 70. Свобода...")
 
 </body>
 </html>
+
 
