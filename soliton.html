@@ -71,11 +71,10 @@
     <div id="transactions-log" style="background: #090514; border: 1px solid #120a24; padding: 15px; border-radius: 5px; max-height: 150px; overflow-y: auto; font-family: monospace; font-size: 13px; color: #a291c4;">Пока транзакций не было.</div>
     <div id="web3-toast"></div>
 <script>
-// Безопасная функция звука: если браузер блокирует, код просто идет дальше, не ломая цифры!
 function playCosmicSound(isSuccess = true) {
   try {
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    if (audioCtx.state === 'suspended') return; // Если заблокирован — выходим, не ломая логику!
+    if (audioCtx.state === 'suspended') return;
     const oscillator = audioCtx.createOscillator();
     const gainNode = audioCtx.createGain();
     oscillator.connect(gainNode); gainNode.connect(audioCtx.destination);
@@ -103,7 +102,7 @@ const solitoneEcosystem = {
   meta: { total_slots: 108, golden_ratio_base: 70, baseSovereignNodes: { count: 70, status: "SEALED_AND_ACTIVE" } },
   openEvolutionarySlots: { range: "71 - 108", status: "AWAITING_HACKATHONS", slots: [], max_slots: 38 },
   wallet: { balance: 70, transactions: [] },
-  chartData: [],
+  chartData: [], // ИСПРАВЛЕНО: Теперь пустой массив на месте!
   saveToStorage() {
     localStorage.setItem('solitone_balance', this.wallet.balance);
     localStorage.setItem('solitone_slots', JSON.stringify(this.openEvolutionarySlots.slots));
@@ -130,3 +129,4 @@ const solitoneEcosystem = {
   updateUI() {
     document.getElementById('coin-balance').innerText = this.wallet.balance;
     const currentSlotsCount = this.openEvolutionarySlots.slots.length;
+    document.getElementById('slots-count').innerText = currentSlotsCount;
