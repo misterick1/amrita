@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -28,7 +27,14 @@
         <button onclick="triggerReset()" style="background: #ff3366; color: #fff; border: none; padding: 10px 15px; font-weight: bold; border-radius: 3px; cursor: pointer; margin-bottom: 10px;">🔄 Сбросить данные</button>
     </div>
 
-    <div id="hackathons-container" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px;"></div>
+    <h3 style="color: #b3a3d4; margin-top: 25px;">Активные Слоты Хакатонов (Макс: 38)</h3>
+    <div id="hackathons-container" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; margin-bottom: 30px;"></div>
+
+    <!-- Новый блок для отображения истории транзакций -->
+    <h3 style="color: #b3a3d4;">История транзакций экосистемы</h3>
+    <div id="transactions-log" style="background: #090514; border: 1px solid #120a24; padding: 15px; border-radius: 5px; max-height: 200px; overflow-y: auto; font-family: monospace; font-size: 13px; color: #a291c4;">
+        Пока транзакций не было.
+    </div>
 
 <script>
 const solitoneEcosystem = {
@@ -48,14 +54,12 @@ const solitoneEcosystem = {
     transactions: []
   },
 
-  // Сохранение текущего состояния в память браузера
   saveToStorage() {
     localStorage.setItem('solitone_balance', this.wallet.balance);
     localStorage.setItem('solitone_slots', JSON.stringify(this.openEvolutionarySlots.slots));
     localStorage.setItem('solitone_txs', JSON.stringify(this.wallet.transactions));
   },
 
-  // Загрузка состояния при старте страницы
   loadFromStorage() {
     const savedBalance = localStorage.getItem('solitone_balance');
     const savedSlots = localStorage.getItem('solitone_slots');
@@ -69,16 +73,36 @@ const solitoneEcosystem = {
   },
 
   updateUI() {
+    // 1. Обновление баланса монет
     document.getElementById('coin-balance').innerText = this.wallet.balance;
+    
+    // 2. Рендеринг активных слотов хакатонов
     const container = document.getElementById('hackathons-container');
     container.innerHTML = '';
-    
     this.openEvolutionarySlots.slots.forEach(slot => {
       const div = document.createElement('div');
       div.style.cssText = "background: #090514; border: 1px solid #00ffcc; padding: 10px; border-radius: 4px; font-size: 14px;";
       div.innerHTML = `<strong>Слот ${slot.id}</strong><br><span style="color: #b3a3d4;">${slot.name}</span><br><small style="color: #00ffcc;">Статус: ${slot.status}</small>`;
       container.appendChild(div);
     });
+
+    // 3. Рендеринг логов транзакций на экран
+    const logContainer = document.getElementById('transactions-log');
+    if (this.wallet.transactions.length === 0) {
+      logContainer.innerHTML = 'Пока транзакций не было.';
+    } else {
+      logContainer.innerHTML = this.wallet.transactions.map(tx => {
+        const time = new Date(tx.date).toLocaleTimeString();
+        if (tx.type === "CREATE_HACKATHON") {
+          return `<div style="margin-bottom: 5px; color: #ffbc00;">[${time}] Списано <b>${tx.amount}</b> монета на создание Хакатона в Слоте ${tx.slotId}</div>`;
+        } else if (tx.type === "BUY") {
+          return `<div style="margin-bottom: 5px; color: #00ffcc;">[${time}] База пополнена на <b>+${tx.amount}</b> монет</div>`;
+        } else if (tx.type === "TRANSFER") {
+          return `<div style="margin-bottom: 5px; color: #b3a3d4;">[${time}] Перевод <b>${tx.amount}</b> монет на Узел ${tx.to}</div>`;
+        }
+        return '';
+      }).join('');
+    }
   },
 
   createHackathon(name, cost = 1) {
@@ -103,27 +127,27 @@ const solitoneEcosystem = {
     };
     
     this.openEvolutionarySlots.slots.push(newHackathon);
-    this.wallet.transactions.push({ type: "CREATE_HACKATHON", slotId: newId, amount: cost });
+    this.wallet.transactions.unshift({ type: "CREATE_HACKATHON", slotId: newId, amount: cost, date: new Date() });
     
     this.updateUI();
-    this.saveToStorage(); // Сохраняем изменения
+    this.saveToStorage();
     return newHackathon;
   },
 
   buyCoins(amount) {
     if (amount <= 0) return;
     this.wallet.balance += amount;
-    this.wallet.transactions.push({ type: "BUY", amount, date: new Date() });
+    this.wallet.transactions.unshift({ type: "BUY", amount, date: new Date() });
     this.updateUI();
-    this.saveToStorage(); // Сохраняем изменения
+    this.saveToStorage();
   },
 
   transferCoins(targetNodeId, amount) {
     if (this.wallet.balance < amount) return console.error("Недостаточно монет для обмена");
     this.wallet.balance -= amount;
-    this.wallet.transactions.push({ type: "TRANSFER", to: targetNodeId, amount, date: new Date() });
+    this.wallet.transactions.unshift({ type: "TRANSFER", to: targetNodeId, amount, date: new Date() });
     this.updateUI();
-    this.saveToStorage(); // Сохраняем изменения
+    this.saveToStorage();
   },
 
   resetEcosystem() {
@@ -132,7 +156,7 @@ const solitoneEcosystem = {
     this.openEvolutionarySlots.slots = [];
     this.wallet.transactions = [];
     this.updateUI();
-    console.log("🔄 Данные экосистемы сброшены к начальным 70 монетам.");
+    console.log("🔄 Данные экосистемы сброшены.");
   }
 };
 
@@ -151,7 +175,6 @@ function triggerReset() {
   }
 }
 
-// Автоматический запуск и проверка сохраненных данных при открытии страницы
 window.onload = function() {
   solitoneEcosystem.loadFromStorage();
   console.log("⚡ Звук ОМ запущен. База: 70. Свобода...");
@@ -160,4 +183,3 @@ window.onload = function() {
 
 </body>
 </html>
-
