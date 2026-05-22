@@ -1,3 +1,23 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AMRITA MIR</title>
+</head>
+<body style="background-color: #030107; color: #fff; font-family: sans-serif; padding: 20px;">
+
+    <h1 style="color: #ffffff; border-bottom: 2px solid #120a24; padding-bottom: 10px;">AMRITA MIR</h1>
+
+    <div style="background: #120a24; border-left: 5px solid #090514; padding: 15px; margin-bottom: 15px;">
+        <span style="font-size: 20px;">🟢 База из 70 монет</span>
+        <p style="color: #b3a3d4; margin-top: 10px; margin-bottom: 0;">Экосистема Solitone активна и ожидает хакатонов.</p>
+    </div>
+
+    <div style="background: #090514; border: 1px solid #120a24; padding: 15px; margin-bottom: 20px;">
+        <strong>Системный статус:</strong> FLUID EVOLUTIONARY STATE<br>
+        <strong>Авторизованные создатели:</strong> Hackathon Architect Nodes
+    </div>
 
 <script>
 const solitoneEcosystem = {
@@ -9,62 +29,61 @@ const solitoneEcosystem = {
   openEvolutionarySlots: {
     range: "71 - 108",
     status: "AWAITING_HACKATHONS",
-    // Изначально слоты пустые! Они создаются только при запуске хакатона
-    slots: [], 
+    slots: [], // Изначально пусто, заполняется при создании хакатона
     max_slots: 38
   },
-  // Твоя база из 70 монет
   wallet: {
-    balance: 70, 
-    transactions: [] 
+    balance: 70, // Твоя база из 70 монет
+    transactions: []
   },
 
-  // ГЛАВНАЯ ФУНКЦИЯ: Создание хакатона за монеты
-  createHackathon(name, cost = 10) {
-    // 1. Проверяем, есть ли еще свободное место из 38 слотов
+  // 1. Создание хакатона (Списание из базы 70 монет и генерация слота)
+  createHackathon(name, cost = 1) {
     if (this.openEvolutionarySlots.slots.length >= this.openEvolutionarySlots.max_slots) {
-      return console.error("Все 38 хакатон-слотов уже созданы и заняты!");
+      return console.error("Все 38 хакатон-слотов уже заняты!");
     }
-
-    // 2. Проверяем, хватает ли монет в базе
     if (this.wallet.balance < cost) {
-      return console.error(`Недостаточно монет! Баланс: ${this.wallet.balance}, нужно: ${cost}`);
+      return console.error(`Недостаточно монет! Баланс: ${this.wallet.balance}`);
     }
-
-    // 3. Списываем монеты из базы
+    
     this.wallet.balance -= cost;
-
-    // 4. Вычисляем ID для нового слота (начиная с 71)
     const newId = 71 + this.openEvolutionarySlots.slots.length;
-
-    // 5. Сам хакатон создает новый слот в массиве!
+    
     const newHackathon = {
       id: newId,
       name: name,
-      status: "ACTIVE_HACKATHON",
+      status: "ACTIVE",
       costPaid: cost,
-      createdAt: new Date()
+      date: new Date()
     };
     
     this.openEvolutionarySlots.slots.push(newHackathon);
-    this.wallet.transactions.push({ type: "CREATE_HACKATHON", slotId: newId, cost });
-
-    console.log(`🚀 Хакатон "${name}" создан! Слот: ${newId}. Списано: ${cost} монет. Остаток в базе: ${this.wallet.balance}`);
+    this.wallet.transactions.push({ type: "CREATE_HACKATHON", slotId: newId, amount: cost });
+    console.log(`🚀 Хакатон создан в слоте ${newId}. Остаток базы: ${this.wallet.balance}`);
     return newHackathon;
   },
 
-  // Функция для покупки/добавления монет в базу (если нужно пополнить)
+  // 2. Покупка / Пополнение монет в базу
   buyCoins(amount) {
+    if (amount <= 0) return;
     this.wallet.balance += amount;
-    console.log(`💰 База пополнена. Текущий баланс: ${this.wallet.balance} монет.`);
+    this.wallet.transactions.push({ type: "BUY", amount, date: new Date() });
+    console.log(`💰 База пополнена на ${amount}. Новый баланс: ${this.wallet.balance}`);
+  },
+
+  // 3. Обмен / Перевод монет из базы на внешний узел
+  transferCoins(targetNodeId, amount) {
+    if (this.wallet.balance < amount) return console.error("Недостаточно монет для обмена");
+    this.wallet.balance -= amount;
+    this.wallet.transactions.push({ type: "TRANSFER", to: targetNodeId, amount, date: new Date() });
+    console.log(`🔄 Обмен: ${amount} монет ушло на узел ${targetNodeId}. База: ${this.wallet.balance}`);
   }
 };
 
-// Проверка работы в консоли
+// Старт логики в консоли
 console.log("⚡ Звук ОМ запущен. База: 70. Свобода...");
-
-// ПРИМЕР: Создаем первый хакатон. Он сам займет слот 71 и спишет монеты
-solitoneEcosystem.createHackathon("Solitone Web3 Hack"); 
-// Создаем второй хакатон — он займет слот 72
-solitoneEcosystem.createHackathon("AI Evolution"); 
 </script>
+
+</body>
+</html>
+
