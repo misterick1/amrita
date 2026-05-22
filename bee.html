@@ -1,315 +1,92 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BEE COGNITIVE ECOSYSTEM</title>
-    <style>
-        body {
-            background-color: #05010d;
-            color: #ffffff;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-        }
-        .container {
-            width: 100%;
-            max-width: 450px;
-            background: #0f0720;
-            border-radius: 16px;
-            padding: 20px;
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
-            border: 1px solid #22143b;
-        }
-        .header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 25px;
-        }
-        .header h1 {
-            font-size: 24px;
-            font-weight: 800;
-            letter-spacing: 0.5px;
-            margin: 0;
-            text-transform: uppercase;
-            background: linear-gradient(45deg, #fff, #b594ff);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .header .logo {
-            font-size: 28px;
-        }
-        .card {
-            background: #170c2e;
-            border-radius: 12px;
-            padding: 16px;
-            margin-bottom: 16px;
-            border: 1px solid #2d1954;
-        }
-        .balance-title {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 6px;
-        }
-        .balance-value {
-            color: #00ffcc;
-            font-weight: 700;
-        }
-        .subtitle {
-            color: #8c75b8;
-            font-size: 14px;
-            margin: 0;
-        }
-        .slots-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 12px;
-        }
-        .slots-label {
-            color: #8c75b8;
-            font-size: 14px;
-            max-width: 70%;
-        }
-        .slots-count {
-            color: #00ffcc;
-            font-size: 18px;
-            font-weight: 700;
-            text-align: right;
-        }
-        .slots-display-area {
-            background: #090314;
-            border-radius: 8px;
-            min-height: 40px;
-            padding: 10px;
-            font-size: 13px;
-            color: #a491ca;
-            max-height: 120px;
-            overflow-y: auto;
-        }
-        .panel-title {
-            font-size: 18px;
-            font-weight: 700;
-            color: #b594ff;
-            margin-top: 0;
-            margin-bottom: 16px;
-        }
-        .input-group {
-            margin-bottom: 16px;
-        }
-        .input-group label {
-            display: block;
-            color: #8c75b8;
-            font-size: 13px;
-            margin-bottom: 8px;
-        }
-        .input-group input {
-            width: 100%;
-            background: #090314;
-            border: 1px solid #3d256e;
-            border-radius: 8px;
-            padding: 12px;
-            color: #fff;
-            font-size: 14px;
-            box-sizing: border-box;
-            outline: none;
-        }
-        .input-group input:focus {
-            border-color: #00ffcc;
-        }
-        button {
-            width: 100%;
-            padding: 14px;
-            border-radius: 8px;
-            border: none;
-            font-size: 15px;
-            font-weight: 700;
-            cursor: pointer;
-            margin-bottom: 12px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 8px;
-            transition: transform 0.1s, opacity 0.2s;
-        }
-        button:active {
-            transform: scale(0.98);
-        }
-        .btn-launch {
-            background: #00ffcc;
-            color: #05010d;
-        }
-        .btn-refill {
-            background: #6c42f5;
-            color: #fff;
-        }
-        .btn-cleanup {
-            background: #ffcc00;
-            color: #05010d;
-        }
-        /* Стили для Web3 Toast-уведомлений */
-        #web3-toast-container {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 1000;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            width: 90%;
-            max-width: 380px;
-        }
-        .web3-toast {
-            background: rgba(23, 12, 46, 0.95);
-            border: 1px solid #3d256e;
-            color: #fff;
-            padding: 12px 16px;
-            border-radius: 8px;
-            font-size: 14px;
-            box-shadow: 0 4px 16px rgba(0,0,0,0.3);
-            animation: fadeIn 0.3s ease-out;
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-    </style>
-</head>
-<body>
 
-    <div class="container">
-        <!-- Шапка -->
-        <div class="header">
-            <span class="logo">🐝</span>
-            <h1>Bee Cognitive Ecosystem</h1>
-        </div>
+<script>
+// Системный объект
+const solitoneEcosystem = {
+    wallet: { balance: 70 },
+    logs: [],
+    addLog: function(msg) { this.logs.push(msg); console.log(msg); }
+};
 
-        <!-- Виджет баланса -->
-        <div class="card">
-            <div class="balance-title">
-                <span>🐝</span> База Роя: <span class="balance-value" id="balance-display">70 монет \$BEE</span>
-            </div>
-            <p class="subtitle">Единая фрактальная сеть Сознания active.</p>
-        </div>
+let activeSlotsCount = 0;
+const maxSlots = 38;
 
-        <!-- Виджет слотов -->
-        <div class="card">
-            <div class="slots-row">
-                <div class="slots-label">Эволюционные слоты хакатонов одуванчика:</div>
-                <div class="slots-count" id="slots-display">0 / 38</div>
-            </div>
-            <div class="slots-display-area" id="hackathons-list">
-                <!-- Сюда скрипт добавляет хакатоны -->
-            </div>
-        </div>
+// Функция обновления цифр на вашем родном экране
+function updateUI() {
+    // Ищем блоки с текстом баланса и слотов по ключевым словам, чтобы не ломать верстку
+    const allElements = document.querySelectorAll('*');
+    
+    allElements.forEach(el => {
+        // Обновляем баланс в вашей строке
+        if (el.childNodes.length === 1 && el.innerText.includes('База Роя:')) {
+            el.innerHTML = `🐝 База Роя: <span style="color: #00ffcc; font-weight: 700;">${solitoneEcosystem.wallet.balance} монет \\$BEE</span>`;
+        }
+        // Обновляем слоты одуванчика
+        if (el.innerText === `${activeSlotsCount - 1} / 38` || el.innerText === `0 / 38` || el.classList.contains('slots-count')) {
+            el.innerText = `${activeSlotsCount} / 38`;
+            el.style.color = '#00ffcc';
+        }
+    });
+}
 
-        <!-- Панель управления -->
-        <div class="card">
-            <h2 class="panel-title">Панель Создателя Роя</h2>
-            
-            <div class="input-group">
-                <label>Название нового хакатона:</label>
-                <input type="text" id="hackathon-input" value="\$BEE" placeholder="Введите имя...">
-            </div>
+// Привязка логики к вашим готовым кнопкам
+document.addEventListener("DOMContentLoaded", () => {
+    updateUI();
 
-            <button class="btn-launch" onclick="launchHackathonFromUI()">🚀 Запустить Хакатон (1 \$BEE)</button>
-            <button class="btn-refill" onclick="refillBalanceUI()">💰 Пополнить базу (+10 \$BEE)</button>
-            <button class="btn-cleanup" onclick="cleanupSystemUI()">🧹 Cleanup SZN</button>
-        </div>
-    </div>
+    const buttons = document.querySelectorAll('button');
 
-    <!-- Контейнер для всплывающих тостов -->
-    <div id="web3-toast-container"></div>
+    buttons.forEach(btn => {
+        const text = btn.innerText;
 
-    <script>
-        // --- ДВИЖОК ЭКОСИСТЕМЫ (solitoneEcosystem) ---
-        const solitoneEcosystem = {
-            wallet: {
-                balance: 70
-            },
-            logs: [],
-            addLog: function(message) {
-                this.logs.push(message);
-                console.log(`[LOG]: ${message}`);
-            }
-        };
-
-        const maxSlots = 38;
-        let activeSlotsCount = 0;
-
-        // --- МОДУЛЬ ЗВУКА (Web Audio API) ---
-        const AudioContext = window.AudioContext || window.webkitAudioContext;
-        let audioCtx = null;
-
-        function playCosmicSound(isSuccess) {
-            try {
-                if (!audioCtx) audioCtx = new AudioContext();
-                if (audioCtx.state === 'suspended') audioCtx.resume();
-
-                const osc = audioCtx.createOscillator();
-                const gain = audioCtx.createGain();
-                
-                osc.connect(gain);
-                gain.connect(audioCtx.destination);
-
-                const now = audioCtx.currentTime;
-
-                if (isSuccess) {
-                    // Звук успеха (вверх)
-                    osc.type = 'sine';
-                    osc.frequency.setValueAtTime(300, now);
-                    osc.frequency.exponentialRampToValueAtTime(900, now + 0.3);
-                    gain.gain.setValueAtTime(0.2, now);
-                    gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
-                    osc.start(now);
-                    osc.stop(now + 0.3);
-                } else {
-                    // Звук ошибки (вниз)
-                    osc.type = 'sawtooth';
-                    osc.frequency.setValueAtTime(150, now);
-                    osc.frequency.linearRampToValueAtTime(60, now + 0.4);
-                    gain.gain.setValueAtTime(0.2, now);
-                    gain.gain.linearRampToValueAtTime(0.01, now + 0.4);
-                    osc.start(now);
-                    osc.stop(now + 0.4);
+        // 1. Зеленая кнопка
+        if (text.includes('Запустить Хакатон')) {
+            btn.onclick = () => {
+                if (solitoneEcosystem.wallet.balance >= 1 && activeSlotsCount < maxSlots) {
+                    solitoneEcosystem.wallet.balance -= 1;
+                    activeSlotsCount += 1;
+                    solitoneEcosystem.addLog('Хакатон запущен');
+                    updateUI();
                 }
-            } catch (e) {
-                console.log("Звук заблокирован политикой браузера");
-            }
+            };
         }
 
-        // --- МОДУЛЬ УВЕДОМЛЕНИЙ (Web3 Toast) ---
-        function showWeb3Toast(message) {
-            const container = document.getElementById('web3-toast-container');
-            if (!container) return;
-
-            const toast = document.createElement('div');
-            toast.className = 'web3-toast';
-            toast.innerText = message;
-
-            container.appendChild(toast);
-
-            setTimeout(() => {
-                toast.style.opacity = '0';
-                toast.style.transition = 'opacity 0.5s ease';
-                setTimeout(() => toast.remove(), 500);
-            }, 3000);
+        // 2. Фиолетовая кнопка
+        if (text.includes('Пополнить базу')) {
+            btn.onclick = () => {
+                solitoneEcosystem.wallet.balance += 10;
+                solitoneEcosystem.addLog('База пополнена');
+                updateUI();
+            };
         }
 
-        // --- МОДУЛЬ ОБНОВЛЕНИЯ ИНТЕРФЕЙСА (Рендеринг) ---
-        function renderEcosystem() {
-            // Обновляем баланс
-            const balanceDisplay = document.getElementById('balance-display');
-            if (balanceDisplay) {
-                balanceDisplay.innerHTML = `${solitoneEcosystem.wallet.balance} монет \\$BEE`;
-            }
+        // 3. Желтая кнопка
+        if (text.includes('Cleanup SZN')) {
+            btn.onclick = () => {
+                activeSlotsCount = 0;
+                solitoneEcosystem.addLog('Очистка слотов');
+                updateUI();
+            };
+        }
 
-            // Обновляем количество слотов
-            const slotsDisplay = document.getElementById('slots-display');
+        // 4. Розовая кнопка (Запуск пампа)
+        if (text.includes('Burn') || text.includes('пампа')) {
+            btn.onclick = () => {
+                if (solitoneEcosystem.wallet.balance >= 10) {
+                    solitoneEcosystem.wallet.balance -= 10; // Сжигаем 10 на памп
+                    solitoneEcosystem.addLog('🔥 Памп запущен! Монеты сожжены');
+                    updateUI();
+                }
+            };
+        }
+
+        // 5. Серая кнопка (Сброс)
+        if (text.includes('Сброс')) {
+            btn.onclick = () => {
+                solitoneEcosystem.wallet.balance = 70;
+                activeSlotsCount = 0;
+                solitoneEcosystem.addLog('Полный сброс');
+                updateUI();
+            };
+        }
+    });
+});
+</script>
