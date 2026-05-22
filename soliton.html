@@ -24,11 +24,9 @@
     </style>
 </head>
 <body style="background-color: #030107; color: #fff; font-family: sans-serif; padding: 20px;">
-    <!-- НАШ НОВЫЙ ЗАГОЛОВОК РОЯ -->
     <h1 style="color: #ffffff; border-bottom: 2px solid #120a24; padding-bottom: 10px;">🐝 BEE COGNITIVE ECOSYSTEM</h1>
     
     <div style="background: #120a24; border-left: 5px solid #00ffcc; padding: 15px; margin-bottom: 15px;">
-        <!-- ЗОЛОТАЯ ПЧЕЛА У НАШЕЙ БАЗЫ -->
         <span style="font-size: 20px;">🐝 База Роя: <span id="coin-balance" style="font-weight: bold; color: #00ffcc;">70</span> монет \$BEE</span>
         <p style="color: #b3a3d4; margin-top: 10px; margin-bottom: 0;">Единая фрактальная сеть Сознания активна.</p>
     </div>
@@ -73,9 +71,11 @@
     <div id="transactions-log" style="background: #090514; border: 1px solid #120a24; padding: 15px; border-radius: 5px; max-height: 150px; overflow-y: auto; font-family: monospace; font-size: 13px; color: #a291c4;">Пока транзакций не было.</div>
     <div id="web3-toast"></div>
 <script>
+// Безопасная функция звука: если браузер блокирует, код просто идет дальше, не ломая цифры!
 function playCosmicSound(isSuccess = true) {
   try {
     const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if (audioCtx.state === 'suspended') return; // Если заблокирован — выходим, не ломая логику!
     const oscillator = audioCtx.createOscillator();
     const gainNode = audioCtx.createGain();
     oscillator.connect(gainNode); gainNode.connect(audioCtx.destination);
@@ -118,7 +118,7 @@ const solitoneEcosystem = {
     if (savedBalance !== null) this.wallet.balance = parseInt(savedBalance, 10);
     if (savedSlots !== null) this.openEvolutionarySlots.slots = JSON.parse(savedSlots);
     if (savedTxs !== null) this.wallet.transactions = JSON.parse(savedTxs);
-    if (savedChart !== null) { this.chartData = JSON.parse(savedChart); } 
+    if (savedChart !== null && savedChart !== "") { this.chartData = JSON.parse(savedChart); } 
     else { this.chartData = [{height:40,isUp:true},{height:55,isUp:true},{height:50,isUp:false}]; }
     this.updateUI();
   },
@@ -130,5 +130,3 @@ const solitoneEcosystem = {
   updateUI() {
     document.getElementById('coin-balance').innerText = this.wallet.balance;
     const currentSlotsCount = this.openEvolutionarySlots.slots.length;
-    document.getElementById('slots-count').innerText = currentSlotsCount;
-    const percentage = (currentSlotsCount / this.openEvolutionarySlots.max_slots) * 100;
