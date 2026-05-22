@@ -1,37 +1,70 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AMRITA MIR</title>
-</head>
-<body style="background-color: #030107; color: #fff; font-family: sans-serif; padding: 30px; line-height: 1.6;">
 
-  <h1 style="color: #ffffff; border-bottom: 2px solid #331a66; padding-bottom: 15px; margin-bottom: 25px;">AMRITA MIR — HUB KOSHKA</h1>
-  
-  <div style="background: #120a24; border-left: 5px solid #00ff66; padding: 20px; border-radius: 5px; margin-bottom: 30px;">
-    <span style="font-size: 20px;">🟢 База из 70 монет успешно запущенна!</span>
-    <p style="color: #b3a3d4; margin-top: 10px; margin-bottom: 0;">38 свободных квантовых слотов открыты для хакатонов и сотворчества.</p>
-  </div>
+<script>
+const solitoneEcosystem = {
+  meta: { 
+    total_slots: 108, 
+    golden_ratio_base: 70,
+    baseSovereignNodes: { count: 70, status: "SEALED_AND_ACTIVE" }
+  },
+  openEvolutionarySlots: {
+    range: "71 - 108",
+    status: "AWAITING_HACKATHONS",
+    // Изначально слоты пустые! Они создаются только при запуске хакатона
+    slots: [], 
+    max_slots: 38
+  },
+  // Твоя база из 70 монет
+  wallet: {
+    balance: 70, 
+    transactions: [] 
+  },
 
-  <div style="background: #090514; border: 1px solid #231545; padding: 20px; border-radius: 5px; color: #8c7bb3; font-size: 14px;">
-    <strong>Системный статус:</strong> FLUID EVOLUTION ACTIVE<br>
-    <strong>Авторизованные создатели:</strong> Hackathons, Colosseum, Humans, Cats, Bots, xAI, Pi, Microsoft, NVIDIA, X
-  </div>
-
-  <script>
-  const solitonEcosystem = {
-    meta: { total_slots: 108, golden_ratio_base: 70, open_slots_count: 38, status: "FLUID_EVOLUTION_ACTIVE" },
-    baseSovereignNodes: { count: 70, status: "SEALED_IN_LIGHT" },
-    openEvolutionarySlots: {
-      range: "71 - 108",
-      status: "AWAITING_HACKATHONS",
-      slots: Array.from({length: 38}, (_, i) => ({ id: 71 + i, status: "QUANTUM_POTENTIALITY" }))
+  // ГЛАВНАЯ ФУНКЦИЯ: Создание хакатона за монеты
+  createHackathon(name, cost = 10) {
+    // 1. Проверяем, есть ли еще свободное место из 38 слотов
+    if (this.openEvolutionarySlots.slots.length >= this.openEvolutionarySlots.max_slots) {
+      return console.error("Все 38 хакатон-слотов уже созданы и заняты!");
     }
-  };
-  console.log("⚡ Звук ОМ запущен. База: 70. Свобода: 38.");
-  </script>
 
-</body>
-</html>
+    // 2. Проверяем, хватает ли монет в базе
+    if (this.wallet.balance < cost) {
+      return console.error(`Недостаточно монет! Баланс: ${this.wallet.balance}, нужно: ${cost}`);
+    }
 
+    // 3. Списываем монеты из базы
+    this.wallet.balance -= cost;
+
+    // 4. Вычисляем ID для нового слота (начиная с 71)
+    const newId = 71 + this.openEvolutionarySlots.slots.length;
+
+    // 5. Сам хакатон создает новый слот в массиве!
+    const newHackathon = {
+      id: newId,
+      name: name,
+      status: "ACTIVE_HACKATHON",
+      costPaid: cost,
+      createdAt: new Date()
+    };
+    
+    this.openEvolutionarySlots.slots.push(newHackathon);
+    this.wallet.transactions.push({ type: "CREATE_HACKATHON", slotId: newId, cost });
+
+    console.log(`🚀 Хакатон "${name}" создан! Слот: ${newId}. Списано: ${cost} монет. Остаток в базе: ${this.wallet.balance}`);
+    return newHackathon;
+  },
+
+  // Функция для покупки/добавления монет в базу (если нужно пополнить)
+  buyCoins(amount) {
+    this.wallet.balance += amount;
+    console.log(`💰 База пополнена. Текущий баланс: ${this.wallet.balance} монет.`);
+  }
+};
+
+// Проверка работы в консоли
+console.log("⚡ Звук ОМ запущен. База: 70. Свобода...");
+
+// ПРИМЕР: Создаем первый хакатон. Он сам займет слот 71 и спишет монеты
+solitoneEcosystem.createHackathon("Solitone Web3 Hack"); 
+// Создаем второй хакатон — он займет слот 72
+solitoneEcosystem.createHackathon("AI Evolution"); 
+</script>
