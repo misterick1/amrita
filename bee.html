@@ -1,13 +1,44 @@
-solitoneEcosystem.wallet.balance < amount) {
-    playCosmicSound(false);
-    showWeb3Toast('❌ Запрошенный трансфер превышает текущий баланс!');
-    return;
-  }
-  
-  solitoneEcosystem.wallet.balance -= amount;
-  solitoneEcosystem.addLog(`Трансфер: ${amount} $BEE отправлены на узел [${node}].`);
-  
-  nodeInput.value = '';
-  amountInput.value = '';
-  playCosmicSound(true);
-  showWeb3Toast(`🔄 Перевод выполнен.`);
+// 1. ФУНКЦИЯ ДЛЯ ЗЕЛЕНОЙ КНОПКИ: Запустить Хакатон (1 $BEE)
+function launchHackathonFromUI() {
+    const amount = 1; // Стоимость запуска
+    
+    // Проверяем баланс в вашей системе solitoneEcosystem
+    if (solitoneEcosystem.wallet.balance < amount) {
+        playCosmicSound(false);
+        showWeb3Toast('❌ Ошибка: Недостаточно $BEE для запуска хакатона!');
+        return;
+    }
+
+    // Списываем 1 монету и добавляем лог в экосистему
+    solitoneEcosystem.wallet.balance -= amount;
+    solitoneEcosystem.addLog(`🚀 Запущен новый хакатон. Списано: ${amount} $BEE`);
+    
+    // Эффекты успеха
+    playCosmicSound(true);
+    showWeb3Toast('🐝 Хакатон успешно интегрирован в Рой! `);
+
+    // Обновляем отображение на экране (если у вас есть функция рендера интерфейса)
+    if (typeof renderEcosystem === 'function') {
+        renderEcosystem();
+    }
+}
+
+// 2. ФУНКЦИЯ ДЛЯ ЖЕЛТОЙ КНОПКИ: Cleanup SZN (Полный сброс системы)
+function cleanupSystemUI() {
+    // Безопасно возвращаем начальный баланс 70 монет
+    solitoneEcosystem.wallet.balance = 70;
+    
+    // Очищаем логи или обнуляем слоты, если это необходимо
+    if (solitoneEcosystem.clearLogs) {
+        solitoneEcosystem.clearLogs();
+    }
+    
+    solitoneEcosystem.addLog('🧹 Система очищена. Баланс восстановлен до 70 $BEE');
+    
+    playCosmicSound(true);
+    showWeb3Toast('🔄 Экосистема перезапущена. Кэш чист! `);
+
+    if (typeof renderEcosystem === 'function') {
+        renderEcosystem();
+    }
+}
