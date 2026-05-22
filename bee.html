@@ -52,21 +52,27 @@ const solitoneEcosystem = { wallet: { balance: 70 }, logs: [], addLog: function(
 let activeSlotsCount = 0;
 
 function up() {
-    document.getElementById('balance-display').innerText = `${solitoneEcosystem.wallet.balance} монет \$BEE`;
-    document.getElementById('slots-display').innerText = `${activeSlotsCount} / 38`;
+    const b = document.getElementById('balance-display');
+    const s = document.getElementById('slots-display');
+    if (b) b.innerText = `${solitoneEcosystem.wallet.balance} монет \$BEE`;
+    if (s) s.innerText = `${activeSlotsCount} / 38`;
 }
 function goLaunch() {
     if (solitoneEcosystem.wallet.balance >= 1 && activeSlotsCount < 38) {
-        solitoneEcosystem.wallet.balance -= 1; activeSlotsCount += 1;
-        const txt = document.getElementById('h-in').value;
-        document.getElementById('hack-list').innerHTML += `<div style="padding:4px 0; font-size:13px; color:#a491ca;">🐝 Слот ${activeSlotsCount}: ${txt}</div>`;
+        solitoneEcosystem.wallet.balance -= 1; 
+        activeSlotsCount += 1;
+        const txt = document.getElementById('h-in')?.value || '\$BEE';
+        const list = document.getElementById('hack-list');
+        if (list) list.innerHTML += `<div style="padding:4px 0; font-size:13px; color:#a491ca;">🐝 Слот ${activeSlotsCount}: ${txt}</div>`;
         up();
     }
 }
 function goRefill() { solitoneEcosystem.wallet.balance += 10; up(); }
-function goClean() { activeSlotsCount = 0; document.getElementById('hack-list').innerHTML = ''; up(); }
+function goClean() { activeSlotsCount = 0; const list = document.getElementById('hack-list'); if (list) list.innerHTML = ''; up(); }
 function goBurn() { if (solitoneEcosystem.wallet.balance >= 10) { solitoneEcosystem.wallet.balance -= 10; up(); } }
-function goReset() { solitoneEcosystem.wallet.balance = 70; activeSlotsCount = 0; document.getElementById('hack-list').innerHTML = ''; up(); }
+function goReset() { solitoneEcosystem.wallet.balance = 70; activeSlotsCount = 0; const list = document.getElementById('hack-list'); if (list) list.innerHTML = ''; up(); }
 </script>
+
+
 </body>
 </html>
