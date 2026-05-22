@@ -1,3 +1,4 @@
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,6 +17,10 @@
             font-size: 14px; z-index: 9999; display: none; opacity: 0;
             transition: opacity 0.3s ease, transform 0.3s ease; transform: translateY(20px);
         }
+        /* Стили для симулятора графика SolanaTracker */
+        .chart-container { background: #090514; border: 1px solid #120a24; padding: 15px; border-radius: 5px; margin-top: 20px; }
+        .chart-flow { display: flex; align-items: flex-end; gap: 6px; height: 120px; background: #030107; border: 1px solid #1a0f30; padding: 10px; border-radius: 4px; overflow-x: auto; }
+        .candle { width: 14px; border-radius: 2px; transition: height 0.3s ease, background-color 0.3s ease; min-height: 5px; }
     </style>
 </head>
 <body style="background-color: #030107; color: #fff; font-family: sans-serif; padding: 20px;">
@@ -41,11 +46,8 @@
         </div>
         <button onclick="triggerCreate()" style="background: #00ffcc; color: #030107; border: none; padding: 10px 15px; font-weight: bold; border-radius: 3px; cursor: pointer; margin-right: 10px; margin-bottom: 15px;">🚀 Запустить Хакатон (1 монета)</button>
         <button onclick="triggerBuy()" style="background: #4a2f85; color: #fff; border: none; padding: 10px 15px; font-weight: bold; border-radius: 3px; cursor: pointer; margin-right: 10px; margin-bottom: 15px;">💰 Пополнить базу (+10 монет)</button>
-        
-        <!-- НАША НОВАЯ КНОПКА ОЧИСТКИ ИЗ СКРИНШОТА SOLFLARE -->
         <button onclick="triggerCleanup()" style="background: #ffbc00; color: #030107; border: none; padding: 10px 15px; font-weight: bold; border-radius: 3px; cursor: pointer; margin-right: 10px; margin-bottom: 15px;">🧹 Cleanup SZN (Вернуть аренду)</button>
         <button onclick="triggerReset()" style="background: #ff3366; color: #fff; border: none; padding: 10px 15px; font-weight: bold; border-radius: 3px; cursor: pointer; margin-bottom: 15px;">🔄 Сбросить данные</button>
-
         <div style="border-top: 1px solid #4a2f85; padding-top: 15px; margin-top: 5px;">
             <h4 style="margin-top: 0; color: #00ffcc; margin-bottom: 10px;">🔄 Модуль Обмена (Перевод на Узел)</h4>
             <div style="display: flex; gap: 10px; flex-wrap: wrap;">
@@ -55,10 +57,17 @@
             </div>
         </div>
     </div>
+    
+    <!-- МОДУЛЬ РЕНДЕРА: ТРЕКЕР КУРСА ТОКЕНА MIR -->
+    <div class="chart-container">
+        <h3 style="color: #b3a3d4; margin-top: 0; margin-bottom: 10px; font-size: 16px;">📈 MIR / Solitone Квантовый Трекер (1s)</h3>
+        <div id="crypto-chart" class="chart-flow"></div>
+    </div>
+
     <h3 style="color: #b3a3d4; margin-top: 25px;">Активные Слоты Хакатонов (Макс: 38)</h3>
     <div id="hackathons-container" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; margin-bottom: 30px;"></div>
     <h3 style="color: #b3a3d4;">История транзакций экосистемы</h3>
-    <div id="transactions-log" style="background: #090514; border: 1px solid #120a24; padding: 15px; border-radius: 5px; max-height: 200px; overflow-y: auto; font-family: monospace; font-size: 13px; color: #a291c4;">Пока транзакций не было.</div>
+    <div id="transactions-log" style="background: #090514; border: 1px solid #120a24; padding: 15px; border-radius: 5px; max-height: 150px; overflow-y: auto; font-family: monospace; font-size: 13px; color: #a291c4;">Пока транзакций не было.</div>
     <div id="web3-toast"></div>
 <script>
 function playCosmicSound(isSuccess = true) {
@@ -91,19 +100,28 @@ const solitoneEcosystem = {
   meta: { total_slots: 108, golden_ratio_base: 70, baseSovereignNodes: { count: 70, status: "SEALED_AND_ACTIVE" } },
   openEvolutionarySlots: { range: "71 - 108", status: "AWAITING_HACKATHONS", slots: [], max_slots: 38 },
   wallet: { balance: 70, transactions: [] },
+  chartData: [40, 45, 42, 50, 48], // Исходные точки графика
   saveToStorage() {
     localStorage.setItem('solitone_balance', this.wallet.balance);
     localStorage.setItem('solitone_slots', JSON.stringify(this.openEvolutionarySlots.slots));
     localStorage.setItem('solitone_txs', JSON.stringify(this.wallet.transactions));
+    localStorage.setItem('solitone_chart', JSON.stringify(this.chartData));
   },
   loadFromStorage() {
     const savedBalance = localStorage.getItem('solitone_balance');
     const savedSlots = localStorage.getItem('solitone_slots');
     const savedTxs = localStorage.getItem('solitone_txs');
+    const savedChart = localStorage.getItem('solitone_chart');
     if (savedBalance !== null) this.wallet.balance = parseInt(savedBalance, 10);
     if (savedSlots !== null) this.openEvolutionarySlots.slots = JSON.parse(savedSlots);
     if (savedTxs !== null) this.wallet.transactions = JSON.parse(savedTxs);
+    if (savedChart !== null) this.chartData = JSON.parse(savedChart);
     this.updateUI();
+  },
+  addCandle(height, isUp = true) {
+    this.chartData.push({ height: Math.min(Math.max(height, 10), 100), isUp });
+    if (this.chartData.length > 20) this.chartData.shift(); // Ограничиваем ширину
+    this.saveToStorage();
   },
   updateUI() {
     document.getElementById('coin-balance').innerText = this.wallet.balance;
@@ -114,18 +132,6 @@ const solitoneEcosystem = {
     const container = document.getElementById('hackathons-container'); container.innerHTML = '';
     this.openEvolutionarySlots.slots.forEach(slot => {
       const div = document.createElement('div');
-      div.style.cssText = "background: #090514; border: 1px solid #00ffcc; padding: 10px; border-radius: 4px; font-size: 14px;";
-      div.innerHTML = `<strong>Слот ${slot.id}</strong><br><span style="color: #b3a3d4;">${slot.name}</span><br><small style="color: #00ffcc;">Статус: ${slot.status}</small>`;
-      container.appendChild(div);
-    });
-    const logContainer = document.getElementById('transactions-log');
-    if (this.wallet.transactions.length === 0) { logContainer.innerHTML = 'Пока транзакций не было.'; }
-    else {
-      logContainer.innerHTML = this.wallet.transactions.map(tx => {
-        const time = new Date(tx.date).toLocaleTimeString();
-        if (tx.type === "CREATE_HACKATHON") return `<div style="margin-bottom: 5px; color: #ffbc00;">[${time}] Списано <b>${tx.amount}</b> монета на Хакатон в Слоте ${tx.slotId}</div>`;
-        if (tx.type === "BUY") return `<div style="margin-bottom: 5px; color: #00ffcc;">[${time}] База пополнена на <b>+${tx.amount}</b> монет</div>`;
-        if (tx.type === "TRANSFER") return `<div style="margin-bottom: 5px; color: #b3a3d4;">[${time}] Обмен: <b>${tx.amount}</b> монет ушло на Узел <b>${tx.to}</b></div>`;
 
 
   
