@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -10,7 +12,6 @@
     <h1 style="color: #ffffff; border-bottom: 2px solid #120a24; padding-bottom: 10px;">AMRITA MIR</h1>
 
     <div style="background: #120a24; border-left: 5px solid #090514; padding: 15px; margin-bottom: 15px;">
-        <!-- Добавили id="coin-balance", чтобы скрипт мог динамически менять число монет -->
         <span style="font-size: 20px;">🟢 База: <span id="coin-balance" style="font-weight: bold; color: #00ffcc;">70</span> монет</span>
         <p style="color: #b3a3d4; margin-top: 10px; margin-bottom: 0;">Экосистема Solitone активна и ожидает хакатонов.</p>
     </div>
@@ -20,14 +21,13 @@
         <strong>Авторизованные создатели:</strong> Hackathon Architect Nodes
     </div>
 
-    <!-- Раздел для интерактивного управления и создания элементов -->
     <div style="background: #1a0f30; border: 1px dashed #4a2f85; padding: 15px; margin-bottom: 20px; border-radius: 5px;">
         <h3 style="margin-top: 0; color: #b3a3d4;">Панель Создателя</h3>
         <button onclick="triggerCreate()" style="background: #00ffcc; color: #030107; border: none; padding: 10px 15px; font-weight: bold; border-radius: 3px; cursor: pointer; margin-right: 10px; margin-bottom: 10px;">🚀 Запустить Хакатон (1 монета)</button>
-        <button onclick="triggerBuy()" style="background: #4a2f85; color: #fff; border: none; padding: 10px 15px; font-weight: bold; border-radius: 3px; cursor: pointer; margin-bottom: 10px;">💰 Пополнить базу (+10 монет)</button>
+        <button onclick="triggerBuy()" style="background: #4a2f85; color: #fff; border: none; padding: 10px 15px; font-weight: bold; border-radius: 3px; cursor: pointer; margin-right: 10px; margin-bottom: 10px;">💰 Пополнить базу (+10 монет)</button>
+        <button onclick="triggerReset()" style="background: #ff3366; color: #fff; border: none; padding: 10px 15px; font-weight: bold; border-radius: 3px; cursor: pointer; margin-bottom: 10px;">🔄 Сбросить данные</button>
     </div>
 
-    <!-- Место, куда будут визуально рендериться созданные хакатоны -->
     <div id="hackathons-container" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px;"></div>
 
 <script>
@@ -48,7 +48,26 @@ const solitoneEcosystem = {
     transactions: []
   },
 
-  // Функция автоматического обновления экрана при любых изменениях
+  // Сохранение текущего состояния в память браузера
+  saveToStorage() {
+    localStorage.setItem('solitone_balance', this.wallet.balance);
+    localStorage.setItem('solitone_slots', JSON.stringify(this.openEvolutionarySlots.slots));
+    localStorage.setItem('solitone_txs', JSON.stringify(this.wallet.transactions));
+  },
+
+  // Загрузка состояния при старте страницы
+  loadFromStorage() {
+    const savedBalance = localStorage.getItem('solitone_balance');
+    const savedSlots = localStorage.getItem('solitone_slots');
+    const savedTxs = localStorage.getItem('solitone_txs');
+
+    if (savedBalance !== null) this.wallet.balance = parseInt(savedBalance, 10);
+    if (savedSlots !== null) this.openEvolutionarySlots.slots = JSON.parse(savedSlots);
+    if (savedTxs !== null) this.wallet.transactions = JSON.parse(savedTxs);
+    
+    this.updateUI();
+  },
+
   updateUI() {
     document.getElementById('coin-balance').innerText = this.wallet.balance;
     const container = document.getElementById('hackathons-container');
@@ -62,7 +81,6 @@ const solitoneEcosystem = {
     });
   },
 
-  // 1. Создание хакатона
   createHackathon(name, cost = 1) {
     if (this.openEvolutionarySlots.slots.length >= this.openEvolutionarySlots.max_slots) {
       alert("Все 38 хакатон-слотов уже заняты!");
@@ -86,32 +104,38 @@ const solitoneEcosystem = {
     
     this.openEvolutionarySlots.slots.push(newHackathon);
     this.wallet.transactions.push({ type: "CREATE_HACKATHON", slotId: newId, amount: cost });
-    console.log(`🚀 Хакатон создан в слоте ${newId}. Остаток базы: ${this.wallet.balance}`);
     
-    this.updateUI(); // Обновляем экран
+    this.updateUI();
+    this.saveToStorage(); // Сохраняем изменения
     return newHackathon;
   },
 
-  // 2. Покупка / Пополнение монет в базу
   buyCoins(amount) {
     if (amount <= 0) return;
     this.wallet.balance += amount;
     this.wallet.transactions.push({ type: "BUY", amount, date: new Date() });
-    console.log(`💰 База пополнена на ${amount}. Новый баланс: ${this.wallet.balance}`);
-    this.updateUI(); // Обновляем экран
+    this.updateUI();
+    this.saveToStorage(); // Сохраняем изменения
   },
 
-  // 3. Обмен / Перевод монет из базы на внешний узел
   transferCoins(targetNodeId, amount) {
     if (this.wallet.balance < amount) return console.error("Недостаточно монет для обмена");
     this.wallet.balance -= amount;
     this.wallet.transactions.push({ type: "TRANSFER", to: targetNodeId, amount, date: new Date() });
-    console.log(`🔄 Обмен: ${amount} монет ушло на узел ${targetNodeId}. База: ${this.wallet.balance}`);
-    this.updateUI(); // Обновляем экран
+    this.updateUI();
+    this.saveToStorage(); // Сохраняем изменения
+  },
+
+  resetEcosystem() {
+    localStorage.clear();
+    this.wallet.balance = 70;
+    this.openEvolutionarySlots.slots = [];
+    this.wallet.transactions = [];
+    this.updateUI();
+    console.log("🔄 Данные экосистемы сброшены к начальным 70 монетам.");
   }
 };
 
-// Функции-обработчики для кнопок интерфейса
 function triggerCreate() {
   const num = solitoneEcosystem.openEvolutionarySlots.slots.length + 1;
   solitoneEcosystem.createHackathon(`Хакатон Прорыв #${num}`, 1);
@@ -121,11 +145,19 @@ function triggerBuy() {
   solitoneEcosystem.buyCoins(10);
 }
 
-// Старт логики в консоли
-console.log("⚡ Звук ОМ запущен. База: 70. Свобода...");
+function triggerReset() {
+  if (confirm("Вы уверены, что хотите обнулить баланс и запущенные хакатоны?")) {
+    solitoneEcosystem.resetEcosystem();
+  }
+}
+
+// Автоматический запуск и проверка сохраненных данных при открытии страницы
+window.onload = function() {
+  solitoneEcosystem.loadFromStorage();
+  console.log("⚡ Звук ОМ запущен. База: 70. Свобода...");
+};
 </script>
 
 </body>
 </html>
-
 
