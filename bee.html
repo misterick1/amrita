@@ -3,65 +3,142 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BEE COGNITIVE ECOSYSTEM</title>
+    <title>Квантовый Рой BEE</title>
     <style>
-        * {
-            box-sizing: border-box;
-            transition: all 0.2s ease;
-        }
+        /* Базовые стили для предотвращения черного экрана смерти */
         body {
-            background-color: #05010d;
-            color: #ffffff;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             margin: 0;
             padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(45deg, #121214, #1a1a24);
+            color: #ffffff;
             min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
-        .container {
+
+        header {
             width: 100%;
-            max-width: 480px;
-            background: #0f0720;
-            border-radius: 24px;
-            padding: 24px;
-            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.7), 0 0 32px rgba(108, 66, 245, 0.1);
-            border: 1px solid #22143b;
-        }
-        .header {
+            max-width: 600px;
             display: flex;
             align-items: center;
-            gap: 14px;
-            margin-bottom: 28px;
-            border-bottom: 1px solid rgba(61, 37, 110, 0.4);
-            padding-bottom: 16px;
+            justify-content: space-between;
+            margin-bottom: 300px; /* Большой отступ сверху как на вашем макете */
         }
-        .header h1 {
-            font-size: 26px;
-            font-weight: 800;
-            letter-spacing: 0.5px;
-            margin: 0;
+
+        h1 {
+            font-size: 24px;
             text-transform: uppercase;
-            background: linear-gradient(45deg, #ffffff, #b594ff);
+            background: linear-gradient(45deg, #ffcc00, #ff6600);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            margin: 0;
         }
-    <script>
-// Квантовое ядро экосистемы
+
+        .lang-selector {
+            background: #2a2a36;
+            color: #fff;
+            border: 1px solid #ffcc00;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background: #1f1f2e;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+
+        .status-panel {
+            margin-bottom: 20px;
+            padding: 10px;
+            background: #151522;
+            border-radius: 6px;
+            border-left: 4px solid #ffcc00;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        /* Кнопки управления экосистемой */
+        .input-group button {
+            background: #2a2a3a;
+            color: white;
+            border: 1px solid #3a3a52;
+            padding: 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 15px;
+            text-align: left;
+            transition: all 0.2s ease;
+        }
+
+        .input-group button:hover {
+            background: #ffcc00;
+            color: #000;
+            border-color: #ffcc00;
+        }
+    </style>
+</head>
+<body>
+
+    <header id="main-header">
+        <h1 id="app-title">КВАНТОВЫЙ РОЙ BEE</h1>
+    </header>
+
+    <div class="container">
+        <div class="status-panel">
+            <div id="info-base">База Роя:</div>
+            <div id="info-slots">Слоты: 0</div>
+            <div id="info-balance">Баланс: 70 $BEE</div>
+        </div>
+
+        <!-- Группа интерактивных кнопок -->
+        <div class="input-group">
+            <button onclick="goLaunch()">🚀 Запустить Хакатон (1 $BEE)</button>
+            <button onclick="goRefill()">💰 Пополнить базу (+10 $BEE)</button>
+            <button onclick="goClean()">⚡ Cleanup SZN (Очистка)</button>
+            <button onclick="goBurn()">🔥 Burn $BEE (Запуск пампа)</button>
+            <button onclick="goReset()">🔄 Сброс ядра</button>
+        </div>
+    </div>
+
+    <!-- Текстовый лог событий для отладки прямо на экране -->
+    <div id="hack-list" style="margin-top:20px; max-width:600px; width:100%; font-size:13px; color:#8a8a9e;"></div>
+
+<script>
+// Автоматический перехватчик скрытых JS ошибок (выводит красную плашку, если что-то упало)
+window.onerror = function(message, source, lineno) {
+    let div = document.createElement('div');
+    div.style = "position:fixed;top:0;left:0;width:100%;background:#e63946;color:white;z-index:9999;padding:15px;font-family:monospace;box-sizing:border-box;";
+    div.innerText = "Критическая ошибка JS: " + message + " (Строка: " + lineno + ")";
+    document.body.appendChild(div);
+    return false;
+};
+
+// 1. Квантовое ядро экосистемы
 const quantumNet = {
     balance: 70,
     slots: 0,
     lang: 'RU',
-    networks: { sol: 'Active', evm: 'Sync', quantum: 'Genesis' }
+    networks: { sol: 'Active', evm: 'Sync' }
 };
 
-// Словари для мгновенного перевода меню
+// 2. Словари для мгновенного перевода меню
 const locales = {
     RU: {
         title: "🐝 КВАНТОВЫЙ РОЙ BEE",
         base: "База Роя (Квантовый мост):",
-        slots: "Эволюционные слоты хакатонов одуванчика:",
+        slots: "Эволюционные слоты хакатонов одуванчиков:",
         panel: "Панель Создателя Квантового Роя",
         label: "Название хакатона / Квантовый адрес:",
         btn1: "🚀 Запустить Хакатон (1 $BEE)",
@@ -84,59 +161,92 @@ const locales = {
     }
 };
 
-// Функция переключения языков
-function switchLang(l) {
-    quantumNet.lang = l;
-    renderQuantumUI();
-}
-
-// Полный рендеринг квантового интерфейса
+// 3. Функция рендеринга интерфейса (обновление текстов и цифр)
 function renderQuantumUI() {
-    const t = locales[quantumNet.lang];
+    const t = locales[quantumNet.lang] || locales['RU'];
     
-    // Переводим тексты в вашем интерфейсе
-    document.querySelector('.header h1').innerText = t.title;
-    document.getElementById('balance-display').innerHTML = `${t.base} <span class="balance-value">${quantumNet.balance} $BEE</span><br><small style="color:#8c75b8;font-size:11px;">SOL: ${quantumNet.networks.sol} | EVM: ${quantumNet.networks.evm} | QUANTUM: ${quantumNet.networks.quantum}</small>`;
-    document.querySelector('.slots-label').innerText = t.slots;
-    document.getElementById('slots-display').innerText = `${quantumNet.slots} / 38`;
-    document.querySelector('.panel-title').innerText = t.panel;
-    document.querySelector('.input-group label').innerText = t.label;
-    
-    // Переводим кнопки
-    const btns = document.querySelectorAll('button');
-    btns[0].innerText = t.btn1;
-    btns[1].innerText = t.btn2;
-    btns[2].innerText = t.btn3;
-    btns[3].innerText = t.btn4;
-    btns[4].innerText = t.btn5;
+    // Обновляем текстовые метки данных
+    const baseEl = document.getElementById('info-base');
+    const slotsEl = document.getElementById('info-slots');
+    const balEl = document.getElementById('info-balance');
+    const titleEl = document.getElementById('app-title');
+
+    if (baseEl) baseEl.innerText = t.base;
+    if (slotsEl) slotsEl.innerText = t.slots + " " + quantumNet.slots;
+    if (balEl) balEl.innerText = "Баланс: " + quantumNet.balance + " $BEE";
+    if (titleEl) titleEl.innerText = t.title;
+
+    // Безопасный перевод кнопок экосистемы
+    const btns = document.querySelectorAll('.input-group button');
+    if (btns && btns.length >= 5) {
+        btns[0].innerText = t.btn1;
+        btns[1].innerText = t.btn2;
+        btns[2].innerText = t.btn3;
+        btns[3].innerText = t.btn4;
+        btns[4].innerText = t.btn5;
+    }
 }
 
-// Логика кнопок управления
+// 4. Логика кнопок управления
 function goLaunch() {
-    if (quantumNet.balance >= 1 && quantumNet.slots < 38) {
-        quantumNet.balance -= 1; quantumNet.slots += 1;
-        const txt = document.getElementById('h-in').value || '$BEE';
-        document.getElementById('hack-list').innerHTML += `<div style="padding:4px 0;font-size:13px;color:#00ffcc;">🧬 Блок #${quantumNet.slots} [Quantum]: ${txt}</div>`;
+    if (quantumNet.balance >= 1) {
+        quantumNet.balance -= 1;
+        quantumNet.slots += 1;
+        
+        const log = document.getElementById('hack-list');
+        if (log) {
+            log.innerHTML += `<div>[SYSTEM]: Хакатон успешно запущен. Снято 1 $BEE</div>`;
+        }
+        renderQuantumUI();
+    } else {
+        alert("Недостаточно $BEE на балансе!");
+    }
+}
+
+function goRefill() { 
+    quantumNet.balance += 10; 
+    renderQuantumUI(); 
+}
+
+function goClean() { 
+    quantumNet.slots = 0; 
+    renderQuantumUI(); 
+}
+
+function goBurn() { 
+    if (quantumNet.balance > 0) {
+        quantumNet.balance = Math.floor(quantumNet.balance * 0.5); // Пример логики сжигания 50%
         renderQuantumUI();
     }
 }
-function goRefill() { quantumNet.balance += 10; renderQuantumUI(); }
-function goClean() { quantumNet.slots = 0; document.getElementById('hack-list').innerHTML = ''; renderQuantumUI(); }
-function goBurn() { if (quantumNet.balance >= 10) { quantumNet.balance -= 10; renderQuantumUI(); } }
-function goReset() { quantumNet.balance = 70; quantumNet.slots = 0; document.getElementById('hack-list').innerHTML = ''; renderQuantumUI(); }
 
-// Инициализация при загрузке страницы
+function goReset() { 
+    quantumNet.balance = 70; 
+    quantumNet.slots = 0; 
+    renderQuantumUI(); 
+}
+
+// Переключение языка системы
+function toggleLanguage() {
+    quantumNet.lang = quantumNet.lang === 'RU' ? 'EN' : 'RU';
+    renderQuantumUI();
+}
+
+// 5. Инициализация при загрузке страницы
 window.onload = function() {
-    // Добавляем переключатель языков в самый верх контейнера
-    const header = document.querySelector('.header');
+    const header = document.getElementById('main-header');
     if (header && !document.getElementById('lang-selector')) {
-        const div = document.createElement('div');
-        div.id = 'lang-selector';
-        div.style = 'margin-left:auto; display:flex; gap:8px; font-size:12px; font-weight:700; cursor:pointer;';
-        div.innerHTML = `<span onclick="switchLang('RU')" style="color:#00ffcc">RU</span>|<span onclick="switchLang('EN')" style="color:#b594ff">EN</span>`;
-        header.appendChild(div);
+        const btn = document.createElement('button');
+        btn.id = 'lang-selector';
+        btn.className = 'lang-selector';
+        btn.innerText = '🌐 Сменить язык / Lang';
+        btn.onclick = toggleLanguage;
+        header.appendChild(btn);
     }
     renderQuantumUI();
 };
 </script>
+</body>
+</html>
+
                  
