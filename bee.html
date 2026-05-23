@@ -324,6 +324,7 @@ function renderUI() {
                 cell.className = 'quantum-cell coin-38';
                 cell.innerText = '₿';
             } else {
+                       } else {
                 cell.className = 'quantum-cell energy-node';
                 cell.innerText = 'ॐ';
             }
@@ -336,5 +337,24 @@ function renderUI() {
 
     let keyEl = document.getElementById('omni-key');
     if (keyEl) {
-        keyEl.innerHTML = `<div>⚡ <strong>DIGITAL_ENERGY_FLOW:</strong> ENG_${generateEnergyKey(14)}</div>
-                           <div style="color: #00ffcc; margin-top:4px;">⚖️ <strong>СТАТУС СИСТЕМЫ:</strong> Рой в TikTok диктует смыслы. Ликвидность Pump.fun синхронизирована.</div>`;
+        let txt1 = "<div>⚡ <strong>DIGITAL_ENERGY:</strong></div>";
+        let txt2 = "<div style='color:#00ffcc;'>🛡️ РОЙ В ТИКТОКЕ АКТИВЕН.</div>";
+        keyEl.innerHTML = txt1 + txt2;
+    }
+}
+
+window.onload = function() {
+    pulseMatrix();
+    setInterval(pulseMatrix, sysCore.pulseSpeed);
+    function animate() {
+        if(window.drawChromeSoliton) {
+            window.drawChromeSoliton();
+        }
+        requestAnimationFrame(animate);
+    }
+    animate();
+};
+</script>
+</body>
+</html>
+ 
