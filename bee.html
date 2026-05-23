@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Solana Soliton Swarm: Light Code</title>
+<title>Solana Soliton Swarm: Devanagari Core</title>
 <style>
 body {
     margin: 0;
     padding: 20px;
     font-family: sans-serif;
-    background: linear-gradient(45deg, #0b0b0d, #14141c);
+    background: linear-gradient(45deg, #050508, #100a1c);
     color: #ffffff;
     min-height: 100vh;
     display: flex;
@@ -25,29 +25,31 @@ header {
     margin-bottom: 20px;
 }
 h1 {
-    font-size: 18px;
+    font-size: 16px;
     text-transform: uppercase;
-    background: linear-gradient(45deg, #00ffcc, #9945FF);
+    background: linear-gradient(45deg, #ffcc00, #9945FF);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     margin: 0;
+    letter-spacing: 1px;
 }
 .container {
     width: 100%;
     max-width: 600px;
-    background: #151522;
+    background: #110c1f;
     padding: 20px;
     border-radius: 12px;
     box-sizing: border-box;
     margin-bottom: 15px;
-    border: 1px solid #3a3a52;
+    border: 1px solid #443366;
+    box-shadow: 0 0 15px rgba(153, 69, 255, 0.1);
 }
 .status-panel {
     margin-bottom: 15px;
     padding: 12px;
-    background: #0d0d16;
+    background: #07040d;
     border-radius: 6px;
-    border-left: 4px solid #00ffcc;
+    border-left: 4px solid #ffcc00;
     font-family: monospace;
 }
 .status-panel div { margin-bottom: 6px; }
@@ -58,101 +60,103 @@ h1 {
     margin-bottom: 15px;
 }
 .mode-btn {
-    background: #212130;
-    color: #fff;
-    border: 1px solid #3a3a52;
+    background: #1a122c;
+    color: #a099b0;
+    border: 1px solid #443366;
     padding: 10px;
     border-radius: 6px;
     cursor: pointer;
-    font-size: 13px;
+    font-size: 11px;
     text-align: center;
 }
 .mode-btn.active {
-    border-color: #00ffcc;
-    box-shadow: 0 0 8px rgba(0,255,204,0.3);
+    border-color: #ffcc00;
+    color: #fff;
+    box-shadow: 0 0 10px rgba(255, 204, 0, 0.4);
     font-weight: bold;
 }
 .quantum-field-title {
-    font-size: 12px;
-    color: #9945FF;
+    font-size: 11px;
+    color: #ffcc00;
     text-transform: uppercase;
     margin-bottom: 10px;
-    letter-spacing: 1px;
+    letter-spacing: 2px;
     font-weight: bold;
 }
 .quantum-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 8px;
-    background: #0d0d16;
+    background: #07040d;
     padding: 15px;
     border-radius: 8px;
-    border: 1px dashed #9945FF;
+    border: 1px solid #9945FF;
 }
 .quantum-cell {
-    background: #1c1c2b;
+    background: #171026;
     padding: 12px;
     text-align: center;
-    font-family: monospace;
-    font-size: 14px;
+    font-family: serif;
+    font-size: 18px;
     border-radius: 4px;
-    color: #4a4a6a;
+    color: #3b2d54;
     transition: all 0.1s ease;
 }
 .quantum-cell.active {
-    background: #00ffcc;
+    background: #ffcc00;
     color: #000;
-    box-shadow: 0 0 10px #00ffcc;
+    box-shadow: 0 0 12px #ffcc00;
+    font-weight: bold;
 }
 .quantum-cell.edit {
-    background: #ff0055;
+    background: #9945FF;
     color: #fff;
-    box-shadow: 0 0 10px #ff0055;
+    box-shadow: 0 0 12px #9945FF;
+    font-weight: bold;
 }
-/* Стили для лога световых кодов */
 .crypto-key-panel {
-    background: #0d0d16;
+    background: #07040d;
     padding: 12px;
     border-radius: 6px;
     font-family: monospace;
-    font-size: 12px;
+    font-size: 13px;
     color: #00ffcc;
     word-break: break-all;
-    border: 1px solid #2d2d42;
+    border: 1px solid #332255;
     margin-top: 5px;
+    letter-spacing: 1px;
 }
 </style>
 </head>
 <body>
 
 <header id="main-header">
-<h1 id="app-title">SOLANA SOLITON SWARM</h1>
+<h1 id="app-title">DEVANAGARI QUANTUM ARCHITECTURE</h1>
 </header>
 
 <div class="container">
-<div class="quantum-field-title">Режим Управления (Игры в кальмара)</div>
+<div class="quantum-field-title">Режим Материализации Поля</div>
 <div class="mode-selector">
-<div class="mode-btn active" id="mode-circle" onclick="setGeoMode('CIRCLE')">◯ КРУГ (Свет)</div>
-<div class="mode-btn" id="mode-triangle" onclick="setGeoMode('TRIANGLE')">△ ТРЕУГОЛЬНИК (Суета)</div>
-<div class="mode-btn" id="mode-square" onclick="setGeoMode('SQUARE')">☐ КВАДРАТ (Код)</div>
+<div class="mode-btn active" id="mode-circle" onclick="setGeoMode('CIRCLE')">◯ КРУГ (Запуск Поля)</div>
+<div class="mode-btn" id="mode-triangle" onclick="setGeoMode('TRIANGLE')">△ ТРЕУГОЛЬНИК (Правка)</div>
+<div class="mode-btn" id="mode-square" onclick="setGeoMode('SQUARE')">☐ КВАДРАТ (Язык ОМ)</div>
 </div>
 
 <div class="status-panel">
-<div id="info-base">Сетевой Мост Solana: Синхронизация полей</div>
-<div id="info-slots">Сгенерировано фотонов: 0</div>
-<div id="info-balance">Энергия Куба: 70 $BEE</div>
+<div id="info-base">Общий Сетевой Язык: Деванагари (Активен)</div>
+<div id="info-slots">Квантовые Солитоны: 0</div>
+<div id="info-balance">Энергия Света: 70 $BEE</div>
 </div>
 </div>
 
 <div class="container">
-<div class="quantum-field-title">МАТРИЦА КУБИТОВ СОЛИТОНОВ (4D)</div>
+<div class="quantum-field-title">МАТРИЦА КУБИТОВ ДЕВАНАГАРИ (4D)</div>
 <div class="quantum-grid" id="quantum-grid"></div>
 </div>
 
-<!-- Новый блок генерации реальных кодов -->
 <div class="container">
-<div class="quantum-field-title">Поток Ключей из Света и Суеты (Base58)</div>
-<div class="crypto-key-panel" id="crypto-key">Генерация стартового хэша...</div>
+<div class="quantum-field-title">Криптографический Поток Ключей (Квантовый Общий Язык)</div>
+<div class="crypto-key-panel" id="crypto-key">Инициализация мантры кода...</div>
 </div>
 
 <script>
@@ -170,8 +174,8 @@ const quantumNet = {
     geoMode: 'CIRCLE'
 };
 
-// Тот самый алфавит из одинаковых знаков для всех блокчейнов (Base58)
-const cryptoAlphabet = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
+// Сакральный математический алфавит Деванагари для квантовых ключей
+const devanagariAlphabet = ["अ", "ब", "क", "म", "य", "श", "र", "त", "न", "ज", "ह", "वि", "ॐ"];
 
 let quantumField = Array(16).fill(0);
 
@@ -182,12 +186,12 @@ function mutateQuantumField() {
     quantumNet.slots = quantumNet.slots + 1;
 }
 
-// Функция генерации строки кода на основе базовых знаков
-function generateLightKey(length) {
+// Генерируем квантовый ключ на общем языке Деванагари
+function generateDevanagariKey(length) {
     let result = "";
     for (let i = 0; i < length; i++) {
-        let randomIndex = Math.floor(Math.random() * cryptoAlphabet.length);
-        result += cryptoAlphabet[randomIndex];
+        let randomIndex = Math.floor(Math.random() * devanagariAlphabet.length);
+        result += devanagariAlphabet[randomIndex];
     }
     return result;
 }
@@ -209,26 +213,32 @@ function renderQuantumUI() {
     let balEl = document.getElementById('info-balance');
     let slotsEl = document.getElementById('info-slots');
     
-    if (balEl) { balEl.innerText = "Энергия Куба: " + quantumNet.balance + " $BEE"; }
-    if (slotsEl) { slotsEl.innerText = "Сгенерировано фотонов: " + quantumNet.slots; }
+    if (balEl) { balEl.innerText = "Энергия Света: " + quantumNet.balance + " $BEE"; }
+    if (slotsEl) { slotsEl.innerText = "Квантовые Солитоны: " + quantumNet.slots; }
 
     let grid = document.getElementById('quantum-grid');
     if (grid) {
         grid.innerHTML = '';
         for (let i = 0; i < 16; i++) {
             let cell = document.createElement('div');
+            
+            // Выбираем случайный символ Деванагари для отображения структуры узла
+            let charIndex = i % devanagariAlphabet.length;
+            let currentSymbol = devanagariAlphabet[charIndex];
+
             if (quantumField[i] === 1) {
                 if (quantumNet.geoMode === 'CIRCLE') {
                     cell.className = 'quantum-cell active';
-                    cell.innerText = '◯';
+                    cell.innerText = currentSymbol;
                 } else if (quantumNet.geoMode === 'TRIANGLE') {
                     cell.className = 'quantum-cell edit';
-                    cell.innerText = '△';
+                    cell.innerText = currentSymbol;
                 } else {
                     cell.className = 'quantum-cell active';
-                    cell.style.background = '#9945FF';
+                    cell.style.background = '#ff0055';
                     cell.style.color = '#fff';
-                    cell.innerText = '☐';
+                    cell.style.boxShadow = '0 0 12px #ff0055';
+                    cell.innerText = 'ॐ'; // В режиме Квадрата фиксируем священный звук ОМ
                 }
             } else {
                 cell.className = 'quantum-cell';
@@ -238,11 +248,10 @@ function renderQuantumUI() {
         }
     }
 
-    // Выводим сгенерированный "световой код" блокчейна на экран
     let keyEl = document.getElementById('crypto-key');
     if (keyEl) {
-        let prefix = quantumNet.geoMode === 'CIRCLE' ? "SOL_LIGHT_" : (quantumNet.geoMode === 'TRIANGLE' ? "SUETA_SU_ " : "CORE_3D_");
-        keyEl.innerText = prefix + generateLightKey(32);
+        let modePrefix = quantumNet.geoMode === 'CIRCLE' ? "💡 [СВЕТ]: " : (quantumNet.geoMode === 'TRIANGLE' ? "⚡ [СУЕТА]: " : "⚛️ [КВАНТ]: ");
+        keyEl.innerText = modePrefix + generateDevanagariKey(18);
     }
 }
 
@@ -250,7 +259,7 @@ window.onload = function() {
     mutateQuantumField();
     renderQuantumUI();
     
-    // Поле и коды пульсируют со скоростью сети Solana каждые 430 миллисекунд
+    // Поле пульсирует на сверхскорости Solana (~430ms)
     setInterval(function() {
         mutateQuantumField();
         renderQuantumUI();
