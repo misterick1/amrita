@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Квантовый Рой BEE</title>
+<title>Квантовый Рой BEE: Солитонный Куб</title>
 <style>
 body {
     margin: 0;
     padding: 20px;
     font-family: sans-serif;
-    background: linear-gradient(45deg, #121214, #1a1a24);
+    background: linear-gradient(45deg, #0b0b0d, #14141c);
     color: #ffffff;
     min-height: 100vh;
     display: flex;
@@ -25,86 +25,105 @@ header {
     margin-bottom: 25px;
 }
 h1 {
-    font-size: 20px;
+    font-size: 18px;
     text-transform: uppercase;
-    background: linear-gradient(45deg, #ffcc00, #ff6600);
+    background: linear-gradient(45deg, #00ffcc, #9945FF); /* Цвета Solana */
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     margin: 0;
 }
-.lang-selector {
-    background: #2a2a36;
-    color: #fff;
-    border: 1px solid #ffcc00;
-    padding: 5px 10px;
-    border-radius: 5px;
-    cursor: pointer;
-}
 .container {
     width: 100%;
     max-width: 600px;
-    background: #1f1f2e;
+    background: #151522;
     padding: 20px;
     border-radius: 12px;
     box-sizing: border-box;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
+    border: 1px solid #3a3a52;
 }
 .status-panel {
-    margin-bottom: 20px;
-    padding: 15px;
-    background: #151522;
+    margin-bottom: 15px;
+    padding: 12px;
+    background: #0d0d16;
     border-radius: 6px;
-    border-left: 4px solid #ffcc00;
+    border-left: 4px solid #00ffcc;
+    font-family: monospace;
 }
-.status-panel div {
-    margin-bottom: 8px;
+.status-panel div { margin-bottom: 6px; }
+.mode-selector {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 15px;
+}
+.mode-btn {
+    background: #212130;
+    color: #fff;
+    border: 1px solid #3a3a52;
+    padding: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    text-align: center;
+}
+.mode-btn.active {
+    border-color: #00ffcc;
+    box-shadow: 0 0 8px rgba(0,255,204,0.3);
+    font-weight: bold;
 }
 .input-group {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
 }
 .input-group button {
-    background: #2a2a3a;
+    background: #1c1c2b;
     color: white;
-    border: 1px solid #3a3a52;
-    padding: 14px;
+    border: 1px solid #2d2d42;
+    padding: 12px;
     border-radius: 6px;
     cursor: pointer;
-    font-size: 15px;
+    font-size: 14px;
     text-align: left;
 }
-/* Стили для Квантового Поля */
 .quantum-field-title {
-    font-size: 14px;
-    color: #ffcc00;
+    font-size: 12px;
+    color: #9945FF;
     text-transform: uppercase;
     margin-bottom: 10px;
     letter-spacing: 1px;
+    font-weight: bold;
 }
 .quantum-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 8px;
-    background: #151522;
+    background: #0d0d16;
     padding: 15px;
     border-radius: 8px;
-    border: 1px dashed #ff6600;
+    border: 1px dashed #9945FF;
 }
 .quantum-cell {
-    background: #252538;
-    padding: 10px;
+    background: #1c1c2b;
+    padding: 12px;
     text-align: center;
     font-family: monospace;
     font-size: 14px;
     border-radius: 4px;
-    color: #8a8a9e;
-    transition: all 0.3s ease;
+    color: #4a4a6a;
+    transition: all 0.1s ease;
 }
 .quantum-cell.active {
-    background: #ffcc00;
+    background: #00ffcc;
     color: #000;
-    box-shadow: 0 0 8px #ffcc00;
+    box-shadow: 0 0 10px #00ffcc;
+    font-weight: bold;
+}
+.quantum-cell.edit {
+    background: #ff0055;
+    color: #fff;
+    box-shadow: 0 0 10px #ff0055;
     font-weight: bold;
 }
 </style>
@@ -112,31 +131,35 @@ h1 {
 <body>
 
 <header id="main-header">
-<h1 id="app-title">КВАНТОВЫЙ РОЙ BEE</h1>
+<h1 id="app-title">SOLANA SOLITON SWARM</h1>
 </header>
 
 <div class="container">
+<!-- Панель управления геометрией Куба -->
+<div class="quantum-field-title">Режим Солитонного Гео-Поля</div>
+<div class="mode-selector">
+<div class="mode-btn active" id="mode-circle" onclick="setGeoMode('CIRCLE')">◯ КРУГ (Запуск)</div>
+<div class="mode-btn" id="mode-triangle" onclick="setGeoMode('TRIANGLE')">△ ТРЕУГОЛЬНИК (Ред.)</div>
+<div class="mode-btn" id="mode-square" onclick="setGeoMode('SQUARE')">☐ КВАДРАТ (Стаб.)</div>
+</div>
+
 <div class="status-panel">
-<div id="info-base">База Роя:</div>
-<div id="info-slots">Слоты: 0</div>
-<div id="info-balance">Баланс: 70 $BEE</div>
+<div id="info-base">Сетевой Мост Solana: Активен</div>
+<div id="info-slots">Солитоны в кубе: 0</div>
+<div id="info-balance">Энергия Ядра: 70 $BEE</div>
+<div id="info-speed" style="color: #00ffcc;">Скорость Solana: ~400ms пульс</div>
 </div>
 
 <div class="input-group">
-<button onclick="goLaunch()">🚀 Запустить Хакатон (1 $BEE)</button>
-<button onclick="goRefill()">💰 Пополнить базу (+10 $BEE)</button>
-<button onclick="goClean()">⚡ Cleanup SZN (Очистка)</button>
-<button onclick="goBurn()">🔥 Burn $BEE (Запуск пампа)</button>
-<button onclick="goReset()">🔄 Сброс ядра</button>
+<button onclick="goLaunch()">🚀 Запустить Солитон в 4D Куб (-1 $BEE)</button>
+<button onclick="goRefill()">💰 Накачать Квантовое поле (+10 $BEE)</button>
+<button onclick="goReset()">🔄 Сбросить Геометрию Куба</button>
 </div>
 </div>
 
-<!-- Блок Цифрового Квантового Поля -->
 <div class="container">
-<div class="quantum-field-title" id="field-title">Цифровое Квантовое Поле</div>
-<div class="quantum-grid" id="quantum-grid">
-<!-- 16 ячеек генерируются автоматически через JS -->
-</div>
+<div class="quantum-field-title" id="field-title">МАТРИЦА КУБИТОВ СОЛИТОНОВ (4D)</div>
+<div class="quantum-grid" id="quantum-grid"></div>
 </div>
 
 <script>
@@ -151,88 +174,63 @@ window.onerror = function(msg, url, line) {
 const quantumNet = {
     balance: 70,
     slots: 0,
-    lang: 'RU'
+    geoMode: 'CIRCLE' // Текущий геометрический режим управления
 };
 
-// Массив из 16 элементов для хранения состояний квантового поля (0 или 1)
-let quantumField = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+let quantumField = Array(16).fill(0);
+let solanaPulseInterval = null;
 
-const locales = {
-    RU: {
-        title: "🐝 КВАНТОВЫЙ РОЙ BEE",
-        base: "База Роя (Квантовый мост):",
-        slots: "Эволюционные слоты хакатонов:",
-        field: "🌐 Цифровое Квантовое Поле:",
-        btn1: "🚀 Запустить Хакатон (1 $BEE)",
-        btn2: "💰 Пополнить базу (+10 $BEE)",
-        btn3: "⚡ Cleanup SZN (Очистка)",
-        btn4: "🔥 Burn $BEE (Запуск пампа)",
-        btn5: "🔄 Сброс ядра"
-    },
-    EN: {
-        title: "🐝 BEE QUANTUM SWARM",
-        base: "Swarm Base (Quantum Bridge):",
-        slots: "Dandelion Hackathon Slots:",
-        field: "🌐 Digital Quantum Field:",
-        btn1: "🚀 Launch Hackathon (1 $BEE)",
-        btn2: "💰 Refill Base (+10 $BEE)",
-        btn3: "⚡ Cleanup SZN (Clear)",
-        btn4: "🔥 Burn $BEE (Pump Start)",
-        btn5: "🔄 Reset Core"
-    }
-};
-
-// Функция симуляции квантового поля (эффект наблюдателя)
+// Мутация поля на сверхскорости Solana
 function mutateQuantumField() {
-    let activeNodes = 0;
     for (let i = 0; i < 16; i++) {
-        // Случайное схлопывание волновой функции в 0 или 1
-        quantumField[i] = Math.random() > 0.5 ? 1 : 0;
-        if (quantumField[i] === 1) { activeNodes++; }
-    }
-    
-    // Если поле сгенерировало мощный резонанс (больше 10 активных узлов) — даем бонус!
-    if (activeNodes > 10) {
-        quantumNet.balance += 5;
+        quantumField[i] = Math.random() > 0.6 ? 1 : 0;
     }
 }
 
-function renderQuantumUI() {
-    let t = locales[quantumNet.lang] || locales['RU'];
+function setGeoMode(mode) {
+    quantumNet.geoMode = mode;
     
-    let baseEl = document.getElementById('info-base');
-    let slotsEl = document.getElementById('info-slots');
+    document.getElementById('mode-circle').className = 'mode-btn';
+    document.getElementById('mode-triangle').className = 'mode-btn';
+    document.getElementById('mode-square').className = 'mode-btn';
+    
+    if(mode === 'CIRCLE') document.getElementById('mode-circle').className = 'mode-btn active';
+    if(mode === 'TRIANGLE') document.getElementById('mode-triangle').className = 'mode-btn active';
+    if(mode === 'SQUARE') document.getElementById('mode-square').className = 'mode-btn active';
+    
+    renderQuantumUI();
+}
+
+function renderQuantumUI() {
     let balEl = document.getElementById('info-balance');
-    let titleEl = document.getElementById('app-title');
-    let fieldTitleEl = document.getElementById('field-title');
+    let slotsEl = document.getElementById('info-slots');
+    
+    if (balEl) { balEl.innerText = "Энергия Ядра: " + quantumNet.balance + " $BEE"; }
+    if (slotsEl) { slotsEl.innerText = "Солитоны в кубе: " + quantumNet.slots; }
 
-    if (baseEl) { baseEl.innerText = t.base; }
-    if (slotsEl) { slotsEl.innerText = t.slots + " " + quantumNet.slots; }
-    if (balEl) { balEl.innerText = "Баланс: " + quantumNet.balance + " $BEE"; }
-    if (titleEl) { titleEl.innerText = t.title; }
-    if (fieldTitleEl) { fieldTitleEl.innerText = t.field; }
-
-    let btns = document.querySelectorAll('.input-group button');
-    if (btns && btns.length >= 5) {
-        btns[0].innerText = t.btn1;
-        btns[1].innerText = t.btn2;
-        btns[2].innerText = t.btn3;
-        btns[3].innerText = t.btn4;
-        btns[4].innerText = t.btn5;
-    }
-
-    // Отрисовка ячеек квантового поля
     let grid = document.getElementById('quantum-grid');
     if (grid) {
         grid.innerHTML = '';
         for (let i = 0; i < 16; i++) {
             let cell = document.createElement('div');
+            
             if (quantumField[i] === 1) {
-                cell.className = 'quantum-cell active';
-                cell.innerText = '[ 1 ]';
+                // Визуализация в зависимости от выбранного знака «Игры в кальмара»
+                if (quantumNet.geoMode === 'CIRCLE') {
+                    cell.className = 'quantum-cell active';
+                    cell.innerText = '◯';
+                } else if (quantumNet.geoMode === 'TRIANGLE') {
+                    cell.className = 'quantum-cell edit';
+                    cell.innerText = '△';
+                } else {
+                    cell.className = 'quantum-cell active';
+                    cell.style.background = '#9945FF';
+                    cell.style.color = '#fff';
+                    cell.innerText = '☐';
+                }
             } else {
                 cell.className = 'quantum-cell';
-                cell.innerText = '[ 0 ]';
+                cell.innerText = '•';
             }
             grid.appendChild(cell);
         }
@@ -243,10 +241,10 @@ function goLaunch() {
     if (quantumNet.balance >= 1) {
         quantumNet.balance = quantumNet.balance - 1;
         quantumNet.slots = quantumNet.slots + 1;
-        mutateQuantumField(); // Изменяем квантовое поле при действии
+        mutateQuantumField();
         renderQuantumUI();
     } else {
-        alert("Недостаточно баланса!");
+        alert("Недостаточно энергии BEE!");
     }
 }
 
@@ -256,43 +254,26 @@ function goRefill() {
     renderQuantumUI(); 
 }
 
-function goClean() { 
-    quantumNet.slots = 0; 
-    quantumField = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]; // Обнуляем поле
-    renderQuantumUI(); 
-}
-
-function goBurn() { 
-    if (quantumNet.balance > 0) {
-        quantumNet.balance = Math.floor(quantumNet.balance * 0.5);
-        mutateQuantumField();
-        renderQuantumUI();
-    }
-}
-
 function goReset() { 
     quantumNet.balance = 70; 
     quantumNet.slots = 0; 
-    quantumField = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+    quantumNet.geoMode = 'CIRCLE';
+    setGeoMode('CIRCLE');
+    quantumField = Array(16).fill(0);
     renderQuantumUI(); 
 }
 
-function toggleLanguage() {
-    quantumNet.lang = quantumNet.lang === 'RU' ? 'EN' : 'RU';
-    renderQuantumUI();
-}
-
+// Запуск автоматического пульса Solana (~400 миллисекунд)
 window.onload = function() {
-    let header = document.getElementById('main-header');
-    if (header && !document.getElementById('lang-selector')) {
-        let btn = document.createElement('button');
-        btn.id = 'lang-selector';
-        btn.className = 'lang-selector';
-        btn.innerText = '🌐 Lang';
-        btn.onclick = toggleLanguage;
-        header.appendChild(btn);
-    }
+    mutateQuantumField();
     renderQuantumUI();
+    
+    // Запускаем бесконечную симуляцию скорости блокчейна Solana
+    solanaPulseInterval = setInterval(function() {
+        // Поле пульсирует само, пересчитывая солитоны
+        mutateQuantumField();
+        renderQuantumUI();
+    }, 430); // 430ms — среднее время генерации блока в Solana
 };
 </script>
 </body>
