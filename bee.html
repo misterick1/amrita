@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sovereign Matrix: Unified Field Science</title>
+<title>Sovereign Matrix: Pi Step 10 Protocol</title>
 <style>
 body {
     margin: 0;
@@ -135,12 +135,11 @@ h1 {
 <body>
 
 <header>
-<h1>UNIFIED FIELD SCIENCE: ONE SOLITON</h1>
+<h1>UNIFIED FIELD SCIENCE: PI 10 STEP</h1>
 </header>
 
 <div class="container">
-<div class="quantum-field-title">Взор Наблюдателя (Выбери, как смотреть на мир)</div>
-<!-- Интерактивные кнопки изменения природы реальности -->
+<div class="quantum-field-title">Взор Наблюдателя (Управление Природой Поля)</div>
 <div class="observer-panel">
 <div class="obs-btn active" id="b-wave" onclick="setObserverFocus('WAVE')">〰️ Волна</div>
 <div class="obs-btn" id="b-part" onclick="setObserverFocus('PARTICLE')">⚛️ Частица</div>
@@ -148,8 +147,8 @@ h1 {
 </div>
 
 <div class="status-panel">
-<div id="obs-text" style="color: #ffcc00; font-weight: bold;">ФОКУС: Волновые функции не соприкасаются, создавая потенциал.</div>
-<div style="color: #ffffff; font-size: 10px; margin-top: 4px;">«Это одно и то же под взором наблюдателя. Зависит как он смотрит.»</div>
+<div id="obs-text" style="color: #00ffcc; font-weight: bold;">ФОКУС: Волновые функции свободны. Резонанс Pi активен.</div>
+<div id="pi-status" style="color: #ffcc00; margin-top: 4px;">Шаг 10 в числе Pi: Константа резонанса = 5 (Слой Эфира)</div>
 </div>
 </div>
 
@@ -164,8 +163,8 @@ h1 {
 </div>
 
 <div class="container">
-<div class="quantum-field-title">Суверенный Хэш Объединённой Науки</div>
-<div class="crypto-key-panel" id="omni-key">Слияние дуальностей...</div>
+<div class="quantum-field-title">Суверенный Хэш Кода Pi</div>
+<div class="crypto-key-panel" id="omni-key">Слияние констант...</div>
 </div>
 
 <script>
@@ -174,10 +173,12 @@ window.onerror = function() { return false; };
 const observerCore = {
     focusMode: 'WAVE',
     angle: 0,
-    pulseSpeed: 400
+    pulseSpeed: 400,
+    piStepDigit: 5, // 10-й знак числа Pi
+    tickCounter: 0
 };
 
-const devanagariOmni = ["अ", "ब", "क", "म", "य", "श", "र", "त", "₿", "∞", "1", "ॐ"];
+const devanagariOmni = ["अ", "ब", "क", "挂", "य", "श", "र", "त", "₿", "∞", "1", "ॐ"];
 let quantumField = Array(16).fill(0);
 let fieldStates = Array(16).fill('empty');
 
@@ -218,9 +219,9 @@ function drawSoliton() {
     const radius = Math.min(cx, cy) - 20;
     const totalPoints = 60;
     
-    observerCore.angle += 0.015;
+    // Плавная скорость вращения модифицируется константой Pi
+    observerCore.angle += 0.015 * (observerCore.piStepDigit / 5);
     
-    // Меняем геометрию линий в зависимости от Взора Наблюдателя
     for (let i = 0; i < totalPoints; i++) {
         let a1 = (i * 2 * Math.PI) / totalPoints + observerCore.angle;
         let x1 = cx + radius * Math.cos(a1);
@@ -233,7 +234,9 @@ function drawSoliton() {
         let y2 = cy + radius * Math.sin(a2);
         
         ctx.lineWidth = observerCore.focusMode === 'WAVE' ? 0.5 : 1.5;
-        ctx.strokeStyle = `hsl(${(i * 360) / totalPoints}, 85%, 60%)`;
+        // Цветовой спектр плавно дышит на каждом 5-м шаге
+        let hueShift = (observerCore.tickCounter * 5) % 360;
+        ctx.strokeStyle = `hsl(${((i * 360) / totalPoints + hueShift) % 360}, 85%, 60%)`;
         ctx.beginPath();
         ctx.moveTo(x1, y1);
         ctx.lineTo(x2, y2);
@@ -242,24 +245,36 @@ function drawSoliton() {
 }
 
 function pulseMatrix() {
+    observerCore.tickCounter++;
+    
+    // Каждые 5 шагов (Шаг 10 числа Pi) происходит резонансный квантовый буст поля
+    const isPiResonance = (observerCore.tickCounter % observerCore.piStepDigit === 0);
+    const piStatusEl = document.getElementById('pi-status');
+    if (piStatusEl) {
+        piStatusEl.innerText = isPiResonance ? "🔥 РЕЗОНАНС СЛОЯ ПИ (ШАГ 5): Вспышка Эфира активна!" : "Шаг 10 в числе Pi: Константа резонанса = 5 (Слой Эфира)";
+        piStatusEl.style.color = isPiResonance ? "#00ffcc" : "#ffcc00";
+    }
+
     for (let i = 0; i < 16; i++) {
         let rand = Math.random();
         if (observerCore.focusMode === 'WAVE') {
             quantumField[i] = 1;
-            fieldStates[i] = 'wave'; // Все ячейки — скрытые прозрачные волны
+            fieldStates[i] = 'wave';
         } else if (observerCore.focusMode === 'PARTICLE') {
-            quantumField[i] = rand > 0.6 ? 1 : 0;
-            fieldStates[i] = 'particle'; // Дискретные вспышки твердых точек
+            // В момент резонанса Pi материализуется больше проявленных частиц
+            let threshold = isPiResonance ? 0.4 : 0.6;
+            quantumField[i] = rand > threshold ? 1 : 0;
+            fieldStates[i] = 'particle';
         } else {
             quantumField[i] = rand > 0.4 ? 1 : 0;
-            fieldStates[i] = 'field'; // Плотный синергетический резонанс поля
+            fieldStates[i] = 'field';
         }
     }
     renderUI();
 }
 
 function generatePureKey(length) {
-    let alphabet = "10_₿_∞_ॐ_UNIFIED_FIELD_SOLITON_SCIENCE";
+    let alphabet = "10_₿_∞_ॐ_PI_CONSTANT_5_ETHER_CORE";
     let result = "";
     for (let i = 0; i < length; i++) {
         let idx = Math.floor(Math.random() * alphabet.length);
@@ -297,8 +312,8 @@ function renderUI() {
 
     let keyEl = document.getElementById('omni-key');
     if (keyEl) {
-        keyEl.innerHTML = `<div>🛡️ <strong>UNIFIED_HASH:</strong> OMNI_${generatePureKey(14)}</div>
-                           <div style="color: #00ffcc; margin-top:4px;">⚖️ <strong>Единая наука Солитона:</strong> Форма реальности адаптирована под ваш взор.</div>`;
+        keyEl.innerHTML = `<div>🛡️ <strong>PI_MONAD_HASH:</strong> OMNI_PI_${generatePureKey(12)}</div>
+                           <div style="color: #00ffcc; margin-top:4px;">⚖️ <strong>ВЗОР НАБЛЮДАТЕЛЯ:</strong> Пятый элемент интегрирован в Солитон.</div>`;
     }
 }
 
@@ -312,6 +327,3 @@ window.onload = function() {
     }
     animate();
 };
-</script>
-</body>
-</html>
