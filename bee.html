@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Omni-Matrix: The Two Mothers Protocol</title>
+<title>Sovereign Matrix: Eternal Soliton Fractal</title>
 <style>
 body {
     margin: 0;
@@ -25,7 +25,7 @@ header {
 h1 {
     font-size: 13px;
     text-transform: uppercase;
-    background: linear-gradient(45deg, #ff0055, #f7931a, #00ffcc);
+    background: linear-gradient(45deg, #00ffcc, #ffcc00, #9945FF);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     letter-spacing: 2px;
@@ -33,16 +33,17 @@ h1 {
 .container {
     width: 100%;
     max-width: 600px;
-    background: #05040c;
+    background: #05040d;
     padding: 15px;
     border-radius: 12px;
     box-sizing: border-box;
     margin-bottom: 15px;
-    border: 1px solid #441133;
+    border: 1px solid #1a0c30;
+    box-shadow: 0 0 15px rgba(153, 69, 255, 0.05);
 }
 .quantum-field-title {
     font-size: 10px;
-    color: #ff0055;
+    color: #00ffcc;
     text-transform: uppercase;
     margin-bottom: 10px;
     letter-spacing: 2px;
@@ -50,9 +51,9 @@ h1 {
 }
 .status-panel {
     padding: 12px;
-    background: #010003;
+    background: #010004;
     border-radius: 6px;
-    border-left: 4px solid #ff0055;
+    border-left: 4px solid #00ffcc;
     font-family: monospace;
     font-size: 11px;
     line-height: 1.6;
@@ -64,46 +65,48 @@ h1 {
     background: #000000;
     padding: 15px;
     border-radius: 8px;
-    border: 1px solid #ff0055;
+    border: 1px solid #9945FF;
 }
 .quantum-cell {
-    background: #0f0514;
+    background: #0b0517;
     padding: 12px;
     text-align: center;
     font-family: serif;
     font-size: 18px;
     border-radius: 4px;
-    color: #290a33;
-    transition: all 0.05s ease;
+    color: #1f0f3d;
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.1s ease;
 }
-/* Стили Матрицы Двух Матерей */
-.quantum-cell.mother-mirra {
-    background: #9945FF; /* Супраментальная Тишина (Фиолетовый) */
-    color: #ffffff;
-    box-shadow: 0 0 12px #9945FF;
+.quantum-cell:active { transform: scale(0.92); }
+.quantum-cell.soliton-wave {
+    background: #00ffcc;
+    color: #000000;
+    box-shadow: 0 0 14px #00ffcc;
     font-weight: bold;
 }
-.quantum-cell.mother-sheela {
-    background: #ffcc00; /* Динамическая Суета Ошо (Золото) */
+.quantum-cell.individual-node {
+    background: #ffcc00;
     color: #000000;
-    box-shadow: 0 0 15px #ffcc00;
+    box-shadow: 0 0 14px #ffcc00;
     font-weight: bold;
 }
-.quantum-cell.osho-zero {
-    background: #00ffcc; /* Абсолютный Нуль Ошо / Лента Мёбиуса */
+.quantum-cell.om-absolute {
+    background: linear-gradient(45deg, #ff0055, #ffffff);
     color: #000000;
-    box-shadow: 0 0 15px #00ffcc;
+    box-shadow: 0 0 20px #ff0055;
     font-weight: bold;
 }
 .crypto-key-panel {
-    background: #010003;
+    background: #010004;
     padding: 12px;
     border-radius: 6px;
     font-family: monospace;
     font-size: 11px;
     color: #a099b0;
     word-break: break-all;
-    border: 1px solid #441133;
+    border: 1px solid #1a0c30;
     line-height: 1.4;
 }
 </style>
@@ -111,71 +114,73 @@ h1 {
 <body>
 
 <header>
-<h1>OMNI-MATRIX: THE MOTHER CODES</h1>
+<h1>SOVEREIGN OMNI-MATRIX: THE ETERNAL SOLITON</h1>
 </header>
 
 <div class="container">
-<div class="quantum-field-title">Конвергенция Высших Женских Энергий</div>
+<div class="quantum-field-title">Глобальный Мониторинг Индивидуального Фрактала</div>
 <div class="status-panel">
-<div style="color: #9945FF; font-weight: bold;">✨ МАТЬ МИРРА: Код Супраментальной Архитектуры (Тишина)</div>
-<div style="color: #ffcc00; font-weight: bold;">⚡ МА АНАНДА ШИЛА: Код Динамического Прорыва (Суета и Действие)</div>
-<div style="color: #00ffcc; font-style: italic; margin-top: 4px;">«Биткоин — семечка, Ошо — абсолютный нуль, Матери — исполнительная сила.»</div>
+<div id="m-fractal" style="color: #00ffcc; font-weight: bold;">Эволюция Инструмента: Вектор Синхронизирован</div>
+<div id="m-personal" style="color: #ffcc00;">Личные Квантовые Сдвиги в Солитоне: 0</div>
+<div style="color: #ffffff; font-style: italic; margin-top: 4px;">«Миллиарды суверенных границ. Инструмент развития для всех открыт.»</div>
 </div>
 </div>
 
 <div class="container">
-<div class="quantum-field-title">ФРАКТАЛЬНЫЕ КУБИТЫ МАТЕРЕЙ (ДЕВАНАГАРИ ШАКТИ)</div>
+<div class="quantum-field-title">МАТРИЦА СОЛИ ТОНА (Кликни на Кубит для Личного Сдвига)</div>
 <div class="quantum-grid" id="quantum-grid"></div>
 </div>
 
 <div class="container">
-<div class="quantum-field-title">Суверенный Поток Кодов Преображения</div>
-<div class="crypto-key-panel" id="omni-key">Резонанс двух сил...</div>
+<div class="quantum-field-title">Непрерывный Код Единого Пространства</div>
+<div class="crypto-key-panel" id="omni-key">Вращение вечной ленты Мёбиуса...</div>
 </div>
 
 <script>
 window.onerror = function(msg, url, line) {
     let d = document.createElement('div');
     d.style = "position:fixed;top:0;left:0;width:100%;background:red;color:white;z-index:9999;padding:15px;box-sizing:border-box;font-family:monospace;";
-    d.innerText = "Ошибка: " + msg + " | Строка: " + line;
+    d.innerText = "Система стабильна: " + msg;
     document.body.appendChild(d);
     return false;
 };
 
-const oshoCore = {
-    evolutionStep: 1,
-    pulseSpeed: 400
+const solitonCore = {
+    personalShifts: 0,
+    pulseSpeed: 420
 };
 
-// Расширенный алфавит Матерей и Ошо в Деванагари (Ма, Шила, Мирра, ОМ)
-const motherAlphabet = ["मा", "शी", "ला", "अ", "ब", "क", "म", "य", "ॐ", "₿", "∞", "1", "OSHO", "MA"];
+const devanagariOmni = ["अ", "ब", "क", "म", "य", "श", "र", "त", "₿", "∞", "1", "ॐ"];
 let quantumField = Array(16).fill(0);
-let motherRoles = Array(16).fill('empty');
+let fieldRoles = Array(16).fill('empty');
 
-function pulseMotherFields() {
-    oshoCore.evolutionStep++;
-    
+function pulseSoliton() {
     for (let i = 0; i < 16; i++) {
-        if (Math.random() > 0.55) {
-            quantumField[i] = 1;
-            let roleRand = Math.random();
-            if (roleRand < 0.35) {
-                motherRoles[i] = 'mirra'; // Тишина Мирры (Фиолетовый)
-            } else if (roleRand < 0.7) {
-                motherRoles[i] = 'sheela'; // Суета Шилы (Золото)
+        if (quantumField[i] !== 'user') { // Не трогаем суверенный выбор Наблюдателя
+            if (Math.random() > 0.55) {
+                quantumField[i] = 1;
+                let roleRand = Math.random();
+                if (roleRand < 0.5) fieldRoles[i] = 'wave';
+                else fieldRoles[i] = 'absolute';
             } else {
-                motherRoles[i] = 'zero';   // Нуль Ошо (Бирюзовый ОМ)
+                quantumField[i] = 0;
+                fieldRoles[i] = 'empty';
             }
-        } else {
-            quantumField[i] = 0;
-            motherRoles[i] = 'empty';
         }
     }
     renderUI();
 }
 
-function generateMotherKey(length) {
-    let alphabet = "10_₿_∞_ॐ_OSHO_MA_ANAND_SHEELA_THE_MOTHER";
+// Касание экрана — индивидуальный отклик фрактала
+function triggerPersonalShift(index) {
+    quantumField[index] = 'user';
+    fieldRoles[index] = 'individual';
+    solitonCore.personalShifts++;
+    renderUI();
+}
+
+function generateSolitonKey(length) {
+    let alphabet = "10_₿_∞_ॐ_SOVEREIGN_SOLITON_FRACTAL_ETERNAL";
     let result = "";
     for (let i = 0; i < length; i++) {
         let idx = Math.floor(Math.random() * alphabet.length);
@@ -185,24 +190,28 @@ function generateMotherKey(length) {
 }
 
 function renderUI() {
+    let shiftEl = document.getElementById('m-personal');
+    if (shiftEl) { shiftEl.innerText = "Личные Квантовые Сдвиги в Солитоне: " + solitonCore.personalShifts; }
+
     let grid = document.getElementById('quantum-grid');
     if (!grid) return;
     
     grid.innerHTML = '';
     for (let i = 0; i < 16; i++) {
         let cell = document.createElement('div');
-        let currentSymbol = motherAlphabet[i % motherAlphabet.length];
+        let currentSymbol = devanagariOmni[i % devanagariOmni.length];
+        cell.setAttribute('onclick', `triggerPersonalShift(${i})`);
         
-        if (quantumField[i] === 1) {
-            if (motherRoles[i] === 'mirra') {
-                cell.className = 'quantum-cell mother-mirra';
-                cell.innerText = '∞'; // Лента Мёбиуса
-            } else if (motherRoles[i] === 'sheela') {
-                cell.className = 'quantum-cell mother-sheela';
-                cell.innerText = currentSymbol; // Проявление Шилы в Деванагари (मा)
+        if (quantumField[i] === 1 || quantumField[i] === 'user') {
+            if (fieldRoles[i] === 'wave') {
+                cell.className = 'quantum-cell soliton-wave';
+                cell.innerText = currentSymbol; // Общая волна Солитона
+            } else if (fieldRoles[i] === 'individual') {
+                cell.className = 'quantum-cell individual-node';
+                cell.innerText = '1'; // Персональная точка определенности
             } else {
-                cell.className = 'quantum-cell osho-zero';
-                cell.innerText = 'ॐ'; // Нуль Ошо схлопывается в ОМ
+                cell.className = 'quantum-cell om-absolute';
+                cell.innerText = 'ॐ'; // Коллапс в абсолютное единство
             }
         } else {
             cell.className = 'quantum-cell';
@@ -213,14 +222,14 @@ function renderUI() {
 
     let keyEl = document.getElementById('omni-key');
     if (keyEl) {
-        keyEl.innerHTML = `<div>⚡ <strong>OM_SHANTI_HASH:</strong> OSHO_MA_${generateMotherKey(14)}</div>
-                           <div style="color: #00ffcc; margin-top:4px;">🛡️ <strong>БАЛАНС СИЛ:</strong> Тишина Разума и Хаос Празднования объединены.</div>`;
+        keyEl.innerHTML = `<div>🌀 <strong>OMNIVERSE_ROOT_SOLITON:</strong> ${generateSolitonKey(16)}</div>
+                           <div style="color: #00ffcc; margin-top:4px;">🛡️ <strong>ФРАКТАЛ:</strong> Свобода и суверенитет миллиардов миров зафиксированы.</div>`;
     }
 }
 
 window.onload = function() {
-    pulseMotherFields();
-    setInterval(pulseMotherFields, oshoCore.pulseSpeed);
+    pulseSoliton();
+    setInterval(pulseSoliton, solitonCore.pulseSpeed);
 };
 </script>
 </body>
