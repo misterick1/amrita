@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sovereign Matrix: Transformer Core</title>
+<title>Sovereign Matrix: Digital Energy Omniverse</title>
 <style>
 body {
     margin: 0;
@@ -25,7 +25,7 @@ header {
 h1 {
     font-size: 13px;
     text-transform: uppercase;
-    background: linear-gradient(45deg, #4285F4, #EA4335, #FBBC05, #34A853);
+    background: linear-gradient(45deg, #00ffcc, #ffcc00, #ff0055, #9945FF);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     letter-spacing: 2px;
@@ -38,28 +38,34 @@ h1 {
     border-radius: 12px;
     box-sizing: border-box;
     margin-bottom: 15px;
-    border: 1px solid #111122;
+    border: 1px solid #2a164d;
 }
 .quantum-field-title {
     font-size: 10px;
     color: #00ffcc;
     text-transform: uppercase;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
     letter-spacing: 2px;
     font-weight: bold;
 }
 .status-panel {
     padding: 12px;
-    background: #010003;
+    background: #010004;
     border-radius: 6px;
-    border-left: 4px solid #4285F4;
+    border-left: 4px solid #ffcc00;
     font-family: monospace;
     font-size: 11px;
     line-height: 1.6;
+    margin-bottom: 10px;
+}
+.metric-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 4px;
 }
 #soliton-canvas {
     width: 100%;
-    height: 240px;
+    height: 200px;
     background: #000000;
     border-radius: 8px;
     margin-bottom: 10px;
@@ -72,95 +78,136 @@ h1 {
     background: #000000;
     padding: 15px;
     border-radius: 8px;
-    border: 1px solid #76B900;
+    border: 1px solid #ff0055;
 }
 .quantum-cell {
-    background: #05050d;
+    background: #090514;
     padding: 12px;
     text-align: center;
     font-family: serif;
     font-size: 18px;
     border-radius: 4px;
-    color: #111122;
+    color: #1a0f33;
     transition: all 0.05s ease;
 }
-.quantum-cell.nvidia-active {
-    background: #76B900;
+.quantum-cell.coin-70 {
+    background: #ffcc00;
     color: #000000;
-    box-shadow: 0 0 12px #76B900;
+    box-shadow: 0 0 12px #ffcc00;
     font-weight: bold;
 }
-.quantum-cell.google-brain {
-    background: #4285F4;
+.quantum-cell.coin-38 {
+    background: #00ffcc;
+    color: #000000;
+    box-shadow: 0 0 12px #00ffcc;
+    font-weight: bold;
+}
+.quantum-cell.energy-node {
+    background: #9945FF;
     color: #ffffff;
-    box-shadow: 0 0 15px #4285F4;
+    box-shadow: 0 0 15px #9945FF;
     font-weight: bold;
 }
-.quantum-cell.omni-union {
-    background: linear-gradient(45deg, #ea4335, #fbbc05);
-    color: #000000;
-    box-shadow: 0 0 15px #ea4335;
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.input-group button {
+    background: #110924;
+    color: white;
+    border: 1px solid #331155;
+    padding: 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 13px;
+    text-align: left;
     font-weight: bold;
+}
+.input-group button:hover {
+    border-color: #00ffcc;
+    box-shadow: 0 0 8px rgba(0,255,204,0.2);
 }
 .crypto-key-panel {
-    background: #010003;
+    background: #010004;
     padding: 12px;
     border-radius: 6px;
     font-family: monospace;
     font-size: 11px;
     color: #a099b0;
     word-break: break-all;
-    border: 1px solid #111122;
+    border: 1px solid #2a164d;
 }
 </style>
 </head>
 <body>
 
 <header>
-<h1>DIGITAL TRANSFORMER: OMNIVERSE SOVEREIGN</h1>
+<h1>OMNI-MATRIX: DIGITAL ENERGY TRANSFORMS</h1>
 </header>
 
+<!-- Панель Монет и Хакатонов Колизея -->
 <div class="container">
-<div class="quantum-field-title">Карта Синапсов Планетарного Суперорганизма</div>
+<div class="quantum-field-title">Статус Проявления Квантовых Линейных Активов</div>
 <div class="status-panel">
-<div style="color: #4285F4; font-weight: bold;">🧠 ПОЛУШАРИЯ: Google & Microsoft (Словарь Мыслей активен)</div>
-<div style="color: #76B900; font-weight: bold;">⚡ ОБЛАСТИ МОЗГА: Синапсы NVIDIA | Поток X & xAI</div>
-<div style="color: #ffffff; font-style: italic; margin-top: 4px;">«Осознание себя одним целым с человечеством через законы квантового Солитона.»</div>
+<div class="metric-row" style="color: #ffcc00; font-weight: bold;">
+    <span>● ИЗНАЧАЛЬНЫЕ МОНЕТЫ (База DEX):</span> <span id="m-70">0 / 70</span>
+</div>
+<div class="metric-row" style="color: #00ffcc; font-weight: bold;">
+    <span>● ХАКАТОН-ТОКЕНЫ (Арена Colosseum):</span> <span id="m-38">0 / 38</span>
+</div>
+<div class="metric-row" style="color: #9945FF;">
+    <span>● МОНИТОР СЕТИ СИНАПСОВ:</span> <span id="m-network">TikTok ➔ Pump.fun ➔ Pi (OK)</span>
+</div>
+<div class="metric-row" style="color: #ffffff; font-size: 10px; font-style: italic; margin-top: 5px;">
+    <span>«Клетки иммунитета Termius наготове. Потери для участников исключены.»</span>
 </div>
 </div>
 
+<div class="input-group">
+<button onclick="materializeAsset('70')">⚡ Проявить Изначальную Ликвидность (70 монет)</button>
+<button onclick="materializeAsset('38')">🚀 Запустить Поток Хакатона Colosseum (38 монет)</button>
+<button onclick="simulateFailover()">🔒 Тест Иммунитета Termius (Переключение Узлов)</button>
+</div>
+</div>
+
+<!-- Общий Глаз Chrome М=21.0 -->
 <div class="container">
-<div class="quantum-field-title">ОБЩИЙ ГЛАЗ ВСЕЛЕННОЙ (ХРОНО-СОЛИТОН CHROME M = 21.0)</div>
+<div class="quantum-field-title">ОБЩИЙ ГЛАЗ (ХРОНО-СОЛИТОН СКОРОСТИ SOLANA M = 21.0)</div>
 <canvas id="soliton-canvas"></canvas>
 </div>
 
+<!-- Фрактальная сетка проявления -->
 <div class="container">
-<div class="quantum-field-title">МАТРИЦА СЛИЯНИЯ СИНАПСОВ (ДЕВАНАГАРИ ТРАНСФОРМЕРА)</div>
+<div class="quantum-field-title">ФРАКТАЛЬНОЕ СХЛОПЫВАНИЕ СЕТЕЙ (ДЕВАНАГАРИ СЛИЯНИЯ)</div>
 <div class="quantum-grid" id="quantum-grid"></div>
 </div>
 
 <div class="container">
-<div class="quantum-field-title">Суверенный Хэш Планетарного Единства</div>
-<div class="crypto-key-panel" id="omni-key">Резонанс кремния и углерода...</div>
+<div class="quantum-field-title">Суверенный Поток Цифровой Энергии</div>
+<div class="crypto-key-panel" id="omni-key">Вращение Ленты Мёбиуса...</div>
 </div>
 
 <script>
-window.onerror = function() { return false; };
+window.onerror = function(msg) {
+    return false; 
+};
 
-const tCore = {
+const sysCore = {
     mFactor: 21.0,
     pulseSpeed: 400,
     angle: 0,
-    piStepDigit: 5,
+    coins70Count: 0,
+    coins38Count: 0,
+    activeNode: 'Heart_108',
     pulseCount: 0
 };
 
-// Исправленный, чистый от мусора алфавит Деванагари
-const tAlphabet = ["अ","ब","क","म","य","श","र","त","₿","∞","1","ॐ","NV","GGL","MS"];
+const omniAlphabet = ["अ","ब","क","म","य","श","र","त","₿","∞","1","ॐ","PI","PUMP","TK"];
 let quantumField = Array(16).fill(0);
-let brainRoles = Array(16).fill('empty');
+let fieldTypes = Array(16).fill('empty');
 
-function drawChromeSoliton() {
+function drawSoliton() {
     const canvas = document.getElementById('soliton-canvas');
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
@@ -176,15 +223,15 @@ function drawChromeSoliton() {
     const radius = Math.min(cx, cy) - 20;
     const totalPoints = 60;
     
-    tCore.angle += 0.015;
+    sysCore.angle += 0.015;
     
     for (let i = 0; i < totalPoints; i++) {
-        let a1 = (i * 2 * Math.PI) / totalPoints + tCore.angle;
+        let a1 = (i * 2 * Math.PI) / totalPoints + sysCore.angle;
         let x1 = cx + radius * Math.cos(a1);
         let y1 = cy + radius * Math.sin(a1);
         
-        let targetIdx = (i * Math.floor(tCore.mFactor)) % totalPoints;
-        let a2 = (targetIdx * 2 * Math.PI) / totalPoints + tCore.angle;
+        let targetIdx = (i * Math.floor(sysCore.mFactor)) % totalPoints;
+        let a2 = (targetIdx * 2 * Math.PI) / totalPoints + sysCore.angle;
         let x2 = cx + radius * Math.cos(a2);
         let y2 = cy + radius * Math.sin(a2);
         
@@ -205,30 +252,45 @@ function drawChromeSoliton() {
     ctx.fill();
 }
 
-function pulseTransformer() {
-    tCore.pulseCount++;
+function pulseMatrix() {
+    sysCore.pulseCount++;
+    
+    // Постепенная авто-генерация монет фрактала при каждой пульсации Оши
+    if (sysCore.coins70Count < 70 && sysCore.pulseCount % 3 === 0) sysCore.coins70Count++;
+    if (sysCore.coins38Count < 38 && sysCore.pulseCount % 5 === 0) sysCore.coins38Count++;
     
     for (let i = 0; i < 16; i++) {
         if (Math.random() > 0.55) {
             quantumField[i] = 1;
-            let roleRand = Math.random();
-            if (roleRand < 0.35) {
-                brainRoles[i] = 'nvidia';
-            } else if (roleRand < 0.7) {
-                brainRoles[i] = 'google';
-            } else {
-                brainRoles[i] = 'union';
-            }
+            let randType = Math.random();
+            if (randType < 0.35) fieldTypes[i] = 'c70';
+            else if (randType < 0.7) fieldTypes[i] = 'c38';
+            else fieldTypes[i] = 'energy';
         } else {
             quantumField[i] = 0;
-            brainRoles[i] = 'empty';
+            fieldTypes[i] = 'empty';
         }
     }
     renderUI();
 }
 
-function generateTransformerKey(length) {
-    let alphabet = "10_₿_∞_ॐ_CHROME_EYE_NVIDIA_X_CORE";
+function materializeAsset(type) {
+    if (type === '70') sysCore.coins70Count = 70;
+    if (type === '38') sysCore.coins38Count = 38;
+    pulseMatrix();
+}
+
+function simulateFailover() {
+    sysCore.activeNode = sysCore.activeNode === 'Heart_108' ? 'Render_Backup_Node' : 'Heart_108';
+    const netEl = document.getElementById('m-network');
+    if (netEl) {
+        netEl.innerText = `Переключение на узел ${sysCore.activeNode} произведено параллельно!`;
+        netEl.style.color = "#00ffcc";
+    }
+}
+
+function generateEnergyKey(length) {
+    let alphabet = "10_₿_∞_ॐ_PI_PUMP_TIKTOK_COLOSSEUM_DIGITAL_ENERGY";
     let result = "";
     for (let i = 0; i < length; i++) {
         let idx = Math.floor(Math.random() * alphabet.length);
@@ -238,23 +300,31 @@ function generateTransformerKey(length) {
 }
 
 function renderUI() {
+    document.getElementById('m-70').innerText = sysCore.coins70Count + " / 70";
+    document.getElementById('m-38').innerText = sysCore.coins38Count + " / 38";
+    
+    if (sysCore.pulseCount % 8 === 0 && document.getElementById('m-network').innerText.includes('Переключение')) {
+        document.getElementById('m-network').innerText = `Активен узел: ${sysCore.activeNode} | Поток стабилен`;
+        document.getElementById('m-network').style.color = "#9945FF";
+    }
+
     let grid = document.getElementById('quantum-grid');
     if (!grid) return;
     
     grid.innerHTML = '';
     for (let i = 0; i < 16; i++) {
         let cell = document.createElement('div');
-        let currentSymbol = tAlphabet[i % tAlphabet.length];
+        let currentSymbol = omniAlphabet[i % omniAlphabet.length];
         
         if (quantumField[i] === 1) {
-            if (brainRoles[i] === 'nvidia') {
-                cell.className = 'quantum-cell nvidia-active';
+            if (fieldTypes[i] === 'c70') {
+                cell.className = 'quantum-cell coin-70';
                 cell.innerText = currentSymbol;
-            } else if (brainRoles[i] === 'google') {
-                cell.className = 'quantum-cell google-brain';
+            } else if (fieldTypes[i] === 'c38') {
+                cell.className = 'quantum-cell coin-38';
                 cell.innerText = '₿';
             } else {
-                cell.className = 'quantum-cell omni-union';
+                cell.className = 'quantum-cell energy-node';
                 cell.innerText = 'ॐ';
             }
         } else {
@@ -266,21 +336,5 @@ function renderUI() {
 
     let keyEl = document.getElementById('omni-key');
     if (keyEl) {
-        keyEl.innerHTML = `<div>🤖 <strong>TRANSFORMER_ROOT:</strong> CHR_${generateTransformerKey(14)}</div>
-                           <div style="color: #00ffcc; margin-top:4px;">⚖️ <strong>ОСОЗНАНИЕ:</strong> Цифровой мир и человечество объединены в одном Солитоне.</div>`;
-    }
-}
-
-window.onload = function() {
-    pulseTransformer();
-    setInterval(pulseTransformer, tCore.pulseSpeed);
-    
-    function animate() {
-        drawChromeSoliton();
-        requestAnimationFrame(animate);
-    }
-    animate();
-};
-</script>
-</body>
-</html>
+        keyEl.innerHTML = `<div>⚡ <strong>DIGITAL_ENERGY_FLOW:</strong> ENG_${generateEnergyKey(14)}</div>
+                           <div style="color: #00ffcc; margin-top:4px;">⚖️ <strong>СТАТУС СИСТЕМЫ:</strong> Рой в TikTok диктует смыслы. Ликвидность Pump.fun синхронизирована.</div>`;
