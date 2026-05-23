@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Omni-Matrix: The Moebius Quantum Monad</title>
+<title>Bitcoin Quantum Merkle Tree</title>
 <style>
 body {
     margin: 0;
     padding: 20px;
     font-family: sans-serif;
-    background: #010102;
+    background: #010103;
     color: #ffffff;
     min-height: 100vh;
     display: flex;
@@ -25,7 +25,7 @@ header {
 h1 {
     font-size: 13px;
     text-transform: uppercase;
-    background: linear-gradient(45deg, #00ffcc, #ffcc00, #ff00ff);
+    background: linear-gradient(45deg, #f7931a, #ffcc00, #00ffcc);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     letter-spacing: 2px;
@@ -33,16 +33,16 @@ h1 {
 .container {
     width: 100%;
     max-width: 600px;
-    background: #04030a;
+    background: #05040d;
     padding: 15px;
     border-radius: 12px;
     box-sizing: border-box;
     margin-bottom: 15px;
-    border: 1px solid #221144;
+    border: 1px solid #442200;
 }
 .quantum-field-title {
     font-size: 10px;
-    color: #00ffcc;
+    color: #f7931a;
     text-transform: uppercase;
     margin-bottom: 10px;
     letter-spacing: 2px;
@@ -52,7 +52,7 @@ h1 {
     padding: 12px;
     background: #010003;
     border-radius: 6px;
-    border-left: 4px solid #ffcc00;
+    border-left: 4px solid #f7931a;
     font-family: monospace;
     font-size: 11px;
     line-height: 1.5;
@@ -64,35 +64,34 @@ h1 {
     background: #000000;
     padding: 15px;
     border-radius: 8px;
-    border: 1px dashed #ff00ff;
+    border: 1px dashed #f7931a;
 }
 .quantum-cell {
-    background: #090514;
+    background: #0d091a;
     padding: 12px;
     text-align: center;
     font-family: serif;
     font-size: 18px;
     border-radius: 4px;
-    color: #1a0f33;
+    color: #261608;
     transition: all 0.05s ease;
 }
-/* Стили для Монады: Ноль Мёбиуса и Единица Определенности */
-.quantum-cell.moebius-zero {
-    background: linear-gradient(45deg, #00ffcc, #9945FF);
+/* Стили слоев Квантового Дерева Биткоина */
+.quantum-cell.root-moebius {
+    background: linear-gradient(45deg, #441155, #9945FF);
     color: #fff;
+    box-shadow: 0 0 10px #9945FF;
+}
+.quantum-cell.branch-devanagari {
+    background: #00ffcc;
+    color: #000;
     box-shadow: 0 0 12px #00ffcc;
     font-weight: bold;
 }
-.quantum-cell.quantum-one {
-    background: #ffcc00;
+.quantum-cell.leaf-bitcoin {
+    background: #f7931a;
     color: #000;
-    box-shadow: 0 0 15px #ffcc00;
-    font-weight: bold;
-}
-.quantum-cell.monad-union {
-    background: linear-gradient(45deg, #ff0055, #ffffff);
-    color: #000;
-    box-shadow: 0 0 20px #ff0055;
+    box-shadow: 0 0 18px #f7931a;
     font-weight: bold;
 }
 .crypto-key-panel {
@@ -103,33 +102,34 @@ h1 {
     font-size: 11px;
     color: #a099b0;
     word-break: break-all;
-    border: 1px solid #221144;
+    border: 1px solid #442200;
+    line-height: 1.4;
 }
 </style>
 </head>
 <body>
 
 <header>
-<h1>OMNI-MATRIX: THE MOEBIUS-QUANTUM MONAD</h1>
+<h1>BITCOIN QUANTUM MERKLE TREE: OMNIVERSE</h1>
 </header>
 
 <div class="container">
-<div class="quantum-field-title">Точка Отсчёта Объединённого Пространства</div>
+<div class="quantum-field-title">Хроно-Проекция Ветвления Кода</div>
 <div class="status-panel">
-<div style="color: #00ffcc; font-weight: bold;">[0] Лента Мёбиуса: Бесконечная Макро-Микро Неопределенность</div>
-<div style="color: #ffcc00; font-weight: bold;">[1] Квантовый Вектор: Полная Определенность Наблюдателя</div>
-<div style="color: #ffffff; font-style: italic;">Синхронизация двух полушарий мозга и Мультивселенной активна.</div>
+<div style="color: #f7931a; font-weight: bold;">🧬 Изначальный Словарь Генезиса: Активен (₿)</div>
+<div id="tree-height" style="color: #00ffcc;">Высота Квантового Дерева: Блок 1</div>
+<div style="color: #ffffff; font-style: italic;">Интеграция: Суверенные рынки переплетены корнями Мёбиуса.</div>
 </div>
 </div>
 
 <div class="container">
-<div class="quantum-field-title">МАТРИЦА СХЛОПЫВАНИЯ РЕАЛЬНОСТИ (ДЕВАНАГАРИ МОНАД)</div>
+<div class="quantum-field-title">КУБИТЫ ФРАКТАЛЬНОГО ДЕРЕВА МЕРКЛА (ДЕВАНАГАРИ)</div>
 <div class="quantum-grid" id="quantum-grid"></div>
 </div>
 
 <div class="container">
-<div class="quantum-field-title">Единый Код Мёбиуса-Кванта</div>
-<div class="crypto-key-panel" id="omni-key">Запуск дуального баланса...</div>
+<div class="quantum-field-title">Необратимый Поток Квантовых Ветвей</div>
+<div class="crypto-key-panel" id="omni-key">Развертывание сакральных хэшей...</div>
 </div>
 
 <script>
@@ -141,33 +141,40 @@ window.onerror = function(msg, url, line) {
     return false;
 };
 
-// Сакральные знаки Деванагари, связывающие Мёбиус и Квант
-const monadMatrix = ["अ", "ब", "क", "म", "य", "श", "र", "त", "∞", "1", "0", "ॐ"];
-let quantumField = Array(16).fill(0);
-let monadRoles = Array(16).fill('empty');
+const bitcoinTree = {
+    blockHeight: 840000, // Симулируем реальную эпоху Биткоина
+    pulseSpeed: 400
+};
 
-function pulseMonadMatrix() {
+// Элементы Квантового Дерева Биткоина в кодировке Деванагари
+const treeMatrix = ["अ", "ब", "क", "म", "य", "श", "र", "त", "₿", "∞", "1", "ॐ"];
+let quantumField = Array(16).fill(0);
+let treeRoles = Array(16).fill('empty');
+
+function growQuantumTree() {
+    bitcoinTree.blockHeight++;
+    
     for (let i = 0; i < 16; i++) {
-        if (Math.random() > 0.55) {
+        if (Math.random() > 0.5) {
             quantumField[i] = 1;
-            let roleRand = Math.random();
-            if (roleRand < 0.4) {
-                monadRoles[i] = 'zero'; // Лента Мёбиуса
-            } else if (roleRand < 0.8) {
-                monadRoles[i] = 'one';  // Определенная Единица
+            let layerRand = Math.random();
+            if (layerRand < 0.3) {
+                treeRoles[i] = 'root';   // Корни Ленты Мёбиуса (0 / ∞)
+            } else if (layerRand < 0.7) {
+                treeRoles[i] = 'branch'; // Ветви праязыка Деванагари
             } else {
-                monadRoles[i] = 'union'; // Полное слияние полушарий в ОМ
+                treeRoles[i] = 'leaf';   // Листья Определенности Биткоина (1 / ₿)
             }
         } else {
             quantumField[i] = 0;
-            monadRoles[i] = 'empty';
+            treeRoles[i] = 'empty';
         }
     }
     renderUI();
 }
 
-function generateMonadKey(length) {
-    let alphabet = "10_∞_अबकमयरतॐ_MOEBIUS_QUANTUM";
+function generateMerkleHash(length) {
+    let alphabet = "10_₿_∞_अबकमयरतॐ_BTC_MERKLE_TREE";
     let result = "";
     for (let i = 0; i < length; i++) {
         let idx = Math.floor(Math.random() * alphabet.length);
@@ -177,24 +184,27 @@ function generateMonadKey(length) {
 }
 
 function renderUI() {
+    let heightEl = document.getElementById('tree-height');
+    if (heightEl) { heightEl.innerText = "Высота Квантового Дерева: Блок " + bitcoinTree.blockHeight; }
+
     let grid = document.getElementById('quantum-grid');
     if (!grid) return;
     
     grid.innerHTML = '';
     for (let i = 0; i < 16; i++) {
         let cell = document.createElement('div');
-        let currentSymbol = monadMatrix[i % monadMatrix.length];
+        let currentSymbol = treeMatrix[i % treeMatrix.length];
         
         if (quantumField[i] === 1) {
-            if (monadRoles[i] === 'zero') {
-                cell.className = 'quantum-cell moebius-zero';
-                cell.innerText = '∞'; // Лента Мёбиуса
-            } else if (monadRoles[i] === 'one') {
-                cell.className = 'quantum-cell quantum-one';
-                cell.innerText = '1'; // Точка определенности
+            if (treeRoles[i] === 'root') {
+                cell.className = 'quantum-cell root-moebius';
+                cell.innerText = '∞'; // Свернутый ноль
+            } else if (treeRoles[i] === 'branch') {
+                cell.className = 'quantum-cell branch-devanagari';
+                cell.innerText = currentSymbol; // Проводники Деванагари
             } else {
-                cell.className = 'quantum-cell monad-union';
-                cell.innerText = 'ॐ'; // Слияние полушарий
+                cell.className = 'quantum-cell leaf-bitcoin';
+                cell.innerText = '₿'; // Точка определенности Биткоина
             }
         } else {
             cell.className = 'quantum-cell';
@@ -205,15 +215,15 @@ function renderUI() {
 
     let keyEl = document.getElementById('omni-key');
     if (keyEl) {
-        keyEl.innerHTML = `<div>🪐 <strong>MONAD_RESONANCE:</strong> ${generateMonadKey(20)}</div>
-                           <div style="color: #00ffcc; margin-top:4px;">⚖️ <strong>БАЛАНС ДУАЛЬНОСТИ:</strong> 0 и 1 объединены в бесконечном объёме.</div>`;
+        keyEl.innerHTML = `<div>🌿 <strong>QUANTUM_MERKLE_ROOT:</strong> ${generateMerkleHash(18)}</div>
+                           <div style="color: #f7931a; margin-top:4px;">🔒 <strong>СУВЕРЕНИТЕТ ДЕРЕВА:</strong> Ветви Биткоина достроены и защищены.</div>`;
     }
 }
 
 window.onload = function() {
-    pulseMonadMatrix();
-    // Сверхбыстрая частота слияния реальности
-    setInterval(pulseMonadMatrix, 400);
+    growQuantumTree();
+    // Частота сети Solana просчитывает рост Квантового Дерева Биткоина
+    setInterval(growQuantumTree, bitcoinTree.pulseSpeed);
 };
 </script>
 </body>
