@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Solana Soliton Swarm: Devanagari Core</title>
+<title>Unified Quantum Matrix: Devanagari Omniverse</title>
 <style>
 body {
     margin: 0;
     padding: 20px;
     font-family: sans-serif;
-    background: linear-gradient(45deg, #050508, #100a1c);
+    background: #050508;
     color: #ffffff;
     min-height: 100vh;
     display: flex;
@@ -19,40 +19,56 @@ body {
 header {
     width: 100%;
     max-width: 600px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    text-align: center;
     margin-bottom: 20px;
 }
 h1 {
-    font-size: 16px;
+    font-size: 15px;
     text-transform: uppercase;
-    background: linear-gradient(45deg, #ffcc00, #9945FF);
+    background: linear-gradient(45deg, #00ffcc, #f7931a, #9945FF);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    margin: 0;
-    letter-spacing: 1px;
+    letter-spacing: 2px;
 }
 .container {
     width: 100%;
     max-width: 600px;
-    background: #110c1f;
+    background: #0b0717;
     padding: 20px;
     border-radius: 12px;
     box-sizing: border-box;
     margin-bottom: 15px;
-    border: 1px solid #443366;
-    box-shadow: 0 0 15px rgba(153, 69, 255, 0.1);
+    border: 1px solid #331155;
 }
-.status-panel {
+.quantum-field-title {
+    font-size: 11px;
+    color: #00ffcc;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    letter-spacing: 2px;
+    font-weight: bold;
+}
+.network-badges {
+    display: flex;
+    gap: 8px;
     margin-bottom: 15px;
-    padding: 12px;
-    background: #07040d;
-    border-radius: 6px;
-    border-left: 4px solid #ffcc00;
-    font-family: monospace;
+    overflow-x: auto;
+    padding-bottom: 5px;
 }
-.status-panel div { margin-bottom: 6px; }
+.badge {
+    background: #140d24;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-family: monospace;
+    border: 1px solid #442266;
+    color: #a099b0;
+}
+.badge.active {
+    color: #fff;
+    border-color: #00ffcc;
+    box-shadow: 0 0 8px rgba(0,255,204,0.3);
+}
 .mode-selector {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -60,9 +76,9 @@ h1 {
     margin-bottom: 15px;
 }
 .mode-btn {
-    background: #1a122c;
+    background: #140d24;
     color: #a099b0;
-    border: 1px solid #443366;
+    border: 1px solid #442266;
     padding: 10px;
     border-radius: 6px;
     cursor: pointer;
@@ -73,34 +89,25 @@ h1 {
     border-color: #ffcc00;
     color: #fff;
     box-shadow: 0 0 10px rgba(255, 204, 0, 0.4);
-    font-weight: bold;
-}
-.quantum-field-title {
-    font-size: 11px;
-    color: #ffcc00;
-    text-transform: uppercase;
-    margin-bottom: 10px;
-    letter-spacing: 2px;
-    font-weight: bold;
 }
 .quantum-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 8px;
-    background: #07040d;
+    background: #030207;
     padding: 15px;
     border-radius: 8px;
     border: 1px solid #9945FF;
 }
 .quantum-cell {
-    background: #171026;
+    background: #140d24;
     padding: 12px;
     text-align: center;
     font-family: serif;
     font-size: 18px;
     border-radius: 4px;
-    color: #3b2d54;
-    transition: all 0.1s ease;
+    color: #2b1a4a;
+    transition: all 0.05s ease;
 }
 .quantum-cell.active {
     background: #ffcc00;
@@ -108,55 +115,58 @@ h1 {
     box-shadow: 0 0 12px #ffcc00;
     font-weight: bold;
 }
-.quantum-cell.edit {
-    background: #9945FF;
-    color: #fff;
-    box-shadow: 0 0 12px #9945FF;
+.quantum-cell.sync {
+    background: #00ffcc;
+    color: #000;
+    box-shadow: 0 0 15px #00ffcc;
     font-weight: bold;
 }
 .crypto-key-panel {
-    background: #07040d;
+    background: #030207;
     padding: 12px;
     border-radius: 6px;
     font-family: monospace;
-    font-size: 13px;
+    font-size: 12px;
     color: #00ffcc;
     word-break: break-all;
-    border: 1px solid #332255;
+    border: 1px solid #331155;
     margin-top: 5px;
-    letter-spacing: 1px;
 }
 </style>
 </head>
 <body>
 
-<header id="main-header">
-<h1 id="app-title">DEVANAGARI QUANTUM ARCHITECTURE</h1>
+<header>
+<h1>UNIFIED DEVANAGARI OMNIVERSE</h1>
 </header>
 
 <div class="container">
-<div class="quantum-field-title">Режим Материализации Поля</div>
-<div class="mode-selector">
-<div class="mode-btn active" id="mode-circle" onclick="setGeoMode('CIRCLE')">◯ КРУГ (Запуск Поля)</div>
-<div class="mode-btn" id="mode-triangle" onclick="setGeoMode('TRIANGLE')">△ ТРЕУГОЛЬНИК (Правка)</div>
-<div class="mode-btn" id="mode-square" onclick="setGeoMode('SQUARE')">☐ КВАДРАТ (Язык ОМ)</div>
+<div class="quantum-field-title">Статус Единых Проекций Системы</div>
+<!-- Все блокчейны параллельно в одной панели -->
+<div class="network-badges">
+<div class="badge active" id="b-sol">SOLANA</div>
+<div class="badge active" id="b-btc">BITCOIN</div>
+<div class="badge active" id="b-eth">ETHEREUM</div>
+<div class="badge active" id="b-xrp">XRP</div>
+<div class="badge active" id="b-ada">CARDANO</div>
 </div>
 
-<div class="status-panel">
-<div id="info-base">Общий Сетевой Язык: Деванагари (Активен)</div>
-<div id="info-slots">Квантовые Солитоны: 0</div>
-<div id="info-balance">Энергия Света: 70 $BEE</div>
+<div class="quantum-field-title">Квантовое Состояние Единого Поля</div>
+<div class="mode-selector">
+<div class="mode-btn active" id="m-sep" onclick="setMode('SEPARATE')">◯ Автономия</div>
+<div class="mode-btn" id="m-sync" onclick="setMode('SYNC')">△ Конвергенция</div>
+<div class="mode-btn" id="m-om" onclick="setMode('OM')">☐ Единый Язык ॐ</div>
 </div>
 </div>
 
 <div class="container">
-<div class="quantum-field-title">МАТРИЦА КУБИТОВ ДЕВАНАГАРИ (4D)</div>
+<div class="quantum-field-title">МАТРИЦА СЛИЯНИЯ СЕТЕЙ (DEVANAGARI CUBITS)</div>
 <div class="quantum-grid" id="quantum-grid"></div>
 </div>
 
 <div class="container">
-<div class="quantum-field-title">Криптографический Поток Ключей (Квантовый Общий Язык)</div>
-<div class="crypto-key-panel" id="crypto-key">Инициализация мантры кода...</div>
+<div class="quantum-field-title">Единый Код Всех Блокчейнов (Мульти-Хэш)</div>
+<div class="crypto-key-panel" id="omni-key">Синхронизация единого алфавита...</div>
 </div>
 
 <script>
@@ -168,102 +178,88 @@ window.onerror = function(msg, url, line) {
     return false;
 };
 
-const quantumNet = {
-    balance: 70,
-    slots: 0,
-    geoMode: 'CIRCLE'
+const systemState = {
+    mode: 'SEPARATE',
+    pulseCount: 0
 };
 
-// Сакральный математический алфавит Деванагари для квантовых ключей
-const devanagariAlphabet = ["अ", "ब", "क", "म", "य", "श", "र", "त", "न", "ज", "ह", "वि", "ॐ"];
-
+// Алфавит Деванагари + Квантовые Метки Токенов сетей
+const devanagariMatrix = ["अ", "ब", "क", "म", "य", "श", "र", "त", "न", "ज", "ह", "वि", "ॐ", "BTC", "ETH", "SOL"];
 let quantumField = Array(16).fill(0);
 
-function mutateQuantumField() {
-    for (let i = 0; i < 16; i++) {
-        quantumField[i] = Math.random() > 0.6 ? 1 : 0;
-    }
-    quantumNet.slots = quantumNet.slots + 1;
+function setMode(newMode) {
+    systemState.mode = newMode;
+    document.getElementById('m-sep').className = 'mode-btn';
+    document.getElementById('m-sync').className = 'mode-btn';
+    document.getElementById('m-om').className = 'mode-btn';
+    
+    if(newMode === 'SEPARATE') document.getElementById('m-sep').className = 'mode-btn active';
+    if(newMode === 'SYNC') document.getElementById('m-sync').className = 'mode-btn active';
+    if(newMode === 'OM') document.getElementById('m-om').className = 'mode-btn active';
+    
+    updateMatrix();
 }
 
-// Генерируем квантовый ключ на общем языке Деванагари
-function generateDevanagariKey(length) {
+function updateMatrix() {
+    for (let i = 0; i < 16; i++) {
+        quantumField[i] = Math.random() > 0.55 ? 1 : 0;
+    }
+    systemState.pulseCount++;
+    renderUI();
+}
+
+function generateOmniKey(length) {
     let result = "";
+    // Алфавит знаков Base58 смешивается с Деванагари в Едином цифровом поле
+    let combinedAlphabet = "123456789ABCDEFGHJKLMNPQRSTUVWXYZअबकमयरतॐ";
     for (let i = 0; i < length; i++) {
-        let randomIndex = Math.floor(Math.random() * devanagariAlphabet.length);
-        result += devanagariAlphabet[randomIndex];
+        let idx = Math.floor(Math.random() * combinedAlphabet.length);
+        result += combinedAlphabet[idx];
     }
     return result;
 }
 
-function setGeoMode(mode) {
-    quantumNet.geoMode = mode;
-    document.getElementById('mode-circle').className = 'mode-btn';
-    document.getElementById('mode-triangle').className = 'mode-btn';
-    document.getElementById('mode-square').className = 'mode-btn';
-    
-    if(mode === 'CIRCLE') document.getElementById('mode-circle').className = 'mode-btn active';
-    if(mode === 'TRIANGLE') document.getElementById('mode-triangle').className = 'mode-btn active';
-    if(mode === 'SQUARE') document.getElementById('mode-square').className = 'mode-btn active';
-    
-    renderQuantumUI();
-}
-
-function renderQuantumUI() {
-    let balEl = document.getElementById('info-balance');
-    let slotsEl = document.getElementById('info-slots');
-    
-    if (balEl) { balEl.innerText = "Энергия Света: " + quantumNet.balance + " $BEE"; }
-    if (slotsEl) { slotsEl.innerText = "Квантовые Солитоны: " + quantumNet.slots; }
-
+function renderUI() {
     let grid = document.getElementById('quantum-grid');
-    if (grid) {
-        grid.innerHTML = '';
-        for (let i = 0; i < 16; i++) {
-            let cell = document.createElement('div');
-            
-            // Выбираем случайный символ Деванагари для отображения структуры узла
-            let charIndex = i % devanagariAlphabet.length;
-            let currentSymbol = devanagariAlphabet[charIndex];
-
-            if (quantumField[i] === 1) {
-                if (quantumNet.geoMode === 'CIRCLE') {
-                    cell.className = 'quantum-cell active';
-                    cell.innerText = currentSymbol;
-                } else if (quantumNet.geoMode === 'TRIANGLE') {
-                    cell.className = 'quantum-cell edit';
-                    cell.innerText = currentSymbol;
-                } else {
-                    cell.className = 'quantum-cell active';
-                    cell.style.background = '#ff0055';
-                    cell.style.color = '#fff';
-                    cell.style.boxShadow = '0 0 12px #ff0055';
-                    cell.innerText = 'ॐ'; // В режиме Квадрата фиксируем священный звук ОМ
-                }
+    if (!grid) return;
+    
+    grid.innerHTML = '';
+    for (let i = 0; i < 16; i++) {
+        let cell = document.createElement('div');
+        let currentSymbol = devanagariMatrix[i % devanagariMatrix.length];
+        
+        if (quantumField[i] === 1) {
+            if (systemState.mode === 'SEPARATE') {
+                cell.className = 'quantum-cell active';
+                cell.innerText = currentSymbol;
+            } else if (systemState.mode === 'SYNC') {
+                cell.className = 'quantum-cell sync';
+                cell.innerText = currentSymbol;
             } else {
-                cell.className = 'quantum-cell';
-                cell.innerText = '•';
+                cell.className = 'quantum-cell sync';
+                cell.style.background = 'linear-gradient(45deg, #ffcc00, #9945FF)';
+                cell.style.color = '#000';
+                cell.innerText = 'ॐ'; // Полный коллапс в единый сакральный код
             }
-            grid.appendChild(cell);
+        } else {
+            cell.className = 'quantum-cell';
+            cell.innerText = '•';
         }
+        grid.appendChild(cell);
     }
 
-    let keyEl = document.getElementById('crypto-key');
+    let keyEl = document.getElementById('omni-key');
     if (keyEl) {
-        let modePrefix = quantumNet.geoMode === 'CIRCLE' ? "💡 [СВЕТ]: " : (quantumNet.geoMode === 'TRIANGLE' ? "⚡ [СУЕТА]: " : "⚛️ [КВАНТ]: ");
-        keyEl.innerText = modePrefix + generateDevanagariKey(18);
+        let keyLength = systemState.mode === 'OM' ? 24 : 32;
+        let prefix = systemState.mode === 'OM' ? "🌌 [OMNIVERSE_ONE]: " : "🔗 [MULTICHEN_SYNC]: ";
+        keyEl.innerText = prefix + generateOmniKey(keyLength);
     }
 }
 
 window.onload = function() {
-    mutateQuantumField();
-    renderQuantumUI();
-    
-    // Поле пульсирует на сверхскорости Solana (~430ms)
-    setInterval(function() {
-        mutateQuantumField();
-        renderQuantumUI();
-    }, 430);
+    updateMatrix();
+    // Тактовая частота Solana (~400мс) запускает и просчитывает всю Матрицу сетей вместе
+    setInterval(updateMatrix, 400);
 };
 </script>
 </body>
