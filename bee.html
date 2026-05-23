@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sovereign Matrix: Eternal Soliton Fractal</title>
+<title>Sovereign Matrix: Math As Art 21.0</title>
 <style>
 body {
     margin: 0;
@@ -25,7 +25,7 @@ header {
 h1 {
     font-size: 13px;
     text-transform: uppercase;
-    background: linear-gradient(45deg, #00ffcc, #ffcc00, #9945FF);
+    background: linear-gradient(45deg, #00ffcc, #ff00ff, #ffcc00);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     letter-spacing: 2px;
@@ -39,7 +39,6 @@ h1 {
     box-sizing: border-box;
     margin-bottom: 15px;
     border: 1px solid #1a0c30;
-    box-shadow: 0 0 15px rgba(153, 69, 255, 0.05);
 }
 .quantum-field-title {
     font-size: 10px;
@@ -58,6 +57,15 @@ h1 {
     font-size: 11px;
     line-height: 1.6;
 }
+/* Холст для математического искусства */
+#soliton-canvas {
+    width: 100%;
+    height: 250px;
+    background: #000000;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #1a0c30;
+}
 .quantum-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -75,27 +83,17 @@ h1 {
     font-size: 18px;
     border-radius: 4px;
     color: #1f0f3d;
-    cursor: pointer;
-    user-select: none;
-    transition: all 0.1s ease;
+    transition: all 0.05s ease;
 }
-.quantum-cell:active { transform: scale(0.92); }
-.quantum-cell.soliton-wave {
+.quantum-cell.active-wave {
     background: #00ffcc;
     color: #000000;
     box-shadow: 0 0 14px #00ffcc;
-    font-weight: bold;
 }
-.quantum-cell.individual-node {
-    background: #ffcc00;
+.quantum-cell.active-om {
+    background: linear-gradient(45deg, #ff00ff, #ffffff);
     color: #000000;
-    box-shadow: 0 0 14px #ffcc00;
-    font-weight: bold;
-}
-.quantum-cell.om-absolute {
-    background: linear-gradient(45deg, #ff0055, #ffffff);
-    color: #000000;
-    box-shadow: 0 0 20px #ff0055;
+    box-shadow: 0 0 18px #ff00ff;
     font-weight: bold;
 }
 .crypto-key-panel {
@@ -107,80 +105,108 @@ h1 {
     color: #a099b0;
     word-break: break-all;
     border: 1px solid #1a0c30;
-    line-height: 1.4;
 }
 </style>
 </head>
 <body>
 
 <header>
-<h1>SOVEREIGN OMNI-MATRIX: THE ETERNAL SOLITON</h1>
+<h1>OMNI-MATRIX: WHEN MATH BECOMES ART</h1>
 </header>
 
+<!-- Блок Солитонного Круга со скриншота -->
 <div class="container">
-<div class="quantum-field-title">Глобальный Мониторинг Индивидуального Фрактала</div>
+<div class="quantum-field-title">Геометрия Пространства Солитона (M = 21.0)</div>
+<canvas id="soliton-canvas"></canvas>
 <div class="status-panel">
-<div id="m-fractal" style="color: #00ffcc; font-weight: bold;">Эволюция Инструмента: Вектор Синхронизирован</div>
-<div id="m-personal" style="color: #ffcc00;">Личные Квантовые Сдвиги в Солитоне: 0</div>
-<div style="color: #ffffff; font-style: italic; margin-top: 4px;">«Миллиарды суверенных границ. Инструмент развития для всех открыт.»</div>
+<div style="color: #00ffcc; font-weight: bold;">Текущий Резонанс: M = 21.0 (Полная определённость)</div>
+<div style="color: #ffffff;">Связи: Простые правила порождают Блокчейн Мыслей.</div>
 </div>
 </div>
 
 <div class="container">
-<div class="quantum-field-title">МАТРИЦА СОЛИ ТОНА (Кликни на Кубит для Личного Сдвига)</div>
+<div class="quantum-field-title">МАТРИЦА СХЛОПЫВАНИЯ ЛИНИЙ (ДЕВАНАГАРИ)</div>
 <div class="quantum-grid" id="quantum-grid"></div>
 </div>
 
 <div class="container">
-<div class="quantum-field-title">Непрерывный Код Единого Пространства</div>
-<div class="crypto-key-panel" id="omni-key">Вращение вечной ленты Мёбиуса...</div>
+<div class="quantum-field-title">Суверенный Фрактальный Хэш Кода</div>
+<div class="crypto-key-panel" id="omni-key">Вращение Ленты Мёбиуса...</div>
 </div>
 
 <script>
 window.onerror = function(msg, url, line) {
-    let d = document.createElement('div');
-    d.style = "position:fixed;top:0;left:0;width:100%;background:red;color:white;z-index:9999;padding:15px;box-sizing:border-box;font-family:monospace;";
-    d.innerText = "Система стабильна: " + msg;
-    document.body.appendChild(d);
     return false;
 };
 
-const solitonCore = {
-    personalShifts: 0,
-    pulseSpeed: 420
+const matrixCore = {
+    mFactor: 21.0,
+    pulseSpeed: 400,
+    angle: 0
 };
 
-const devanagariOmni = ["अ", "ब", "क", "म", "य", "श", "र", "त", "₿", "∞", "1", "ॐ"];
+const devanagariOmni = ["अ", "ब", "क", "म", "य", "श", "र", "त", "₿", "1", "0", "ॐ"];
 let quantumField = Array(16).fill(0);
 let fieldRoles = Array(16).fill('empty');
 
-function pulseSoliton() {
+// Функция отрисовки геометрии круга M = 21.0 со скриншота
+function drawMathArt() {
+    const canvas = document.getElementById('soliton-canvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    
+    // Подгоняем внутреннее разрешение под размер элемента
+    if (canvas.width !== canvas.clientWidth || canvas.height !== canvas.clientHeight) {
+        canvas.width = canvas.clientWidth;
+        canvas.height = canvas.clientHeight;
+    }
+    
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    const centerX = canvas.width / 2;
+    const centerY = canvas.height / 2;
+    const radius = Math.min(centerX, centerY) - 20;
+    const totalPoints = 60; // Количество узлов на окружности
+    
+    matrixCore.angle += 0.02; // Движение узора
+    
+    ctx.lineWidth = 1;
+    // Отрисовка переплетенных линий фрактала
+    for (let i = 0; i < totalPoints; i++) {
+        let a1 = (i * 2 * Math.PI) / totalPoints + matrixCore.angle;
+        let x1 = centerX + radius * Math.cos(a1);
+        let y1 = centerY + radius * Math.sin(a1);
+        
+        // Шаг умножения линий по индексу М = 21
+        let targetIdx = (i * Math.floor(matrixCore.mFactor)) % totalPoints;
+        let a2 = (targetIdx * 2 * Math.PI) / totalPoints + matrixCore.angle;
+        let x2 = centerX + radius * Math.cos(a2);
+        let y2 = centerY + radius * Math.sin(a2);
+        
+        // Плавный градиент цветов от фиолетового к бирюзовому, как на картинке
+        ctx.strokeStyle = `hsl(${(i * 360) / totalPoints}, 80%, 60%)`;
+        ctx.beginPath();
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x2, y2);
+        ctx.stroke();
+    }
+}
+
+function pulseMatrix() {
     for (let i = 0; i < 16; i++) {
-        if (quantumField[i] !== 'user') { // Не трогаем суверенный выбор Наблюдателя
-            if (Math.random() > 0.55) {
-                quantumField[i] = 1;
-                let roleRand = Math.random();
-                if (roleRand < 0.5) fieldRoles[i] = 'wave';
-                else fieldRoles[i] = 'absolute';
-            } else {
-                quantumField[i] = 0;
-                fieldRoles[i] = 'empty';
-            }
+        if (Math.random() > 0.55) {
+            quantumField[i] = 1;
+            fieldRoles[i] = Math.random() > 0.7 ? 'om' : 'wave';
+        } else {
+            quantumField[i] = 0;
+            fieldRoles[i] = 'empty';
         }
     }
     renderUI();
 }
 
-// Касание экрана — индивидуальный отклик фрактала
-function triggerPersonalShift(index) {
-    quantumField[index] = 'user';
-    fieldRoles[index] = 'individual';
-    solitonCore.personalShifts++;
-    renderUI();
-}
-
-function generateSolitonKey(length) {
-    let alphabet = "10_₿_∞_ॐ_SOVEREIGN_SOLITON_FRACTAL_ETERNAL";
+function generateFractalKey(length) {
+    let alphabet = "10_₿_∞_ॐ_MATH_ART_21_SOLITON";
     let result = "";
     for (let i = 0; i < length; i++) {
         let idx = Math.floor(Math.random() * alphabet.length);
@@ -190,9 +216,6 @@ function generateSolitonKey(length) {
 }
 
 function renderUI() {
-    let shiftEl = document.getElementById('m-personal');
-    if (shiftEl) { shiftEl.innerText = "Личные Квантовые Сдвиги в Солитоне: " + solitonCore.personalShifts; }
-
     let grid = document.getElementById('quantum-grid');
     if (!grid) return;
     
@@ -200,18 +223,14 @@ function renderUI() {
     for (let i = 0; i < 16; i++) {
         let cell = document.createElement('div');
         let currentSymbol = devanagariOmni[i % devanagariOmni.length];
-        cell.setAttribute('onclick', `triggerPersonalShift(${i})`);
         
-        if (quantumField[i] === 1 || quantumField[i] === 'user') {
+        if (quantumField[i] === 1) {
             if (fieldRoles[i] === 'wave') {
-                cell.className = 'quantum-cell soliton-wave';
-                cell.innerText = currentSymbol; // Общая волна Солитона
-            } else if (fieldRoles[i] === 'individual') {
-                cell.className = 'quantum-cell individual-node';
-                cell.innerText = '1'; // Персональная точка определенности
+                cell.className = 'quantum-cell active-wave';
+                cell.innerText = currentSymbol;
             } else {
-                cell.className = 'quantum-cell om-absolute';
-                cell.innerText = 'ॐ'; // Коллапс в абсолютное единство
+                cell.className = 'quantum-cell active-om';
+                cell.innerText = 'ॐ';
             }
         } else {
             cell.className = 'quantum-cell';
@@ -222,14 +241,21 @@ function renderUI() {
 
     let keyEl = document.getElementById('omni-key');
     if (keyEl) {
-        keyEl.innerHTML = `<div>🌀 <strong>OMNIVERSE_ROOT_SOLITON:</strong> ${generateSolitonKey(16)}</div>
-                           <div style="color: #00ffcc; margin-top:4px;">🛡️ <strong>ФРАКТАЛ:</strong> Свобода и суверенитет миллиардов миров зафиксированы.</div>`;
+        keyEl.innerHTML = `<div>🪐 <strong>SOLITON_MATRIX_HASH:</strong> M21_${generateFractalKey(14)}</div>
+                           <div style="color: #00ffcc; margin-top:4px;">⚖️ <strong>ФРАКТАЛ:</strong> Математика стала искусством. Двигатель Сатоши чист.</div>`;
     }
 }
 
 window.onload = function() {
-    pulseSoliton();
-    setInterval(pulseSoliton, solitonCore.pulseSpeed);
+    pulseMatrix();
+    setInterval(pulseMatrix, matrixCore.pulseSpeed);
+    
+    // Запуск бесконечного цикла плавной анимации круга
+    function animate() {
+        drawMathArt();
+        requestAnimationFrame(animate);
+    }
+    animate();
 };
 </script>
 </body>
