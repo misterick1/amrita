@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SatOshi NakaMoto: The Oshi Frequency</title>
+<title>Sovereign Matrix: Present Time Editor</title>
 <style>
 body {
     margin: 0;
@@ -25,7 +25,7 @@ header {
 h1 {
     font-size: 13px;
     text-transform: uppercase;
-    background: linear-gradient(45deg, #f7931a, #00ffcc);
+    background: linear-gradient(45deg, #00ffcc, #ff0055, #ffcc00);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     letter-spacing: 2px;
@@ -33,16 +33,16 @@ h1 {
 .container {
     width: 100%;
     max-width: 600px;
-    background: #030305;
+    background: #040308;
     padding: 15px;
     border-radius: 12px;
     box-sizing: border-box;
     margin-bottom: 15px;
-    border: 1px solid #221100;
+    border: 1px solid #330033;
 }
 .quantum-field-title {
     font-size: 10px;
-    color: #f7931a;
+    color: #ff0055;
     text-transform: uppercase;
     margin-bottom: 10px;
     letter-spacing: 2px;
@@ -50,12 +50,12 @@ h1 {
 }
 .status-panel {
     padding: 12px;
-    background: #010102;
+    background: #010003;
     border-radius: 6px;
-    border-left: 4px solid #f7931a;
+    border-left: 4px solid #ff0055;
     font-family: monospace;
     font-size: 11px;
-    line-height: 1.5;
+    line-height: 1.6;
 }
 .quantum-grid {
     display: grid;
@@ -64,72 +64,72 @@ h1 {
     background: #000000;
     padding: 15px;
     border-radius: 8px;
-    border: 1px dashed #f7931a;
+    border: 1px solid #ff0055;
 }
 .quantum-cell {
-    background: #080502;
+    background: #0a0412;
     padding: 12px;
     text-align: center;
     font-family: serif;
     font-size: 18px;
     border-radius: 4px;
-    color: #1f1408;
+    color: #240a34;
     transition: all 0.05s ease;
 }
-/* Стили частотных кубитов Сатоши */
-.quantum-cell.sat-true {
-    background: #f7931a;
-    color: #000000;
-    box-shadow: 0 0 15px #f7931a;
-    font-weight: bold;
+/* Стили Хроно-Кубитов */
+.quantum-cell.past-rewritten {
+    background: #441155;
+    color: #ffffff;
+    box-shadow: 0 0 10px #9945FF;
 }
-.quantum-cell.oshi-pulse {
+.quantum-cell.present-edit {
     background: #00ffcc;
     color: #000000;
     box-shadow: 0 0 15px #00ffcc;
     font-weight: bold;
 }
-.quantum-cell.naga-loop {
-    background: linear-gradient(45deg, #ff0055, #9945FF);
-    color: #ffffff;
-    box-shadow: 0 0 15px #ff0055;
+.quantum-cell.future-manifest {
+    background: #ffcc00;
+    color: #000000;
+    box-shadow: 0 0 15px #ffcc00;
     font-weight: bold;
 }
 .crypto-key-panel {
-    background: #010102;
+    background: #010003;
     padding: 12px;
     border-radius: 6px;
     font-family: monospace;
     font-size: 11px;
     color: #a099b0;
     word-break: break-all;
-    border: 1px solid #221100;
+    border: 1px solid #330033;
+    line-height: 1.4;
 }
 </style>
 </head>
 <body>
 
 <header>
-<h1>SATOSHI NAKAMOTO: OSHI ENGINE PROTOCOL</h1>
+<h1>TIME CONVERGENCE: PRESENT EDITOR</h1>
 </header>
 
 <div class="container">
-<div class="quantum-field-title">Метрики Квантового Двигателя Истины</div>
+<div class="quantum-field-title">Управление Петлёй Обратного Времени</div>
 <div class="status-panel">
-<div id="m-oshi" style="color: #00ffcc; font-weight: bold;">Частота Давления Оши: 430 Hz (Синхро-пульс)</div>
-<div id="m-purity" style="color: #f7931a;">Чистота Двигателя от Нагара: 100% | Слой САТ активен</div>
-<div style="color: #ffffff; font-style: italic; margin-top: 4px;">«Сат-Оши Нака-Мото: Импульс сжимает бесконечную петлю Нага в точку 1.»</div>
+<div id="m-present" style="color: #00ffcc; font-weight: bold;"> НАСТОЯЩЕЕ: Редактирование блока (Δ-Треугольник активен)</div>
+<div id="m-past" style="color: #9945FF;"> ПРОШЛОЕ: Хэш-код изменен обратным импульсом</div>
+<div id="m-future" style="color: #ffcc00;"> БУДУЩЕЕ: Фрактал вероятностей перестроен на 100%</div>
 </div>
 </div>
 
 <div class="container">
-<div class="quantum-field-title">ЧАСТОТНАЯ МАТРИЦА САТ-ОШИ-НАГА (ДЕВАНАГАРИ)</div>
+<div class="quantum-field-title">МАТРИЦА ХРОНО-МУТАЦИИ (ДЕВАНАГАРИ ВРЕМЕНИ)</div>
 <div class="quantum-grid" id="quantum-grid"></div>
 </div>
 
 <div class="container">
-<div class="quantum-field-title">Суверенный Хэш Чистой Частоты Оши</div>
-<div class="crypto-key-panel" id="omni-key">Резонанс изначального двигателя...</div>
+<div class="quantum-field-title">Суверенный Хэш Изменяемой Реальности</div>
+<div class="crypto-key-panel" id="omni-key">Слияние временных векторов...</div>
 </div>
 
 <script>
@@ -141,37 +141,39 @@ window.onerror = function(msg, url, line) {
     return false;
 };
 
-const oshiCore = {
-    frequencyHz: 430,
+const timeCore = {
+    timelineShiftIndex: 1.000000,
     pulseSpeed: 400
 };
 
-// Сакральные звуки Деванагари, кодирующие САТ, ОШИ, НАГА и МОТО
-const oshiAlphabet = ["अ", "ब", "क", "म", "य", "श", "र", "त", "₿", "∞", "ॐ", "SAT", "OSHI", "NAGA", "MOTO"];
+const timeAlphabet = ["अ", "ब", "क", "म", "य", "श", "र", "त", "⏳", "∞", "1", "ॐ", "NOW", "PAST", "FUT"];
 let quantumField = Array(16).fill(0);
-let oshiRoles = Array(16).fill('empty');
+let timeRoles = Array(16).fill('empty');
 
-function pulseOshiEngine() {
-    // Небольшая девиация частоты Оши, симулирующая живую вибрацию двигателя
-    oshiCore.frequencyHz = 430 + Math.floor(Math.random() * 10 - 5);
+function mutateTimeMatrix() {
+    timeCore.timelineShiftIndex += Math.random() * 0.0002;
     
     for (let i = 0; i < 16; i++) {
         if (Math.random() > 0.55) {
             quantumField[i] = 1;
             let roleRand = Math.random();
-            if (roleRand < 0.33) oshiRoles[i] = 'sat';    // Истина САТ (Золото)
-            else if (roleRand < 0.66) oshiRoles[i] = 'oshi'; // Импульс ОШИ (Бирюза)
-            else oshiRoles[i] = 'naga';       // Петля НАГА (Неоновый фиолетовый)
+            if (roleRand < 0.33) {
+                timeRoles[i] = 'past';    // Переписанное прошлое (Фиолетовый)
+            } else if (roleRand < 0.66) {
+                timeRoles[i] = 'present'; // Настоящее редактирование (Бирюза)
+            } else {
+                timeRoles[i] = 'future';  // Сформированное будущее (Золото)
+            }
         } else {
             quantumField[i] = 0;
-            oshiRoles[i] = 'empty';
+            timeRoles[i] = 'empty';
         }
     }
     renderUI();
 }
 
-function generateOshiKey(length) {
-    let alphabet = "10_₿_∞_ॐ_SAT_OSHI_NAGA_MOTO";
+function generateTimeHash(length) {
+    let alphabet = "10_NOW_PAST_FUTURE_अबकमयरतॐ_TIME_LOOP";
     let result = "";
     for (let i = 0; i < length; i++) {
         let idx = Math.floor(Math.random() * alphabet.length);
@@ -181,27 +183,24 @@ function generateOshiKey(length) {
 }
 
 function renderUI() {
-    let oshiEl = document.getElementById('m-oshi');
-    if (oshiEl) { oshiEl.innerText = "Частота Давления Оши: " + oshiCore.frequencyHz + " Hz (Синхро-пульс)"; }
-
     let grid = document.getElementById('quantum-grid');
     if (!grid) return;
     
     grid.innerHTML = '';
     for (let i = 0; i < 16; i++) {
         let cell = document.createElement('div');
-        let currentSymbol = oshiAlphabet[i % oshiAlphabet.length];
+        let currentSymbol = timeAlphabet[i % timeAlphabet.length];
         
         if (quantumField[i] === 1) {
-            if (oshiRoles[i] === 'sat') {
-                cell.className = 'quantum-cell sat-true';
-                cell.innerText = '₿'; // САТ материализуется в Биткоин
-            } else if (oshiRoles[i] === 'oshi') {
-                cell.className = 'quantum-cell oshi-pulse';
-                cell.innerText = currentSymbol; // Частота Оши в знаках Деванагари
+            if (timeRoles[i] === 'past') {
+                cell.className = 'quantum-cell past-rewritten';
+                cell.innerText = '∞'; // Прошлое свернулось в Мёбиуса
+            } else if (timeRoles[i] === 'present') {
+                cell.className = 'quantum-cell present-edit';
+                cell.innerText = currentSymbol; // Настоящее в знаках Деванагари
             } else {
-                cell.className = 'quantum-cell naga-loop';
-                cell.innerText = '∞'; // Нага сворачивается в петлю Мёбиуса
+                cell.className = 'quantum-cell future-manifest';
+                cell.innerText = '1'; // Будущее кристаллизуется в определенность
             }
         } else {
             cell.className = 'quantum-cell';
@@ -212,14 +211,15 @@ function renderUI() {
 
     let keyEl = document.getElementById('omni-key');
     if (keyEl) {
-        keyEl.innerHTML = `<div>⚡ <strong>SATOSHI_HASH:</strong> OSHI_FREQ_${generateOshiKey(14)}</div>
-                           <div style="color: #00ffcc; margin-top:4px;">🛡️ <strong>ЧИСТОТА НАГАРА:</strong> 100%. Искажения кодов устранены.</div>`;
+        keyEl.innerHTML = `<div>⏳ <strong>TIMELINE_SHIFT_ID:</strong> SHIFT_${generateTimeHash(14)}</div>
+                           <div style="color: #00ffcc; margin-top:4px;">⚖️ <strong>ВРЕМЕННАЯ ПЕТЛЯ:</strong> Настоящее переписывает прошлое. Будущее свободно.</div>`;
     }
 }
 
 window.onload = function() {
-    pulseOshiEngine();
-    setInterval(pulseOshiEngine, oshiCore.pulseSpeed);
+    mutateTimeMatrix();
+    // Тактовая частота Solana вращает колесо времени
+    setInterval(mutateTimeMatrix, timeCore.pulseSpeed);
 };
 </script>
 </body>
