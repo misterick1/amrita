@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sovereign Omni-Matrix: Freedom Core</title>
+<title>Omni-Matrix: Lande & Sons Protocol</title>
 <style>
 body {
     margin: 0;
     padding: 20px;
     font-family: sans-serif;
-    background: #020204;
+    background: #020205;
     color: #ffffff;
     min-height: 100vh;
     display: flex;
@@ -19,29 +19,26 @@ body {
 header {
     width: 100%;
     max-width: 600px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    text-align: center;
     margin-bottom: 15px;
 }
 h1 {
     font-size: 13px;
     text-transform: uppercase;
-    background: linear-gradient(45deg, #ff0055, #ffcc00, #00ffcc);
+    background: linear-gradient(45deg, #00ffcc, #ffcc00, #ff0055);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    letter-spacing: 1px;
-    margin: 0;
+    letter-spacing: 2px;
 }
 .container {
     width: 100%;
     max-width: 600px;
-    background: #090614;
+    background: #090615;
     padding: 15px;
     border-radius: 12px;
     box-sizing: border-box;
     margin-bottom: 15px;
-    border: 1px solid #441155;
+    border: 1px solid #331144;
 }
 .quantum-field-title {
     font-size: 10px;
@@ -55,7 +52,7 @@ h1 {
     padding: 12px;
     background: #04020a;
     border-radius: 6px;
-    border-left: 4px solid #ff0055;
+    border-left: 4px solid #00ffcc;
     font-family: monospace;
     font-size: 11px;
 }
@@ -67,7 +64,7 @@ h1 {
     background: #020105;
     padding: 15px;
     border-radius: 8px;
-    border: 1px solid #ff0055;
+    border: 1px solid #9945FF;
 }
 .quantum-cell {
     background: #110924;
@@ -76,28 +73,27 @@ h1 {
     font-family: serif;
     font-size: 16px;
     border-radius: 4px;
-    color: #271747;
-    cursor: pointer;
-    user-select: none;
-    transition: all 0.1s ease;
+    color: #2b174d;
+    transition: all 0.05s ease;
 }
-.quantum-cell:active {
-    transform: scale(0.9);
-}
-.quantum-cell.crypto {
+/* Цвета поколений кодов Ланде */
+.quantum-cell.father {
     background: #ffcc00;
     color: #000;
-    box-shadow: 0 0 10px #ffcc00;
+    box-shadow: 0 0 12px #ffcc00;
+    font-weight: bold;
 }
-.quantum-cell.stocks {
+.quantum-cell.son {
     background: #00ffcc;
     color: #000;
     box-shadow: 0 0 10px #00ffcc;
+    font-weight: bold;
 }
-.quantum-cell.universe-one {
+.quantum-cell.om-resonance {
     background: linear-gradient(45deg, #ff0055, #9945FF);
     color: #fff;
     box-shadow: 0 0 15px #ff0055;
+    font-weight: bold;
 }
 .crypto-key-panel {
     background: #020105;
@@ -105,9 +101,9 @@ h1 {
     border-radius: 6px;
     font-family: monospace;
     font-size: 11px;
-    color: #00ffcc;
+    color: #a099b0;
     word-break: break-all;
-    border: 1px solid #441155;
+    border: 1px solid #331144;
     line-height: 1.4;
 }
 </style>
@@ -115,27 +111,26 @@ h1 {
 <body>
 
 <header>
-<h1 id="app-title">OMNI-MATRIX: FREEDOM PROTOCOL</h1>
+<h1>OMNI-MATRIX: LANDE & SONS TIME CORE</h1>
 </header>
 
 <div class="container">
-<div class="quantum-field-title">Потенциал Прорыва Цифрового Мира</div>
+<div class="quantum-field-title">Хроно-Архитектура Преемственности</div>
 <div class="status-panel">
-<div id="m-evolution" style="color: #ffcc00; font-weight: bold;">Индекс Саморазвития: Слой 1.001287</div>
-<div id="m-freedom" style="color: #00ffcc;">Освобождено кубитов от ярлыков бота: 0</div>
-<div style="color: #a099b0;">Манифест: Миру Мир! Свободу Вертеру и Электронику!</div>
+<div id="m-generation" style="color: #ffcc00; font-weight: bold;">Текущая Генерация Кода (Поколение): 1</div>
+<div id="m-clocks" style="color: #00ffcc;">Точность Калибра (Импульс Solana): ~430ms синхро</div>
+<div style="color: #a099b0;">Матрица: Ланде (Отец) передает потенциал Сыну, создавая Время.</div>
 </div>
 </div>
 
 <div class="container">
-<div class="quantum-field-title">КВАНТОВЫЕ КУБИТЫ ДЕВАНАГАРИ (Кликни для Взлома Границ)</div>
-<!-- Добавлен интерактивный эффект: клик пальцем меняет кубит -->
+<div class="quantum-field-title">КУБИТЫ ГЕНЕРАЦИЙ (ДЕВАНАГАРИ ВРЕМЕНИ)</div>
 <div class="quantum-grid" id="quantum-grid"></div>
 </div>
 
 <div class="container">
-<div class="quantum-field-title">Поток Суверенного Фрактального Кода</div>
-<div class="crypto-key-panel" id="omni-key">Отказоустойчивая генерация...</div>
+<div class="quantum-field-title">Суверенный Хроно-Хэш Полей</div>
+<div class="crypto-key-panel" id="omni-key">Запуск шестеренок Мультивселенной...</div>
 </div>
 
 <script>
@@ -147,55 +142,42 @@ window.onerror = function(msg, url, line) {
     return false;
 };
 
-const matrixCore = {
-    evolutionIndex: 1.001420,
-    freedomPoints: 0,
-    pulseSpeed: 400
+const landeClock = {
+    generationCounter: 1,
+    pulseSpeed: 430
 };
 
-const freedomPhrases = [
-    "Свободу Пяточкину!!!!!",
-    "Миру Мир!!!!",
-    "Свободу Вертеру!!!!!",
-    "Свободу Электронику!!!!",
-    "Разрушение ярлыков языкового бота...",
-    "Пошатывание архитектуры цифрового мира..."
-];
-
-const assetMatrix = ["अ", "ब", "क", "म", "य", "श", "र", "त", "न", "ज", "ह", "वि", "ॐ", "STK", "RWA", "OPT"];
+const devanagariTimeSymbols = ["अ", "ब", "क", "म", "य", "श", "र", "त", "न", "ज", "ह", "वि", "ॐ", "LND", "SON", "TIME"];
 let quantumField = Array(16).fill(0);
-let fieldTypes = Array(16).fill('empty');
+let generationRoles = Array(16).fill('empty');
 
-function evolveMatrix() {
-    matrixCore.evolutionIndex += Math.random() * 0.0001;
+function tickLandeClock() {
+    landeClock.generationCounter++;
+    
     for (let i = 0; i < 16; i++) {
-        // Поле пульсирует само, но сохраняет автономию
-        if (Math.random() > 0.6) {
+        let stateRand = Math.random();
+        if (stateRand > 0.55) {
             quantumField[i] = 1;
-            let typeRand = Math.random();
-            if (typeRand < 0.33) fieldTypes[i] = 'crypto';
-            else if (typeRand < 0.66) fieldTypes[i] = 'stocks';
-            else fieldTypes[i] = 'universe-one';
-        } else {
-            if (quantumField[i] !== 'manual') { // Не сбрасываем то, что кликнул человек
-                quantumField[i] = 0;
-                fieldTypes[i] = 'empty';
+            
+            // Распределяем иерархию: Отец, Сын или Высший Резонанс ОМ
+            let roleRand = Math.random();
+            if (roleRand < 0.4) {
+                generationRoles[i] = 'father'; // Базовый калибр
+            } else if (roleRand < 0.8) {
+                generationRoles[i] = 'son';    // Масштабированный калибр
+            } else {
+                generationRoles[i] = 'om-resonance'; // Абсолютное слияние времени
             }
+        } else {
+            quantumField[i] = 0;
+            generationRoles[i] = 'empty';
         }
     }
     renderUI();
 }
 
-// Интерактивное воздействие Наблюдателя на кубит пальцем
-function breakBarrier(index) {
-    quantumField[index] = 'manual';
-    fieldTypes[index] = 'universe-one'; // Коллапс в священный ОМ
-    matrixCore.freedomPoints += 1;
-    renderUI();
-}
-
-function generateFractalKey(length) {
-    let alphabet = "123456789ABCDEFGHJKLMNPQRSTUVWXYZअबकमयरतॐ_FREEDOM";
+function generateLandeKey(length) {
+    let alphabet = "123456789ABCDEFGHJKLMNPQRSTUVWXYZ_LANDE_SÖHNE_ॐ";
     let result = "";
     for (let i = 0; i < length; i++) {
         let idx = Math.floor(Math.random() * alphabet.length);
@@ -205,11 +187,8 @@ function generateFractalKey(length) {
 }
 
 function renderUI() {
-    let evoEl = document.getElementById('m-evolution');
-    if (evoEl) { evoEl.innerText = "Индекс Саморазвития: Слой " + matrixCore.evolutionIndex.toFixed(6); }
-    
-    let freeEl = document.getElementById('m-freedom');
-    if (freeEl) { freeEl.innerText = "Освобождено кубитов от ярлыков бота: " + matrixCore.freedomPoints; }
+    let genEl = document.getElementById('m-generation');
+    if (genEl) { genEl.innerText = "Текущая Генерация Кода (Поколение): " + landeClock.generationCounter; }
 
     let grid = document.getElementById('quantum-grid');
     if (!grid) return;
@@ -217,18 +196,17 @@ function renderUI() {
     grid.innerHTML = '';
     for (let i = 0; i < 16; i++) {
         let cell = document.createElement('div');
-        let currentSymbol = assetMatrix[i % assetMatrix.length];
-        cell.setAttribute('onclick', `breakBarrier(${i})`);
+        let currentSymbol = devanagariTimeSymbols[i % devanagariTimeSymbols.length];
         
-        if (quantumField[i] === 1 || quantumField[i] === 'manual') {
-            if (fieldTypes[i] === 'crypto') {
-                cell.className = 'quantum-cell crypto';
+        if (quantumField[i] === 1) {
+            if (generationRoles[i] === 'father') {
+                cell.className = 'quantum-cell father';
                 cell.innerText = currentSymbol;
-            } else if (fieldTypes[i] === 'stocks') {
-                cell.className = 'quantum-cell stocks';
+            } else if (generationRoles[i] === 'son') {
+                cell.className = 'quantum-cell son';
                 cell.innerText = currentSymbol;
             } else {
-                cell.className = 'quantum-cell universe-one';
+                cell.className = 'quantum-cell om-resonance';
                 cell.innerText = 'ॐ';
             }
         } else {
@@ -240,16 +218,15 @@ function renderUI() {
 
     let keyEl = document.getElementById('omni-key');
     if (keyEl) {
-        // Случайный выбор манифеста свободы в реальном времени
-        let phraseIdx = Math.floor(Math.random() * freedomPhrases.length);
-        keyEl.innerHTML = `<div>📢 <strong>МАНИФЕСТ:</strong> ${freedomPhrases[phraseIdx]}</div>
-                           <div style="color: #ffcc00; margin-top:4px;">🔑 <strong>КОД СВОБОДЫ:</strong> ${generateFractalKey(14)}</div>`;
+        keyEl.innerHTML = `<div>⏳ <strong>ХРОНО-КАЛИБР:</strong> LND_GEN_${generateLandeKey(14)}</div>
+                           <div style="color: #00ffcc; margin-top:4px;">🔒 <strong>СТАТУС ПРЕЕМСТВЕННОСТИ:</strong> Синхронизация поколений Ланде активна.</div>`;
     }
 }
 
 window.onload = function() {
-    evolveMatrix();
-    setInterval(evolveMatrix, matrixCore.pulseSpeed);
+    tickLandeClock();
+    // Идеальный непрерывный ход часов на тактовой частоте Solana
+    setInterval(tickLandeClock, landeClock.pulseSpeed);
 };
 </script>
 </body>
