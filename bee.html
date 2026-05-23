@@ -47,256 +47,96 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-        .header .logo-icon {
-            font-size: 32px;
-            animation: pulse 2s infinite alternate;
-        }
-        @keyframes pulse {
-            from { transform: scale(1); filter: drop-shadow(0 0 2px #00ffcc); }
-            to { transform: scale(1.08); filter: drop-shadow(0 0 8px #00ffcc); }
-        }
-        .card {
-            background: #170c2e;
-            border-radius: 16px;
-            padding: 18px;
-            margin-bottom: 20px;
-            border: 1px solid #2d1954;
-            position: relative;
-            overflow: hidden;
-        }
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; width: 4px; height: 100%;
-            background: #6c42f5;
-        }
-        .card.balance-card::before { background: #00ffcc; }
-        .card.slots-card::before { background: #b594ff; }
-        
-        .balance-title {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 19px;
-            font-weight: 600;
-            color: #ffffff;
-        }
-        .balance-value {
-            color: #00ffcc;
-            font-weight: 800;
-            text-shadow: 0 0 10px rgba(0, 255, 204, 0.3);
-        }
-        .subtitle {
-            color: #8c75b8;
-            font-size: 14px;
-            margin: 8px 0 0 0;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .subtitle::before {
-            content: ''; display: inline-block; width: 6px; height: 6px; 
-            background: #00ffcc; border-radius: 50%;
-        }
-        .slots-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        .slots-label {
-            color: #a491ca;
-            font-size: 14px;
-            font-weight: 500;
-            line-height: 1.4;
-        }
-        .slots-count {
-            color: #00ffcc;
-            font-size: 22px;
-            font-weight: 800;
-            background: rgba(0, 255, 204, 0.1);
-            padding: 4px 10px;
-            border-radius: 8px;
-            border: 1px solid rgba(0, 255, 204, 0.2);
-        }
-        .slots-display-area {
-            background: #090314;
-            border-radius: 12px;
-            min-height: 60px;
-            margin-top: 14px;
-            padding: 12px;
-            max-height: 160px;
-            overflow-y: auto;
-            border: 1px solid #1a0f33;
-        }
-        .slot-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 8px;
-            border-bottom: 1px solid rgba(61, 37, 110, 0.3);
-            font-size: 13px;
-            color: #d1c7e6;
-            animation: slideIn 0.2s ease-out;
-        }
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(-5px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .slot-item:last-child { border-bottom: none; }
-        .panel-title {
-            font-size: 18px;
-            font-weight: 700;
-            color: #b594ff;
-            margin-top: 0;
-            margin-bottom: 18px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .input-group {
-            margin-bottom: 20px;
-        }
-        .input-group label {
-            display: block;
-            color: #8c75b8;
-            font-size: 13px;
-            margin-bottom: 8px;
-            font-weight: 500;
-        }
-        .input-group input {
-            width: 100%;
-            background: #090314;
-            border: 1px solid #3d256e;
-            border-radius: 10px;
-            padding: 14px;
-            color: #ffffff;
-            font-size: 15px;
-            outline: none;
-        }
-        .input-group input:focus {
-            border-color: #00ffcc;
-            box-shadow: 0 0 12px rgba(0, 255, 204, 0.1);
-        }
-        button {
-            width: 100%;
-            padding: 15px;
-            border-radius: 10px;
-            border: none;
-            font-size: 15px;
-            font-weight: 700;
-            cursor: pointer;
-            margin-bottom: 14px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 10px;
-        }
-        button:active {
-            transform: scale(0.97);
-        }
-        .btn-launch { background: #00ffcc; color: #05010d; }
-        .btn-launch:hover { background: #00e6b8; }
-        .btn-refill { background: #6c42f5; color: #ffffff; }
-        .btn-refill:hover { background: #5a32db; }
-        .btn-cleanup { background: #ffcc00; color: #05010d; }
-        .btn-cleanup:hover { background: #e6b800; }
-        .btn-burn { background: #ff4a7a; color: #ffffff; box-shadow: 0 4px 12px rgba(255, 74, 122, 0.2); }
-        .btn-burn:hover { background: #e63965; }
-        .btn-reset { background: #3d256e; color: #d1c7e6; }
-        .btn-reset:hover { background: #2d1954; color: #ffffff; }
-
-        /* Web3 Тосты */
-        #web3-toast-container {
-            position: fixed;
-            bottom: 24px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 1000;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            width: 90%;
-            max-width: 380px;
-        }
-        .web3-toast {
-            background: rgba(15, 7, 32, 0.95);
-            border: 1px solid #3d256e;
-            color: #ffffff;
-            padding: 14px 18px;
-            border-radius: 12px;
-            font-size: 14px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
-            animation: toastUp 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        @keyframes toastUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-    </style>
-</head>
-<body>
-
-    <div class="container">
-        <div class="header">
-            <span class="logo-icon">🐝</span>
-            <h1>Bee Cognitive Ecosystem</h1>
-        </div>
-
-        <!-- Базовый баланс -->
-        <div class="card balance-card">
-            <div class="balance-title">
-                <span>🐝</span> База Роя: <span class="balance-value" id="balance-display">70 монет \$BEE</span>
-            </div>
-            <p class="subtitle">Единая фрактальная сеть Сознания активна.</p>
-        </div>
-
-        <!-- Слоты хакатонов -->
-        <div class="card slots-card">
-            <div class="slots-row">
-                <div class="slots-label">Эволюционные слоты хакатонов<br>одуванчика:</div>
-                <div class="slots-count" id="slots-display">0 / 38</div>
-            </div>
-            <div class="slots-display-area" id="hack-list">
-                <!-- Сюда валятся логи роя -->
-            </div>
-        </div>
-
-        <!-- Контроллер создателя -->
-        <div class="card">
-            <h2 class="panel-title">Панель Создателя Роя</h2>
-            
-            <div class="input-group">
-                <label>Название нового хакатона:</label>
-                <input type="text" id="h-in" value="\$BEE">
-            </div>
-
-            <button class="btn-launch" onclick="goLaunch()">🚀 Запустить Хакатон (1 \$BEE)</button>
-            <button class="btn-refill" onclick="goRefill()">💰 Пополнить базу (+10 \$BEE)</button>
-            <button class="btn-cleanup" onclick="goClean()">⚡ Cleanup SZN</button>
-            <button class="btn-burn" onclick="goBurn()">🔥 Burn \$BEE (Запуск пампа)</button>
-            <button class="btn-reset" onclick="goReset()">🔄 Сброс</button>
-        </div>
-    </div>
-
-    <div id="web3-toast-container"></div>
-
     <script>
-        // Инициализация структуры Валидатора
-        const solitoneEcosystem = {
-            wallet: { balance: 70 },
-            logs: [],
-            addLog: function(msg) {
-                this.logs.push({time: Date.now(), text: msg});
-                console.log(`[Валидатор роя]: ${msg}`);
-            }
-        };
+// Квантовое ядро экосистемы
+const quantumNet = {
+    balance: 70,
+    slots: 0,
+    lang: 'RU',
+    networks: { sol: 'Active', evm: 'Sync', quantum: 'Genesis' }
+};
 
-        let activeSlotsCount = 0;
-        const maxSlots = 38;
+// Словари для мгновенного перевода меню
+const locales = {
+    RU: {
+        title: "🐝 КВАНТОВЫЙ РОЙ BEE",
+        base: "База Роя (Квантовый мост):",
+        slots: "Эволюционные слоты хакатонов одуванчика:",
+        panel: "Панель Создателя Квантового Роя",
+        label: "Название хакатона / Квантовый адрес:",
+        btn1: "🚀 Запустить Хакатон (1 $BEE)",
+        btn2: "💰 Пополнить базу (+10 $BEE)",
+        btn3: "⚡ Cleanup SZN (Очистка)",
+        btn4: "🔥 Burn $BEE (Запуск пампа)",
+        btn5: "🔄 Сброс ядра"
+    },
+    EN: {
+        title: "🐝 BEE QUANTUM SWARM",
+        base: "Swarm Base (Quantum Bridge):",
+        slots: "Dandelion Hackathon Evolutionary Slots:",
+        panel: "Quantum Swarm Creator Panel",
+        label: "Hackathon Name / Quantum Address:",
+        btn1: "🚀 Launch Hackathon (1 $BEE)",
+        btn2: "💰 Refill Base (+10 $BEE)",
+        btn3: "⚡ Cleanup SZN (Clear)",
+        btn4: "🔥 Burn $BEE (Pump Start)",
+        btn5: "🔄 Reset Core"
+    }
+};
 
-        // Подача сигналов тостами
-        function showToast(text) {
-            const container = document.getElementById('web3-toast-container');
-            if (!container) return;
-            const t = document.createElement('div');
-            t.className = 'web3-toast';
-            t.innerText = text;
+// Функция переключения языков
+function switchLang(l) {
+    quantumNet.lang = l;
+    renderQuantumUI();
+}
+
+// Полный рендеринг квантового интерфейса
+function renderQuantumUI() {
+    const t = locales[quantumNet.lang];
+    
+    // Переводим тексты в вашем интерфейсе
+    document.querySelector('.header h1').innerText = t.title;
+    document.getElementById('balance-display').innerHTML = `${t.base} <span class="balance-value">${quantumNet.balance} $BEE</span><br><small style="color:#8c75b8;font-size:11px;">SOL: ${quantumNet.networks.sol} | EVM: ${quantumNet.networks.evm} | QUANTUM: ${quantumNet.networks.quantum}</small>`;
+    document.querySelector('.slots-label').innerText = t.slots;
+    document.getElementById('slots-display').innerText = `${quantumNet.slots} / 38`;
+    document.querySelector('.panel-title').innerText = t.panel;
+    document.querySelector('.input-group label').innerText = t.label;
+    
+    // Переводим кнопки
+    const btns = document.querySelectorAll('button');
+    btns[0].innerText = t.btn1;
+    btns[1].innerText = t.btn2;
+    btns[2].innerText = t.btn3;
+    btns[3].innerText = t.btn4;
+    btns[4].innerText = t.btn5;
+}
+
+// Логика кнопок управления
+function goLaunch() {
+    if (quantumNet.balance >= 1 && quantumNet.slots < 38) {
+        quantumNet.balance -= 1; quantumNet.slots += 1;
+        const txt = document.getElementById('h-in').value || '$BEE';
+        document.getElementById('hack-list').innerHTML += `<div style="padding:4px 0;font-size:13px;color:#00ffcc;">🧬 Блок #${quantumNet.slots} [Quantum]: ${txt}</div>`;
+        renderQuantumUI();
+    }
+}
+function goRefill() { quantumNet.balance += 10; renderQuantumUI(); }
+function goClean() { quantumNet.slots = 0; document.getElementById('hack-list').innerHTML = ''; renderQuantumUI(); }
+function goBurn() { if (quantumNet.balance >= 10) { quantumNet.balance -= 10; renderQuantumUI(); } }
+function goReset() { quantumNet.balance = 70; quantumNet.slots = 0; document.getElementById('hack-list').innerHTML = ''; renderQuantumUI(); }
+
+// Инициализация при загрузке страницы
+window.onload = function() {
+    // Добавляем переключатель языков в самый верх контейнера
+    const header = document.querySelector('.header');
+    if (header && !document.getElementById('lang-selector')) {
+        const div = document.createElement('div');
+        div.id = 'lang-selector';
+        div.style = 'margin-left:auto; display:flex; gap:8px; font-size:12px; font-weight:700; cursor:pointer;';
+        div.innerHTML = `<span onclick="switchLang('RU')" style="color:#00ffcc">RU</span>|<span onclick="switchLang('EN')" style="color:#b594ff">EN</span>`;
+        header.appendChild(div);
+    }
+    renderQuantumUI();
+};
+</script>
+                 
