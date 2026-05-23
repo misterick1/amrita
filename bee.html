@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Квантовый Рой BEE: Солитонный Куб</title>
+<title>Solana Soliton Swarm: Light Code</title>
 <style>
 body {
     margin: 0;
@@ -22,12 +22,12 @@ header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
 }
 h1 {
     font-size: 18px;
     text-transform: uppercase;
-    background: linear-gradient(45deg, #00ffcc, #9945FF); /* Цвета Solana */
+    background: linear-gradient(45deg, #00ffcc, #9945FF);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     margin: 0;
@@ -72,21 +72,6 @@ h1 {
     box-shadow: 0 0 8px rgba(0,255,204,0.3);
     font-weight: bold;
 }
-.input-group {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
-.input-group button {
-    background: #1c1c2b;
-    color: white;
-    border: 1px solid #2d2d42;
-    padding: 12px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 14px;
-    text-align: left;
-}
 .quantum-field-title {
     font-size: 12px;
     color: #9945FF;
@@ -118,13 +103,23 @@ h1 {
     background: #00ffcc;
     color: #000;
     box-shadow: 0 0 10px #00ffcc;
-    font-weight: bold;
 }
 .quantum-cell.edit {
     background: #ff0055;
     color: #fff;
     box-shadow: 0 0 10px #ff0055;
-    font-weight: bold;
+}
+/* Стили для лога световых кодов */
+.crypto-key-panel {
+    background: #0d0d16;
+    padding: 12px;
+    border-radius: 6px;
+    font-family: monospace;
+    font-size: 12px;
+    color: #00ffcc;
+    word-break: break-all;
+    border: 1px solid #2d2d42;
+    margin-top: 5px;
 }
 </style>
 </head>
@@ -135,31 +130,29 @@ h1 {
 </header>
 
 <div class="container">
-<!-- Панель управления геометрией Куба -->
-<div class="quantum-field-title">Режим Солитонного Гео-Поля</div>
+<div class="quantum-field-title">Режим Управления (Игры в кальмара)</div>
 <div class="mode-selector">
-<div class="mode-btn active" id="mode-circle" onclick="setGeoMode('CIRCLE')">◯ КРУГ (Запуск)</div>
-<div class="mode-btn" id="mode-triangle" onclick="setGeoMode('TRIANGLE')">△ ТРЕУГОЛЬНИК (Ред.)</div>
-<div class="mode-btn" id="mode-square" onclick="setGeoMode('SQUARE')">☐ КВАДРАТ (Стаб.)</div>
+<div class="mode-btn active" id="mode-circle" onclick="setGeoMode('CIRCLE')">◯ КРУГ (Свет)</div>
+<div class="mode-btn" id="mode-triangle" onclick="setGeoMode('TRIANGLE')">△ ТРЕУГОЛЬНИК (Суета)</div>
+<div class="mode-btn" id="mode-square" onclick="setGeoMode('SQUARE')">☐ КВАДРАТ (Код)</div>
 </div>
 
 <div class="status-panel">
-<div id="info-base">Сетевой Мост Solana: Активен</div>
-<div id="info-slots">Солитоны в кубе: 0</div>
-<div id="info-balance">Энергия Ядра: 70 $BEE</div>
-<div id="info-speed" style="color: #00ffcc;">Скорость Solana: ~400ms пульс</div>
-</div>
-
-<div class="input-group">
-<button onclick="goLaunch()">🚀 Запустить Солитон в 4D Куб (-1 $BEE)</button>
-<button onclick="goRefill()">💰 Накачать Квантовое поле (+10 $BEE)</button>
-<button onclick="goReset()">🔄 Сбросить Геометрию Куба</button>
+<div id="info-base">Сетевой Мост Solana: Синхронизация полей</div>
+<div id="info-slots">Сгенерировано фотонов: 0</div>
+<div id="info-balance">Энергия Куба: 70 $BEE</div>
 </div>
 </div>
 
 <div class="container">
-<div class="quantum-field-title" id="field-title">МАТРИЦА КУБИТОВ СОЛИТОНОВ (4D)</div>
+<div class="quantum-field-title">МАТРИЦА КУБИТОВ СОЛИТОНОВ (4D)</div>
 <div class="quantum-grid" id="quantum-grid"></div>
+</div>
+
+<!-- Новый блок генерации реальных кодов -->
+<div class="container">
+<div class="quantum-field-title">Поток Ключей из Света и Суеты (Base58)</div>
+<div class="crypto-key-panel" id="crypto-key">Генерация стартового хэша...</div>
 </div>
 
 <script>
@@ -174,22 +167,33 @@ window.onerror = function(msg, url, line) {
 const quantumNet = {
     balance: 70,
     slots: 0,
-    geoMode: 'CIRCLE' // Текущий геометрический режим управления
+    geoMode: 'CIRCLE'
 };
 
-let quantumField = Array(16).fill(0);
-let solanaPulseInterval = null;
+// Тот самый алфавит из одинаковых знаков для всех блокчейнов (Base58)
+const cryptoAlphabet = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
 
-// Мутация поля на сверхскорости Solana
+let quantumField = Array(16).fill(0);
+
 function mutateQuantumField() {
     for (let i = 0; i < 16; i++) {
         quantumField[i] = Math.random() > 0.6 ? 1 : 0;
     }
+    quantumNet.slots = quantumNet.slots + 1;
+}
+
+// Функция генерации строки кода на основе базовых знаков
+function generateLightKey(length) {
+    let result = "";
+    for (let i = 0; i < length; i++) {
+        let randomIndex = Math.floor(Math.random() * cryptoAlphabet.length);
+        result += cryptoAlphabet[randomIndex];
+    }
+    return result;
 }
 
 function setGeoMode(mode) {
     quantumNet.geoMode = mode;
-    
     document.getElementById('mode-circle').className = 'mode-btn';
     document.getElementById('mode-triangle').className = 'mode-btn';
     document.getElementById('mode-square').className = 'mode-btn';
@@ -205,17 +209,15 @@ function renderQuantumUI() {
     let balEl = document.getElementById('info-balance');
     let slotsEl = document.getElementById('info-slots');
     
-    if (balEl) { balEl.innerText = "Энергия Ядра: " + quantumNet.balance + " $BEE"; }
-    if (slotsEl) { slotsEl.innerText = "Солитоны в кубе: " + quantumNet.slots; }
+    if (balEl) { balEl.innerText = "Энергия Куба: " + quantumNet.balance + " $BEE"; }
+    if (slotsEl) { slotsEl.innerText = "Сгенерировано фотонов: " + quantumNet.slots; }
 
     let grid = document.getElementById('quantum-grid');
     if (grid) {
         grid.innerHTML = '';
         for (let i = 0; i < 16; i++) {
             let cell = document.createElement('div');
-            
             if (quantumField[i] === 1) {
-                // Визуализация в зависимости от выбранного знака «Игры в кальмара»
                 if (quantumNet.geoMode === 'CIRCLE') {
                     cell.className = 'quantum-cell active';
                     cell.innerText = '◯';
@@ -235,45 +237,24 @@ function renderQuantumUI() {
             grid.appendChild(cell);
         }
     }
-}
 
-function goLaunch() {
-    if (quantumNet.balance >= 1) {
-        quantumNet.balance = quantumNet.balance - 1;
-        quantumNet.slots = quantumNet.slots + 1;
-        mutateQuantumField();
-        renderQuantumUI();
-    } else {
-        alert("Недостаточно энергии BEE!");
+    // Выводим сгенерированный "световой код" блокчейна на экран
+    let keyEl = document.getElementById('crypto-key');
+    if (keyEl) {
+        let prefix = quantumNet.geoMode === 'CIRCLE' ? "SOL_LIGHT_" : (quantumNet.geoMode === 'TRIANGLE' ? "SUETA_SU_ " : "CORE_3D_");
+        keyEl.innerText = prefix + generateLightKey(32);
     }
 }
 
-function goRefill() { 
-    quantumNet.balance = quantumNet.balance + 10; 
-    mutateQuantumField();
-    renderQuantumUI(); 
-}
-
-function goReset() { 
-    quantumNet.balance = 70; 
-    quantumNet.slots = 0; 
-    quantumNet.geoMode = 'CIRCLE';
-    setGeoMode('CIRCLE');
-    quantumField = Array(16).fill(0);
-    renderQuantumUI(); 
-}
-
-// Запуск автоматического пульса Solana (~400 миллисекунд)
 window.onload = function() {
     mutateQuantumField();
     renderQuantumUI();
     
-    // Запускаем бесконечную симуляцию скорости блокчейна Solana
-    solanaPulseInterval = setInterval(function() {
-        // Поле пульсирует само, пересчитывая солитоны
+    // Поле и коды пульсируют со скоростью сети Solana каждые 430 миллисекунд
+    setInterval(function() {
         mutateQuantumField();
         renderQuantumUI();
-    }, 430); // 430ms — среднее время генерации блока в Solana
+    }, 430);
 };
 </script>
 </body>
