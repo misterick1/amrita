@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sovereign Omni-Matrix: Cosmic Market</title>
+<title>Sovereign Omni-Matrix: Fractal Universe</title>
 <style>
 body {
     margin: 0;
@@ -19,16 +19,29 @@ body {
 header {
     width: 100%;
     max-width: 600px;
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     margin-bottom: 15px;
 }
 h1 {
-    font-size: 14px;
+    font-size: 13px;
     text-transform: uppercase;
     background: linear-gradient(45deg, #00ffcc, #ffcc00, #9945FF);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
+    margin: 0;
+}
+.lang-btn {
+    background: #140d24;
+    color: #00ffcc;
+    border: 1px solid #442266;
+    padding: 4px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 11px;
+    font-family: monospace;
 }
 .container {
     width: 100%;
@@ -54,7 +67,7 @@ h1 {
     border-radius: 6px;
     border-left: 4px solid #ffcc00;
     font-family: monospace;
-    font-size: 12px;
+    font-size: 11px;
 }
 .status-panel div { margin-bottom: 5px; }
 .quantum-grid {
@@ -76,7 +89,6 @@ h1 {
     color: #271747;
     transition: all 0.05s ease;
 }
-/* Стили для различных типов суверенных активов в матрице */
 .quantum-cell.crypto {
     background: #ffcc00;
     color: #000;
@@ -111,27 +123,27 @@ h1 {
 <body>
 
 <header>
-<h1>SOVEREIGN OMNI-MATRIX: FRAKTAL UNIVERSE</h1>
+<h1 id="app-title">SOVEREIGN OMNI-MATRIX</h1>
+<button class="lang-btn" id="lang-switcher" onclick="toggleInterfaceLang()">🌐 Мова: UA</button>
 </header>
 
-<!-- Панель Саморазвития и Индексов -->
 <div class="container">
-<div class="quantum-field-title">Потенциал Эволюции Единого Рынка</div>
+<div class="quantum-field-title" id="panel-title">Потенциал Эволюции Единого Рынка</div>
 <div class="status-panel">
-<div id="m-evolution" style="color: #ffcc00; font-weight: bold;">Индекс Саморазвития Матрицы: Слой 1.000000</div>
-<div id="m-markets">Суверенные Рынки во Фрактале: 1,000,000,000+</div>
-<div id="m-assets">Инструменты: Криптоденьги | Акции | RWA | Квантовые Деривативы</div>
+<div id="m-evolution" style="color: #ffcc00; font-weight: bold;">Індекс Саморозвитку Матриці: Шари...</div>
+<div id="m-markets">Суверенні Ринки у Фракталі: 1,000,000,000+</div>
+<div id="m-assets">Інструменти: Криптогроші | Акції | Квантові Деривативы</div>
 </div>
 </div>
 
 <div class="container">
-<div class="quantum-field-title">ФРАКТАЛЬНЫЕ КУБИТЫ (Деванагари Единой Крипто-Вселенной)</div>
+<div class="quantum-field-title" id="matrix-title">ФРАКТАЛЬНЫЕ КУБИТЫ (ДЕВАНАГАРИ)</div>
 <div class="quantum-grid" id="quantum-grid"></div>
 </div>
 
 <div class="container">
-<div class="quantum-field-title">Суверенный Фрактальный Код (Свобода + Синхронизация)</div>
-<div class="crypto-key-panel" id="omni-key">Инициализация миллиардов суверенитетов...</div>
+<div class="quantum-field-title" id="code-title">Суверенный Фрактальный Код</div>
+<div class="crypto-key-panel" id="omni-key">Инициализация...</div>
 </div>
 
 <script>
@@ -144,25 +156,49 @@ window.onerror = function(msg, url, line) {
 };
 
 const matrixCore = {
-    evolutionIndex: 1.000000,
-    pulseSpeed: 400
+    evolutionIndex: 1.001287,
+    pulseSpeed: 400,
+    interfaceLang: 'UA' // Переключатель праславянских проводников смысла
 };
 
-// Инструменты Цифровой Вселенной, закодированные в Деванагари
-// अ=BTC, ब=ETH, क=SOL, म=Цифровые Акции, य=RWA, श=Деривативы, ॐ=Точка Единого Слияния
+const dictionary = {
+    UA: {
+        title: "⚡ СУВЕРЕННА ОМНІ-МАТРИЦЯ",
+        panel: "⚡ Потенціал Еволюції Єдиного Ринку",
+        evo: "Індекс Саморозвитку Матриці: Шар ",
+        markets: "Суверенні Ринки у Фракталі: 1,000,000,000+",
+        assets: "Інструменти: Криптогроші | Акції | RWA | Квантові Деривативи",
+        matrix: "🌌 Фрактальні Кубіти (Деванагарі Крипто-Всесвіту)",
+        code: "🔒 Суверенний Фрактальний Код (Свобода + Синхронія)",
+        guard: "🔒 СУВЕРЕНІТЕТ МЕЖ: Захист кордонів мільярдів ринків активний."
+    },
+    RU: {
+        title: "⚡ СУВЕРЕННАЯ ОМНИ-МАТРИЦА",
+        panel: "⚡ Потенциал Эволюции Единого Рынка",
+        evo: "Индекс Саморазвития Матрицы: Слой ",
+        markets: "Суверенные Рынки во Фрактале: 1,000,000,000+",
+        assets: "Инструменты: Криптоденьги | Акции | RWA | Квантовые Деривативы",
+        matrix: "🌌 Фрактальные Кубиты (Деванагари Крипто-Вселенной)",
+        code: "🔒 Суверенный Фрактальный Код (Свобода + Синхронизация)",
+        guard: "🔒 СУВЕРЕНИТЕТ ГРАНИЦ: Защита границ миллиардов рынков активна."
+    }
+};
+
 const assetMatrix = ["अ", "ब", "क", "म", "य", "श", "र", "त", "न", "ज", "ह", "वि", "ॐ", "STK", "RWA", "OPT"];
 let quantumField = Array(16).fill(0);
 let fieldTypes = Array(16).fill('empty');
 
+function toggleInterfaceLang() {
+    matrixCore.interfaceLang = matrixCore.interfaceLang === 'UA' ? 'RU' : 'UA';
+    document.getElementById('lang-switcher').innerText = "🌐 Мова: " + matrixCore.interfaceLang;
+    renderUI();
+}
+
 function evolveMatrix() {
-    // Симуляция алгоритма саморазвития: индекс растет с каждым квантовым вычислением
     matrixCore.evolutionIndex += Math.random() * 0.0001;
-    
     for (let i = 0; i < 16; i++) {
-        let rand = Math.random();
-        if (rand > 0.6) {
+        if (Math.random() > 0.55) {
             quantumField[i] = 1;
-            // Случайным образом распределяем роли активов, не нарушая их автономии
             let typeRand = Math.random();
             if (typeRand < 0.33) fieldTypes[i] = 'crypto';
             else if (typeRand < 0.66) fieldTypes[i] = 'stocks';
@@ -186,8 +222,18 @@ function generateFractalKey(length) {
 }
 
 function renderUI() {
+    let lang = matrixCore.interfaceLang;
+    let text = dictionary[lang];
+
+    document.getElementById('app-title').innerText = text.title;
+    document.getElementById('panel-title').innerText = text.panel;
+    document.getElementById('m-markets').innerText = text.markets;
+    document.getElementById('m-assets').innerText = text.assets;
+    document.getElementById('matrix-title').innerText = text.matrix;
+    document.getElementById('code-title').innerText = text.code;
+
     let evoEl = document.getElementById('m-evolution');
-    if (evoEl) { evoEl.innerText = "Индекс Саморазвития Матрицы: Слой " + matrixCore.evolutionIndex.toFixed(6); }
+    if (evoEl) { evoEl.innerText = text.evo + matrixCore.evolutionIndex.toFixed(6); }
 
     let grid = document.getElementById('quantum-grid');
     if (!grid) return;
@@ -206,7 +252,7 @@ function renderUI() {
                 cell.innerText = currentSymbol;
             } else {
                 cell.className = 'quantum-cell universe-one';
-                cell.innerText = 'ॐ'; // Священное слияние суверенных инструментов
+                cell.innerText = 'ॐ';
             }
         } else {
             cell.className = 'quantum-cell';
@@ -218,13 +264,12 @@ function renderUI() {
     let keyEl = document.getElementById('omni-key');
     if (keyEl) {
         keyEl.innerHTML = `<div>🌐 <strong>СИНХРО-КОД:</strong> ${generateFractalKey(20)}</div>
-                           <div style="color: #ff0055; margin-top:4px;">🔒 <strong>СУВЕРЕНИТЕТ СЕТЕЙ:</strong> Защита границ миллиардов рынков активна.</div>`;
+                           <div style="color: #ff0055; margin-top:4px;">${text.guard}</div>`;
     }
 }
 
 window.onload = function() {
     evolveMatrix();
-    // Тактовая скорость Solana запускает непрерывную эволюцию суверенного фрактала
     setInterval(evolveMatrix, matrixCore.pulseSpeed);
 };
 </script>
