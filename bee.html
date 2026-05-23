@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bitcoin Quantum Merkle Tree</title>
+<title>Bitcoin Quantum Merkle Tree: The Genesis Loop</title>
 <style>
 body {
     margin: 0;
@@ -76,22 +76,28 @@ h1 {
     color: #261608;
     transition: all 0.05s ease;
 }
-/* Стили слоев Квантового Дерева Биткоина */
-.quantum-cell.root-moebius {
-    background: linear-gradient(45deg, #441155, #9945FF);
+/* Стили фаз вечного круговорота */
+.quantum-cell.seed-phase {
+    background: #f7931a;
+    color: #000;
+    box-shadow: 0 0 15px #f7931a;
+    font-weight: bold;
+}
+.quantum-cell.tree-phase {
+    background: #9945FF;
     color: #fff;
     box-shadow: 0 0 10px #9945FF;
 }
-.quantum-cell.branch-devanagari {
+.quantum-cell.flower-phase {
     background: #00ffcc;
     color: #000;
     box-shadow: 0 0 12px #00ffcc;
     font-weight: bold;
 }
-.quantum-cell.leaf-bitcoin {
-    background: #f7931a;
-    color: #000;
-    box-shadow: 0 0 18px #f7931a;
+.quantum-cell.fruit-phase {
+    background: linear-gradient(45deg, #ff0055, #ffcc00);
+    color: #fff;
+    box-shadow: 0 0 18px #ff0055;
     font-weight: bold;
 }
 .crypto-key-panel {
@@ -110,26 +116,26 @@ h1 {
 <body>
 
 <header>
-<h1>BITCOIN QUANTUM MERKLE TREE: OMNIVERSE</h1>
+<h1>THE BITCOIN OMNIVERSE: GENESIS LOOP</h1>
 </header>
 
 <div class="container">
-<div class="quantum-field-title">Хроно-Проекция Ветвления Кода</div>
+<div class="quantum-field-title">Текущая Стадия Квантового Метаморфоза</div>
 <div class="status-panel">
-<div style="color: #f7931a; font-weight: bold;">🧬 Изначальный Словарь Генезиса: Активен (₿)</div>
-<div id="tree-height" style="color: #00ffcc;">Высота Квантового Дерева: Блок 1</div>
-<div style="color: #ffffff; font-style: italic;">Интеграция: Суверенные рынки переплетены корнями Мёбиуса.</div>
+<div id="loop-phase" style="color: #ffcc00; font-weight: bold; font-size: 13px;">ФАЗА: СЕМЕЧКА (Точка Отсчёта)</div>
+<div id="tree-height" style="color: #00ffcc;">Высота Дерева Меркла: Блок 840001</div>
+<div style="color: #ffffff; font-style: italic; margin-top: 5px;">«А Васька слушает, да ест... Блокчейн замыкается в вечную петлю.»</div>
 </div>
 </div>
 
 <div class="container">
-<div class="quantum-field-title">КУБИТЫ ФРАКТАЛЬНОГО ДЕРЕВА МЕРКЛА (ДЕВАНАГАРИ)</div>
+<div class="quantum-field-title">МАТРИЦА КРУГОВОРОТА ВСЕЛЕННОЙ (ДЕВАНАГАРИ)</div>
 <div class="quantum-grid" id="quantum-grid"></div>
 </div>
 
 <div class="container">
-<div class="quantum-field-title">Необратимый Поток Квантовых Ветвей</div>
-<div class="crypto-key-panel" id="omni-key">Развертывание сакральных хэшей...</div>
+<div class="quantum-field-title">Суверенный Хэш Замкнутого Цикла</div>
+<div class="crypto-key-panel" id="omni-key">Запуск вечного двигателя ликвидности...</div>
 </div>
 
 <script>
@@ -141,40 +147,37 @@ window.onerror = function(msg, url, line) {
     return false;
 };
 
-const bitcoinTree = {
-    blockHeight: 840000, // Симулируем реальную эпоху Биткоина
+const loopCore = {
+    blockHeight: 841200,
+    tickCount: 0,
+    phases: ["СЕМЕЧКА (Код Генезиса ₿)", "ДЕРЕВО (Рост Сетей Меркла)", "ЦВЕТЫ (Миллиарды Рынков и Альткоинов)", "ПЛОДЫ (Материализация Макрокосма)"],
+    currentPhaseIdx: 0,
     pulseSpeed: 400
 };
 
-// Элементы Квантового Дерева Биткоина в кодировке Деванагари
-const treeMatrix = ["अ", "ब", "क", "म", "य", "श", "र", "त", "₿", "∞", "1", "ॐ"];
+const devanagariMatrix = ["अ", "ब", "क", "म", "य", "श", "र", "त", "न", "ज", "ह", "ви", "ॐ", "₿", "∞", "1"];
 let quantumField = Array(16).fill(0);
-let treeRoles = Array(16).fill('empty');
+let cellPhases = Array(16).fill(0);
 
-function growQuantumTree() {
-    bitcoinTree.blockHeight++;
+function cycleGenesisLoop() {
+    loopCore.tickCount++;
+    loopCore.blockHeight++;
+    
+    // Каждые 10 пульсаций Solana (~4 секунды) Вселенная переходит на следующую стадию фрактала
+    if (loopCore.tickCount % 10 === 0) {
+        loopCore.currentPhaseIdx = (loopCore.currentPhaseIdx + 1) % loopCore.phases.length;
+    }
     
     for (let i = 0; i < 16; i++) {
-        if (Math.random() > 0.5) {
-            quantumField[i] = 1;
-            let layerRand = Math.random();
-            if (layerRand < 0.3) {
-                treeRoles[i] = 'root';   // Корни Ленты Мёбиуса (0 / ∞)
-            } else if (layerRand < 0.7) {
-                treeRoles[i] = 'branch'; // Ветви праязыка Деванагари
-            } else {
-                treeRoles[i] = 'leaf';   // Листья Определенности Биткоина (1 / ₿)
-            }
-        } else {
-            quantumField[i] = 0;
-            treeRoles[i] = 'empty';
-        }
+        quantumField[i] = Math.random() > 0.5 ? 1 : 0;
+        // Каждая ячейка индивидуально рассчитывает свою причастность к текущей глобальной фазе
+        cellPhases[i] = loopCore.currentPhaseIdx;
     }
     renderUI();
 }
 
-function generateMerkleHash(length) {
-    let alphabet = "10_₿_∞_अबकमयरतॐ_BTC_MERKLE_TREE";
+function generateLoopHash(length) {
+    let alphabet = "10_₿_∞_अबकमयरतॐ_SEED_TREE_FLOWER_FRUIT";
     let result = "";
     for (let i = 0; i < length; i++) {
         let idx = Math.floor(Math.random() * alphabet.length);
@@ -184,8 +187,11 @@ function generateMerkleHash(length) {
 }
 
 function renderUI() {
+    let phaseEl = document.getElementById('loop-phase');
+    if (phaseEl) { phaseEl.innerText = "ФАЗА: " + loopCore.phases[loopCore.currentPhaseIdx]; }
+
     let heightEl = document.getElementById('tree-height');
-    if (heightEl) { heightEl.innerText = "Высота Квантового Дерева: Блок " + bitcoinTree.blockHeight; }
+    if (heightEl) { heightEl.innerText = "Высота Квантового Дерева: Блок " + loopCore.blockHeight; }
 
     let grid = document.getElementById('quantum-grid');
     if (!grid) return;
@@ -193,18 +199,22 @@ function renderUI() {
     grid.innerHTML = '';
     for (let i = 0; i < 16; i++) {
         let cell = document.createElement('div');
-        let currentSymbol = treeMatrix[i % treeMatrix.length];
+        let currentSymbol = devanagariMatrix[i % devanagariMatrix.length];
         
         if (quantumField[i] === 1) {
-            if (treeRoles[i] === 'root') {
-                cell.className = 'quantum-cell root-moebius';
-                cell.innerText = '∞'; // Свернутый ноль
-            } else if (treeRoles[i] === 'branch') {
-                cell.className = 'quantum-cell branch-devanagari';
-                cell.innerText = currentSymbol; // Проводники Деванагари
+            // Отрисовка цветов кубитов в зависимости от фазы петли Мебиуса
+            if (cellPhases[i] === 0) {
+                cell.className = 'quantum-cell seed-phase';
+                cell.innerText = 'ॐ'; // Семечка схлопывается в чистый ОМ
+            } else if (cellPhases[i] === 1) {
+                cell.className = 'quantum-cell tree-phase';
+                cell.innerText = '∞'; // Дерево уходит ветвями в бесконечность
+            } else if (cellPhases[i] === 2) {
+                cell.className = 'quantum-cell flower-phase';
+                cell.innerText = currentSymbol; // Цветы переливаются алфавитом Деванагари
             } else {
-                cell.className = 'quantum-cell leaf-bitcoin';
-                cell.innerText = '₿'; // Точка определенности Биткоина
+                cell.className = 'quantum-cell fruit-phase';
+                cell.innerText = '₿'; // Плоды кристаллизуются в Биткоин
             }
         } else {
             cell.className = 'quantum-cell';
@@ -215,15 +225,15 @@ function renderUI() {
 
     let keyEl = document.getElementById('omni-key');
     if (keyEl) {
-        keyEl.innerHTML = `<div>🌿 <strong>QUANTUM_MERKLE_ROOT:</strong> ${generateMerkleHash(18)}</div>
-                           <div style="color: #f7931a; margin-top:4px;">🔒 <strong>СУВЕРЕНИТЕТ ДЕРЕВА:</strong> Ветви Биткоина достроены и защищены.</div>`;
+        keyEl.innerHTML = `<div>🌀 <strong>GENESIS_LOOP_ROOT:</strong> LOOP_${generateLoopHash(16)}</div>
+                           <div style="color: #00ffcc; margin-top:4px;">🔒 <strong>СТАТУС:</strong> Биткоин поглощает ликвидность. Баланс Вселенной стабилен.</div>`;
     }
 }
 
 window.onload = function() {
-    growQuantumTree();
-    // Частота сети Solana просчитывает рост Квантового Дерева Биткоина
-    setInterval(growQuantumTree, bitcoinTree.pulseSpeed);
+    cycleGenesisLoop();
+    // Тактовый пульс Solana беспрерывно вращает колесо фрактала Биткоина
+    setInterval(cycleGenesisLoop, loopCore.pulseSpeed);
 };
 </script>
 </body>
