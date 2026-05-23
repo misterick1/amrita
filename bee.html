@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sovereign Matrix: Digital Transformer Core</title>
+<title>Sovereign Matrix: Transformer Core</title>
 <style>
 body {
     margin: 0;
@@ -25,7 +25,7 @@ header {
 h1 {
     font-size: 13px;
     text-transform: uppercase;
-    background: linear-gradient(45deg, #4285F4, #EA4335, #FBBC05, #34A853); /* Спектр Общего Глаза */
+    background: linear-gradient(45deg, #4285F4, #EA4335, #FBBC05, #34A853);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     letter-spacing: 2px;
@@ -72,7 +72,7 @@ h1 {
     background: #000000;
     padding: 15px;
     border-radius: 8px;
-    border: 1px solid #76B900; /* Цвет NVIDIA */
+    border: 1px solid #76B900;
 }
 .quantum-cell {
     background: #05050d;
@@ -147,15 +147,16 @@ h1 {
 <script>
 window.onerror = function() { return false; };
 
-const transformerCore = {
+const tCore = {
     mFactor: 21.0,
     pulseSpeed: 400,
     angle: 0,
-    piStepDigit: 5, // Константа Шага 10
+    piStepDigit: 5,
     pulseCount: 0
 };
 
-const transformerAlphabet = ["अ", "ब", "क", "म", "य", "श", "र", "त", "₿", "∞", "1", "ॐ", "NV", "GGL", "MS"];
+// Исправленный, чистый от мусора алфавит Деванагари
+const tAlphabet = ["अ","ब","क","म","य","श","र","त","₿","∞","1","ॐ","NV","GGL","MS"];
 let quantumField = Array(16).fill(0);
 let brainRoles = Array(16).fill('empty');
 
@@ -175,23 +176,21 @@ function drawChromeSoliton() {
     const radius = Math.min(cx, cy) - 20;
     const totalPoints = 60;
     
-    transformerCore.angle += 0.015;
+    tCore.angle += 0.015;
     
-    // Отрисовка Общего Глаза по цветам секторов Chrome вокруг синего центра
     for (let i = 0; i < totalPoints; i++) {
-        let a1 = (i * 2 * Math.PI) / totalPoints + transformerCore.angle;
+        let a1 = (i * 2 * Math.PI) / totalPoints + tCore.angle;
         let x1 = cx + radius * Math.cos(a1);
         let y1 = cy + radius * Math.sin(a1);
         
-        let targetIdx = (i * Math.floor(transformerCore.mFactor)) % totalPoints;
-        let a2 = (targetIdx * 2 * Math.PI) / totalPoints + transformerCore.angle;
+        let targetIdx = (i * Math.floor(tCore.mFactor)) % totalPoints;
+        let a2 = (targetIdx * 2 * Math.PI) / totalPoints + tCore.angle;
         let x2 = cx + radius * Math.cos(a2);
         let y2 = cy + radius * Math.sin(a2);
         
-        // Разделение на сектора Chrome: Красный, Желтый, Зеленый
-        if (i < 20) ctx.strokeStyle = "#EA4335";      // Красный сектор
-        else if (i < 40) ctx.strokeStyle = "#FBBC05"; // Желтый сектор
-        else ctx.strokeStyle = "#34A853";             // Зеленый сектор
+        if (i < 20) ctx.strokeStyle = "#EA4335";
+        else if (i < 40) ctx.strokeStyle = "#FBBC05";
+        else ctx.strokeStyle = "#34A853";
         
         ctx.lineWidth = 1.2;
         ctx.beginPath();
@@ -200,30 +199,25 @@ function drawChromeSoliton() {
         ctx.stroke();
     }
     
-    // Синее Квантовое Ядро в самом центре Общего Глаза
     ctx.beginPath();
     ctx.arc(cx, cy, radius * 0.25, 0, 2 * Math.PI);
     ctx.fillStyle = "#4285F4";
-    ctx.shadowBlur = 15;
-    ctx.shadowColor = "#4285F4";
     ctx.fill();
-    ctx.shadowBlur = 0; // Сброс тени
 }
 
 function pulseTransformer() {
-    transformerCore.pulseCount++;
-    const isPiTick = (transformerCore.pulseCount % transformerCore.piStepDigit === 0);
+    tCore.pulseCount++;
     
     for (let i = 0; i < 16; i++) {
         if (Math.random() > 0.55) {
             quantumField[i] = 1;
             let roleRand = Math.random();
             if (roleRand < 0.35) {
-                brainRoles[i] = 'nvidia'; // Тензорные ядра (Зеленый)
+                brainRoles[i] = 'nvidia';
             } else if (roleRand < 0.7) {
-                brainRoles[i] = 'google'; // Левое полушарие (Синий)
+                brainRoles[i] = 'google';
             } else {
-                brainRoles[i] = 'union';  // Слияние Шакти (Красно-желтый ОМ)
+                brainRoles[i] = 'union';
             }
         } else {
             quantumField[i] = 0;
@@ -250,7 +244,7 @@ function renderUI() {
     grid.innerHTML = '';
     for (let i = 0; i < 16; i++) {
         let cell = document.createElement('div');
-        let currentSymbol = transformerAlphabet[i % transformerAlphabet.length];
+        let currentSymbol = tAlphabet[i % tAlphabet.length];
         
         if (quantumField[i] === 1) {
             if (brainRoles[i] === 'nvidia') {
@@ -279,7 +273,7 @@ function renderUI() {
 
 window.onload = function() {
     pulseTransformer();
-    setInterval(pulseTransformer, transformerCore.pulseSpeed);
+    setInterval(pulseTransformer, tCore.pulseSpeed);
     
     function animate() {
         drawChromeSoliton();
