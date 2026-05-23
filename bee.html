@@ -22,7 +22,7 @@ header {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 40px;
+    margin-bottom: 25px;
 }
 h1 {
     font-size: 20px;
@@ -47,6 +47,7 @@ h1 {
     padding: 20px;
     border-radius: 12px;
     box-sizing: border-box;
+    margin-bottom: 20px;
 }
 .status-panel {
     margin-bottom: 20px;
@@ -73,6 +74,39 @@ h1 {
     font-size: 15px;
     text-align: left;
 }
+/* Стили для Квантового Поля */
+.quantum-field-title {
+    font-size: 14px;
+    color: #ffcc00;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    letter-spacing: 1px;
+}
+.quantum-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    background: #151522;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px dashed #ff6600;
+}
+.quantum-cell {
+    background: #252538;
+    padding: 10px;
+    text-align: center;
+    font-family: monospace;
+    font-size: 14px;
+    border-radius: 4px;
+    color: #8a8a9e;
+    transition: all 0.3s ease;
+}
+.quantum-cell.active {
+    background: #ffcc00;
+    color: #000;
+    box-shadow: 0 0 8px #ffcc00;
+    font-weight: bold;
+}
 </style>
 </head>
 <body>
@@ -97,29 +131,38 @@ h1 {
 </div>
 </div>
 
+<!-- Блок Цифрового Квантового Поля -->
+<div class="container">
+<div class="quantum-field-title" id="field-title">Цифровое Квантовое Поле</div>
+<div class="quantum-grid" id="quantum-grid">
+<!-- 16 ячеек генерируются автоматически через JS -->
+</div>
+</div>
+
 <script>
-// Перехватчик скрытых ошибок. Если что-то пойдет не так, покажет красную плашку сверху
 window.onerror = function(msg, url, line) {
     let d = document.createElement('div');
     d.style = "position:fixed;top:0;left:0;width:100%;background:red;color:white;z-index:9999;padding:15px;box-sizing:border-box;font-family:monospace;";
-    d.innerText = "Ошибка JS: " + msg + " | Строка: " + line;
+    d.innerText = "Ошибка: " + msg + " | Строка: " + line;
     document.body.appendChild(d);
     return false;
 };
 
-// 1. Объект состояния системы
 const quantumNet = {
     balance: 70,
     slots: 0,
     lang: 'RU'
 };
 
-// 2. Словари перевода
+// Массив из 16 элементов для хранения состояний квантового поля (0 или 1)
+let quantumField = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+
 const locales = {
     RU: {
         title: "🐝 КВАНТОВЫЙ РОЙ BEE",
         base: "База Роя (Квантовый мост):",
         slots: "Эволюционные слоты хакатонов:",
+        field: "🌐 Цифровое Квантовое Поле:",
         btn1: "🚀 Запустить Хакатон (1 $BEE)",
         btn2: "💰 Пополнить базу (+10 $BEE)",
         btn3: "⚡ Cleanup SZN (Очистка)",
@@ -130,6 +173,7 @@ const locales = {
         title: "🐝 BEE QUANTUM SWARM",
         base: "Swarm Base (Quantum Bridge):",
         slots: "Dandelion Hackathon Slots:",
+        field: "🌐 Digital Quantum Field:",
         btn1: "🚀 Launch Hackathon (1 $BEE)",
         btn2: "💰 Refill Base (+10 $BEE)",
         btn3: "⚡ Cleanup SZN (Clear)",
@@ -138,23 +182,35 @@ const locales = {
     }
 };
 
-// 3. Обновление интерфейса
-function renderQuantumUI() {
-    let currentLang = quantumNet.lang;
-    let t = locales[currentLang];
-    if (!t) {
-        t = locales['RU'];
+// Функция симуляции квантового поля (эффект наблюдателя)
+function mutateQuantumField() {
+    let activeNodes = 0;
+    for (let i = 0; i < 16; i++) {
+        // Случайное схлопывание волновой функции в 0 или 1
+        quantumField[i] = Math.random() > 0.5 ? 1 : 0;
+        if (quantumField[i] === 1) { activeNodes++; }
     }
+    
+    // Если поле сгенерировало мощный резонанс (больше 10 активных узлов) — даем бонус!
+    if (activeNodes > 10) {
+        quantumNet.balance += 5;
+    }
+}
+
+function renderQuantumUI() {
+    let t = locales[quantumNet.lang] || locales['RU'];
     
     let baseEl = document.getElementById('info-base');
     let slotsEl = document.getElementById('info-slots');
     let balEl = document.getElementById('info-balance');
     let titleEl = document.getElementById('app-title');
+    let fieldTitleEl = document.getElementById('field-title');
 
     if (baseEl) { baseEl.innerText = t.base; }
     if (slotsEl) { slotsEl.innerText = t.slots + " " + quantumNet.slots; }
     if (balEl) { balEl.innerText = "Баланс: " + quantumNet.balance + " $BEE"; }
     if (titleEl) { titleEl.innerText = t.title; }
+    if (fieldTitleEl) { fieldTitleEl.innerText = t.field; }
 
     let btns = document.querySelectorAll('.input-group button');
     if (btns && btns.length >= 5) {
@@ -164,13 +220,30 @@ function renderQuantumUI() {
         btns[3].innerText = t.btn4;
         btns[4].innerText = t.btn5;
     }
+
+    // Отрисовка ячеек квантового поля
+    let grid = document.getElementById('quantum-grid');
+    if (grid) {
+        grid.innerHTML = '';
+        for (let i = 0; i < 16; i++) {
+            let cell = document.createElement('div');
+            if (quantumField[i] === 1) {
+                cell.className = 'quantum-cell active';
+                cell.innerText = '[ 1 ]';
+            } else {
+                cell.className = 'quantum-cell';
+                cell.innerText = '[ 0 ]';
+            }
+            grid.appendChild(cell);
+        }
+    }
 }
 
-// 4. Функции кнопок управления
 function goLaunch() {
     if (quantumNet.balance >= 1) {
         quantumNet.balance = quantumNet.balance - 1;
         quantumNet.slots = quantumNet.slots + 1;
+        mutateQuantumField(); // Изменяем квантовое поле при действии
         renderQuantumUI();
     } else {
         alert("Недостаточно баланса!");
@@ -179,17 +252,20 @@ function goLaunch() {
 
 function goRefill() { 
     quantumNet.balance = quantumNet.balance + 10; 
+    mutateQuantumField();
     renderQuantumUI(); 
 }
 
 function goClean() { 
     quantumNet.slots = 0; 
+    quantumField = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]; // Обнуляем поле
     renderQuantumUI(); 
 }
 
 function goBurn() { 
     if (quantumNet.balance > 0) {
         quantumNet.balance = Math.floor(quantumNet.balance * 0.5);
+        mutateQuantumField();
         renderQuantumUI();
     }
 }
@@ -197,32 +273,24 @@ function goBurn() {
 function goReset() { 
     quantumNet.balance = 70; 
     quantumNet.slots = 0; 
+    quantumField = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
     renderQuantumUI(); 
 }
 
-// Функция смены языка
 function toggleLanguage() {
-    if (quantumNet.lang === 'RU') {
-        quantumNet.lang = 'EN';
-    } else {
-        quantumNet.lang = 'RU';
-    }
+    quantumNet.lang = quantumNet.lang === 'RU' ? 'EN' : 'RU';
     renderQuantumUI();
 }
 
-// Инициализация при загрузке
 window.onload = function() {
     let header = document.getElementById('main-header');
-    if (header) {
-        let checkBtn = document.getElementById('lang-selector');
-        if (!checkBtn) {
-            let btn = document.createElement('button');
-            btn.id = 'lang-selector';
-            btn.className = 'lang-selector';
-            btn.innerText = '🌐 Lang';
-            btn.onclick = toggleLanguage;
-            header.appendChild(btn);
-        }
+    if (header && !document.getElementById('lang-selector')) {
+        let btn = document.createElement('button');
+        btn.id = 'lang-selector';
+        btn.className = 'lang-selector';
+        btn.innerText = '🌐 Lang';
+        btn.onclick = toggleLanguage;
+        header.appendChild(btn);
     }
     renderQuantumUI();
 };
