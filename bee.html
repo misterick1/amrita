@@ -1,146 +1,125 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Квантовый Рой BEE</title>
-    <style>
-        /* Базовые стили для предотвращения черного экрана смерти */
-        body {
-            margin: 0;
-            padding: 20px;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(45deg, #121214, #1a1a24);
-            color: #ffffff;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        header {
-            width: 100%;
-            max-width: 600px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 300px; /* Большой отступ сверху как на вашем макете */
-        }
-
-        h1 {
-            font-size: 24px;
-            text-transform: uppercase;
-            background: linear-gradient(45deg, #ffcc00, #ff6600);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin: 0;
-        }
-
-        .lang-selector {
-            background: #2a2a36;
-            color: #fff;
-            border: 1px solid #ffcc00;
-            padding: 5px 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 14px;
-        }
-
-        .container {
-            width: 100%;
-            max-width: 600px;
-            background: #1f1f2e;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-        }
-
-        .status-panel {
-            margin-bottom: 20px;
-            padding: 10px;
-            background: #151522;
-            border-radius: 6px;
-            border-left: 4px solid #ffcc00;
-        }
-
-        .input-group {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        /* Кнопки управления экосистемой */
-        .input-group button {
-            background: #2a2a3a;
-            color: white;
-            border: 1px solid #3a3a52;
-            padding: 12px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 15px;
-            text-align: left;
-            transition: all 0.2s ease;
-        }
-
-        .input-group button:hover {
-            background: #ffcc00;
-            color: #000;
-            border-color: #ffcc00;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Квантовый Рой BEE</title>
+<style>
+body {
+    margin: 0;
+    padding: 20px;
+    font-family: sans-serif;
+    background: linear-gradient(45deg, #121214, #1a1a24);
+    color: #ffffff;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+header {
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 40px;
+}
+h1 {
+    font-size: 20px;
+    text-transform: uppercase;
+    background: linear-gradient(45deg, #ffcc00, #ff6600);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin: 0;
+}
+.lang-selector {
+    background: #2a2a36;
+    color: #fff;
+    border: 1px solid #ffcc00;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.container {
+    width: 100%;
+    max-width: 600px;
+    background: #1f1f2e;
+    padding: 20px;
+    border-radius: 12px;
+    box-sizing: border-box;
+}
+.status-panel {
+    margin-bottom: 20px;
+    padding: 15px;
+    background: #151522;
+    border-radius: 6px;
+    border-left: 4px solid #ffcc00;
+}
+.status-panel div {
+    margin-bottom: 8px;
+}
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.input-group button {
+    background: #2a2a3a;
+    color: white;
+    border: 1px solid #3a3a52;
+    padding: 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 15px;
+    text-align: left;
+}
+</style>
 </head>
 <body>
 
-    <header id="main-header">
-        <h1 id="app-title">КВАНТОВЫЙ РОЙ BEE</h1>
-    </header>
+<header id="main-header">
+<h1 id="app-title">КВАНТОВЫЙ РОЙ BEE</h1>
+</header>
 
-    <div class="container">
-        <div class="status-panel">
-            <div id="info-base">База Роя:</div>
-            <div id="info-slots">Слоты: 0</div>
-            <div id="info-balance">Баланс: 70 $BEE</div>
-        </div>
+<div class="container">
+<div class="status-panel">
+<div id="info-base">База Роя:</div>
+<div id="info-slots">Слоты: 0</div>
+<div id="info-balance">Баланс: 70 $BEE</div>
+</div>
 
-        <!-- Группа интерактивных кнопок -->
-        <div class="input-group">
-            <button onclick="goLaunch()">🚀 Запустить Хакатон (1 $BEE)</button>
-            <button onclick="goRefill()">💰 Пополнить базу (+10 $BEE)</button>
-            <button onclick="goClean()">⚡ Cleanup SZN (Очистка)</button>
-            <button onclick="goBurn()">🔥 Burn $BEE (Запуск пампа)</button>
-            <button onclick="goReset()">🔄 Сброс ядра</button>
-        </div>
-    </div>
-
-    <!-- Текстовый лог событий для отладки прямо на экране -->
-    <div id="hack-list" style="margin-top:20px; max-width:600px; width:100%; font-size:13px; color:#8a8a9e;"></div>
+<div class="input-group">
+<button onclick="goLaunch()">🚀 Запустить Хакатон (1 $BEE)</button>
+<button onclick="goRefill()">💰 Пополнить базу (+10 $BEE)</button>
+<button onclick="goClean()">⚡ Cleanup SZN (Очистка)</button>
+<button onclick="goBurn()">🔥 Burn $BEE (Запуск пампа)</button>
+<button onclick="goReset()">🔄 Сброс ядра</button>
+</div>
+</div>
 
 <script>
-// Автоматический перехватчик скрытых JS ошибок (выводит красную плашку, если что-то упало)
-window.onerror = function(message, source, lineno) {
-    let div = document.createElement('div');
-    div.style = "position:fixed;top:0;left:0;width:100%;background:#e63946;color:white;z-index:9999;padding:15px;font-family:monospace;box-sizing:border-box;";
-    div.innerText = "Критическая ошибка JS: " + message + " (Строка: " + lineno + ")";
-    document.body.appendChild(div);
+// Перехватчик скрытых ошибок. Если что-то пойдет не так, покажет красную плашку сверху
+window.onerror = function(msg, url, line) {
+    let d = document.createElement('div');
+    d.style = "position:fixed;top:0;left:0;width:100%;background:red;color:white;z-index:9999;padding:15px;box-sizing:border-box;font-family:monospace;";
+    d.innerText = "Ошибка JS: " + msg + " | Строка: " + line;
+    document.body.appendChild(d);
     return false;
 };
 
-// 1. Квантовое ядро экосистемы
+// 1. Объект состояния системы
 const quantumNet = {
     balance: 70,
     slots: 0,
-    lang: 'RU',
-    networks: { sol: 'Active', evm: 'Sync' }
+    lang: 'RU'
 };
 
-// 2. Словари для мгновенного перевода меню
+// 2. Словари перевода
 const locales = {
     RU: {
         title: "🐝 КВАНТОВЫЙ РОЙ BEE",
         base: "База Роя (Квантовый мост):",
-        slots: "Эволюционные слоты хакатонов одуванчиков:",
-        panel: "Панель Создателя Квантового Роя",
-        label: "Название хакатона / Квантовый адрес:",
+        slots: "Эволюционные слоты хакатонов:",
         btn1: "🚀 Запустить Хакатон (1 $BEE)",
         btn2: "💰 Пополнить базу (+10 $BEE)",
         btn3: "⚡ Cleanup SZN (Очистка)",
@@ -150,9 +129,7 @@ const locales = {
     EN: {
         title: "🐝 BEE QUANTUM SWARM",
         base: "Swarm Base (Quantum Bridge):",
-        slots: "Dandelion Hackathon Evolutionary Slots:",
-        panel: "Quantum Swarm Creator Panel",
-        label: "Hackathon Name / Quantum Address:",
+        slots: "Dandelion Hackathon Slots:",
         btn1: "🚀 Launch Hackathon (1 $BEE)",
         btn2: "💰 Refill Base (+10 $BEE)",
         btn3: "⚡ Cleanup SZN (Clear)",
@@ -161,23 +138,25 @@ const locales = {
     }
 };
 
-// 3. Функция рендеринга интерфейса (обновление текстов и цифр)
+// 3. Обновление интерфейса
 function renderQuantumUI() {
-    const t = locales[quantumNet.lang] || locales['RU'];
+    let currentLang = quantumNet.lang;
+    let t = locales[currentLang];
+    if (!t) {
+        t = locales['RU'];
+    }
     
-    // Обновляем текстовые метки данных
-    const baseEl = document.getElementById('info-base');
-    const slotsEl = document.getElementById('info-slots');
-    const balEl = document.getElementById('info-balance');
-    const titleEl = document.getElementById('app-title');
+    let baseEl = document.getElementById('info-base');
+    let slotsEl = document.getElementById('info-slots');
+    let balEl = document.getElementById('info-balance');
+    let titleEl = document.getElementById('app-title');
 
-    if (baseEl) baseEl.innerText = t.base;
-    if (slotsEl) slotsEl.innerText = t.slots + " " + quantumNet.slots;
-    if (balEl) balEl.innerText = "Баланс: " + quantumNet.balance + " $BEE";
-    if (titleEl) titleEl.innerText = t.title;
+    if (baseEl) { baseEl.innerText = t.base; }
+    if (slotsEl) { slotsEl.innerText = t.slots + " " + quantumNet.slots; }
+    if (balEl) { balEl.innerText = "Баланс: " + quantumNet.balance + " $BEE"; }
+    if (titleEl) { titleEl.innerText = t.title; }
 
-    // Безопасный перевод кнопок экосистемы
-    const btns = document.querySelectorAll('.input-group button');
+    let btns = document.querySelectorAll('.input-group button');
     if (btns && btns.length >= 5) {
         btns[0].innerText = t.btn1;
         btns[1].innerText = t.btn2;
@@ -187,24 +166,19 @@ function renderQuantumUI() {
     }
 }
 
-// 4. Логика кнопок управления
+// 4. Функции кнопок управления
 function goLaunch() {
     if (quantumNet.balance >= 1) {
-        quantumNet.balance -= 1;
-        quantumNet.slots += 1;
-        
-        const log = document.getElementById('hack-list');
-        if (log) {
-            log.innerHTML += `<div>[SYSTEM]: Хакатон успешно запущен. Снято 1 $BEE</div>`;
-        }
+        quantumNet.balance = quantumNet.balance - 1;
+        quantumNet.slots = quantumNet.slots + 1;
         renderQuantumUI();
     } else {
-        alert("Недостаточно $BEE на балансе!");
+        alert("Недостаточно баланса!");
     }
 }
 
 function goRefill() { 
-    quantumNet.balance += 10; 
+    quantumNet.balance = quantumNet.balance + 10; 
     renderQuantumUI(); 
 }
 
@@ -215,7 +189,7 @@ function goClean() {
 
 function goBurn() { 
     if (quantumNet.balance > 0) {
-        quantumNet.balance = Math.floor(quantumNet.balance * 0.5); // Пример логики сжигания 50%
+        quantumNet.balance = Math.floor(quantumNet.balance * 0.5);
         renderQuantumUI();
     }
 }
@@ -226,27 +200,32 @@ function goReset() {
     renderQuantumUI(); 
 }
 
-// Переключение языка системы
+// Функция смены языка
 function toggleLanguage() {
-    quantumNet.lang = quantumNet.lang === 'RU' ? 'EN' : 'RU';
+    if (quantumNet.lang === 'RU') {
+        quantumNet.lang = 'EN';
+    } else {
+        quantumNet.lang = 'RU';
+    }
     renderQuantumUI();
 }
 
-// 5. Инициализация при загрузке страницы
+// Инициализация при загрузке
 window.onload = function() {
-    const header = document.getElementById('main-header');
-    if (header && !document.getElementById('lang-selector')) {
-        const btn = document.createElement('button');
-        btn.id = 'lang-selector';
-        btn.className = 'lang-selector';
-        btn.innerText = '🌐 Сменить язык / Lang';
-        btn.onclick = toggleLanguage;
-        header.appendChild(btn);
+    let header = document.getElementById('main-header');
+    if (header) {
+        let checkBtn = document.getElementById('lang-selector');
+        if (!checkBtn) {
+            let btn = document.createElement('button');
+            btn.id = 'lang-selector';
+            btn.className = 'lang-selector';
+            btn.innerText = '🌐 Lang';
+            btn.onclick = toggleLanguage;
+            header.appendChild(btn);
+        }
     }
     renderQuantumUI();
 };
 </script>
 </body>
 </html>
-
-                 
