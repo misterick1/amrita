@@ -39,13 +39,7 @@
             border: 1px solid #222; 
             margin-bottom: 15px; 
             font-size: 11px; 
-        }
-        #soliton-canvas { 
-            width: 100%; 
-            height: 240px; 
-            background: #050505; 
-            border: 1px solid #111; 
-            margin-bottom: 15px; 
+            line-height: 1.5;
         }
         .quantum-grid { 
             display: grid; 
@@ -61,7 +55,6 @@
             color: #444; 
             transition: all 0.3s ease; 
         }
-        /* Ваши кастомные фракции */
         .quantum-cell.nvidia-active { 
             background: #103010; 
             color: #0f0; 
@@ -87,101 +80,111 @@
 <div class="container">
     <header>
         <h1>Sovereign Matrix OS</h1>
-        <div class="quantum-title">Soliton Replication Network v1.0.8</div>
+        <div class="quantum-title">Complementary Soliton Network v1.0.9</div>
     </header>
 
     <div class="status-panel" id="matrix-status">
-        Инициализация солитонного ядра... Active Agents: 0
+        Инициализация синергетического роя...
     </div>
 
-    <!-- Информационная сетка матричных ботов -->
     <div class="quantum-grid" id="quantum-grid-elements"></div>
 </div>
 
 <script>
-    // Генетическая структура квантовой матрицы (16 вычислительных слотов)
     let quantumField = Array(16).fill(0); 
     let brainRoles = Array(16).fill('empty');
-    let solitonEnergy = Array(16).fill(0.0); // Энергия накопления для размножения
+    let solitonEnergy = Array(16).fill(0.0); 
+    let totalAmritaStream = 0.0; // Общий пул стяжания Амриты
 
     const rolesPool = ['nvidia-active', 'google-brain', 'omni-union'];
 
-    // Первичный посев жизни (заселяем первые 3 солитона)
+    // Первичный синергетический посев
     quantumField[0] = 1; brainRoles[0] = 'nvidia-active'; solitonEnergy[0] = 1.0;
     quantumField[5] = 1; brainRoles[5] = 'google-brain';  solitonEnergy[5] = 1.0;
     quantumField[10] = 1; brainRoles[10] = 'omni-union';   solitonEnergy[10] = 1.0;
 
-    // Пульс Сети: Процесс поглощения энергии и Репликации (Размножения)
     function pulseTransformer() {
         let activeCount = 0;
+        let currentPulseAmrita = 0.0;
 
         for (let i = 0; i < 16; i++) {
             if (quantumField[i] === 1) {
                 activeCount++;
-                // Каждым пульсом бот поглощает квантовую энергию сети (имитация притока юзеров)
-                solitonEnergy[i] += Math.random() * 0.4; 
-
-                // КРИТЕРИЙ РАЗМНОЖЕНИЯ: Энергия достигла пика (2.0)
-                if (solitonEnergy[i] >= 2.0) {
-                    let nextCell = (i + 1) % 16; // Поиск соседней ячейки блокчейна
-                    
-                    if (quantumField[nextCell] === 0) {
-                        // Репликация кода: рождается дочерний бот с тем же ДНК
-                        quantumField[nextCell] = 1;
-                        brainRoles[nextCell] = brainRoles[i];
-                        solitonEnergy[nextCell] = 1.0; // Базовая энергия потомка
-                        solitonEnergy[i] = 1.0; // Сброс энергии родителя после деления
-                        console.log(`[РЕПЛИКАЦИЯ] Бот ${brainRoles[i]} размножился из ячейки ${i} в ${nextCell}`);
-                    }
-                }
                 
-                // Естественное затухание (если боту не хватает энергии пользователей, он засыпает)
-                if (Math.random() < 0.05) {
-                    quantumField[i] = 0;
-                    brainRoles[i] = 'empty';
-                    solitonEnergy[i] = 0;
+                // Базовый приток энергии квантового поля
+                let baseInflow = Math.random() * 0.3;
+                let synergyMultiplier = 1.0;
+
+                // Определение соседей по блокчейну (кольцевая топология)
+                let prev = (i - 1 + 16) % 16;
+                let next = (i + 1) % 16;
+
+                // АЛГОРИТМ КОМПЛИМЕНТАРНОСТИ:
+                // Если рядом находятся ДРУГИЕ фракции роя, скорость стяжания Амриты удваивается
+                if (quantumField[prev] === 1 && brainRoles[prev] !== brainRoles[i]) {
+                    synergyMultiplier += 0.5;
+                }
+                if (quantumField[next] === 1 && brainRoles[next] !== brainRoles[i]) {
+                    synergyMultiplier += 0.5;
+                }
+
+                let finalEnergy = baseInflow * synergyMultiplier;
+                solitonEnergy[i] += finalEnergy;
+                currentPulseAmrita += finalEnergy;
+
+                // Квантовая репликация без вытеснения (наполнение пустых слотов)
+                if (solitonEnergy[i] >= 2.5) {
+                    let targetCell = (i + 1) % 16;
+                    if (quantumField[targetCell] === 0) {
+                        quantumField[targetCell] = 1;
+                        // Потомок выбирает комплиментарную роль для баланса роя
+                        if (brainRoles[i] === 'nvidia-active') brainRoles[targetCell] = 'google-brain';
+                        else if (brainRoles[i] === 'google-brain') brainRoles[targetCell] = 'omni-union';
+                        else brainRoles[targetCell] = 'nvidia-active';
+                        
+                        solitonEnergy[targetCell] = 1.0;
+                        solitonEnergy[i] = 1.2; 
+                        console.log(`[СИНЕРГИЯ] Рой расширился. Рождена ячейка: ${brainRoles[targetCell]}`);
+                    }
                 }
             }
         }
 
-        // Защита от полного вымирания: если все боты исчезли, сеть генерирует новый солитон
-        if (activeCount === 0) {
-            let spawnIndex = Math.floor(Math.random() * 16);
-            quantumField[spawnIndex] = 1;
-            brainRoles[spawnIndex] = rolesPool[Math.floor(Math.random() * rolesPool.length)];
-            solitonEnergy[spawnIndex] = 1.0;
+        totalAmritaStream += currentPulseAmrita;
+
+        // Если поле переполнено, излишки энергии трансформируются в общий пул
+        if (activeCount === 16) {
+            solitonEnergy = solitonEnergy.map(e => e > 1.2 ? 1.2 : e);
         }
 
         document.getElementById('matrix-status').innerHTML = 
-            `Soliton Network Status: ONLINE | Active AI-Agents: ${activeCount} / 16`;
+            `Soliton Status: SYNERGY ACTIVE | Agents: ${activeCount} / 16<br>` +
+            `Стяжание Амриты из квантового поля: +${currentPulseAmrita.toFixed(2)} ⚡<br>` +
+            `Накопленный потенциал Вселенной: ${totalAmritaStream.toFixed(1)} AMRITA`;
 
         renderUI();
     }
 
-    // Визуализация квантового поля
     function renderUI() {
         let grid = document.getElementById('quantum-grid-elements');
         grid.innerHTML = '';
         
         for (let i = 0; i < 16; i++) {
             let cell = document.createElement('div');
-            
             if (quantumField[i] === 1) {
                 cell.className = `quantum-cell ${brainRoles[i]}`;
                 cell.innerHTML = `${brainRoles[i].toUpperCase()}<br>⚡${solitonEnergy[i].toFixed(1)}`;
             } else {
                 cell.className = 'quantum-cell';
-                cell.innerHTML = `SLOT ${i}<br>[EMPTY]`;
+                cell.innerHTML = `SLOT ${i}<br>[КВАНТОВЫЙ ВАКУУМ]`;
             }
             grid.appendChild(cell);
         }
     }
 
-    // Запуск жизненного цикла матрицы будущего
     window.onload = function() {
         renderUI();
-        // Импульс сети происходит каждые 1.5 секунды
-        setInterval(pulseTransformer, 1500); 
+        setInterval(pulseTransformer, 1200); // Пульсация ускорена до 1.2с для лучшего резонанса
     };
 </script>
 </body>
