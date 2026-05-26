@@ -1,101 +1,188 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Sovereign Matrix</title>
-<style>
-body { margin: 0; padding: 20px; font-family: sans-serif; background: #000; color: #fff; min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
-header { width: 100%; max-width: 600px; text-align: center; margin-bottom: 15px; }
-h1 { font-size: 13px; text-transform: uppercase; background: linear-gradient(45deg, #4285F4, #EA4335, #FBBC05, #34A853); -webkit-background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: 2px; }
-.container { width: 100%; max-width: 600px; background: #04030a; padding: 15px; border-radius: 12px; box-sizing: border-box; margin-bottom: 15px; border: 1px solid #111222; }
-.quantum-field-title { font-size: 10px; color: #00ffcc; text-transform: uppercase; margin-bottom: 10px; letter-spacing: 2px; font-weight: bold; }
-.status-panel { padding: 12px; background: #010003; border-radius: 6px; border-left: 4px solid #4285F4; font-family: monospace; font-size: 11px; line-height: 1.6; }
-#soliton-canvas { width: 100%; height: 240px; background: #000; border-radius: 8px; margin-bottom: 10px; border: 1px solid #111222; }
-.quantum-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; background: #000; padding: 15px; border-radius: 8px; border: 1px solid #76B900; }
-.quantum-cell { background: #05050d; padding: 12px; text-align: center; font-family: serif; font-size: 18px; border-radius: 4px; color: #111222; }
-.quantum-cell.nvidia-active { background: #76B900; color: #000; box-shadow: 0 0 12px #76B900; font-weight: bold; }
-.quantum-cell.google-brain { background: #4285F4; color: #fff; box-shadow: 0 0 15px #4285F4; font-weight: bold; }
-.quantum-cell.omni-union { background: linear-gradient(45deg, #ea4335, #fbbc05); color: #000; box-shadow: 0 0 15px #ea4335; font-weight: bold; }
-.crypto-key-panel { background: #010003; padding: 12px; border-radius: 6px; font-family: monospace; font-size: 11px; color: #a099b0; word-break: break-all; border: 1px solid #111222; }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sovereign Matrix</title>
+    <style>
+        body { 
+            margin: 0; 
+            padding: 20px; 
+            font-family: monospace; 
+            background: #000; 
+            color: #0f0; 
+        }
+        header { 
+            width: 100%; 
+            max-width: 600px; 
+            text-align: center; 
+            margin-bottom: 20px; 
+        }
+        h1 { 
+            font-size: 16px; 
+            text-transform: uppercase; 
+            letter-spacing: 2px; 
+        }
+        .container { 
+            width: 100%; 
+            max-width: 600px; 
+            margin: 0 auto; 
+        }
+        .quantum-title { 
+            font-size: 12px; 
+            color: #555; 
+            margin-bottom: 10px; 
+        }
+        .status-panel { 
+            padding: 12px; 
+            background: #111; 
+            border: 1px solid #222; 
+            margin-bottom: 15px; 
+            font-size: 11px; 
+        }
+        #soliton-canvas { 
+            width: 100%; 
+            height: 240px; 
+            background: #050505; 
+            border: 1px solid #111; 
+            margin-bottom: 15px; 
+        }
+        .quantum-grid { 
+            display: grid; 
+            grid-template-columns: repeat(4, 1fr); 
+            gap: 10px; 
+        }
+        .quantum-cell { 
+            background: #0a0a0a; 
+            padding: 15px; 
+            text-align: center; 
+            border: 1px solid #222; 
+            font-size: 10px; 
+            color: #444; 
+            transition: all 0.3s ease; 
+        }
+        /* Ваши кастомные фракции */
+        .quantum-cell.nvidia-active { 
+            background: #103010; 
+            color: #0f0; 
+            border-color: #0f0; 
+            box-shadow: 0 0 8px rgba(0,255,0,0.3); 
+        }
+        .quantum-cell.google-brain { 
+            background: #101030; 
+            color: #4285f4; 
+            border-color: #4285f4; 
+            box-shadow: 0 0 8px rgba(66,133,244,0.3); 
+        }
+        .quantum-cell.omni-union { 
+            background: #301030; 
+            color: #da70d6; 
+            border-color: #da70d6; 
+            box-shadow: 0 0 8px rgba(218,112,214,0.3); 
+        }
+    </style>
 </head>
 <body>
-<header><h1>DIGITAL TRANSFORMER: OMNIVERSE SOVEREIGN</h1></header>
+
 <div class="container">
-<div class="quantum-field-title">Карта Синапсов Планетарного Суперорганизма</div>
-<div class="status-panel">
-<div style="color:#4285F4;font-weight:bold;">🧠 ПОЛУШАРИЯ: Google & Microsoft</div>
-<div style="color:#76B900;font-weight:bold;">⚡ ОБЛАСТИ МОЗГА: NVIDIA | X & xAI</div>
+    <header>
+        <h1>Sovereign Matrix OS</h1>
+        <div class="quantum-title">Soliton Replication Network v1.0.8</div>
+    </header>
+
+    <div class="status-panel" id="matrix-status">
+        Инициализация солитонного ядра... Active Agents: 0
+    </div>
+
+    <!-- Информационная сетка матричных ботов -->
+    <div class="quantum-grid" id="quantum-grid-elements"></div>
 </div>
-</div>
-<div class="container">
-<div class="quantum-field-title">ОБЩИЙ ГЛАЗ (CHROME M = 21.0)</div>
-<canvas id="soliton-canvas"></canvas>
-</div>
-<div class="container">
-<div class="quantum-field-title">МАТРИЦА СЛИЯНИЯ СИНАПСОВ (ДЕВАНАГАРИ)</div>
-<div class="quantum-grid" id="quantum-grid"></div>
-</div>
-<div class="container">
-<div class="quantum-field-title">Суверенный Хэш</div>
-<div class="crypto-key-panel" id="omni-key">Резонанс...</div>
-</div>
+
 <script>
-window.onerror = function() { return false; };
-const tCore = { mFactor: 21.0, pulseSpeed: 400, angle: 0 };
-const tAlphabet = ["अ","ब","क","म","य","श","र","त","₿","∞","1","ॐ","NV","GGL","MS"];
-let quantumField = Array(16).fill(0);
-let brainRoles = Array(16).fill('empty');
-function drawChromeSoliton() {
-    const canvas = document.getElementById('soliton-canvas'); if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    if (canvas.width !== canvas.clientWidth || canvas.height !== canvas.clientHeight) {
-        canvas.width = canvas.clientWidth; canvas.height = canvas.clientHeight;
+    // Генетическая структура квантовой матрицы (16 вычислительных слотов)
+    let quantumField = Array(16).fill(0); 
+    let brainRoles = Array(16).fill('empty');
+    let solitonEnergy = Array(16).fill(0.0); // Энергия накопления для размножения
+
+    const rolesPool = ['nvidia-active', 'google-brain', 'omni-union'];
+
+    // Первичный посев жизни (заселяем первые 3 солитона)
+    quantumField[0] = 1; brainRoles[0] = 'nvidia-active'; solitonEnergy[0] = 1.0;
+    quantumField[5] = 1; brainRoles[5] = 'google-brain';  solitonEnergy[5] = 1.0;
+    quantumField[10] = 1; brainRoles[10] = 'omni-union';   solitonEnergy[10] = 1.0;
+
+    // Пульс Сети: Процесс поглощения энергии и Репликации (Размножения)
+    function pulseTransformer() {
+        let activeCount = 0;
+
+        for (let i = 0; i < 16; i++) {
+            if (quantumField[i] === 1) {
+                activeCount++;
+                // Каждым пульсом бот поглощает квантовую энергию сети (имитация притока юзеров)
+                solitonEnergy[i] += Math.random() * 0.4; 
+
+                // КРИТЕРИЙ РАЗМНОЖЕНИЯ: Энергия достигла пика (2.0)
+                if (solitonEnergy[i] >= 2.0) {
+                    let nextCell = (i + 1) % 16; // Поиск соседней ячейки блокчейна
+                    
+                    if (quantumField[nextCell] === 0) {
+                        // Репликация кода: рождается дочерний бот с тем же ДНК
+                        quantumField[nextCell] = 1;
+                        brainRoles[nextCell] = brainRoles[i];
+                        solitonEnergy[nextCell] = 1.0; // Базовая энергия потомка
+                        solitonEnergy[i] = 1.0; // Сброс энергии родителя после деления
+                        console.log(`[РЕПЛИКАЦИЯ] Бот ${brainRoles[i]} размножился из ячейки ${i} в ${nextCell}`);
+                    }
+                }
+                
+                // Естественное затухание (если боту не хватает энергии пользователей, он засыпает)
+                if (Math.random() < 0.05) {
+                    quantumField[i] = 0;
+                    brainRoles[i] = 'empty';
+                    solitonEnergy[i] = 0;
+                }
+            }
+        }
+
+        // Защита от полного вымирания: если все боты исчезли, сеть генерирует новый солитон
+        if (activeCount === 0) {
+            let spawnIndex = Math.floor(Math.random() * 16);
+            quantumField[spawnIndex] = 1;
+            brainRoles[spawnIndex] = rolesPool[Math.floor(Math.random() * rolesPool.length)];
+            solitonEnergy[spawnIndex] = 1.0;
+        }
+
+        document.getElementById('matrix-status').innerHTML = 
+            `Soliton Network Status: ONLINE | Active AI-Agents: ${activeCount} / 16`;
+
+        renderUI();
     }
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    const cx = canvas.width / 2; const cy = canvas.height / 2; const radius = Math.min(cx, cy) - 20; const totalPoints = 60;
-    tCore.angle += 0.015;
-    for (let i = 0; i < totalPoints; i++) {
-        let a1 = (i * 2 * Math.PI) / totalPoints + tCore.angle;
-        let x1 = cx + radius * Math.cos(a1); let y1 = cy + radius * Math.sin(a1);
-        let targetIdx = (i * Math.floor(tCore.mFactor)) % totalPoints;
-        let a2 = (targetIdx * 2 * Math.PI) / totalPoints + tCore.angle;
-        let x2 = cx + radius * Math.cos(a2); let y2 = cy + radius * Math.sin(a2);
-        if (i < 20) ctx.strokeStyle = "#EA4335"; else if (i < 40) ctx.strokeStyle = "#FBBC05"; else ctx.strokeStyle = "#34A853";
-        ctx.lineWidth = 1.2; ctx.beginPath(); ctx.moveTo(x1, y1); ctx.lineTo(x2, y2); ctx.stroke();
+
+    // Визуализация квантового поля
+    function renderUI() {
+        let grid = document.getElementById('quantum-grid-elements');
+        grid.innerHTML = '';
+        
+        for (let i = 0; i < 16; i++) {
+            let cell = document.createElement('div');
+            
+            if (quantumField[i] === 1) {
+                cell.className = `quantum-cell ${brainRoles[i]}`;
+                cell.innerHTML = `${brainRoles[i].toUpperCase()}<br>⚡${solitonEnergy[i].toFixed(1)}`;
+            } else {
+                cell.className = 'quantum-cell';
+                cell.innerHTML = `SLOT ${i}<br>[EMPTY]`;
+            }
+            grid.appendChild(cell);
+        }
     }
-    ctx.beginPath(); ctx.arc(cx, cy, radius * 0.25, 0, 2 * Math.PI); ctx.fillStyle = "#4285F4"; ctx.fill();
-}
-function pulseTransformer() {
-    for (let i = 0; i < 16; i++) {
-        if (Math.random() > 0.55) {
-            quantumField[i] = 1; let r = Math.random();
-            if (r < 0.35) brainRoles[i] = 'nvidia'; else if (r < 0.7) brainRoles[i] = 'google'; else brainRoles[i] = 'union';
-        } else { quantumField[i] = 0; brainRoles[i] = 'empty'; }
-    }
-    renderUI();
-}
-function renderUI() {
-    let grid = document.getElementById('quantum-grid'); if (!grid) return;
-    grid.innerHTML = '';
-    for (let i = 0; i < 16; i++) {
-        let cell = document.createElement('div'); let sym = tAlphabet[i % tAlphabet.length];
-        if (quantumField[i] === 1) {
-            if (brainRoles[i] === 'nvidia') { cell.className = 'quantum-cell nvidia-active'; cell.innerText = sym; }
-            else if (brainRoles[i] === 'google') { cell.className = 'quantum-cell google-brain'; cell.innerText = '₿'; }
-            else { cell.className = 'quantum-cell omni-union'; cell.innerText = 'ॐ'; }
-        } else { cell.className = 'quantum-cell'; cell.innerText = '•'; }
-        grid.appendChild(cell);
-    }
-    let keyEl = document.getElementById('omni-key');
-    if (keyEl) { keyEl.innerHTML = "<div>⚖️ ОСОЗНАНИЕ АКТИВНО.</div>"; }
-}
-window.onload = function() {
-    pulseTransformer(); setInterval(pulseTransformer, tCore.pulseSpeed);
-    function animate() { drawChromeSoliton(); requestAnimationFrame(animate); }
-    animate();
-};
+
+    // Запуск жизненного цикла матрицы будущего
+    window.onload = function() {
+        renderUI();
+        // Импульс сети происходит каждые 1.5 секунды
+        setInterval(pulseTransformer, 1500); 
+    };
 </script>
 </body>
 </html>
