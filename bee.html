@@ -40,7 +40,7 @@
         </button>
         
         <!-- МОНИТОР КОНТУРОВ МАТРИЦЫ -->
-        <div style="margin-bottom: 20px;">
+        <div style="margin-bottom: 15px;">
             <p style="margin: 0 0 10px 0; font-weight: bold; font-size: 0.95rem; color: #e5e7eb;">📊 Мониторинг Контуров (Золотое Сечение 64 / 108):</p>
             
             <div style="display: flex; justify-content: space-between; background: #1f2937; padding: 8px 12px; margin-bottom: 5px; border-radius: 4px; font-size: 0.85rem;">
@@ -51,10 +51,19 @@
                 <span style="color: #fbbf24;">🤖 Строительная среда ИИ (Защита мемпула)</span>
                 <span style="font-weight: bold; color: #fbbf24;">66 / 66 Ботов</span>
             </div>
-            <div style="display: flex; justify-content: space-between; background: #1f2937; padding: 8px 12px; margin-bottom: 15px; border-radius: 4px; font-size: 0.85rem;">
+            <div style="display: flex; justify-content: space-between; background: #1f2937; padding: 8px 12px; margin-bottom: 5px; border-radius: 4px; font-size: 0.85rem;">
                 <span style="color: #60a5fa;">🏛️ Хакатон Pi Colosseum (Ожидание сборки)</span>
                 <span style="font-weight: bold; color: #60a5fa;">0 / 38 Монет</span>
             </div>
+        </div>
+
+        <!-- КНТУР ЕДИНОРОГА: JUPITER OFFERBOOK -->
+        <div style="background-color: #1e1b4b; border: 1px solid #818cf8; padding: 12px; border-radius: 6px; margin-bottom: 20px;">
+            <p style="margin: 0 0 8px 0; font-size: 0.85rem; color: #c7d2fe; font-weight: bold;">🦄 КРЕДИТНЫЙ КОНТУР ЕДИНОРОГА (P2P NO-LIQUIDATION):</p>
+            <p style="margin: 0 0 12px 0; font-size: 0.75rem; color: #a5b4fc; line-height: 1.3;">Генерация безопасной ликвидности USDC под залог 70 монет ИИ без изменения баланса улья.</p>
+            <button id="jupiter-lend-btn" style="background-color: #4f46e5; color: #ffffff; border: none; padding: 10px 15px; font-weight: bold; width: 100%; cursor: pointer; border-radius: 4px; font-size: 0.85rem; transition: background 0.2s;">
+                ⚖️ ОТПРАВИТЬ ТОКЕНЫ В ЗАЛОГ JUPITER OFFERBOOK
+            </button>
         </div>
 
         <!-- Блок Распределения Ресурса -->
@@ -88,13 +97,12 @@
 
     const connectBtn = document.getElementById('connect-wallet');
     const executeBtn = document.getElementById('execute-bundle');
+    const jupLendBtn = document.getElementById('jupiter-lend-btn');
     const balanceText = document.getElementById('sol-balance');
 
-    if (executeBtn) {
-        executeBtn.disabled = true;
-        executeBtn.style.opacity = '0.4';
-        executeBtn.style.cursor = 'not-allowed';
-    }
+    // Изначально блокируем действия
+    if (executeBtn) executeBtn.disabled = true;
+    if (jupLendBtn) jupLendBtn.disabled = true;
 
     async function updateBalance(publicKeyString) {
         if (!connection) return;
@@ -127,16 +135,19 @@
                 await updateBalance(userWalletAddress);
                 
                 setInterval(async () => {
-                    if (userWalletAddress) {
-                        await updateBalance(userWalletAddress);
-                    }
+                    if (userWalletAddress) await updateBalance(userWalletAddress);
                 }, 3000);
                 
+                // Разблокируем кнопки
                 if (executeBtn) {
                     executeBtn.disabled = false;
                     executeBtn.style.opacity = '1';
                     executeBtn.style.cursor = 'pointer';
-                    executeBtn.style.boxShadow = '0 0 15px rgba(34, 197, 94, 0.4)';
+                }
+                if (jupLendBtn) {
+                    jupLendBtn.disabled = false;
+                    jupLendBtn.style.background = '#4338ca';
+                    jupLendBtn.style.cursor = 'pointer';
                 }
                 
             } catch (err) {
@@ -149,30 +160,16 @@
         }
     });
 
+    // Обработчик Jito Bundle
     if (executeBtn) {
         executeBtn.addEventListener('click', async () => {
-            if (!userWalletAddress || !connection) {
-                alert('Ошибка инициализации моста!');
-                return;
-            }
-            
-            try {
-                const fromAirPubKey = new solanaWeb3.PublicKey(userWalletAddress);
-                const recentBlockhashObj = await connection.getLatestBlockhash();
-                
-                alert(`Успех сборки транзакции Jito Bundle!\n\n` +
-                      `1. Последний блокчейн-хэш получен.\n` +
-                      `2. Пакет упакован в обход мемпула.\n` +
-                      `3. 4 безопасных минта готовы к распределению.\n` +
-                      `4. 66 ИИ-ботов зафиксированы в строительной среде.\n\n` +
-                      `Готово к активации Хакатона в Pi Colosseum (38 свободных слотов).`);
-                      
-            } catch (error) {
-                console.error("Ошибка сборки блокчейн-пакета:", error);
-                alert("Ошибка связи со средой Solana. Проверьте соединение.");
-            }
+            if (!userWalletAddress || !connection) return;
+            alert(`Инициализация Jito Bundle!\nРесурс готовится к безопасному распределению Авангарда.`);
         });
     }
-    </script>
-</body>
-</html>
+
+    // Обработчик Контура Единорога (Jupiter Offerbook)
+    if (jupLendBtn) {
+        jupLendBtn.addEventListener('click', () => {
+            if (!userWalletAddress) {
+                alert('Сначала подключите кошелек!');
