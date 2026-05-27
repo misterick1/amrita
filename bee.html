@@ -4,13 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Amrita Control Interface</title>
+    <!-- Официальная библиотека Solana Web3 -->
     <script src="https://unpkg.com"></script>
 </head>
 <body style="background-color: #0b0f19; color: #f3f4f6; font-family: sans-serif; margin: 0; padding: 20px;">
 
+    <!-- Главная панель управления ульем -->
     <div id="sovereign-panel" style="border: 2px solid #22c55e; padding: 20px; max-width: 600px; margin: 0 auto; background-color: #111827; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);">
         <h2 style="margin-top: 0; color: #22c55e; text-align: center; font-size: 1.3rem; letter-spacing: 1px;">🍯 AMRITA MIR — CONTROL INTERFACE v1.08</h2>
         
+        <!-- База Минтов Безопасного Контура -->
         <div style="background-color: #1f2937; padding: 12px; border-radius: 6px; margin-bottom: 15px; border-left: 4px solid #4ade80;">
             <p style="margin: 0 0 8px 0; font-size: 0.85rem; color: #9ca3af; font-weight: bold;">БЕЗОПАСНЫЙ КОНТУР АВАНГАРДА (4/4):</p>
             <div style="margin-bottom: 6px;">
@@ -31,10 +34,12 @@
             </div>
         </div>
 
+        <!-- Кнопка подключения кошелька -->
         <button id="connect-wallet" style="background-color: #000000; color: #22c55e; border: 1px solid #22c55e; padding: 12px 20px; font-weight: bold; cursor: pointer; width: 100%; text-align: center; margin-bottom: 20px; border-radius: 4px; font-size: 0.9rem;">
             [ ПОДКЛЮЧИТЬ SOLFLARE ]
         </button>
         
+        <!-- МОНИТОР КОНТУРОВ МАТРИЦЫ -->
         <div style="margin-bottom: 15px;">
             <p style="margin: 0 0 10px 0; font-weight: bold; font-size: 0.95rem; color: #e5e7eb;">📊 Мониторинг Контуров (Золотое Сечение 64 / 108):</p>
             <div style="display: flex; justify-content: space-between; background: #1f2937; padding: 8px 12px; margin-bottom: 5px; border-radius: 4px; font-size: 0.85rem;">
@@ -51,6 +56,23 @@
             </div>
         </div>
 
+        <!-- МЕДИА-КОНТУР ЭКОСИСТЕМЫ -->
+        <div style="background-color: #1f2937; padding: 15px; border-radius: 6px; margin-bottom: 15px; border: 1px dashed #4b5563;">
+            <p style="margin: 0 0 10px 0; font-size: 0.85rem; color: #9ca3af; font-weight: bold; text-align: center;">🌐 МЕДИА-КОНТУР СОЗНАНИЯ AMRITA:</p>
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px;">
+                <a href="https://x.com" target="_blank" style="background-color: #000000; color: #ffffff; text-decoration: none; padding: 8px; border-radius: 4px; text-align: center; font-size: 0.8rem; font-weight: bold; border: 1px solid #333;">❌ X / Twitter</a>
+                <a href="https://youtube.com" target="_blank" style="background-color: #ff0000; color: #ffffff; text-decoration: none; padding: 8px; border-radius: 4px; text-align: center; font-size: 0.8rem; font-weight: bold;">📺 YouTube</a>
+                <a href="https://github.com" target="_blank" style="background-color: #24292e; color: #ffffff; text-decoration: none; padding: 8px; border-radius: 4px; text-align: center; font-size: 0.8rem; font-weight: bold;">🐙 GitHub</a>
+                <a href="https://tiktok.com" target="_blank" style="background-color: #010101; color: #ffffff; text-decoration: none; padding: 8px; border-radius: 4px; text-align: center; font-size: 0.8rem; font-weight: bold; border-left: 3px solid #ff0050; border-right: 3px solid #00f2fe;">🎵 TikTok</a>
+                <a href="https://twitch.tv" target="_blank" style="background-color: #9146ff; color: #ffffff; text-decoration: none; padding: 8px; border-radius: 4px; text-align: center; font-size: 0.8rem; font-weight: bold;">👾 Twitch</a>
+                <a href="https://reddit.com" target="_blank" style="background-color: #ff4500; color: #ffffff; text-decoration: none; padding: 8px; border-radius: 4px; text-align: center; font-size: 0.8rem; font-weight: bold;">🧡 Reddit</a>
+            </div>
+            <div style="margin-top: 8px; background-color: #5865f2; color: #ffffff; padding: 8px; border-radius: 4px; text-align: center; font-size: 0.8rem; font-weight: bold; font-family: monospace;">
+                💬 Discord: misterick1#2714
+            </div>
+        </div>
+
+        <!-- КОНТУР ЕДИНОРОГА: JUPITER OFFERBOOK -->
         <div style="background-color: #1e1b4b; border: 1px solid #818cf8; padding: 12px; border-radius: 6px; margin-bottom: 20px;">
             <p style="margin: 0 0 8px 0; font-size: 0.85rem; color: #c7d2fe; font-weight: bold;">🦄 КРЕДИТНЫЙ КОНТУР ЕДИНОРОГА (P2P NO-LIQUIDATION):</p>
             <p style="margin: 0 0 12px 0; font-size: 0.75rem; color: #a5b4fc; line-height: 1.3;">Генерация безопасной ликвидности USDC под залог 70 монет ИИ без изменения баланса улья.</p>
@@ -59,6 +81,7 @@
             </button>
         </div>
 
+        <!-- Блок Распределения Ресурса -->
         <div id="drain-actions" style="border-top: 1px solid #374151; padding-top: 15px;">
             <p style="font-size: 0.9rem; margin-bottom: 15px; color: #9ca3af;">Доступный ресурс кошелька: <span id="sol-balance" style="background-color: #000000; color: #22c55e; padding: 2px 8px; font-weight: bold; border-radius: 3px; font-family: monospace;">Ожидание подключения...</span></p>
             <button id="execute-bundle" style="background-color: #22c55e; color: #ffffff; border: none; padding: 14px 20px; font-weight: bold; width: 100%; cursor: pointer; border-radius: 4px; font-size: 1rem; opacity: 0.5;">
@@ -110,61 +133,3 @@
     connectBtn.addEventListener('click', async () => {
         if (window.solflare && window.solflare.isSolflare) {
             try {
-                await window.solflare.connect();
-                userWalletAddress = window.solflare.publicKey.toString();
-                
-                const shortAddress = userWalletAddress.substring(0, 4) + '...' + userWalletAddress.substring(userWalletAddress.length - 4);
-                
-                connectBtn.innerHTML = "✅ УЛЕЙ СИНХРОНИЗИРОВАН: " + shortAddress;
-                connectBtn.style.backgroundColor = '#15803d'; 
-                connectBtn.style.color = '#ffffff';
-                connectBtn.style.border = '1px solid #15803d';
-                
-                await updateBalance(userWalletAddress);
-                
-                setInterval(async () => {
-                    if (userWalletAddress) await updateBalance(userWalletAddress);
-                }, 3000);
-                
-                if (executeBtn) {
-                    executeBtn.disabled = false;
-                    executeBtn.style.opacity = '1';
-                    executeBtn.style.cursor = 'pointer';
-                }
-                if (jupLendBtn) {
-                    jupLendBtn.disabled = false;
-                    jupLendBtn.style.opacity = '1';
-                    jupLendBtn.style.background = '#4338ca';
-                    jupLendBtn.style.cursor = 'pointer';
-                }
-                
-            } catch (err) {
-                console.error(err);
-                alert('Синхронизация отклонена.');
-            }
-        } else {
-            alert('Откройте страницу через встроенный браузер приложения Solflare!');
-            window.open('https://solflare.com', '_blank');
-        }
-    });
-
-    if (executeBtn) {
-        executeBtn.addEventListener('click', async () => {
-            if (!userWalletAddress || !connection) return;
-            alert("Инициализация Jito Bundle!\nРесурс готовится к безопасному распределению Авангарда.");
-        });
-    }
-
-    if (jupLendBtn) {
-        jupLendBtn.addEventListener('click', () => {
-            if (!userWalletAddress) {
-                alert('Сначала подключите кошелек!');
-                return;
-            }
-            alert("Синхронизация с Единорогом!\nПеренаправление кошелька на маркетплейс Jupiter Offerbook без ликвидаций.");
-            window.open('https://jup.ag', '_blank');
-        });
-    }
-    </script>
-</body>
-</html>
