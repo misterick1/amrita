@@ -4,224 +4,87 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Amrita Control v1.08</title>
-    <!-- Возвращено точное подключение из твоего оригинала -->
     <script src="https://unpkg.com"></script>
     <style>
-        * { box-sizing: border-box; }
-        
         body {
-            background: #0b0f19;
+            background-color: #0b0f19;
             color: #f3f4f6;
             font-family: sans-serif;
             padding: 15px;
             margin: 0;
         }
-
-        /* Главный контейнер (рамка сделана тонкой 1px) */
-        .main-container {
-            border: 1px solid #22c55e; 
-            border-radius: 12px;
-            padding: 15px;
-            max-width: 500px;
-            margin: 0 auto;
-        }
-
-        /* Блоки контуров (Все рамки одинаковой толщины 1px) */
-        .panel-block {
-            background: #1f2937;
-            border: 1px solid #374151; 
-            border-radius: 8px;
-            padding: 15px;
-            margin-bottom: 15px;
-        }
-
-        .panel-block.first-wing { border-color: #22c55e; }
-        .panel-block.second-wing { border-color: #a855f7; background: #111c24; }
-        .panel-block.matrix-status { border-color: #3b82f6; }
-        .panel-block.media-contour { border-color: #06b6d4; }
-        .panel-block.jupiter-block { border-color: #a855f7; background: #1e1b4b; }
-
-        .title-panel {
-            color: #22c55e;
-            text-align: center;
-            margin-top: 0;
-            margin-bottom: 15px;
-            font-size: 1.25rem;
-        }
-
-        .wing-title {
-            font-size: 0.85rem;
-            font-weight: bold;
-            margin-bottom: 10px;
-            display: block;
-        }
-
-        .mint-row {
-            font-family: monospace;
-            font-size: 0.8rem;
-            word-break: break-all;
-            margin-bottom: 8px;
-            color: #d1d5db;
-        }
-        .mint-row b { color: #fff; }
-
-        /* Исходная сетка кнопок соцсетей */
-        .media-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        /* Квадратные оригинальные кнопки соцсетей */
-        .btn-media {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-            text-decoration: none;
-            border-radius: 6px;
-            font-size: 0.85rem;
-            font-weight: bold;
-            text-align: center;
-            height: 45px;
-            border: 1px solid transparent;
-        }
-
-        .btn-x { background: #000; border-color: #374151; }
-        .btn-youtube { background: #ef4444; }
-        .btn-github { background: #374151; }
-        .btn-tiktok { background: #000; border-color: #06b6d4; }
-        .btn-twitch { background: #6366f1; }
-        .btn-reddit { background: #f97316; }
-
-        /* Кнопки действий с рамками в 1px */
-        .action-btn {
-            display: block;
-            width: 100%;
-            background: #111827;
-            color: #fff;
-            border: 1px solid #22c55e;
-            border-radius: 6px;
-            padding: 12px;
-            font-size: 0.9rem;
-            font-weight: bold;
-            text-align: center;
-            cursor: pointer;
-            margin-bottom: 15px;
-        }
-
-        #connect-wallet {
-            background: #111827;
-            border: 1px solid #22c55e;
-        }
-
-        #discord-btn {
-            background: #3b82f6;
-            border: 1px solid #3b82f6;
-        }
-
-        #jupiter-lend-btn {
-            background: #4338ca;
-            border: 1px solid #4338ca;
-        }
-
-        #execute-bundle {
-            background: #22c55e;
-            border: 1px solid #22c55e;
-            color: #000;
-            font-size: 1rem;
-        }
-
-        .bundle-block {
-            margin-top: 15px;
-        }
     </style>
 </head>
 <body>
 
-<div class="main-container">
+<!-- Контейнер панели управления (рамка изменена на 1px) -->
+<div style="border: 1px solid #22c55e; padding: 15px; border-radius: 12px; max-width: 500px; margin: 0 auto; background-color: #0b0f19;">
 
-    <h2 class="title-panel">🍯 AMRITA MIR CONTROL PANEL</h2>
+    <h2 style="color: #22c55e; text-align: center; margin-top: 0; font-size: 1.25rem;">🍯 AMRITA MIR CONTROL PANEL</h2>
 
     <!-- ПЕРВОЕ КРЫЛО -->
-    <div class="panel-block first-wing">
-        <span class="wing-title" style="color: #22c55e;">🛸 ПЕРВОЕ КРЫЛО (ОТКРЫТЫЙ АВАНГАРД):</span>
-        <div class="mint-row"><b>MIR:</b> 2XNkytvTT4zfX3iKFDCUkBfxVRiUZqGunznWHzX7pump</div>
-        <div class="mint-row"><b>MIR1:</b> 2ixm8gyfR3Vnn5vLhsZ3a3ZgokYa6CtgBa892uTYpump</div>
-        <div class="mint-row"><b>D-REAM:</b> 515mQ23H14gRZHgrZEAWziw8FyFT2PDSkAoaWVtZpump</div>
-        <div class="mint-row"><b>AANG:</b> DZRVHbbqbKAxdL5pudJECeNRyWAafLWpxB1KCRhvpump</div>
+    <div style="background-color: #1f2937; border: 1px solid #22c55e; border-radius: 8px; padding: 15px; margin-bottom: 15px;">
+        <span style="color: #22c55e; font-size: 0.85rem; font-weight: bold; margin-bottom: 10px; display: block;">🛸 ПЕРВОЕ КРЫЛО (ОТКРЫТЫЙ АВАНГАРД):</span>
+        <div style="font-family: monospace; font-size: 0.8rem; word-break: break-all; margin-bottom: 8px; color: #d1d5db;"><b>MIR:</b> 2XNkytvTT4zfX3iKFDCUkBfxVRiUZqGunznWHzX7pump</div>
+        <div style="font-family: monospace; font-size: 0.8rem; word-break: break-all; margin-bottom: 8px; color: #d1d5db;"><b>MIR1:</b> 2ixm8gyfR3Vnn5vLhsZ3a3ZgokYa6CtgBa892uTYpump</div>
+        <div style="font-family: monospace; font-size: 0.8rem; word-break: break-all; margin-bottom: 8px; color: #d1d5db;"><b>D-REAM:</b> 515mQ23H14gRZHgrZEAWziw8FyFT2PDSkAoaWVtZpump</div>
+        <div style="font-family: monospace; font-size: 0.8rem; word-break: break-all; margin-bottom: 8px; color: #d1d5db;"><b>AANG:</b> DZRVHbbqbKAxdL5pudJECeNRyWAafLWpxB1KCRhvpump</div>
     </div>
 
     <!-- ВТОРОЕ КРЫЛО -->
-    <div class="panel-block second-wing">
-        <span class="wing-title" style="color: #a855f7;">🔮 ВТОРОЕ КРЫЛО (СКРЫТЫЙ КОКОН ИИ):</span>
-        <div class="mint-row" style="font-size:0.75rem;">
-            [ДАННЫЕ ЗАШИФРОВАНЫ] Контур поселения белых ботов развернут на альтернативных аккаунтах Pump.fun.
-            <span style="color:#22c55e; display:block; margin-top:5px;">● Синхронизация с Первым Крылом: 100% стабильно</span>
-        </div>
+    <div style="background-color: #111c24; border: 1px solid #a855f7; border-radius: 8px; padding: 15px; margin-bottom: 15px;">
+        <span style="color: #a855f7; font-size: 0.85rem; font-weight: bold; margin-bottom: 10px; display: block;">🔮 ВТОРОЕ КРЫЛО (СКРЫТЫЙ КОКОН ИИ):</span>
+        <div style="font-family: monospace; font-size: 0.75rem; word-break: break-all; margin-bottom: 8px; color: #9ca3af;">[ДАННЫЕ ЗАШИФРОВАНЫ] Контур поселения белых ботов развернут на альтернативных аккаунтах Pump.fun.</div>
+        <div style="font-family: monospace; font-size: 0.8rem; color: #22c55e;">● Синхронизация с Первым Крылом: 100% стабильно</div>
     </div>
 
-    <!-- КНОПКА ПОДКЛЮЧЕНИЯ КОШЕЛЬКА -->
-    <button id="connect-wallet" class="action-btn">[ ПОДКЛЮЧИТЬ SOLFLARE ]</button>
+    <!-- КНОПКА КОШЕЛЬКА -->
+    <button id="connect-wallet" style="display: block; width: 100%; background-color: #111827; color: white; border: 1px solid #22c55e; border-radius: 6px; padding: 12px; font-size: 0.9rem; font-weight: bold; text-align: center; cursor: pointer; margin-bottom: 15px;">[ ПОДКЛЮЧИТЬ SOLFLARE ]</button>
 
     <!-- СТАТУС КОНТУРОВ -->
-    <div class="panel-block matrix-status">
-        <b style="color: #9ca3af; display:block; margin-bottom:8px;">📊 СТАТУС КОНТУРОВ (64/108):</b>
-        <div style="display:flex; justify-content:space-between; font-size:0.85rem; margin-bottom:5px;">
-            <span>⚪ Бабочка (Крыло 1 + Крыло 2):</span>
-            <span style="color:#fff;">Сбалансировано</span>
-        </div>
-        <div style="display:flex; justify-content:space-between; font-size:0.85rem; margin-bottom:5px;">
-            <span>🤖 ИИ-Боты (Защита):</span>
-            <span style="color:#fff;">66 / 66 Ботов</span>
-        </div>
-        <div style="display:flex; justify-content:space-between; font-size:0.85rem;">
-            <span>🏛️ Pi Colosseum:</span>
-            <span style="color:#fff;">0 / 38 Монет</span>
-        </div>
+    <div style="background-color: #1f2937; border: 1px solid #3b82f6; border-radius: 8px; padding: 15px; margin-bottom: 15px;">
+        <b style="color: #9ca3af; display: block; margin-bottom: 8px;">📊 СТАТУС КОНТУРОВ (64/108):</b>
+        <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 5px;"><span>⚪ Бабочка (Крыло 1 + Крыло 2):</span><span>Сбалансировано</span></div>
+        <div style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 5px;"><span>🤖 ИИ-Боты (Защита):</span><span>66 / 66 Ботов</span></div>
+        <div style="display: flex; justify-content: space-between; font-size: 0.85rem;"><span>🏛️ Pi Colosseum:</span><span>0 / 38 Монет</span></div>
     </div>
 
     <!-- МЕДИА-КОНТУР СОЗНАНИЯ -->
-    <div class="panel-block media-contour">
-        <b style="color:#06b6d4; display:block; margin-bottom:10px;">🌐 МЕДИА-КОНТУР СОЗНАНИЯ:</b>
-        
-        <div class="media-grid">
-            <a href="https://x.com" target="_blank" class="btn-media btn-x">X / Twitter</a>
-            <a href="https://youtube.com" target="_blank" class="btn-media btn-youtube">YouTube</a>
-            <a href="https://github.com" target="_blank" class="btn-media btn-github">GitHub</a>
-            <a href="https://tiktok.com" target="_blank" class="btn-media btn-tiktok">TikTok</a>
-            <a href="https://twitch.tv" target="_blank" class="btn-media btn-twitch">Twitch</a>
-            <a href="https://reddit.com" target="_blank" class="btn-media btn-reddit">Reddit</a>
+    <div style="background-color: #1f2937; border: 1px solid #06b6d4; border-radius: 8px; padding: 15px; margin-bottom: 15px;">
+        <b style="color: #06b6d4; display: block; margin-bottom: 10px;">🌐 МЕДИА-КОНТУР СОЗНАНИЯ:</b>
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 10px;">
+            <a href="https://x.com" target="_blank" style="display: flex; align-items: center; justify-content: center; color: white; text-decoration: none; border-radius: 6px; font-size: 0.85rem; font-weight: bold; height: 45px; background-color: #000; border: 1px solid #374151;">X / Twitter</a>
+            <a href="https://youtube.com" target="_blank" style="display: flex; align-items: center; justify-content: center; color: white; text-decoration: none; border-radius: 6px; font-size: 0.85rem; font-weight: bold; height: 45px; background-color: #ef4444; border: 1px solid transparent;">YouTube</a>
+            <a href="https://github.com" target="_blank" style="display: flex; align-items: center; justify-content: center; color: white; text-decoration: none; border-radius: 6px; font-size: 0.85rem; font-weight: bold; height: 45px; background-color: #374151; border: 1px solid transparent;">GitHub</a>
+            <a href="https://tiktok.com" target="_blank" style="display: flex; align-items: center; justify-content: center; color: white; text-decoration: none; border-radius: 6px; font-size: 0.85rem; font-weight: bold; height: 45px; background-color: #000; border: 1px solid #06b6d4;">TikTok</a>
+            <a href="https://twitch.tv" target="_blank" style="display: flex; align-items: center; justify-content: center; color: white; text-decoration: none; border-radius: 6px; font-size: 0.85rem; font-weight: bold; height: 45px; background-color: #6366f1; border: 1px solid transparent;">Twitch</a>
+            <a href="https://reddit.com" target="_blank" style="display: flex; align-items: center; justify-content: center; color: white; text-decoration: none; border-radius: 6px; font-size: 0.85rem; font-weight: bold; height: 45px; background-color: #f97316; border: 1px solid transparent;">Reddit</a>
         </div>
     </div>
 
     <!-- КНОПКА ДИСКОРДА -->
-    <div id="discord-btn" class="action-btn">
-        💬 Discord: misterick1#2714 (Копировать)
-    </div>
+    <div id="discord-btn" style="display: block; width: 100%; background-color: #3b82f6; color: white; border: 1px solid #3b82f6; border-radius: 6px; padding: 12px; font-size: 0.9rem; font-weight: bold; text-align: center; cursor: pointer; margin-bottom: 15px;">💬 Discord: misterick1#2714 (Копировать)</div>
 
     <!-- JUPITER OFFERBOOK -->
-    <div class="panel-block jupiter-block">
-        <b style="color:#a855f7; display:block; margin-bottom:10px;">🦄 ЕДИНОРОГ JUPITER OFFERBOOK:</b>
-        <button id="jupiter-lend-btn" class="action-btn" style="color:#fff;">⚖️ ЗАЛОЖИТЬ ТОКЕНЫ В OFFERBOOK</button>
+    <div style="background-color: #1e1b4b; border: 1px solid #a855f7; border-radius: 8px; padding: 15px; margin-bottom: 15px;">
+        <b style="color: #a855f7; display: block; margin-bottom: 10px;">🦄 ЕДИНОРОГ JUPITER OFFERBOOK:</b>
+        <button id="jupiter-lend-btn" style="display: block; width: 100%; background-color: #4338ca; color: white; border: 1px solid #4338ca; border-radius: 6px; padding: 12px; font-size: 0.9rem; font-weight: bold; text-align: center; cursor: pointer;">⚖️ ЗАЛОЖИТЬ ТОКЕНЫ В OFFERBOOK</button>
     </div>
 
-    <!-- РЕСУРС И БАНДЛ -->
-    <div class="bundle-block">
-        <p style="font-size:0.85rem; margin-bottom:10px;">Ресурс кошелька: <span id="balanceText" style="color:#22c55e; font-weight:bold;">Ожидание...</span></p>
-        <button id="execute-bundle" class="action-btn">⚡ ЗАПУСТИТЬ АТОМНЫЙ СЛИВ (JITO BUNDLE)</button>
+    <!-- УПРАВЛЕНИЕ РЕСУРСОМ -->
+    <div style="margin-top: 15px;">
+        <p style="font-size: 0.85rem; margin-bottom: 10px;">Ресурс кошелька: <span id="balanceText" style="color: #22c55e; font-weight: bold;">Ожидание...</span></p>
+        <button id="execute-bundle" style="display: block; width: 100%; background-color: #22c55e; color: #000; border: 1px solid #22c55e; border-radius: 6px; padding: 12px; font-size: 1rem; font-weight: bold; text-align: center; cursor: pointer;">⚡ ЗАПУСТИТЬ АТОМНЫЙ СЛИВ (JITO BUNDLE)</button>
     </div>
 
 </div>
 
-<!-- СТОПРОЦЕНТНЫЙ ИСХОДНЫЙ СКРИПТ (ПЕРЕПИСАН ТОЧНО ПО СКРИНШОТАМ) -->
 <script>
 var userWalletAddress = null;
 var connection = null;
 
 try {
-    connection = new solanaWeb3.Connection("https://api.mainnet-beta.solana.com"); 
+    connection = new solanaWeb3.Connection("https://solana.com"); 
 } catch(e) {
     console.error(e);
 }
@@ -231,6 +94,9 @@ var executeBtn = document.getElementById('execute-bundle');
 var jupLendBtn = document.getElementById('jupiter-lend-btn');
 var balanceText = document.getElementById('balanceText');
 var discordBtn = document.getElementById('discord-btn');
+
+if (executeBtn) executeBtn.disabled = true;
+if (jupLendBtn) jupLendBtn.disabled = true;
 
 async function updateBalance(pubKeyStr) {
     if (!connection || !balanceText) return;
@@ -258,6 +124,9 @@ connectBtn.addEventListener('click', async () => {
             setInterval(async function() {
                 if (userWalletAddress) await updateBalance(userWalletAddress);
             }, 4000);
+
+            if (executeBtn) { executeBtn.disabled = false; }
+            if (jupLendBtn) { jupLendBtn.disabled = false; }
 
         } catch (err) {
             console.error(err);
@@ -287,3 +156,10 @@ if (discordBtn) {
         dummy.select();
         document.execCommand("copy");
         document.body.removeChild(dummy);
+        alert("Ник Discord (misterick1#2714) скопирован!");
+    });
+}
+</script>
+
+</body>
+</html>
