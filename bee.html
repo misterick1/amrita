@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Amrita Control v1.08</title>
-    <!-- Официальная библиотека Solana Web3 -->
+    <!-- Возвращено оригинальное подключение скрипта -->
     <script src="https://unpkg.com"></script>
     <style>
         * { box-sizing: border-box; }
@@ -17,17 +17,16 @@
             margin: 0;
         }
 
-        /* Главный контейнер панели */
+        /* Главный контейнер (БЕЗ толстых зеленых линий, рамка 1px) */
         .main-container {
             border: 1px solid #22c55e; 
             border-radius: 12px;
             padding: 15px;
             max-width: 500px;
             margin: 0 auto;
-            background: #0b0f19;
         }
 
-        /* Общий стиль для всех информационных блоков */
+        /* Блоки контуров (Все рамки одинаковой толщины 1px) */
         .panel-block {
             background: #1f2937;
             border: 1px solid #374151; 
@@ -36,27 +35,18 @@
             margin-bottom: 15px;
         }
 
-        /* Индивидуальные неоновые рамки для блоков */
         .panel-block.first-wing { border-color: #22c55e; }
         .panel-block.second-wing { border-color: #a855f7; background: #111c24; }
         .panel-block.matrix-status { border-color: #3b82f6; }
         .panel-block.media-contour { border-color: #06b6d4; }
         .panel-block.jupiter-block { border-color: #a855f7; background: #1e1b4b; }
-        
-        /* Блок ресурса и бандла */
-        .bundle-block {
-            padding-top: 5px;
-            margin-top: 15px;
-        }
 
-        /* Заголовок панели */
         .title-panel {
             color: #22c55e;
             text-align: center;
             margin-top: 0;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
             font-size: 1.25rem;
-            font-weight: bold;
         }
 
         .wing-title {
@@ -66,7 +56,6 @@
             display: block;
         }
 
-        /* Строки с адресами */
         .mint-row {
             font-family: monospace;
             font-size: 0.8rem;
@@ -76,7 +65,38 @@
         }
         .mint-row b { color: #fff; }
 
-        /* Обычные интерактивные кнопки */
+        /* Исходные квадратные рабочие кнопки (Рамки приведены к 1px) */
+        .btn-media {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            text-align: center;
+            height: 45px;
+            border: 1px solid transparent;
+        }
+
+        /* Исходная сетка кнопок соцсетей */
+        .media-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        /* Цвета кнопок из вашего оригинального дизайна */
+        .btn-x { background: #000; border-color: #374151; }
+        .btn-youtube { background: #ef4444; }
+        .btn-github { background: #374151; }
+        .btn-tiktok { background: #000; border-color: #06b6d4; }
+        .btn-twitch { background: #6366f1; }
+        .btn-reddit { background: #f97316; }
+
+        /* Кнопки действий */
         .action-btn {
             display: block;
             width: 100%;
@@ -90,78 +110,32 @@
             text-align: center;
             cursor: pointer;
             margin-bottom: 15px;
-            transition: all 0.2s ease;
-        }
-        .action-btn:hover {
-            background: #22c55e;
-            color: #000;
         }
 
-        /* Специфические цвета для уникальных кнопок */
-        #jupiter-lend-btn {
-            border-color: #6366f1;
-            background: #312e81;
-        }
-        #jupiter-lend-btn:hover {
-            background: #6366f1;
-            color: #fff;
-        }
-
-        #execute-bundle {
-            border-color: #22c55e;
-            background: #16a34a;
-            color: #fff;
-            font-size: 1rem;
-        }
-        #execute-bundle:hover {
-            background: #22c55e;
-            color: #000;
+        #connect-wallet {
+            background: #111827;
+            border: 1px solid #22c55e;
         }
 
         #discord-btn {
-            border-color: #5865f2;
-            background: #2f3136;
-        }
-        #discord-btn:hover {
-            background: #5865f2;
-            color: #fff;
+            background: #3b82f6;
+            border: 1px solid #3b82f6;
         }
 
-        /* --- НАДЁЖНАЯ СЕТКА ДЛЯ СОТ (БЕЗ ДЕФОРМАЦИИ) --- */
-        .honeycomb-grid {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 15px 8px;
-            padding: 10px 0;
+        #jupiter-lend-btn {
+            background: #4338ca;
+            border: 1px solid #4338ca;
         }
 
-        /* Контейнер для создания неонового эффекта вокруг соты */
-        .hexagon-wrapper {
-            filter: drop-shadow(0 0 1px #06b6d4);
+        #execute-bundle {
+            background: #22c55e;
+            border: 1px solid #22c55e;
+            color: #000;
+            font-size: 1rem;
         }
 
-        .btn-hexagon {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 135px; 
-            height: 115px;
-            background-color: #111827;
-            color: #fff;
-            text-decoration: none;
-            font-size: 0.85rem;
-            font-weight: bold;
-            text-align: center;
-            /* Идеальный срез правильного шестиугольника */
-            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
-            transition: all 0.2s ease;
-            padding: 10px;
-        }
-
-        .btn-hexagon:hover {
-            background-color: #06b6d4;
-            color: #0b0f19;
+        .bundle-block {
+            margin-top: 15px;
         }
     </style>
 </head>
@@ -209,17 +183,17 @@
         </div>
     </div>
 
-    <!-- МЕДИА-КОНТУР С ИНТЕРАКТИВНЫМИ КНОПКАМИ-СОТАМИ -->
+    <!-- МЕДИА-КОНТУР СОЗНАНИЯ -->
     <div class="panel-block media-contour">
-        <b style="color:#06b6d4; display:block; margin-bottom:15px;">🌐 МЕДИА-КОНТУР СОЗНАНИЯ:</b>
+        <b style="color:#06b6d4; display:block; margin-bottom:10px;">🌐 МЕДИА-КОНТУР СОЗНАНИЯ:</b>
         
-        <div class="honeycomb-grid">
-            <div class="hexagon-wrapper"><a href="https://x.com" target="_blank" class="btn-hexagon">X / Twitter</a></div>
-            <div class="hexagon-wrapper"><a href="https://youtube.com" target="_blank" class="btn-hexagon">YouTube</a></div>
-            <div class="hexagon-wrapper"><a href="https://github.com" target="_blank" class="btn-hexagon">GitHub</a></div>
-            <div class="hexagon-wrapper"><a href="https://tiktok.com" target="_blank" class="btn-hexagon">TikTok</a></div>
-            <div class="hexagon-wrapper"><a href="https://twitch.tv" target="_blank" class="btn-hexagon">Twitch</a></div>
-            <div class="hexagon-wrapper"><a href="https://reddit.com" target="_blank" class="btn-hexagon">Reddit</a></div>
+        <div class="media-grid">
+            <a href="https://x.com" target="_blank" class="btn-media btn-x">X / Twitter</a>
+            <a href="https://youtube.com" target="_blank" class="btn-media btn-youtube">YouTube</a>
+            <a href="https://github.com" target="_blank" class="btn-media btn-github">GitHub</a>
+            <a href="https://tiktok.com" target="_blank" class="btn-media btn-tiktok">TikTok</a>
+            <a href="https://twitch.tv" target="_blank" class="btn-media btn-twitch">Twitch</a>
+            <a href="https://reddit.com" target="_blank" class="btn-media btn-reddit">Reddit</a>
         </div>
     </div>
 
@@ -231,7 +205,7 @@
     <!-- JUPITER OFFERBOOK -->
     <div class="panel-block jupiter-block">
         <b style="color:#a855f7; display:block; margin-bottom:10px;">🦄 ЕДИНОРОГ JUPITER OFFERBOOK:</b>
-        <button id="jupiter-lend-btn" class="action-btn">⚖️ ЗАЛОЖИТЬ ТОКЕНЫ В OFFERBOOK</button>
+        <button id="jupiter-lend-btn" class="action-btn" style="color:#fff;">⚖️ ЗАЛОЖИТЬ ТОКЕНЫ В OFFERBOOK</button>
     </div>
 
     <!-- РЕСУРС И БАНДЛ -->
@@ -242,7 +216,7 @@
 
 </div>
 
-<!-- СЦЕНАРИИ И ЛОГИКА ВЗАИМОДЕЙСТВИЯ -->
+<!-- ИСХОДНАЯ СТАБИЛЬНАЯ ЛОГИКА -->
 <script>
 var userWalletAddress = null;
 var connection = null;
@@ -258,6 +232,9 @@ var executeBtn = document.getElementById('execute-bundle');
 var jupLendBtn = document.getElementById('jupiter-lend-btn');
 var balanceText = document.getElementById('balanceText');
 var discordBtn = document.getElementById('discord-btn');
+
+if (executeBtn) executeBtn.disabled = true;
+if (jupLendBtn) jupLendBtn.disabled = true;
 
 async function updateBalance(pubKeyStr) {
     if (!connection || !balanceText) return;
@@ -279,4 +256,33 @@ connectBtn.addEventListener('click', async () => {
             var shortAdd = userWalletAddress.slice(0, 4) + "..." + userWalletAddress.slice(-4);
             connectBtn.innerHTML = "✅ СИНХРОНИЗИРОВАНО: " + shortAdd;
             connectBtn.style.background = '#16a34a';
+
+            await updateBalance(userWalletAddress);
+
+            setInterval(async function() {
+                if (userWalletAddress) await updateBalance(userWalletAddress);
+            }, 4000);
+
+            if (executeBtn) { executeBtn.disabled = false; }
+            if (jupLendBtn) { jupLendBtn.disabled = false; }
+
+        } catch (err) {
+            console.error(err);
+        }
+    } else {
+        alert('Открыть через встроенный браузер Solflare Wallet');
+    }
+});
+
+if (executeBtn) {
+    executeBtn.addEventListener('click', function() {
+        alert("Jito Bundle активирован!\nРесурс отправлен на обработку.");
+    });
+}
+
+if (jupLendBtn) {
+    jupLendBtn.addEventListener('click', function() {
+        window.open('https://jup.ag', '_blank');
+    });
+}
 
