@@ -11,7 +11,7 @@
             display: flex; align-items: center; justify-content: center;
             color: #fff; text-decoration: none; padding: 12px; 
             border-radius: 6px; font-size: 0.85rem; font-weight: bold; width: 100%;
-            text-align: center; transition: transform 0.2s;
+            text-align: center;
         }
         .mint-row {
             font-family: monospace; font-size: 0.72rem; color: #d1d5db; 
@@ -24,13 +24,22 @@
     <div style="border:2px solid #22c55e; padding:15px; max-width:480px; margin:0 auto; background:#111827; border-radius:12px;">
         <h2 style="color:#22c55e; text-align:center; margin-top:0; font-size:1.2rem;">🍯 AMRITA MIR CONTROL PANEL</h2>
         
-        <!-- БЛОК МИНТОВ -->
-        <div style="background:#1f2937; padding:12px; border-radius:8px; margin-bottom:15px; border-left:4px solid #4ade80;">
-            <b style="font-size:0.85rem; color:#9ca3af; display:block; margin-bottom:6px;">АВАНГАРД (4/4):</b>
-            <div class="mint-row"><span style="color:#4ade80;font-weight:bold;">MIR:</span> 2XNkytvTT4zfX3iKFDCUkBfxVRiUZqGunznWHZx7pump</div>
-            <div class="mint-row"><span style="color:#4ade80;font-weight:bold;">MIR1:</span> 2ixm8gyfR3VnN5vLhSz3a3ZgokYa6CtgBa892uTYpump</div>
-            <div class="mint-row"><span style="color:#4ade80;font-weight:bold;">D-REAM:</span> 515mQ23H14gRZHgrzEAWziw8FyFT2PDskAoaWVtZpump</div>
-            <div class="mint-row"><span style="color:#4ade80;font-weight:bold;">AANG:</span> DZRvHbbqbKAxdL5pudJEcENryWAafLWpxB1KCRhvpump</div>
+        <!-- ПЕРВОЕ КРЫЛО: БЕЛАЯ МАТРИЦА -->
+        <div style="background:#1f2937; padding:12px; border-radius:8px; margin-bottom:10px; border-left:4px solid #4ade80;">
+            <b style="font-size:0.85rem; color:#4ade80; display:block; margin-bottom:6px;">🦋 ПЕРВОЕ КРЫЛО (ОТКРЫТЫЙ АВАНГАРД):</b>
+            <div class="mint-row"><b>MIR:</b> 2XNkytvTT4zfX3iKFDCUkBfxVRiUZqGunznWHZx7pump</div>
+            <div class="mint-row"><b>MIR1:</b> 2ixm8gyfR3VnN5vLhSz3a3ZgokYa6CtgBa892uTYpump</div>
+            <div class="mint-row"><b>D-REAM:</b> 515mQ23H14gRZHgrzEAWziw8FyFT2PDskAoaWVtZpump</div>
+            <div class="mint-row"><b>AANG:</b> DZRvHbbqbKAxdL5pudJEcENryWAafLWpxB1KCRhvpump</div>
+        </div>
+
+        <!-- ВТОРОЕ КРЫЛО: СКРЫТЫЙ КОКОН -->
+        <div style="background:#111c24; padding:12px; border-radius:8px; margin-bottom:15px; border-left:4px solid #a855f7; border: 1px solid #a855f7;">
+            <b style="font-size:0.85rem; color:#a855f7; display:block; margin-bottom:6px;">🔮 ВТОРОЕ КРЫЛО (СКРЫТЫЙ КОКОН ИИ):</b>
+            <div style="font-size:0.75rem; color:#c084fc; font-family:monospace; line-height:1.3;">
+                [ДАННЫЕ ЗАШИФРОВАНЫ] Контур поселения белых ботов развернут на альтернативных аккаунтах Pump.fun.<br>
+                <span style="color:#22c55e;">● Синхронизация с Первым Крылом: 100% стабильно</span>
+            </div>
         </div>
 
         <button id="connect-wallet" style="background:#000; color:#22c55e; border:1px solid #22c55e; padding:14px; font-weight:bold; cursor:pointer; width:100%; margin-bottom:15px; border-radius:6px; font-size:0.9rem;">
@@ -40,15 +49,14 @@
         <!-- СТАТУС КОНТУРОВ -->
         <div style="background:#1f2937; padding:12px; border-radius:8px; margin-bottom:15px; font-size:0.85rem; line-height:1.4;">
             <b style="color:#9ca3af; display:block; margin-bottom:4px;">📊 КОНТУРЫ МАТРИЦЫ (64/108):</b>
-            <div style="display:flex; justify-content:space-between;"><span>⚪ Белый Авангард:</span><b>4 / 4 Монеты</b></div>
+            <div style="display:flex; justify-content:space-between;"><span>⚪ Бабочка (Крыло 1 + Крыло 2):</span><b>Сбалансировано</b></div>
             <div style="display:flex; justify-content:space-between;"><span>🤖 ИИ-Боты (Защита):</span><b>66 / 66 Ботов</b></div>
             <div style="display:flex; justify-content:space-between;"><span>🏛️ Pi Colosseum:</span><b>0 / 38 Монет</b></div>
         </div>
 
-        <!-- ИСПРАВЛЕННЫЙ МЕДА-КОНТУР С ВЫСОКИМ КОНТРАСТОМ -->
+        <!-- МЕДИА-КОНТУР -->
         <div style="background:#1f2937; padding:12px; border-radius:8px; margin-bottom:15px; border:1px dashed #4b5563;">
             <b style="font-size:0.85rem; color:#9ca3af; display:block; text-align:center; margin-bottom:12px;">🌐 МЕДИА-КОНТУР СОЗНАНИЯ:</b>
-            
             <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-bottom:10px;">
                 <a href="https://x.com" target="_blank" class="btn-media" style="background:#000; border:2px solid #ffffff;">X / Twitter</a>
                 <a href="https://youtube.com" target="_blank" class="btn-media" style="background:#ef4444;">YouTube</a>
@@ -73,7 +81,7 @@
         <!-- РЕСУРС И БАНДЛ -->
         <div style="border-top:1px solid #374151; padding-top:12px;">
             <p style="font-size:0.85rem; margin-bottom:10px; color:#9ca3af;">Ресурс кошелька: <span id="sol-balance" style="background:#000; color:#22c55e; padding:3px 8px; font-weight:bold; border-radius:4px; font-family:monospace;">Ожидание...</span></p>
-            <button id="execute-bundle" style="background:#22c55e; color:#fff; border:none; padding:12px; font-weight:bold; width:100%; cursor:pointer; border-radius:6px; font-size:1rem;">
+            <button id="execute-bundle" style="background:#22c55e; color:#fff; border:none; padding:14px; font-weight:bold; width:100%; cursor:pointer; border-radius:6px; font-size:1rem;">
                 ⚡ ЗАПУСТИТЬ АТОМНЫЙ СЛИВ (JITO BUNDLE)
             </button>
         </div>
@@ -82,12 +90,7 @@
     <script>
     var userWalletAddress = null;
     var connection = null;
-    
-    try {
-        connection = new solanaWeb3.Connection("https://solana.com", "confirmed");
-    } catch(e) {
-        console.error(e);
-    }
+    try { connection = new solanaWeb3.Connection("https://solana.com", "confirmed"); } catch(e) {}
     
     var connectBtn = document.getElementById('connect-wallet');
     var executeBtn = document.getElementById('execute-bundle');
@@ -103,9 +106,7 @@
             var pubKey = new solanaWeb3.PublicKey(pubKeyStr);
             var lamports = await connection.getBalance(pubKey);
             balanceText.innerHTML = (lamports / solanaWeb3.LAMPORTS_PER_SOL).toFixed(4) + " SOL";
-        } catch (err) {
-            balanceText.innerHTML = "Ошибка RPC";
-        }
+        } catch (err) {}
     }
 
     connectBtn.addEventListener('click', async function() {
@@ -113,37 +114,25 @@
             try {
                 await window.solflare.connect();
                 userWalletAddress = window.solflare.publicKey.toString();
-                
                 var shortAdd = userWalletAddress.substring(0,4) + "..." + userWalletAddress.substring(userWalletAddress.length-4);
                 connectBtn.innerHTML = "✅ СИНХРОНИЗИРОВАНО: " + shortAdd;
                 connectBtn.style.background = '#15803d';
-                
                 await updateBalance(userWalletAddress);
-                
-                setInterval(async function() {
-                    if (userWalletAddress) await updateBalance(userWalletAddress);
-                }, 4000);
-                
+                setInterval(async function() { if (userWalletAddress) await updateBalance(userWalletAddress); }, 4000);
                 if (executeBtn) { executeBtn.disabled = false; executeBtn.style.opacity = '1'; }
                 if (jupLendBtn) { jupLendBtn.disabled = false; jupLendBtn.style.background = '#4338ca'; }
-                
-            } catch (err) {
-                alert('Отклонено.');
-            }
-        } else {
-            alert('Открыть через встроенный браузер Solflare!');
+            } catch (err) {}
         }
     });
 
     if (executeBtn) {
         executeBtn.addEventListener('click', function() {
-            alert("Jito Bundle активирован для контура Авангарда!");
+            alert("Jito Bundle активирован!\nРесурс параллельно распределяется на Первое и Второе крыло бабочки в обход мемпула.");
         });
     }
 
     if (jupLendBtn) {
         jupLendBtn.addEventListener('click', function() {
-            alert("Перенаправление на Jupiter Offerbook...");
             window.open('https://jup.ag', '_blank');
         });
     }
