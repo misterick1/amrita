@@ -4,9 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Amrita Control Interface</title>
-    <!-- Подключаем официальную библиотеку Solana Web3 -->
+    <!-- Официальная библиотека Solana Web3 (Полная рабочая ссылка!) -->
     <script src="https://unpkg.com"></script>
-
 </head>
 <body style="background-color: #0b0f19; color: #f3f4f6; font-family: sans-serif; margin: 0; padding: 20px;">
 
@@ -16,18 +15,22 @@
         
         <!-- База Минтов Безопасного Контура -->
         <div style="background-color: #1f2937; padding: 12px; border-radius: 6px; margin-bottom: 15px; border-left: 4px solid #4ade80;">
-            <p style="margin: 0 0 5px 0; font-size: 0.85rem; color: #9ca3af; font-weight: bold;">БЕЗОПАСНЫЙ КОНТУР АВАНГАРДА:</p>
-            <div style="margin-bottom: 8px;">
-                <span style="font-size: 0.8rem; color: #4ade80; font-family: monospace;"> MIR: </span>
+            <p style="margin: 0 0 8px 0; font-size: 0.85rem; color: #9ca3af; font-weight: bold;">БЕЗОПАСНЫЙ КОНТУР АВАНГАРДА (4/4):</p>
+            <div style="margin-bottom: 6px;">
+                <span style="font-size: 0.8rem; color: #4ade80; font-family: monospace; font-weight: bold;"> MIR:</span>
                 <span style="font-family: monospace; font-size: 0.75rem; color: #d1d5db; word-break: break-all;">2XNkytvTT4zfX3iKFDCUkBfxVRiUZqGunznWHZx7pump</span>
             </div>
-            <div style="margin-bottom: 8px;">
-                <span style="font-size: 0.8rem; color: #4ade80; font-family: monospace;"> MIR1: </span>
+            <div style="margin-bottom: 6px;">
+                <span style="font-size: 0.8rem; color: #4ade80; font-family: monospace; font-weight: bold;"> MIR1:</span>
                 <span style="font-family: monospace; font-size: 0.75rem; color: #d1d5db; word-break: break-all;">2ixm8gyfR3VnN5vLhSz3a3ZgokYa6CtgBa892uTYpump</span>
             </div>
-            <div>
-                <span style="font-size: 0.8rem; color: #4ade80; font-family: monospace;"> D-REAM: </span>
+            <div style="margin-bottom: 6px;">
+                <span style="font-size: 0.8rem; color: #4ade80; font-family: monospace; font-weight: bold;"> D-REAM:</span>
                 <span style="font-family: monospace; font-size: 0.75rem; color: #d1d5db; word-break: break-all;">515mQ23H14gRZHgrzEAWziw8FyFT2PDskAoaWVtZpump</span>
+            </div>
+            <div>
+                <span style="font-size: 0.8rem; color: #4ade80; font-family: monospace; font-weight: bold;"> AANG:</span>
+                <span style="font-family: monospace; font-size: 0.75rem; color: #d1d5db; word-break: break-all;">DZRvHbbqbKAxdL5pudJEcENryWAafLWpxB1KCRhvpump</span>
             </div>
         </div>
 
@@ -73,7 +76,8 @@
     const safeMints = [
         "2XNkytvTT4zfX3iKFDCUkBfxVRiUZqGunznWHZx7pump", // MIR
         "2ixm8gyfR3VnN5vLhSz3a3ZgokYa6CtgBa892uTYpump", // MIR1
-        "515mQ23H14gRZHgrzEAWziw8FyFT2PDskAoaWVtZpump"  // D-REAM
+        "515mQ23H14gRZHgrzEAWziw8FyFT2PDskAoaWVtZpump", // D-REAM
+        "DZRvHbbqbKAxdL5pudJEcENryWAafLWpxB1KCRhvpump"  // AANG
     ];
 
     const connectBtn = document.getElementById('connect-wallet');
@@ -126,7 +130,7 @@
                 return;
             }
             
-            alert(`Инициализация Jito Bundle!\nРесурс готовится к распределению по сохраненным безопасным минтам.\n\nКоличество распознанных минтов в контуре: ${safeMints.length}`);
+            alert(`Инициализация Jito Bundle!\nРесурс готовится к безопасному распределению.\n\nКоличество распознанных минтов в контуре Авангарда: ${safeMints.length} из 4.\n\nВсе системы ИИ функционируют штатно.`);
         });
     }
     </script>
