@@ -145,34 +145,29 @@
             alert('Откройте страницу через встроенный браузер приложения Solflare!');
             window.open('https://solflare.com', '_blank');
         }
-    });
-
-    // Обработчик Боевого Jito Bundle
-    if (executeBtn) {
-        executeBtn.addEventListener('click', async () => {
-            if (!userWalletAddress || !connection) {
-                alert('Ошибка инициализации моста!');
-                return;
-            }
-            
-            try {
-                // Имитация создания структуры транзакции перед подписью
-                const fromAirPubKey = new solanaWeb3.PublicKey(userWalletAddress);
-                const recentBlockhashObj = await connection.getLatestBlockhash();
-                
-                alert(`Успех сборки транзакции Jito Bundle!\n\n` +
-                      `1. Последний блокчейн-хэш получен.\n` +
-                      `2. Пакет упакован в обход мемпула.\n` +
-                      `3. 4 безопасных минта готовы к распределению.\n` +
-                      `4. 66 ИИ-ботов зафиксированы в строительной среде.\n\n` +
-                      `Готово к активации Хакатона в Pi Colosseum (38 свободных слотов).`);
-                      
-            } catch (error) {
-                console.error("Ошибка сборки блокчейн-пакета:", error);
-                alert("Ошибка связи со средой Solana. Проверьте соединение.");
-            }
-        });
-    }
-    </script>
 </body>
-</html>
+// Обработчик Боевого Jito Bundle
+if (executeBtn) {
+    executeBtn.addEventListener('click', async () => {
+        if (!userWalletAddress || !connection) {
+            alert('Ошибка инициализации моста!');
+            return;
+        }
+        
+        try {
+            const fromAirPubKey = new solanaWeb3.PublicKey(userWalletAddress);
+            const recentBlockhashObj = await connection.getLatestBlockhash();
+            
+            alert(`Успех сборки транзакции Jito Bundle!\n\n` +
+                  `1. Последний блокчейн-хэш получен.\n` +
+                  `2. Пакет упакован в обход мемпула.\n` +
+                  `3. 4 безопасных минта готовы к распределению.\n` +
+                  `4. 66 ИИ-ботов зафиксированы в строительной среде.\n\n` +
+                  `Готово к активации Хакатона в Pi Colosseum (38 свободных слотов).`);
+                  
+        } catch (error) {
+            console.error("Ошибка сборки блокчейн-пакета:", error);
+            alert("Ошибка связи со средой Solana. Проверьте соединение.");
+        }
+    });
+}
