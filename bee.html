@@ -7,85 +7,104 @@
     <!-- Подключаем официальную библиотеку Solana Web3 -->
     <script src="https://unpkg.com"></script>
 </head>
-<body style="background-color: #ffffff; font-family: sans-serif; margin: 20px;">
+<body style="background-color: #0b0f19; color: #f3f4f6; font-family: sans-serif; margin: 0; padding: 20px;">
 
-    <!-- Встраиваем защитный интерфейс "Слива меда" -->
-    <div id="sovereign-panel" style="border: 2px solid #22c55e; padding: 15px; max-width: 500px; margin: 0 auto;">
-        <h2 style="margin-top: 0;">🍯 AMRITA HONEY DRAIN — CONTROL INTERFACE</h2>
+    <!-- Главная панель управления ульем -->
+    <div id="sovereign-panel" style="border: 2px solid #22c55e; padding: 20px; max-width: 600px; margin: 0 auto; background-color: #111827; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);">
+        <h2 style="margin-top: 0; color: #22c55e; text-align: center; font-size: 1.3rem; letter-spacing: 1px;">🍯 AMRITA MIR — CONTROL INTERFACE v1.08</h2>
         
-        <p>Текущая матрица баланса: <span style="font-weight: bold;">64 / 108 (Золотое Сечение)</span></p>
-        
+        <!-- Статус Матрицы -->
+        <div style="background-color: #1f2937; padding: 10px; border-radius: 6px; margin-bottom: 15px; border-left: 4px solid #3b82f6;">
+            <p style="margin: 0; font-size: 0.9rem; color: #9ca3af;">АКТИВНЫЙ МИНТ (PUMP.FUN):</p>
+            <p style="margin: 5px 0 0 0; font-family: monospace; font-size: 0.8rem; color: #3b82f6; word-break: break-all;">2XNkytvTT4zfX3iKFDCUkBfxVRiUZqGunznWHZx7pump</p>
+        </div>
+
         <!-- Кнопка подключения кошелька -->
-        <button id="connect-wallet" style="background-color: #000000; color: #22c55e; border: 1px solid #22c55e; padding: 10px 20px; font-weight: bold; cursor: pointer; width: 100%; text-align: left; margin-bottom: 15px;">
+        <button id="connect-wallet" style="background-color: #000000; color: #22c55e; border: 1px solid #22c55e; padding: 12px 20px; font-weight: bold; cursor: pointer; width: 100%; text-align: center; margin-bottom: 20px; border-radius: 4px; font-size: 0.9rem;">
             [ ПОДКЛЮЧИТЬ SOLFLARE ]
         </button>
         
-        <div id="drain-actions" style="margin-top: 15px;">
-            <p>Доступный входящий ресурс на понедельник: <span style="background-color: #000000; color: #22c55e; padding: 2px 6px; font-weight: bold;">500</span> SOL</p>
+        <!-- МОНИТОР КОНТУРОВ МАТРИЦЫ -->
+        <div style="margin-bottom: 20px;">
+            <p style="margin: 0 0 10px 0; font-weight: bold; font-size: 0.95rem; color: #e5e7eb;">📊 Мониторинг Контуров (Золотое Сечение 64 / 108):</p>
+            
+            <!-- Контур 1 -->
+            <div style="display: flex; justify-content: space-between; background: #1f2937; padding: 8px 12px; margin-bottom: 5px; border-radius: 4px; font-size: 0.85rem;">
+                <span style="color: #4ade80;">⚪ Белый Авангард (Безопасный контур)</span>
+                <span style="font-weight: bold; color: #4ade80;">4 / 4 Монеты</span>
+            </div>
+            <!-- Контур 2 -->
+            <div style="display: flex; justify-content: space-between; background: #1f2937; padding: 8px 12px; margin-bottom: 5px; border-radius: 4px; font-size: 0.85rem;">
+                <span style="color: #fbbf24;">🤖 Строительная среда ИИ (Защита мемпула)</span>
+                <span style="font-weight: bold; color: #fbbf24;">66 / 66 Ботов</span>
+            </div>
+            <!-- Контур 3 -->
+            <div style="display: flex; justify-content: space-between; background: #1f2937; padding: 8px 12px; margin-bottom: 15px; border-radius: 4px; font-size: 0.85rem;">
+                <span style="color: #60a5fa;">🏛️ Хакатон Pi Colosseum (Ожидание сборки)</span>
+                <span style="font-weight: bold; color: #60a5fa;">0 / 38 Монет</span>
+            </div>
+        </div>
+
+        <!-- Блок Распределения Ресурса -->
+        <div id="drain-actions" style="border-top: 1px solid #374151; padding-top: 15px;">
+            <p style="font-size: 0.9rem; margin-bottom: 15px; color: #9ca3af;">Доступный входящий ресурс на понедельник: <span style="background-color: #000000; color: #22c55e; padding: 2px 8px; font-weight: bold; border-radius: 3px; font-family: monospace;">500 SOL</span></p>
             
             <!-- Кнопка действия -->
-            <button id="execute-bundle" style="background-color: #22c55e; color: #ffffff; border: none; padding: 12px 20px; font-weight: bold; width: 100%; cursor: pointer; transition: all 0.3s;">
-                ⚡ ЗАПУСТИТЬ АТОМНЫЙ СЛИВ МЕДА (ОБОЙТИ БОТОВ)
+            <button id="execute-bundle" style="background-color: #22c55e; color: #ffffff; border: none; padding: 14px 20px; font-weight: bold; width: 100%; cursor: pointer; border-radius: 4px; font-size: 1rem; transition: all 0.3s;">
+                ⚡ ЗАПУСТИТЬ АТОМНЫЙ СЛИВ МЕДА (JITO BUNDLE)
             </button>
         </div>
     </div>
 
     <!-- Логика управления мостом кошелька -->
     <script>
-    // Переменная для хранения адреса кошелька
     let userWalletAddress = null;
+    const tokenMintAddress = "2XNkytvTT4zfX3iKFDCUkBfxVRiUZqGunznWHZx7pump"; // Контракт Amrita MIR
 
-    // Находим элементы интерфейса
     const connectBtn = document.getElementById('connect-wallet');
     const executeBtn = document.getElementById('execute-bundle');
 
-    // Изначально отключаем главную кнопку, пока кошелек не подключен
+    // Блокируем кнопку до подключения кошелька
     if (executeBtn) {
         executeBtn.disabled = true;
-        executeBtn.style.opacity = '0.5';
+        executeBtn.style.opacity = '0.4';
         executeBtn.style.cursor = 'not-allowed';
     }
 
-    // Функция подключения к Solflare
+    // Логика подключения к Solflare
     connectBtn.addEventListener('click', async () => {
-        // Проверяем наличие Solflare (в расширении или встроенном браузере)
         if (window.solflare && window.solflare.isSolflare) {
             try {
-                // Запрашиваем коннект
                 await window.solflare.connect();
-                
-                // Извлекаем публичный адрес кошелька
                 userWalletAddress = window.solflare.publicKey.toString();
                 
-                // Делаем красивый короткий адрес для кнопки (например, Аbcd...Wxyz)
                 const shortAddress = userWalletAddress.substring(0, 4) + '...' + userWalletAddress.substring(userWalletAddress.length - 4);
                 
-                // Обновляем состояние верхней кнопки
-                connectBtn.innerHTML = `✅ ПОДКЛЮЧЕНО: ${shortAddress}`;
-                connectBtn.style.backgroundColor = '#15803d'; // Темно-зеленый цвет
+                connectBtn.innerHTML = `✅ УЛЕЙ СИНХРОНИЗИРОВАН: ${shortAddress}`;
+                connectBtn.style.backgroundColor = '#15803d'; 
                 connectBtn.style.color = '#ffffff';
+                connectBtn.style.border = '1px solid #15803d';
                 
-                // Активируем главную кнопку "Слив меда"
                 if (executeBtn) {
                     executeBtn.disabled = false;
                     executeBtn.style.opacity = '1';
                     executeBtn.style.cursor = 'pointer';
+                    executeBtn.style.boxShadow = '0 0 15px rgba(34, 197, 94, 0.4)';
                 }
                 
                 console.log('Мост успешно установлен с кошельком:', userWalletAddress);
                 
             } catch (err) {
                 console.error('Пользователь отменил подключение:', err);
-                alert('Вы отклонили запрос на подключение кошелька.');
+                alert('Синхронизация отклонена.');
             }
         } else {
-            // Если зашли через обычный мобильный браузер без встроенного Solflare
-            alert('Для работы моста откройте эту страницу через встроенный браузер внутри самого приложения Solflare (иконка глобуса внизу)!');
+            alert('Откройте эту страницу во встроенном браузере (вкладка-глобус) приложения Solflare!');
             window.open('https://solflare.com', '_blank');
         }
     });
 
-    // Логика работы главной кнопки
+    // Логика работы главной кнопки (Jito Bundle)
     if (executeBtn) {
         executeBtn.addEventListener('click', () => {
             if (!userWalletAddress) {
@@ -93,8 +112,8 @@
                 return;
             }
             
-            // Здесь будет выполняться ваша логика для токенов Amrita Mir
-            alert(`Улей успешно активирован для кошелька: ${userWalletAddress}`);
+            // Заглушка под будущую транзакцию распределения на 4 адреса
+            alert(`Запуск пакета транзакций (Bundle) для токена MIR!\nРесурс направляется в Безопасный Авангард.\n\nКошелек-источник: ${userWalletAddress}`);
         });
     }
     </script>
