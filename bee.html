@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Amrita Control v1.08</title>
+    <!-- ИСПРАВЛЕНО: Подключение официальной библиотеки Solana Web3 -->
     <script src="https://unpkg.com"></script>
     <style>
         * { box-sizing: border-box; }
@@ -18,7 +19,7 @@
 
         /* Главный контейнер панели */
         .main-container {
-            border: 1px solid #22c55e; /* Тонкая аккуратная внешняя рамка */
+            border: 1px solid #22c55e; 
             border-radius: 12px;
             padding: 15px;
             max-width: 500px;
@@ -29,7 +30,7 @@
         /* Общий стиль для всех информационных блоков */
         .panel-block {
             background: #1f2937;
-            border: 1px solid #374151; /* Единая толщина рамок для всех блоков */
+            border: 1px solid #374151; 
             border-radius: 8px;
             padding: 15px;
             margin-bottom: 15px;
@@ -42,7 +43,7 @@
         .panel-block.media-contour { border-color: #06b6d4; }
         .panel-block.jupiter-block { border-color: #a855f7; background: #1e1b4b; }
         
-        /* Блок ресурса и бандла (без толстых линий) */
+        /* Блок ресурса и бандла */
         .bundle-block {
             padding-top: 5px;
             margin-top: 15px;
@@ -278,6 +279,7 @@ var userWalletAddress = null;
 var connection = null;
 
 try {
+    // ИСПОЛЬЗУЕМ КОРРЕКТНЫЙ ОБЪЕКТ ИЗ ЗАГРУЖЕННОЙ БИБЛИОТЕКИ
     connection = new solanaWeb3.Connection("https://solana.com"); 
 } catch(e) {
     console.error(e);
@@ -288,7 +290,4 @@ var executeBtn = document.getElementById('execute-bundle');
 var jupLendBtn = document.getElementById('jupiter-lend-btn');
 var balanceText = document.getElementById('balanceText');
 var discordBtn = document.getElementById('discord-btn');
-
-if (executeBtn) executeBtn.disabled = true;
-if (jupLendBtn) jupLendBtn.disabled = true;
 
