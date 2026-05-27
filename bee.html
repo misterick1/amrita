@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Amrita Control v1.08</title>
-    <!-- Возвращена ваша оригинальная строка, с которой всё работало -->
+    <!-- Возвращено точное подключение из твоего оригинала -->
     <script src="https://unpkg.com"></script>
     <style>
         * { box-sizing: border-box; }
@@ -17,7 +17,7 @@
             margin: 0;
         }
 
-        /* Главный контейнер (убраны толстые линии, рамка сделана аккуратной в 1px) */
+        /* Главный контейнер (рамка сделана тонкой 1px) */
         .main-container {
             border: 1px solid #22c55e; 
             border-radius: 12px;
@@ -26,7 +26,7 @@
             margin: 0 auto;
         }
 
-        /* Информационные блоки (все рамки одинаковой толщины 1px) */
+        /* Блоки контуров (Все рамки одинаковой толщины 1px) */
         .panel-block {
             background: #1f2937;
             border: 1px solid #374151; 
@@ -73,7 +73,7 @@
             margin-top: 10px;
         }
 
-        /* Квадратные кнопки соцсетей */
+        /* Квадратные оригинальные кнопки соцсетей */
         .btn-media {
             display: flex;
             align-items: center;
@@ -95,7 +95,7 @@
         .btn-twitch { background: #6366f1; }
         .btn-reddit { background: #f97316; }
 
-        /* Кнопки действий (рамки приведены к единой толщине) */
+        /* Кнопки действий с рамками в 1px */
         .action-btn {
             display: block;
             width: 100%;
@@ -157,7 +157,7 @@
     <div class="panel-block second-wing">
         <span class="wing-title" style="color: #a855f7;">🔮 ВТОРОЕ КРЫЛО (СКРЫТЫЙ КОКОН ИИ):</span>
         <div class="mint-row" style="font-size:0.75rem;">
-            [ДАННЫЕ ЗАШИФРОВАНЫ] ...развернут на альтернативных аккаунтах Pump.fun.
+            [ДАННЫЕ ЗАШИФРОВАНЫ] Контур поселения белых ботов развернут на альтернативных аккаунтах Pump.fun.
             <span style="color:#22c55e; display:block; margin-top:5px;">● Синхронизация с Первым Крылом: 100% стабильно</span>
         </div>
     </div>
@@ -215,13 +215,13 @@
 
 </div>
 
-<!-- СТОПРОЦЕНТНЫЙ ИСХОДНЫЙ СКРИПТ (БЕЗ ИЗМЕНЕНИЙ) -->
+<!-- СТОПРОЦЕНТНЫЙ ИСХОДНЫЙ СКРИПТ (ПЕРЕПИСАН ТОЧНО ПО СКРИНШОТАМ) -->
 <script>
 var userWalletAddress = null;
 var connection = null;
 
 try {
-    connection = new solanaWeb3.Connection("https://solana.com"); 
+    connection = new solanaWeb3.Connection("https://api.mainnet-beta.solana.com"); 
 } catch(e) {
     console.error(e);
 }
@@ -231,9 +231,6 @@ var executeBtn = document.getElementById('execute-bundle');
 var jupLendBtn = document.getElementById('jupiter-lend-btn');
 var balanceText = document.getElementById('balanceText');
 var discordBtn = document.getElementById('discord-btn');
-
-if (executeBtn) executeBtn.disabled = true;
-if (jupLendBtn) jupLendBtn.disabled = true;
 
 async function updateBalance(pubKeyStr) {
     if (!connection || !balanceText) return;
@@ -262,9 +259,6 @@ connectBtn.addEventListener('click', async () => {
                 if (userWalletAddress) await updateBalance(userWalletAddress);
             }, 4000);
 
-            if (executeBtn) { executeBtn.disabled = false; }
-            if (jupLendBtn) { jupLendBtn.disabled = false; }
-
         } catch (err) {
             console.error(err);
         }
@@ -287,3 +281,9 @@ if (jupLendBtn) {
 
 if (discordBtn) {
     discordBtn.addEventListener('click', function() {
+        var dummy = document.createElement("input");
+        document.body.appendChild(dummy);
+        dummy.value = "misterick1#2714";
+        dummy.select();
+        document.execCommand("copy");
+        document.body.removeChild(dummy);
