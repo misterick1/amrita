@@ -17,7 +17,7 @@
 </head>
 <body>
 
-<!-- Контейнер панели управления (тонкая зеленая рамка 1px) -->
+<!-- Контейнер панели управления -->
 <div style="border: 1px solid #22c55e; padding: 15px; border-radius: 12px; max-width: 500px; margin: 0 auto; background-color: #0b0f19;">
 
     <h2 style="color: #22c55e; text-align: center; margin-top: 0; font-size: 1.25rem;">🍯 AMRITA MIR CONTROL PANEL</h2>
@@ -49,21 +49,21 @@
         <div style="display: flex; justify-content: space-between; font-size: 0.85rem;"><span>🏛️ Pi Colosseum:</span><span>0 / 38 Монет</span></div>
     </div>
 
-    <!-- МЕДИА-КОНТУР СОЗНАНИЯ -->
+    <!-- МЕДИА-КОНТУР СОЗНАНИЯ (Добавлен Facebook и выровнены все рамки) -->
     <div style="background-color: #1f2937; border: 1px solid #06b6d4; border-radius: 8px; padding: 15px; margin-bottom: 15px;">
         <b style="color: #06b6d4; display: block; margin-bottom: 10px;">🌐 МЕДИА-КОНТУР СОЗНАНИЯ:</b>
         <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 10px;">
             <a href="https://x.com" target="_blank" style="display: flex; align-items: center; justify-content: center; color: white; text-decoration: none; border-radius: 6px; font-size: 0.85rem; font-weight: bold; height: 45px; background-color: #000; border: 1px solid #374151;">X / Twitter</a>
             <a href="https://youtube.com" target="_blank" style="display: flex; align-items: center; justify-content: center; color: white; text-decoration: none; border-radius: 6px; font-size: 0.85rem; font-weight: bold; height: 45px; background-color: #ef4444; border: 1px solid #374151;">YouTube</a>
             <a href="https://github.com" target="_blank" style="display: flex; align-items: center; justify-content: center; color: white; text-decoration: none; border-radius: 6px; font-size: 0.85rem; font-weight: bold; height: 45px; background-color: #374151; border: 1px solid #374151;">GitHub</a>
-            <a href="https://tiktok.com" target="_blank" style="display: flex; align-items: center; justify-content: center; color: white; text-decoration: none; border-radius: 6px; font-size: 0.85rem; font-weight: bold; height: 45px; background-color: #000; border: 1px solid #06b6d4;">TikTok</a>
+            <a href="https://tiktok.com" target="_blank" style="display: flex; align-items: center; justify-content: center; color: white; text-decoration: none; border-radius: 6px; font-size: 0.85rem; font-weight: bold; height: 45px; background-color: #000; border: 1px solid #374151;">TikTok</a>
             <a href="https://twitch.tv" target="_blank" style="display: flex; align-items: center; justify-content: center; color: white; text-decoration: none; border-radius: 6px; font-size: 0.85rem; font-weight: bold; height: 45px; background-color: #6366f1; border: 1px solid #374151;">Twitch</a>
-            <a href="https://reddit.com" target="_blank" style="display: flex; align-items: center; justify-content: center; color: white; text-decoration: none; border-radius: 6px; font-size: 0.85rem; font-weight: bold; height: 45px; background-color: #f97316; border: 1px solid #374151;">Reddit</a>
+            <a href="https://facebook.com" target="_blank" style="display: flex; align-items: center; justify-content: center; color: white; text-decoration: none; border-radius: 6px; font-size: 0.85rem; font-weight: bold; height: 45px; background-color: #1877f2; border: 1px solid #374151;">Facebook</a>
         </div>
     </div>
 
-    <!-- КНОПКА ДИСКОРДА -->
-    <div id="discord-btn" style="display: block; width: 100%; background-color: #3b82f6; color: white; border: 1px solid #3b82f6; border-radius: 6px; padding: 12px; font-size: 0.9rem; font-weight: bold; text-align: center; cursor: pointer; margin-bottom: 15px;">💬 Discord: misterick1#2714 (Копировать)</div>
+    <!-- КНОПКА ДИСКОРДА (ИСПРАВЛЕНО: Теперь это ровный button, текст отцентрирован) -->
+    <button id="discord-btn" style="display: block; width: 100%; background-color: #3b82f6; color: white; border: 1px solid #3b82f6; border-radius: 6px; padding: 12px; font-size: 0.9rem; font-weight: bold; text-align: center; cursor: pointer; margin-bottom: 15px;">💬 Discord: misterick1#2714 (Копировать)</button>
 
     <!-- JUPITER OFFERBOOK -->
     <div style="background-color: #1e1b4b; border: 1px solid #a855f7; border-radius: 8px; padding: 15px; margin-bottom: 15px;">
@@ -125,7 +125,6 @@ connectBtn.addEventListener('click', async () => {
                 if (userWalletAddress) await updateBalance(userWalletAddress);
             }, 4000);
 
-            // ИСПРАВЛЕНО: Теперь кнопки гарантированно ВКЛЮЧАЮТСЯ при коннекте!
             if (executeBtn) { executeBtn.disabled = false; }
             if (jupLendBtn) { jupLendBtn.disabled = false; }
 
