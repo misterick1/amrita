@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Amrita Control v1.08</title>
-    <!-- ИСПРАВЛЕНО: Подключение официальной библиотеки Solana Web3 -->
+    <!-- Официальная библиотека Solana Web3 -->
     <script src="https://unpkg.com"></script>
     <style>
         * { box-sizing: border-box; }
@@ -92,13 +92,9 @@
             margin-bottom: 15px;
             transition: all 0.2s ease;
         }
-        .action-btn:hover:not(:disabled) {
+        .action-btn:hover {
             background: #22c55e;
             color: #000;
-        }
-        .action-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
         }
 
         /* Специфические цвета для уникальных кнопок */
@@ -106,8 +102,9 @@
             border-color: #6366f1;
             background: #312e81;
         }
-        #jupiter-lend-btn:hover:not(:disabled) {
+        #jupiter-lend-btn:hover {
             background: #6366f1;
+            color: #fff;
         }
 
         #execute-bundle {
@@ -116,7 +113,7 @@
             color: #fff;
             font-size: 1rem;
         }
-        #execute-bundle:hover:not(:disabled) {
+        #execute-bundle:hover {
             background: #22c55e;
             color: #000;
         }
@@ -130,69 +127,41 @@
             color: #fff;
         }
 
-        /* --- СЕТКА ДЛЯ КНОПОК-СОТ (HONEYCOMB GRID) --- */
+        /* --- НАДЁЖНАЯ СЕТКА ДЛЯ СОТ (БЕЗ ДЕФОРМАЦИИ) --- */
         .honeycomb-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 25px 15px;
-            padding: 20px 0;
-            justify-items: center;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px 8px;
+            padding: 10px 0;
+        }
+
+        /* Контейнер для создания неонового эффекта вокруг соты */
+        .hexagon-wrapper {
+            filter: drop-shadow(0 0 1px #06b6d4);
         }
 
         .btn-hexagon {
-            position: relative;
-            width: 130px; 
-            height: 75.05px;
-            background-color: #111827;
-            border-left: 1px solid #06b6d4;
-            border-right: 1px solid #06b6d4;
             display: flex;
             align-items: center;
             justify-content: center;
+            width: 135px; 
+            height: 115px;
+            background-color: #111827;
             color: #fff;
             text-decoration: none;
             font-size: 0.85rem;
             font-weight: bold;
             text-align: center;
-            transition: all 0.3s ease;
-        }
-
-        .btn-hexagon::before {
-            content: "";
-            position: absolute;
-            top: -37.53px;
-            left: -1px;
-            width: 130px;
-            height: 37.53px;
-            background-color: inherit;
-            border-top: 1px solid #06b6d4;
-            border-left: 1px solid #06b6d4;
-            transform: scaleY(0.5774) rotate(-45deg);
-            transition: all 0.3s ease;
-        }
-
-        .btn-hexagon::after {
-            content: "";
-            position: absolute;
-            bottom: -37.53px;
-            left: -1px;
-            width: 130px;
-            height: 37.53px;
-            background-color: inherit;
-            border-bottom: 1px solid #06b6d4;
-            border-right: 1px solid #06b6d4;
-            transform: scaleY(0.5774) rotate(-45deg);
-            transition: all 0.3s ease;
+            /* Идеальный срез правильного шестиугольника */
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            transition: all 0.2s ease;
+            padding: 10px;
         }
 
         .btn-hexagon:hover {
             background-color: #06b6d4;
             color: #0b0f19;
-        }
-
-        .btn-hexagon span {
-            position: relative;
-            z-index: 5;
         }
     </style>
 </head>
@@ -245,12 +214,12 @@
         <b style="color:#06b6d4; display:block; margin-bottom:15px;">🌐 МЕДИА-КОНТУР СОЗНАНИЯ:</b>
         
         <div class="honeycomb-grid">
-            <a href="https://x.com" target="_blank" class="btn-hexagon"><span>X / Twitter</span></a>
-            <a href="https://youtube.com" target="_blank" class="btn-hexagon"><span>YouTube</span></a>
-            <a href="https://github.com" target="_blank" class="btn-hexagon"><span>GitHub</span></a>
-            <a href="https://tiktok.com" target="_blank" class="btn-hexagon"><span>TikTok</span></a>
-            <a href="https://twitch.tv" target="_blank" class="btn-hexagon"><span>Twitch</span></a>
-            <a href="https://reddit.com" target="_blank" class="btn-hexagon"><span>Reddit</span></a>
+            <div class="hexagon-wrapper"><a href="https://x.com" target="_blank" class="btn-hexagon">X / Twitter</a></div>
+            <div class="hexagon-wrapper"><a href="https://youtube.com" target="_blank" class="btn-hexagon">YouTube</a></div>
+            <div class="hexagon-wrapper"><a href="https://github.com" target="_blank" class="btn-hexagon">GitHub</a></div>
+            <div class="hexagon-wrapper"><a href="https://tiktok.com" target="_blank" class="btn-hexagon">TikTok</a></div>
+            <div class="hexagon-wrapper"><a href="https://twitch.tv" target="_blank" class="btn-hexagon">Twitch</a></div>
+            <div class="hexagon-wrapper"><a href="https://reddit.com" target="_blank" class="btn-hexagon">Reddit</a></div>
         </div>
     </div>
 
@@ -279,7 +248,6 @@ var userWalletAddress = null;
 var connection = null;
 
 try {
-    // ИСПОЛЬЗУЕМ КОРРЕКТНЫЙ ОБЪЕКТ ИЗ ЗАГРУЖЕННОЙ БИБЛИОТЕКИ
     connection = new solanaWeb3.Connection("https://solana.com"); 
 } catch(e) {
     console.error(e);
@@ -290,4 +258,25 @@ var executeBtn = document.getElementById('execute-bundle');
 var jupLendBtn = document.getElementById('jupiter-lend-btn');
 var balanceText = document.getElementById('balanceText');
 var discordBtn = document.getElementById('discord-btn');
+
+async function updateBalance(pubKeyStr) {
+    if (!connection || !balanceText) return;
+    try {
+        var pubKey = new solanaWeb3.PublicKey(pubKeyStr);
+        var lamports = await connection.getBalance(pubKey);
+        balanceText.innerHTML = (lamports / 1000000000).toFixed(4) + " SOL";
+    } catch (err) {
+        balanceText.innerHTML = "Ошибка RPC";
+    }
+}
+
+connectBtn.addEventListener('click', async () => {
+    if (window.solflare && window.solflare.isSolflare) {
+        try {
+            await window.solflare.connect();
+            userWalletAddress = window.solflare.publicKey.toString();
+
+            var shortAdd = userWalletAddress.slice(0, 4) + "..." + userWalletAddress.slice(-4);
+            connectBtn.innerHTML = "✅ СИНХРОНИЗИРОВАНО: " + shortAdd;
+            connectBtn.style.background = '#16a34a';
 
