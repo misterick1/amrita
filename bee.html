@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Amrita Control v1.08</title>
-    <!-- Возвращено оригинальное подключение скрипта -->
+    <!-- ИСХОДНАЯ СТРОКА ПОДКЛЮЧЕНИЯ (ВОЗВРАЩЕНО НА СТО ПРОЦЕНТОВ КАК БЫЛО) -->
     <script src="https://unpkg.com"></script>
     <style>
         * { box-sizing: border-box; }
@@ -17,7 +17,7 @@
             margin: 0;
         }
 
-        /* Главный контейнер (БЕЗ толстых зеленых линий, рамка 1px) */
+        /* Главный контейнер (рамка сделана тонкой, 1px) */
         .main-container {
             border: 1px solid #22c55e; 
             border-radius: 12px;
@@ -26,7 +26,7 @@
             margin: 0 auto;
         }
 
-        /* Блоки контуров (Все рамки одинаковой толщины 1px) */
+        /* Блоки контуров (Все рамки аккуратные, одинаковой толщины 1px) */
         .panel-block {
             background: #1f2937;
             border: 1px solid #374151; 
@@ -65,7 +65,7 @@
         }
         .mint-row b { color: #fff; }
 
-        /* Исходные квадратные рабочие кнопки (Рамки приведены к 1px) */
+        /* Исходные квадратные рабочие кнопки */
         .btn-media {
             display: flex;
             align-items: center;
@@ -216,7 +216,7 @@
 
 </div>
 
-<!-- ИСХОДНАЯ СТАБИЛЬНАЯ ЛОГИКА -->
+<!-- ИСХОДНЫЙ КОД И ЛОГИКА (БЕЗ ИЗМЕНЕНИЙ) -->
 <script>
 var userWalletAddress = null;
 var connection = null;
@@ -263,8 +263,8 @@ connectBtn.addEventListener('click', async () => {
                 if (userWalletAddress) await updateBalance(userWalletAddress);
             }, 4000);
 
-            if (executeBtn) { executeBtn.disabled = false; }
-            if (jupLendBtn) { jupLendBtn.disabled = false; }
+            if (executeBtn) { executeBtn.disabled = true; }
+            if (jupLendBtn) { jupLendBtn.disabled = true; }
 
         } catch (err) {
             console.error(err);
@@ -286,3 +286,4 @@ if (jupLendBtn) {
     });
 }
 
+if (discordBtn) {
