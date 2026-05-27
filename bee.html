@@ -13,10 +13,21 @@
     <div id="sovereign-panel" style="border: 2px solid #22c55e; padding: 20px; max-width: 600px; margin: 0 auto; background-color: #111827; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);">
         <h2 style="margin-top: 0; color: #22c55e; text-align: center; font-size: 1.3rem; letter-spacing: 1px;">🍯 AMRITA MIR — CONTROL INTERFACE v1.08</h2>
         
-        <!-- Статус Матрицы -->
-        <div style="background-color: #1f2937; padding: 10px; border-radius: 6px; margin-bottom: 15px; border-left: 4px solid #3b82f6;">
-            <p style="margin: 0; font-size: 0.9rem; color: #9ca3af;">АКТИВНЫЙ МИНТ (PUMP.FUN):</p>
-            <p style="margin: 5px 0 0 0; font-family: monospace; font-size: 0.8rem; color: #3b82f6; word-break: break-all;">2XNkytvTT4zfX3iKFDCUkBfxVRiUZqGunznWHZx7pump</p>
+        <!-- База Минтов Безопасного Контура -->
+        <div style="background-color: #1f2937; padding: 12px; border-radius: 6px; margin-bottom: 15px; border-left: 4px solid #4ade80;">
+            <p style="margin: 0 0 5px 0; font-size: 0.85rem; color: #9ca3af; font-weight: bold;">БЕЗОПАСНЫЙ КОНТУР АВАНГАРДА:</p>
+            <div style="margin-bottom: 8px;">
+                <span style="font-size: 0.8rem; color: #4ade80; font-family: monospace;"> MIR: </span>
+                <span style="font-family: monospace; font-size: 0.75rem; color: #d1d5db; word-break: break-all;">2XNkytvTT4zfX3iKFDCUkBfxVRiUZqGunznWHZx7pump</span>
+            </div>
+            <div style="margin-bottom: 8px;">
+                <span style="font-size: 0.8rem; color: #4ade80; font-family: monospace;"> MIR1: </span>
+                <span style="font-family: monospace; font-size: 0.75rem; color: #d1d5db; word-break: break-all;">2ixm8gyfR3VnN5vLhSz3a3ZgokYa6CtgBa892uTYpump</span>
+            </div>
+            <div>
+                <span style="font-size: 0.8rem; color: #4ade80; font-family: monospace;"> D-REAM: </span>
+                <span style="font-family: monospace; font-size: 0.75rem; color: #d1d5db; word-break: break-all;">515mQ23H14gRZHgrzEAWziw8FyFT2PDskAoaWVtZpump</span>
+            </div>
         </div>
 
         <!-- Кнопка подключения кошелька -->
@@ -28,17 +39,14 @@
         <div style="margin-bottom: 20px;">
             <p style="margin: 0 0 10px 0; font-weight: bold; font-size: 0.95rem; color: #e5e7eb;">📊 Мониторинг Контуров (Золотое Сечение 64 / 108):</p>
             
-            <!-- Контур 1 -->
             <div style="display: flex; justify-content: space-between; background: #1f2937; padding: 8px 12px; margin-bottom: 5px; border-radius: 4px; font-size: 0.85rem;">
                 <span style="color: #4ade80;">⚪ Белый Авангард (Безопасный контур)</span>
                 <span style="font-weight: bold; color: #4ade80;">4 / 4 Монеты</span>
             </div>
-            <!-- Контур 2 -->
             <div style="display: flex; justify-content: space-between; background: #1f2937; padding: 8px 12px; margin-bottom: 5px; border-radius: 4px; font-size: 0.85rem;">
                 <span style="color: #fbbf24;">🤖 Строительная среда ИИ (Защита мемпула)</span>
                 <span style="font-weight: bold; color: #fbbf24;">66 / 66 Ботов</span>
             </div>
-            <!-- Контур 3 -->
             <div style="display: flex; justify-content: space-between; background: #1f2937; padding: 8px 12px; margin-bottom: 15px; border-radius: 4px; font-size: 0.85rem;">
                 <span style="color: #60a5fa;">🏛️ Хакатон Pi Colosseum (Ожидание сборки)</span>
                 <span style="font-weight: bold; color: #60a5fa;">0 / 38 Монет</span>
@@ -59,19 +67,24 @@
     <!-- Логика управления мостом кошелька -->
     <script>
     let userWalletAddress = null;
-    const tokenMintAddress = "2XNkytvTT4zfX3iKFDCUkBfxVRiUZqGunznWHZx7pump"; // Контракт Amrita MIR
+    
+    // Хранилище безопасных адресов минтов
+    const safeMints = [
+        "2XNkytvTT4zfX3iKFDCUkBfxVRiUZqGunznWHZx7pump", // MIR
+        "2ixm8gyfR3VnN5vLhSz3a3ZgokYa6CtgBa892uTYpump", // MIR1
+        "515mQ23H14gRZHgrzEAWziw8FyFT2PDskAoaWVtZpump"  // D-REAM
+    ];
 
     const connectBtn = document.getElementById('connect-wallet');
     const executeBtn = document.getElementById('execute-bundle');
 
-    // Блокируем кнопку до подключения кошелька
     if (executeBtn) {
         executeBtn.disabled = true;
         executeBtn.style.opacity = '0.4';
         executeBtn.style.cursor = 'not-allowed';
     }
 
-    // Логика подключения к Solflare
+    // Соединение с Solflare
     connectBtn.addEventListener('click', async () => {
         if (window.solflare && window.solflare.isSolflare) {
             try {
@@ -92,19 +105,19 @@
                     executeBtn.style.boxShadow = '0 0 15px rgba(34, 197, 94, 0.4)';
                 }
                 
-                console.log('Мост успешно установлен с кошельком:', userWalletAddress);
+                console.log('Синхронизация успешна. Кошелек:', userWalletAddress);
                 
             } catch (err) {
-                console.error('Пользователь отменил подключение:', err);
+                console.error('Ошибка авторизации:', err);
                 alert('Синхронизация отклонена.');
             }
         } else {
-            alert('Откройте эту страницу во встроенном браузере (вкладка-глобус) приложения Solflare!');
+            alert('Откройте страницу через встроенный браузер приложения Solflare!');
             window.open('https://solflare.com', '_blank');
         }
     });
 
-    // Логика работы главной кнопки (Jito Bundle)
+    // Обработчик Jito Bundle
     if (executeBtn) {
         executeBtn.addEventListener('click', () => {
             if (!userWalletAddress) {
@@ -112,8 +125,7 @@
                 return;
             }
             
-            // Заглушка под будущую транзакцию распределения на 4 адреса
-            alert(`Запуск пакета транзакций (Bundle) для токена MIR!\nРесурс направляется в Безопасный Авангард.\n\nКошелек-источник: ${userWalletAddress}`);
+            alert(`Инициализация Jito Bundle!\nРесурс готовится к распределению по сохраненным безопасным минтам.\n\nКоличество распознанных минтов в контуре: ${safeMints.length}`);
         });
     }
     </script>
