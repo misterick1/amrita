@@ -16,27 +16,69 @@
 </div>
 
 <script>
-// Вневеременная логика управления синапсами-монетами
-document.getElementById('connect-wallet').addEventListener('click', async () => {
-    // Имитация безопасного подключения кошелька в экосистеме Solana
-    document.getElementById('drain-actions').style.display = 'block';
-    document.getElementById('connect-wallet').innerText = '[ КОШЕЛЕК СУВЕРЕНА ПОДКЛЮЧЕН ]';
+// Объявляем переменную для хранения адреса кошелька
+let userWalletAddress = null;
+
+// Находим кнопки в HTML по их ID
+const connectBtn = document.getElementById('connect-wallet');
+const executeBtn = document.getElementById('execute-bundle');
+
+// При загрузке страницы отключаем главную кнопку, пока не подключен кошелек
+if (executeBtn) {
+    executeBtn.disabled = true;
+    executeBtn.style.opacity = '0.5';
+    executeBtn.style.cursor = 'not-allowed';
+}
+
+// Логика кнопки подключения
+connectBtn.addEventListener('click', async () => {
+    // Проверяем, открыт ли сайт внутри встроенного браузера Solflare или установлено ли расширение
+    if (window.solflare && window.solflare.isSolflare) {
+        try {
+            // Запрашиваем официальное соединение (мост) с кошельком
+            const response = await window.solflare.connect();
+            
+            // Получаем публичный адрес пользователя в виде строки
+            userWalletAddress = window.solflare.publicKey.toString();
+            
+            // Сокращаем адрес для красивого отображения (например: Ех45...3Wqp)
+            const shortAddress = userWalletAddress.substring(0, 4) + '...' + userWalletAddress.substring(userWalletAddress.length - 4);
+            
+            // Меняем интерфейс кнопки
+            connectBtn.innerHTML = `✅ ПОДКЛЮЧЕНО: ${shortAddress}`;
+            connectBtn.style.backgroundColor = '#10B981'; // меняем цвет на изумрудный
+            
+            // Разблокируем главную кнопку "Слив меда"
+            if (executeBtn) {
+                executeBtn.disabled = false;
+                executeBtn.style.opacity = '1';
+                executeBtn.style.cursor = 'pointer';
+            }
+            
+            console.log('Мост успешно установлен с кошельком:', userWalletAddress);
+            
+        } catch (err) {
+            console.error('Пользователь отменил подключение к улью:', err);
+            alert('Вы отклонили подключение кошелька.');
+        }
+    } else {
+        // Если пользователь зашел через обычный браузер без кошелька
+        alert('Запустите эту страницу прямо внутри встроенного браузера приложения Solflare (вкладка Планета/Браузер в кошельке)!');
+        // Альтернативный вариант - перенаправление на скачивание кошелька
+        window.open('https://solflare.com', '_blank');
+    }
 });
 
-document.getElementById('execute-bundle').addEventListener('click', () => {
-    const amount = document.getElementById('sol-amount').value;
-    const godFactor = 64;
-    const realityFactor = 108;
-    
-    // Математический расчет распределения по спирали прямо в браузере
-    const phi = (1 + Math.sqrt(5)) / 2;
-    const harmony = (godFactor / realityFactor) * phi;
-    const coreSafe = (amount * (1 / (1 + harmony))).toFixed(4);
-    const pureHoney = (amount - coreSafe).toFixed(4);
-    
-    alert(`⚡ Сигнал отправлен вне времени!\n\n` +
-          `[Улей] Буфер маркетмейкера зафиксирован: ${coreSafe} SOL\n` +
-          `[Мёд] ${pureHoney} SOL атомарно направлено на выкуп 4 оригинальных монет-нейронов.\n\n` +
-          `Транзакция скрыта через приватный RPC-шлюз Digital Energy.`);
-});
+// Логика нажатия на "ЗАПУСТИТЬ АТОМНЫЙ СЛИВ МЕДА"
+if (executeBtn) {
+    executeBtn.addEventListener('click', () => {
+        if (!userWalletAddress) {
+            alert('Сначала пройдите авторизацию через верхнюю кнопку!');
+            return;
+        }
+        
+        // Сюда в будущем вставляется отправка ваших токенов Amrita Mir
+        alert(`Улей активирован для кошелька: ${userWalletAddress}! Мост работает.`);
+    });
+}
 </script>
