@@ -9,8 +9,9 @@
         * { box-sizing: border-box; }
         .btn-media {
             display: flex; align-items: center; justify-content: center;
-            color: #fff; text-decoration: none; padding: 10px; 
+            color: #fff; text-decoration: none; padding: 12px; 
             border-radius: 6px; font-size: 0.85rem; font-weight: bold; width: 100%;
+            text-align: center; transition: transform 0.2s;
         }
         .mint-row {
             font-family: monospace; font-size: 0.72rem; color: #d1d5db; 
@@ -44,20 +45,20 @@
             <div style="display:flex; justify-content:space-between;"><span>🏛️ Pi Colosseum:</span><b>0 / 38 Монет</b></div>
         </div>
 
-        <!-- ИСПРАВЛЕННЫЙ МЕДА-КОНТУР (ИДЕАЛЬНАЯ СЕТКА) -->
+        <!-- ИСПРАВЛЕННЫЙ МЕДА-КОНТУР С ВЫСОКИМ КОНТРАСТОМ -->
         <div style="background:#1f2937; padding:12px; border-radius:8px; margin-bottom:15px; border:1px dashed #4b5563;">
-            <b style="font-size:0.85rem; color:#9ca3af; display:block; text-align:center; margin-bottom:10px;">🌐 МЕДИА-КОНТУР СОЗНАНИЯ:</b>
+            <b style="font-size:0.85rem; color:#9ca3af; display:block; text-align:center; margin-bottom:12px;">🌐 МЕДИА-КОНТУР СОЗНАНИЯ:</b>
             
-            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px; margin-bottom:8px;">
-                <a href="https://x.com" target="_blank" class="btn-media" style="background:#000; border:1px solid #333;">X / Twitter</a>
-                <a href="https://youtube.com" target="_blank" class="btn-media" style="background:#f00;">YouTube</a>
-                <a href="https://github.com" target="_blank" class="btn-media" style="background:#24292e;">GitHub</a>
-                <a href="https://tiktok.com" target="_blank" class="btn-media" style="background:#010101; border-bottom:3px solid #ff0050;">TikTok</a>
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-bottom:10px;">
+                <a href="https://x.com" target="_blank" class="btn-media" style="background:#000; border:2px solid #ffffff;">X / Twitter</a>
+                <a href="https://youtube.com" target="_blank" class="btn-media" style="background:#ef4444;">YouTube</a>
+                <a href="https://github.com" target="_blank" class="btn-media" style="background:#374151; border:2px solid #6b7280;">GitHub</a>
+                <a href="https://tiktok.com" target="_blank" class="btn-media" style="background:#000000; border:2px solid #00f2fe; box-shadow: 0 0 5px #ff0050;">TikTok</a>
                 <a href="https://twitch.tv" target="_blank" class="btn-media" style="background:#9146ff;">Twitch</a>
                 <a href="https://reddit.com" target="_blank" class="btn-media" style="background:#ff4500;">Reddit</a>
             </div>
-            <div style="background:#5865f2; color:#fff; padding:10px; border-radius:6px; text-align:center; font-size:0.8rem; font-weight:bold; font-family:monospace;">
-                Discord: misterick1#2714
+            <div style="background:#5865f2; color:#fff; padding:12px; border-radius:6px; text-align:center; font-size:0.85rem; font-weight:bold; font-family:monospace; border:1px solid #7289da;">
+                💬 Discord: misterick1#2714
             </div>
         </div>
 
@@ -72,7 +73,7 @@
         <!-- РЕСУРС И БАНДЛ -->
         <div style="border-top:1px solid #374151; padding-top:12px;">
             <p style="font-size:0.85rem; margin-bottom:10px; color:#9ca3af;">Ресурс кошелька: <span id="sol-balance" style="background:#000; color:#22c55e; padding:3px 8px; font-weight:bold; border-radius:4px; font-family:monospace;">Ожидание...</span></p>
-            <button id="execute-bundle" style="background:#22c55e; color:#fff; border:none; padding:14px; font-weight:bold; width:100%; cursor:pointer; border-radius:6px; font-size:1rem;">
+            <button id="execute-bundle" style="background:#22c55e; color:#fff; border:none; padding:12px; font-weight:bold; width:100%; cursor:pointer; border-radius:6px; font-size:1rem;">
                 ⚡ ЗАПУСТИТЬ АТОМНЫЙ СЛИВ (JITO BUNDLE)
             </button>
         </div>
