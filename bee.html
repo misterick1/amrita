@@ -4,16 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Amrita Control Interface</title>
-    <!-- Официальная библиотека Solana Web3 -->
     <script src="https://unpkg.com"></script>
 </head>
 <body style="background-color: #0b0f19; color: #f3f4f6; font-family: sans-serif; margin: 0; padding: 20px;">
 
-    <!-- Главная панель управления ульем -->
     <div id="sovereign-panel" style="border: 2px solid #22c55e; padding: 20px; max-width: 600px; margin: 0 auto; background-color: #111827; border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);">
         <h2 style="margin-top: 0; color: #22c55e; text-align: center; font-size: 1.3rem; letter-spacing: 1px;">🍯 AMRITA MIR — CONTROL INTERFACE v1.08</h2>
         
-        <!-- База Минтов Безопасного Контура -->
         <div style="background-color: #1f2937; padding: 12px; border-radius: 6px; margin-bottom: 15px; border-left: 4px solid #4ade80;">
             <p style="margin: 0 0 8px 0; font-size: 0.85rem; color: #9ca3af; font-weight: bold;">БЕЗОПАСНЫЙ КОНТУР АВАНГАРДА (4/4):</p>
             <div style="margin-bottom: 6px;">
@@ -34,15 +31,12 @@
             </div>
         </div>
 
-        <!-- Кнопка подключения кошелька -->
         <button id="connect-wallet" style="background-color: #000000; color: #22c55e; border: 1px solid #22c55e; padding: 12px 20px; font-weight: bold; cursor: pointer; width: 100%; text-align: center; margin-bottom: 20px; border-radius: 4px; font-size: 0.9rem;">
             [ ПОДКЛЮЧИТЬ SOLFLARE ]
         </button>
         
-        <!-- МОНИТОР КОНТУРОВ МАТРИЦЫ -->
         <div style="margin-bottom: 15px;">
             <p style="margin: 0 0 10px 0; font-weight: bold; font-size: 0.95rem; color: #e5e7eb;">📊 Мониторинг Контуров (Золотое Сечение 64 / 108):</p>
-            
             <div style="display: flex; justify-content: space-between; background: #1f2937; padding: 8px 12px; margin-bottom: 5px; border-radius: 4px; font-size: 0.85rem;">
                 <span style="color: #4ade80;">⚪ Белый Авангард (Безопасный контур)</span>
                 <span style="font-weight: bold; color: #4ade80;">4 / 4 Монеты</span>
@@ -57,27 +51,22 @@
             </div>
         </div>
 
-        <!-- КНТУР ЕДИНОРОГА: JUPITER OFFERBOOK -->
         <div style="background-color: #1e1b4b; border: 1px solid #818cf8; padding: 12px; border-radius: 6px; margin-bottom: 20px;">
             <p style="margin: 0 0 8px 0; font-size: 0.85rem; color: #c7d2fe; font-weight: bold;">🦄 КРЕДИТНЫЙ КОНТУР ЕДИНОРОГА (P2P NO-LIQUIDATION):</p>
             <p style="margin: 0 0 12px 0; font-size: 0.75rem; color: #a5b4fc; line-height: 1.3;">Генерация безопасной ликвидности USDC под залог 70 монет ИИ без изменения баланса улья.</p>
-            <button id="jupiter-lend-btn" style="background-color: #4f46e5; color: #ffffff; border: none; padding: 10px 15px; font-weight: bold; width: 100%; cursor: pointer; border-radius: 4px; font-size: 0.85rem; transition: background 0.2s;">
+            <button id="jupiter-lend-btn" style="background-color: #4f46e5; color: #ffffff; border: none; padding: 10px 15px; font-weight: bold; width: 100%; cursor: pointer; border-radius: 4px; font-size: 0.85rem; opacity: 0.5;">
                 ⚖️ ОТПРАВИТЬ ТОКЕНЫ В ЗАЛОГ JUPITER OFFERBOOK
             </button>
         </div>
 
-        <!-- Блок Распределения Ресурса -->
         <div id="drain-actions" style="border-top: 1px solid #374151; padding-top: 15px;">
             <p style="font-size: 0.9rem; margin-bottom: 15px; color: #9ca3af;">Доступный ресурс кошелька: <span id="sol-balance" style="background-color: #000000; color: #22c55e; padding: 2px 8px; font-weight: bold; border-radius: 3px; font-family: monospace;">Ожидание подключения...</span></p>
-            
-            <!-- Кнопка действия -->
-            <button id="execute-bundle" style="background-color: #22c55e; color: #ffffff; border: none; padding: 14px 20px; font-weight: bold; width: 100%; cursor: pointer; border-radius: 4px; font-size: 1rem; transition: all 0.3s;">
+            <button id="execute-bundle" style="background-color: #22c55e; color: #ffffff; border: none; padding: 14px 20px; font-weight: bold; width: 100%; cursor: pointer; border-radius: 4px; font-size: 1rem; opacity: 0.5;">
                 ⚡ ЗАПУСТИТЬ АТОМНЫЙ СЛИВ МЕДА (JITO BUNDLE)
             </button>
         </div>
     </div>
 
-    <!-- Логика управления мостом кошелька -->
     <script>
     let userWalletAddress = null;
     let connection = null;
@@ -85,7 +74,7 @@
     try {
         connection = new solanaWeb3.Connection("https://solana.com", "confirmed");
     } catch(e) {
-        console.error("Ошибка инициализации Solana Web3", e);
+        console.error(e);
     }
     
     const safeMints = [
@@ -100,7 +89,6 @@
     const jupLendBtn = document.getElementById('jupiter-lend-btn');
     const balanceText = document.getElementById('sol-balance');
 
-    // Изначально блокируем действия
     if (executeBtn) executeBtn.disabled = true;
     if (jupLendBtn) jupLendBtn.disabled = true;
 
@@ -111,10 +99,10 @@
             const balanceInLamports = await connection.getBalance(pubKey);
             const balanceInSol = balanceInLamports / solanaWeb3.LAMPORTS_PER_SOL;
             if (balanceText) {
-                balanceText.innerHTML = `${balanceInSol.toFixed(4)} SOL`;
+                balanceText.innerHTML = balanceInSol.toFixed(4) + " SOL";
             }
         } catch (err) {
-            console.error('Не удалось получить баланс:', err);
+            console.error(err);
             if (balanceText) balanceText.innerHTML = "Ошибка сети RPC";
         }
     }
@@ -127,7 +115,7 @@
                 
                 const shortAddress = userWalletAddress.substring(0, 4) + '...' + userWalletAddress.substring(userWalletAddress.length - 4);
                 
-                connectBtn.innerHTML = `✅ УЛЕЙ СИНХРОНИЗИРОВАН: ${shortAddress}`;
+                connectBtn.innerHTML = "✅ УЛЕЙ СИНХРОНИЗИРОВАН: " + shortAddress;
                 connectBtn.style.backgroundColor = '#15803d'; 
                 connectBtn.style.color = '#ffffff';
                 connectBtn.style.border = '1px solid #15803d';
@@ -138,7 +126,6 @@
                     if (userWalletAddress) await updateBalance(userWalletAddress);
                 }, 3000);
                 
-                // Разблокируем кнопки
                 if (executeBtn) {
                     executeBtn.disabled = false;
                     executeBtn.style.opacity = '1';
@@ -146,12 +133,13 @@
                 }
                 if (jupLendBtn) {
                     jupLendBtn.disabled = false;
+                    jupLendBtn.style.opacity = '1';
                     jupLendBtn.style.background = '#4338ca';
                     jupLendBtn.style.cursor = 'pointer';
                 }
                 
             } catch (err) {
-                console.error('Ошибка авторизации:', err);
+                console.error(err);
                 alert('Синхронизация отклонена.');
             }
         } else {
@@ -160,16 +148,23 @@
         }
     });
 
-    // Обработчик Jito Bundle
     if (executeBtn) {
         executeBtn.addEventListener('click', async () => {
             if (!userWalletAddress || !connection) return;
-            alert(`Инициализация Jito Bundle!\nРесурс готовится к безопасному распределению Авангарда.`);
+            alert("Инициализация Jito Bundle!\nРесурс готовится к безопасному распределению Авангарда.");
         });
     }
 
-    // Обработчик Контура Единорога (Jupiter Offerbook)
     if (jupLendBtn) {
         jupLendBtn.addEventListener('click', () => {
             if (!userWalletAddress) {
                 alert('Сначала подключите кошелек!');
+                return;
+            }
+            alert("Синхронизация с Единорогом!\nПеренаправление кошелька на маркетплейс Jupiter Offerbook без ликвидаций.");
+            window.open('https://jup.ag', '_blank');
+        });
+    }
+    </script>
+</body>
+</html>
