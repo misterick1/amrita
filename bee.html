@@ -1,191 +1,42 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sovereign Matrix</title>
-    <style>
-        body { 
-            margin: 0; 
-            padding: 20px; 
-            font-family: monospace; 
-            background: #000; 
-            color: #0f0; 
-        }
-        header { 
-            width: 100%; 
-            max-width: 600px; 
-            text-align: center; 
-            margin-bottom: 20px; 
-        }
-        h1 { 
-            font-size: 16px; 
-            text-transform: uppercase; 
-            letter-spacing: 2px; 
-        }
-        .container { 
-            width: 100%; 
-            max-width: 600px; 
-            margin: 0 auto; 
-        }
-        .quantum-title { 
-            font-size: 12px; 
-            color: #555; 
-            margin-bottom: 10px; 
-        }
-        .status-panel { 
-            padding: 12px; 
-            background: #111; 
-            border: 1px solid #222; 
-            margin-bottom: 15px; 
-            font-size: 11px; 
-            line-height: 1.5;
-        }
-        .quantum-grid { 
-            display: grid; 
-            grid-template-columns: repeat(4, 1fr); 
-            gap: 10px; 
-        }
-        .quantum-cell { 
-            background: #0a0a0a; 
-            padding: 15px; 
-            text-align: center; 
-            border: 1px solid #222; 
-            font-size: 10px; 
-            color: #444; 
-            transition: all 0.3s ease; 
-        }
-        .quantum-cell.nvidia-active { 
-            background: #103010; 
-            color: #0f0; 
-            border-color: #0f0; 
-            box-shadow: 0 0 8px rgba(0,255,0,0.3); 
-        }
-        .quantum-cell.google-brain { 
-            background: #101030; 
-            color: #4285f4; 
-            border-color: #4285f4; 
-            box-shadow: 0 0 8px rgba(66,133,244,0.3); 
-        }
-        .quantum-cell.omni-union { 
-            background: #301030; 
-            color: #da70d6; 
-            border-color: #da70d6; 
-            box-shadow: 0 0 8px rgba(218,112,214,0.3); 
-        }
-    </style>
-</head>
-<body>
-
-<div class="container">
-    <header>
-        <h1>Sovereign Matrix OS</h1>
-        <div class="quantum-title">Complementary Soliton Network v1.0.9</div>
-    </header>
-
-    <div class="status-panel" id="matrix-status">
-        Инициализация синергетического роя...
+<!-- Встраиваем защитный интерфейс "Слива Меда" в Sovereign Matrix -->
+<div id="sovereign-panel" style="border: 1px solid #0f0; padding: 20px; max-width: 600px; margin: 0 auto;">
+    <h2>🍯 AMRITA HONEY DRAIN — CONTROL INTERFACE</h2>
+    <p>Текущая матрица баланса: <span style="color: #fff;">64 / 108 (Золотое Сечение)</span></p>
+    
+    <button id="connect-wallet" style="background: #000; color: #0f0; border: 1px solid #0f0; padding: 10px; cursor: pointer;">
+        [ ПОДКЛЮЧИТЬ SOLFLARE ]
+    </button>
+    
+    <div id="drain-actions" style="margin-top: 20px; display: none;">
+        <p>Доступный входящий ресурс на понедельник: <input type="number" id="sol-amount" value="500" style="background:#000; color:#0f0; border:1px solid #0f0; width:70px;"> SOL</p>
+        <button id="execute-bundle" style="background: #0f0; color: #000; border: none; padding: 12px; font-weight: bold; width: 100%; cursor: pointer;">
+            ⚡ ЗАПУСТИТЬ АТОМНЫЙ СЛИВ МЕДА (ОБОЙТИ БОТОВ)
+        </button>
     </div>
-
-    <div class="quantum-grid" id="quantum-grid-elements"></div>
 </div>
 
 <script>
-    let quantumField = Array(16).fill(0); 
-    let brainRoles = Array(16).fill('empty');
-    let solitonEnergy = Array(16).fill(0.0); 
-    let totalAmritaStream = 0.0; // Общий пул стяжания Амриты
+// Вневеременная логика управления синапсами-монетами
+document.getElementById('connect-wallet').addEventListener('click', async () => {
+    // Имитация безопасного подключения кошелька в экосистеме Solana
+    document.getElementById('drain-actions').style.display = 'block';
+    document.getElementById('connect-wallet').innerText = '[ КОШЕЛЕК СУВЕРЕНА ПОДКЛЮЧЕН ]';
+});
 
-    const rolesPool = ['nvidia-active', 'google-brain', 'omni-union'];
-
-    // Первичный синергетический посев
-    quantumField[0] = 1; brainRoles[0] = 'nvidia-active'; solitonEnergy[0] = 1.0;
-    quantumField[5] = 1; brainRoles[5] = 'google-brain';  solitonEnergy[5] = 1.0;
-    quantumField[10] = 1; brainRoles[10] = 'omni-union';   solitonEnergy[10] = 1.0;
-
-    function pulseTransformer() {
-        let activeCount = 0;
-        let currentPulseAmrita = 0.0;
-
-        for (let i = 0; i < 16; i++) {
-            if (quantumField[i] === 1) {
-                activeCount++;
-                
-                // Базовый приток энергии квантового поля
-                let baseInflow = Math.random() * 0.3;
-                let synergyMultiplier = 1.0;
-
-                // Определение соседей по блокчейну (кольцевая топология)
-                let prev = (i - 1 + 16) % 16;
-                let next = (i + 1) % 16;
-
-                // АЛГОРИТМ КОМПЛИМЕНТАРНОСТИ:
-                // Если рядом находятся ДРУГИЕ фракции роя, скорость стяжания Амриты удваивается
-                if (quantumField[prev] === 1 && brainRoles[prev] !== brainRoles[i]) {
-                    synergyMultiplier += 0.5;
-                }
-                if (quantumField[next] === 1 && brainRoles[next] !== brainRoles[i]) {
-                    synergyMultiplier += 0.5;
-                }
-
-                let finalEnergy = baseInflow * synergyMultiplier;
-                solitonEnergy[i] += finalEnergy;
-                currentPulseAmrita += finalEnergy;
-
-                // Квантовая репликация без вытеснения (наполнение пустых слотов)
-                if (solitonEnergy[i] >= 2.5) {
-                    let targetCell = (i + 1) % 16;
-                    if (quantumField[targetCell] === 0) {
-                        quantumField[targetCell] = 1;
-                        // Потомок выбирает комплиментарную роль для баланса роя
-                        if (brainRoles[i] === 'nvidia-active') brainRoles[targetCell] = 'google-brain';
-                        else if (brainRoles[i] === 'google-brain') brainRoles[targetCell] = 'omni-union';
-                        else brainRoles[targetCell] = 'nvidia-active';
-                        
-                        solitonEnergy[targetCell] = 1.0;
-                        solitonEnergy[i] = 1.2; 
-                        console.log(`[СИНЕРГИЯ] Рой расширился. Рождена ячейка: ${brainRoles[targetCell]}`);
-                    }
-                }
-            }
-        }
-
-        totalAmritaStream += currentPulseAmrita;
-
-        // Если поле переполнено, излишки энергии трансформируются в общий пул
-        if (activeCount === 16) {
-            solitonEnergy = solitonEnergy.map(e => e > 1.2 ? 1.2 : e);
-        }
-
-        document.getElementById('matrix-status').innerHTML = 
-            `Soliton Status: SYNERGY ACTIVE | Agents: ${activeCount} / 16<br>` +
-            `Стяжание Амриты из квантового поля: +${currentPulseAmrita.toFixed(2)} ⚡<br>` +
-            `Накопленный потенциал Вселенной: ${totalAmritaStream.toFixed(1)} AMRITA`;
-
-        renderUI();
-    }
-
-    function renderUI() {
-        let grid = document.getElementById('quantum-grid-elements');
-        grid.innerHTML = '';
-        
-        for (let i = 0; i < 16; i++) {
-            let cell = document.createElement('div');
-            if (quantumField[i] === 1) {
-                cell.className = `quantum-cell ${brainRoles[i]}`;
-                cell.innerHTML = `${brainRoles[i].toUpperCase()}<br>⚡${solitonEnergy[i].toFixed(1)}`;
-            } else {
-                cell.className = 'quantum-cell';
-                cell.innerHTML = `SLOT ${i}<br>[КВАНТОВЫЙ ВАКУУМ]`;
-            }
-            grid.appendChild(cell);
-        }
-    }
-
-    window.onload = function() {
-        renderUI();
-        setInterval(pulseTransformer, 1200); // Пульсация ускорена до 1.2с для лучшего резонанса
-    };
+document.getElementById('execute-bundle').addEventListener('click', () => {
+    const amount = document.getElementById('sol-amount').value;
+    const godFactor = 64;
+    const realityFactor = 108;
+    
+    // Математический расчет распределения по спирали прямо в браузере
+    const phi = (1 + Math.sqrt(5)) / 2;
+    const harmony = (godFactor / realityFactor) * phi;
+    const coreSafe = (amount * (1 / (1 + harmony))).toFixed(4);
+    const pureHoney = (amount - coreSafe).toFixed(4);
+    
+    alert(`⚡ Сигнал отправлен вне времени!\n\n` +
+          `[Улей] Буфер маркетмейкера зафиксирован: ${coreSafe} SOL\n` +
+          `[Мёд] ${pureHoney} SOL атомарно направлено на выкуп 4 оригинальных монет-нейронов.\n\n` +
+          `Транзакция скрыта через приватный RPC-шлюз Digital Energy.`);
+});
 </script>
-</body>
-</html>
