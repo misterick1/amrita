@@ -53,7 +53,7 @@
             </div>
             <div style="display: flex; justify-content: space-between; background: #1f2937; padding: 8px 12px; margin-bottom: 15px; border-radius: 4px; font-size: 0.85rem;">
                 <span style="color: #60a5fa;">🏛️ Хакатон Pi Colosseum (Ожидание сборки)</span>
-                <span style="font-weight: bold; color: #60a5fa;" id="colosseum-slots">0 / 38 Монет</span>
+                <span style="font-weight: bold; color: #60a5fa;">0 / 38 Монет</span>
             </div>
         </div>
 
@@ -73,11 +73,10 @@
     let userWalletAddress = null;
     let connection = null;
     
-    // Инициализируем подключение к главной сети Solana RPC
     try {
         connection = new solanaWeb3.Connection("https://solana.com", "confirmed");
     } catch(e) {
-        console.error("Ошибка инициализации Solana Web3 Connection", e);
+        console.error("Ошибка инициализации Solana Web3", e);
     }
     
     const safeMints = [
@@ -97,7 +96,6 @@
         executeBtn.style.cursor = 'not-allowed';
     }
 
-    // Функция динамического обновления баланса напрямую из блокчейна Solana
     async function updateBalance(publicKeyString) {
         if (!connection) return;
         try {
@@ -108,12 +106,11 @@
                 balanceText.innerHTML = `${balanceInSol.toFixed(4)} SOL`;
             }
         } catch (err) {
-            console.error('Не удалось получить баланс из блокчейна:', err);
+            console.error('Не удалось получить баланс:', err);
             if (balanceText) balanceText.innerHTML = "Ошибка сети RPC";
         }
     }
 
-    // Соединение с Solflare
     connectBtn.addEventListener('click', async () => {
         if (window.solflare && window.solflare.isSolflare) {
             try {
@@ -127,8 +124,13 @@
                 connectBtn.style.color = '#ffffff';
                 connectBtn.style.border = '1px solid #15803d';
                 
-                // Срочно обновляем баланс на экране
                 await updateBalance(userWalletAddress);
+                
+                setInterval(async () => {
+                    if (userWalletAddress) {
+                        await updateBalance(userWalletAddress);
+                    }
+                }, 3000);
                 
                 if (executeBtn) {
                     executeBtn.disabled = false;
@@ -145,29 +147,32 @@
             alert('Откройте страницу через встроенный браузер приложения Solflare!');
             window.open('https://solflare.com', '_blank');
         }
-</body>
-// Обработчик Боевого Jito Bundle
-if (executeBtn) {
-    executeBtn.addEventListener('click', async () => {
-        if (!userWalletAddress || !connection) {
-            alert('Ошибка инициализации моста!');
-            return;
-        }
-        
-        try {
-            const fromAirPubKey = new solanaWeb3.PublicKey(userWalletAddress);
-            const recentBlockhashObj = await connection.getLatestBlockhash();
-            
-            alert(`Успех сборки транзакции Jito Bundle!\n\n` +
-                  `1. Последний блокчейн-хэш получен.\n` +
-                  `2. Пакет упакован в обход мемпула.\n` +
-                  `3. 4 безопасных минта готовы к распределению.\n` +
-                  `4. 66 ИИ-ботов зафиксированы в строительной среде.\n\n` +
-                  `Готово к активации Хакатона в Pi Colosseum (38 свободных слотов).`);
-                  
-        } catch (error) {
-            console.error("Ошибка сборки блокчейн-пакета:", error);
-            alert("Ошибка связи со средой Solana. Проверьте соединение.");
-        }
     });
-}
+
+    if (executeBtn) {
+        executeBtn.addEventListener('click', async () => {
+            if (!userWalletAddress || !connection) {
+                alert('Ошибка инициализации моста!');
+                return;
+            }
+            
+            try {
+                const fromAirPubKey = new solanaWeb3.PublicKey(userWalletAddress);
+                const recentBlockhashObj = await connection.getLatestBlockhash();
+                
+                alert(`Успех сборки транзакции Jito Bundle!\n\n` +
+                      `1. Последний блокчейн-хэш получен.\n` +
+                      `2. Пакет упакован в обход мемпула.\n` +
+                      `3. 4 безопасных минта готовы к распределению.\n` +
+                      `4. 66 ИИ-ботов зафиксированы в строительной среде.\n\n` +
+                      `Готово к активации Хакатона в Pi Colosseum (38 свободных слотов).`);
+                      
+            } catch (error) {
+                console.error("Ошибка сборки блокчейн-пакета:", error);
+                alert("Ошибка связи со средой Solana. Проверьте соединение.");
+            }
+        });
+    }
+    </script>
+</body>
+</html>
