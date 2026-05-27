@@ -1,84 +1,102 @@
-<!-- Встраиваем защитный интерфейс "Слива Меда" в Sovereign Matrix -->
-<div id="sovereign-panel" style="border: 1px solid #0f0; padding: 20px; max-width: 600px; margin: 0 auto;">
-    <h2>🍯 AMRITA HONEY DRAIN — CONTROL INTERFACE</h2>
-    <p>Текущая матрица баланса: <span style="color: #fff;">64 / 108 (Золотое Сечение)</span></p>
-    
-    <button id="connect-wallet" style="background: #000; color: #0f0; border: 1px solid #0f0; padding: 10px; cursor: pointer;">
-        [ ПОДКЛЮЧИТЬ SOLFLARE ]
-    </button>
-    
-    <div id="drain-actions" style="margin-top: 20px; display: none;">
-        <p>Доступный входящий ресурс на понедельник: <input type="number" id="sol-amount" value="500" style="background:#000; color:#0f0; border:1px solid #0f0; width:70px;"> SOL</p>
-        <button id="execute-bundle" style="background: #0f0; color: #000; border: none; padding: 12px; font-weight: bold; width: 100%; cursor: pointer;">
-            ⚡ ЗАПУСТИТЬ АТОМНЫЙ СЛИВ МЕДА (ОБОЙТИ БОТОВ)
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amrita Control Interface</title>
+    <!-- Подключаем официальную библиотеку Solana Web3 -->
+    <script src="https://unpkg.com"></script>
+</head>
+<body style="background-color: #ffffff; font-family: sans-serif; margin: 20px;">
+
+    <!-- Встраиваем защитный интерфейс "Слива меда" -->
+    <div id="sovereign-panel" style="border: 2px solid #22c55e; padding: 15px; max-width: 500px; margin: 0 auto;">
+        <h2 style="margin-top: 0;">🍯 AMRITA HONEY DRAIN — CONTROL INTERFACE</h2>
+        
+        <p>Текущая матрица баланса: <span style="font-weight: bold;">64 / 108 (Золотое Сечение)</span></p>
+        
+        <!-- Кнопка подключения кошелька -->
+        <button id="connect-wallet" style="background-color: #000000; color: #22c55e; border: 1px solid #22c55e; padding: 10px 20px; font-weight: bold; cursor: pointer; width: 100%; text-align: left; margin-bottom: 15px;">
+            [ ПОДКЛЮЧИТЬ SOLFLARE ]
         </button>
+        
+        <div id="drain-actions" style="margin-top: 15px;">
+            <p>Доступный входящий ресурс на понедельник: <span style="background-color: #000000; color: #22c55e; padding: 2px 6px; font-weight: bold;">500</span> SOL</p>
+            
+            <!-- Кнопка действия -->
+            <button id="execute-bundle" style="background-color: #22c55e; color: #ffffff; border: none; padding: 12px 20px; font-weight: bold; width: 100%; cursor: pointer; transition: all 0.3s;">
+                ⚡ ЗАПУСТИТЬ АТОМНЫЙ СЛИВ МЕДА (ОБОЙТИ БОТОВ)
+            </button>
+        </div>
     </div>
-</div>
 
-<script>
-// Объявляем переменную для хранения адреса кошелька
-let userWalletAddress = null;
+    <!-- Логика управления мостом кошелька -->
+    <script>
+    // Переменная для хранения адреса кошелька
+    let userWalletAddress = null;
 
-// Находим кнопки в HTML по их ID
-const connectBtn = document.getElementById('connect-wallet');
-const executeBtn = document.getElementById('execute-bundle');
+    // Находим элементы интерфейса
+    const connectBtn = document.getElementById('connect-wallet');
+    const executeBtn = document.getElementById('execute-bundle');
 
-// При загрузке страницы отключаем главную кнопку, пока не подключен кошелек
-if (executeBtn) {
-    executeBtn.disabled = true;
-    executeBtn.style.opacity = '0.5';
-    executeBtn.style.cursor = 'not-allowed';
-}
+    // Изначально отключаем главную кнопку, пока кошелек не подключен
+    if (executeBtn) {
+        executeBtn.disabled = true;
+        executeBtn.style.opacity = '0.5';
+        executeBtn.style.cursor = 'not-allowed';
+    }
 
-// Логика кнопки подключения
-connectBtn.addEventListener('click', async () => {
-    // Проверяем, открыт ли сайт внутри встроенного браузера Solflare или установлено ли расширение
-    if (window.solflare && window.solflare.isSolflare) {
-        try {
-            // Запрашиваем официальное соединение (мост) с кошельком
-            const response = await window.solflare.connect();
-            
-            // Получаем публичный адрес пользователя в виде строки
-            userWalletAddress = window.solflare.publicKey.toString();
-            
-            // Сокращаем адрес для красивого отображения (например: Ех45...3Wqp)
-            const shortAddress = userWalletAddress.substring(0, 4) + '...' + userWalletAddress.substring(userWalletAddress.length - 4);
-            
-            // Меняем интерфейс кнопки
-            connectBtn.innerHTML = `✅ ПОДКЛЮЧЕНО: ${shortAddress}`;
-            connectBtn.style.backgroundColor = '#10B981'; // меняем цвет на изумрудный
-            
-            // Разблокируем главную кнопку "Слив меда"
-            if (executeBtn) {
-                executeBtn.disabled = false;
-                executeBtn.style.opacity = '1';
-                executeBtn.style.cursor = 'pointer';
+    // Функция подключения к Solflare
+    connectBtn.addEventListener('click', async () => {
+        // Проверяем наличие Solflare (в расширении или встроенном браузере)
+        if (window.solflare && window.solflare.isSolflare) {
+            try {
+                // Запрашиваем коннект
+                await window.solflare.connect();
+                
+                // Извлекаем публичный адрес кошелька
+                userWalletAddress = window.solflare.publicKey.toString();
+                
+                // Делаем красивый короткий адрес для кнопки (например, Аbcd...Wxyz)
+                const shortAddress = userWalletAddress.substring(0, 4) + '...' + userWalletAddress.substring(userWalletAddress.length - 4);
+                
+                // Обновляем состояние верхней кнопки
+                connectBtn.innerHTML = `✅ ПОДКЛЮЧЕНО: ${shortAddress}`;
+                connectBtn.style.backgroundColor = '#15803d'; // Темно-зеленый цвет
+                connectBtn.style.color = '#ffffff';
+                
+                // Активируем главную кнопку "Слив меда"
+                if (executeBtn) {
+                    executeBtn.disabled = false;
+                    executeBtn.style.opacity = '1';
+                    executeBtn.style.cursor = 'pointer';
+                }
+                
+                console.log('Мост успешно установлен с кошельком:', userWalletAddress);
+                
+            } catch (err) {
+                console.error('Пользователь отменил подключение:', err);
+                alert('Вы отклонили запрос на подключение кошелька.');
+            }
+        } else {
+            // Если зашли через обычный мобильный браузер без встроенного Solflare
+            alert('Для работы моста откройте эту страницу через встроенный браузер внутри самого приложения Solflare (иконка глобуса внизу)!');
+            window.open('https://solflare.com', '_blank');
+        }
+    });
+
+    // Логика работы главной кнопки
+    if (executeBtn) {
+        executeBtn.addEventListener('click', () => {
+            if (!userWalletAddress) {
+                alert('Сначала необходимо подключить Solflare!');
+                return;
             }
             
-            console.log('Мост успешно установлен с кошельком:', userWalletAddress);
-            
-        } catch (err) {
-            console.error('Пользователь отменил подключение к улью:', err);
-            alert('Вы отклонили подключение кошелька.');
-        }
-    } else {
-        // Если пользователь зашел через обычный браузер без кошелька
-        alert('Запустите эту страницу прямо внутри встроенного браузера приложения Solflare (вкладка Планета/Браузер в кошельке)!');
-        // Альтернативный вариант - перенаправление на скачивание кошелька
-        window.open('https://solflare.com', '_blank');
+            // Здесь будет выполняться ваша логика для токенов Amrita Mir
+            alert(`Улей успешно активирован для кошелька: ${userWalletAddress}`);
+        });
     }
-});
-
-// Логика нажатия на "ЗАПУСТИТЬ АТОМНЫЙ СЛИВ МЕДА"
-if (executeBtn) {
-    executeBtn.addEventListener('click', () => {
-        if (!userWalletAddress) {
-            alert('Сначала пройдите авторизацию через верхнюю кнопку!');
-            return;
-        }
-        
-        // Сюда в будущем вставляется отправка ваших токенов Amrita Mir
-        alert(`Улей активирован для кошелька: ${userWalletAddress}! Мост работает.`);
-    });
-}
-</script>
+    </script>
+</body>
+</html>
