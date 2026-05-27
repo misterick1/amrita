@@ -24,17 +24,17 @@
     <div style="border:2px solid #22c55e; padding:15px; max-width:480px; margin:0 auto; background:#111827; border-radius:12px;">
         <h2 style="color:#22c55e; text-align:center; margin-top:0; font-size:1.2rem;">🍯 AMRITA MIR CONTROL PANEL</h2>
         
-        <!-- ПЕРВОЕ КРЫЛО: БЕЛАЯ МАТРИЦА -->
-        <div style="background:#1f2937; padding:12px; border-radius:8px; margin-bottom:10px; border-left:4px solid #4ade80;">
-            <b style="font-size:0.85rem; color:#4ade80; display:block; margin-bottom:6px;">🦋 ПЕРВОЕ КРЫЛО (ОТКРЫТЫЙ АВАНГАРД):</b>
+        <!-- ПЕРВОЕ КРЫЛО: СИММЕТРИЧНАЯ ЗЕЛЕНАЯ ПОЛОСА -->
+        <div style="background:#1f2937; padding:12px; border-radius:8px; margin-bottom:12px; border-left:5px solid #22c55e; display:block;">
+            <b style="font-size:0.85rem; color:#22c55e; display:block; margin-bottom:6px;">🦋 ПЕРВОЕ КРЫЛО (ОТКРЫТЫЙ АВАНГАРД):</b>
             <div class="mint-row"><b>MIR:</b> 2XNkytvTT4zfX3iKFDCUkBfxVRiUZqGunznWHZx7pump</div>
             <div class="mint-row"><b>MIR1:</b> 2ixm8gyfR3VnN5vLhSz3a3ZgokYa6CtgBa892uTYpump</div>
             <div class="mint-row"><b>D-REAM:</b> 515mQ23H14gRZHgrzEAWziw8FyFT2PDskAoaWVtZpump</div>
             <div class="mint-row"><b>AANG:</b> DZRvHbbqbKAxdL5pudJEcENryWAafLWpxB1KCRhvpump</div>
         </div>
 
-        <!-- ВТОРОЕ КРЫЛО: СКРЫТЫЙ КОКОН -->
-        <div style="background:#111c24; padding:12px; border-radius:8px; margin-bottom:15px; border-left:4px solid #a855f7; border: 1px solid #a855f7;">
+        <!-- ВТОРОЕ КРЫЛО: ФИОЛЕТОВЫЙ КОКОН -->
+        <div style="background:#111c24; padding:12px; border-radius:8px; margin-bottom:15px; border-left:5px solid #a855f7; border-top:1px solid #a855f7; border-right:1px solid #a855f7; border-bottom:1px solid #a855f7;">
             <b style="font-size:0.85rem; color:#a855f7; display:block; margin-bottom:6px;">🔮 ВТОРОЕ КРЫЛО (СКРЫТЫЙ КОКОН ИИ):</b>
             <div style="font-size:0.75rem; color:#c084fc; font-family:monospace; line-height:1.3;">
                 [ДАННЫЕ ЗАШИФРОВАНЫ] Контур поселения белых ботов развернут на альтернативных аккаунтах Pump.fun.<br>
@@ -54,9 +54,10 @@
             <div style="display:flex; justify-content:space-between;"><span>🏛️ Pi Colosseum:</span><b>0 / 38 Монет</b></div>
         </div>
 
-        <!-- МЕДИА-КОНТУР -->
+        <!-- МЕДИА-КОНТУР С ИНТЕРАКТИВНЫМ ДИСКОРДОМ -->
         <div style="background:#1f2937; padding:12px; border-radius:8px; margin-bottom:15px; border:1px dashed #4b5563;">
             <b style="font-size:0.85rem; color:#9ca3af; display:block; text-align:center; margin-bottom:12px;">🌐 МЕДИА-КОНТУР СОЗНАНИЯ:</b>
+            
             <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-bottom:10px;">
                 <a href="https://x.com" target="_blank" class="btn-media" style="background:#000; border:2px solid #ffffff;">X / Twitter</a>
                 <a href="https://youtube.com" target="_blank" class="btn-media" style="background:#ef4444;">YouTube</a>
@@ -65,8 +66,9 @@
                 <a href="https://twitch.tv" target="_blank" class="btn-media" style="background:#9146ff;">Twitch</a>
                 <a href="https://reddit.com" target="_blank" class="btn-media" style="background:#ff4500;">Reddit</a>
             </div>
-            <div style="background:#5865f2; color:#fff; padding:12px; border-radius:6px; text-align:center; font-size:0.85rem; font-weight:bold; font-family:monospace; border:1px solid #7289da;">
-                💬 Discord: misterick1#2714
+            
+            <div id="discord-btn" style="background:#5865f2; color:#fff; padding:12px; border-radius:6px; text-align:center; font-size:0.85rem; font-weight:bold; font-family:monospace; border:1px solid #7289da; cursor:pointer;">
+                💬 Discord: misterick1#2714 (Копировать)
             </div>
         </div>
 
@@ -90,12 +92,18 @@
     <script>
     var userWalletAddress = null;
     var connection = null;
-    try { connection = new solanaWeb3.Connection("https://solana.com", "confirmed"); } catch(e) {}
+    
+    try {
+        connection = new solanaWeb3.Connection("https://solana.com", "confirmed");
+    } catch(e) {
+        console.error(e);
+    }
     
     var connectBtn = document.getElementById('connect-wallet');
     var executeBtn = document.getElementById('execute-bundle');
     var jupLendBtn = document.getElementById('jupiter-lend-btn');
     var balanceText = document.getElementById('sol-balance');
+    var discordBtn = document.getElementById('discord-btn');
 
     if (executeBtn) executeBtn.disabled = true;
     if (jupLendBtn) jupLendBtn.disabled = true;
@@ -106,7 +114,9 @@
             var pubKey = new solanaWeb3.PublicKey(pubKeyStr);
             var lamports = await connection.getBalance(pubKey);
             balanceText.innerHTML = (lamports / solanaWeb3.LAMPORTS_PER_SOL).toFixed(4) + " SOL";
-        } catch (err) {}
+        } catch (err) {
+            balanceText.innerHTML = "Ошибка RPC";
+        }
     }
 
     connectBtn.addEventListener('click', async function() {
@@ -114,14 +124,23 @@
             try {
                 await window.solflare.connect();
                 userWalletAddress = window.solflare.publicKey.toString();
+                
                 var shortAdd = userWalletAddress.substring(0,4) + "..." + userWalletAddress.substring(userWalletAddress.length-4);
                 connectBtn.innerHTML = "✅ СИНХРОНИЗИРОВАНО: " + shortAdd;
                 connectBtn.style.background = '#15803d';
+                
                 await updateBalance(userWalletAddress);
-                setInterval(async function() { if (userWalletAddress) await updateBalance(userWalletAddress); }, 4000);
+                
+                setInterval(async function() {
+                    if (userWalletAddress) await updateBalance(userWalletAddress);
+                }, 4000);
+                
                 if (executeBtn) { executeBtn.disabled = false; executeBtn.style.opacity = '1'; }
                 if (jupLendBtn) { jupLendBtn.disabled = false; jupLendBtn.style.background = '#4338ca'; }
+                
             } catch (err) {}
+        } else {
+            alert('Открыть через встроенный браузер Solflare!');
         }
     });
 
@@ -134,6 +153,18 @@
     if (jupLendBtn) {
         jupLendBtn.addEventListener('click', function() {
             window.open('https://jup.ag', '_blank');
+        });
+    }
+
+    if (discordBtn) {
+        discordBtn.addEventListener('click', function() {
+            var dummy = document.createElement("textarea");
+            document.body.appendChild(dummy);
+            dummy.value = "misterick1#2714";
+            dummy.select();
+            document.execCommand("copy");
+            document.body.removeChild(dummy);
+            alert("Ник Discord (misterick1#2714) успешно скопирован в буфер обмена вашего телефона!");
         });
     }
     </script>
