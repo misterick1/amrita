@@ -49,7 +49,7 @@
         <div style="display: flex; justify-content: space-between; font-size: 0.85rem;"><span>🏛️ Pi Colosseum:</span><span>0 / 38 Монет</span></div>
     </div>
 
-    <!-- БЛОК AMRITA MIR (ИСПРАВЛЕНО: ВСЕ ПОСТОРОННИЕ ТЕКСТЫ И ПРИПИСКИ УБРАНЫ) -->
+    <!-- БЛОК AMRITA MIR -->
     <div style="background-color: #1f2937; border: 1px solid #06b6d4; border-radius: 8px; padding: 15px; margin-bottom: 15px;">
         <b style="color: #06b6d4; display: block; margin-bottom: 15px;">🌀 AMRITA MIR:</b>
         
@@ -95,6 +95,8 @@ var executeBtn = document.getElementById('execute-bundle');
 var jupLendBtn = document.getElementById('jupiter-lend-btn');
 var balanceText = document.getElementById('balanceText');
 var discordBtn = document.getElementById('discord-btn');
+
+// ИСПРАВЛЕНО: Блокировка кнопок Jito и Jupiter при старте полностью отключена!
 
 async function updateBalance(pubKeyStr) {
     if (!connection || !balanceText) return;
