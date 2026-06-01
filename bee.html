@@ -1,38 +1,218 @@
-<!-- ОСНОВНОЙ КОНТЕЙНЕР ПАНЕЛИ CONTROL PANEL -->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AMRITA MIR CONTROL PANEL</title>
+    <style>
+        body {
+            background-color: #06070a;
+            color: #c5c6c7;
+            font-family: 'Courier New', monospace;
+            padding: 10px;
+            margin: 0;
+        }
+        .control-panel-cyber {
+            background-color: #0b0c10;
+            max-width: 650px;
+            margin: 20px auto;
+            padding: 20px;
+            border: 2px solid #1f2833;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.9);
+        }
+        .panel-section {
+            background: rgba(26, 26, 36, 0.8);
+            border: 1px solid #45a29e;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: inset 0 0 10px rgba(69, 162, 158, 0.1);
+        }
+        .section-headers {
+            color: #66fcf1;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 0;
+            margin-bottom: 20px;
+            border-bottom: 1px dashed #45a29e;
+            padding-bottom: 5px;
+        }
+        .butterfly-hardware {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 20px 0;
+        }
+        .wing-device {
+            width: 40%;
+            padding: 15px;
+            border-radius: 6px;
+            text-align: center;
+            position: relative;
+        }
+        .left-node {
+            border: 1px solid #66fcf1;
+            background: rgba(102, 252, 241, 0.03);
+            box-shadow: 0 0 15px rgba(102, 252, 241, 0.1);
+        }
+        .right-node {
+            border: 1px solid #ff007a;
+            background: rgba(255, 0, 122, 0.03);
+            box-shadow: 0 0 15px rgba(255, 0, 122, 0.1);
+        }
+        .node-label {
+            font-size: 12px;
+            font-weight: bold;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+        .left-node .node-label { color: #66fcf1; }
+        .right-node .node-label { color: #ff007a; }
+        .node-digits {
+            font-size: 32px;
+            font-weight: bold;
+            color: #ffffff;
+        }
+        .node-desc {
+            font-size: 10px;
+            color: #8c8d8e;
+            margin-top: 5px;
+        }
+        .quantum-core {
+            width: 20px;
+            height: 20px;
+            background: #ffffff;
+            border-radius: 50%;
+            position: relative;
+            box-shadow: 0 0 20px #ffffff;
+        }
+        .core-pulse-wave {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            border: 2px solid #66fcf1;
+            border-radius: 50%;
+            left: -2px;
+            top: -2px;
+            animation: coreDistort 1.8s infinite linear;
+        }
+        @keyframes coreDistort {
+            0% { transform: scale(1); opacity: 1; border-color: #66fcf1; }
+            50% { border-color: #ff007a; }
+            100% { transform: scale(2.5); opacity: 0; border-color: #ff007a; }
+        }
+        .system-status-string {
+            font-size: 11px;
+            text-align: center;
+            margin-top: 15px;
+            color: #8c8d8e;
+        }
+        .status-green { color: #00ffcc; text-shadow: 0 0 5px #00ffcc; }
+        .status-orange { color: #ff9900; text-shadow: 0 0 5px #ff9900; }
+        .status-blue { color: #00bfff; text-shadow: 0 0 5px #00bfff; }
+        .cyber-label {
+            display: block;
+            font-size: 11px;
+            color: #45a29e;
+            margin-bottom: 8px;
+        }
+        .cyber-input {
+            width: 100%;
+            background: #1f2833;
+            border: 1px solid #45a29e;
+            padding: 10px;
+            color: #ffffff;
+            font-family: inherit;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .cyber-input:focus {
+            outline: none;
+            border-color: #66fcf1;
+            box-shadow: 0 0 10px rgba(102, 252, 241, 0.3);
+        }
+        .telemetry-display {
+            margin-top: 15px;
+            background: rgba(11, 12, 16, 0.9);
+            padding: 15px;
+            border-radius: 4px;
+            border-left: 3px solid #66fcf1;
+        }
+        .telemetry-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            margin-bottom: 8px;
+        }
+        .total-highlight {
+            border-top: 1px dashed #45a29e;
+            padding-top: 8px;
+            margin-bottom: 0;
+        }
+        .telemetry-value {
+            font-weight: bold;
+            color: #f5b041;
+        }
+        .monitors-grid {
+            display: flex;
+            justify-content: space-between;
+        }
+        .monitor-card {
+            width: 48%;
+            background: #1f2833;
+            border: 1px solid #45a29e;
+            border-radius: 4px;
+        }
+        .card-header {
+            background: rgba(69, 162, 158, 0.2);
+            padding: 8px;
+            font-size: 11px;
+            font-weight: bold;
+            color: #66fcf1;
+            border-bottom: 1px solid #45a29e;
+        }
+        .card-body {
+            padding: 10px;
+            font-size: 11px;
+        }
+        .info-row {
+            margin-bottom: 6px;
+        }
+    </style>
+</head>
+<body>
+
 <div class="control-panel-cyber">
 
-    <!-- СЕКЦИЯ 1: СИНХРОНИЗАЦИЯ КОНТУРОВ "БАБОЧКА" -->
+    <!-- СЕКЦИЯ 1: СИНХРОНИЗАЦИЯ КОНТУРОВ -->
     <section class="panel-section" id="section-butterfly">
         <h2 class="section-headers">Контур синхронизации: БАБОЧКА</h2>
         <div class="butterfly-hardware">
-            <!-- Левое крыло (Наш плацдарм) -->
             <div class="wing-device left-node">
-                <div class="node-status-led"></div>
                 <div class="node-label">Крыло 1: БАЗА</div>
                 <div class="node-digits" id="cnt-base">4</div>
                 <div class="node-desc">Контролируемые монеты</div>
             </div>
             
-            <!-- Ядро распределения -->
             <div class="quantum-core">
                 <div class="core-pulse-wave"></div>
             </div>
             
-            <!-- Правое крыло (Внешняя сеть) -->
             <div class="wing-device right-node">
-                <div class="node-status-led"></div>
                 <div class="node-label">Крыло 2: СЕТЬ</div>
                 <div class="node-digits" id="cnt-network">66</div>
                 <div class="node-desc">Контуры MEV-ботов</div>
             </div>
         </div>
-        <!-- Статус-строка контура -->
         <div class="system-status-string">
             СТАТУС СИСТЕМЫ: <span class="status-green">СБАЛАНСИРОВАНО (108 КАНАЛОВ)</span>
         </div>
     </section>
 
-    <!-- СЕКЦИЯ 2: КАЛЬКУЛЯТОР ПРОПОРЦИЙ И ЛИКВИДНОСТИ -->
+    <!-- СЕКЦИЯ 2: КАЛЬКУЛЯТОР -->
     <section class="panel-section" id="section-calculator">
         <h2 class="section-headers">Моделирование пулов (EVEDEX Model)</h2>
         <div class="calculator-form">
@@ -43,35 +223,33 @@
             
             <div class="telemetry-display">
                 <div class="telemetry-row">
-                    <span class="telemetry-label">Выделено на Базу (4 CA):</span>
-                    <span class="telemetry-value" id="res-base">0.00</span>
+                    <span class="telemetry-label">Выделено на Базу (4 токена):</span>
+                    <span class="telemetry-value" id="res-base">0.00 у.е.</span>
                 </div>
                 <div class="telemetry-row">
-                    <span class="telemetry-label">Выделено на Сеть (66 CA):</span>
-                    <span class="telemetry-value" id="res-network">0.00</span>
+                    <span class="telemetry-label">Выделено на Сеть (66 контуров):</span>
+                    <span class="telemetry-value" id="res-network">0.00 у.е.</span>
                 </div>
                 <div class="telemetry-row total-highlight">
                     <span class="telemetry-label">Нагрузка на 1 внешний контур:</span>
-                    <span class="telemetry-value" id="res-per-node">0.00</span>
+                    <span class="telemetry-value" id="res-per-node">0.0000 у.е.</span>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- СЕКЦИЯ 3: МОНИТОРИНГ И ИНФОРМЕРЫ (XDP, Birdeye, Хакатоны) -->
+    <!-- СЕКЦИЯ 3: МОНИТОРИНГ -->
     <section class="panel-section" id="section-monitors">
         <h2 class="section-headers">Мониторинг сетевых контуров</h2>
         <div class="monitors-grid">
-            <!-- Блок обновления Solana XDP -->
             <div class="monitor-card">
                 <div class="card-header">Solana Core (XDP)</div>
                 <div class="card-body">
                     <div class="info-row">Валидаторы: <span class="status-orange">Апдейт Эпохи</span></div>
-                    <div class="info-row">Движок: <span class="status-blue">Agave / Firedancer</span></div>
+                    <div class="info-row">Движок: <span class="status-blue">Agave/Firedancer</span></div>
                 </div>
             </div>
             
-            <!-- Блок Топ-Кошельков Birdeye -->
             <div class="monitor-card">
                 <div class="card-header">Birdeye API Лидеры</div>
                 <div class="card-body">
@@ -82,3 +260,28 @@
         </div>
     </section>
 </div>
+
+<script>
+    function runMath() {
+        const inputField = document.getElementById('input-liquidity');
+        if (!inputField) return;
+        
+        const inputVal = parseFloat(inputField.value) || 0;
+        
+        const baseShare = inputVal * 0.40;
+        const networkShare = inputVal * 0.60;
+        const perNode = networkShare / 66;
+
+        const resBase = document.getElementById('res-base');
+        const resNetwork = document.getElementById('res-network');
+        const resPerNode = document.getElementById('res-per-node');
+
+        if (resBase) resBase.innerText = baseShare.toFixed(2) + " у.е.";
+        if (resNetwork) resNetwork.innerText = networkShare.toFixed(2) + " у.е.";
+        if (resPerNode) resPerNode.innerText = perNode.toFixed(4) + " у.е.";
+    }
+
+    window.onload = function() {
+        runMath();
+        const inputField = document.getElementById('input-liquidity');
+        if (inputField) {
