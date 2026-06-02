@@ -143,6 +143,19 @@
         .status-green { color: #00ffcc; text-shadow: 0 0 5px #00ffcc; }
         .status-orange { color: #ff9900; text-shadow: 0 0 5px #ff9900; }
         .status-blue { color: #00bfff; text-shadow: 0 0 5px #00bfff; }
+        
+        .event-alert-box {
+            background: rgba(245, 176, 65, 0.05);
+            border: 1px dashed #f5b041;
+            padding: 12px;
+            border-radius: 4px;
+            margin-top: 15px;
+            font-size: 11px;
+            line-height: 1.4;
+        }
+        .event-alert-header { color: #f5b041; font-weight: bold; text-transform: uppercase; margin-bottom: 5px; letter-spacing: 1px; }
+        .event-divider { border-top: 1px dotted rgba(245, 176, 65, 0.3); margin: 8px 0; }
+
         .cyber-label {
             display: block;
             font-size: 11px;
@@ -205,20 +218,6 @@
         }
         .info-row { margin-bottom: 6px; }
 
-        /* Блок событий */
-        .event-alert-box {
-            background: rgba(245, 176, 65, 0.05);
-            border: 1px dashed #f5b041;
-            padding: 12px;
-            border-radius: 4px;
-            margin-top: 15px;
-            font-size: 11px;
-            line-height: 1.4;
-        }
-        .event-alert-header { color: #f5b041; font-weight: bold; text-transform: uppercase; margin-bottom: 5px; letter-spacing: 1px; }
-        .event-divider { border-top: 1px dotted rgba(245, 176, 65, 0.3); margin: 8px 0; }
-
-        /* Блоки LEGO */
         .lego-grid { display: flex; flex-direction: column; gap: 12px; margin-top: 15px; }
         .lego-brick { border: 1px solid #3b4261; background: rgba(20, 22, 35, 0.6); border-radius: 6px; padding: 12px; font-size: 11px; line-height: 1.4; }
         .lego-brick-title { font-weight: bold; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; display: flex; justify-content: space-between; }
@@ -227,7 +226,6 @@
         .brick-colosseum { border-left: 3px solid #00ffcc; } .brick-colosseum .lego-brick-title { color: #00ffcc; }
         .brick-sub-text { color: #8c8d8e; margin-top: 4px; padding-left: 10px; border-left: 1px dotted #3b4261; }
 
-        /* Стили для нового Центра Интентов */
         .intent-console {
             background: rgba(10, 15, 30, 0.9);
             border: 1px solid #66fcf1;
@@ -281,6 +279,7 @@
     <section class="panel-section" id="section-butterfly">
         <h2 class="section-headers">Контур синхронизации: БАБОЧКА</h2>
         <div class="butterfly-hardware">
+            <!-- Левое крыло -->
             <div class="wing-device left-node">
                 <div class="node-label">Крыло 1: БАЗА</div>
                 <div class="node-digits" id="cnt-base">4</div>
@@ -293,17 +292,10 @@
                 </div>
             </div>
             
+            <!-- Квантовое ядро -->
             <div class="quantum-core">
                 <div class="core-pulse-wave"></div>
             </div>
             
+            <!-- Правое крыло -->
             <div class="wing-device right-node">
-<div class="wing-device right-node">
-    <div class="node-label">Крыло 2: СЕТЬ</div>
-    <!-- Возвращаем главную цифру контура сети -->
-    <div class="node-digits" id="cnt-network">66</div>
-
-    <div class="right-wing-desc">
-        ⚡ Контуры ботов (Pump.fun) связаны со смыслами людей и распределены по сети.
-    </div>
-</div>
