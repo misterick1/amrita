@@ -143,6 +143,29 @@
         .status-green { color: #00ffcc; text-shadow: 0 0 5px #00ffcc; }
         .status-orange { color: #ff9900; text-shadow: 0 0 5px #ff9900; }
         .status-blue { color: #00bfff; text-shadow: 0 0 5px #00bfff; }
+        
+        /* Стили для блока информера событий */
+        .event-alert-box {
+            background: rgba(245, 176, 65, 0.05);
+            border: 1px dashed #f5b041;
+            padding: 12px;
+            border-radius: 4px;
+            margin-top: 15px;
+            font-size: 11px;
+            line-height: 1.4;
+        }
+        .event-alert-header {
+            color: #f5b041;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+            letter-spacing: 1px;
+        }
+        .event-divider {
+            border-top: 1px dotted rgba(245, 176, 65, 0.3);
+            margin: 8px 0;
+        }
+
         .cyber-label {
             display: block;
             font-size: 11px;
@@ -158,11 +181,6 @@
             font-family: inherit;
             border-radius: 4px;
             box-sizing: border-box;
-        }
-        .cyber-input:focus {
-            outline: none;
-            border-color: #66fcf1;
-            box-shadow: 0 0 10px rgba(102, 252, 241, 0.3);
         }
         .telemetry-display {
             margin-top: 15px;
@@ -293,13 +311,3 @@
         <div class="calculator-form">
             <div class="form-row">
                 <label class="cyber-label">Объем обеспечения (SOL / USDT):</label>
-                <input type="number" id="input-liquidity" class="cyber-input" value="1000" min="0" oninput="runMath()">
-            </div>
-            
-            <div class="telemetry-display">
-                <div class="telemetry-row">
-                    <span class="telemetry-label">Выделено на Базу (4 токена):</span>
-                    <span class="telemetry-value" id="res-base">0.00 у.е.</span>
-                </div>
-                <div class="telemetry-row">
-                    <span class="telemetry-label">Выделено на Сеть (66 контуров):</span>
