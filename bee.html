@@ -39,20 +39,28 @@
             border-bottom: 1px dashed #45a29e;
             padding-bottom: 5px;
         }
+        
+        /* Исправленный контейнер Бабочки для выравнивания высоты */
         .butterfly-hardware {
             display: flex;
             justify-content: space-between;
-            align-items: flex-start;
+            align-items: center; /* Центрируем ядро по вертикали */
             margin: 20px 0;
         }
+        
+        /* Крылья теперь подстраиваются под общую максимальную высоту */
         .wing-device {
-            width: 42%;
+            width: 43%;
             padding: 15px;
             border-radius: 6px;
             text-align: center;
-            position: relative;
             box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-self: stretch; /* Принудительно растягивает блоки по высоте */
         }
+        
         .left-node {
             border: 1px solid #66fcf1;
             background: rgba(102, 252, 241, 0.03);
@@ -76,8 +84,6 @@
             font-weight: bold;
             color: #ffffff;
         }
-        
-        /* Стили для списка 4 монет в стиле Solflare Quest */
         .token-quest-list {
             margin-top: 12px;
             padding-top: 10px;
@@ -98,15 +104,27 @@
             color: #66fcf1;
             text-shadow: 0 0 5px #66fcf1;
         }
+        
+        /* Описание в правом крыле теперь тоже имеет отступ сверху */
+        .right-wing-desc {
+            font-size: 11px; 
+            color: #8c8d8e; 
+            margin-top: 12px; 
+            padding-top: 10px;
+            border-top: 1px solid rgba(255, 0, 122, 0.2);
+            text-align: left; 
+            line-height: 1.4;
+        }
 
         .quantum-core {
             width: 20px;
             height: 20px;
             background: #ffffff;
             border-radius: 50%;
-            margin-top: 40px;
             position: relative;
             box-shadow: 0 0 20px #ffffff;
+            flex-shrink: 0; /* Не дает ядру сжиматься */
+            margin: 0 10px;
         }
         .core-pulse-wave {
             position: absolute;
@@ -215,7 +233,6 @@
                 <div class="node-label">Крыло 1: БАЗА</div>
                 <div class="node-digits" id="cnt-base">4</div>
                 
-                <!-- НАШ НОВЫЙ СПИСОК МОНЕТ В СТИЛЕ КВЕСТА -->
                 <div class="token-quest-list">
                     <div class="token-item">MIR</div>
                     <div class="token-item">MIR1</div>
@@ -231,8 +248,10 @@
             <div class="wing-device right-node">
                 <div class="node-label">Крыло 2: СЕТЬ</div>
                 <div class="node-digits" id="cnt-network">66</div>
-                <div style="font-size: 10px; color: #8c8d8e; margin-top: 15px; text-align: left; padding-left: 5px;">
-                    ⚡ Контуры ботов активны и распределены по сети Solana.
+                
+                <!-- Тоже добавили разделительную линию для идеальной симметрии -->
+                <div class="right-wing-desc">
+                    ⚡ Контуры ботов активны и распределены по всей сети Solana.
                 </div>
             </div>
         </div>
@@ -273,15 +292,3 @@
         <div class="monitors-grid">
             <div class="monitor-card">
                 <div class="card-header">Solana Core (XDP)</div>
-                <div class="card-body">
-                    <div class="info-row">Валидаторы: <span class="status-orange">Апдейт Эпохи</span></div>
-                    <div class="info-row">Движок: <span class="status-blue">Agave/Firedancer</span></div>
-                </div>
-            </div>
-            
-            <div class="monitor-card">
-                <div class="card-header">Birdeye API Лидеры</div>
-                <div class="card-body">
-                    <div class="info-row">Порог трекинга: <span class="status-blue">> $100k</span></div>
-                    <div class="info-row">Контур Pi Colosseum: <span class="status-green">0 / 38 монет</span></div>
-                </div>
