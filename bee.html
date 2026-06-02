@@ -143,29 +143,6 @@
         .status-green { color: #00ffcc; text-shadow: 0 0 5px #00ffcc; }
         .status-orange { color: #ff9900; text-shadow: 0 0 5px #ff9900; }
         .status-blue { color: #00bfff; text-shadow: 0 0 5px #00bfff; }
-        
-        /* Стили для блока информера событий */
-        .event-alert-box {
-            background: rgba(245, 176, 65, 0.05);
-            border: 1px dashed #f5b041;
-            padding: 12px;
-            border-radius: 4px;
-            margin-top: 15px;
-            font-size: 11px;
-            line-height: 1.4;
-        }
-        .event-alert-header {
-            color: #f5b041;
-            font-weight: bold;
-            text-transform: uppercase;
-            margin-bottom: 5px;
-            letter-spacing: 1px;
-        }
-        .event-divider {
-            border-top: 1px dotted rgba(245, 176, 65, 0.3);
-            margin: 8px 0;
-        }
-
         .cyber-label {
             display: block;
             font-size: 11px;
@@ -226,44 +203,73 @@
             padding: 10px;
             font-size: 11px;
         }
-        .info-row {
-            margin-bottom: 6px;
-        }
+        .info-row { margin-bottom: 6px; }
 
-        /* Стили для Смысловых блоков LEGO */
-        .lego-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin-top: 15px;
-        }
-        .lego-brick {
-            border: 1px solid #3b4261;
-            background: rgba(20, 22, 35, 0.6);
-            border-radius: 6px;
+        /* Блок событий */
+        .event-alert-box {
+            background: rgba(245, 176, 65, 0.05);
+            border: 1px dashed #f5b041;
             padding: 12px;
+            border-radius: 4px;
+            margin-top: 15px;
             font-size: 11px;
             line-height: 1.4;
         }
-        .lego-brick-title {
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 6px;
+        .event-alert-header { color: #f5b041; font-weight: bold; text-transform: uppercase; margin-bottom: 5px; letter-spacing: 1px; }
+        .event-divider { border-top: 1px dotted rgba(245, 176, 65, 0.3); margin: 8px 0; }
+
+        /* Блоки LEGO */
+        .lego-grid { display: flex; flex-direction: column; gap: 12px; margin-top: 15px; }
+        .lego-brick { border: 1px solid #3b4261; background: rgba(20, 22, 35, 0.6); border-radius: 6px; padding: 12px; font-size: 11px; line-height: 1.4; }
+        .lego-brick-title { font-weight: bold; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; display: flex; justify-content: space-between; }
+        .brick-sa { border-left: 3px solid #66fcf1; } .brick-sa .lego-brick-title { color: #66fcf1; }
+        .brick-mev { border-left: 3px solid #ff007a; } .brick-mev .lego-brick-title { color: #ff007a; }
+        .brick-colosseum { border-left: 3px solid #00ffcc; } .brick-colosseum .lego-brick-title { color: #00ffcc; }
+        .brick-sub-text { color: #8c8d8e; margin-top: 4px; padding-left: 10px; border-left: 1px dotted #3b4261; }
+
+        /* Стили для нового Центра Интентов */
+        .intent-console {
+            background: rgba(10, 15, 30, 0.9);
+            border: 1px solid #66fcf1;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 15px;
+        }
+        .intent-input-zone {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+        .intent-btn-group {
             display: flex;
             justify-content: space-between;
+            gap: 10px;
         }
-        .brick-sa { border-left: 3px solid #66fcf1; }
-        .brick-sa .lego-brick-title { color: #66fcf1; }
-        .brick-mev { border-left: 3px solid #ff007a; }
-        .brick-mev .lego-brick-title { color: #ff007a; }
-        .brick-colosseum { border-left: 3px solid #00ffcc; }
-        .brick-colosseum .lego-brick-title { color: #00ffcc; }
-        .brick-sub-text {
-            color: #8c8d8e;
-            margin-top: 4px;
-            padding-left: 10px;
-            border-left: 1px dotted #3b4261;
+        .cyber-btn {
+            flex: 1;
+            background: #1f2833;
+            border: 1px solid #45a29e;
+            color: #66fcf1;
+            padding: 10px;
+            font-family: inherit;
+            font-size: 11px;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+        .cyber-btn:hover {
+            background: rgba(102, 252, 241, 0.1);
+            box-shadow: 0 0 8px rgba(102, 252, 241, 0.4);
+        }
+        .btn-confirm {
+            border-color: #00ffcc;
+            color: #00ffcc;
+        }
+        .btn-confirm:hover {
+            background: rgba(0, 255, 204, 0.1);
+            box-shadow: 0 0 8px rgba(0, 255, 204, 0.4);
         }
     </style>
 </head>
@@ -292,22 +298,3 @@
             </div>
             
             <div class="wing-device right-node">
-                <div class="node-label">Крыло 2: СЕТЬ</div>
-                <div class="node-digits" id="cnt-network">66</div>
-                
-                <div class="right-wing-desc">
-                    ⚡ Контуры ботов активны и распределены по всей сети Solana.
-                </div>
-            </div>
-        </div>
-        <div class="system-status-string">
-            СТАТУС СИСТЕМЫ: <span class="status-green">СБАЛАНСИРОВАНО (108 КАНАЛОВ)</span>
-        </div>
-    </section>
-
-    <!-- СЕКЦИЯ 2: КАЛЬКУЛЯТОР -->
-    <section class="panel-section" id="section-calculator">
-        <h2 class="section-headers">Моделирование пулов (EVEDEX Model)</h2>
-        <div class="calculator-form">
-            <div class="form-row">
-                <label class="cyber-label">Объем обеспечения (SOL / USDT):</label>
