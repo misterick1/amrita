@@ -218,7 +218,8 @@
         <div class="calculator-form">
             <div class="form-row">
                 <label class="cyber-label">Объем обеспечения (SOL / USDT):</label>
-                <input type="number" id="input-liquidity" class="cyber-input" value="1000" min="0">
+                <!-- Добавлена прямая привязка к функции runMath() на любой ввод -->
+                <input type="number" id="input-liquidity" class="cyber-input" value="1000" min="0" oninput="runMath()">
             </div>
             
             <div class="telemetry-display">
@@ -268,20 +269,19 @@
         
         const inputVal = parseFloat(inputField.value) || 0;
         
+        // Расчет распределения (40% на Базу, 60% на Сеть)
         const baseShare = inputVal * 0.40;
         const networkShare = inputVal * 0.60;
         const perNode = networkShare / 66;
 
-        const resBase = document.getElementById('res-base');
-        const resNetwork = document.getElementById('res-network');
-        const resPerNode = document.getElementById('res-per-node');
-
-        if (resBase) resBase.innerText = baseShare.toFixed(2) + " у.е.";
-        if (resNetwork) resNetwork.innerText = networkShare.toFixed(2) + " у.е.";
-        if (resPerNode) resPerNode.innerText = perNode.toFixed(4) + " у.е.";
+        // Принудительный вывод на экран
+        document.getElementById('res-base').innerText = baseShare.toFixed(2) + " у.е.";
+        document.getElementById('res-network').innerText = networkShare.toFixed(2) + " у.е.";
+        document.getElementById('res-per-node').innerText = perNode.toFixed(4) + " у.е.";
     }
 
-    window.onload = function() {
+    // Запускаем расчет сразу, как только окно полностью загрузится
+    window.addEventListener('load', function() {
         runMath();
-        const inputField = document.getElementById('input-liquidity');
-        if (inputField) {
+    });
+    
