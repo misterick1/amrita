@@ -42,15 +42,16 @@
         .butterfly-hardware {
             display: flex;
             justify-content: space-between;
-            align-items: center;
+            align-items: flex-start;
             margin: 20px 0;
         }
         .wing-device {
-            width: 40%;
+            width: 42%;
             padding: 15px;
             border-radius: 6px;
             text-align: center;
             position: relative;
+            box-sizing: border-box;
         }
         .left-node {
             border: 1px solid #66fcf1;
@@ -75,16 +76,35 @@
             font-weight: bold;
             color: #ffffff;
         }
-        .node-desc {
-            font-size: 10px;
-            color: #8c8d8e;
-            margin-top: 5px;
+        
+        /* Стили для списка 4 монет в стиле Solflare Quest */
+        .token-quest-list {
+            margin-top: 12px;
+            padding-top: 10px;
+            border-top: 1px solid rgba(102, 252, 241, 0.2);
+            text-align: left;
+            font-size: 11px;
         }
+        .token-item {
+            color: #ffffff;
+            margin-bottom: 4px;
+            padding-left: 15px;
+            position: relative;
+        }
+        .token-item::before {
+            content: "✦";
+            position: absolute;
+            left: 0;
+            color: #66fcf1;
+            text-shadow: 0 0 5px #66fcf1;
+        }
+
         .quantum-core {
             width: 20px;
             height: 20px;
             background: #ffffff;
             border-radius: 50%;
+            margin-top: 40px;
             position: relative;
             box-shadow: 0 0 20px #ffffff;
         }
@@ -194,7 +214,14 @@
             <div class="wing-device left-node">
                 <div class="node-label">Крыло 1: БАЗА</div>
                 <div class="node-digits" id="cnt-base">4</div>
-                <div class="node-desc">Контролируемые монеты</div>
+                
+                <!-- НАШ НОВЫЙ СПИСОК МОНЕТ В СТИЛЕ КВЕСТА -->
+                <div class="token-quest-list">
+                    <div class="token-item">MIR</div>
+                    <div class="token-item">MIR1</div>
+                    <div class="token-item">D-REAM</div>
+                    <div class="token-item">AANG</div>
+                </div>
             </div>
             
             <div class="quantum-core">
@@ -204,7 +231,9 @@
             <div class="wing-device right-node">
                 <div class="node-label">Крыло 2: СЕТЬ</div>
                 <div class="node-digits" id="cnt-network">66</div>
-                <div class="node-desc">Контуры MEV-ботов</div>
+                <div style="font-size: 10px; color: #8c8d8e; margin-top: 15px; text-align: left; padding-left: 5px;">
+                    ⚡ Контуры ботов активны и распределены по сети Solana.
+                </div>
             </div>
         </div>
         <div class="system-status-string">
@@ -218,7 +247,6 @@
         <div class="calculator-form">
             <div class="form-row">
                 <label class="cyber-label">Объем обеспечения (SOL / USDT):</label>
-                <!-- Добавлена прямая привязка к функции runMath() на любой ввод -->
                 <input type="number" id="input-liquidity" class="cyber-input" value="1000" min="0" oninput="runMath()">
             </div>
             
@@ -257,31 +285,3 @@
                     <div class="info-row">Порог трекинга: <span class="status-blue">> $100k</span></div>
                     <div class="info-row">Контур Pi Colosseum: <span class="status-green">0 / 38 монет</span></div>
                 </div>
-            </div>
-        </div>
-    </section>
-</div>
-
-<script>
-    function runMath() {
-        const inputField = document.getElementById('input-liquidity');
-        if (!inputField) return;
-        
-        const inputVal = parseFloat(inputField.value) || 0;
-        
-        // Расчет распределения (40% на Базу, 60% на Сеть)
-        const baseShare = inputVal * 0.40;
-        const networkShare = inputVal * 0.60;
-        const perNode = networkShare / 66;
-
-        // Принудительный вывод на экран
-        document.getElementById('res-base').innerText = baseShare.toFixed(2) + " у.е.";
-        document.getElementById('res-network').innerText = networkShare.toFixed(2) + " у.е.";
-        document.getElementById('res-per-node').innerText = perNode.toFixed(4) + " у.е.";
-    }
-
-    // Запускаем расчет сразу, как только окно полностью загрузится
-    window.addEventListener('load', function() {
-        runMath();
-    });
-    
