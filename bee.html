@@ -5,91 +5,244 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AMRITA MIR CONTROL PANEL</title>
     <style>
+        :root {
+            --bg-main: #06070a;
+            --bg-panel: #0b0c10;
+            --bg-card: #141923;
+            --text-muted: #8f94a0;
+            --text-light: #c5c6c7;
+            --neon-blue: #45f3ff;
+            --neon-green: #00ffcc;
+            --neon-red: #ff3366;
+            --border-color: #1f2833;
+        }
+
         body {
-            background-color: #06070a;
-            color: #c5c6c7;
+            background-color: var(--bg-main);
+            color: var(--text-light);
             font-family: 'Courier New', monospace;
             padding: 10px;
             margin: 0;
+            box-sizing: border-box;
         }
+
+        *, *:before, *:after {
+            box-sizing: inherit;
+        }
+
         .control-panel-cyber {
-            background-color: #0b0c10;
+            background-color: var(--bg-panel);
             max-width: 650px;
-            margin: 20px auto;
-            padding: 20px;
-            border: 2px solid #1f2833;
+            margin: 10px auto;
+            padding: 15px;
+            border: 2px solid var(--border-color);
             border-radius: 10px;
-            box-shadow: 0 0 20px rgba(31, 40, 51, 0.5);
+            box-shadow: 0 0 20px rgba(31, 40, 51, 0.3);
         }
+
         h1 {
-            color: #45f3ff;
+            color: var(--neon-blue);
             text-align: center;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            border-bottom: 1px solid #1f2833;
-            padding-bottom: 10px;
-        }
-        .stats-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-top: 20px;
-        }
-        .stat-card {
-            background: #151a23;
-            padding: 15px;
-            border-radius: 5px;
-            border-left: 4px solid #45f3ff;
-        }
-        .stat-label {
-            font-size: 12px;
-            color: #66fcf1;
-            text-transform: uppercase;
-        }
-        .stat-value {
-            font-size: 20px;
-            font-weight: bold;
+            font-size: 1.3rem;
+            letter-spacing: 1px;
+            border-bottom: 2px dashed var(--border-color);
+            padding-bottom: 12px;
             margin-top: 5px;
         }
-        .btn-action {
+
+        /* Сетка основных показателей */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            padding: 12px;
+            border-radius: 6px;
+            border-left: 3px solid var(--neon-blue);
+        }
+
+        .stat-card.success { border-left-color: var(--neon-green); }
+
+        .stat-label {
+            font-size: 11px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .stat-value {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 4px;
+            word-break: break-all;
+        }
+
+        /* Информационная строка на всю ширину */
+        .full-width-card {
+            grid-column: span 2;
+        }
+
+        /* Форма ввода и управления */
+        .control-group {
+            margin-top: 15px;
+            background: rgba(20, 25, 35, 0.5);
+            padding: 15px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+        }
+
+        .input-wrapper {
+            position: relative;
+            margin-bottom: 12px;
+        }
+
+        label {
             display: block;
+            font-size: 11px;
+            color: var(--neon-blue);
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        input[type="number"], input[type="text"] {
+            width: 100%;
+            background: var(--bg-main);
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            color: #fff;
+            font-family: inherit;
+            border-radius: 4px;
+            font-size: 16px; /* Предотвращает зум на iOS */
+            outline: none;
+        }
+
+        input:focus {
+            border-color: var(--neon-blue);
+        }
+
+        /* Кнопки действий */
+        .btn-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .btn-action {
             width: 100%;
             background: transparent;
-            color: #45f3ff;
-            border: 1px solid #45f3ff;
-            padding: 12px;
-            margin-top: 20px;
+            color: var(--neon-blue);
+            border: 1px solid var(--neon-blue);
+            padding: 14px;
             cursor: pointer;
             font-family: inherit;
             font-weight: bold;
             text-transform: uppercase;
-            transition: all 0.3s;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+            font-size: 13px;
         }
-        .btn-action:hover {
-            background: #45f3ff;
-            color: #06070a;
-            box-shadow: 0 0 15px #45f3ff;
+
+        .btn-action:active {
+            background: var(--neon-blue);
+            color: var(--bg-main);
+            box-shadow: 0 0 10px var(--neon-blue);
+        }
+
+        .btn-danger {
+            color: var(--neon-red);
+            border-color: var(--neon-red);
+        }
+
+        .btn-danger:active {
+            background: var(--neon-red);
+            color: #fff;
+            box-shadow: 0 0 10px var(--neon-red);
+        }
+
+        /* Окно терминала / логов */
+        .terminal-logs {
+            background: #000;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 10px;
+            margin-top: 15px;
+            font-size: 11px;
+            height: 100px;
+            overflow-y: auto;
+            color: #00ff00;
+        }
+
+        .log-entry {
+            margin-bottom: 4px;
+        }
+        .log-entry::before {
+            content: "> ";
         }
     </style>
 </head>
 <body>
 
     <div class="control-panel-cyber">
-        <h1>Amrita Mir System</h1>
+        <h1>AMRITA MIR PANEL v1.0.4</h1>
         
+        <!-- Сводка данных -->
         <div class="stats-grid">
-            <div class="stat-card">
+            <div class="stat-card success">
                 <div class="stat-label">Bonding Curve</div>
-                <div class="stat-value">100%</div>
+                <div class="stat-value">100.0%</div>
             </div>
-            <div class="stat-card">
-                <div class="stat-label">Status</div>
-                <div class="stat-value" style="color: #00ffcc;">MIGRATED</div>
+            <div class="stat-card success">
+                <div class="stat-label">Raydium Pool</div>
+                <div class="stat-value">ACTIVE</div>
+            </div>
+            <div class="stat-card full-width-card">
+                <div class="stat-label">Текущий баланс AMRITA</div>
+                <div class="stat-value" style="color: var(--neon-blue);">691,802,441 MIR</div>
             </div>
         </div>
 
-        <button class="btn-action">Execute Control</button>
+        <!-- Модуль управления ликвидностью/ордерами -->
+        <div class="control-group">
+            <label for="amount">Объем транзакции (SOL)</label>
+            <div class="input-wrapper">
+                <input type="number" id="amount" placeholder="0.00" step="0.01" min="0">
+            </div>
+
+            <label for="slippage">Проскальзывание (Slippage %)</label>
+            <div class="input-wrapper">
+                <input type="number" id="slippage" value="1.0" step="0.1">
+            </div>
+
+            <div class="btn-grid">
+                <button class="btn-action" onclick="addLog('Инициализация покупки...')">Купить MIR</button>
+                <button class="btn-action btn-danger" onclick="addLog('Запуск фиксации прибыли...')">Продать все</button>
+            </div>
+        </div>
+
+        <!-- Консоль отладки для удобства контроля -->
+        <div class="terminal-logs" id="terminal">
+            <div class="log-entry">Система готова. Соединение с RPC Solana установлено.</div>
+            <div class="log-entry">Токен успешно мигрировал из Pump.fun в пул Raydium.</div>
+        </div>
     </div>
+
+    <script>
+        // Простая функция для имитации работы логов в реальном времени
+        function addLog(text) {
+            const terminal = document.getElementById('terminal');
+            const time = new Date().toLocaleTimeString();
+            const newEntry = document.createElement('div');
+            newEntry.className = 'log-entry';
+            newEntry.innerText = `[${time}] ${text}`;
+            terminal.appendChild(newEntry);
+            terminal.scrollTop = terminal.scrollHeight;
+        }
+    </script>
 
 </body>
 </html>
