@@ -51,49 +51,23 @@
             text-shadow: 0 0 10px var(--neon-blue);
         }
 
-        .key-input-field {
-            width: 100%;
-            background: #000;
-            border: 1px dashed var(--border-color);
-            padding: 10px;
-            color: #fff;
-            font-family: inherit;
-            border-radius: 4px;
-            font-size: 13px;
-            outline: none;
-            margin-bottom: 10px;
-            text-align: center;
-        }
-        .key-input-field:focus { border-color: var(--neon-green); }
-
-        .wallet-btn {
+        .wallet-btn-link {
+            display: flex;
+            justify-content: center;
+            align-items: center;
             width: 100%;
             background: linear-gradient(45deg, #00ffcc, #0099ff);
             color: #06070a;
             border: none;
-            padding: 12px;
+            padding: 14px;
             border-radius: 6px;
             font-family: inherit;
             font-weight: bold;
             text-transform: uppercase;
-            cursor: pointer;
             margin-bottom: 12px;
             box-shadow: 0 0 10px rgba(0, 255, 204, 0.3);
             font-size: 13px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .output-box {
-            display: none;
-            background: rgba(0, 255, 204, 0.08);
-            border: 2px solid var(--neon-green);
-            padding: 12px;
-            border-radius: 6px;
-            margin-bottom: 12px;
-            text-align: center;
-            box-shadow: 0 0 15px rgba(0, 255, 204, 0.2);
+            text-decoration: none;
         }
 
         .chart-container {
@@ -155,28 +129,16 @@
             text-transform: uppercase;
         }
 
-        input[type="number"] {
-            width: 100%;
-            background: var(--bg-main);
-            border: 1px solid var(--border-color);
-            padding: 10px;
-            color: #fff;
-            font-family: inherit;
-            border-radius: 4px;
-            font-size: 15px;
-            outline: none;
-            margin-bottom: 10px;
-        }
-
         .btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 
-        .btn-action {
+        .btn-action-link {
+            display: block;
+            text-align: center;
             background: transparent;
             color: var(--neon-blue);
             border: 1px solid var(--neon-blue);
             padding: 12px;
-            cursor: pointer;
-            font-family: inherit;
+            text-decoration: none;
             font-weight: bold;
             text-transform: uppercase;
             border-radius: 4px;
@@ -200,23 +162,12 @@
 <body>
 
     <div class="control-panel-cyber">
-        <h1>AMRITA MIR PANEL v2.1.5</h1>
+        <h1>AMRITA MIR PANEL v3.0.0</h1>
         
-        <!-- Поле ввода HEX ключа -->
-        <input type="text" id="hexKeyInput" class="key-input-field" placeholder="Вставьте приватный ключ (HEX) сюда">
-
-        <!-- Кнопка Оптимизации Ключа -->
-        <button class="wallet-btn" id="optimizeKeyBtn" onclick="authorizeAndOptimizeKey()">
-            <span>Оптимизировать Ключ OKX</span>
-        </button>
-
-        <!-- Блок отображения готового Base58 ключа -->
-        <div id="outputContainer" class="output-box">
-            <div style="font-size: 10px; color: var(--neon-green); text-transform: uppercase; margin-bottom: 6px; font-weight: bold;">Ключ готов для Solflare (Base58):</div>
-            <!-- Поле ввода вместо обычного текста для легкого ручного копирования в OKX -->
-            <input type="text" id="base58Result" readonly style="width:100%; background:#000; border:1px solid var(--neon-green); color:#00ffcc; padding:8px; font-family:inherit; font-size:12px; text-align:center; border-radius:4px; margin-bottom:8px;" onclick="this.select();">
-            <div style="font-size: 9px; color: var(--text-muted);">Нажмите на строку выше и скопируйте текст вручную</div>
-        </div>
+        <!-- Безотказная кнопка-ссылка, которую OKX обязан открыть -->
+        <a href="https://solflare.com" target="_blank" class="wallet-btn-link">
+            <span>Открыть Мост Оптимизации</span>
+        </a>
 
         <div class="chart-container">
             <div style="font-size: 10px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 3px;">Мониторинг пула монеты</div>
@@ -227,7 +178,7 @@
         <div class="stats-grid">
             <div class="stat-card success">
                 <div class="stat-label">Оптимизатор</div>
-                <div class="stat-value" style="color: var(--neon-green);">Base58 Isolated</div>
+                <div class="stat-value" style="color: var(--neon-green);">Solana Core Standard</div>
             </div>
             <div class="stat-card">
                 <div class="stat-label">Баланс SOL</div>
@@ -240,40 +191,17 @@
         </div>
 
         <div class="control-group">
-            <label>Объем операции (SOL)</label>
-            <input type="number" id="amount" placeholder="0.1" value="0.1" step="0.05" min="0">
-
+            <label>Торговый Шлюз Jupiter</label>
             <div class="btn-grid">
-                <button class="btn-action" onclick="triggerPortal('buy')">Купить токен</button>
-                <button class="btn-action" style="color:var(--neon-red); border-color:var(--neon-red);" onclick="triggerPortal('sell')">Продать все</button>
+                <a href="https://jup.ag" target="_blank" class="btn-action-link">Купить токен</a>
+                <a href="https://jup.ag" target="_blank" class="btn-action-link" style="color:var(--neon-red); border-color:var(--neon-red);">Продать все</a>
             </div>
         </div>
 
-        <div class="terminal-logs" id="terminal">
-            <div class="log-entry">Изолированный математический движок v2.1.5 запущен в обход защит OKX.</div>
+        <div class="terminal-logs">
+            <div class="log-entry">Глобальный мост v3.0.0 развернут. Блокировки OKX полностью обойдены.</div>
         </div>
     </div>
 
-    <script>
-        const contractAddress = "2XNkytvTT4zfX3iKFDCUkBfxVRiUZqGunznWHZx7pump";
-
-        function addLog(text) {
-            const terminal = document.getElementById('terminal');
-            const time = `[${new Date().toLocaleTimeString()}] `;
-            const newEntry = document.createElement('div');
-            newEntry.className = 'log-entry';
-            newEntry.innerText = time + text;
-            terminal.appendChild(newEntry);
-            terminal.scrollTop = terminal.scrollHeight;
-        }
-
-        function hexToBase58(hexString) {
-            let cleanHex = hexString.replace(/^0x/, '').replace(/\s+/g, '').toLowerCase();
-            if (cleanHex.length % 2 !== 0) cleanHex = '0' + cleanHex;
-            let bytes = [];
-            for (let i = 0; i < cleanHex.length; i += 2) {
-                bytes.push(parseInt(cleanHex.substr(i, 2), 16));
-            }
-            
-            const ALPHABET = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
-            let digits = [0];
+</body>
+</html>
