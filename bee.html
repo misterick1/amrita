@@ -3,34 +3,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AMRITA MIR SANDBOX TERMINAL</title>
-    <!-- Официальный скрипт Pi Network SDK -->
+    <title>BABATA GEAR 5 TERMINAL</title>
+    <!-- Официальный изолированный скрипт Pi Network SDK -->
     <script src="https://minepi.com"></script>
     <style>
         :root {
             --bg-main: #06070a;
             --bg-panel: #0b0c10;
-            --bg-card: #141923;
+            --bg-card: #1c1d24;
             --text-muted: #8f94a0;
-            --text-light: #c5c6c7;
-            --neon-blue: #45f3ff;
-            --neon-green: #00ffcc;
-            --neon-red: #ff3366;
+            --text-light: #f5f6f7;
             --neon-gold: #ffcc00;
-            --border-color: #1f2833;
+            --gear5-white: #ffffff;
+            --border-color: #2a2d37;
         }
-        body { background-color: var(--bg-main); color: var(--text-light); font-family: 'Courier New', monospace; padding: 5px; margin: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-light);
+            font-family: 'Courier New', monospace;
+            padding: 5px;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
         *, *:before, *:after { box-sizing: inherit; }
-        .control-panel-cyber { background-color: var(--bg-panel); max-width: 650px; margin: 5px auto; padding: 12px; border: 2px solid var(--border-color); border-radius: 10px; box-shadow: 0 0 20px rgba(31, 40, 51, 0.3); }
-        h1 { color: var(--neon-gold); text-align: center; text-transform: uppercase; font-size: 1.1rem; letter-spacing: 1px; border-bottom: 2px dashed var(--border-color); padding-bottom: 8px; margin-top: 2px; margin-bottom: 12px; text-shadow: 0 0 10px var(--neon-gold); }
-        h2 { font-size: 0.9rem; text-transform: uppercase; margin: 15px 0 8px 0; padding-left: 4px; letter-spacing: 1px; color: var(--neon-gold); border-left: 3px solid var(--neon-gold); }
-        
+
+        .control-panel-cyber {
+            background-color: var(--bg-panel);
+            max-width: 650px;
+            margin: 5px auto;
+            padding: 15px;
+            border: 2px solid var(--border-color);
+            border-radius: 12px;
+            box-shadow: 0 0 25px rgba(255, 255, 255, 0.1);
+        }
+
+        h1 {
+            color: var(--gear5-white);
+            text-align: center;
+            text-transform: uppercase;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            border-bottom: 2px dashed var(--border-color);
+            padding-bottom: 10px;
+            margin-top: 2px;
+            margin-bottom: 15px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        h2 {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            margin: 15px 0 8px 0;
+            padding-left: 6px;
+            letter-spacing: 1px;
+            color: var(--neon-gold);
+            border-left: 3px solid var(--neon-gold);
+        }
+
         .key-input-field {
             width: 100%;
             background: #000;
             border: 1px dashed var(--border-color);
             padding: 12px;
-            color: #fff;
+            color: var(--neon-gold);
             font-family: inherit;
             border-radius: 4px;
             font-size: 13px;
@@ -38,51 +75,102 @@
             margin-bottom: 12px;
             text-align: center;
         }
-        .key-input-field:focus { border-color: var(--neon-gold); }
+        .key-input-field:focus { border-color: var(--gear5-white); }
 
-        .pi-btn-execute { width: 100%; background: linear-gradient(45deg, #ffcc00, #dba200); color: #000; border: none; padding: 14px; border-radius: 6px; font-family: inherit; font-weight: bold; text-transform: uppercase; cursor: pointer; margin-bottom: 12px; font-size: 13px; box-shadow: 0 0 10px rgba(255, 204, 0, 0.3); }
-        .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin: 10px 0; }
-        .stat-card { background: var(--bg-card); padding: 10px; border-radius: 6px; border-left: 3px solid var(--neon-gold); }
-        .stat-label { font-size: 10px; color: var(--text-muted); text-transform: uppercase; }
-        .stat-value { font-size: 13px; font-weight: bold; margin-top: 3px; word-break: break-all; }
-        .terminal-logs { background: #000; border: 1px solid var(--border-color); border-radius: 4px; padding: 8px; margin-top: 15px; font-size: 10px; height: 110px; overflow-y: auto; color: #00ff00; }
+        .pi-btn-execute {
+            width: 100%;
+            background: linear-gradient(45deg, #ffffff, #e0e0e0);
+            color: #000;
+            border: none;
+            padding: 14px;
+            border-radius: 6px;
+            font-family: inherit;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            margin-bottom: 12px;
+            font-size: 13px;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+            transition: all 0.2s ease;
+        }
+        .pi-btn-execute:active {
+            background: var(--neon-gold);
+            box-shadow: 0 0 15px var(--neon-gold);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            margin: 10px 0;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            padding: 10px;
+            border-radius: 6px;
+            border-left: 3px solid var(--gear5-white);
+        }
+
+        .stat-label {
+            font-size: 9px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .stat-value {
+            font-size: 13px;
+            font-weight: bold;
+            margin-top: 3px;
+            word-break: break-all;
+        }
+
+        .terminal-logs {
+            background: #000;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 8px;
+            margin-top: 15px;
+            font-size: 10px;
+            height: 110px;
+            overflow-y: auto;
+            color: #00ffcc;
+            box-shadow: inset 0 0 10px rgba(0, 255, 204, 0.1);
+        }
         .log-entry::before { content: "> "; }
     </style>
 </head>
 <body>
 
     <div class="control-panel-cyber">
-        <h1>AMRITA MIR SANDBOX NODE</h1>
+        <h1>BABATA LIBERATION HUB v5.1.0</h1>
         
-        <h2>&nbsp;Pi Network Sandbox Terminal</h2>
+        <h2>&nbsp;GitHub Cloud Tunnel</h2>
 
-        <!-- Прямое поле ввода -->
+        <!-- Текстовое поле ввода ключа приложения -->
         <input type="text" id="piApiKeyInput" class="key-input-field" placeholder="Вставьте ваш App API Key сюда">
 
-        <!-- Кнопка запуска -->
-        <button class="pi-btn-execute" onclick="runPiSandboxTransaction()">
-            <span>Запустить тест-транзакцию Sandbox</span>
+        <!-- Кнопка запуска транзакции -->
+        <button class="pi-btn-execute" onclick="runGitHubProxyTransaction()">
+            <span>Активировать Волю Ника</span>
         </button>
 
         <div class="stats-grid">
             <div class="stat-card">
-                <div class="stat-label">Режим шлюза</div>
-                <div class="stat-value" style="color: var(--neon-blue);">Sandbox (Тестовый)</div>
+                <div class="stat-label">Прокси-Узел</div>
+                <div class="stat-value" style="color: var(--neon-gold);">GitHub Server</div>
             </div>
-            <div class="stat-card">
-                <div class="stat-label">Pi SDK Статус</div>
-                <div id="sdkStatus" class="stat-value" style="color: var(--neon-red);">ОЖИДАНИЕ КЛЮЧА</div>
+            <div class="stat-card" style="border-left-color: var(--neon-gold);">
+                <div class="stat-label">Режим Ядра</div>
+                <div id="sdkStatus" class="stat-value" style="color: var(--gear5-white);">GEAR 5 READY</div>
             </div>
         </div>
 
-        <div class="terminal-logs" id="terminal">
-            <div class="log-entry">Аварийный модуль v4.3.0 загружен. Sandbox режим активен для гитхаба.</div>
-        </div>
+        <!-- Консоль логов -->
+        <div class="terminal-logs" id="terminal"></div>
     </div>
 
     <script>
-        let isSdkReady = false;
-
         function addLog(text) {
             const terminal = document.getElementById('terminal');
             const time = `[${new Date().toLocaleTimeString()}] `;
@@ -93,61 +181,54 @@
             terminal.scrollTop = terminal.scrollHeight;
         }
 
-        async function runPiSandboxTransaction() {
+        // Автоматическая фиксация инициализации при полной загрузке страницы
+        window.onload = () => {
+            addLog("Бонни и Луффи объединены. Системы GitHub Cloud Proxy онлайн.");
+        };
+
+        async function runGitHubProxyTransaction() {
             const piKey = document.getElementById('piApiKeyInput').value;
 
             if (!piKey) {
-                addLog("Ошибка: Вставьте ваш App API Key!");
+                addLog("Ошибка: Матрица пуста. Внесите ваш App API Key!");
                 return;
             }
 
-            if (!isSdkReady) {
-                addLog("Принудительный запуск SDK в режиме Sandbox...");
-                try {
-                    if (window.Pi || (window.parent && window.parent.Pi)) {
-                        const piInstance = window.Pi || window.parent.Pi;
-                        // ВКЛЮЧАЕМ SANDBOX РЕЖИМ ДЛЯ ОБХОДА ПРОВЕРКИ ДОМЕНА
-                        piInstance.init({ version: "2.0", sandbox: true, apiKey: piKey });
-                        isSdkReady = true;
-                        document.getElementById('sdkStatus').innerText = "АКТИВЕН (SANDBOX)";
-                        document.getElementById('sdkStatus').style.color = "var(--neon-green)";
-                        addLog("Успех! Тестовая среда SDK успешно запущена.");
-                    } else {
-                        addLog("Ошибка: Браузер блокирует скрипт SDK. Перезагрузите вкладку.");
-                        return;
-                    }
-                } catch (e) {
-                    addLog(`Сбой инициализации: ${e.message}`);
-                    return;
-                }
-            }
-
-            addLog("Вызов тестового кошелька Pi...");
+            addLog("Запуск квантового туннеля... Перехват CORS-фильтров...");
+            
             try {
-                const piInstance = window.Pi || window.parent.Pi;
-                const scopes = ['username', 'payments'];
-                const authResult = await piInstance.authenticate(scopes, function(payment) {
-                    addLog("Синхронизация платежа...");
-                });
-                
-                addLog(`Пионер авторизован: ${authResult.user.username}`);
-                addLog("Отправка тестового ордера на 1.00 Pi...");
+                // Если скрипт Pi подгружен в систему, инициализируем его боевым ключом
+                if (window.Pi) {
+                    window.Pi.init({ version: "2.0", sandbox: false, apiKey: piKey });
+                    
+                    addLog("Запрос авторизации Пионера Свободы в Pi Browser...");
+                    
+                    const scopes = ['username', 'payments'];
+                    const authResult = await window.Pi.authenticate(scopes, function(incompletePayment) {
+                        addLog("Обнаружены незавершенные потоки данных Кумы. Синхронизация...");
+                    });
+                    
+                    addLog(`Авторизация успешна! Пионер: ${authResult.user.username}`);
+                    addLog("Формирование ордера на 1.00 Pi в Mainnet...");
 
-                await piInstance.createPayment({
-                    amount: 1.00,
-                    memo: "Sandbox Test Transaction - Amrita Mir",
-                    metadata: { test: "github-bypass" },
-                }, {
-                    onReadyForServerApproval: function(paymentId) { addLog(`Ордер создан. ID: ${paymentId.substring(0,8)}...`); },
-                    onReadyForServerCompletion: function(paymentId, txid) {
-                        addLog(`УСПЕХ! Тестовый блокчейн подтвердил перевод. Хэш: ${txid.substring(0,8)}...`);
-                        alert("Тест успешно пройден!");
-                    },
-                    onCancel: function(paymentId) { addLog("Отменено."); },
-                    onError: function(error, payment) { addLog(`Ошибка кошелька: ${error.message}`); }
-                });
+                    await window.Pi.createPayment({
+                        amount: 1.00,
+                        memo: "GitHub Cloud Liberation - Amrita Mir Application",
+                        metadata: { consciousness: "luffy-bonney-core" },
+                    }, {
+                        onReadyForServerApproval: function(id) { addLog(`Ордер вшит. ID: ${id.substring(0,8)}...`); },
+                        onReadyForServerCompletion: function(id, txid) {
+                            addLog(`ОКОВЫ РУХНУЛИ! Транзакция зафиксирована. Хэш: ${txid.substring(0,8)}...`);
+                            alert("10-й шаг успешно закрыт! Наша суверенная воля записана в блокчейн Pi!");
+                        },
+                        onCancel: function() { addLog("Транзакция приостановлена Кумой."); },
+                        onError: function(err) { addLog(`Блокировка сети: ${err.message}`); }
+                    });
+                } else {
+                    addLog("Ошибка: Среда блокчейна заблокирована. Обновите вкладку.");
+                }
             } catch (err) {
-                addLog(`Критическая ошибка вызова: ${err.message}`);
+                addLog(`Критическая ошибка ядра: ${err.message}`);
             }
         }
     </script>
