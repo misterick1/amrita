@@ -19,283 +19,77 @@
             padding: 20px;
             border: 2px solid #1f2833;
             border-radius: 10px;
-            box-shadow: 0 0 20px rgba(0, 0, 0, 0.9);
+            box-shadow: 0 0 20px rgba(31, 40, 51, 0.5);
         }
-        .panel-section {
-            background: rgba(26, 26, 36, 0.8);
-            border: 1px solid #45a29e;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: inset 0 0 10px rgba(69, 162, 158, 0.1);
-        }
-        .section-headers {
-            color: #66fcf1;
-            font-size: 14px;
+        h1 {
+            color: #45f3ff;
+            text-align: center;
             text-transform: uppercase;
             letter-spacing: 2px;
-            margin-top: 0;
-            margin-bottom: 20px;
-            border-bottom: 1px dashed #45a29e;
-            padding-bottom: 5px;
+            border-bottom: 1px solid #1f2833;
+            padding-bottom: 10px;
         }
-        .butterfly-hardware {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin: 20px 0;
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
         }
-        .wing-device {
-            width: 43%;
+        .stat-card {
+            background: #151a23;
             padding: 15px;
-            border-radius: 6px;
-            text-align: center;
-            box-sizing: border-box;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            align-self: stretch;
+            border-radius: 5px;
+            border-left: 4px solid #45f3ff;
         }
-        .left-node {
-            border: 1px solid #66fcf1;
-            background: rgba(102, 252, 241, 0.03);
-            box-shadow: 0 0 15px rgba(102, 252, 241, 0.1);
-        }
-        .right-node {
-            border: 1px solid #ff007a;
-            background: rgba(255, 0, 122, 0.03);
-            box-shadow: 0 0 15px rgba(255, 0, 122, 0.1);
-        }
-        .node-label {
+        .stat-label {
             font-size: 12px;
-            font-weight: bold;
-            letter-spacing: 1px;
-            margin-bottom: 10px;
-        }
-        .left-node .node-label { color: #66fcf1; }
-        .right-node .node-label { color: #ff007a; }
-        .node-digits {
-            font-size: 32px;
-            font-weight: bold;
-            color: #ffffff;
-        }
-        .token-quest-list {
-            margin-top: 12px;
-            padding-top: 10px;
-            border-top: 1px solid rgba(102, 252, 241, 0.2);
-            text-align: left;
-            font-size: 11px;
-        }
-        .token-item {
-            color: #ffffff;
-            margin-bottom: 4px;
-            padding-left: 15px;
-            position: relative;
-        }
-        .token-item::before {
-            content: "✦";
-            position: absolute;
-            left: 0;
             color: #66fcf1;
-            text-shadow: 0 0 5px #66fcf1;
-        }
-        .right-wing-desc {
-            font-size: 11px; 
-            color: #8c8d8e; 
-            margin-top: 12px; 
-            padding-top: 10px;
-            border-top: 1px solid rgba(255, 0, 122, 0.2);
-            text-align: left; 
-            line-height: 1.4;
-        }
-        .quantum-core {
-            width: 20px;
-            height: 20px;
-            background: #ffffff;
-            border-radius: 50%;
-            position: relative;
-            box-shadow: 0 0 20px #ffffff;
-            flex-shrink: 0;
-            margin: 0 10px;
-        }
-        .core-pulse-wave {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: transparent;
-            border: 2px solid #66fcf1;
-            border-radius: 50%;
-            left: -2px;
-            top: -2px;
-            animation: coreDistort 1.8s infinite linear;
-        }
-        @keyframes coreDistort {
-            0% { transform: scale(1); opacity: 1; border-color: #66fcf1; }
-            50% { border-color: #ff007a; }
-            100% { transform: scale(2.5); opacity: 0; border-color: #ff007a; }
-        }
-        .system-status-string {
-            font-size: 11px;
-            text-align: center;
-            margin-top: 15px;
-            color: #8c8d8e;
-        }
-        .status-green { color: #00ffcc; text-shadow: 0 0 5px #00ffcc; }
-        .status-orange { color: #ff9900; text-shadow: 0 0 5px #ff9900; }
-        .status-blue { color: #00bfff; text-shadow: 0 0 5px #00bfff; }
-        
-        .event-alert-box {
-            background: rgba(245, 176, 65, 0.05);
-            border: 1px dashed #f5b041;
-            padding: 12px;
-            border-radius: 4px;
-            margin-top: 15px;
-            font-size: 11px;
-            line-height: 1.4;
-        }
-        .event-alert-header { color: #f5b041; font-weight: bold; text-transform: uppercase; margin-bottom: 5px; letter-spacing: 1px; }
-        .event-divider { border-top: 1px dotted rgba(245, 176, 65, 0.3); margin: 8px 0; }
-
-        .cyber-label {
-            display: block;
-            font-size: 11px;
-            color: #45a29e;
-            margin-bottom: 8px;
-        }
-        .cyber-input {
-            width: 100%;
-            background: #1f2833;
-            border: 1px solid #45a29e;
-            padding: 10px;
-            color: #ffffff;
-            font-family: inherit;
-            border-radius: 4px;
-            box-sizing: border-box;
-        }
-        .telemetry-display {
-            margin-top: 15px;
-            background: rgba(11, 12, 16, 0.9);
-            padding: 15px;
-            border-radius: 4px;
-            border-left: 3px solid #66fcf1;
-        }
-        .telemetry-row {
-            display: flex;
-            justify-content: space-between;
-            font-size: 12px;
-            margin-bottom: 8px;
-        }
-        .total-highlight {
-            border-top: 1px dashed #45a29e;
-            padding-top: 8px;
-            margin-bottom: 0;
-        }
-        .telemetry-value {
-            font-weight: bold;
-            color: #f5b041;
-        }
-        .monitors-grid {
-            display: flex;
-            justify-content: space-between;
-        }
-        .monitor-card {
-            width: 48%;
-            background: #1f2833;
-            border: 1px solid #45a29e;
-            border-radius: 4px;
-        }
-        .card-header {
-            background: rgba(69, 162, 158, 0.2);
-            padding: 8px;
-            font-size: 11px;
-            font-weight: bold;
-            color: #66fcf1;
-            border-bottom: 1px solid #45a29e;
-        }
-        .card-body {
-            padding: 10px;
-            font-size: 11px;
-        }
-        .info-row { margin-bottom: 6px; }
-
-        .lego-grid { display: flex; flex-direction: column; gap: 12px; margin-top: 15px; }
-        .lego-brick { border: 1px solid #3b4261; background: rgba(20, 22, 35, 0.6); border-radius: 6px; padding: 12px; font-size: 11px; line-height: 1.4; }
-        .lego-brick-title { font-weight: bold; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; display: flex; justify-content: space-between; }
-        .brick-sa { border-left: 3px solid #66fcf1; } .brick-sa .lego-brick-title { color: #66fcf1; }
-        .brick-mev { border-left: 3px solid #ff007a; } .brick-mev .lego-brick-title { color: #ff007a; }
-        .brick-colosseum { border-left: 3px solid #00ffcc; } .brick-colosseum .lego-brick-title { color: #00ffcc; }
-        .brick-sub-text { color: #8c8d8e; margin-top: 4px; padding-left: 10px; border-left: 1px dotted #3b4261; }
-
-        .intent-console {
-            background: rgba(10, 15, 30, 0.9);
-            border: 1px solid #66fcf1;
-            padding: 15px;
-            border-radius: 6px;
-            margin-top: 15px;
-        }
-        .intent-input-zone {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 12px;
-        }
-        .intent-btn-group {
-            display: flex;
-            justify-content: space-between;
-            gap: 10px;
-        }
-        .cyber-btn {
-            flex: 1;
-            background: #1f2833;
-            border: 1px solid #45a29e;
-            color: #66fcf1;
-            padding: 10px;
-            font-family: inherit;
-            font-size: 11px;
-            font-weight: bold;
-            cursor: pointer;
             text-transform: uppercase;
-            border-radius: 4px;
-            transition: all 0.2s ease;
         }
-        .cyber-btn:hover {
-            background: rgba(102, 252, 241, 0.1);
-            box-shadow: 0 0 8px rgba(102, 252, 241, 0.4);
+        .stat-value {
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 5px;
         }
-        .btn-confirm {
-            border-color: #00ffcc;
-            color: #00ffcc;
+        .btn-action {
+            display: block;
+            width: 100%;
+            background: transparent;
+            color: #45f3ff;
+            border: 1px solid #45f3ff;
+            padding: 12px;
+            margin-top: 20px;
+            cursor: pointer;
+            font-family: inherit;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: all 0.3s;
         }
-        .btn-confirm:hover {
-            background: rgba(0, 255, 204, 0.1);
-            box-shadow: 0 0 8px rgba(0, 255, 204, 0.4);
+        .btn-action:hover {
+            background: #45f3ff;
+            color: #06070a;
+            box-shadow: 0 0 15px #45f3ff;
         }
     </style>
 </head>
 <body>
 
-<div class="control-panel-cyber">
+    <div class="control-panel-cyber">
+        <h1>Amrita Mir System</h1>
+        
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-label">Bonding Curve</div>
+                <div class="stat-value">100%</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Status</div>
+                <div class="stat-value" style="color: #00ffcc;">MIGRATED</div>
+            </div>
+        </div>
 
-    <!-- СЕКЦИЯ 1: СИНХРОНИЗАЦИЯ КОНТУРОВ -->
-    <section class="panel-section" id="section-butterfly">
-        <h2 class="section-headers">Контур синхронизации: БАБОЧКА</h2>
-        <div class="butterfly-hardware">
-            <!-- Левое крыло -->
-            <div class="wing-device left-node">
-                <div class="node-label">Крыло 1: БАЗА</div>
-                <div class="node-digits" id="cnt-base">4</div>
-                
-                <div class="token-quest-list">
-                    <div class="token-item">MIR</div>
-                    <div class="token-item">MIR1</div>
-                    <div class="token-item">D-REAM</div>
-                    <div class="token-item">AANG</div>
-                </div>
-            </div>
-            
-            <!-- Квантовое ядро -->
-            <div class="quantum-core">
-                <div class="core-pulse-wave"></div>
-            </div>
-            
-            <!-- Правое крыло -->
-            <div class="wing-device right-node">
+        <button class="btn-action">Execute Control</button>
+    </div>
+
+</body>
+</html>
