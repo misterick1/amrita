@@ -19,11 +19,28 @@
             --neon-gold: #ffcc00;
             --border-color: #1f2833;
         }
-        body { background-color: var(--bg-main); color: var(--text-light); font-family: 'Courier New', monospace; padding: 10px; margin: 0; box-sizing: border-box; }
+        body { background-color: var(--bg-main); color: var(--text-light); font-family: 'Courier New', monospace; padding: 5px; margin: 0; box-sizing: border-box; }
         *, *:before, *:after { box-sizing: inherit; }
-        .control-panel-cyber { background-color: var(--bg-panel); max-width: 650px; margin: 10px auto; padding: 15px; border: 2px solid var(--border-color); border-radius: 10px; box-shadow: 0 0 20px rgba(31, 40, 51, 0.3); }
-        h1 { color: var(--neon-gold); text-align: center; text-transform: uppercase; font-size: 1.2rem; letter-spacing: 1px; border-bottom: 2px dashed var(--border-color); padding-bottom: 10px; margin-top: 5px; margin-bottom: 15px; text-shadow: 0 0 10px var(--neon-gold); }
+        .control-panel-cyber { background-color: var(--bg-panel); max-width: 650px; margin: 5px auto; padding: 12px; border: 2px solid var(--border-color); border-radius: 10px; box-shadow: 0 0 20px rgba(31, 40, 51, 0.3); }
+        h1 { color: var(--neon-gold); text-align: center; text-transform: uppercase; font-size: 1.1rem; letter-spacing: 1px; border-bottom: 2px dashed var(--border-color); padding-bottom: 8px; margin-top: 2px; margin-bottom: 12px; text-shadow: 0 0 10px var(--neon-gold); }
         h2 { font-size: 0.9rem; text-transform: uppercase; margin: 15px 0 8px 0; padding-left: 4px; letter-spacing: 1px; color: var(--neon-gold); border-left: 3px solid var(--neon-gold); }
+        
+        /* Поле прямого ввода ключа на экране */
+        .key-input-field {
+            width: 100%;
+            background: #000;
+            border: 1px dashed var(--border-color);
+            padding: 12px;
+            color: #fff;
+            font-family: inherit;
+            border-radius: 4px;
+            font-size: 13px;
+            outline: none;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+        .key-input-field:focus { border-color: var(--neon-gold); }
+
         .pi-btn-execute { width: 100%; background: linear-gradient(45deg, #ffcc00, #dba200); color: #000; border: none; padding: 14px; border-radius: 6px; font-family: inherit; font-weight: bold; text-transform: uppercase; cursor: pointer; margin-bottom: 12px; font-size: 13px; box-shadow: 0 0 10px rgba(255, 204, 0, 0.3); }
         .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin: 10px 0; }
         .stat-card { background: var(--bg-card); padding: 10px; border-radius: 6px; border-left: 3px solid var(--neon-gold); }
@@ -39,6 +56,9 @@
         <h1>AMRITA MIR PRODUCTION NODE</h1>
         
         <h2>&nbsp;Pi Network Core Terminal</h2>
+
+        <!-- Прямое поле ввода для ключа приложения -->
+        <input type="text" id="piApiKeyInput" class="key-input-field" placeholder="Вставьте ваш App API Key сюда">
 
         <!-- Главная кнопка запуска -->
         <button class="pi-btn-execute" onclick="runPiProductionTransaction()">
@@ -57,7 +77,7 @@
         </div>
 
         <div class="terminal-logs" id="terminal">
-            <div class="log-entry">Боевое ядро развернуто на домене. Требуется инициализация App Key.</div>
+            <div class="log-entry">Прямой текстовый модуль v4.2.0 развернут. Ожидание ввода App Key.</div>
         </div>
     </div>
 
@@ -74,43 +94,44 @@
             terminal.scrollTop = terminal.scrollHeight;
         }
 
-        // Автоматический запрос ключа при загрузке страницы прямо на вашем домене amrita-mir.com
-        window.onload = function() {
-            let piKey = prompt("Внесите ваш App API Key из панели develop.pi для активации ноды:");
-            if (!piKey) {
-                addLog("Ошибка: Ключ не введен. Работа шлюза заблокирована.");
-                return;
-            }
-
-            try {
-                if (window.Pi) {
-                    // Инициализируем сеть вашим личным боевым ключом приложения
-                    Pi.init({ version: "2.0", sandbox: false, apiKey: piKey });
-                    isSdkReady = true;
-                    document.getElementById('sdkStatus').innerText = "АКТИВЕН";
-                    document.getElementById('sdkStatus').style.color = "var(--neon-green)";
-                    addLog("Успех! Боевой Pi SDK успешно привязан к ключу приложения.");
-                }
-            } catch (e) {
-                addLog("Ошибка привязки SDK к вашему ключу.");
-            }
-        };
-
         async function runPiProductionTransaction() {
-            if (!isSdkReady) {
-                addLog("Ошибка: Сначала введите корректный App API Key!");
+            // Берем ключ прямо из текстового поля на экране
+            const piKey = document.getElementById('piApiKeyInput').value;
+
+            if (!piKey) {
+                addLog("Ошибка: Поле ввода пусто! Вставьте ваш App API Key.");
                 return;
             }
 
-            addLog("Запуск платежного шлюза... Запрос авторизации в Pi Browser...");
+            if (!isSdkReady) {
+                addLog("Запуск инициализации Pi SDK вашим ключом...");
+                try {
+                    if (window.Pi) {
+                        // Инициализируем сеть вашим ключом приложения
+                        Pi.init({ version: "2.0", sandbox: false, apiKey: piKey });
+                        isSdkReady = true;
+                        document.getElementById('sdkStatus').innerText = "АКТИВЕН";
+                        document.getElementById('sdkStatus').style.color = "var(--neon-green)";
+                        addLog("Успех! Боевой Pi SDK привязан к ключу приложения.");
+                    } else {
+                        addLog("Ошибка: Среда Pi SDK не обнаружена.");
+                        return;
+                    }
+                } catch (e) {
+                    addLog("Критический сбой инициализации SDK.");
+                    return;
+                }
+            }
+
+            addLog("Запуск платежного шлюза... Авторизация в Pi Browser...");
             try {
                 const scopes = ['username', 'payments'];
                 const authResult = await Pi.authenticate(scopes, function(payment) {
-                    addLog("Обнаружен незавершенный платеж. Синхронизация...");
+                    addLog("Синхронизация незавершенных платежей...");
                 });
                 
                 addLog(`Пионер авторизован: ${authResult.user.username}`);
-                addLog("Отправка ордера на 1.00 Pi в мейннет...");
+                addLog("Отправка боевого ордера на 1.00 Pi...");
 
                 await Pi.createPayment({
                     amount: 1.00,
@@ -122,13 +143,13 @@
                     },
                     onReadyForServerCompletion: function(paymentId, txid) {
                         addLog(`УСПЕХ! Блокчейн Pi подтвердил перевод. Хэш: ${txid.substring(0,8)}...`);
-                        alert("Финальный шаг успешно выполнен! Проект активирован.");
+                        alert("Финальный шаг успешно выполнен! Проект верифицирован.");
                     },
                     onCancel: function(paymentId) { addLog("Транзакция отменена."); },
                     onError: function(error, payment) { addLog(`Ошибка: ${error.message}`); }
                 });
             } catch (err) {
-                addLog(`Ошибка кошелька: ${err.message}`);
+                addLog(`Ошибка вызова кошелька: ${err.message}`);
             }
         }
     </script>
