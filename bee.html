@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AMRITA MIR CONTROL PANEL</title>
+    <!-- Официальные библиотеки для работы с блокчейном Solana и кошельком Solflare -->
     <script src="https://unpkg.com"></script>
     <script src="https://unpkg.com"></script>
     <style>
@@ -103,16 +104,21 @@
         .wallet-btn.loading .spinner { display: block; }
         @keyframes spin { to { transform: rotate(360deg); } }
 
+        /* Контейнер для чистого мобильного графика Dexview */
         .chart-container {
             width: 100%;
-            height: 340px;
+            height: 380px;
             background: #000;
             border: 1px solid var(--border-color);
             border-radius: 6px;
             margin-bottom: 15px;
             overflow: hidden;
         }
-        .chart-container iframe { width: 100%; height: 100%; border: none; }
+        .chart-container iframe { 
+            width: 100%; 
+            height: 100%; 
+            border: none; 
+        }
 
         .stats-grid {
             display: grid;
@@ -159,10 +165,8 @@
             padding: 15px;
             border-radius: 6px;
             border: 1px solid var(--border-color);
-        <!-- Чистый мобильный график Dexview без рекламы и всплывающих окон -->
-<div class="chart-container">
-    <iframe src="https://dexview.com"></iframe>
-</div>
+        }
+
         label {
             display: block;
             font-size: 11px;
@@ -219,16 +223,16 @@
 <body>
 
     <div class="control-panel-cyber">
-        <h1>AMRITA MIR PANEL v1.3.0</h1>
+        <h1>AMRITA MIR PANEL v1.4.0</h1>
         
         <button class="wallet-btn" id="connectWalletBtn" onclick="toggleWallet()">
             <div class="spinner" id="btnSpinner"></div>
             <span id="btnText">Подключить Solflare</span>
         </button>
 
-        <!-- Чистый адаптивный интерактивный график без рекламы -->
+        <!-- Чистый мобильный график Dexview без рекламы и навязчивых окон приложений -->
         <div class="chart-container">
-            <iframe src="https://geckoterminal.com"></iframe>
+            <iframe src="https://dexview.com"></iframe>
         </div>
 
         <div class="stats-grid">
@@ -266,7 +270,7 @@
         </div>
 
         <div class="terminal-logs" id="terminal">
-            <div class="log-entry">Web3-терминал Jupiter API интегрирован. Ожидание линка...</div>
+            <div class="log-entry">Интерфейс Dexview и Jupiter Swap API успешно подключены.</div>
         </div>
     </div>
 
@@ -289,7 +293,3 @@
             wallet = window.solflare || window.solana;
 
             if (!wallet.isConnected) {
-                btn.classList.add('loading');
-                btnText.innerText = "Подключение...";
-                try {
-                    await wallet.connect();
