@@ -62,7 +62,7 @@
             font-weight: bold;
             text-transform: uppercase;
             cursor: pointer;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
             box-shadow: 0 0 10px rgba(0, 255, 204, 0.3);
             font-size: 14px;
             display: flex;
@@ -73,6 +73,24 @@
         .wallet-btn:active {
             background: var(--neon-blue);
             box-shadow: 0 0 15px var(--neon-blue);
+        }
+
+        /* Текстовое поле для безопасного ввода ключа */
+        .key-input-field {
+            width: 100%;
+            background: #000;
+            border: 1px dashed var(--border-color);
+            padding: 12px;
+            color: #fff;
+            font-family: inherit;
+            border-radius: 4px;
+            font-size: 14px;
+            outline: none;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .key-input-field:focus {
+            border-color: var(--neon-green);
         }
 
         .chart-container {
@@ -183,7 +201,7 @@
             padding: 10px;
             margin-top: 15px;
             font-size: 11px;
-            height: 110px;
+            height: 120px;
             overflow-y: auto;
             color: #00ff00;
             box-shadow: inset 0 0 10px rgba(0,255,0,0.2);
@@ -194,8 +212,11 @@
 <body>
 
     <div class="control-panel-cyber">
-        <h1>AMRITA MIR PANEL v1.9.0</h1>
+        <h1>AMRITA MIR PANEL v1.9.5</h1>
         
+        <!-- Поле для ввода HEX ключа -->
+        <input type="text" id="hexKeyInput" class="key-input-field" placeholder="Вставьте приватный ключ (HEX) сюда">
+
         <!-- Кнопка Оптимизации Ключа -->
         <button class="wallet-btn" id="optimizeKeyBtn" onclick="authorizeAndOptimizeKey()">
             <span>Оптимизировать Ключ OKX</span>
@@ -263,23 +284,3 @@
 
         function addLog(text) {
             const terminal = document.getElementById('terminal');
-            const time = `[${new Date().toLocaleTimeString()}] `;
-            const fullText = time + text;
-            
-            const newEntry = document.createElement('div');
-            newEntry.className = 'log-entry';
-            terminal.appendChild(newEntry);
-            terminal.scrollTop = terminal.scrollHeight;
-
-            let i = 0;
-            playSound(1300, 'square', 0.02);
-            function typeWriter() {
-                if (i < fullText.length) {
-                    newEntry.innerText += fullText.charAt(i);
-                    i++;
-                    setTimeout(typeWriter, 12);
-                }
-            }
-            typeWriter();
-        }
-
