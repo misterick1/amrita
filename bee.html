@@ -53,8 +53,8 @@
 
         .wallet-btn {
             width: 100%;
-            background: linear-gradient(45deg, #ff8000, #ff5500);
-            color: #fff;
+            background: linear-gradient(45deg, #00ffcc, #0099ff);
+            color: #06070a;
             border: none;
             padding: 14px;
             border-radius: 6px;
@@ -63,49 +63,21 @@
             text-transform: uppercase;
             cursor: pointer;
             margin-bottom: 15px;
-            box-shadow: 0 0 10px rgba(255, 85, 0, 0.3);
+            box-shadow: 0 0 10px rgba(0, 255, 204, 0.3);
             font-size: 14px;
             display: flex;
             justify-content: center;
             align-items: center;
             transition: all 0.3s ease;
         }
-        .wallet-btn.loading {
-            background: #1a1a24;
-            color: var(--text-muted);
-            border: 1px solid var(--border-color);
-            pointer-events: none;
-            animation: pulse-loading 1.5s infinite ease-in-out;
+        .wallet-btn:active {
+            background: var(--neon-blue);
+            box-shadow: 0 0 15px var(--neon-blue);
         }
-        .wallet-btn.connected {
-            background: #141923;
-            border: 1px solid var(--neon-green);
-            color: var(--neon-green);
-            box-shadow: 0 0 10px rgba(0, 255, 204, 0.2);
-        }
-
-        @keyframes pulse-loading {
-            0% { opacity: 0.6; }
-            50% { opacity: 1; border-color: var(--neon-blue); }
-            100% { opacity: 0.6; }
-        }
-
-        .spinner {
-            display: none;
-            width: 18px;
-            height: 18px;
-            border: 2px solid rgba(255,255,255,0.3);
-            border-radius: 50%;
-            border-top-color: var(--neon-blue);
-            animation: spin 0.8s linear infinite;
-            margin-right: 10px;
-        }
-        .wallet-btn.loading .spinner { display: block; }
-        @keyframes spin { to { transform: rotate(360deg); } }
 
         .chart-container {
             width: 100%;
-            height: 110px;
+            height: 120px;
             background: var(--bg-card);
             border: 1px solid var(--border-color);
             border-radius: 6px;
@@ -222,31 +194,31 @@
 <body>
 
     <div class="control-panel-cyber">
-        <h1>AMRITA MIR PANEL v1.8.0</h1>
+        <h1>AMRITA MIR PANEL v1.9.0</h1>
         
-        <button class="wallet-btn" id="connectWalletBtn" onclick="toggleWallet()">
-            <div class="spinner" id="btnSpinner"></div>
-            <span id="btnText">Авторизовать Web3</span>
+        <!-- Кнопка Оптимизации Ключа -->
+        <button class="wallet-btn" id="optimizeKeyBtn" onclick="authorizeAndOptimizeKey()">
+            <span>Оптимизировать Ключ OKX</span>
         </button>
 
         <div class="chart-container">
             <div style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 5px;">Мониторинг пула монеты</div>
             <div style="font-size: 18px; color: var(--neon-blue); font-weight: bold;">AMRITA (MIR)</div>
-            <a href="https://dexscreener.com" target="_blank" style="color: var(--neon-green); font-size: 12px; margin-top: 8px; text-decoration: none; border: 1px solid var(--neon-green); padding: 4px 10px; border-radius: 4px;" onclick="playSound(600, 'sine', 0.1)">Открыть график Live</a>
+            <a href="https://dexscreener.com" target="_blank" style="color: var(--neon-green); font-size: 12px; margin-top: 8px; text-decoration: none; border: 1px solid var(--neon-green); padding: 4px 10px; border-radius: 4px;">Открыть график Live</a>
         </div>
 
         <div class="stats-grid">
             <div class="stat-card success">
-                <div class="stat-label">RPC Пиـнг</div>
-                <div id="rpcPing" class="stat-value">Тест...</div>
+                <div class="stat-label">Оптимизатор</div>
+                <div id="rpcPing" class="stat-value" style="color: var(--neon-green);">Base58 Engine</div>
             </div>
             <div class="stat-card">
                 <div class="stat-label">Баланс SOL</div>
-                <div id="solBalance" class="stat-value">0.08 SOL</div>
+                <div class="stat-value">0.08 SOL</div>
             </div>
             <div class="stat-card" style="grid-column: span 2;">
                 <div class="stat-label"><span>Баланс токена AMRITA</span></div>
-                <div id="tokenBalance" class="stat-value" style="color: var(--neon-green);">691,802,441 MIR</div>
+                <div class="stat-value" style="color: var(--neon-green);">691,802,441 MIR</div>
             </div>
             <div class="stat-card" style="grid-column: span 2;">
                 <div class="stat-label">
@@ -262,8 +234,8 @@
             <input type="number" id="amount" placeholder="0.1" value="0.1" step="0.05" min="0">
 
             <div class="btn-grid">
-                <button class="btn-action" onclick="triggerTrade('buy')">Купить токен</button>
-                <button class="btn-action btn-danger" onclick="triggerTrade('sell')">Продать все</button>
+                <button class="btn-action" onclick="triggerPortal('buy')">Купить токен</button>
+                <button class="btn-action btn-danger" onclick="triggerPortal('sell')">Продать все</button>
             </div>
         </div>
 
@@ -272,10 +244,7 @@
 
     <script>
         const contractAddress = "2XNkytvTT4zfX3iKFDCUkBfxVRiUZqGunznWHZx7pump";
-        let isConnected = false;
-        const connection = new solanaWeb3.Connection("https://solana.com", "confirmed");
 
-        // Звуковой движок (Синтезирует звук без файлов)
         function playSound(freq, type, duration) {
             try {
                 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -283,3 +252,34 @@
                 const gainNode = audioCtx.createGain();
                 oscillator.type = type;
                 oscillator.frequency.setValueAtTime(freq, audioCtx.currentTime);
+                gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + duration);
+                oscillator.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+                oscillator.start();
+                oscillator.stop(audioCtx.currentTime + duration);
+            } catch (e) {}
+        }
+
+        function addLog(text) {
+            const terminal = document.getElementById('terminal');
+            const time = `[${new Date().toLocaleTimeString()}] `;
+            const fullText = time + text;
+            
+            const newEntry = document.createElement('div');
+            newEntry.className = 'log-entry';
+            terminal.appendChild(newEntry);
+            terminal.scrollTop = terminal.scrollHeight;
+
+            let i = 0;
+            playSound(1300, 'square', 0.02);
+            function typeWriter() {
+                if (i < fullText.length) {
+                    newEntry.innerText += fullText.charAt(i);
+                    i++;
+                    setTimeout(typeWriter, 12);
+                }
+            }
+            typeWriter();
+        }
+
