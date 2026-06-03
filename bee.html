@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AMRITA MIR CONTROL PANEL</title>
+    <!-- Подключаем официальный скрипт Solflare для интеграции Web3 -->
+    <script src="https://unpkg.com"></script>
     <style>
         :root {
             --bg-main: #06070a;
@@ -51,7 +53,46 @@
             margin-top: 5px;
         }
 
-        /* Сетка основных показателей */
+        /* Кнопка подключения кошелька */
+        .wallet-btn {
+            width: 100%;
+            background: linear-gradient(45deg, #ff8000, #ff5500);
+            color: #fff;
+            border: none;
+            padding: 12px;
+            border-radius: 6px;
+            font-family: inherit;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            margin-bottom: 15px;
+            box-shadow: 0 0 10px rgba(255, 85, 0, 0.3);
+            font-size: 14px;
+        }
+        .wallet-btn.connected {
+            background: #141923;
+            border: 1px solid var(--neon-green);
+            color: var(--neon-green);
+            box-shadow: 0 0 10px rgba(0, 255, 204, 0.2);
+        }
+
+        /* Живой график цен */
+        .chart-container {
+            width: 100%;
+            height: 300px;
+            background: #000;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+        .chart-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Сетка показателей */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -65,39 +106,40 @@
             border-radius: 6px;
             border-left: 3px solid var(--neon-blue);
         }
-
         .stat-card.success { border-left-color: var(--neon-green); }
 
         .stat-label {
             font-size: 11px;
             color: var(--text-muted);
             text-transform: uppercase;
+            display: flex;
+            justify-content: space-between;
         }
 
         .stat-value {
-            font-size: 18px;
+            font-size: 16px;
             font-weight: bold;
             margin-top: 4px;
             word-break: break-all;
         }
 
-        /* Информационная строка на всю ширину */
-        .full-width-card {
-            grid-column: span 2;
+        .copy-btn {
+            background: transparent;
+            border: none;
+            color: var(--neon-blue);
+            cursor: pointer;
+            font-size: 10px;
+            text-transform: uppercase;
+            padding: 0;
         }
 
-        /* Форма ввода и управления */
+        /* Поля ввода */
         .control-group {
             margin-top: 15px;
             background: rgba(20, 25, 35, 0.5);
             padding: 15px;
             border-radius: 6px;
             border: 1px solid var(--border-color);
-        }
-
-        .input-wrapper {
-            position: relative;
-            margin-bottom: 12px;
         }
 
         label {
@@ -108,7 +150,7 @@
             text-transform: uppercase;
         }
 
-        input[type="number"], input[type="text"] {
+        input[type="number"] {
             width: 100%;
             background: var(--bg-main);
             border: 1px solid var(--border-color);
@@ -116,12 +158,9 @@
             color: #fff;
             font-family: inherit;
             border-radius: 4px;
-            font-size: 16px; /* Предотвращает зум на iOS */
+            font-size: 16px;
             outline: none;
-        }
-
-        input:focus {
-            border-color: var(--neon-blue);
+            margin-bottom: 12px;
         }
 
         /* Кнопки действий */
@@ -129,11 +168,9 @@
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 10px;
-            margin-top: 15px;
         }
 
         .btn-action {
-            width: 100%;
             background: transparent;
             color: var(--neon-blue);
             border: 1px solid var(--neon-blue);
@@ -143,28 +180,16 @@
             font-weight: bold;
             text-transform: uppercase;
             border-radius: 4px;
-            transition: all 0.2s ease;
             font-size: 13px;
         }
-
         .btn-action:active {
             background: var(--neon-blue);
             color: var(--bg-main);
-            box-shadow: 0 0 10px var(--neon-blue);
         }
+        .btn-danger { color: var(--neon-red); border-color: var(--neon-red); }
+        .btn-danger:active { background: var(--neon-red); color: #fff; }
 
-        .btn-danger {
-            color: var(--neon-red);
-            border-color: var(--neon-red);
-        }
-
-        .btn-danger:active {
-            background: var(--neon-red);
-            color: #fff;
-            box-shadow: 0 0 10px var(--neon-red);
-        }
-
-        /* Окно терминала / логов */
+        /* Логи терминала */
         .terminal-logs {
             background: #000;
             border: 1px solid var(--border-color);
@@ -172,77 +197,104 @@
             padding: 10px;
             margin-top: 15px;
             font-size: 11px;
-            height: 100px;
+            height: 90px;
             overflow-y: auto;
             color: #00ff00;
         }
-
-        .log-entry {
-            margin-bottom: 4px;
-        }
-        .log-entry::before {
-            content: "> ";
-        }
+        .log-entry::before { content: "> "; }
     </style>
 </head>
 <body>
 
     <div class="control-panel-cyber">
-        <h1>AMRITA MIR PANEL v1.0.4</h1>
+        <h1>AMRITA MIR PANEL v1.1.0</h1>
         
-        <!-- Сводка данных -->
+        <!-- Кнопка подключения Solflare -->
+        <button class="wallet-btn" id="connectWalletBtn" onclick="toggleWallet()">Подключить Solflare</button>
+
+        <!-- Интегрированный мини-график (Замените ADDRESS на реальный CA токена) -->
+        <div class="chart-container">
+            <iframe src="https://dexscreener.com"></iframe> [2]
+        </div>
+
+        <!-- Данные токена -->
         <div class="stats-grid">
             <div class="stat-card success">
-                <div class="stat-label">Bonding Curve</div>
-                <div class="stat-value">100.0%</div>
+                <div class="stat-label">Система</div>
+                <div class="stat-value">Raydium Active</div>
             </div>
-            <div class="stat-card success">
-                <div class="stat-label">Raydium Pool</div>
-                <div class="stat-value">ACTIVE</div>
+            <div class="stat-card">
+                <div class="stat-label">Ваш баланс SOL</div>
+                <div id="solBalance" class="stat-value">0.00 SOL</div>
             </div>
-            <div class="stat-card full-width-card">
-                <div class="stat-label">Текущий баланс AMRITA</div>
-                <div class="stat-value" style="color: var(--neon-blue);">691,802,441 MIR</div>
+            <div class="stat-card" style="grid-column: span 2;">
+                <div class="stat-label">
+                    <span>Адрес контракта (CA)</span>
+                    <button class="copy-btn" onclick="copyCA()">[Копировать]</button>
+                </div>
+                <div id="tokenCA" class="stat-value" style="font-size: 12px; color: var(--neon-blue);">4k3Dyjzv29p4UvRhb6w6...</div>
             </div>
         </div>
 
-        <!-- Модуль управления ликвидностью/ордерами -->
+        <!-- Модуль торговли -->
         <div class="control-group">
-            <label for="amount">Объем транзакции (SOL)</label>
-            <div class="input-wrapper">
-                <input type="number" id="amount" placeholder="0.00" step="0.01" min="0">
-            </div>
-
-            <label for="slippage">Проскальзывание (Slippage %)</label>
-            <div class="input-wrapper">
-                <input type="number" id="slippage" value="1.0" step="0.1">
-            </div>
+            <label>Сумма (SOL)</label>
+            <input type="number" id="amount" placeholder="0.1" step="0.1" min="0">
 
             <div class="btn-grid">
-                <button class="btn-action" onclick="addLog('Инициализация покупки...')">Купить MIR</button>
-                <button class="btn-action btn-danger" onclick="addLog('Запуск фиксации прибыли...')">Продать все</button>
+                <button class="btn-action" onclick="executeTrade('buy')">Купить MIR</button>
+                <button class="btn-action btn-danger" onclick="executeTrade('sell')">Продать все</button>
             </div>
         </div>
 
-        <!-- Консоль отладки для удобства контроля -->
+        <!-- Консоль -->
         <div class="terminal-logs" id="terminal">
-            <div class="log-entry">Система готова. Соединение с RPC Solana установлено.</div>
-            <div class="log-entry">Токен успешно мигрировал из Pump.fun в пул Raydium.</div>
+            <div class="log-entry">Инициализация интерфейса... Ожидание подключения кошелька.</div>
         </div>
     </div>
 
     <script>
-        // Простая функция для имитации работы логов в реальном времени
-        function addLog(text) {
-            const terminal = document.getElementById('terminal');
-            const time = new Date().toLocaleTimeString();
-            const newEntry = document.createElement('div');
-            newEntry.className = 'log-entry';
-            newEntry.innerText = `[${time}] ${text}`;
-            terminal.appendChild(newEntry);
-            terminal.scrollTop = terminal.scrollHeight;
-        }
-    </script>
+        let wallet = null;
 
-</body>
-</html>
+        // Инициализация и подключение Solflare
+        async function toggleWallet() {
+            const btn = document.getElementById('connectWalletBtn');
+            
+            // Проверка мобильного окружения / расширения
+            if (!window.solflare && !window.solana) {
+                addLog("Ошибка: Кошелек Solflare не обнаружен. Откройте внутри DApp-браузера Solflare.");
+                window.open("https://solflare.com", "_blank");
+                return;
+            }
+
+            try {
+                // Инициализируем стандартный веб-интерфейс Solflare Web SDK [1]
+                if (!wallet) {
+                    wallet = window.solflare || window.solana;
+                }
+
+                if (!wallet.isConnected) {
+                    addLog("Запрос к Solflare на подключение...");
+                    await wallet.connect(); // Открывает окно аппрува в кошельке
+                    
+                    const pubKey = wallet.publicKey.toString();
+                    btn.innerText = `Подключен: ${pubKey.substring(0, 4)}...${pubKey.substring(pubKey.length - 4)}`;
+                    btn.classList.add('connected');
+                    document.getElementById('solBalance').innerText = "0.08 SOL"; // Сюда позже подвяжем rpc-запрос
+                    addLog(`Успешно авторизован: ${pubKey}`);
+                } else {
+                    await wallet.disconnect();
+                    btn.innerText = "Подключить Solflare";
+                    btn.classList.remove('connected');
+                    document.getElementById('solBalance').innerText = "0.00 SOL";
+                    addLog("Кошелек отключен.");
+                }
+            } catch (err) {
+                addLog(`Ошибка авторизации: ${err.message}`);
+            }
+        }
+
+        // Функция копирования CA
+        function copyCA() {
+            const caText = "4k3Dyjzv29p4UvRhb6w6"; // Замените на ваш полный адрес токена
+            navigator.clipboard.writeText(caText);
