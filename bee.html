@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AMRITA MIR CONTROL PANEL</title>
+    <title>AMRITA MIR PRODUCTION Terminal</title>
     <!-- Официальный скрипт Pi Network SDK -->
     <script src="https://minepi.com"></script>
     <style>
@@ -19,267 +19,118 @@
             --neon-gold: #ffcc00;
             --border-color: #1f2833;
         }
-
-        body {
-            background-color: var(--bg-main);
-            color: var(--text-light);
-            font-family: 'Courier New', monospace;
-            padding: 5px;
-            margin: 0;
-            box-sizing: border-box;
-        }
-
+        body { background-color: var(--bg-main); color: var(--text-light); font-family: 'Courier New', monospace; padding: 10px; margin: 0; box-sizing: border-box; }
         *, *:before, *:after { box-sizing: inherit; }
-
-        .control-panel-cyber {
-            background-color: var(--bg-panel);
-            max-width: 650px;
-            margin: 5px auto;
-            padding: 12px;
-            border: 2px solid var(--border-color);
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(31, 40, 51, 0.3);
-        }
-
-        h1 {
-            color: var(--neon-gold);
-            text-align: center;
-            text-transform: uppercase;
-            font-size: 1.1rem;
-            letter-spacing: 1px;
-            border-bottom: 2px dashed var(--border-color);
-            padding-bottom: 8px;
-            margin-top: 2px;
-            margin-bottom: 15px;
-            text-shadow: 0 0 10px var(--neon-gold);
-        }
-
-        h2 {
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            margin: 15px 0 8px 0;
-            padding-left: 4px;
-            letter-spacing: 1px;
-        }
-
-        .sol-title { color: var(--neon-blue); border-left: 3px solid var(--neon-blue); }
-        .pi-title { color: var(--neon-gold); border-left: 3px solid var(--neon-gold); }
-
-        .wallet-btn-link {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            background: linear-gradient(45deg, #00ffcc, #0099ff);
-            color: #06070a;
-            border: none;
-            padding: 12px;
-            border-radius: 6px;
-            font-family: inherit;
-            font-weight: bold;
-            text-transform: uppercase;
-            margin-bottom: 12px;
-            font-size: 12px;
-            text-decoration: none;
-        }
-
-        .pi-btn-execute {
-            width: 100%;
-            background: linear-gradient(45deg, #ffcc00, #dba200);
-            color: #000;
-            border: none;
-            padding: 14px;
-            border-radius: 6px;
-            font-family: inherit;
-            font-weight: bold;
-            text-transform: uppercase;
-            cursor: pointer;
-            margin-bottom: 12px;
-            font-size: 13px;
-            box-shadow: 0 0 10px rgba(255, 204, 0, 0.3);
-        }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 8px;
-            margin: 10px 0;
-        }
-
-        .stat-card {
-            background: var(--bg-card);
-            padding: 10px;
-            border-radius: 6px;
-            border-left: 3px solid var(--neon-blue);
-        }
-        .stat-card.success { border-left-color: var(--neon-green); }
-        .stat-card.gold { border-left-color: var(--neon-gold); }
-
-        .stat-label {
-            font-size: 10px;
-            color: var(--text-muted);
-            text-transform: uppercase;
-        }
-
-        .stat-value {
-            font-size: 13px;
-            font-weight: bold;
-            margin-top: 3px;
-            word-break: break-all;
-        }
-
-        .control-group {
-            margin-top: 10px;
-            background: rgba(20, 25, 35, 0.5);
-            padding: 12px;
-            border-radius: 6px;
-            border: 1px solid var(--border-color);
-        }
-
-        .btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-
-        .btn-action-link {
-            display: block;
-            text-align: center;
-            background: transparent;
-            color: var(--neon-blue);
-            border: 1px solid var(--neon-blue);
-            padding: 12px;
-            text-decoration: none;
-            font-weight: bold;
-            text-transform: uppercase;
-            border-radius: 4px;
-            font-size: 11px;
-        }
-
-        .terminal-logs {
-            background: #000;
-            border: 1px solid var(--border-color);
-            border-radius: 4px;
-            padding: 8px;
-            margin-top: 15px;
-            font-size: 10px;
-            height: 90px;
-            overflow-y: auto;
-            color: #00ff00;
-        }
+        .control-panel-cyber { background-color: var(--bg-panel); max-width: 650px; margin: 10px auto; padding: 15px; border: 2px solid var(--border-color); border-radius: 10px; box-shadow: 0 0 20px rgba(31, 40, 51, 0.3); }
+        h1 { color: var(--neon-gold); text-align: center; text-transform: uppercase; font-size: 1.2rem; letter-spacing: 1px; border-bottom: 2px dashed var(--border-color); padding-bottom: 10px; margin-top: 5px; margin-bottom: 15px; text-shadow: 0 0 10px var(--neon-gold); }
+        h2 { font-size: 0.9rem; text-transform: uppercase; margin: 15px 0 8px 0; padding-left: 4px; letter-spacing: 1px; color: var(--neon-gold); border-left: 3px solid var(--neon-gold); }
+        .pi-btn-execute { width: 100%; background: linear-gradient(45deg, #ffcc00, #dba200); color: #000; border: none; padding: 14px; border-radius: 6px; font-family: inherit; font-weight: bold; text-transform: uppercase; cursor: pointer; margin-bottom: 12px; font-size: 13px; box-shadow: 0 0 10px rgba(255, 204, 0, 0.3); }
+        .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin: 10px 0; }
+        .stat-card { background: var(--bg-card); padding: 10px; border-radius: 6px; border-left: 3px solid var(--neon-gold); }
+        .stat-label { font-size: 10px; color: var(--text-muted); text-transform: uppercase; }
+        .stat-value { font-size: 13px; font-weight: bold; margin-top: 3px; word-break: break-all; }
+        .terminal-logs { background: #000; border: 1px solid var(--border-color); border-radius: 4px; padding: 8px; margin-top: 15px; font-size: 10px; height: 110px; overflow-y: auto; color: #00ff00; }
         .log-entry::before { content: "> "; }
     </style>
 </head>
 <body>
 
     <div class="control-panel-cyber">
-        <h1>BABATA OPEN HUB v4.1.0</h1>
+        <h1>AMRITA MIR PRODUCTION NODE</h1>
         
-        <!-- СЕКТОР 1: SOLANA CORE -->
-        <h2 class="sol-title">&nbsp;Solmatrix Terminal</h2>
-        
-        <a href="https://solflare.com" target="_blank" class="wallet-btn-link">
-            <span>Открыть Мост Оптимизации</span>
-        </a>
+        <h2>&nbsp;Pi Network Core Terminal</h2>
 
-        <div class="stats-grid">
-            <div class="stat-card success">
-                <div class="stat-label">Colosseum Status</div>
-                <div class="stat-value" style="color: var(--neon-green);">JUDGING STAGE</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-label">Баланс SOL</div>
-                <div class="stat-value">0.08 SOL</div>
-            </div>
-            <div class="stat-card" style="grid-column: span 2;">
-                <div class="stat-label"><span>Баланс токена AMRITA</span></div>
-                <div class="stat-value" style="color: var(--neon-green);">691,802,441 MIR</div>
-            </div>
-        </div>
-
-        <div class="control-group">
-            <div class="btn-grid">
-                <a href="https://jup.ag" target="_blank" class="btn-action-link">Купить токен</a>
-                <a href="https://jup.ag" target="_blank" class="btn-action-link" style="color:var(--neon-red); border-color:var(--neon-red);">Продать все</a>
-            </div>
-        </div>
-
-
-        <!-- СЕКТОР 2: PI NETWORK CORE -->
-        <h2 class="pi-title">&nbsp;Pi Network Core</h2>
-
-        <!-- Желтая кнопка теперь открыта всегда и готова к бою -->
-        <button class="pi-btn-execute" onclick="runPiTestTransaction()">
-            <span>Запустить тест-транзакцию Pi</span>
+        <!-- Главная кнопка запуска -->
+        <button class="pi-btn-execute" onclick="runPiProductionTransaction()">
+            <span>Запустить боевую транзакцию Pi</span>
         </button>
 
         <div class="stats-grid">
-            <div class="stat-card gold">
-                <div class="stat-label">Pi Sandbox Режим</div>
-                <div class="stat-value" style="color: var(--neon-gold);">PRODUCTION ACTIVE</div>
+            <div class="stat-card">
+                <div class="stat-label">Домен авторизации</div>
+                <div class="stat-value" style="color: var(--neon-blue);">amrita-mir.com</div>
             </div>
-            <div class="stat-card gold">
-                <div class="stat-label">Domain Validation</div>
-                <div class="stat-value" style="color: var(--neon-green);">COMPLETED</div>
+            <div class="stat-card">
+                <div class="stat-label">Pi SDK Статус</div>
+                <div id="sdkStatus" class="stat-value" style="color: var(--neon-red);">ОЖИДАНИЕ КЛЮЧА</div>
             </div>
         </div>
 
-        <!-- Консоль логов -->
         <div class="terminal-logs" id="terminal">
-            <div class="log-entry">Монолитная матрица v4.1.0 активна. Модуль Pi SDK готов к инициализации.</div>
+            <div class="log-entry">Боевое ядро развернуто на домене. Требуется инициализация App Key.</div>
         </div>
     </div>
 
     <script>
-        // Инициализируем Pi SDK сразу при загрузке страницы в Pi Browser
-        window.onload = function() {
-            try {
-                if (window.Pi) {
-                    Pi.init({ version: "2.0", sandbox: false });
-                    addLog("Официальный Pi SDK успешно запущен в среде Pi Browser.");
-                }
-            } catch (e) {
-                addLog("Ожидание среды Pi Browser для активации шлюза...");
-            }
-        };
-
-        async function runPiTestTransaction() {
-            addLog("Запуск платежного протокола... Авторизация Пионера...");
-            
-            if (!window.Pi) {
-                addLog("Ошибка: Pi SDK не найден. Откройте эту страницу внутри Pi Browser!");
-                return;
-            }
-
-            try {
-                const scopes = ['username', 'payments'];
-                const authResult = await Pi.authenticate(scopes, function(payment) {
-                    addLog("Найден незавершенный ордер. Синхронизация...");
-                });
-                
-                addLog(`Авторизация успешна! Пионер: ${authResult.user.username}`);
-                addLog("Формирование ордера на 1.00 Тестовый Pi...");
-
-                const payment = await Pi.createPayment({
-                    amount: 1.00,
-                    memo: "Final Developer Verification - Amrita App",
-                    metadata: { dev: "misterick1" },
-                }, {
-                    onReadyForServerApproval: function(paymentId) {
-                        addLog(`Ордер скомпилирован. ID: ${paymentId.substring(0,8)}...`);
-                    },
-                    onReadyForServerCompletion: function(paymentId, txid) {
-                        addLog(`Успех! Сеть подтвердила транзакцию. Хэш: ${txid.substring(0,8)}...`);
-                    },
-                    onCancel: function(paymentId) {
-                        addLog("Транзакция отменена Сувереном.");
-                    },
-                    onError: function(error, payment) {
-                        addLog(`Ошибка блокчейна Pi: ${error.message}`);
-                    }
-                });
-            } catch (err) {
-                addLog(`Ошибка вызова кошелька: ${err.message}`);
-            }
-        }
+        let isSdkReady = false;
 
         function addLog(text) {
             const terminal = document.getElementById('terminal');
             const time = `[${new Date().toLocaleTimeString()}] `;
             const newEntry = document.createElement('div');
+            newEntry.className = 'log-entry';
+            newEntry.innerText = time + text;
+            terminal.appendChild(newEntry);
+            terminal.scrollTop = terminal.scrollHeight;
+        }
+
+        // Автоматический запрос ключа при загрузке страницы прямо на вашем домене amrita-mir.com
+        window.onload = function() {
+            let piKey = prompt("Внесите ваш App API Key из панели develop.pi для активации ноды:");
+            if (!piKey) {
+                addLog("Ошибка: Ключ не введен. Работа шлюза заблокирована.");
+                return;
+            }
+
+            try {
+                if (window.Pi) {
+                    // Инициализируем сеть вашим личным боевым ключом приложения
+                    Pi.init({ version: "2.0", sandbox: false, apiKey: piKey });
+                    isSdkReady = true;
+                    document.getElementById('sdkStatus').innerText = "АКТИВЕН";
+                    document.getElementById('sdkStatus').style.color = "var(--neon-green)";
+                    addLog("Успех! Боевой Pi SDK успешно привязан к ключу приложения.");
+                }
+            } catch (e) {
+                addLog("Ошибка привязки SDK к вашему ключу.");
+            }
+        };
+
+        async function runPiProductionTransaction() {
+            if (!isSdkReady) {
+                addLog("Ошибка: Сначала введите корректный App API Key!");
+                return;
+            }
+
+            addLog("Запуск платежного шлюза... Запрос авторизации в Pi Browser...");
+            try {
+                const scopes = ['username', 'payments'];
+                const authResult = await Pi.authenticate(scopes, function(payment) {
+                    addLog("Обнаружен незавершенный платеж. Синхронизация...");
+                });
+                
+                addLog(`Пионер авторизован: ${authResult.user.username}`);
+                addLog("Отправка ордера на 1.00 Pi в мейннет...");
+
+                await Pi.createPayment({
+                    amount: 1.00,
+                    memo: "Production Verification - Amrita Mir Token",
+                    metadata: { domain: "amrita-mir.com" },
+                }, {
+                    onReadyForServerApproval: function(paymentId) {
+                        addLog(`Ордер скомпилирован на серверах Pi. ID: ${paymentId.substring(0,8)}...`);
+                    },
+                    onReadyForServerCompletion: function(paymentId, txid) {
+                        addLog(`УСПЕХ! Блокчейн Pi подтвердил перевод. Хэш: ${txid.substring(0,8)}...`);
+                        alert("Финальный шаг успешно выполнен! Проект активирован.");
+                    },
+                    onCancel: function(paymentId) { addLog("Транзакция отменена."); },
+                    onError: function(error, payment) { addLog(`Ошибка: ${error.message}`); }
+                });
+            } catch (err) {
+                addLog(`Ошибка кошелька: ${err.message}`);
+            }
+        }
+    </script>
+</body>
+</html>
