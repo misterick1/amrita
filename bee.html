@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AMRITA MIR CONTROL PANEL</title>
-    <!-- Подключаем универсальную библиотеку Solana Web3 -->
+    <!-- Подключаем официальную библиотеку Solana Web3 -->
     <script src="https://unpkg.com"></script>
     <style>
         :root {
@@ -103,7 +103,6 @@
         .wallet-btn.loading .spinner { display: block; }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* Облегченный информер цен без блокировок систем Android */
         .chart-container {
             width: 100%;
             height: 140px;
@@ -118,7 +117,6 @@
             align-items: center;
             text-align: center;
         }
-        .chart-container iframe { width: 100%; height: 100%; border: none; }
 
         .stats-grid {
             display: grid;
@@ -223,7 +221,7 @@
 <body>
 
     <div class="control-panel-cyber">
-        <h1>AMRITA MIR PANEL v1.5.0</h1>
+        <h1>AMRITA MIR PANEL v1.6.0</h1>
         
         <!-- Универсальная кнопка -->
         <button class="wallet-btn" id="connectWalletBtn" onclick="toggleWallet()">
@@ -231,7 +229,7 @@
             <span id="btnText">Подключить кошелек</span>
         </button>
 
-        <!-- Облегченный виджет токена без блокировок встроенных браузеров -->
+        <!-- Облегченный виджет токена -->
         <div class="chart-container">
             <div style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 5px;">Мониторинг пула монеты</div>
             <div style="font-size: 18px; color: var(--neon-blue); font-weight: bold;">AMRITA (MIR)</div>
@@ -241,7 +239,7 @@
         <div class="stats-grid">
             <div class="stat-card success">
                 <div class="stat-label">Режим Web3</div>
-                <div id="walletType" class="stat-value">DApp Автономный</div>
+                <div id="walletType" class="stat-value">OKX Native</div>
             </div>
             <div class="stat-card">
                 <div class="stat-label">Баланс SOL</div>
@@ -271,7 +269,7 @@
         </div>
 
         <div class="terminal-logs" id="terminal">
-            <div class="log-entry">Мультикошельковый модуль Web3 Standard успешно запущен.</div>
+            <div class="log-entry">Прямой коннектор OKX Web3 инициализирован.</div>
         </div>
     </div>
 
@@ -281,4 +279,10 @@
         let wallet = null;
         const connection = new solanaWeb3.Connection("https://solana.com", "confirmed");
 
-        // Универсальный поиск провайдера кошелька Solana (OKX, Phantom, Solflare)
+        // Прямой жесткий поиск встроенного кошелька OKX Solana
+        function getWalletProvider() {
+            if (window.okxwallet && window.okxwallet.solana) {
+                return window.okxwallet.solana;
+            }
+            if (window.solana) {
+                return window.solana;
