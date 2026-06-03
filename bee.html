@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AMRITA MIR CONTROL PANEL</title>
-    <!-- Официальные библиотеки для работы с блокчейном Solana и кошельком Solflare -->
     <script src="https://unpkg.com"></script>
     <script src="https://unpkg.com"></script>
     <style>
@@ -29,9 +28,7 @@
             box-sizing: border-box;
         }
 
-        *, *:before, *:after {
-            box-sizing: inherit;
-        }
+        *, *:before, *:after { box-sizing: inherit; }
 
         .control-panel-cyber {
             background-color: var(--bg-panel);
@@ -54,9 +51,7 @@
             margin-top: 5px;
         }
 
-        /* Кнопка кошелька с анимацией загрузки */
         .wallet-btn {
-            position: relative;
             width: 100%;
             background: linear-gradient(45deg, #ff8000, #ff5500);
             color: #fff;
@@ -91,11 +86,10 @@
 
         @keyframes pulse-loading {
             0% { opacity: 0.6; }
-            50% { opacity: 1; border-color: var(--neon-blue); box-shadow: 0 0 10px rgba(69, 243, 255, 0.2); }
+            50% { opacity: 1; border-color: var(--neon-blue); }
             100% { opacity: 0.6; }
         }
 
-        /* Крутящийся спиннер внутри кнопки */
         .spinner {
             display: none;
             width: 18px;
@@ -106,31 +100,20 @@
             animation: spin 0.8s linear infinite;
             margin-right: 10px;
         }
-        .wallet-btn.loading .spinner {
-            display: block;
-        }
+        .wallet-btn.loading .spinner { display: block; }
+        @keyframes spin { to { transform: rotate(360deg); } }
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* Контейнер графика без рекламы */
         .chart-container {
             width: 100%;
-            height: 320px;
+            height: 340px;
             background: #000;
             border: 1px solid var(--border-color);
             border-radius: 6px;
             margin-bottom: 15px;
             overflow: hidden;
         }
-        .chart-container iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
+        .chart-container iframe { width: 100%; height: 100%; border: none; }
 
-        /* Сетка метрик */
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -155,22 +138,21 @@
         }
 
         .stat-value {
-            font-size: 15px;
+            font-size: 14px;
             font-weight: bold;
-            <!-- Адаптивный график без рекламы от Dexview -->
-<div class="chart-container">
-    <iframe src="https://dexview.com"></iframe>
-</div>
+            margin-top: 4px;
+            word-break: break-all;
+        }
+
+        .copy-btn {
             background: transparent;
             border: none;
             color: var(--neon-blue);
             cursor: pointer;
             font-size: 10px;
             text-transform: uppercase;
-            padding: 0;
         }
 
-        /* Инпуты */
         .control-group {
             margin-top: 15px;
             background: rgba(20, 25, 35, 0.5);
@@ -200,12 +182,7 @@
             margin-bottom: 12px;
         }
 
-        /* Торговые кнопки */
-        .btn-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
+        .btn-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
 
         .btn-action {
             background: transparent;
@@ -223,7 +200,6 @@
         .btn-danger { color: var(--neon-red); border-color: var(--neon-red); }
         .btn-danger:active { background: var(--neon-red); color: #fff; }
 
-        /* Консоль логов */
         .terminal-logs {
             background: #000;
             border: 1px solid var(--border-color);
@@ -241,64 +217,77 @@
 <body>
 
     <div class="control-panel-cyber">
-        <h1>AMRITA MIR PANEL v1.2.0</h1>
+        <h1>AMRITA MIR PANEL v1.3.0</h1>
         
-        <!-- Кнопка кошелька со спиннером -->
         <button class="wallet-btn" id="connectWalletBtn" onclick="toggleWallet()">
             <div class="spinner" id="btnSpinner"></div>
             <span id="btnText">Подключить Solflare</span>
         </button>
 
-        <!-- Чистый график вашего токена без лишнего мусора -->
+        <!-- Чистый адаптивный интерактивный график без рекламы -->
         <div class="chart-container">
-            <iframe src="https://dexscreener.com"></iframe>
+            <iframe src="https://geckoterminal.com"></iframe>
         </div>
 
-        <!-- Данные токена и сети -->
         <div class="stats-grid">
             <div class="stat-card success">
                 <div class="stat-label">Статус сети</div>
                 <div class="stat-value">Mainnet Beta</div>
             </div>
             <div class="stat-card">
-                <div class="stat-label">Ваш баланс SOL</div>
+                <div class="stat-label">Баланс SOL</div>
                 <div id="solBalance" class="stat-value">0.00 SOL</div>
+            </div>
+            <div class="stat-card" style="grid-column: span 2;">
+                <div class="stat-label">
+                    <span>Баланс токена AMRITA</span>
+                </div>
+                <div id="tokenBalance" class="stat-value" style="color: var(--neon-green);">0.00 MIR</div>
             </div>
             <div class="stat-card" style="grid-column: span 2;">
                 <div class="stat-label">
                     <span>Адрес вашей монеты (CA)</span>
                     <button class="copy-btn" onclick="copyCA()">[Копировать]</button>
                 </div>
-                <div class="stat-value" style="font-size: 11px; color: var(--neon-blue);">2XNkytvTT4zfX3iKFDCUkBfxVRiUZqGunznWHZx7pump</div>
+                <div class="stat-value" style="font-size: 10px; color: var(--neon-blue);">2XNkytvTT4zfX3iKFDCUkBfxVRiUZqGunznWHZx7pump</div>
             </div>
         </div>
 
-        <!-- Торговый сектор -->
         <div class="control-group">
             <label>Объем операции (SOL)</label>
-            <input type="number" id="amount" placeholder="0.1" step="0.1" min="0">
+            <input type="number" id="amount" placeholder="0.1" step="0.05" min="0">
 
             <div class="btn-grid">
-                <button class="btn-action" onclick="executeTrade('buy')">Купить токен</button>
-                <button class="btn-action btn-danger" onclick="executeTrade('sell')">Продать все</button>
+                <button class="btn-action" onclick="executeJupiterSwap('buy')">Купить токен</button>
+                <button class="btn-action btn-danger" onclick="executeJupiterSwap('sell')">Продать все</button>
             </div>
         </div>
 
-        <!-- Вывод событий -->
         <div class="terminal-logs" id="terminal">
-            <div class="log-entry">Панель настроена под смарт-контракт монеты. Ожидание Web3...</div>
+            <div class="log-entry">Web3-терминал Jupiter API интегрирован. Ожидание линка...</div>
         </div>
     </div>
 
     <script>
         const contractAddress = "2XNkytvTT4zfX3iKFDCUkBfxVRiUZqGunznWHZx7pump";
+        const SOL_MINT = "So11111111111111111111111111111111111111112";
         let wallet = null;
-        // Подключаем стандартную публичную RPC-ноду Solana для чтения балансов
         const connection = new solanaWeb3.Connection("https://solana.com", "confirmed");
 
         async function toggleWallet() {
             const btn = document.getElementById('connectWalletBtn');
             const btnText = document.getElementById('btnText');
             
-            // Если открыто не в кошельке и нет расширения
             if (!window.solflare && !window.solana) {
+                addLog("Откройте панель внутри встроенного DApp-браузера приложения Solflare.");
+                window.open("https://solflare.com", "_blank");
+                return;
+            }
+
+            wallet = window.solflare || window.solana;
+
+            if (!wallet.isConnected) {
+                btn.classList.add('loading');
+                btnText.innerText = "Подключение...";
+                try {
+                    await wallet.connect();
