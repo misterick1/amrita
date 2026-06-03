@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AMRITA MIR CONTROL PANEL</title>
+    <!-- Официальный скрипт Pi Network SDK для обработки транзакций -->
+    <script src="https://minepi.com"></script>
     <style>
         :root {
             --bg-main: #06070a;
@@ -14,6 +16,7 @@
             --neon-blue: #45f3ff;
             --neon-green: #00ffcc;
             --neon-red: #ff3366;
+            --neon-gold: #ffcc00;
             --border-color: #1f2833;
         }
 
@@ -39,7 +42,7 @@
         }
 
         h1 {
-            color: var(--neon-blue);
+            color: var(--neon-gold);
             text-align: center;
             text-transform: uppercase;
             font-size: 1.1rem;
@@ -48,8 +51,44 @@
             padding-bottom: 8px;
             margin-top: 2px;
             margin-bottom: 12px;
-            text-shadow: 0 0 10px var(--neon-blue);
+            text-shadow: 0 0 10px var(--neon-gold);
         }
+
+        /* Переключатель вкладок */
+        .tab-system {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5px;
+            margin-bottom: 15px;
+        }
+
+        .tab-btn {
+            background: #000;
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            padding: 10px;
+            font-family: inherit;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 11px;
+        }
+
+        .tab-btn.active-sol {
+            color: var(--neon-blue);
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 8px rgba(69, 243, 255, 0.2);
+        }
+
+        .tab-btn.active-pi {
+            color: var(--neon-gold);
+            border-color: var(--neon-gold);
+            box-shadow: 0 0 8px rgba(255, 204, 0, 0.2);
+        }
+
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
 
         .wallet-btn-link {
             display: flex;
@@ -59,30 +98,30 @@
             background: linear-gradient(45deg, #00ffcc, #0099ff);
             color: #06070a;
             border: none;
-            padding: 14px;
+            padding: 12px;
             border-radius: 6px;
             font-family: inherit;
             font-weight: bold;
             text-transform: uppercase;
             margin-bottom: 12px;
-            box-shadow: 0 0 10px rgba(0, 255, 204, 0.3);
-            font-size: 13px;
+            font-size: 12px;
             text-decoration: none;
         }
 
-        .chart-container {
+        .pi-btn-execute {
             width: 100%;
-            height: 110px;
-            background: var(--bg-card);
-            border: 1px solid var(--border-color);
+            background: linear-gradient(45deg, #ffcc00, #dba200);
+            color: #000;
+            border: none;
+            padding: 12px;
             border-radius: 6px;
+            font-family: inherit;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
             margin-bottom: 12px;
-            padding: 8px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
+            font-size: 12px;
+            box-shadow: 0 0 10px rgba(255, 204, 0, 0.2);
         }
 
         .stats-grid {
@@ -99,6 +138,7 @@
             border-left: 3px solid var(--neon-blue);
         }
         .stat-card.success { border-left-color: var(--neon-green); }
+        .stat-card.gold { border-left-color: var(--neon-gold); }
 
         .stat-label {
             font-size: 10px;
@@ -142,7 +182,7 @@
             font-weight: bold;
             text-transform: uppercase;
             border-radius: 4px;
-            font-size: 12px;
+            font-size: 11px;
         }
 
         .terminal-logs {
@@ -152,7 +192,7 @@
             padding: 8px;
             margin-top: 12px;
             font-size: 10px;
-            height: 85px;
+            height: 90px;
             overflow-y: auto;
             color: #00ff00;
         }
@@ -162,46 +202,80 @@
 <body>
 
     <div class="control-panel-cyber">
-        <h1>AMRITA MIR PANEL v3.0.0</h1>
+        <h1>BABATA MATRIX CONTROL v4.0.0</h1>
         
-        <!-- Безотказная кнопка-ссылка, которую OKX обязан открыть -->
-        <a href="https://solflare.com" target="_blank" class="wallet-btn-link">
-            <span>Открыть Мост Оптимизации</span>
-        </a>
-
-        <div class="chart-container">
-            <div style="font-size: 10px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 3px;">Мониторинг пула монеты</div>
-            <div style="font-size: 16px; color: var(--neon-blue); font-weight: bold;">AMRITA (MIR)</div>
-            <a href="https://dexscreener.com" target="_blank" style="color: var(--neon-green); font-size: 11px; margin-top: 6px; text-decoration: none; border: 1px solid var(--neon-green); padding: 3px 8px; border-radius: 4px;">Открыть график Live</a>
+        <!-- Кнопки выбора экосистемы -->
+        <div class="tab-system">
+            <button class="tab-btn active-sol" id="solTabBtn" onclick="switchTab('solana')">Solmatrix Terminal</button>
+            <button class="tab-btn" id="piTabBtn" onclick="switchTab('pi')">Pi Network Core</button>
         </div>
 
-        <div class="stats-grid">
-            <div class="stat-card success">
-                <div class="stat-label">Оптимизатор</div>
-                <div class="stat-value" style="color: var(--neon-green);">Solana Core Standard</div>
+        <!-- ВКЛАДКА 1: SOLANA -->
+        <div id="solanaContent" class="tab-content active">
+            <a href="https://solflare.com" target="_blank" class="wallet-btn-link">
+                <span>Открыть Мост Оптимизации</span>
+            </a>
+
+            <div class="stats-grid">
+                <div class="stat-card success">
+                    <div class="stat-label">Colosseum Status</div>
+                    <div class="stat-value" style="color: var(--neon-green);">JUDGING STAGE</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-label">Баланс SOL</div>
+                    <div class="stat-value">0.08 SOL</div>
+                </div>
+                <div class="stat-card" style="grid-column: span 2;">
+                    <div class="stat-label"><span>Баланс токена AMRITA</span></div>
+                    <div class="stat-value" style="color: var(--neon-green);">691,802,441 MIR</div>
+                </div>
+                <div class="stat-card" style="grid-column: span 2;">
+                    <div class="stat-label"><span>Мониторинг Стейблкоина</span></div>
+                    <a href="https://colosseum.org" target="_blank" style="font-size: 11px; color: var(--neon-blue); text-decoration: none;">Проверить результаты хакатона ➔</a>
+                </div>
             </div>
-            <div class="stat-card">
-                <div class="stat-label">Баланс SOL</div>
-                <div class="stat-value">0.08 SOL</div>
-            </div>
-            <div class="stat-card" style="grid-column: span 2;">
-                <div class="stat-label"><span>Баланс токена AMRITA</span></div>
-                <div class="stat-value" style="color: var(--neon-green);">691,802,441 MIR</div>
+
+            <div class="control-group">
+                <label>Торговый Шлюз Jupiter</label>
+                <div class="btn-grid">
+                    <a href="https://jup.ag" target="_blank" class="btn-action-link">Купить токен</a>
+                    <a href="https://jup.ag" target="_blank" class="btn-action-link" style="color:var(--neon-red); border-color:var(--neon-red);">Продать все</a>
+                </div>
             </div>
         </div>
 
-        <div class="control-group">
-            <label>Торговый Шлюз Jupiter</label>
-            <div class="btn-grid">
-                <a href="https://jup.ag" target="_blank" class="btn-action-link">Купить токен</a>
-                <a href="https://jup.ag" target="_blank" class="btn-action-link" style="color:var(--neon-red); border-color:var(--neon-red);">Продать все</a>
+        <!-- ВКЛАДКА 2: PI NETWORK -->
+        <div id="piContent" class="tab-content">
+            <!-- Официальная кнопка вызова платежного Pi SDK -->
+            <button class="pi-btn-execute" onclick="runPiTestTransaction()">
+                <span>Запустить тест-транзакцию Pi</span>
+            </button>
+
+            <div class="stats-grid">
+                <div class="stat-card gold">
+                    <div class="stat-label">Pi Sandbox Режим</div>
+                    <div class="stat-value" style="color: var(--neon-gold);">PRODUCTION URL READY</div>
+                </div>
+                <div class="stat-card gold">
+                    <div class="stat-label">Domain Validation</div>
+                    <div class="stat-value" style="color: var(--neon-green);">COMPLETED</div>
+                </div>
+                <div class="stat-card gold" style="grid-column: span 2;">
+                    <div class="stat-label">Финальный шаг разработчика Pi</div>
+                    <div class="stat-value" style="font-size: 11px; color: var(--text-light); line-height: 1.3; font-weight: normal; margin-top: 5px;">
+                        Откройте этот сайт строго через официальный <b>Pi Browser</b>, перейдите на вкладку Pi Network Core и нажмите кнопку запуска транзакции выше для перевода User-to-App.
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="terminal-logs">
-            <div class="log-entry">Глобальный мост v3.0.0 развернут. Блокировки OKX полностью обойдены.</div>
+        <!-- Общий лог терминала -->
+        <div class="terminal-logs" id="terminal">
+            <div class="log-entry">Мультисетевая матрица v4.0.0 развернута. ИИ Бабата на связи.</div>
         </div>
     </div>
 
-</body>
-</html>
+    <script>
+        // Функция переключения вкладок
+        function switchTab(network) {
+            const solBtn = document.getElementById('solTabBtn');
