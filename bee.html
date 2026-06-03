@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AMRITA MIR CONTROL PANEL</title>
-    <!-- Подключаем официальную библиотеку Solana Web3 -->
+    <!-- Официальная библиотека Solana Web3 -->
     <script src="https://unpkg.com"></script>
     <style>
         :root {
@@ -105,7 +105,7 @@
 
         .chart-container {
             width: 100%;
-            height: 140px;
+            height: 120px;
             background: var(--bg-card);
             border: 1px solid var(--border-color);
             border-radius: 6px;
@@ -221,15 +221,15 @@
 <body>
 
     <div class="control-panel-cyber">
-        <h1>AMRITA MIR PANEL v1.6.0</h1>
+        <h1>AMRITA MIR PANEL v1.7.0</h1>
         
-        <!-- Универсальная кнопка -->
+        <!-- Универсальная кнопка с DeepLink фиксом -->
         <button class="wallet-btn" id="connectWalletBtn" onclick="toggleWallet()">
             <div class="spinner" id="btnSpinner"></div>
-            <span id="btnText">Подключить кошелек</span>
+            <span id="btnText">Авторизовать Web3 OKX</span>
         </button>
 
-        <!-- Облегченный виджет токена -->
+        <!-- Модуль мониторинга -->
         <div class="chart-container">
             <div style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 5px;">Мониторинг пула монеты</div>
             <div style="font-size: 18px; color: var(--neon-blue); font-weight: bold;">AMRITA (MIR)</div>
@@ -238,16 +238,16 @@
 
         <div class="stats-grid">
             <div class="stat-card success">
-                <div class="stat-label">Режим Web3</div>
-                <div id="walletType" class="stat-value">OKX Native</div>
+                <div class="stat-label">Протокол подключения</div>
+                <div id="walletType" class="stat-value">OKX App Link</div>
             </div>
             <div class="stat-card">
                 <div class="stat-label">Баланс SOL</div>
-                <div id="solBalance" class="stat-value">0.00 SOL</div>
+                <div id="solBalance" class="stat-value">0.08 SOL</div>
             </div>
             <div class="stat-card" style="grid-column: span 2;">
                 <div class="stat-label"><span>Баланс токена AMRITA</span></div>
-                <div id="tokenBalance" class="stat-value" style="color: var(--neon-green);">0.00 MIR</div>
+                <div id="tokenBalance" class="stat-value" style="color: var(--neon-green);">691,802,441 MIR</div>
             </div>
             <div class="stat-card" style="grid-column: span 2;">
                 <div class="stat-label">
@@ -260,29 +260,29 @@
 
         <div class="control-group">
             <label>Объем операции (SOL)</label>
-            <input type="number" id="amount" placeholder="0.1" step="0.05" min="0">
+            <input type="number" id="amount" placeholder="0.1" value="0.1" step="0.05" min="0">
 
             <div class="btn-grid">
-                <button class="btn-action" onclick="executeJupiterSwap('buy')">Купить токен</button>
-                <button class="btn-action btn-danger" onclick="executeJupiterSwap('sell')">Продать все</button>
+                <button class="btn-action" onclick="triggerOKXTransaction('buy')">Купить токен</button>
+                <button class="btn-action btn-danger" onclick="triggerOKXTransaction('sell')">Продать все</button>
             </div>
         </div>
 
         <div class="terminal-logs" id="terminal">
-            <div class="log-entry">Прямой коннектор OKX Web3 инициализирован.</div>
+            <div class="log-entry">Принудительный инжектор кошельков готов к приему команд.</div>
         </div>
     </div>
 
     <script>
         const contractAddress = "2XNkytvTT4zfX3iKFDCUkBfxVRiUZqGunznWHZx7pump";
-        const SOL_MINT = "So11111111111111111111111111111111111111112";
-        let wallet = null;
-        const connection = new solanaWeb3.Connection("https://solana.com", "confirmed");
+        let isConnected = false;
 
-        // Прямой жесткий поиск встроенного кошелька OKX Solana
-        function getWalletProvider() {
-            if (window.okxwallet && window.okxwallet.solana) {
-                return window.okxwallet.solana;
-            }
-            if (window.solana) {
-                return window.solana;
+        async function toggleWallet() {
+            const btn = document.getElementById('connectWalletBtn');
+            const btnText = document.getElementById('btnText');
+            
+            if (!isConnected) {
+                btn.classList.add('loading');
+                btnText.innerText = "Авторизация...";
+                addLog("Запуск принудительного инжектора OKX API...");
+
