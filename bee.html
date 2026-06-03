@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AMRITA MIR CONTROL PANEL</title>
-    <!-- Официальная библиотека Solana Web3 -->
     <script src="https://unpkg.com"></script>
     <style>
         :root {
@@ -49,6 +48,7 @@
             border-bottom: 2px dashed var(--border-color);
             padding-bottom: 12px;
             margin-top: 5px;
+            text-shadow: 0 0 10px var(--neon-blue);
         }
 
         .wallet-btn {
@@ -105,7 +105,7 @@
 
         .chart-container {
             width: 100%;
-            height: 120px;
+            height: 110px;
             background: var(--bg-card);
             border: 1px solid var(--border-color);
             border-radius: 6px;
@@ -211,9 +211,10 @@
             padding: 10px;
             margin-top: 15px;
             font-size: 11px;
-            height: 95px;
+            height: 110px;
             overflow-y: auto;
             color: #00ff00;
+            box-shadow: inset 0 0 10px rgba(0,255,0,0.2);
         }
         .log-entry::before { content: "> "; }
     </style>
@@ -221,25 +222,23 @@
 <body>
 
     <div class="control-panel-cyber">
-        <h1>AMRITA MIR PANEL v1.7.0</h1>
+        <h1>AMRITA MIR PANEL v1.8.0</h1>
         
-        <!-- Универсальная кнопка с DeepLink фиксом -->
         <button class="wallet-btn" id="connectWalletBtn" onclick="toggleWallet()">
             <div class="spinner" id="btnSpinner"></div>
-            <span id="btnText">Авторизовать Web3 OKX</span>
+            <span id="btnText">Авторизовать Web3</span>
         </button>
 
-        <!-- Модуль мониторинга -->
         <div class="chart-container">
             <div style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; margin-bottom: 5px;">Мониторинг пула монеты</div>
             <div style="font-size: 18px; color: var(--neon-blue); font-weight: bold;">AMRITA (MIR)</div>
-            <a href="https://dexscreener.com" target="_blank" style="color: var(--neon-green); font-size: 12px; margin-top: 8px; text-decoration: none; border: 1px solid var(--neon-green); padding: 4px 10px; border-radius: 4px;">Открыть график Live</a>
+            <a href="https://dexscreener.com" target="_blank" style="color: var(--neon-green); font-size: 12px; margin-top: 8px; text-decoration: none; border: 1px solid var(--neon-green); padding: 4px 10px; border-radius: 4px;" onclick="playSound(600, 'sine', 0.1)">Открыть график Live</a>
         </div>
 
         <div class="stats-grid">
             <div class="stat-card success">
-                <div class="stat-label">Протокол подключения</div>
-                <div id="walletType" class="stat-value">OKX App Link</div>
+                <div class="stat-label">RPC Пиـнг</div>
+                <div id="rpcPing" class="stat-value">Тест...</div>
             </div>
             <div class="stat-card">
                 <div class="stat-label">Баланс SOL</div>
@@ -251,7 +250,7 @@
             </div>
             <div class="stat-card" style="grid-column: span 2;">
                 <div class="stat-label">
-                    <span>Адрес вашей монеты (CA)</span>
+                    <span>Адрес монеты (CA)</span>
                     <button class="copy-btn" onclick="copyCA()">[Копировать]</button>
                 </div>
                 <div class="stat-value" style="font-size: 10px; color: var(--neon-blue);">2XNkytvTT4zfX3iKFDCUkBfxVRiUZqGunznWHZx7pump</div>
@@ -263,26 +262,24 @@
             <input type="number" id="amount" placeholder="0.1" value="0.1" step="0.05" min="0">
 
             <div class="btn-grid">
-                <button class="btn-action" onclick="triggerOKXTransaction('buy')">Купить токен</button>
-                <button class="btn-action btn-danger" onclick="triggerOKXTransaction('sell')">Продать все</button>
+                <button class="btn-action" onclick="triggerTrade('buy')">Купить токен</button>
+                <button class="btn-action btn-danger" onclick="triggerTrade('sell')">Продать все</button>
             </div>
         </div>
 
-        <div class="terminal-logs" id="terminal">
-            <div class="log-entry">Принудительный инжектор кошельков готов к приему команд.</div>
-        </div>
+        <div class="terminal-logs" id="terminal"></div>
     </div>
 
     <script>
         const contractAddress = "2XNkytvTT4zfX3iKFDCUkBfxVRiUZqGunznWHZx7pump";
         let isConnected = false;
+        const connection = new solanaWeb3.Connection("https://solana.com", "confirmed");
 
-        async function toggleWallet() {
-            const btn = document.getElementById('connectWalletBtn');
-            const btnText = document.getElementById('btnText');
-            
-            if (!isConnected) {
-                btn.classList.add('loading');
-                btnText.innerText = "Авторизация...";
-                addLog("Запуск принудительного инжектора OKX API...");
-
+        // Звуковой движок (Синтезирует звук без файлов)
+        function playSound(freq, type, duration) {
+            try {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioCtx.createOscillator();
+                const gainNode = audioCtx.createGain();
+                oscillator.type = type;
+                oscillator.frequency.setValueAtTime(freq, audioCtx.currentTime);
