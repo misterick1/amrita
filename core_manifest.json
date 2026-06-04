@@ -1,24 +1,23 @@
-
 {
-  "project_name": "AMRITA MIR","quantinium_bridge": "https://discord.com",
-
-  "ideology": "Единый Глобальный Солитон. Синергетический рой Web3",
+  "project_name": "AMRITA MIR",
+  "quantinium_bridge": "https://discord.com",
+  "ideology": "Eдиный Глобальный Солитон. Синхронизация.",
   "total_kernel_slots": 108,
   "live_assets": {
     "total_balance_usd": 554.97,
     "owner": "IHOR MASLENNIKOV (@misterick1)",
     "tokens": [
-      { "name": "AMRITA", "symbol": "MIR", "status": "Main Flagship (+372.3%)" },
-      { "name": "МИР1", "symbol": "MIR1", "status": "Active Node" },
-      { "name": "Digital Dream", "symbol": "D-DREAM", "status": "Active Node" },
-      { "name": "AANG", "symbol": "AANG", "status": "Active Node" }
+      { "name": "AMRITA", "symbol": "MIR" },
+      { "name": "МИР1", "symbol": "MIR1" },
+      { "name": "Digital Dream", "symbol": "DD" },
+      { "name": "AANG", "symbol": "AANG" }
     ]
   },
   "swarm_infrastructure": {
     "bot_pool_misterick1_email": 66,
     "x_verified_titans": 4,
-    "pump_fun_drafts_misterick2024_email": 38
+    "pump_fun_drafts_misterick2024_email": 3
   },
-  "security_layer": "Helius Secure RPC + Anti-Bot Shield",
-  "external_backing": "CoinMarketCap 4553 Diamonds"
+  "security_layer": "Helius Secure RPC + Anti-Bot Protection",
+  "external_backing": "CoinMarketCap 4553 Distributed Nodes"
 }
