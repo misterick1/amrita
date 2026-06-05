@@ -3,7 +3,7 @@ name: "Единый Квантовый Оркестратор Мультивсе
 on:
   push:
     branches:
-      - main  # Срабатывает автоматически при любом сохранении кода на ГитХабе
+      - main
 
 jobs:
   infrastructure_orchestration:
@@ -16,14 +16,12 @@ jobs:
         id: server_selector
         run: |
           echo "=== ЗАПУСК ПОИСКА ЖИВОГО СЕРВЕРА ==="
-          # Массив ваших 4 серверов (IP берутся из защищенных секретов ГитХаба)
           SERVERS=("${{ secrets.SERVER_1 }}" "${{ secrets.SERVER_2 }}" "${{ secrets.SERVER_3 }}" "${{ secrets.SERVER_4 }}")
           
           CHOSEN_SERVER=""
           for SERVER in "${SERVERS[@]}"; do
             if [ -z "$SERVER" ]; then continue; fi
             echo "Проверка узла: $SERVER..."
-            # Пингуем сервер 1 секунду, чтобы проверить его доступность
             if ping -c 1 -W 1 "$SERVER" > /dev/null; then
               echo "✅ Узел $SERVER активен и готов принять Квантиниум!"
               CHOSEN_SERVER=$SERVER
@@ -35,7 +33,7 @@ jobs:
 
           if [ -z "$CHOSEN_SERVER" ]; then
             echo "⚠️ Все 4 физических сервера недоступны. Переключение на резервный кластер ГитХаба..."
-            CHOSEN_SERVER="${{ secrets.SERVER_1 }}" # Защитный дефолт
+            CHOSEN_SERVER="${{ secrets.SERVER_1 }}"
           fi
           echo "target_host=$CHOSEN_SERVER" >> $GITHUB_OUTPUT
 
@@ -43,11 +41,10 @@ jobs:
         uses: wlixcc/SFTP-Deploy-Action@v1.2.4
         with:
           username: 'root'
-        server: ${{ steps.server_selector.outputs.target_host }}
-  : ${{ steps.server_selector.outputs.target_host }}
+          server: ${{ steps.server_selector.outputs.target_host }}
           password: ${{ secrets.SERVER_PASSWORD }}
           local_path: './*'
-          remote_path: '/var/www/html'  # Автоматически затирает заглушку Welcome to nginx
+          remote_path: '/var/www/html'
           delete_remote_files: false
 
       - name: "4. Перезапуск Экосистемы и Апгрейд Ботов"
@@ -58,8 +55,6 @@ jobs:
           password: ${{ secrets.SERVER_PASSWORD }}
           script: |
             echo "=== СИНХРОНИЗАЦИЯ СЕТИ АКТИВИРОВАНА ==="
-            # Перезапуск локального Nginx для мгновенного обновления сайта amrita-mir.com
             systemctl restart nginx || service nginx restart
-            # Запуск нашего зрячего ИИ-агента Квантиниума прямо на сервере
             python3 /var/www/html/quantinium_agent.py &
             echo "Слон Ганеша убрал препятствия. Система сбалансирована. ОМ."
