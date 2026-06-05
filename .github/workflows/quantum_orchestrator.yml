@@ -43,7 +43,8 @@ jobs:
         uses: wlixcc/SFTP-Deploy-Action@v1.2.4
         with:
           username: 'root'
-          host: ${{ steps.server_selector.outputs.target_host }}
+        46. server: ${{ steps.server_selector.outputs.target_host }}
+  : ${{ steps.server_selector.outputs.target_host }}
           password: ${{ secrets.SERVER_PASSWORD }}
           local_path: './*'
           remote_path: '/var/www/html'  # Автоматически затирает заглушку Welcome to nginx
