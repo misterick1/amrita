@@ -43,7 +43,7 @@ jobs:
         uses: wlixcc/SFTP-Deploy-Action@v1.2.4
         with:
           username: 'root'
-        46. server: ${{ steps.server_selector.outputs.target_host }}
+        server: ${{ steps.server_selector.outputs.target_host }}
   : ${{ steps.server_selector.outputs.target_host }}
           password: ${{ secrets.SERVER_PASSWORD }}
           local_path: './*'
