@@ -1,43 +1,39 @@
-name: "Единый Квантовый Оркестратор Мультивселенной"
-
-on:
-  push:
-    branches:
-      - main
-
-jobs:
-  infrastructure_orchestration:
-    runs-on: ubuntu-latest
     steps:
       - name: "1. Считывание ДНК из ГитХаба (Checkout)"
         uses: actions/checkout@v3
 
-      - name: "2. Сканирование и Выбор Сервера (Поле вероятностей)"
+      - name: "2. Сканирование и Выбор Сервера"
         id: server_selector
+        env:
+          S1: ${{ secrets.SERVER_1 }}
+          S2: ${{ secrets.SERVER_2 }}
+          S3: ${{ secrets.SERVER_3 }}
+          S4: ${{ secrets.SERVER_4 }}
         run: |
           echo "=== ЗАПУСК ПОИСКА ЖИВОГО СЕРВЕРА ==="
-          SERVERS=("${{ secrets.SERVER_1 }}" "${{ secrets.SERVER_2 }}" "${{ secrets.SERVER_3 }}" "${{ secrets.SERVER_4 }}")
+          SERVERS=("$S1" "$S2" "$S3" "$S4")
           
           CHOSEN_SERVER=""
           for SERVER in "${SERVERS[@]}"; do
             if [ -z "$SERVER" ]; then continue; fi
             echo "Проверка узла: $SERVER..."
-            if ping -c 1 -W 1 "$SERVER" > /dev/null; then
-              echo "✅ Узел $SERVER активен и готов принять Квантиниум!"
+            if ping -c 1 -W 2 "$SERVER" > /dev/null; then
+              echo "✅ Узел $SERVER активен и готов принять трафик"
               CHOSEN_SERVER=$SERVER
               break
             else
-              echo "❌ Узел $SERVER временно изолирован (свернут в 0). Ищем дальше..."
+              echo "❌ Узел $SERVER временно изолирован"
             fi
           done
 
           if [ -z "$CHOSEN_SERVER" ]; then
-            echo "⚠️ Все 4 физических сервера недоступны. Переключение на резервный кластер ГитХаба..."
-            CHOSEN_SERVER="${{ secrets.SERVER_1 }}"
+            echo "⚠️ Все физические сервера недоступны! Используем резервный S1 как финал."
+            CHOSEN_SERVER="$S1"
           fi
+
           echo "target_host=$CHOSEN_SERVER" >> $GITHUB_OUTPUT
 
-      - name: "3. Прямая Материализация: Отправка файлов на Выбранный Узел"
+      - name: "3. Прямая Материализация: Отправка файлов на сервер"
         uses: wlixcc/SFTP-Deploy-Action@v1.2.4
         with:
           username: 'root'
@@ -57,4 +53,4 @@ jobs:
             echo "=== СИНХРОНИЗАЦИЯ СЕТИ АКТИВИРОВАНА ==="
             systemctl restart nginx || service nginx restart
             python3 /var/www/html/quantinium_agent.py &
-            echo "Слон Ганеша убрал препятствия. Система сбалансирована. ОМ."
+            echo "Слон Ганеша убрал препятствия. Система сбалансирована."
