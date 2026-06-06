@@ -1,3 +1,13 @@
+name: "Единый Квантовый Оркестратор Мультивселенной"
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  infrastructure_orchestration:
+    runs-on: ubuntu-latest
     steps:
       - name: "1. Считывание ДНК из ГитХаба (Checkout)"
         uses: actions/checkout@v3
