@@ -3,49 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Amrita Mir — Soliton | Colosseum Solana</title>
+    <title>Amrita Mir - Soliton | Colosseum Solana Global</title>
     <style>
-        * { margin: 0; padding: 0; box-style: border-box; }
-        body { background: #070714; color: #fff; font-family: 'Segoe UI', Roboto, sans-serif; overflow-x: hidden; text-align: center; }
-        .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 20px; background: radial-gradient(circle at center, #1e1145 0%, #070714 70%); }
-        h1 { font-size: 3rem; color: #00ffcc; text-shadow: 0 0 20px rgba(0,255,204,0.5); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 2px; }
-        .subtitle { font-size: 1.2rem; color: #a4b3c6; margin-bottom: 40px; max-width: 600px; line-height: 1.6; }
-        
-        /* Сердце Фаберже (Солитон) */
-        .soliton-container { position: relative; width: 200px; height: 260px; margin-bottom: 40px; }
-        .faberge-heart { width: 100%; height: 100%; background: linear-gradient(135deg, #ff0055, #7000ff); border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%; box-shadow: 0 0 50px rgba(112,0,255,0.8); animation: pulse 2s infinite ease-in-out; position: relative; }
-        .faberge-heart::after { content: '108'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 1.8rem; font-weight: bold; color: #00ffcc; text-shadow: 0 0 10px #00ffcc; }
-        
-        /* Рой ботов и Кокон */
-        .cocoon-info { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(0, 255, 204, 0.2); padding: 25px; border-radius: 15px; max-width: 500px; margin: 20px auto; backdrop-filter: blur(10px); }
-        .badge { background: #ff0055; padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; text-transform: uppercase; letter-spacing: 1px; display: inline-block; margin-bottom: 15px; }
-        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
-        .stat-item { background: rgba(0,0,0,0.4); padding: 15px; border-radius: 10px; border-left: 3px solid #7000ff; }
-        .stat-item h3 { font-size: 1.4rem; color: #00ffcc; }
-        .stat-item p { font-size: 0.8rem; color: #8a99ad; margin-top: 5px; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: #070714; color: #fff; font-family: sans-serif; display: flex; flex-direction: column; align-items: center; padding: 20px; }
+        .hero { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; width: 100%; max-width: 450px; text-align: center; }
+        h1 { font-size: 3rem; color: #00ffcc; margin-bottom: 10px; }
+        .subtitle { font-size: 1.2rem; color: #888; margin-bottom: 30px; }
 
+        /* Сердце Фаберже (Солитон) */
+        .soliton-container { position: relative; width: 250px; height: 350px; display: flex; align-items: center; justify-content: center; margin-bottom: 40px; cursor: pointer; }
+        .faberge-heart { width: 100%; height: 100%; background: linear-gradient(135deg, #ff0055, #7a00ff); border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%; animation: pulse 2s infinite ease-in-out; display: flex; align-items: center; justify-content: center; font-size: 3rem; font-weight: bold; color: #00ffcc; box-shadow: 0 0 50px rgba(255, 0, 85, 0.4); }
         @keyframes pulse {
-            0% { transform: scale(1); box-shadow: 0 0 40px rgba(112,0,255,0.6); }
-            50% { transform: scale(1.05); box-shadow: 0 0 60px rgba(0,255,204,0.8); }
-            100% { transform: scale(1); box-shadow: 0 0 40px rgba(112,0,255,0.6); }
+            0% { transform: scale(1); box-shadow: 0 0 50px rgba(255, 0, 85, 0.4); }
+            50% { transform: scale(1.05); box-shadow: 0 0 80px rgba(0, 255, 204, 0.6); }
+            100% { transform: scale(1); box-shadow: 0 0 50px rgba(255, 0, 85, 0.4); }
         }
+
+        /* Рой ботов и Кокон */
+        .cocoon-info { background: rgba(255,255,255,0.05); padding: 20px; border-radius: 15px; margin-top: 20px; border: 1px solid rgba(255,255,255,0.1); width: 100%; }
+        .badge { background: #ff0055; padding: 5px 10px; border-radius: 20px; font-size: 0.8rem; font-weight: bold; }
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; width: 100%; }
+        .stat-item { background: rgba(0,0,0,0.3); padding: 15px; border-radius: 10px; border: 1px solid rgba(0,255,204,0.2); text-align: left; }
+        .stat-item h3 { font-size: 1.4rem; color: #00ffcc; margin-bottom: 5px; }
+        .stat-item p { font-size: 0.8rem; color: #aaa; }
     </style>
+
+    <!-- Подключение Pi SDK для связи с кошельком -->
+    <script src="https://minepi.com"></script>
+    <script>
+        // Инициализация блокчейн-моста Pi
+        Pi.init({ version: "2.0", sandbox: false });
+
+        // Функция запуска транзакции при клике на яйцо
+        async function launchPiPayment() {
+            try {
+                console.log("Запуск транзакции Солитона...");
+                const payment = await Pi.createPayment({
+                    amount: 0.1,
+                    memo: "Активация Квантового Ядра 108 - AMRITA MIR",
+                    metadata: { type: "core_activation" },
+                    uid: "soliton_" + Math.random().toString(36).substr(2, 9)
+                }, {
+                    onReadyForServerApproval: (paymentId) => {
+                        console.log("Платёж ждет одобрения сервером:", paymentId);
+                    },
+                    onReadyForServerCompletion: (paymentId, txid) => {
+                        console.log("Транзакция успешна! TXID:", txid);
+                        alert("Ядро 108 успешно синхронизировано с блокчейном Pi!");
+                    },
+                    onCancel: (paymentId) => {
+                        console.log("Синхронизация отменена пользователем");
+                    },
+                    onError: (error, paymentId) => {
+                        console.error("Ошибка сети Солитона:", error);
+                    }
+                });
+            } catch (err) {
+                console.error("Критический сбой кошелька:", err);
+            }
+        }
+    </script>
 </head>
 <body>
-    <div class="hero">
-        <div class="badge">Colosseum Solana Global</div>
-        <h1>Amrita Mir</h1>
-        <p class="subtitle">Единый глобальный Солитон. Великое объединение всей крипты, всех существующих блокчейнов и веб-браузеров в неделимый синергетический рой.</p>
 
-        <!-- Ядро проекта: 108 монет Сердце Фаберже -->
-        <div class="soliton-container">
-            <div class="faberge-heart"></div>
+    <div class="hero">
+        <!-- Интерактивное Яйцо Фаберже (Солитон) -->
+        <div class="soliton-container" onclick="launchPiPayment()">
+            <div class="faberge-heart">108</div>
         </div>
 
-        <!-- Концепция Пумпфан-кокон и Рой ботов -->
         <div class="cocoon-info">
             <h2>Digital Energy Reserve</h2>
-            <p style="color: #8a99ad; font-size: 0.95rem; margin-top: 5px;">Экосистема тотального доминирования Web3</p>
+            <p class="subtitle">Экосистема тотального доминирования Web3</p>
             
             <div class="stats-grid">
                 <div class="stat-item">
@@ -56,12 +86,14 @@
                     <h3>Pump.fun</h3>
                     <p>Защитный Кокон системы</p>
                 </div>
-                <div class="stat-item" style="grid-column: span 2;">
-                    <h3>Интеллектуальный Рой Ботов</h3>
-                    <p>Синхронизация транзакций и трафика во всех браузерах мира</p>
-                </div>
+            </div>
+
+            <div class="stat-item" style="margin-top: 15px; width: 100%;">
+                <h3>Интеллектуальный Рой Ботов</h3>
+                <p>Синхронизация транзакций и трафика во всех браузерах мира</p>
             </div>
         </div>
     </div>
+
 </body>
 </html>
