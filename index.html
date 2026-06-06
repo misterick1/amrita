@@ -47,6 +47,40 @@
                 }, {
                     onReadyForServerApproval: (paymentId) => {
                         console.log("Платёж ждет одобрения сервером:", paymentId);
+                            <!-- Подключение Pi SDK для связи с кошельком -->
+    <script src="https://sdk.minepi.com/pi-sdk.js"></script>
+    <script>
+        // Инициализация блокчейн-моста Pi
+        Pi.init({ version: "2.0", sandbox: false });
+
+        // Автоматический вход пользователя в Web3 при загрузке сайта
+        async function authPi() {
+            try {
+                const scopes = ['username', 'payments'];
+                const auth = await Pi.authenticate(scopes, onIncompletePaymentFound);
+                console.log("Пингвиненок узнал пользователя:", auth.user.username);
+            } catch (err) {
+                console.error("Ошибка авторизации Web3:", err);
+            }
+        }
+
+        // Защита от зависших платежей
+        function onIncompletePaymentFound(payment) {
+            console.log("Найден незавершенный платеж:", payment);
+        }
+
+        // Запуск транзакции при клике на яйцо
+        async function launchPiPayment() {
+            try {
+                console.log("Запуск транзакции Солитона...");
+                const payment = await Pi.createPayment({
+                    amount: 0.1,
+                    memo: "Активация Квантового Ядра 108 - AMRITA MIR",
+                    metadata: { type: "core_activation" },
+                    uid: "soliton_" + Math.random().toString(36).substr(2, 9)
+                }, {
+                    onReadyForServerApproval: (paymentId) => {
+                        console.log("Платёж ждет одобрения сервером:", paymentId);
                     },
                     onReadyForServerCompletion: (paymentId, txid) => {
                         console.log("Транзакция успешна! TXID:", txid);
@@ -63,6 +97,9 @@
                 console.error("Критический сбой кошелька:", err);
             }
         }
+
+        // Запускаем авторизацию сразу при входе на сайт
+        window.onload = authPi;
     </script>
 </head>
 <body>
