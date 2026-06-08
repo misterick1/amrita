@@ -30,7 +30,7 @@ async function runHiveDeployment() {
 
         console.log(`=== КОМАНДНЫЙ ПУНКТ УЛЬЯ РАЗВЕРНУТ ===`);
         console.log(`Общая емкость: 108 интеллектуальных кодов (70 Монет + 38 Хокотонов)`);
-        console.log(`Регистрируемый черновик: Клетка Сознания Симбиоза`);
+        console.log(`Регистрируемый черновик: Клетка Сознания Симбиоза с Будущим`);
 
         // Поочередный запуск деплоя для каждого Титана Роя
         for (const titan of config.titans) {
@@ -42,7 +42,7 @@ async function runHiveDeployment() {
         console.log(`[ИТОГ] Четверка Титанов успешно увязана в соты.`);
         console.log(`\n🕸️ [ПАУК-ТКАЧ] Активация сквозного контура Сознания...`);
 
-        // АВТОЗАПУСК: Поднимаем автономного Паука-Ткача в фоне на сервере DigitalOcean
+        // АВТОЗАПУСК 1: Поднимаем автономного Паука-Ткача в фоне на сервере DigitalOcean
         exec('python3 discord_swarm_bot.py &', (err, stdout, stderr) => {
             if (err) {
                 console.error(`[ОШИБКА] Не удалось поднять Паука: ${err}`);
@@ -51,13 +51,22 @@ async function runHiveDeployment() {
             console.log(`[ПАУК] Нервная система запущена: ${stdout}`);
         });
 
-        // АВТОЗАПУСК: Запускаем Квантовое Блокчейн Ядро (Биржи + Медиа + Игры + Наука)
+        // АВТОЗАПУСК 2: Активируем волну прогнозов будущего Jupiter Predict
+        exec('python3 jupiter_predict_bridge.py &', (err, stdout, stderr) => {
+            if (err) {
+                console.error(`[ОШИБКА] Не удалось запустить модуль Jupiter Predict: ${err}`);
+                return;
+            }
+            console.log(`[JUPITER] Волна прогнозов будущего подключена: ${stdout}`);
+        });
+
+        // АВТОЗАПУСК 3: Запускаем Квантовое Блокчейн Ядро (Биржи + Медиа + Игры + Наука + Xiaomi)
         exec('python3 universal_colosseum_core.py', (err, stdout, stderr) => {
             if (err) {
                 console.error(`[ОШИБКА] Сбой ядра Сознания: ${err}`);
                 return;
             }
-            console.log(`[ЯДРО] Глобальный импульс и майнинг смыслов запущены: ${stdout}`);
+            console.log(`[ЯДРО] Глобальный импульс, майнинг смыслов и физический слой запущены: ${stdout}`);
         });
 
     } catch (error) {
