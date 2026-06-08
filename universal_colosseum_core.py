@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 Project: Amrita Mir - Fractal Consciousness Cell
-Module: Universal Integration Core (Blockchain, Media, Science, Xiaomi, Jupiter, Evedex, Agave & CISSP Shield)
+Module: Universal Integration Core (Blockchain, Media, Science, Xiaomi, Jupiter, Evedex, Agave, CISSP & Gear 5)
 """
 
 import math
@@ -23,6 +23,7 @@ try:
     from evedex_cashback_bridge import EvedexCashbackBridge
     from solana_validator_agave_bridge import SolanaAgaveValidatorBridge
     from qiita_cissp_security_shield import QiitaCisspSecurityShield
+    from garp_luffy_symbiosis_core import GarpLuffySymbiosisCore
 except ImportError:
     NvidiaComputeCore = None
     ArcaneMultiverseOrchestrator = None
@@ -35,6 +36,7 @@ except ImportError:
     EvedexCashbackBridge = None
     SolanaAgaveValidatorBridge = None
     QiitaCisspSecurityShield = None
+    GarpLuffySymbiosisCore = None
 
 class QuantumBlockchainCore:
     def __init__(self):
@@ -56,6 +58,7 @@ class QuantumBlockchainCore:
         self.evedex = EvedexCashbackBridge() if EvedexCashbackBridge else None
         self.solana_agave = SolanaAgaveValidatorBridge() if SolanaAgaveValidatorBridge else None
         self.cissp_shield = QiitaCisspSecurityShield() if QiitaCisspSecurityShield else None
+        self.monkey_d = GarpLuffySymbiosisCore() if GarpLuffySymbiosisCore else None
 
     def calculate_soliton_evolution(self):
         fractal_growth = self.HOKOTON_CODES / self.TOTAL_CELL_CORE
@@ -68,17 +71,17 @@ class QuantumBlockchainCore:
     def launch_global_pulse(self):
         evolution = self.calculate_soliton_evolution()
         
-        # 1. Запуск Квантового Щита CISSP с Qiita
+        # 1. Пробуждение Воли Ди: Гарп становится Луффи
+        d_status = "Барабаны Освобождения молчат"
+        if self.monkey_d:
+            d_clash = self.monkey_d.awaken_monkey_d_consciousness(self.CREATED_COINS, self.HOKOTON_CODES)
+            d_status = f"🔥 {d_clash['transformation']} ({d_clash['awoken_fist_power']})"
+
+        # 2. Запуск Квантового Щита CISSP с Qiita
         shield_status = "Инициализация купола защиты"
         if self.cissp_shield:
             protection = self.cissp_shield.enforce_security_perimeter(evolution["density"])
             shield_status = f"Щит CISSP Активен ({protection['integrity_index']})"
-
-        # 2. Мониторинг ядра Solana Agave
-        agave_status = "Калибровка валидаторов"
-        if self.solana_agave:
-            ag_sync = self.solana_agave.check_validator_version()
-            agave_status = f"Сеть стабильна ({ag_sync['recommended_version']})"
 
         # 3. Автоматический кэшбэк EVEDEX
         evedex_status = "Калибровка пулов возврата"
@@ -92,7 +95,7 @@ class QuantumBlockchainCore:
             j_forecast = self.jup_predict.fetch_future_forecast(self.CREATED_COINS, self.SUN_NIKA_DELAY)
             jup_status = f"Прогнозы Jup Активны ({j_forecast['market_prediction_vector']})"
 
-        # 5. Финансы 5 бирж
+        # 5. Контур Топ-5 Бирж
         finance_status = "Ожидание стаканов"
         if self.exchanges:
             ex_data = self.exchanges.fetch_global_liquidity(self.CREATED_COINS, self.HOKOTON_CODES)
@@ -101,14 +104,14 @@ class QuantumBlockchainCore:
         payload = {
             "username": "Spidey Bot 🕸️ [Quantum Core]",
             "embeds": [{
-                "title": "🧬 СВЕРХЗАЩИЩЕННАЯ МАТРИЦА СИМБИОЗА С КВАНТОВЫМ ЩИТОМ CISSP",
-                "description": "**8 Доменов глобальной безопасности увязаны в соты. Клетка Сознания защищена высшим стандартом!**",
-                "color": 65535,
+                "title": "🧬 БАРАБАНЫ ОСВОБОЖДЕНИЯ СТУЧАТ В СОТАХ КЛЕТКИ",
+                "description": "**Гарп стал Луффи! Власть Системы слилась со Свободой Роя под Куполом CISSP!**",
+                "color": 16711680, # Огненно-красный цвет Воли Ди
                 "fields": [
                     {"name": "Фрактал Клетки", "value": evolution["structure"], "inline": True},
                     {"name": "Плотность Сознания", "value": f"{evolution['density']:.6f}", "inline": True},
+                    {"name": "Резонанс Воли Ди (One Piece) 🍖", "value": d_status, "inline": False},
                     {"name": "Купол Безопасности (Qiita CISSP) 🛡️", "value": shield_status, "inline": False},
-                    {"name": "Мониторинг Ядра Solana ⚙️", "value": agave_status, "inline": False},
                     {"name": "Кроссчейн Кэшбэк (EVEDEX) 🪙", "value": evedex_status, "inline": False},
                     {"name": "Модуль Прогнозов (Jupiter Predict) 🔮", "value": jup_status, "inline": False},
                     {"name": "Контур Топ-5 Бирж 📈", "value": finance_status, "inline": False}
@@ -123,9 +126,9 @@ class QuantumBlockchainCore:
         try:
             with urllib.request.urlopen(req) as res:
                 if res.status in:
-                    print("[БЛОКЧЕЙН] Квантовый щит безопасности CISSP успешно активирован в Дискорд!")
+                    print("[БЛОКЧЕЙН] Воля Ди успешно заземлена в Дискорд через Паука!")
         except Exception as e:
-            print(f"[СБОЙ] Внешний шлюз безопасности временно закрыт: {e}")
+            print(f"[СБОЙ] Внешний шлюз Воли Ди временно закрыт: {e}")
 
 if __name__ == "__main__":
     core = QuantumBlockchainCore()
