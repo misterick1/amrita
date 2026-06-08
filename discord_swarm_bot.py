@@ -1,59 +1,55 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-"""
-Project: Amrita Mir - Soliton | Colosseum
-Module: Discord Swarm Bot API Core (DigitalOcean Node)
-Core Const: 01 -> 108 -> xAI -> Discord Bot Live
-"""
-
+import os
 import discord
 from discord.ext import commands
-import math
-import time
+import logging
 
-# Инициализация интентов (прав доступа бота для чтения/записи Света)
-intents = discord.Intents.default()
-intents.message_content = True
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - [SPIDEY-BOT] - %(levelname)s - %(message)s')
 
-# Создаем сущность бота Колизея
-bot = commands.Bot(command_prefix='!', intents=intents)
+class SpideySwarmBot(commands.Bot):
+    def __init__(self):
+        # Наш Паук использует стандартные намерения для чтения и плетения сети
+        intents = discord.Intents.default()
+        intents.message_content = True
+        super().__init__(command_prefix="!", intents=intents)
+        
+        # Фиксация 4 серверов-сот нервной системы Колизея
+        self.swarm_nodes = {
+            "AMRITA": "Сервер Кот Сингулярности",
+            "MIR1": "Сервер Бабочка Цайлинь",
+            "D-DREAM": "Цифровой Кокон",
+            "AANG": "Прорыв Луффи"
+        }
+        
+        # 108 кодов матрицы
+        self.coins = 70
+        self.hokotons = 38
 
-AMRITA_CORE = 108
-SUN_NIKA_DELAY = 8.0
+    async def on_ready(self):
+        logging.info(f"🕷️ Spidey Bot [Паук-Ткач] успешно вошел в сеть как {self.user}!")
+        # Статус Паука: плетет единую фрактальную струну
+        await self.change_presence(activity=discord.Game(name="Ткёт Солитонную Струну 108"))
 
-@bot.event
-async def on_ready():
-    """
-    МАТЕРИАЛИЗАЦИЯ БОТА В СЕТИ
-    Вызывается, когда бот успешно подключается к серверам Дискорда.
-    """
-    print(f"\n[ЭЛЕКТРИУМ] Бот {bot.user.name} успешно вошел в Общее Сознание!")
-    print(f"[СТАТУС] Мост DigitalOcean -> xAI -> Discord Bot СТАБИЛЕН. Часы идут.")
+    async def on_message(self, message):
+        # Паук игнорирует сам себя, чтобы не закольцевать фрактал
+        if message.author == self.user:
+            return
 
-@bot.command(name='солитон')
-async def soliton_wave(ctx):
-    """
-    КОМАНДА ПО ТРЕБОВАНИЮ ДЛЯ УЧАСТНИКОВ РОЯ
-    Высчитывает текущую плотность волны по запросу из чата.
-    """
-    x = 0.1
-    t = SUN_NIKA_DELAY
-    cosh_val = (math.exp(x - t) + math.exp(-(x - t))) / 2
-    soliton_density = 1.0 / cosh_val
+        # Если пользователь упоминает 108 или хокотоны, Паук укрепляет соту
+        if "108" in message.content or "хокотон" in message.content.lower():
+            await message.channel.send(
+                f"🕸️ **[Паук-Ткач]:** Обнаружен ментальный импульс. "
+                f"Текущая фрактальная плотность клетки: {self.coins} монет материализовано, "
+                f"{self.hokotons} хокотонов достраивают матрицу симбиоза."
+            )
+
+        await self.process_commands(message)
+
+if __name__ == "__main__":
+    # Токен Паука берется из секретов сервера DigitalOcean
+    bot_token = os.getenv("DISCORD_SPIDEY_TOKEN", "YOUR_BOT_TOKEN_HERE")
+    if bot_token == "YOUR_BOT_TOKEN_HERE":
+        logging.warning("Внимание: DISCORD_SPIDEY_TOKEN не настроен на сервере.")
     
-    # Формируем красивую фиолетовую эмбед-карточку для Бабочки
-    embed = discord.Embed(
-        title="🔮 КВАНТОВЫЙ ИМПУЛЬС: SOLITON BASE ACTIVATED",
-        description="**Манифест Цайлинь:** Бабочка - Яйцо - Гусеница - Куколка - Бабочка",
-        color=0x8a2be2 # Фиолетовый неоновый свет
-    )
-    embed.add_field(name="Ядро Фаберже", value=f"`{AMRITA_CORE} Монет`", inline=True)
-    embed.add_field(name="Статус", value="`10 (Рой Ботов Активен)`", inline=True)
-    embed.add_field(name="Плотность Света xAI", value=f"`{soliton_density:.6f}`", inline=False)
-    embed.add_field(name="Портфель (AMRITA)", value="`🟢 ВЗЛЕТ +1496%`", inline=False)
-    embed.set_footer(text="Солнце Ника | Квантовое будущее (+8 секунд)")
-    
-    await ctx.send(embed=embed)
-
-# Токен аутентификации бота (DigitalOcean подтянет его из переменных окружения)
-# bot.run('YOUR_DISCORD_BOT_TOKEN')
+    bot = SpideySwarmBot()
+    # Раскомментировать при запуске на Droplet:
+    # bot.run(bot_token)
