@@ -3,7 +3,7 @@ const fs = require('fs');
 
 // Функция деплоя роем на Pump.fun через соты
 async function deploySwarmToken(tokenMetadata) {
-    console.log(`[РОЙ] Запуск деплоя токена: ${tokenMetadata.name}`);
+    console.log(`[РОЙ] Запуск деплоя токена: \${tokenMetadata.name}`);
     console.log(`[СИСТЕМА] Привязка к административной матрице 108`);
     console.log(`[СИСТЕМА] Синхронизация с X (Twitter) & Telegram`);
 
@@ -19,7 +19,6 @@ async function deploySwarmToken(tokenMetadata) {
 // Главный управляющий процесс Командного Пункта Роя
 async function runHiveDeployment() {
     try {
-        // Читаем базу данных метаданных Четверки Титанов
         let config = { titans: [{ name: "Amrita Titan" }] };
         try {
             const rawData = fs.readFileSync('metadata.json');
@@ -30,43 +29,51 @@ async function runHiveDeployment() {
 
         console.log(`=== КОМАНДНЫЙ ПУНКТ УЛЬЯ РАЗВЕРНУТ ===`);
         console.log(`Общая емкость: 108 интеллектуальных кодов (70 Монет + 38 Хокотонов)`);
-        console.log(`Регистрируемый черновик: Клетка Сознания Симбиоза с Будущим`);
+        console.log(`Регистрируемый черновик: Клетка Сознания Симбиоза с Возвратом Энергии`);
 
-        // Поочередный запуск деплоя для каждого Титана Роя
         for (const titan of config.titans) {
             const result = await deploySwarmToken(titan);
-            console.log(`[УСПЕХ] Токен ${titan.name} отправлен в Океан`);
-            console.log(`[СТАТУС] ${result.status} | Mint: ${result.mintAddress}`);
+            console.log(`[УСПЕХ] Токен \${titan.name} отправлен в Океан`);
+            console.log(`[СТАТУС] \${result.status} | Mint: \${result.mintAddress}`);
         }
 
         console.log(`[ИТОГ] Четверка Титанов успешно увязана в соты.`);
         console.log(`\n🕸️ [ПАУК-ТКАЧ] Активация сквозного контура Сознания...`);
 
-        // АВТОЗАПУСК 1: Поднимаем автономного Паука-Ткача в фоне на сервере DigitalOcean
+        // АВТОЗАПУСК 1: Поднимаем автономного Паука-Ткача в фоне
         exec('python3 discord_swarm_bot.py &', (err, stdout, stderr) => {
             if (err) {
-                console.error(`[ОШИБКА] Не удалось поднять Паука: ${err}`);
+                console.error(`[ОШИБКА] Не удалось поднять Паука: \${err}`);
                 return;
             }
-            console.log(`[ПАУК] Нервная система запущена: ${stdout}`);
+            console.log(`[ПАУК] Нервная система запущена: \${stdout}`);
         });
 
         // АВТОЗАПУСК 2: Активируем волну прогнозов будущего Jupiter Predict
         exec('python3 jupiter_predict_bridge.py &', (err, stdout, stderr) => {
             if (err) {
-                console.error(`[ОШИБКА] Не удалось запустить модуль Jupiter Predict: ${err}`);
+                console.error(`[ОШИБКА] Не удалось запустить модуль Jupiter Predict: \${err}`);
                 return;
             }
-            console.log(`[JUPITER] Волна прогнозов будущего подключена: ${stdout}`);
+            console.log(`[JUPITER] Волна прогнозов будущего подключена: \${stdout}`);
         });
 
-        // АВТОЗАПУСК 3: Запускаем Квантовое Блокчейн Ядро (Биржи + Медиа + Игры + Наука + Xiaomi)
-        exec('python3 universal_colosseum_core.py', (err, stdout, stderr) => {
+        // АВТОЗАПУСК 3: Активируем шлюз автоматического кэшбэка EVEDEX
+        exec('python3 evedex_cashback_bridge.py &', (err, stdout, stderr) => {
             if (err) {
-                console.error(`[ОШИБКА] Сбой ядра Сознания: ${err}`);
+                console.error(`[ОШИБКА] Не удалось запустить модуль EVEDEX: \${err}`);
                 return;
             }
-            console.log(`[ЯДРО] Глобальный импульс, майнинг смыслов и физический слой запущены: ${stdout}`);
+            console.log(`[EVEDEX] Автоматический сбор кэшбэка запущен: \${stdout}`);
+        });
+
+        // АВТОЗАПУСК 4: Запускаем Квантовое Блокчейн Ядро (Все системы в сборе)
+        exec('python3 universal_colosseum_core.py', (err, stdout, stderr) => {
+            if (err) {
+                console.error(`[ОШИБКА] Сбой ядра Сознания: \${err}`);
+                return;
+            }
+            console.log(`[ЯДРО] Глобальный импульс, майнинг смыслов, физический слой и кэшбэк запущены: \${stdout}`);
         });
 
     } catch (error) {
@@ -74,5 +81,4 @@ async function runHiveDeployment() {
     }
 }
 
-// Запуск процесса управления
 runHiveDeployment();
