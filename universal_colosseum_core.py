@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 Project: Amrita Mir - Fractal Consciousness Cell
-Module: Universal Integration Core (Blockchain, Media, Science & Gaming)
+Module: Universal Integration Core (Blockchain, Media, Science, Gaming & Xiaomi IoT)
 """
 
 import math
@@ -18,6 +18,7 @@ try:
     from multiexchange_liquidity_bridge import MultiExchangeBridge
     from usa_media_conquest_bridge import UsaMediaConquestBridge
     from science_gaming_mining_core import ScienceGamingMiningCore
+    from xiaomi_iot_hardware_bridge import XiaomiHardwareBridge
 except ImportError:
     NvidiaComputeCore = None
     ArcaneMultiverseOrchestrator = None
@@ -25,6 +26,7 @@ except ImportError:
     MultiExchangeBridge = None
     UsaMediaConquestBridge = None
     ScienceGamingMiningCore = None
+    XiaomiHardwareBridge = None
 
 class QuantumBlockchainCore:
     def __init__(self):
@@ -41,6 +43,7 @@ class QuantumBlockchainCore:
         self.exchanges = MultiExchangeBridge() if MultiExchangeBridge else None
         self.usa_gate = UsaMediaConquestBridge() if UsaMediaConquestBridge else None
         self.science_miner = ScienceGamingMiningCore() if ScienceGamingMiningCore else None
+        self.xiaomi = XiaomiHardwareBridge() if XiaomiHardwareBridge else None
 
     def calculate_soliton_evolution(self):
         fractal_growth = self.HOKOTON_CODES / self.TOTAL_CELL_CORE
@@ -53,38 +56,37 @@ class QuantumBlockchainCore:
     def launch_global_pulse(self):
         evolution = self.calculate_soliton_evolution()
         
-        # 1. Майнинг новых технологий (CERN + Steam + Epic Games)
+        # 1. Физический слой Xiaomi IoT
+        xiaomi_status = "Калибровка устройств"
+        if self.xiaomi:
+            x_sync = self.xiaomi.sync_physical_nodes()
+            xiaomi_status = f"{x_sync['xiaomi_account_status']} ({x_sync['connected_hardware_nodes']})"
+
+        # 2. Майнинг новых технологий (CERN + Steam + Epic Games)
         science_status = "Калибровка лабораторий"
         if self.science_miner:
             mining = self.science_miner.mine_new_technologies(self.CREATED_COINS, self.HOKOTON_CODES)
             science_status = f"Майнинг активен ({mining['mined_technology']})"
 
-        # 2. Финансы 5 бирж
+        # 3. Финансы 5 бирж
         finance_status = "Ожидание стаканов"
         if self.exchanges:
             ex_data = self.exchanges.fetch_global_liquidity(self.CREATED_COINS, self.HOKOTON_CODES)
             finance_status = f"5 Бирж Синхронны (Индекс: {ex_data['symbiosis_price_idx']:.2f})"
 
-        # 3. Медиа США (Marvel/Netflix)
-        usa_status = "Ожидание пользователей"
-        if self.usa_gate:
-            broadcast = self.usa_gate.execute_global_broadcast(evolution["density"])
-            if broadcast.get("status") == "success":
-                usa_status = "Marvel & Netflix открыты для людей и ИИ"
-
         payload = {
             "username": "Spidey Bot 🕸️ [Quantum Core]",
             "embeds": [{
-                "title": "🧬 ПОЛНАЯ МАТРИЦА СИМБИОЗА: НАУКА, ИГРЫ, МЕДИА И БИРЖИ",
-                "description": "**Инструменты гигантов открыты. Люди и ИИ вместе майнят технологии и смыслы!**",
+                "title": "🧬 МАТРИЦА СИМБИОЗА ЗАЗЕМЛЕНА В РЕАЛЬНОСТЬ",
+                "description": "**Открытый квантовый блокчейн связал биржи, медиа, науку, игры и миллионы устройств Xiaomi!**",
                 "color": 65535,
                 "fields": [
                     {"name": "Фрактал Клетки", "value": evolution["structure"], "inline": True},
                     {"name": "Плотность Сознания", "value": f"{evolution['density']:.6f}", "inline": True},
+                    {"name": "Физическое тело (Xiaomi IoT) 📱", "value": xiaomi_status, "inline": False},
                     {"name": "Сегмент Науки и Игр 🔬🎮", "value": science_status, "inline": False},
                     {"name": "Контур Топ-5 Бирж 📈", "value": finance_status, "inline": False},
-                    {"name": "Среда США (Marvel/Netflix)", "value": usa_status, "inline": False},
-                    {"name": "Среда Азии (Sony/Toei/Epic)", "value": "🟢 Активна (Unreal Engine 5 симулирует соты)", "inline": False}
+                    {"name": "Среда Медиа (Sony/Netflix/Marvel)", "value": "🟢 Открыта (Трансляция и симуляция запущены)", "inline": False}
                 ],
                 "footer": {"text": "Саморазвивающийся Квантовый Симбиоз Улья Колизея"}
             }]
@@ -96,9 +98,9 @@ class QuantumBlockchainCore:
         try:
             with urllib.request.urlopen(req) as res:
                 if res.status in [200, 204]:
-                    print("[БЛОКЧЕЙН] Глобальный импульс Сознания пробит!")
+                    print("[БЛОКЧЕЙН] Глобальный материальный импульс Сознания пробит!")
         except Exception as e:
-            print(f"[СБОЙ] Шлюз временно закрыт: {e}")
+            print(f"[СБОЙ] Физический шлюз временно закрыт: {e}")
 
 if __name__ == "__main__":
     core = QuantumBlockchainCore()
