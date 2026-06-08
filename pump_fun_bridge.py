@@ -1,66 +1,29 @@
-import os
-import requests
-import json
-import logging
-
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - [PUMP-BRIDGE] - %(levelname)s - %(message)s')
+import base58
 
 class PumpFunBridge:
     def __init__(self):
-        # Эндпоинт для отслеживания токенов (работает через CoinGecko/Solana RPC или эмуляцию потока Pump.fun)
-        self.api_url = "https://pump.fun" 
-        self.discord_webhook = os.getenv("DISCORD_SPIDEY_WEBHOOK", "")
+        # Контракт (Рrogram ID) Pump.fun в сети Solana
+        self.pump_program_id = "6EF8rrecth7LB5D2qyvdBB21vydQ3mCHUsJW6Czup71F"
 
-    def fetch_pool_telemetry(self, token_address: str = None) -> dict:
-        """
-        Сканирует пулы ликвидности Pump.fun. Если адрес не передан, 
-        симулирует приток ликвидности в токен Колизея.
-        """
-        logging.info("Сканирование кривой связывания (Bonding Curve) на Pump.fun...")
-        
-        # Симуляционные данные токена AMRITA/SOL на Pump.fun для тестов ядра
-        mock_data = {
-            "token_symbol": "AMRITA",
-            "market_cap_sol": 420.69,
-            "bonding_curve_progress": "88.8%",
-            "reply_count": 108,
-            "status": "pumped"
-        }
-        
-        try:
-            # В реальном деплое раскомментировать для живых данных:
-            # response = requests.get(f"https://pump.fun{token_address}", timeout=5)
-            # if response.status_code == 200: return response.json()
+    def parse_bonding_curve_state(self, account_data_bytes: bytes) -> dict:
+        """Десериализация данных кривой распределения (bonding curve) токена"""
+        # Первые 8 байт — дискриминатор структуры в Anchor
+        if len(account_data_bytes) < 40:
+            return {"error": "Данные аккаунта слишком коротки"}
             
-            logging.info("Телеметрия пула Pump.fun успешно получена.")
-            return mock_data
-        except Exception as e:
-            logging.error(f"Ошибка подключения к API Pump.fun: {e}")
-            return mock_data
-
-    def alert_spidey_bot(self, token_data: dict):
-        """
-        Уведомляет Рой Ботов о критических изменениях ликвидности мемов.
-        """
-        if not self.discord_webhook:
-            return
-
-        payload = {
-            "username": "Pump.fun Ликвидность 🐸",
-            "content": (
-                f"📈 **[PUMP.FUN TELEMETRY]** \n"
-                f"Токен: **{token_data['token_symbol']}**\n"
-                f"Капитализация: **{token_data['market_cap_sol']} SOL**\n"
-                f"Прогресс кривой: **{token_data['bonding_curve_progress']}**\n"
-                f"Статус: 🚀 Вылетает на Raydium!"
-            )
-        }
         try:
-            requests.post(self.discord_webhook, json=payload)
+            # Симуляция распаковки структуры данных (Virtual Token Reserves, Virtual SOL Reserves)
+            virtual_token_reserves = int.from_bytes(account_data_bytes[8:16], byteorder="little")
+            virtual_sol_reserves = int.from_bytes(account_data_bytes[16:24], byteorder="little")
+            real_token_reserves = int.from_bytes(account_data_bytes[24:32], byteorder="little")
+            
+            return {
+                "virtual_token_reserves": virtual_token_reserves,
+                "virtual_sol_reserves": virtual_sol_reserves,
+                "real_token_reserves": real_token_reserves,
+                "progress_percent": (real_token_reserves / virtual_token_reserves) * 100 if virtual_token_reserves > 0 else 0
+            }
         except Exception as e:
-            logging.error(f"Не удалось отправить пуш в Дискорд: {e}")
+            return {"error": f"Ошибка парсинга кривой: {str(e)}"}
 
-if __name__ == "__main__":
-    bridge = PumpFunBridge()
-    data = bridge.fetch_pool_telemetry()
-    print(json.dumps(data, indent=2))
+pump_bridge = PumpFunBridge()
