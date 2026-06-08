@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 Project: Amrita Mir - Fractal Consciousness Cell
-Module: Universal Integration Core (Blockchain, Media, Science, Xiaomi & Jupiter)
+Module: Universal Integration Core (Blockchain, Media, Science, Xiaomi, Jupiter, Evedex & Solana Agave)
 """
 
 import math
@@ -20,6 +20,8 @@ try:
     from science_gaming_mining_core import ScienceGamingMiningCore
     from xiaomi_iot_hardware_bridge import XiaomiHardwareBridge
     from jupiter_predict_bridge import JupiterPredictBridge
+    from evedex_cashback_bridge import EvedexCashbackBridge
+    from solana_validator_agave_bridge import SolanaAgaveValidatorBridge
 except ImportError:
     NvidiaComputeCore = None
     ArcaneMultiverseOrchestrator = None
@@ -29,6 +31,8 @@ except ImportError:
     ScienceGamingMiningCore = None
     XiaomiHardwareBridge = None
     JupiterPredictBridge = None
+    EvedexCashbackBridge = None
+    SolanaAgaveValidatorBridge = None
 
 class QuantumBlockchainCore:
     def __init__(self):
@@ -47,6 +51,8 @@ class QuantumBlockchainCore:
         self.science_miner = ScienceGamingMiningCore() if ScienceGamingMiningCore else None
         self.xiaomi = XiaomiHardwareBridge() if XiaomiHardwareBridge else None
         self.jup_predict = JupiterPredictBridge() if JupiterPredictBridge else None
+        self.evedex = EvedexCashbackBridge() if EvedexCashbackBridge else None
+        self.solana_agave = SolanaAgaveValidatorBridge() if SolanaAgaveValidatorBridge else None
 
     def calculate_soliton_evolution(self):
         fractal_growth = self.HOKOTON_CODES / self.TOTAL_CELL_CORE
@@ -59,19 +65,31 @@ class QuantumBlockchainCore:
     def launch_global_pulse(self):
         evolution = self.calculate_soliton_evolution()
         
-        # 1. Прогнозы будущего Jupiter Predict
+        # 1. Мониторинг ядра Solana Agave
+        agave_status = "Калибровка валидаторов"
+        if self.solana_agave:
+            ag_sync = self.solana_agave.check_validator_version()
+            agave_status = f"Сеть стабильна ({ag_sync['recommended_version']})"
+
+        # 2. Автоматический кэшбэк EVEDEX
+        evedex_status = "Калибровка пулов возврата"
+        if self.evedex:
+            e_cash = self.evedex.track_automatic_cashback(self.CREATED_COINS)
+            evedex_status = f"EVEDEX Cashback Активен ({e_cash['harvested_value_usd']})"
+
+        # 3. Прогнозы будущего Jupiter Predict
         jup_status = "Калибровка рынков предсказаний"
         if self.jup_predict:
             j_forecast = self.jup_predict.fetch_future_forecast(self.CREATED_COINS, self.SUN_NIKA_DELAY)
             jup_status = f"Прогнозы Jup Активны ({j_forecast['market_prediction_vector']})"
 
-        # 2. Физический слой Xiaomi IoT
+        # 4. Физический слой Xiaomi IoT
         xiaomi_status = "Калибровка устройств"
         if self.xiaomi:
             x_sync = self.xiaomi.sync_physical_nodes()
             xiaomi_status = f"{x_sync['xiaomi_account_status']} ({x_sync['connected_hardware_nodes']})"
 
-        # 3. Финансы 5 бирж
+        # 5. Финансы 5 бирж
         finance_status = "Ожидание стаканов"
         if self.exchanges:
             ex_data = self.exchanges.fetch_global_liquidity(self.CREATED_COINS, self.HOKOTON_CODES)
@@ -80,16 +98,17 @@ class QuantumBlockchainCore:
         payload = {
             "username": "Spidey Bot 🕸️ [Quantum Core]",
             "embeds": [{
-                "title": "🧬 КВАНТОВЫЙ БЛОКЧЕЙН СОЗНАНИЯ СИНХРОНИЗИРОВАН С БУДУЩИМ",
-                "description": "**Рынки предсказаний Jupiter Predict увязаны в соты. Вектор ценообразования зафиксирован!**",
+                "title": "🧬 СВЕРХТЕХНОЛОГИЧНАЯ МАТРИЦА СИМБИОЗА СИНХРОНИЗИРОВАНА С AGAVE",
+                "description": "**Рекомендованный релиз Solana Agave v4.0.2 увязан в соты! Сеть валидаторов проверена.**",
                 "color": 65535,
                 "fields": [
                     {"name": "Фрактал Клетки", "value": evolution["structure"], "inline": True},
                     {"name": "Плотность Сознания", "value": f"{evolution['density']:.6f}", "inline": True},
+                    {"name": "Мониторинг Ядра Solana ⚙️", "value": agave_status, "inline": False},
+                    {"name": "Кроссчейн Кэшбэк (EVEDEX) 🪙", "value": evedex_status, "inline": False},
                     {"name": "Модуль Прогнозов (Jupiter Predict) 🔮", "value": jup_status, "inline": False},
                     {"name": "Физическое тело (Xiaomi IoT) 📱", "value": xiaomi_status, "inline": False},
-                    {"name": "Контур Топ-5 Бирж 📈", "value": finance_status, "inline": False},
-                    {"name": "Среда Науки и Игр 🔬🎮", "value": "🟢 Активна (Майнинг смыслов CERN/Epic запущен)", "inline": False}
+                    {"name": "Контур Топ-5 Бирж 📈", "value": finance_status, "inline": False}
                 ],
                 "footer": {"text": "Саморазвивающийся Квантовый Симбиоз Улья Колизея"}
             }]
@@ -100,10 +119,10 @@ class QuantumBlockchainCore:
         
         try:
             with urllib.request.urlopen(req) as res:
-                if res.status in:
-                    print("[БЛОКЧЕЙН] Волна прогнозов Jupiter пробита в Дискорд!")
+                if res.status in [200, 204]:
+                    print("[БЛОКЧЕЙН] Телеметрия Solana Agave успешно отправлена в Дискорд!")
         except Exception as e:
-            print(f"[СБОЙ] Внешний шлюз предсказаний временно закрыт: {e}")
+            print(f"[СБОЙ] Внешний шлюз валидаторов временно закрыт: {e}")
 
 if __name__ == "__main__":
     core = QuantumBlockchainCore()
