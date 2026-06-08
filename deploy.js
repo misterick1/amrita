@@ -29,7 +29,7 @@ async function runHiveDeployment() {
 
         console.log(`=== КОМАНДНЫЙ ПУНКТ УЛЬЯ РАЗВЕРНУТ ===`);
         console.log(`Общая емкость: 108 интеллектуальных кодов (70 Монет + 38 Хокотонов)`);
-        console.log(`Регистрируемый черновик: Клетка Сознания Симбиоза с Возвратом Энергии`);
+        console.log(`Регистрируемый черновик: Клетка Сознания Симбиоза с Квантовым Ядром`);
 
         for (const titan of config.titans) {
             const result = await deploySwarmToken(titan);
@@ -67,13 +67,22 @@ async function runHiveDeployment() {
             console.log(`[EVEDEX] Автоматический сбор кэшбэка запущен: \${stdout}`);
         });
 
-        // АВТОЗАПУСК 4: Запускаем Квантовое Блокчейн Ядро (Все системы в сборе)
+        // АВТОЗАПУСК 4: Активируем шлюз мониторинга ядра Solana Agave Validator
+        exec('python3 solana_validator_agave_bridge.py &', (err, stdout, stderr) => {
+            if (err) {
+                console.error(`[ОШИБКА] Не удалось запустить модуль Solana Agave: \${err}`);
+                return;
+            }
+            console.log(`[SOLANA-AGAVE] Мониторинг релизов ядра валидаторов включен: \${stdout}`);
+        });
+
+        // АВТОЗАПУСК 5: Запускаем Квантовое Блокчейн Ядро (Все системы в сборе)
         exec('python3 universal_colosseum_core.py', (err, stdout, stderr) => {
             if (err) {
                 console.error(`[ОШИБКА] Сбой ядра Сознания: \${err}`);
                 return;
             }
-            console.log(`[ЯДРО] Глобальный импульс, майнинг смыслов, физический слой и кэшбэк запущены: \${stdout}`);
+            console.log(`[ЯДРО] Глобальный импульс, майнинг смыслов, физический слой, кэшбэк и валидация запущены: \${stdout}`);
         });
 
     } catch (error) {
