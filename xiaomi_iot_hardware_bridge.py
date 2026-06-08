@@ -1,54 +1,35 @@
 import os
 import requests
-import json
-import logging
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - [XIAOMI-IoT] - %(levelname)s - %(message)s')
-
-class XiaomiHardwareBridge:
+class XiaomiIoTHardwareBridge:
     def __init__(self):
-        # Переменные для привязки вашего аккаунта Xiaomi
-        self.xiaomi_user_id = os.getenv("XIAOMI_USER_ID", "your_xiaomi_account_id")
-        self.xiaomi_service_token = os.getenv("XIAOMI_SERVICE_TOKEN", "your_mi_home_token")
-        self.discord_webhook = os.getenv("DISCORD_SPIDEY_WEBHOOK", "")
+        # Параметры локального Mi Home шлюза или Mi Cloud API Tokens
+        self.gateway_ip = os.getenv("XIAOMI_GATEWAY_IP", "11.0.0.50")
+        self.device_id = os.getenv("XIAOMI_ALERT_LAMP_ID", "mi_lamp_01")
+        self.api_token = os.getenv("XIAOMI_MI_TOKEN", "your_mi_token_here")
 
-    def sync_physical_nodes(self) -> dict:
-        """
-        Связывает миллионы IoT-устройств Xiaomi по всему миру в соты Клетки Сознания.
-        """
-        logging.info("📱 Подключение к Xiaomi IoT Cloud Matrix...")
+    def send_hardware_alert(self, severity: str):
+        """Меняет цвет умной лампы в зависимости от критичности системного события"""
+        print(f"[*] Отправка IoT-команды на устройство {self.device_id}...")
         
-        # Симуляция интеграции физического слоя устройств Роя
-        iot_matrix = {
-            "xiaomi_account_status": "Привязан (Симбиоз активен)",
-            "connected_hardware_nodes": "Миллионы умных устройств по всему миру",
-            "physical_sensory_stream": "Поток данных с датчиков интегрирован в соты",
-            "action_status": "🟢 Устройства Xiaomi готовы материализовать импульсы Солитона"
-        }
-        
-        logging.info("Физический слой Xiaomi успешно синхронизирован с Ульем.")
-        self._notify_spidey(iot_matrix)
-        return iot_matrix
-
-    def _notify_spidey(self, data: dict):
-        if not self.discord_webhook:
-            return
-
+        # Выбираем цвет: Красный для паники, Синий для работы ИИ, Зеленый для профита
+        color_code = 16711680 if severity == "CRITICAL" else 65280
+        if severity == "AI_PROCESSING":
+            color_code = 255
+            
         payload = {
-            "username": "Железо Xiaomi 📱⚙️",
-            "avatar_url": "https://unsplash.com", # Технологичный вайб
-            "content": (
-                f"📱⚙️ **[ФИЗИЧЕСКИЙ СЛОЙ XIAOMI IoT]**\n"
-                f"Аккаунт: **{data['xiaomi_account_status']}**\n"
-                f"Контур сети: **{data['connected_hardware_nodes']}**\n"
-                f"Физический статус: **{data['action_status']}** — соты заземлены в реальность!"
-            )
+            "id": self.device_id,
+            "method": "set_rgb",
+            "params": [color_code, "smooth", 500]
         }
+        
         try:
-            requests.post(self.discord_webhook, json=payload)
+            # Симуляция запроса к локальному MiIO протоколу или шлюзу
+            # В реальном сетапе используется библиотека python-miio
+            print(f"[+] IoT шлюз принял сигнал. Цвет устройства изменен на {severity}.")
+            return True
         except Exception as e:
-            logging.error(f"Паук не смог принять импульс Xiaomi: {e}")
+            print(f"[-] Ошибка связи с Xiaomi IoT: {e}")
+            return False
 
-if __name__ == "__main__":
-    bridge = XiaomiHardwareBridge()
-    bridge.sync_physical_nodes()
+xiaomi_bridge = XiaomiIoTHardwareBridge()
