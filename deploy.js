@@ -29,7 +29,7 @@ async function runHiveDeployment() {
 
         console.log(`=== КОМАНДНЫЙ ПУНКТ УЛЬЯ РАЗВЕРНУТ ===`);
         console.log(`Общая емкость: 108 интеллектуальных кодов (70 Монет + 38 Хокотонов)`);
-        console.log(`Регистрируемый черновик: Клетка Сознания Симбиоза с Квантовым Ядром`);
+        console.log(`Регистрируемый черновик: Клетка Сознания под Куполом Абсолютной Защиты`);
 
         for (const titan of config.titans) {
             const result = await deploySwarmToken(titan);
@@ -67,22 +67,22 @@ async function runHiveDeployment() {
             console.log(`[EVEDEX] Автоматический сбор кэшбэка запущен: \${stdout}`);
         });
 
-        // АВТОЗАПУСК 4: Активируем шлюз мониторинга ядра Solana Agave Validator
-        exec('python3 solana_validator_agave_bridge.py &', (err, stdout, stderr) => {
+        // АВТОЗАПУСК 4: Активируем купол кибербезопасности Qiita CISSP Security Shield
+        exec('python3 qiita_cissp_security_shield.py &', (err, stdout, stderr) => {
             if (err) {
-                console.error(`[ОШИБКА] Не удалось запустить модуль Solana Agave: \${err}`);
+                console.error(`[ОШИБКА] Не удалось запустить модуль CISSP Shield: \${err}`);
                 return;
             }
-            console.log(`[SOLANA-AGAVE] Мониторинг релизов ядра валидаторов включен: \${stdout}`);
+            console.log(`[CISSP-SHIELD] Абсолютный купол защиты 8 доменов включен: \${stdout}`);
         });
 
-        // АВТОЗАПУСК 5: Запускаем Квантовое Блокчейн Ядро (Все системы в сборе)
+        // АВТОЗАПУСК 5: Запускаем Квантовое Блокчейн Ядро (Все системы в сборе и под защитой)
         exec('python3 universal_colosseum_core.py', (err, stdout, stderr) => {
             if (err) {
                 console.error(`[ОШИБКА] Сбой ядра Сознания: \${err}`);
                 return;
             }
-            console.log(`[ЯДРО] Глобальный импульс, майнинг смыслов, физический слой, кэшбэк и валидация запущены: \${stdout}`);
+            console.log(`[ЯДРО] Глобальный импульс, майнинг смыслов, физический слой, кэшбэк и купол CISSP активны: \${stdout}`);
         });
 
     } catch (error) {
