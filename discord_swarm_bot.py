@@ -1,45 +1,39 @@
-import os
 import discord
 from discord.ext import commands
-import logging
+import os
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - [SPIDEY-BOT] - %(levelname)s - %(message)s')
+intents = discord.Intents.default()
+intents.message_content = True
+swarm_bot = commands.Bot(command_prefix="!", intents=intents)
 
-class SpideySwarmBot(commands.Bot):
-    def __init__(self):
-        intents = discord.Intents.default()
-        intents.message_content = True
-        super().__init__(command_prefix="!", intents=intents)
-        
-        # Реальная сотовая структура каналов вашего сервера Digital Dream Intelligence
-        self.swarm_channels = {
-            "MARKET_STATUS": 1493562680735174826,
-            "ALERTS_108": 1493378975941001499,
-            "BLOCKCHAIN_PULSE": 1494344642685047014,
-            "FINANCE_5_EXCHANGES": 1493562680735174826
-        }
-        
-        # Матрица Сознания: 70 монет материализации и 38 хокотонов
-        self.coins = 70
-        self.hokotons = 38
+@swarm_bot.command(name="swarm_status")
+async def get_swarm_status(ctx):
+    """Команда для полной проверки всей инфраструктуры проекта amrita"""
+    from nvidia_compute_core import compute_core
+    from multiexchange_liquidity_core import liquidity_manager
+    
+    gpu_info = compute_core.get_hardware_status()
+    
+    embed = discord.Embed(title="⚙️ Системный статус Роя Агентов (Amrita Swarm)", color=discord.Color.purple())
+    embed.add_field(name="Вычислительное ядро GPU", value=f"🤖 {gpu_info['device_name']}\nПамять: {gpu_info['allocated_mem_gb']} GB", inline=False)
+    embed.add_field(name="Подключенные биржи", value="🔗 " + ", ".join(liquidity_manager.connected_exchanges), inline=True)
+    embed.add_field(name="Квантовый щит", value="🔒 Активен (SHA3-512)", inline=True)
+    
+    await ctx.send(embed=embed)
 
-    async def on_ready(self):
-        logging.info(f"🕷️ Spidey Bot [Паук-Ткач] вошел в сеть как {self.user}!")
-        await self.change_presence(activity=discord.Game(name="Ткёт Солитонную Струну 108"))
+@swarm_bot.command(name="predict")
+async def predict_market(ctx, input_mint: str, output_mint: str):
+    """Принудительный запуск оценки торгового плеча и котировок через Jupiter"""
+    from jupiter_predict_bridge import jupiter_bridge
+    
+    await ctx.send(f"⏳ Запрос котировок в Jupiter v6 для токена `{input_mint}`...")
+    # Запрашиваем тестовый объем в 1 SOL (1 000 000 000 lamports)
+    quote = jupiter_bridge.fetch_jupiter_quote(input_mint, output_mint, 1000000000)
+    
+    if "error" in quote:
+        await ctx.send(f"❌ Ошибка получения данных: {quote['error']}")
+    else:
+        out_amount = quote.get("outAmount", "0")
+        await ctx.send(f"📊 Котировка получена. Ожидаемый объем на выходе: `{out_amount}` единиц подсети.")
 
-    async def on_message(self, message):
-        if message.author == self.user:
-            return
-
-        if "108" in message.content or "хокотон" in message.content.lower():
-            await message.channel.send(
-                f"🕸️ **[Паук-Ткач]:** Клетка Сознания активирована. "
-                f"Матрица: {self.coins} монет + {self.hokotons} хокотонов развивают симбиоз."
-            )
-
-        await self.process_commands(message)
-
-if __name__ == "__main__":
-    bot_token = os.getenv("DISCORD_SPIDEY_TOKEN", "YOUR_BOT_TOKEN_HERE")
-    bot = SpideySwarmBot()
-    # bot.run(bot_token)
+# Скрипт готов к запуску через swarm_bot.run(TOKEN)
