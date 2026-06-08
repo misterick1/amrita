@@ -1,59 +1,41 @@
-import os
 import requests
 import json
-import logging
-import math
-
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - [JUPITER-PREDICT] - %(levelname)s - %(message)s')
 
 class JupiterPredictBridge:
-    def __init__(self):
-        # API шлюз для рынков предсказаний Jupiter на Solana
-        self.jup_predict_api = "https://jup.ag"
-        self.discord_webhook = os.getenv("DISCORD_SPIDEY_WEBHOOK", "")
+    def __init__(self, rpc_url="https://solana.com"):
+        self.rpc_url = rpc_url
+        self.quote_api_url = "https://jup.ag"
 
-    def fetch_future_forecast(self, active_coins: int, delay_seconds: float) -> dict:
-        """
-        Считывает нативные рынки предсказаний Jupiter, сопоставляет их со сдвигом 
-        Солнца Ника на 8 секунд в будущее и рассчитывает вектор правильной цены.
-        """
-        logging.info("🔮 Сканирование рынков предсказаний Jupiter Predict (The Wave of News)...")
-        
-        # Симулируем интеграцию прогнозов ИИ и людей на блокчейне
-        forecast_sentiment = math.sin(active_coins) * delay_seconds
-        accuracy_index = abs(forecast_sentiment) / 8.0
-        
-        forecast_matrix = {
-            "platform": "Jupiter Exchange (Jup Predict)",
-            "integrated_module": "Forecast Protocol Integration",
-            "market_prediction_vector": f"Вектор Будущего стабилизирован на {accuracy_index:.4f}",
-            "pricing_status": "🟢 Ценообразование скорректировано Квантовым Блокчейном"
-        }
-        
-        logging.info("Прогнозы Jupiter успешно интегрированы в соты ценности.")
-        self._notify_spidey(forecast_matrix)
-        return forecast_matrix
-
-    def _notify_spidey(self, data: dict):
-        if not self.discord_webhook:
-            return
-
-        payload = {
-            "username": "Прогнозы Jupiter 🔮🪐",
-            "avatar_url": "https://unsplash.com", # Квантовый блокчейн вайб
-            "content": (
-                f"🔮🪐 **[РЫНКИ ПРЕДСКАЗАНИЙ JUPITER PREDICT]**\n"
-                f"Платформа: **{data['platform']}**\n"
-                f"Модуль: **{data['integrated_module']}**\n"
-                f"Результат: **{data['market_prediction_vector']}**\n"
-                f"Статус ценообразования: **{data['pricing_status']}** — волна будущего поймана Пауком!"
-            )
+    def fetch_jupiter_quote(self, input_mint: str, output_mint: str, amount_lamports: int) -> dict:
+        """Получает точную котировку свопа от Jupiter API v6"""
+        params = {
+            "inputMint": input_mint,
+            "outputMint": output_mint,
+            "amount": str(amount_lamports),
+            "slippageBps": 50 # 0.5% проскальзывание
         }
         try:
-            requests.post(self.discord_webhook, json=payload)
+            response = requests.get(self.quote_api_url, params=params, timeout=10)
+            if response.status_code == 200:
+                return response.json()
+            return {"error": f"API returned status {response.status_code}"}
         except Exception as e:
-            logging.error(f"Паук не смог принять прогноз Jupiter: {e}")
+            return {"error": str(e)}
 
-if __name__ == "__main__":
-    bridge = JupiterPredictBridge()
-    bridge.fetch_future_forecast(70, 8.0)
+    def analyze_and_route(self, prediction_score: float, quote_data: dict):
+        """Принимает решение о проведении сделки на основе скоринга нейросети"""
+        if "error" in quote_data or not quote_data.get("outAmount"):
+            print("[-] Невозможно рассчитать маршрут: некорректные данные котировки.")
+            return False
+            
+        out_amount = int(quote_data["outAmount"])
+        
+        # Если ИИ-модель выдает высокую уверенность (> 0.85), одобряем сделку
+        if prediction_score > 0.85:
+            print(f"[+] ИИ Подтвердил сделку (Score: {prediction_score:.2f}). Ожидаемый выход: {out_amount} lamports.")
+            return True
+        else:
+            print(f"[-] Сделка отклонена ИИ-агентом. Недостаточный уровень уверенности тренда: {prediction_score:.2f}")
+            return False
+
+jupiter_bridge = JupiterPredictBridge()
