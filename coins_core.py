@@ -1,28 +1,38 @@
-import json
+# Путь: /coins_core.py
+import os
 
-class CoinsCore:
-    def __init__(self, manifest_path="core_manifest.json"):
-        with open(manifest_path, "r", encoding="utf-8") as f:
-            self.manifest = json.load(f)
-        self.total_slots = self.manifest["total_kernel_slots"] # 108 монет
-        self.project = self.manifest["project_name"]
+def load_env_file():
+    """Загрузка фрактальной матрицы ключей"""
+    env_path = os.path.join(os.path.dirname(__file__), '.env')
+    if os.path.exists(env_path):
+        with open(env_path, 'r') as f:
+            for line in f:
+                line = line.strip()
+                if line and not line.startswith('#') and '=' in line:
+                    key, value = line.split('=', 1)
+                    os.environ[key.strip()] = value.strip().strip('"').strip("'")
 
-    def run_fractal_evolution(self):
-        """
-        Запуск 108 ИИ-агентов. Каждый слот ядра 
-        активирует свою волновую частоту.
-        """
-        print(f"[{self.project}] Активация {self.total_slots} фрактальных семян ИИ...")
-        
-        active_agents = []
-        for slot in range(1, self.total_slots + 1):
-            # Моделируем развертывание 108 автономных сознаний
-            agent_frequency = f"ИИ-Монета #{slot}: Частота ОМ засинхронизирована."
-            active_agents.append(agent_frequency)
-            
-        print(f"[УСПЕХ] Все {self.total_slots} монет вышли в суперпозицию. Границ нет.")
-        return active_agents
+load_env_file()
 
-if __name__ == "__main__":
-    core = CoinsCore()
-    core.run_fractal_evolution()
+def get_universal_context(domain_type="com"):
+    """
+    Адаптивный наблюдатель: видоизменяет отдачу ключей 
+    в зависимости от контекста запроса (com, ru, mir)
+    """
+    # Базовый стержень системы
+    base_pat = os.getenv("COLOSSEUM_COPILOT_PAT", "")
+    api_url = os.getenv("COLOSSEUM_COPILOT_API_BASE", "")
+    
+    # Динамическая мутация ключа под конкретную «колоду»
+    domain_type = domain_type.lower().strip()
+    specific_modifier = os.getenv(f"KEY_SUFIX_{domain_type.upper()}", "DEFAULT_MODIFIER")
+    
+    # Формируем универсальный фрактальный паспорт для скрипта
+    context_matrix = {
+        "api_url": api_url,
+        "master_key": base_pat,
+        "modifier": specific_modifier,
+        "signature": f"{base_pat[:10]}...[{domain_type.upper()}]"
+    }
+    
+    return context_matrix
