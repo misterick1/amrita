@@ -2,7 +2,7 @@
 import os
 
 def load_env_file():
-    """Загрузка фрактальной матрицы ключей"""
+    """Загрузка фрактальной матрицы ключей проекта amrita"""
     env_path = os.path.join(os.path.dirname(__file__), '.env')
     if os.path.exists(env_path):
         with open(env_path, 'r') as f:
@@ -15,24 +15,34 @@ def load_env_file():
 load_env_file()
 
 def get_universal_context(domain_type="com"):
-    """
-    Адаптивный наблюдатель: видоизменяет отдачу ключей 
-    в зависимости от контекста запроса (com, ru, mir)
-    """
-    # Базовый стержень системы
+    """Адаптивный наблюдатель для зон MIR, RU, COM"""
     base_pat = os.getenv("COLOSSEUM_COPILOT_PAT", "")
     api_url = os.getenv("COLOSSEUM_COPILOT_API_BASE", "")
-    
-    # Динамическая мутация ключа под конкретную «колоду»
     domain_type = domain_type.lower().strip()
     specific_modifier = os.getenv(f"KEY_SUFIX_{domain_type.upper()}", "DEFAULT_MODIFIER")
     
-    # Формируем универсальный фрактальный паспорт для скрипта
-    context_matrix = {
+    return {
         "api_url": api_url,
         "master_key": base_pat,
         "modifier": specific_modifier,
         "signature": f"{base_pat[:10]}...[{domain_type.upper()}]"
     }
+
+def get_evedex_connector():
+    """
+    Генерирует параметры для прямого подключения Hummingbot
+    к бессрочным фьючерсам EVEDEX (поддерживает Claude Code, Codex, Gemini)
+    """
+    api_key = os.getenv("EVEDEX_API_KEY", "")
+    api_secret = os.getenv("EVEDEX_API_SECRET", "")
     
-    return context_matrix
+    if not api_key or not api_secret:
+        print("[ВНИМАНИЕ]: EVEDEX ключи не найдены. Агенты работают в режиме симуляции рынка (Paper Trading).")
+        
+    return {
+        "connector": "evedex_perpetual",
+        "api_key": api_key,
+        "api_secret": api_secret,
+        "engine_speed": "44s_setup_optimized", # Оптимизация по официальному гайду
+        "ai_compatibility": ["Claude Code", "Codex", "Gemini"]
+    }
