@@ -3,7 +3,7 @@ name: Fractal Lego Builder (24-7 Swarm Mode)
 on:
   push:
     branches: [ main, master ]
-  workflow_dispatch: # Ручной пинок Наблюдателя
+  workflow_dispatch: 
 
 jobs:
   assemble_and_run_forever:
@@ -12,7 +12,6 @@ jobs:
     permissions:
       contents: write
 
-    # Задаем жесткий лимит работы одного сервера GitHub (6 часов максимум)
     timeout-minutes: 360 
 
     steps:
@@ -29,34 +28,20 @@ jobs:
         python -m pip install --upgrade pip
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-    - name: AI Self-Healing
-      run: |
-        python -c "
-        import os
-        if not os.path.exists('coins_core.py'):
-            with open('coins_core.py', 'w') as f:
-                f.write('# Self-healed\n')
-        "
-
-    # ГЛАВНЫЙ ИМПУЛЬС: Запуск бота в бесконечном фоновом режиме матрицы
+    # НАСТОЯЩИЙ ЗАПУСК: Бот сам прочитает ключи из файла .env через coins_core
     - name: Run Discord Bot 24-7 Loop
-      env:
-        # Передаем токен напрямую в память виртуальной машины
-        KEY_SUFIX_MIR: ${{ secrets.KEY_SUFIX_MIR }} 
       run: |
         echo "🚀 Запуск бесконечного солитона бота..."
         
-        # Запускаем бота, перенаправляя логи, чтобы процесс не вешал консоль
+        # Запускаем бота в фоновом режиме
         python discord_swarm_bot.py & 
         
-        echo "🦔 Бот отправлен в бесконечный поток. Удерживаем сервер активным..."
+        echo "🦔 Бот отправлен в поток. Удерживаем сервер активным..."
         
-        # Бесконечный цикл, который держит сервер GitHub живым круглосуточно
         while true; do
           sleep 30
-          # Проверяем, жив ли процесс нашего бота
           if ! pgrep -f discord_swarm_bot.py > /dev/null; then
-            echo "🚨 Бот упал! Перезапуск солитона..."
+            echo "🚨 Перезапуск упавшего солитона..."
             python discord_swarm_bot.py &
           fi
         done
