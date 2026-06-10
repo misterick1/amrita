@@ -29,21 +29,17 @@ jobs:
 
       - name: 5. Автономный запуск модулей (Тест 60 сек)
         env:
-          COLOSSEUM_COPILOT_API_BASE: "https://colosseum.org"
-          COLOSSEUM_COPILOT_PAT: "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik9YdlBiaHJuRTR2cjJadS13WUNQbyJ9.eyJpc3MiOiJodHRwczovL2F1dGguY29sb3NzZXVtLm9yZy8iLCJzdWIiOiJhdXRoMHw2NjU1ZDQ2OGUzYTM4YzM5MDcxMjA5ODIiLCJhdWQiOlsiaHR0cHM6Ly9hcGkuY29sb3NzZXVtLm9yZyIsImh0dHBzOi8vY29sb3NzZXVtLXVzZXItcHJvZmlsZS5hdXRoMC5jb20vdXNlcmluZm8iXSwiaWF0IjoxNzE4MDE1MDQxLCJleHAiOjE3MTgxMDE0NDEsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUgZW1haWwiLCJhenAiOiJuN2N0UXJscjZ3eWpxMXI3MkpSUktEaXFTS2pURkFSTSJ9.hYwHn1iRzPshkQv6Bf8C8Ily725gS9vH778vS_S12N5-sX6D_Z"
-          KEY_SUFIX_COM: "epminnyv_ZGF0YV9jb20="
-          KEY_SUFIX_RU: "epminnyv_ZGF0YV9ydQ=="
-          KEY_SUFIX_MIR: "epminnyv_ZGF0YV9taXI="
+          COLOSSEUM_COPILOT_API_BASE: "https://colosseum.com"
+          COLOSSEUM_COPILOT_PAT: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY29wZSI6ImNvbG9zc2V1bV9zM3BicG90onJIYWQiLCJ1c2VyX2FmFzZSI6Ik1JUilsImRpc3BsYXlOYW1lIjoibWlzdGVyaWNrMTA0liwicm9sZXMiOltkLCJ0bWlzIcnNpb24iOiJpZSlmIhdCI6MTc3NzI3NTE0NTE0NSwiYXV0aCI6Y29sb3NzZXVtX2V0X2NvcGlsb3QvJzdWliOiI1OTczOSIsImV4cCI6MTc4NDk5MTE0NSwianRjIjoimY3N2RmZmItZWM2Ni00NTAyLWFjNTU0ZTI0NDVIOGU3In0.PS7E2CiMBqjO27EpLUGYKoGDhz_3gdCe5w0-UITAal"
+          KEY_SUFIX_COM: "epminnyv_ZGF0YV_jb20="
+          KEY_SUFIX_RU: "epminnyv_ZGF0YV_ydQ=="
+          KEY_SUFIX_MIR: "epminnyv_ZGF0YV_taXI="
           PI_API_KEY: "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik9YdlBiaHJuRTR2cjJadS13WUNQbyJ9.eyJpc3MiOiJodHRwczovL2F1dGguY29sb3NzZXVtLm9yZy8iLCJzdWIiOiJhdXRoMHw2NjU1ZDQ2OGUzYTM4YzM5MDcxMjA5ODIiLCJhdWQiOlsiaHR0cHM6Ly9hcGkuY29sb3NzZXVtLm9yZyIsImh0dHBzOi8vY29sb3NzZXVtLXVzZXItcHJvZmlsZS5hdXRoMC5jb20vdXNlcmluZm8iXSwiaWF0IjoxNzE4MDE1MDQxLCJleHAiOjE3MTgxMDE0NDEsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUgZW1haWwiLCJhenAiOiJuN2N0UXJscjZ3eWpxMXI3MkpSUktEaXFTS2pURkFSTSJ9.hYwHn1iRzPshkQv6Bf8C8Ily725gS9vH778vS_S12N5-sX6D_Z"
           PI_NETWORK_APP_ID: "epminnyv"
           DISCORD_WEBHOOK_URL: "https://discord.com"
         run: |
-          # Переводим скрипты в фоновый режим через амперсанд (&)
           python3 pump_fun_bridge.py &
           npx uvicorn pi_payment_server:app --host 0.0.0.0 --port 8000 &
-          
-          echo "Солитон активен в виртуальной машине. Ожидание сбора логов..."
+          echo "Солитон активен в виртуальной машине. Очередь пройдена, сбор логов..."
           sleep 60
-          
-          # Чистим процессы после теста, чтобы завершить джоб без ошибок
           kill $(jobs -p) || true
