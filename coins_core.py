@@ -20,7 +20,8 @@ load_env_file()
 
 def get_universal_context(domain_type="core"):
     """Адаптивный наблюдатель для зон MIR, XAI, SOLANA"""
-    base_pat = os.getenv("COLOSSEUM_COPILOT_TOKEN", "mock_copilot_token")
+    # Исправлено: проверяем и TOKEN, и PAT из твоего файла .env
+    base_pat = os.getenv("COLOSSEUM_COPILOT_TOKEN") or os.getenv("COLOSSEUM_COPILOT_PAT", "mock_copilot_token")
     api_url = os.getenv("COLOSSEUM_COPILOT_API_BASE", "https://github.com")
     domain_type = domain_type.lower().strip()
     specific_modifier = os.getenv("KEY_SUB_MODIFIER", "quantum_resonance")
