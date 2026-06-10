@@ -1,6 +1,7 @@
 import os
 import logging
 import asyncio
+import random
 import httpx
 from dotenv import load_dotenv
 
@@ -10,46 +11,64 @@ logger = logging.getLogger("DiscordSwarmBot")
 
 load_dotenv()
 
-# Достаем адрес вебхука, который мы жестко вшили в рантайм
 DISCORD_WEBHOOK_URL = os.getenv("DISCORD_WEBHOOK_URL", "https://discord.com")
 
 class DiscordSwarmBot:
     def __init__(self):
-        self.is_active = True
-        logger.info("Бот-оркестратор DiscordSwarmBot инициализирован в режиме Swarm Mode.")
+        # Координатная сетка Морского боя Solflare (Ряды A-G, Колонки 1-5)
+        self.rows = ["A", "B", "C", "D", "E", "F", "G"]
+        self.cols = ["1", "2", "3", "4", "5"]
+        self.history_of_shots = [] # Сюда бот сохраняет промахи, чтобы не стрелять дважды
+        logger.info("Бот DiscordSwarmBot переведен в тактический режим 'Empire Game Night: Treasure Fleet'.")
 
-    async def send_system_status(self, message_text: str, status_type: str = "info"):
-        """Отправка системных логов и статусов инфраструктуры в Discord"""
-        if "your_webhook_token" in DISCORD_WEBHOOK_URL:
-            logger.warning("Событие не отправлено: DISCORD_WEBHOOK_URL содержит заглушку.")
+    async def calculate_tactical_shot(self) -> str:
+        """Алгоритм выбора оптимальной клетки для выстрела на основе исключения прошлых ходов"""
+        available_cells = [f"{r}{c}" for r in self.rows for c in self.cols if f"{r}{c}" not in self.history_of_shots]
+        
+        if not available_cells:
+            logger.warning("Все клетки на поле боя исчерпаны. Сброс истории.")
+            self.history_of_shots.clear()
+            available_cells = [f"{r}{c}" for r in self.rows for c in self.cols]
+
+        # ИИ-выбор случайной живой клетки из доступных
+        target_shot = random.choice(available_cells)
+        self.history_of_shots.append(target_shot)
+        return target_shot
+
+    async def send_game_coordinate(self, team: str = "Blue"):
+        """Отправляет выверенную координату для атаки в чат игры"""
+        if "your_actual_token" in DISCORD_WEBHOOK_URL:
+            logger.warning("Пропуск отправки: DISCORD_WEBHOOK_URL содержит заглушку.")
             return
 
-        color = 1752220 if status_type == "info" else 15158332 # Синий или Красный
-        
+        coordinate = await self.calculate_tactical_shot()
+        logger.info(f"🎯 Тактический расчет завершен. Команда {team} наносит удар по координате {coordinate}")
+
         payload = {
-            "username": "Единый Квантовый Оркестратор",
+            "username": "Солитон: Тактический Координатор",
             "embeds": [
                 {
-                    "title": f"⚙️ Системное уведомление [{status_type.upper()}]",
-                    "description": message_text,
-                    "color": color,
-                    "footer": {"text": "Fractal Lego Builder | Мониторинг"}
+                    "title": "🚢 Empire Game Night: Огонь по флоту!",
+                    "description": f"Автономный расчет траектории для команды **{team}**.",
+                    "color": 3447003 if team == "Blue" else 15158332, # Синий или Красный цвет карточки
+                    "fields": [
+                        {"name": "Рекомендованная цель", "value": f"🎯 **`{coordinate}`**", "inline": True},
+                        {"name": "Окно атаки", "value": "`⏱️ 30 секунд`", "inline": True}
+                    ],
+                    "footer": {"text": "Fractal Lego Builder | Модуль тактической координации"}
                 }
             ]
         }
-        
+
         async with httpx.AsyncClient() as client:
             try:
                 response = await client.post(DISCORD_WEBHOOK_URL, json=payload, timeout=5.0)
                 if response.status_code == 204:
-                    logger.info("Статус системы успешно транслирован в Discord.")
+                    logger.info(f"Координата {coordinate} успешно передана на пульт управления.")
             except Exception as e:
-                logger.error(f"Не удалось отправить статус в Discord: {e}")
+                logger.error(f"Сбой отправки тактической команды: {e}")
 
-async def main():
-    bot = DiscordSwarmBot()
-    # Тестовый пинг при запуске воркфлоу
-    await bot.send_system_status("Инфраструктура запущена в облаке GitHub Actions. Начинаю сканирование сетей.", "info")
-
+# Эмуляция запуска тактического раунда
 if __name__ == "__main__":
-    asyncio.run(main())
+    bot = DiscordSwarmBot()
+    asyncio.run(bot.send_game_coordinate(team="Blue"))
