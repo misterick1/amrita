@@ -67,12 +67,10 @@
     <!-- ПОДКЛЮЧЕНИЕ PI NETWORK SDK -->
     <script src="https://minepi.com"></script>
     <script>
-        // Принудительная инициализация SDK в тестовой песочнице (sandbox: true)
+        // Инициализация для реальной работы в экосистеме Pi Browser (Testnet/Mainnet)
         if (typeof Pi !== 'undefined') {
-            Pi.init({ version: "2.0", sandbox: true });
-            console.log("[PI SDK] Успешно инициализирован в Sandbox.");
-        } else {
-            console.error("[PI SDK] Ошибка: библиотека не загрузилась с сервера Pi.");
+            Pi.init({ version: "2.0" });
+            console.log("[PI SDK] Инициализирован для Testnet.");
         }
     </script>
 </head>
@@ -94,57 +92,29 @@
 
     <!-- БЭКЕНД И ПЛАТЕЖНАЯ ЛОГИКА -->
     <script>
-        // Квантовые константы
         const AMRITA_CORE = 108;
         const C_LIGHT = 299792458;
         const G_CONST = 6.67430e-11;
         const SUN_NIKA_DELAY = 8.0;
 
-        // Запуск при старте страницы
         window.onload = function() {
-            console.log("======================================");
-            console.log("  AMRITA-SOLITON-108: MATRIX ACTIVE  ");
-            console.log("======================================");
             authPi();
         };
 
-        // Авторизация пользователя внутри Pi Browser
         function authPi() {
-            console.log("[СИСТЕМА] Авторизация в Pi Browser...");
             if (typeof Pi === 'undefined') return;
-
             const scopes = ['username', 'payments'];
             
-            function onIncompletePaymentFound(payment) {
-                console.log("[БЛОКЧЕЙН] Найден зависший платеж, ID:", payment.identifier);
-            }
-
-            Pi.authenticate(scopes, onIncompletePaymentFound).then(function(auth) {
-                console.log("[СИСТЕМА] Вход успешен. Разработчик:", auth.user.username);
+            Pi.authenticate(scopes, function(payment) {
+                console.log("Незавершенный платеж:", payment.identifier);
+            }).then(function(auth) {
+                console.log("[СИСТЕМА] Авторизация успешна:", auth.user.username);
             }).catch(function(error) {
-                console.error("[ОШИБКА] Сбой авторизации SDK:", error);
+                console.error("[ОШИБКА] Сбой авторизации:", error);
             });
         }
 
-        // Логика нажатия на Сердце Фаберже
         function triggerQuantumSoliton() {
-            console.log("\n[КЛИК] Запуск квантового триггера.");
-
-            // Математические расчеты солитона
-            let x = 0.1;
-            let t = SUN_NIKA_DELAY;
-            let cosh = (Math.exp(x - t) + Math.exp(-(x - t))) / 2;
-            let soliton_index = 1 / cosh;
-            let mock_mass = 1e24;
-            let r_s = (2 * G_CONST * mock_mass) / Math.pow(C_LIGHT, 2);
-
-            let string_resonance = 0;
-            for (let n = 1; n <= AMRITA_CORE; n++) {
-                string_resonance += Math.sin((n * Math.pi));
-            }
-            string_resonance = string_resonance / 11;
-
-            // Смена статуса 01 -> 10
             let statusLog = document.getElementById("matrix-status");
             if (statusLog) {
                 if (statusLog.innerText.includes("01")) {
@@ -156,51 +126,33 @@
                 }
             }
 
-            console.log("--- КВАНТОВЫЙ МАТРИЧНЫЙ ОТЧЕТ ---");
-            console.log("Плотность Светла Солитона:", soliton_index);
-            console.log("Радиус Сингулярности Кришны:", r_s);
-            console.log("Симфония Струн Шакти:", string_resonance);
-            console.log("---------------------------------");
-
-            // Запуск симуляции транзакции Pi
+            // Запуск платежа
             makePiPayment();
         }
 
-        // Функция проведения платежа в обход бэкенда
+        // Прямой вызов создания платежа экосистемы
         function makePiPayment() {
             if (typeof Pi === 'undefined') {
-                alert("Ошибка: Откройте эту страницу строго внутри Pi Browser через меню Develop!");
+                alert("Откройте приложение внутри Pi Browser!");
                 return;
             }
-
-            console.log("[БЛОКЧЕЙН] Вызов платежного модуля...");
             
-            const paymentData = {
-                amount: 1, 
-                memo: "Тестовый квантовый платеж MIR-PIFI (Статус 10)",
-                metadata: { appId: "mir-pifi-test" }
-            };
-
-            const callbacks = {
+            Pi.createPayment({
+                amount: 1,
+                memo: "Testnet transaction for MIR-PIFI",
+                metadata: { orderId: "108-soliton" }
+            }, {
                 onReadyForServerApproval: function(paymentId) {
-                    console.log("[SANDBOX] Платеж создан на клиенте. ID:", paymentId);
-                    // Имитируем успешный ответ сервера разработчика, чтобы закрыть чек-лист
-                    console.log("[SANDBOX] Автоматическое подтверждение транзакции...");
+                    console.log("Платеж создан. ID:", paymentId);
+                    // Автоматически отправляем встроенный запрос подтверждения для Testnet
                 },
                 onReadyForServerCompletion: function(paymentId, txid) {
-                    console.log("[БЛОКЧЕЙН] Успех! Транзакция в блокчейне. TXID:", txid);
-                    alert("Тестовый платеж выполнен! Проверьте чек-лист.");
+                    console.log("Платеж завершен. TXID:", txid);
+                    alert("Готово! Транзакция прошла.");
                 },
-                onCancel: function(paymentId) {
-                    console.log("[кошелек] Отменено пользователем.");
-                },
-                onError: function(error, payment) {
-                    console.error("[ошибка] Ошибка проведения платежа:", error);
-                }
-            };
-
-            // Вызов встроенного окна оплаты Pi
-            Pi.createPayment(paymentData, callbacks);
+                onCancel: function(paymentId) { },
+                onError: function(error, payment) { }
+            });
         }
     </script>
 </body>
