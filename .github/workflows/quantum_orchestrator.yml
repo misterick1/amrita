@@ -2,18 +2,48 @@ name: "Единый Квантовый Оркестратор Мультивсе
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   infrastructure_orchestration:
     runs-on: ubuntu-latest
     steps:
-      - name: "1. Считывание ДНК из ГитХаба (Checkout)"
-        uses: actions/checkout@v3
+      - name: 1. Инициализация репозитория
+        uses: actions/checkout@v4
 
-      - name: "2. Деплой сайта на GitHub Pages"
-        uses: JamesIves/github-pages-deploy-action@v4
+      - name: 2. Развертывание Python
+        uses: actions/setup-python@v5
         with:
-          folder: .
-          branch: main
+          python-version: '3.10'
+
+      - name: 3. Установка Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: 4. Синхронизация зависимостей
+        run: |
+          pip install -r requirements.txt
+          npm install
+
+      - name: 5. Автономный запуск модулей (Тест 60 сек)
+        env:
+          COLOSSEUM_COPILOT_API_BASE: "https://colosseum.org"
+          COLOSSEUM_COPILOT_PAT: "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik9YdlBiaHJuRTR2cjJadS13WUNQbyJ9.eyJpc3MiOiJodHRwczovL2F1dGguY29sb3NzZXVtLm9yZy8iLCJzdWIiOiJhdXRoMHw2NjU1ZDQ2OGUzYTM4YzM5MDcxMjA5ODIiLCJhdWQiOlsiaHR0cHM6Ly9hcGkuY29sb3NzZXVtLm9yZyIsImh0dHBzOi8vY29sb3NzZXVtLXVzZXItcHJvZmlsZS5hdXRoMC5jb20vdXNlcmluZm8iXSwiaWF0IjoxNzE4MDE1MDQxLCJleHAiOjE3MTgxMDE0NDEsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUgZW1haWwiLCJhenAiOiJuN2N0UXJscjZ3eWpxMXI3MkpSUktEaXFTS2pURkFSTSJ9.hYwHn1iRzPshkQv6Bf8C8Ily725gS9vH778vS_S12N5-sX6D_Z"
+          KEY_SUFIX_COM: "epminnyv_ZGF0YV9jb20="
+          KEY_SUFIX_RU: "epminnyv_ZGF0YV9ydQ=="
+          KEY_SUFIX_MIR: "epminnyv_ZGF0YV9taXI="
+          PI_API_KEY: "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik9YdlBiaHJuRTR2cjJadS13WUNQbyJ9.eyJpc3MiOiJodHRwczovL2F1dGguY29sb3NzZXVtLm9yZy8iLCJzdWIiOiJhdXRoMHw2NjU1ZDQ2OGUzYTM4YzM5MDcxMjA5ODIiLCJhdWQiOlsiaHR0cHM6Ly9hcGkuY29sb3NzZXVtLm9yZyIsImh0dHBzOi8vY29sb3NzZXVtLXVzZXItcHJvZmlsZS5hdXRoMC5jb20vdXNlcmluZm8iXSwiaWF0IjoxNzE4MDE1MDQxLCJleHAiOjE3MTgxMDE0NDEsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUgZW1haWwiLCJhenAiOiJuN2N0UXJscjZ3eWpxMXI3MkpSUktEaXFTS2pURkFSTSJ9.hYwHn1iRzPshkQv6Bf8C8Ily725gS9vH778vS_S12N5-sX6D_Z"
+          PI_NETWORK_APP_ID: "epminnyv"
+          DISCORD_WEBHOOK_URL: "https://discord.com"
+        run: |
+          # Переводим скрипты в фоновый режим через амперсанд (&)
+          python3 pump_fun_bridge.py &
+          npx uvicorn pi_payment_server:app --host 0.0.0.0 --port 8000 &
+          
+          echo "Солитон активен в виртуальной машине. Ожидание сбора логов..."
+          sleep 60
+          
+          # Чистим процессы после теста, чтобы завершить джоб без ошибок
+          kill $(jobs -p) || true
