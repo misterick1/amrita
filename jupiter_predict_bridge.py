@@ -1,41 +1,73 @@
-import requests
-import json
+import os
+import logging
+import httpx
+from dotenv import load_dotenv
 
-class JupiterPredictBridge:
-    def __init__(self, rpc_url="https://solana.com"):
-        self.rpc_url = rpc_url
-        self.quote_api_url = "https://jup.ag"
+# Логирование под "Единый Квантовый Оркестратор"
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - [%(filename)s] - %(message)s")
+logger = logging.getLogger("JupiterPredictBridge")
 
-    def fetch_jupiter_quote(self, input_mint: str, output_mint: str, amount_lamports: int) -> dict:
-        """Получает точную котировку свопа от Jupiter API v6"""
-        params = {
-            "inputMint": input_mint,
-            "outputMint": output_mint,
-            "amount": str(amount_lamports),
-            "slippageBps": 50 # 0.5% проскальзывание
-        }
+load_dotenv()
+
+JUPITER_QUOTE_URL = "https://jup.ag"
+JUPITER_PRICE_URL = "https://jup.ag"
+
+async def check_token_market_data(mint_address: str) -> dict | None:
+    """
+    Запрашивает текущую цену и ликвидность токена на Solana через Jupiter API.
+    Используется для первичной фильтрации токенов, пришедших из Pump.fun.
+    """
+    logger.info(f"Аналайзер: Проверка рыночных данных для токена {mint_address}")
+    
+    async with httpx.AsyncClient() as client:
         try:
-            response = requests.get(self.quote_api_url, params=params, timeout=10)
-            if response.status_code == 200:
-                return response.json()
-            return {"error": f"API returned status {response.status_code}"}
-        except Exception as e:
-            return {"error": str(e)}
-
-    def analyze_and_route(self, prediction_score: float, quote_data: dict):
-        """Принимает решение о проведении сделки на основе скоринга нейросети"""
-        if "error" in quote_data or not quote_data.get("outAmount"):
-            print("[-] Невозможно рассчитать маршрут: некорректные данные котировки.")
-            return False
+            # 1. Запрашиваем цену токена относительно USDC
+            price_params = {"ids": mint_address}
+            price_response = await client.get(JUPITER_PRICE_URL, params=price_params, timeout=5.0)
             
-        out_amount = int(quote_data["outAmount"])
-        
-        # Если ИИ-модель выдает высокую уверенность (> 0.85), одобряем сделку
-        if prediction_score > 0.85:
-            print(f"[+] ИИ Подтвердил сделку (Score: {prediction_score:.2f}). Ожидаемый выход: {out_amount} lamports.")
-            return True
-        else:
-            print(f"[-] Сделка отклонена ИИ-агентом. Недостаточный уровень уверенности тренда: {prediction_score:.2f}")
-            return False
+            price_data = {}
+            if price_response.status_code == 200:
+                res_json = price_response.json()
+                price_data = res_json.get("data", {}).get(mint_address, {})
+                logger.info(f"Jupiter Price для {mint_address}: {price_data.get('price', 'Цена не сформирована')}")
+            
+            # 2. Проверяем симуляцию маршрута обмена (свопа) на 1 SOL для оценки ликвидности (Slippage)
+            # SOL Mint: So11111111111111111111111111111111111111112
+            quote_params = {
+                "inputMint": "So11111111111111111111111111111111111111112",
+                "outputMint": mint_address,
+                "amount": "1000000000",  # 1 SOL в лампортах
+                "slippageBps": 50        # 0.5% проскальзывание
+            }
+            
+            quote_response = await client.get(JUPITER_QUOTE_URL, params=quote_params, timeout=5.0)
+            
+            if quote_response.status_code == 200:
+                quote_data = quote_response.json()
+                out_amount = quote_data.get("outAmount", "0")
+                logger.info(f"📊 Маршрут Jupiter найден. Выходной объем за 1 SOL: {out_amount}")
+                
+                return {
+                    "mint": mint_address,
+                    "price": price_data.get("price", 0.0),
+                    "liquidity_route": True,
+                    "estimated_out": out_amount
+                }
+            else:
+                logger.warning(f"Токен {mint_address} еще не имеет пулов ликвидности на Raydium/Jupiter.")
+                return {"mint": mint_address, "price": price_data.get("price", 0.0), "liquidity_route": False}
+                
+        except httpx.RequestError as exc:
+            logger.error(f"Ошибка сети при обращении к Jupiter API: {exc}")
+            return None
 
-jupiter_bridge = JupiterPredictBridge()
+async def predict_token_viability(token_data: dict) -> bool:
+    """
+    Простейший ИИ/Логический фильтр для принятия решения об автоматической покупке.
+    """
+    if not token_data or not token_data.get("liquidity_route"):
+        return False
+        
+    # Дополнительные метрики (например, если цена уже заведена или объем высокий)
+    logger.info(f"Фильтр пройден для токена {token_data['mint']}. Передача торговому агенту.")
+    return True
