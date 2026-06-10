@@ -7,34 +7,38 @@ logger = logging.getLogger("CoinsCore")
 
 class CoinsCore:
     def __init__(self):
-        # Базовая конфигурация с добавлением Hyperliquid (HYPE)
+        # Конфигурация нативных сетей без посредников (Исключен MetaMask Snap для SOL)
         self.supported_ecosystems: Dict[str, Dict[str, Any]] = {
             "solana": {
                 "ticker": "SOL",
                 "decimals": 9,
                 "contract": "So11111111111111111111111111111111111111112",
-                "enabled": True
+                "enabled": True,
+                "provider": "Native_Solflare_RPC_Only"  # Строго нативное подключение
             },
             "pi_network": {
                 "ticker": "PI",
                 "decimals": 7,
                 "contract": "native",
-                "enabled": True
+                "enabled": True,
+                "provider": "Pi_Mainnet_Node"
             },
             "hyperliquid": {
                 "ticker": "HYPE",
                 "decimals": 6,
                 "contract": "l1_native",
-                "enabled": True
+                "enabled": True,
+                "provider": "Hyperliquid_L1"
             },
             "xai": {
                 "ticker": "XAI",
                 "decimals": 18,
                 "contract": "0x4Cb9a741553AC6D311F35549012cd6c3422492f5",
-                "enabled": True
+                "enabled": True,
+                "provider": "Arbitrum_Orbit_EVM"
             }
         }
-        logger.info("Ядро CoinsCore успешно обновлено. Интегрировано 4 экосистемы (Добавлен HYPE).")
+        logger.info("CoinsCore: Нативная конфигурация провайдеров успешно обновлена.")
 
     def get_ecosystem_details(self, name: str) -> Dict[str, Any] | None:
         ecosystem = self.supported_ecosystems.get(name.lower())
@@ -54,13 +58,10 @@ class CoinsCore:
         price_to = prices.get(to_ticker)
         
         if not price_from or not price_to:
-            logger.error(f"Невозможно рассчитать курс. Отсутствуют котировки для {from_ticker} или {to_ticker}")
-            raise ValueError("Missing asset price for cross-rate calculation")
+            logger.error(f"Невозможно рассчитать курс для {from_ticker} или {to_ticker}")
+            raise ValueError("Missing asset price")
             
         value_in_usd = amount * price_from
-        converted_amount = value_in_usd / price_to
-        
-        logger.info(f"Конвертация: {amount} {from_ticker} -> {converted_amount:.4f} {to_ticker}")
-        return converted_amount
+        return value_in_usd / price_to
 
 core = CoinsCore()
