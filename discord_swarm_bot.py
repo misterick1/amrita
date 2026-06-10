@@ -6,10 +6,10 @@ import requests
 #                          НАСТРОЙКИ ДОСТУПА
 # =====================================================================
 # Вставь сюда URL Webhook от твоего Discord-канала (создается в настройках канала)
-DISCORD_WEBHOOK_URL = "ТВОЙ_DISCORD_WEBHOOK_URL"
+DISCORD_WEBHOOK_URL = "https://discord.com"
 
 # Адрес кошелька твоего приложения MIR-PIFI (из панели разработчика Pi)
-APP_WALLET_ADDRESS = "GBLJYIOM7T2Z6A..." # Укажи свой полный адрес кошелька
+APP_WALLET_ADDRESS = "GBLJY2Q2C2JQKM3JG2BFTMSUWSN5T25C6BE6EZ4OF"
 
 # Официальный публичный API тестовой сети Pi Network (Horizon/Stellar Node)
 PI_TESTNET_NODE_URL = "https://minepi.com"
@@ -20,7 +20,6 @@ PI_TESTNET_NODE_URL = "https://minepi.com"
 def send_discord_notification(amount, sender, tx_id, status_code="10"):
     """Формирует красивую карточку сообщения в стиле Solana Tech Pulse"""
     
-    # Квантовый дизайн карточки (фиолетовый цвет проекта #8a2be2)
     payload = {
         "content": "@everyone Квантовый Рой Ботов зафиксировал транзакцию!",
         "embeds": [{
@@ -77,7 +76,6 @@ def monitor_pi_blockchain():
 
     while True:
         try:
-            # Запрашиваем последние транзакции кошелька напрямую из блокчейна Pi
             url = f"{PI_TESTNET_NODE_URL}/accounts/{APP_WALLET_ADDRESS}/payments?limit=1&order=desc"
             response = requests.get(url, timeout=10)
             
@@ -91,10 +89,8 @@ def monitor_pi_blockchain():
                     amount = latest_tx.get("amount")
                     sender = latest_tx.get("from")
                     
-                    # Если появилась новая транзакция, которой не было в прошлую проверку
                     if tx_id != last_checked_tx and last_checked_tx is not None:
                         print(f"[БЛОКЧЕЙН] Найдена новая транзакция: {amount} Pi")
-                        # Отправляем карточку в Discord канал
                         send_discord_notification(amount, sender, tx_id)
                     
                     last_checked_tx = tx_id
@@ -104,7 +100,6 @@ def monitor_pi_blockchain():
         except Exception as e:
             print(f"[ОШИБКА] Сбой в квантовом цикле слежения: {e}")
             
-        # Задержка проверки (каждые 10 секунд), чтобы не перегружать ноду сети Pi
         time.sleep(10)
 
 if __name__ == "__main__":
