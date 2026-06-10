@@ -17,8 +17,6 @@
             min-height: 100vh;
             overflow-x: hidden;
         }
-
-        /* Сердце Фаберже (Солитон) */
         .soliton-container {
             position: relative;
             width: 300px;
@@ -37,16 +35,12 @@
             animation: pulse 2s infinite ease-in-out;
             transition: transform 0.3s ease;
         }
-        .faberge-heart:active {
-            transform: scale(0.9) rotate(5deg);
-        }
+        .faberge-heart:active { transform: scale(0.9) rotate(5deg); }
         @keyframes pulse {
             0% { transform: scale(1); box-shadow: 0 0 40px #8a2be2; }
             50% { transform: scale(1.05); box-shadow: 0 0 60px #8a2be2; }
             100% { transform: scale(1); box-shadow: 0 0 40px #8a2be2; }
         }
-
-        /* Рой ботов и Кокон */
         .core-info {
             margin-top: 30px;
             text-align: center;
@@ -67,10 +61,8 @@
     <!-- ПОДКЛЮЧЕНИЕ PI NETWORK SDK -->
     <script src="https://minepi.com"></script>
     <script>
-        // Инициализация для реальной работы в экосистеме Pi Browser (Testnet/Mainnet)
         if (typeof Pi !== 'undefined') {
             Pi.init({ version: "2.0" });
-            console.log("[PI SDK] Инициализирован для Testnet.");
         }
     </script>
 </head>
@@ -90,12 +82,14 @@
         <p style="margin-top: 5px; font-style: italic;">Материя — это Свет, застывший на низких частотах.</p>
     </div>
 
-    <!-- БЭКЕНД И ПЛАТЕЖНАЯ ЛОГИКА -->
     <script>
         const AMRITA_CORE = 108;
         const C_LIGHT = 299792458;
         const G_CONST = 6.67430e-11;
         const SUN_NIKA_DELAY = 8.0;
+
+        // Адрес твоего запущенного Python-бэкенда
+        const BACKEND_URL = "https://amrita-mir.com"; 
 
         window.onload = function() {
             authPi();
@@ -103,14 +97,10 @@
 
         function authPi() {
             if (typeof Pi === 'undefined') return;
-            const scopes = ['username', 'payments'];
-            
-            Pi.authenticate(scopes, function(payment) {
-                console.log("Незавершенный платеж:", payment.identifier);
+            Pi.authenticate(['username', 'payments'], function(payment) {
+                console.log("Зависший платеж:", payment.identifier);
             }).then(function(auth) {
-                console.log("[СИСТЕМА] Авторизация успешна:", auth.user.username);
-            }).catch(function(error) {
-                console.error("[ОШИБКА] Сбой авторизации:", error);
+                console.log("[СИСТЕМА] Успешный вход:", auth.user.username);
             });
         }
 
@@ -125,33 +115,41 @@
                     statusLog.style.color = "#00ffcc";
                 }
             }
-
-            // Запуск платежа
             makePiPayment();
         }
 
-        // Прямой вызов создания платежа экосистемы
         function makePiPayment() {
-            if (typeof Pi === 'undefined') {
-                alert("Откройте приложение внутри Pi Browser!");
-                return;
-            }
-            
+            if (typeof Pi === 'undefined') return;
+
             Pi.createPayment({
                 amount: 1,
-                memo: "Testnet transaction for MIR-PIFI",
+                memo: "Тестовая транзакция для MIR-PIFI",
                 metadata: { orderId: "108-soliton" }
             }, {
                 onReadyForServerApproval: function(paymentId) {
-                    console.log("Платеж создан. ID:", paymentId);
-                    // Автоматически отправляем встроенный запрос подтверждения для Testnet
+                    console.log("Платеж создан. Отправка на бэкенд одобрения...");
+                    
+                    // Передаем paymentId на наш Python сервер для Approve
+                    fetch(`${BACKEND_URL}/approve-payment`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        json: JSON.stringify({ paymentId: paymentId })
+                    });
                 },
                 onReadyForServerCompletion: function(paymentId, txid) {
-                    console.log("Платеж завершен. TXID:", txid);
-                    alert("Готово! Транзакция прошла.");
+                    console.log("Блокчейн принял транзакцию. Отправка на бэкенд завершения...");
+                    
+                    // Передаем данные на наш Python сервер для Complete
+                    fetch(`${BACKEND_URL}/complete-payment`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        json: JSON.stringify({ paymentId: paymentId, txid: txid })
+                    }).then(() => {
+                        alert("Платеж успешно обработан сервером и блокчейном!");
+                    });
                 },
-                onCancel: function(paymentId) { },
-                onError: function(error, payment) { }
+                onCancel: function(paymentId) { console.log("Отменено"); },
+                onError: function(error, payment) { console.error("Ошибка:", error); }
             });
         }
     </script>
