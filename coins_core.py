@@ -1,55 +1,67 @@
-# Путь: /coins_core.py
-import os
+import logging
+from typing import Dict, Any
 
-def load_env_file():
-    """Загрузка фрактальной матрицы ключей окружения (.env)"""
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    env_path = os.path.join(current_dir, '.env')
-    
-    if os.path.exists(env_path):
-        with open(env_path, 'r', encoding='utf-8') as f:
-            for line in f:
-                line = line.strip()
-                if line and not line.startswith('#'):
-                    if '=' in line:
-                        key, value = line.split('=', 1)
-                        os.environ[key.strip()] = value.strip()
+# Логирование под "Единый Квантовый Оркестратор"
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - [%(filename)s] - %(message)s")
+logger = logging.getLogger("CoinsCore")
 
-# Принудительный вызов загрузки матрицы при импорте модуля
-load_env_file()
+class CoinsCore:
+    def __init__(self):
+        # Базовая конфигурация поддерживаемых сетей и их нативных токенов
+        self.supported_ecosystems: Dict[str, Dict[str, Any]] = {
+            "solana": {
+                "ticker": "SOL",
+                "decimals": 9,
+                "contract": "So11111111111111111111111111111111111111112",
+                "enabled": True
+            },
+            "pi_network": {
+                "ticker": "PI",
+                "decimals": 7,
+                "contract": "native",
+                "enabled": True
+            },
+            "xai": {
+                "ticker": "XAI",
+                "decimals": 18,
+                "contract": "0x4Cb9a741553AC6D311F35549012cd6c3422492f5",
+                "enabled": True
+            }
+        }
+        logger.info("Ядро CoinsCore успешно инициализировано. Загружено 3 экосистемы.")
 
-def get_universal_context(domain_type="core"):
-    """Адаптивный наблюдатель для зон MIR, XAI, SOLANA"""
-    # Исправлено: проверяем и TOKEN, и PAT из твоего файла .env
-    base_pat = os.getenv("COLOSSEUM_COPILOT_TOKEN") or os.getenv("COLOSSEUM_COPILOT_PAT", "mock_copilot_token")
-    api_url = os.getenv("COLOSSEUM_COPILOT_API_BASE", "https://github.com")
-    domain_type = domain_type.lower().strip()
-    specific_modifier = os.getenv("KEY_SUB_MODIFIER", "quantum_resonance")
-    
-    return {
-        "api_url": api_url,
-        "master_key": base_pat,
-        "modifier": specific_modifier,
-        "signature": f"{base_pat[:10]}...[ENCRYPTED]" if base_pat else "none"
-    }
+    def get_ecosystem_details(self, name: str) -> Dict[str, Any] | None:
+        """Возвращает параметры токена по имени экосистемы"""
+        ecosystem = self.supported_ecosystems.get(name.lower())
+        if not ecosystem:
+            logger.warning(f"Запрошена неподдерживаемая экосистема: {name}")
+            return None
+        return ecosystem
 
-def get_evedex_connector():
-    """Генерирует параметры для прямого подключения к бессрочным фьючерсам EVEDEX"""
-    api_key = os.getenv("EVEDEX_API_KEY")
-    api_secret = os.getenv("EVEDEX_API_SECRET")
-    
-    if not api_key or not api_secret:
-        print("[ВНИМАНИЕ]: EVEDEX ключи не обнаружены.")
+    async def calculate_cross_rate(self, amount: float, from_coin: str, to_coin: str, prices: dict) -> float:
+        """
+        Рассчитывает конвертацию между монетами внутри распределенной системы.
+        prices: словарь с актуальными ценами (например, {'PI': 42.1, 'SOL': 160.5})
+        """
+        from_ticker = from_coin.upper()
+        to_ticker = to_coin.upper()
         
-    return {
-        "connector": "evedex_perpetual",
-        "api_key": api_key,
-        "api_secret": api_secret,
-        "engine_speed": "44s_setup_optimized",
-        "ai_compatibility": ["Claude Code"]
-    }
+        if from_ticker == to_ticker:
+            return amount
+            
+        price_from = prices.get(from_ticker)
+        price_to = prices.get(to_ticker)
+        
+        if not price_from or not price_to:
+            logger.error(f"Невозможно рассчитать курс. Отсутствуют котировки для {from_ticker} или {to_ticker}")
+            raise ValueError("Missing asset price for cross-rate calculation")
+            
+        # Конвертация через относительную долларовую стоимость
+        value_in_usd = amount * price_from
+        converted_amount = value_in_usd / price_to
+        
+        logger.info(f"Конвертация: {amount} {from_ticker} -> {converted_amount:.4f} {to_ticker}")
+        return converted_amount
 
-def get_colosseum_config():
-    """Прямой мост связи для quantinium_agent.py"""
-    context = get_universal_context()
-    return context["api_url"], context["master_key"]
+# Экземпляр ядра для импорта в другие модули
+core = CoinsCore()
