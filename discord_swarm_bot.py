@@ -1,41 +1,111 @@
 import os
-import asyncio
-import discord
-from discord.ext import commands, tasks
+import time
+import requests
 
-# ПОДКЛЮЧЕНИЕ НАПРЯМУЮ: Берем токен из готовой строчки в вашем .env
-try:
-    from coins_core import load_env_file
-    load_env_file()
-    # Берем тот самый длинный токен, который у вас уже вписан!
-    BOT_TOKEN = os.getenv("COLOSSEUM_COPILOT_PAT")
-except Exception as e:
-    print(f"Ошибка: {e}")
-    BOT_TOKEN = None
+# =====================================================================
+#                          НАСТРОЙКИ ДОСТУПА
+# =====================================================================
+# Вставь сюда URL Webhook от твоего Discord-канала (создается в настройках канала)
+DISCORD_WEBHOOK_URL = "ТВОЙ_DISCORD_WEBHOOK_URL"
 
-intents = discord.Intents.default()
-intents.message_content = True
-bot = commands.Bot(command_prefix="!", intents=intents)
+# Адрес кошелька твоего приложения MIR-PIFI (из панели разработчика Pi)
+APP_WALLET_ADDRESS = "GBLJYIOM7T2Z6A..." # Укажи свой полный адрес кошелька
 
-@tasks.loop(seconds=60)
-async def quantum_pulse_task():
-    for guild in bot.guilds:
-        channel = next((ch for ch in guild.text_channels if ch.permissions_for(guild.me).send_messages), None)
-        if channel:
-            await channel.send("🛠️ **[Solana Foundation Watcher]**\n• Дедлайн: **Эпоха 986**\n• Статус: Нода под защицией ИИ.")
+# Официальный публичный API тестовой сети Pi Network (Horizon/Stellar Node)
+PI_TESTNET_NODE_URL = "https://minepi.com"
 
-@bot.event
-async def on_ready():
-    print(f"Бот успешно зашел в сеть: {bot.user.name}")
-    if not quantum_pulse_task.is_running():
-        quantum_pulse_task.start()
+# =====================================================================
+#                      ФУНКЦИЯ ОТПРАВКИ В DISCORD
+# =====================================================================
+def send_discord_notification(amount, sender, tx_id, status_code="10"):
+    """Формирует красивую карточку сообщения в стиле Solana Tech Pulse"""
+    
+    # Квантовый дизайн карточки (фиолетовый цвет проекта #8a2be2)
+    payload = {
+        "content": "@everyone Квантовый Рой Ботов зафиксировал транзакцию!",
+        "embeds": [{
+            "title": f"🔮 MIR-PIFI — СИМФОНИЯ СТРУН АКТИВНА [СТАТУС {status_code}]",
+            "description": "Успешно зафиксировано пахтанье океана монет в блокчейне Pi Testnet.",
+            "color": 9055202,  # Десятичный код фиолетового цвета (#8A2BE2)
+            "fields": [
+                {
+                    "name": "💰 Сумма перевода",
+                    "value": f"**{amount} Pi**",
+                    "inline": True
+                },
+                {
+                    "name": "🧬 Индекс Солитона",
+                    "value": "108 Монет (Ядро Фаберже)",
+                    "inline": True
+                },
+                {
+                    "name": "👤 Отправитель (User-to-App)",
+                    "value": f"`{sender[:10]}...{sender[-10:]}`",
+                    "inline": False
+                },
+                {
+                    "name": "🔗 Хэш транзакции (TXID)",
+                    "value": f"[{tx_id[:16]}...](https://minepi.com)",
+                    "inline": False
+                }
+            ],
+            "footer": {
+                "text": "Amrita Mir Compute Core • Время Норвегии",
+                "icon_url": "https://minepi.com"
+            }
+        }]
+    }
 
-@bot.command(name="solana")
-async def solana(ctx):
-    await ctx.send("🛠️ **[Solana Foundation Watcher]**\n• Дедлайн: **Эпоха 986**\n• Требуемая версия Agave: `>= 4.0.2`\n• Требуемая версия Firedancer: `>= 0.911.40002`\n• Статус: Проверка завершена.")
+    try:
+        response = requests.post(DISCORD_WEBHOOK_URL, json=payload)
+        if response.status_code == 204:
+            print("[DISCORD] Уведомление успешно отправлено!")
+        else:
+            print(f"[DISCORD] Ошибка отправки: {response.status_code} - {response.text}")
+    except Exception as e:
+        print(f"[КРИТ] Ошибка сети при связи с Discord: {e}")
+
+# =====================================================================
+#                      ОСНОВНОЙ ЦИКЛ СЛЕЖКИ (SWARM)
+# =====================================================================
+def monitor_pi_blockchain():
+    print(f"==================================================")
+    print(f"🚀 РОЙ БОТОВ ЗАПУЩЕН. СЛЕЖКА ЗА КОШЕЛЬКОМ: {APP_WALLET_ADDRESS[:8]}...")
+    print(f"==================================================")
+    
+    last_checked_tx = None
+
+    while True:
+        try:
+            # Запрашиваем последние транзакции кошелька напрямую из блокчейна Pi
+            url = f"{PI_TESTNET_NODE_URL}/accounts/{APP_WALLET_ADDRESS}/payments?limit=1&order=desc"
+            response = requests.get(url, timeout=10)
+            
+            if response.status_code == 200:
+                data = response.json()
+                records = data.get("_embedded", {}).get("records", [])
+                
+                if records:
+                    latest_tx = records[0]
+                    tx_id = latest_tx.get("transaction_hash")
+                    amount = latest_tx.get("amount")
+                    sender = latest_tx.get("from")
+                    
+                    # Если появилась новая транзакция, которой не было в прошлую проверку
+                    if tx_id != last_checked_tx and last_checked_tx is not None:
+                        print(f"[БЛОКЧЕЙН] Найдена новая транзакция: {amount} Pi")
+                        # Отправляем карточку в Discord канал
+                        send_discord_notification(amount, sender, tx_id)
+                    
+                    last_checked_tx = tx_id
+            else:
+                print(f"[ОШИБКА БЛОКЧЕЙНА] Код ответа Horizon: {response.status_code}")
+                
+        except Exception as e:
+            print(f"[ОШИБКА] Сбой в квантовом цикле слежения: {e}")
+            
+        # Задержка проверки (каждые 10 секунд), чтобы не перегружать ноду сети Pi
+        time.sleep(10)
 
 if __name__ == "__main__":
-    if BOT_TOKEN:
-        bot.run(BOT_TOKEN)
-    else:
-        print("Ошибка: Токен пуст!")
+    monitor_pi_blockchain()
