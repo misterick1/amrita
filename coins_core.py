@@ -7,7 +7,7 @@ logger = logging.getLogger("CoinsCore")
 
 class CoinsCore:
     def __init__(self):
-        # Базовая конфигурация поддерживаемых сетей и их нативных токенов
+        # Базовая конфигурация с добавлением Hyperliquid (HYPE)
         self.supported_ecosystems: Dict[str, Dict[str, Any]] = {
             "solana": {
                 "ticker": "SOL",
@@ -21,6 +21,12 @@ class CoinsCore:
                 "contract": "native",
                 "enabled": True
             },
+            "hyperliquid": {
+                "ticker": "HYPE",
+                "decimals": 6,
+                "contract": "l1_native",
+                "enabled": True
+            },
             "xai": {
                 "ticker": "XAI",
                 "decimals": 18,
@@ -28,10 +34,9 @@ class CoinsCore:
                 "enabled": True
             }
         }
-        logger.info("Ядро CoinsCore успешно инициализировано. Загружено 3 экосистемы.")
+        logger.info("Ядро CoinsCore успешно обновлено. Интегрировано 4 экосистемы (Добавлен HYPE).")
 
     def get_ecosystem_details(self, name: str) -> Dict[str, Any] | None:
-        """Возвращает параметры токена по имени экосистемы"""
         ecosystem = self.supported_ecosystems.get(name.lower())
         if not ecosystem:
             logger.warning(f"Запрошена неподдерживаемая экосистема: {name}")
@@ -39,10 +44,6 @@ class CoinsCore:
         return ecosystem
 
     async def calculate_cross_rate(self, amount: float, from_coin: str, to_coin: str, prices: dict) -> float:
-        """
-        Рассчитывает конвертацию между монетами внутри распределенной системы.
-        prices: словарь с актуальными ценами (например, {'PI': 42.1, 'SOL': 160.5})
-        """
         from_ticker = from_coin.upper()
         to_ticker = to_coin.upper()
         
@@ -56,12 +57,10 @@ class CoinsCore:
             logger.error(f"Невозможно рассчитать курс. Отсутствуют котировки для {from_ticker} или {to_ticker}")
             raise ValueError("Missing asset price for cross-rate calculation")
             
-        # Конвертация через относительную долларовую стоимость
         value_in_usd = amount * price_from
         converted_amount = value_in_usd / price_to
         
         logger.info(f"Конвертация: {amount} {from_ticker} -> {converted_amount:.4f} {to_ticker}")
         return converted_amount
 
-# Экземпляр ядра для импорта в другие модули
 core = CoinsCore()
