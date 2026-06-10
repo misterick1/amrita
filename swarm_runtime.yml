@@ -1,0 +1,40 @@
+name: "Единый Квантовый Оркестратор: Swarm Runtime"
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch: # Позволяет запускать систему вручную кнопкой из вкладки Actions
+
+jobs:
+  run-ecosystem:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 1. Клонирование репозитория
+        uses: actions/checkout@v4
+
+      - name: 2. Развертывание окружения Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: 3. Установка Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: 4. Установка зависимостей проекта
+        run: |
+          pip install -r requirements.txt
+          npm install
+
+      - name: 5. Запуск Квантового Оркестратора в фоне GitHub
+        env:
+          PI_API_KEY: ${{ secrets.PI_API_KEY }}
+          PI_NETWORK_APP_ID: ${{ secrets.PI_NETWORK_APP_ID }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          EVEDEX_API_KEY: ${{ secrets.EVEDEX_API_KEY }}
+          EVEDEX_API_SECRET: ${{ secrets.EVEDEX_API_SECRET }}
+        run: |
+          # Запускаем платежный сервер и мост Pump.fun прямо на мощностях GitHub
+          python3 pump_fun_bridge.py &
+          npx uvicorn pi_payment_server:app --host 0.0.0.0 --port 8000
