@@ -5,13 +5,13 @@ import requests
 # =====================================================================
 #                          НАСТРОЙКИ ДОСТУПА
 # =====================================================================
-# Вставь сюда URL Webhook от твоего Discord-канала (создается в настройках канала)
+# Твой URL Webhook от Discord-канала
 DISCORD_WEBHOOK_URL = "https://discord.com"
 
-# Адрес кошелька твоего приложения MIR-PIFI (из панели разработчика Pi)
+# Адрес кошелька твоего приложения MIR-PIFI
 APP_WALLET_ADDRESS = "GBLJY2Q2C2JQKM3JG2BFTMSUWSN5T25C6BE6EZ4OF"
 
-# Официальный публичный API тестовой сети Pi Network (Horizon/Stellar Node)
+# Официальный публичный API тестовой сети Pi Network
 PI_TESTNET_NODE_URL = "https://minepi.com"
 
 # =====================================================================
@@ -84,6 +84,7 @@ def monitor_pi_blockchain():
                 records = data.get("_embedded", {}).get("records", [])
                 
                 if records:
+                    # ИСПРАВЛЕНО: берем первую транзакцию из списка записей
                     latest_tx = records[0]
                     tx_id = latest_tx.get("transaction_hash")
                     amount = latest_tx.get("amount")
