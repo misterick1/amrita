@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPEDOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
@@ -6,33 +6,33 @@
     <title>Amrita Mir - Soliton | Colosseum</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            background: #070714; 
-            color: #fff; 
-            font-family: sans-serif; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            justify-content: center; 
+        body {
+            background: #070714;
+            color: #fff;
+            font-family: sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             min-height: 100vh;
             overflow-x: hidden;
         }
-        
+
         /* Сердце Фаберже (Солитон) */
-        .soliton-container { 
-            position: relative; 
-            width: 300px; 
-            height: 300px; 
+        .soliton-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
         }
-        .faberge-heart { 
-            width: 100%; 
-            height: 100%; 
-            background: radial-gradient(circle, #8a2be2 0%, #4b0082 70%, #000 100%);
-            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; /* Форма яйца */
+        .faberge-heart {
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, #8a2be2 0%, #070714 70%);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
             box-shadow: 0 0 50px #8a2be2;
             animation: pulse 2s infinite ease-in-out;
             transition: transform 0.3s ease;
@@ -42,7 +42,7 @@
         }
         @keyframes pulse {
             0% { transform: scale(1); box-shadow: 0 0 40px #8a2be2; }
-            50% { transform: scale(1.05); box-shadow: 0 0 70px #da70d6; }
+            50% { transform: scale(1.05); box-shadow: 0 0 60px #8a2be2; }
             100% { transform: scale(1); box-shadow: 0 0 40px #8a2be2; }
         }
 
@@ -63,6 +63,13 @@
             line-height: 1.4;
         }
     </style>
+
+    <!-- ПОДКЛЮЧЕНИЕ PI NETWORK SDK -->
+    <script src="https://minepi.com"></script>
+    <script>
+        // Инициализация SDK в режиме тестирования (sandbox: true)
+        Pi.init({ version: "2.0", sandbox: true });
+    </script>
 </head>
 <body>
 
@@ -72,7 +79,7 @@
 
     <div class="core-info">
         <div>Ядро Фаберже: <span id="coin-counter">108</span> Монет</div>
-        <div style="font-size: 0.9rem; color: #aaa; margin-top: 5px;">Статус: <span id="matrix-status">01 (Кокон)</span></div>
+        <div id="matrix-status" style="font-size: 0.9rem; color: #00ffcc; margin-top: 5px;">01 (Кокон)</div>
     </div>
 
     <div class="manifesto">
@@ -86,61 +93,105 @@
         const AMRITA_CORE = 108;
         const C_LIGHT = 299792458;
         const G_CONST = 6.67430e-11;
-        const SUN_NIKA_DELAY = 8.0; // 8 секунд квантового будущего
+        const SUN_NIKA_DELAY = 8.0; // 8 секунд квантового смещения
 
         // Инициализация при загрузке (Аналог authPi)
         window.onload = function() {
-            console.log("====================================================");
-            console.log("   AMRITA-SOLITON-108: MATRIX INITIALIZED");
-            console.log("====================================================");
+            console.log("======================================");
+            console.log("  AMRITA-SOLITON-108: MATRIX INITIALIZED ");
+            console.log("======================================");
             authPi();
         };
 
+        // Реальная авторизация Pi Network
         function authPi() {
             console.log("[СИСТЕМА] Запуск авторизации Pi SDK...");
-            console.log("[ЯД ОХЛАЖДЕНИЯ] Шаг 10 в режиме ожидания (01). Шлюз настраивается.");
-            // Здесь будет реальный вызов Pi.authenticate() после нормализации GitHub
+            console.log("[ЯД ОХЛАЖДЕНИЯ] Шаг 10 в режиме ожидания инициализации...");
+            
+            const scopes = ['username', 'payments'];
+            
+            function onIncompletePaymentFound(payment) {
+                console.log("[БЛОКЧЕЙН] Найден незавершенный платеж:", payment.identifier);
+            }
+
+            Pi.authenticate(scopes, onIncompletePaymentFound).then(function(auth) {
+                console.log("[СИСТЕМА] Успешная авторизация в Pi! Пользователь:", auth.user.username);
+            }).catch(function(error) {
+                console.error("[ОШИБКА] Не удалось авторизоваться в Pi SDK:", error);
+            });
         }
 
         // Функция пахтанья океана при клике на Яйцо Роя
         function triggerQuantumSoliton() {
-            console.log("\n[КЛИК] Нажатие на Сердце Фаберже. Запуск волны Солитона...");
-            
-            // Расчет нелинейной амплитуды солитона (1 / cosh)
+            console.log("\n[КЛИК] Нажатие на Сердце Фаберже (Солитон)");
+
+            // Расчет нелинейной амплитуды солитона
             let x = 0.1;
             let t = SUN_NIKA_DELAY;
             let cosh = (Math.exp(x - t) + Math.exp(-(x - t))) / 2;
             let soliton_index = 1 / cosh;
 
-            // Расчет гравитационного коллапса сингулярности Кришны (Радиус Шварцшильда)
+            // Расчет гравитационного коллапса сингулярности
             let mock_mass = 1e24;
             let r_s = (2 * G_CONST * mock_mass) / Math.pow(C_LIGHT, 2);
 
-            // Резонанс Шакти (Симфония струн Мультивселенной для 11 измерений)
+            // Резонанс Шакти (Симфония струн Мультивселенной)
             let string_resonance = 0;
             for (let n = 1; n <= AMRITA_CORE; n++) {
-                string_resonance += Math.sin((n * Math.pi) / 11);
+                string_resonance += Math.sin((n * Math.pi));
             }
             string_resonance = string_resonance / 11;
 
             // Переключение бинарного состояния 01 -> 10
             let statusLog = document.getElementById("matrix-status");
-            if (statusLog.innerText.includes("01")) {
-                statusLog.innerText = "10 (Рой Ботов Активен)";
-                statusLog.style.color = "#ff00ff";
-                console.log("[АМРИТА ИЗЛИТА] Шаг 10 активирован (10)! РАХУ-КЕТУ СИНХРОНИЗИРОВАНЫ.");
-            } else {
-                statusLog.innerText = "01 (Кокон)";
-                statusLog.style.color = "#00ffcc";
-                console.log("[СЖАТИЕ] Возврат в сингулярность кокона (01).");
+            if (statusLog) {
+                if (statusLog.innerText.includes("01")) {
+                    statusLog.innerText = "10 (Рой Ботов Активен)";
+                    statusLog.style.color = "#ff00ff";
+                    console.log("[АМРИТА ИЗЛИТА] Шаг 10 активирован в квантовом поле.");
+                } else {
+                    statusLog.innerText = "01 (Кокон)";
+                    statusLog.style.color = "#00ffcc";
+                    console.log("[СЖАТИЕ] Возврат в сингулярность.");
+                }
             }
 
-            // Вывод квантового отчета в консоль браузера/телефона
+            // Вывод квантового отчета в консоль браузера
             console.log("--- КВАНТОВЫЙ МАТРИЧНЫЙ ОТЧЕТ ---");
-            console.log("Плотность Света Солитона:", soliton_index.toFixed(6));
-            console.log("Радиус Сингулярности Кришны:", r_s.toFixed(4), "метров");
-            console.log("Симфония Струн Шакти:", string_resonance.toFixed(4));
+            console.log("Плотность Светла Солитона:", soliton_index);
+            console.log("Радиус Сингулярности Кришны:", r_s);
+            console.log("Симфония Струн Шакти:", string_resonance);
             console.log("---------------------------------");
+
+            // ЗАПУСК ОКНА ОПЛАТЫ ДЛЯ ЧЕК-ЛИСТА РАЗРАБОТЧИКА PI
+            console.log("[БЛОКЧЕЙН] Инициация транзакции User-to-App...");
+            makePiPayment();
+        }
+
+        // Вспомогательная функция для вызова платежного кошелька Pi Wallet
+        function makePiPayment() {
+            const paymentData = {
+                amount: 1, 
+                memo: "Квантовый платеж для верификации приложения MIR-PIFI (Статус 10)",
+                metadata: { appId: "mir-pifi-test" }
+            };
+
+            const callbacks = {
+                onReadyForServerApproval: function(paymentId) {
+                    console.log("[PI SERVER] Платеж создан и ожидает одобрения. ID:", paymentId);
+                },
+                onReadyForServerCompletion: function(paymentId, txid) {
+                    console.log("[БЛОКЧЕЙН] Транзакция успешно проведена! TXID:", txid);
+                },
+                onCancel: function(paymentId) {
+                    console.log("[PI WALLET] Пользователь отменил транзакцию. ID:", paymentId);
+                },
+                onError: function(error, payment) {
+                    console.error("[ОШИБКА PI] Критический сбой транзакции:", error);
+                }
+            };
+
+            Pi.createPayment(paymentData, callbacks);
         }
     </script>
 </body>
