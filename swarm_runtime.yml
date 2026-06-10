@@ -27,10 +27,7 @@ jobs:
           pip install -r requirements.txt
           npm install
 
-      - name: 5. Запуск Квантового Оркестратора с жесткими ключами
-        run: |
-          python3 pump_fun_bridge.py &
-          npx uvicorn pi_payment_server:app --host 0.0.0.0 --port 8000
+      - name: 5. Запуск Квантового Оркестратора на 60 секунд
         env:
           COLOSSEUM_COPILOT_API_BASE: "https://colosseum.org"
           COLOSSEUM_COPILOT_PAT: "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik9YdlBiaHJuRTR2cjJadS13WUNQbyJ9.eyJpc3MiOiJodHRwczovL2F1dGguY29sb3NzZXVtLm9yZy8iLCJzdWIiOiJhdXRoMHw2NjU1ZDQ2OGUzYTM4YzM5MDcxMjA5ODIiLCJhdWQiOlsiaHR0cHM6Ly9hcGkuY29sb3NzZXVtLm9yZyIsImh0dHBzOi8vY29sb3NzZXVtLXVzZXItcHJvZmlsZS5hdXRoMC5jb20vdXNlcmluZm8iXSwiaWF0IjoxNzE4MDE1MDQxLCJleHAiOjE3MTgxMDE0NDEsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUgZW1haWwiLCJhenAiOiJuN2N0UXJscjZ3eWpxMXI3MkpSUktEaXFTS2pURkFSTSJ9.hYwHn1iRzPshkQv6Bf8C8Ily725gS9vH778vS_S12N5-sX6D_Z"
@@ -40,3 +37,16 @@ jobs:
           PI_API_KEY: "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik9YdlBiaHJuRTR2cjJadS13WUNQbyJ9.eyJpc3MiOiJodHRwczovL2F1dGguY29sb3NzZXVtLm9yZy8iLCJzdWIiOiJhdXRoMHw2NjU1ZDQ2OGUzYTM4YzM5MDcxMjA5ODIiLCJhdWQiOlsiaHR0cHM6Ly9hcGkuY29sb3NzZXVtLm9yZyIsImh0dHBzOi8vY29sb3NzZXVtLXVzZXItcHJvZmlsZS5hdXRoMC5jb20vdXNlcmluZm8iXSwiaWF0IjoxNzE4MDE1MDQxLCJleHAiOjE3MTgxMDE0NDEsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUgZW1haWwiLCJhenAiOiJuN2N0UXJscjZ3eWpxMXI3MkpSUktEaXFTS2pURkFSTSJ9.hYwHn1iRzPshkQv6Bf8C8Ily725gS9vH778vS_S12N5-sX6D_Z"
           PI_NETWORK_APP_ID: "epminnyv"
           DISCORD_WEBHOOK_URL: "https://discord.com"
+        run: |
+          # Запускаем мост Pump.fun в фоне
+          python3 pump_fun_bridge.py &
+          
+          # Запускаем FastAPI сервер в фоне
+          npx uvicorn pi_payment_server:app --host 0.0.0.0 --port 8000 &
+          
+          # Даем системе поработать 60 секунд, чтобы собрать логи инициализации и подключений
+          echo "Оркестратор запущен. Сбор логов в течение 60 секунд..."
+          sleep 60
+          
+          # Красиво завершаем фоновые процессы, чтобы выгрузить логи в консоль GitHub
+          kill $(jobs -p)
