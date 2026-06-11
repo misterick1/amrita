@@ -5,7 +5,6 @@ on:
     branches: [ main, master ]
   workflow_dispatch:
   schedule:
-    # Автоматический запуск каждый час
     - cron: '0 * * * *'
 
 jobs:
@@ -19,7 +18,7 @@ jobs:
       - name: Clone Repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 2 # Нужно для корректной работы git diff и оценки кода
+          fetch-depth: 2
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -38,18 +37,14 @@ jobs:
           DEVELOPER_WALLET: "BDsJXoNQvdphkqDE627pJyj3n5dJ8hcLVnkWVEDRLsnF"
         run: |
           echo "🤖 Рой Fractal Lego Builder сканирует изменения в коде..."
-          python3 Github/scripts/evaluate_complexity.py
+          python3 evaluate_complexity.py
           echo "🚀 Вызов скрипта автовыплаты токенов AMRITA в сети Solana..."
-          python3 Github/scripts/trigger_smart_contract.py
+          python3 trigger_smart_contract.py
 
       - name: Run Discord Bot 24-7 Loop
         run: |
           echo "🚀 Запуск бесконечного солитона..."
-          
-          # Запускаем бота в фоновом режиме
           python discord_swarm_bot.py &
-          
-          echo "🦔 Бот отправлен в поток. Удержание процесса..."
           
           while true; do
             sleep 30
