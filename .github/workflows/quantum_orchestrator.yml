@@ -5,7 +5,7 @@ on:
     branches: [ main ]
   workflow_dispatch:
   schedule:
-    # Автоматический запуск в начале каждого часа (01:00, 02:00, 03:00 и т.д. по UTC)
+    # Автоматический запуск в начале каждого часа
     - cron: '0 * * * *'
 
 jobs:
@@ -40,6 +40,7 @@ jobs:
           PI_API_KEY: ${{ secrets.PI_API_KEY }}
           PI_NETWORK_APP_ID: ${{ secrets.PI_NETWORK_APP_ID }}
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
         run: |
           python3 pump_fun_bridge.py &
           npx uvicorn pi_payment_server:app --host 0.0.0.0 &
