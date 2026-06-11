@@ -25,7 +25,7 @@ jobs:
       - name: 4. Синхронизация зависимостей
         run: |
           pip install -r requirements.txt
-          npm install
+          npm install -g uvicorn
 
       - name: 5. Автономный запуск модулей
         env:
@@ -39,7 +39,7 @@ jobs:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: |
           python3 pump_fun_bridge.py &
-          npx uvicorn pi_payment_service:app --host 0.0.0.0 &
+          npx uvicorn pi_payment_server:app --host 0.0.0.0 &
           echo "Солитон активен. Ожидание 60 секунд."
           sleep 60
           kill $(jobs -p) || true
