@@ -42,6 +42,7 @@ jobs:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
           XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
         run: |
+          python3 quota_monitor.py
           python3 pump_fun_bridge.py &
           npx uvicorn pi_payment_server:app --host 0.0.0.0 &
           echo "Солитон активен. Ожидание 60 секунд."
