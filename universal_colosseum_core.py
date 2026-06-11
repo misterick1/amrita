@@ -6,11 +6,13 @@ import random
 from datetime import datetime
 from dotenv import load_dotenv
 
+# Интеграция с музыкальным движком ядра
 try:
     from music_generator import MusicGeneratorAgent
 except ImportError:
     MusicGeneratorAgent = None
 
+# Настройка логирования под "Единый Квантовый Оркестратор"
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger("UniversalColosseum")
 
@@ -25,7 +27,7 @@ class UniversalColosseumEngine:
             "High Card": {"multiplier": 1, "msg": "Базовая разметка данных"},
             "Pair": {"multiplier": 2, "msg": "Успешная валидация модели AGI"},
             "Three of a Kind": {"multiplier": 5, "msg": "Квантовый скачок нейросети!"},
-            "Flush": {"multiplier": 10, "msg": "Синхронизация ASI ИИ ядра выполненна!"},
+            "Flush": {"multiplier": 10, "msg": "Синхронизация ASI ИИ ядра выполнена!"},
             "Royal Flush": {"multiplier": 50, "msg": "🔥 ТОТАЛЬНЫЙ МАЙНИНГ: Прорыв Квантового Сверхразума!"}
         }
         logger.info("⚔️ Колизей Когнитивного Майнинга и ИИ-Валидации запущен!")
@@ -35,14 +37,16 @@ class UniversalColosseumEngine:
         fighter_1, fighter_2 = random.sample(self.gladiators, 2)
         
         # Симулируем сбор покерной комбинации геймером-тестером
-        hand_name = random.choices(
+        hand_names = random.choices(
             list(self.poker_hands.keys()), 
-            weights=[50, 30, 13, 6, 1], # Шансы выпадения от простых к Рояль-Флешу
+            weights=[50, 30, 13, 6, 1],  # Честные шансы распределения комбинаций
             k=1
-        )[0]
-      weights=[60, 25, 10, 4.9, 0.1], # Шансы выпадения от простых к Рояль-Флешу
+        )
+        hand_name = hand_names[0]
         hand_data = self.poker_hands[hand_name]
-        base_power = ord(tactical_coordinate[0]) % 10 + int(tactical_coordinate[1:])
+        
+        # Рассчитываем базовую мощность на основе тактической координаты
+        base_power = ord(tactical_coordinate[0]) % 10 + int(tactical_coordinate[1:]) if len(tactical_coordinate) > 1 else 10
         
         # Награда игрока за время в сети (Когнитивный Майнинг)
         mined_tokens = round(base_power * hand_data["multiplier"] * 0.42, 2)
@@ -91,8 +95,8 @@ class UniversalColosseumEngine:
                     {"name": "💰 Добыто игроками за раунд", "value": f"🪙 **{battle['mined_tokens']} AMRITA-SOL**", "inline": True},
                     {"name": "🎵 Музыкальный стимулятор мозга", "value": f"**{track['title']}** ({track['style']}) [Слушать на Spotify]({spotify_link})", "inline": False}
                 ],
-                "image": {"url": "https://unsplash.com"}, # Стильный игровой арт
-                "footer": {"text": "AMRITA Play-to-Earn & Proof-of-Play Layer • 2026"}
+                "image": {"url": "https://unsplash.com"},
+                "footer": {"text": f"AMRITA Play-to-Earn & Proof-of-Play Layer • {datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')} UTC"}
             }]
         }
 
@@ -101,7 +105,7 @@ class UniversalColosseumEngine:
                 await client.post(DISCORD_WEBHOOK_URL, json=payload)
                 logger.info("📊 Отчет о когнитивном майнинге доставлен в Discord.")
             except Exception as e:
-                logger.error(f"Ошибка отправки: {e}")
+                logger.error(f"Ошибка отправки отчета в Discord: {e}")
 
     async def run_colosseum_swarm(self):
         logger.info("🚀 Колизей когнитивного майнинга запущен в Swarm-режиме...")
