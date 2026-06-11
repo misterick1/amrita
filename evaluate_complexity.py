@@ -38,7 +38,7 @@ if __name__ == "__main__":
     complexity_score = calculate_score(changed_lines)
     print(f"✅ Оценка сложности утверждена роем: {complexity_score} из 5")
     
-    # Создаем директорию скриптов, если её нет, и сохраняем результат
-    os.makedirs(".github/scripts", exist_ok=True)
-    with open(".github/scripts/score.txt", "w") as f:
+    # Сохраняем результат в правильную папку с большой буквы Github
+    os.makedirs("Github/scripts", exist_ok=True)
+    with open("Github/scripts/score.txt", "w") as f:
         f.write(str(complexity_score))
