@@ -4,6 +4,9 @@ on:
   push:
     branches: [ main ]
   workflow_dispatch:
+  schedule:
+    # Автоматический запуск в начале каждого часа (01:00, 02:00, 03:00 и т.д. по UTC)
+    - cron: '0 * * * *'
 
 jobs:
   infrastructure_orchestration:
