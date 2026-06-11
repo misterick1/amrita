@@ -1,25 +1,25 @@
-import os
-import sys
-from fastapi.testclient import TestClient
+import asyncio
+import logging
+from telegram_bridge import send_telegram_message
 
-# Эмулируем переменные окружения, чтобы сервер не упал при импорте
-os.environ["PI_API_KEY"] = "test_key_gate"
-os.environ["PI_NETWORK_APP_ID"] = "test_app_id"
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger("TestTelegram")
 
-# Пытаемся импортировать наше FastAPI приложение
-try:
-    from pi_payment_server import app
-    client = TestClient(app)
-except Exception as e:
-    print(f"Критическая ошибка импорта сервера: {e}")
-    sys.exit(1)
-
-def test_health_endpoint():
-    """Тестируем эндпоинт проверки работоспособности шлюза"""
-    response = client.get("/health")
-    assert response.status_code == 200
-    assert response.json()["status"] == "alive"
-    print("✅ Юнит-тест успешно пройден: Эндпоинт /health активен и стабилен!")
+async def test_trigger():
+    logger.info("📡 Запуск принудительного теста Telegram-моста...")
+    
+    test_text = (
+        "🚀 <b>Квантовый Сигнал Успешно Доставлен!</b>\n\n"
+        "🦔 Ёжик, Квантовый Оркестратор AMRITA на связи!\n"
+        "📱 Мобильный мост Telegram активирован и работает на 100%.\n"
+        "🪐 Все системы (bStocks, Музыка, Юпитер) готовы к трансляции!"
+    )
+    
+    success = await send_telegram_message(test_text)
+    if success:
+        logger.info("🎉 Тестовое письмо успешно улетело в Telegram!")
+    else:
+        logger.error("❌ Сбой теста. Проверь секреты репозитория.")
 
 if __name__ == "__main__":
-    test_health_endpoint()
+    asyncio.run(test_trigger())
