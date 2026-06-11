@@ -9,49 +9,52 @@ from solders.message import MessageV0
 from solders.transaction import VersionedTransaction
 
 def main():
+    # 1. Чтение секретов и кошельков из окружения GitHub
     private_key_string = os.getenv("SWARM_ORACLE_PRIVATE_KEY")
     developer_wallet_str = os.getenv("DEVELOPER_WALLET")
-    
-    # Меняем публичный RPC на стабильный и быстрый узел
-    rpc_url = "https://api.mainnet-beta.solana.com" 
-    mint_address_str = "2XNkytvTT4zfX3iKFDCUkBfxVRiUZqGunznWHZx7pump"
+    rpc_url = "https://api.mainnet-beta.solana.com"
+    mint_address_str = "2XNkytvTT4zfX3iKFDCUkBfxVRiUZqGunznWHZx7pump" # CA токена AMRITA
 
     if not private_key_string or not developer_wallet_str:
-        print("❌ Ошибка: Не настроены секреты!")
+        print("❌ Ошибка: Не настроены секреты в репозитории GitHub!")
         sys.exit(1)
 
+    # 2. Получение оценки сложности из score.txt
     score_file_path = "score.txt"
     complexity_score = 1
     if os.path.exists(score_file_path):
         with open(score_file_path, "r") as f:
             complexity_score = int(f.read().strip())
 
+    # Расчет награды: 10,000 токенов за 1 балл сложности коммита
     reward_amount = 10000 * complexity_score
     decimals = 6
     amount_in_lamports = int(reward_amount * (10 ** decimals))
 
     solana_client = Client(rpc_url)
     
+    # 3. Авторизация кошелька Оракула через текстовый Base58 ключ из секретов
     try:
         oracle_keypair = Keypair.from_base58_string(private_key_string.strip())
     except Exception as e:
-        print(f"❌ Ошибка ключа: {e}")
+        print(f"❌ Ошибка авторизации ключа Оракула: {e}")
         sys.exit(1)
 
     oracle_pubkey = oracle_keypair.pubkey()
     mint_pubkey = Pubkey.from_string(mint_address_str)
     developer_pubkey = Pubkey.from_string(developer_wallet_str)
 
-    print(f"🦔 Оракул: {oracle_pubkey}")
-    print(f"🔥 Сложность: {complexity_score}. Выплата: {reward_amount} AMRITA")
+    print(f"🦔 Робот-Оракул инициализирован: {oracle_pubkey}")
+    print(f"🔥 Сложность коммита: {complexity_score}. Награда к отправке: {reward_amount} AMRITA")
 
-    # 🛠️ ЖЕЛЕЗНЫЙ РАСЧЕТ: Вычисляем ATA адреса локально по формуле Solana, обходя лаги RPC
+    # 4. Локальный математический расчет адресов ATA-карманов в Solana
     source_ata = get_associated_token_address(oracle_pubkey, mint_pubkey)
     dest_ata = get_associated_token_address(developer_pubkey, mint_pubkey)
 
     print(f"🔗 Адрес кармана Оракула: {source_ata}")
     print(f"🔗 Адрес кармана Разработчика: {dest_ata}")
 
+    # 5. Сборка современной транзакции Solana v0 с использованием исправленного метода try_compile
     recent_blockhash = solana_client.get_latest_blockhash().value.blockhash
     
     transfer_ix = transfer_checked(
@@ -67,19 +70,23 @@ def main():
         )
     )
     
-    compiled_message = MessageV0.compile_with_legacy_instructions(
+    # Компиляция инструкций через правильный метод try_compile
+    compiled_message = MessageV0.try_compile(
         payer=oracle_pubkey,
         instructions=[transfer_ix],
+        address_lookup_table_accounts=[],
         recent_blockhash=recent_blockhash
     )
     
+    # Создание подписанной транзакции
     tx = VersionedTransaction(compiled_message, [oracle_keypair])
 
+    # 6. Отправка готовой транзакции в мейннет
     try:
         response = solana_client.send_transaction(tx, opts=TxOpts(skip_preflight=True))
-        print(f"🎉 Выплата успешно отправлена в мейннет! Tx Hash: {response.value}")
+        print(f"🎉 Выплата успешно завершена! Сигнатура транзакции в Solana: {response.value}")
     except Exception as e:
-        print(f"❌ Ошибка отправки транзакции: {e}")
+        print(f"❌ Ошибка при отправке транзакции в блокчейн: {e}")
         sys.exit(1)
 
 if __name__ == "__main__":
