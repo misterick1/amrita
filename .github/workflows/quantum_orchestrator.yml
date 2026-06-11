@@ -43,6 +43,7 @@ jobs:
           XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
         run: |
           python3 quota_monitor.py
+          python3 music_generator.py
           python3 pump_fun_bridge.py &
           npx uvicorn pi_payment_server:app --host 0.0.0.0 &
           echo "Солитон активен. Ожидание 60 секунд."
