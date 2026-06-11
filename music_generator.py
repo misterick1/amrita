@@ -5,7 +5,6 @@ import httpx
 import random
 from dotenv import load_dotenv
 
-# Настройка логирования под общую стилистику квантового оркестратора
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger("MusicGenerator")
 
@@ -16,7 +15,6 @@ DISCORD_WEBHOOK_URL = os.getenv("DISCORD_WEBHOOK_URL")
 class MusicGeneratorAgent:
     def __init__(self):
         self.platforms = ["Spotify", "TikTok", "Alibaba"]
-        # Исправленные стильные неоновые и киберпанк обложки
         self.covers = [
             "https://unsplash.com",
             "https://unsplash.com",
@@ -25,32 +23,28 @@ class MusicGeneratorAgent:
         logger.info("ИИ-Агент генерации и дистрибуции музыки инициализирован.")
 
     async def generate_track_metadata(self) -> dict:
-        """Симуляция генерации musical смыслов ядра"""
         styles = ["Quantum Ambient", "Cyber Techno", "Hyper Synth", "Deep Core"]
         titles = ["Global Soliton", "Dark Matter Light", "Amrita Mir Vibe", "Nucleus Wave"]
         
         track_info = {
             "title": random.choice(titles),
             "style": random.choice(styles),
-            "duration": "3:14",  # Число Пи
+            "duration": "3:14",
             "isrc_code": f"US-AMR-26-{random.randint(10000, 99999)}"
         }
         return track_info
 
     async def distribute_to_platforms(self, track: dict):
-        """Логика автоматической рассылки трека по платформам и отправки в Discord"""
         logger.info(f"🎵 Новый трек '{track['title']}' отправлен на дистрибуцию.")
         
         for platform in self.platforms:
-            logger.info(f"🚀 Синхронизация медиаданных с {platform}...")
-            await asyncio.sleep(0.5)
+            await asyncio.sleep(0.1)
+
+        spotify_link = f"https://spotify.com{track['title'].replace(' ', '%20')}"
+        tiktok_link = "https://tiktok.com"
+        alibaba_link = "https://alibaba.com"
 
         if DISCORD_WEBHOOK_URL:
-            # ИСПРАВЛЕНО: Добавлен правильный слэш после search/
-            spotify_link = f"https://spotify.com{track['title'].replace(' ', '%20')}"
-            tiktok_link = "https://tiktok.com"
-            alibaba_link = "https://alibaba.com"
-
             payload = {
                 "username": "Солитон: Медиа Оркестратор",
                 "embeds": [{
@@ -68,9 +62,7 @@ class MusicGeneratorAgent:
                             "inline": False
                         }
                     ],
-                    "image": {
-                        "url": random.choice(self.covers)
-                    },
+                    "image": {"url": random.choice(self.covers)},
                     "footer": {"text": "AMRITA Multiverse Media Layer"}
                 }]
             }
@@ -81,6 +73,21 @@ class MusicGeneratorAgent:
                     logger.info(f"⚡ Отчет о музыкальном релизе '{track['title']}' опубликован в Discord.")
                 except Exception as e:
                     logger.error(f"Не удалось отправить отчет в Discord: {e}")
+
+        # ОТПРАВКА В TELEGRAM
+        try:
+            from telegram_bridge import send_telegram_message
+            tg_text = (
+                f"🎵 <b>Сгенерирован Новый Трек!</b>\n\n"
+                f"🎯 Название: <b>{track['title']}</b>\n"
+                f"🌀 Жанр: {track['style']}\n"
+                f"⏱️ Длительность: {track['duration']}\n"
+                f"📑 ISRC: <code>{track['isrc_code']}</code>\n\n"
+                f"🟢 <a href='{spotify_link}'>Слушать на Spotify</a>"
+            )
+            await send_telegram_message(tg_text)
+        except Exception as tg_err:
+            logger.error(f"Не удалось отправить копию в TG: {tg_err}")
 
 async def main():
     agent = MusicGeneratorAgent()
