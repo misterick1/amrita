@@ -40,7 +40,7 @@ class UniversalColosseumEngine:
             weights=[50, 30, 13, 6, 1], # Шансы выпадения от простых к Рояль-Флешу
             k=1
         )[0]
-        
+                    weights=[60, 25, 10, 4.9, 0.1], # Шансы выпадения от простых к Рояль-Флешу
         hand_data = self.poker_hands[hand_name]
         base_power = ord(tactical_coordinate[0]) % 10 + int(tactical_coordinate[1:])
         
