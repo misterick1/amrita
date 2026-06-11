@@ -1,7 +1,6 @@
 import os
 import sys
 import json
-import requests
 from solana.rpc.api import Client
 from solders.keypair import Keypair
 from solders.pubkey import Pubkey
@@ -19,7 +18,8 @@ def main():
         print("❌ Ошибка: Не настроены секреты!")
         sys.exit(1)
 
-    score_file_path = ".github/scripts/score.txt"
+    # Читаем score.txt из корня
+    score_file_path = "score.txt"
     complexity_score = 1
     if os.path.exists(score_file_path):
         with open(score_file_path, "r") as f:
@@ -46,12 +46,9 @@ def main():
 
     def get_ata(owner: Pubkey, mint: Pubkey):
         try:
-            response = solana_client.get_token_accounts_by_owner_json_parsed(
-                owner,
-                opts={"mint": str(mint)}
-            )
+            response = solana_client.get_token_accounts_by_owner_json_parsed(owner, opts={"mint": str(mint)})
             if response.value:
-                return Pubkey.from_string(response.value[0].pubkey)
+                return Pubkey.from_string(response.value.pubkey)
             return None
         except Exception:
             return None
@@ -82,7 +79,7 @@ def main():
 
     try:
         response = solana_client.send_transaction(tx, oracle_keypair, opts=TxOpts(skip_preflight=True))
-        print(f"🎉 Tx Hash: {response.value}")
+        print(f"🎉 Выплата завершена! Tx Hash: {response.value}")
     except Exception as e:
         print(f"❌ Ошибка отправки: {e}")
         sys.exit(1)
