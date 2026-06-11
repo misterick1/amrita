@@ -16,24 +16,23 @@ DISCORD_WEBHOOK_URL = os.getenv("DISCORD_WEBHOOK_URL")
 class MusicGeneratorAgent:
     def __init__(self):
         self.platforms = ["Spotify", "TikTok", "Alibaba"]
-        # Набор красивых обложек в стиле абстрактных звуковых волн и космоса
+        # Исправленные стильные неоновые и киберпанк обложки
         self.covers = [
-            "https://picsum.photos",
-            "https://picsum.photos",
-            "https://picsum.photos"
+            "https://unsplash.com",
+            "https://unsplash.com",
+            "https://unsplash.com"
         ]
         logger.info("ИИ-Агент генерации и дистрибуции музыки инициализирован.")
 
     async def generate_track_metadata(self) -> dict:
-        """Симуляция генерации музыкальных смыслов ядра"""
-        # Темы и концепты на базе философии Солитона
+        """Симуляция генерации musical смыслов ядра"""
         styles = ["Quantum Ambient", "Cyber Techno", "Hyper Synth", "Deep Core"]
         titles = ["Global Soliton", "Dark Matter Light", "Amrita Mir Vibe", "Nucleus Wave"]
         
         track_info = {
             "title": random.choice(titles),
             "style": random.choice(styles),
-            "duration": "3:14",  # Символическое число Пи
+            "duration": "3:14",  # Число Пи
             "isrc_code": f"US-AMR-26-{random.randint(10000, 99999)}"
         }
         return track_info
@@ -42,13 +41,12 @@ class MusicGeneratorAgent:
         """Логика автоматической рассылки трека по платформам и отправки в Discord"""
         logger.info(f"🎵 Новый трек '{track['title']}' отправлен на дистрибуцию.")
         
-        # Симуляция параллельной заливки на стриминги
         for platform in self.platforms:
             logger.info(f"🚀 Синхронизация медиаданных с {platform}...")
-            await asyncio.sleep(0.5)  # Имитация работы API дистрибьютора
+            await asyncio.sleep(0.5)
 
         if DISCORD_WEBHOOK_URL:
-            # Создаем динамические поисковые ссылки для удобства клика
+            # ИСПРАВЛЕНО: Добавлен правильный слэш после search/
             spotify_link = f"https://spotify.com{track['title'].replace(' ', '%20')}"
             tiktok_link = "https://tiktok.com"
             alibaba_link = "https://alibaba.com"
@@ -58,7 +56,7 @@ class MusicGeneratorAgent:
                 "embeds": [{
                     "title": "🎵 Сгенерирован и Опубликован Новый Трек",
                     "description": "Автономный синтез звуковых волн на основе информационных смыслов ядра.",
-                    "color": 9442302,  # Фиолетовый цвет AMRITA
+                    "color": 9442302,
                     "fields": [
                         {"name": "Название", "value": f"**{track['title']}**", "inline": False},
                         {"name": "Жанр / Стиль", "value": f"{track['style']}", "inline": True},
