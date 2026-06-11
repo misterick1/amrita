@@ -37,9 +37,9 @@ jobs:
           DEVELOPER_WALLET: "BDsJXoNQvdphkqDE627pJyj3n5dJ8hcLVnkWVEDRLsnF"
         run: |
           echo "🤖 Рой Fractal Lego Builder сканирует изменения в коде..."
-          python3 .github/scripts/evaluate_complexity.py
+          python3 github/scripts/evaluate_complexity.py
           echo "🚀 Вызов скрипта автовыплаты токенов AMRITA в сети Solana..."
-          python3 .github/scripts/trigger_smart_contract.py
+          python3 github/scripts/trigger_smart_contract.py
 
       - name: Run Discord Bot 24-7 Loop
         run: |
