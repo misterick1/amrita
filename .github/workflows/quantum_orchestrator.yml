@@ -23,13 +23,11 @@ jobs:
           node-version: '18'
 
       - name: 4. Синхронизация зависимостей
-        working-directory: ./amrita
         run: |
           pip install -r requirements.txt
           npm install
 
       - name: 5. Автономный запуск модулей
-        working-directory: ./amrita
         env:
           COLOSSEUM_COPILOT_API_BASE: "https://colosseum.com"
           COLOSSEUM_COPILOT_PAT: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzY29wZSI6ImNvbG9zZXVtMnZ1bV9jb3BpbG90NjJIYWQiLCJ1c2VybWFTZSI6Ik1JUilsImRpc3BsYXIOW1lljoibWlzdGVyaWNreMTA4bHwicm9sZXMiOlt dLCJ0b2tlblZlcnNpb24iOjEsImlhdCI6MTc3NzIxXNTE0NSwiYXVkljoiY29sb3NZZXVtX2NvcGlsb3QiLCJzdWliOil5OTczOSlslmV4cCI6MTg0NDk5MTE0NSwianRpljoinMy3N2RmZmZtZWM2Ni00NTAyLWFjNTUtMTNhZTljNDVIOGU3In0.PS7E2CiQMBqjO27EpLUGYKOGDhz_3gdCe5w0-UITAAI"
