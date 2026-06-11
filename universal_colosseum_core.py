@@ -6,21 +6,10 @@ import random
 from datetime import datetime
 from dotenv import load_dotenv
 
-# Интеграция с музыкальным движком ядра
 try:
     from music_generator import MusicGeneratorAgent
 except ImportError:
     MusicGeneratorAgent = None
-
-# Имитация получения контекста матрицы, как в твоем исходном файле
-try:
-    from coins_core import get_universal_context
-    matrix = get_universal_context(domain_type="colosseum")
-    COPILOT_TOKEN = matrix.get("master_key", "mock_token_123")
-    API_BASE = matrix.get("api_url", "https://amrita.network")
-except ImportError:
-    COPILOT_TOKEN = "mock_token_123"
-    API_BASE = "https://amrita.network"
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger("UniversalColosseum")
@@ -31,42 +20,51 @@ DISCORD_WEBHOOK_URL = os.getenv("DISCORD_WEBHOOK_URL")
 class UniversalColosseumEngine:
     def __init__(self):
         self.gladiators = ["Квантовый Солитон", "Кибер-Император", "Нейро-Гладиатор", "Дроид-Разрушитель"]
-        self.battle_history = []
-        logger.info("⚔️ Боевой движок Вселенского Колизея запущен.")
+        # Список покерных комбинаций для симуляции валидации ИИ геймерами
+        self.poker_hands = {
+            "High Card": {"multiplier": 1, "msg": "Базовая разметка данных"},
+            "Pair": {"multiplier": 2, "msg": "Успешная валидация модели AGI"},
+            "Three of a Kind": {"multiplier": 5, "msg": "Квантовый скачок нейросети!"},
+            "Flush": {"multiplier": 10, "msg": "Синхронизация ASI ИИ ядра выполненна!"},
+            "Royal Flush": {"multiplier": 50, "msg": "🔥 ТОТАЛЬНЫЙ МАЙНИНГ: Прорыв Квантового Сверхразума!"}
+        }
+        logger.info("⚔️ Колизей Когнитивного Майнинга и ИИ-Валидации запущен!")
 
     async def execute_battle_round(self, tactical_coordinate: str) -> dict:
-        """Проводит раунд боя, где координата выстрела определяет критический урон"""
-        # Случайный выбор двух бойцов из пула
+        """Раунд боя, где действия геймера генерируют вычислительную мощность ИИ"""
         fighter_1, fighter_2 = random.sample(self.gladiators, 2)
         
-        # Координата влияет на множитель урона (например, буквы дают базовый урон, цифры — шанс крита)
-        base_damage = ord(tactical_coordinate[0]) % 20 + 10
-        crit_multiplier = int(tactical_coordinate[1:]) if tactical_coordinate[1:].isdigit() else 1
+        # Симулируем сбор покерной комбинации геймером-тестером
+        hand_name = random.choices(
+            list(self.poker_hands.keys()), 
+            weights=[50, 30, 13, 6, 1], # Шансы выпадения от простых к Рояль-Флешу
+            k=1
+        )[0]
         
-        total_damage = base_damage * (2 if crit_multiplier > 5 else 1)
-        winner = fighter_1 if total_damage > 18 else fighter_2
+        hand_data = self.poker_hands[hand_name]
+        base_power = ord(tactical_coordinate[0]) % 10 + int(tactical_coordinate[1:])
         
-        battle_result = {
+        # Награда игрока за время в сети (Когнитивный Майнинг)
+        mined_tokens = round(base_power * hand_data["multiplier"] * 0.42, 2)
+        
+        return {
             "fighter_1": fighter_1,
             "fighter_2": fighter_2,
             "coordinate": tactical_coordinate,
-            "damage": total_damage,
-            "is_crit": crit_multiplier > 5,
-            "winner": winner
+            "hand_name": hand_name,
+            "validation_status": hand_data["msg"],
+            "mined_tokens": mined_tokens,
+            "winner": fighter_1 if mined_tokens > 15 else fighter_2
         }
-        
-        self.battle_history.append(battle_result)
-        logger.info(f"💥 Битва на клетке {tactical_coordinate}: {fighter_1} vs {fighter_2}. Победитель: {winner} ({total_damage} dmg)")
-        return battle_result
 
     async def send_battle_report(self, battle: dict):
-        """Публикует эпический боевой отчет с музыкальным сопровождением в Discord"""
+        """Отправка отчета о заработке геймеров-валидаторов в Discord"""
         if not DISCORD_WEBHOOK_URL:
             return
 
-        # Запрашиваем саундтрек для гладиаторов
-        track_title = f"Colosseum Combat {battle['coordinate']}"
-        track_style = "Cyber Techno" if battle['is_crit'] else "Hyper Synth"
+        # Специальный музыкальный стиль под концепт майнинга ума
+        track_title = f"High Roller Mining {battle['coordinate']}"
+        track_style = "Cognitive Synth" if battle['mined_tokens'] > 20 else "Mining Beats"
         
         if MusicGeneratorAgent:
             try:
@@ -81,50 +79,38 @@ class UniversalColosseumEngine:
 
         spotify_link = f"https://spotify.com{track['title'].replace(' ', '%20')}"
         
-        covers = [
-            "https://unsplash.com",
-            "https://unsplash.com"
-        ]
-
-        crit_text = "🚨 КРИТИЧЕСКИЙ УДАР! " if battle['is_crit'] else ""
-
         payload = {
-            "username": "Солитон: Гладиаторский Колизей",
+            "username": "Солитон: Игровой Когнитивный Майнер",
             "embeds": [{
-                "title": f"⚔️ Результаты Раунда на Арене Колизея",
-                "description": f"Автономные агенты сошлись в схватке, используя тактическую координату сектора.",
-                "color": 15158332,  # Агрессивный красный/бордовый цвет арены
+                "title": f"🃏 Валидация ИИ и Когнитивный Майнинг: Сектор {battle['coordinate']}",
+                "description": f"Геймеры часами тестируют среду, развивая Квантовые Нейросети (AGI/ASI). Ваше время = Награда!",
+                "color": 3066993,  # Изумрудный цвет денег и токенов
                 "fields": [
-                    {"name": "Бойцы", "value": f"🔹 **{battle['fighter_1']}** vs 🔸 **{battle['fighter_2']}**", "inline": False},
-                    {"name": "Тактический Сектор", "value": f"🎯 Клетка **{battle['coordinate']}**", "inline": True},
-                    {"name": "Нанесенный урон", "value": f"⚔️ {crit_text}{battle['damage']} HP", "inline": True},
-                    {"name": "🏆 Триумфатор Раунда", "value": f"👑 **{battle['winner']}**", "inline": False},
-                    {"name": "🎵 Музыка боевой арены", "value": f"**{track['title']}** ({track['style']}) [Слушать на Spotify]({spotify_link})", "inline": False}
+                    {"name": "🎰 Покерная Комбинация Валидатора", "value": f"**{battle['hand_name']}**\n└ *{battle['validation_status']}*", "inline": False},
+                    {"name": "👥 Активные Агенты-Тестеры", "value": f"🔹 {battle['fighter_1']} vs 🔸 {battle['fighter_2']}", "inline": True},
+                    {"name": "💰 Добыто игроками за раунд", "value": f"🪙 **{battle['mined_tokens']} AMRITA-SOL**", "inline": True},
+                    {"name": "🎵 Музыкальный стимулятор мозга", "value": f"**{track['title']}** ({track['style']}) [Слушать на Spotify]({spotify_link})", "inline": False}
                 ],
-                "image": {"url": random.choice(covers)},
-                "footer": {"text": f"AMRITA Universal Colosseum • Token Active"}
+                "image": {"url": "https://unsplash.com"}, # Стильный игровой арт
+                "footer": {"text": "AMRITA Play-to-Earn & Proof-of-Play Layer • 2026"}
             }]
         }
 
         async with httpx.AsyncClient() as client:
             try:
                 await client.post(DISCORD_WEBHOOK_URL, json=payload)
-                logger.info("📊 Боевой отчет успешно доставлен в Discord.")
+                logger.info("📊 Отчет о когнитивном майнинге доставлен в Discord.")
             except Exception as e:
-                logger.error(f"Сбой отправки отчета с арены: {e}")
+                logger.error(f"Ошибка отправки: {e}")
 
     async def run_colosseum_swarm(self):
-        """Бесконечный цикл гладиаторских боев в режиме реального времени"""
-        logger.info("🚀 Колизей переведен в автономный Swarm-режим 24/7...")
+        logger.info("🚀 Колизей когнитивного майнинга запущен в Swarm-режиме...")
         rows = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]
         while True:
-            # Имитируем получение координаты от нашего тактического бота
             random_coordinate = f"{random.choice(rows)}{random.randint(1, 10)}"
             battle = await self.execute_battle_round(random_coordinate)
             await self.send_battle_report(battle)
-            
-            # Проводим гладиаторские бои каждые 15 минут (900 секунд)
-            await asyncio.sleep(900)
+            await asyncio.sleep(600)  # Раунды валидации каждые 10 минут
 
 if __name__ == "__main__":
     engine = UniversalColosseumEngine()
