@@ -1,87 +1,91 @@
 import os
 import sys
-from web3 import Web3
+import json
+import requests
+from solana.rpc.api import Client
+from solders.keypair import Keypair
+from solders.pubkey import Pubkey
+from spl.token.instructions import transfer_checked, TransferCheckedParams
+from solana.rpc.types import TxOpts
+from solana.transaction import Transaction
 
 def main():
-    # 1. Считываем переменные окружения, переданные из GitHub Actions
-    private_key = os.getenv("SWARM_ORACLE_PRIVATE_KEY")
-    developer_wallet = os.getenv("DEVELOPER_WALLET")
-    rpc_url = os.getenv("RPC_URL")
-    contract_address = os.getenv("CONTRACT_ADDRESS")
+    private_key_string = os.getenv("SWARM_ORACLE_PRIVATE_KEY")
+    developer_wallet_str = os.getenv("DEVELOPER_WALLET")
+    rpc_url = "https://solana.com"
+    mint_address_str = "2XNkytvTT4zfX3iKFDCUkBfxVRiUZqGunznWHZx7pump"
 
-    if not all([private_key, developer_wallet, rpc_url, contract_address]):
-        print("❌ Ошибка: Не все переменные окружения (ключи, адреса) настроены в репозитории!")
+    if not private_key_string or not developer_wallet_str:
+        print("❌ Ошибка: Не настроены секреты!")
         sys.exit(1)
 
-    # 2. Читаем оценку сложности из файла, созданного предыдущим скриптом
     score_file_path = ".github/scripts/score.txt"
-    if not os.path.exists(score_file_path):
-        print("❌ Ошибка: Файл с оценкой сложности score.txt не найден!")
+    complexity_score = 1
+    if os.path.exists(score_file_path):
+        with open(score_file_path, "r") as f:
+            complexity_score = int(f.read().strip())
+
+    reward_amount = 10000 * complexity_score
+    decimals = 6
+    amount_in_lamports = int(reward_amount * (10 ** decimals))
+
+    solana_client = Client(rpc_url)
+    
+    try:
+        secret_bytes = json.loads(private_key_string)
+        oracle_keypair = Keypair.from_bytes(secret_bytes)
+    except Exception as e:
+        print(f"❌ Ошибка ключа: {e}")
         sys.exit(1)
-        
-    with open(score_file_path, "r") as f:
-        complexity_score = int(f.read().strip())
 
-    # 3. Подключаемся к блокчейн-узлу (RPC)
-    w3 = Web3(Web3.HTTPProvider(rpc_url))
-    if not w3.is_connected():
-        print("❌ Ошибка: Не удалось подключиться к блокчейн-сети через указанный RPC!")
+    oracle_pubkey = oracle_keypair.pubkey()
+    mint_pubkey = Pubkey.from_string(mint_address_str)
+    developer_pubkey = Pubkey.from_string(developer_wallet_str)
+
+    print(f"🦔 Оракул: {oracle_pubkey}")
+
+    def get_ata(owner: Pubkey, mint: Pubkey):
+        try:
+            response = solana_client.get_token_accounts_by_owner_json_parsed(
+                owner,
+                opts={"mint": str(mint)}
+            )
+            if response.value:
+                return Pubkey.from_string(response.value[0].pubkey)
+            return None
+        except Exception:
+            return None
+
+    source_ata = get_ata(oracle_pubkey, mint_pubkey)
+    dest_ata = get_ata(developer_pubkey, mint_pubkey)
+
+    if not source_ata or not dest_ata:
+        print("❌ Ошибка: ATA аккаунты не найдены!")
         sys.exit(1)
 
-    # Получаем адрес кошелька оракула из приватного ключа
-    oracle_account = w3.eth.account.from_key(private_key)
-    oracle_address = oracle_account.address
-    print(f"🤖 Подключен Оракул Роя. Адрес: {oracle_address}")
-
-    # 4. Минимальный ABI контрактной функции `contractPayForCommit` для отправки транзакции
-    abi = [
-        {
-            "inputs": [
-                {"internalType": "address", "name": "_developer", "type": "address"},
-                {"internalType": "uint256", "name": "_complexityScore", "type": "uint256"},
-                {"internalType": "string", "name": "_prId", "type": "string"}
-            ],
-            "name": "contractPayForCommit",
-            "outputs": [],
-            "stateMutability": "nonpayable",
-            "type": "function"
-        }
-    ]
-
-    # Инициализируем контракт
-    contract = w3.eth.contract(address=Web3.to_checksum_address(contract_address), abi=abi)
-
-    # Идентификатор текущего запуска пайплайна в качестве ID работы
-    run_id = os.getenv("GITHUB_RUN_ID", "manual_run")
-
-    print(f"🔗 Формирование транзакции на выплату для {developer_wallet} со сложностью {complexity_score}...")
-
-    # 5. Строим и подписываем блокчейн-транзакцию
-    nonce = w3.eth.get_transaction_count(oracle_address)
+    recent_blockhash = solana_client.get_latest_blockhash().value.blockhash
+    tx = Transaction(recent_blockhash=recent_blockhash)
     
-    # Подготовка параметров вызова смарт-контракта
-    tx = contract.functions.contractPayForCommit(
-        Web3.to_checksum_address(developer_wallet),
-        complexity_score,
-        str(run_id)
-    ).build_transaction({
-        'chainId': w3.eth.chain_id,
-        'gas': 150000, # Лимит газа с запасом на выполнение логики смарт-контракта
-        'gasPrice': w3.eth.gas_price,
-        'nonce': nonce,
-    })
+    transfer_ix = transfer_checked(
+        TransferCheckedParams(
+            program_id=Pubkey.from_string("TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"),
+            source=source_ata,
+            mint=mint_pubkey,
+            dest=dest_ata,
+            owner=oracle_pubkey,
+            amount=amount_in_lamports,
+            decimals=decimals,
+            signers=[]
+        )
+    )
+    tx.add(transfer_ix)
 
-    # Подпись транзакции закрытым ключом робота-оракула
-    signed_tx = w3.eth.account.sign_transaction(tx, private_key=private_key)
-    
-    # Отправка транзакции в сеть
-    tx_hash = w3.eth.send_raw_transaction(signed_tx.raw_transaction)
-    print(f"🚀 Транзакция успешно отправлена в блокчейн! Хэш: {w3.to_hex(tx_hash)}")
-    
-    # Ожидаем подтверждения транзакции сетью
-    print("⏳ Ожидание включения транзакции в блок...")
-    tx_receipt = w3.eth.wait_for_transaction_receipt(tx_hash, timeout=120)
-    print(f"🎉 Выплата зафиксирована в блоке №{tx_receipt['blockNumber']}! Статус: {tx_receipt['status']}")
+    try:
+        response = solana_client.send_transaction(tx, oracle_keypair, opts=TxOpts(skip_preflight=True))
+        print(f"🎉 Tx Hash: {response.value}")
+    except Exception as e:
+        print(f"❌ Ошибка отправки: {e}")
+        sys.exit(1)
 
 if __name__ == "__main__":
     main()
