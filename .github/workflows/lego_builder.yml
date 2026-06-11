@@ -18,6 +18,8 @@ jobs:
     steps:
       - name: Clone Repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 2 # Нужно для корректной работы git diff и оценки кода
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -27,20 +29,33 @@ jobs:
       - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
+          pip install web3 requests
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Evaluate Commit and Pay Developer
+        env:
+          SWARM_ORACLE_PRIVATE_KEY: ${{ secrets.SWARM_ORACLE_PRIVATE_KEY }}
+          DEVELOPER_WALLET: "0x95222290DD7278Aa3Ddd389Cc1E1d165CC4BAfe5" # Замени на свой реальный адрес кошелька
+          RPC_URL: "https://publicnode.com" # Или RPC-урл твоей тестовой/основной сети
+          CONTRACT_ADDRESS: "0xd9145ECE52DDE43374462A5144b61d36c2f90117" # Адрес развернутого смарт-контракта
+        run: |
+          echo "🤖 Рой Fractal Lego Builder сканирует изменения в коде..."
+          python3 .github/scripts/evaluate_complexity.py
+          echo "🚀 Вызов смарт-контракта для фиксации работы и выплаты..."
+          python3 .github/scripts/trigger_smart_contract.py
 
       - name: Run Discord Bot 24-7 Loop
         run: |
-          echo "🚀 Запуск бесконечного солитона бота..."
+          echo "🚀 Запуск бесконечного солитона..."
           
           # Запускаем бота в фоновом режиме
           python discord_swarm_bot.py &
           
-          echo "🦔 Бот отправлен в поток. Удерживаем сервер..."
+          echo "🦔 Бот отправлен в поток. Удержание процесса..."
           
           while true; do
             sleep 30
-            if ! pgrep -f discord_swarm_bot.py > /dev/null; then
+            if ! pgrep -f discord_swarm_bot.py; then
               echo "🚨 Перезапуск упавшего солитона..."
               python discord_swarm_bot.py &
             fi
