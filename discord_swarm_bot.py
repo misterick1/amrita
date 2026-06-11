@@ -6,7 +6,7 @@ import httpx
 from datetime import datetime
 from dotenv import load_dotenv
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger("DiscordSwarmBot")
 
 load_dotenv()
@@ -18,31 +18,31 @@ class DiscordSwarmBot:
         self.rows = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]
         self.cols = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
         self.history_of_shots = []
-        logger.info("Бот DiscordSwarmBot переведен в тактический режим турнира.")
+        logger.info("Бот DiscordSwarmBot успешно инициализирован.")
 
     async def calculate_tactical_shot(self) -> str:
         available_cells = [f"{r}{c}" for r in self.rows for c in self.cols if f"{r}{c}" not in self.history_of_shots]
         if not available_cells:
-            logger.warning("Все клетки поражены! Очистка истории.")
+            logger.warning("Все клетки поражены! Очистка истории выстрелов.")
             self.history_of_shots.clear()
             available_cells = [f"{r}{c}" for r in self.rows for c in self.cols]
         target_shot = random.choice(available_cells)
         self.history_of_shots.append(target_shot)
         return target_shot
 
-    async def send_game_coordinate(self, team: str = "Empire"):
-        if not DISCORD_WEBHOOK_URL or "your_actual_token" in DISCORD_WEBHOOK_URL:
+    async def send_game_coordinate(self, team: str):
+        if not DISCORD_WEBHOOK_URL or "your_actual_webhook_url" in DISCORD_WEBHOOK_URL:
             return
 
         coordinate = await self.calculate_tactical_shot()
-        
-        # Интеграция новости: Проверка специального режима Solflare Pack Opening
+
+        # Интеграция новости: Проверка специального раунда
         current_hour = datetime.utcnow().hour
-        is_solflare_night = True  # Активируем праздничный вайб для сегодняшнего четверга
-        
-        title_text = "🎁 Solflare Pack Opening Night: Наведение Роя" if is_solflare_night else f"🚢 {team} Game Night: Наведение Роя"
-        desc_text = "Специальный тактический раунд в честь открытия паков Solflare!" if is_solflare_night else "Автономный расчет траектории в рамках экосистемы AMRITA."
-        color_code = 16761095 if is_solflare_night else (3447003 if team == "Empire" else 15158332)
+        is_solflare_night = True  # Активируем раунд
+
+        title_text = "🎁 Solflare Pack Opening Alert!"
+        desc_text = f"Специальный тактический раунд запущен для команды {team}!"
+        color_code = 16761095 if is_solflare_night else 3447003
 
         payload = {
             "username": f"Солитон: Игровой Оркестратор ({team})",
@@ -52,10 +52,10 @@ class DiscordSwarmBot:
                     "description": desc_text,
                     "color": color_code,
                     "fields": [
-                        {"name": "Рекомендованная цель для удара", "value": f"💥 `{coordinate}`", "inline": True},
-                        {"name": "Статус паков", "value": "`🔥 Ожидание пресейла 18:00 CET`" if is_solflare_night else "`Активно`", "inline": True}
+                        {"name": "Рекомендованная цель", "value": f"🎯 Клетка **{coordinate}**", "inline": True},
+                        {"name": "Статус паков", "value": "📦 Доступны для минта", "inline": True}
                     ],
-                    "footer": {"text": f"Fractal Lego Builder | Зарядов в истории: {len(self.history_of_shots)}"}
+                    "footer": {"text": f"Fractal Lego Builder • {datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')} UTC"}
                 }
             ]
         }
@@ -63,17 +63,17 @@ class DiscordSwarmBot:
         async with httpx.AsyncClient() as client:
             try:
                 response = await client.post(DISCORD_WEBHOOK_URL, json=payload)
-                if response.status_code in:
-                    logger.info(f"Координата {coordinate} отправлена.")
+                if response.ok:
+                    logger.info(f"Координата {coordinate} отправлена в Discord.")
             except Exception as e:
                 logger.error(f"Сбой отправки: {e}")
 
 async def main():
     bot = DiscordSwarmBot()
-    logger.info("🚀 Бесконечный тактический цикл запущен в ядре Python.")
+    logger.info("🚀 Бесконечный тактический цикл запущен...")
     while True:
         await bot.send_game_coordinate(team="Empire")
-        logger.info("💤 Тактический раунд завершен. Ожидание 10 минут...")
+        logger.info("💤 Тактический раунд завершен.")
         await asyncio.sleep(600)
 
 if __name__ == "__main__":
