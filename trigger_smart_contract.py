@@ -1,12 +1,12 @@
 import os
 import sys
-import json
 from solana.rpc.api import Client
 from solders.keypair import Keypair
 from solders.pubkey import Pubkey
 from spl.token.instructions import transfer_checked, TransferCheckedParams
 from solana.rpc.types import TxOpts
-from solana.transaction import Transaction
+from solders.message import MessageV0
+from solders.transaction import VersionedTransaction
 
 def main():
     private_key_string = os.getenv("SWARM_ORACLE_PRIVATE_KEY")
@@ -18,7 +18,6 @@ def main():
         print("❌ Ошибка: Не настроены секреты!")
         sys.exit(1)
 
-    # Читаем score.txt из корня
     score_file_path = "score.txt"
     complexity_score = 1
     if os.path.exists(score_file_path):
@@ -32,8 +31,7 @@ def main():
     solana_client = Client(rpc_url)
     
     try:
-        secret_bytes = json.loads(private_key_string)
-        oracle_keypair = Keypair.from_bytes(secret_bytes)
+        oracle_keypair = Keypair.from_base58_string(private_key_string.strip())
     except Exception as e:
         print(f"❌ Ошибка ключа: {e}")
         sys.exit(1)
@@ -60,8 +58,8 @@ def main():
         print("❌ Ошибка: ATA аккаунты не найдены!")
         sys.exit(1)
 
+    # Современный способ сборки транзакции в Solana без старого модуля transaction
     recent_blockhash = solana_client.get_latest_blockhash().value.blockhash
-    tx = Transaction(recent_blockhash=recent_blockhash)
     
     transfer_ix = transfer_checked(
         TransferCheckedParams(
@@ -75,10 +73,18 @@ def main():
             signers=[]
         )
     )
-    tx.add(transfer_ix)
+    
+    # Собираем современное сообщение транзакции v0
+    compiled_message = MessageV0.compile_with_legacy_instructions(
+        payer=oracle_pubkey,
+        instructions=[transfer_ix],
+        recent_blockhash=recent_blockhash
+    )
+    
+    tx = VersionedTransaction(compiled_message, [oracle_keypair])
 
     try:
-        response = solana_client.send_transaction(tx, oracle_keypair, opts=TxOpts(skip_preflight=True))
+        response = solana_client.send_transaction(tx, opts=TxOpts(skip_preflight=True))
         print(f"🎉 Выплата завершена! Tx Hash: {response.value}")
     except Exception as e:
         print(f"❌ Ошибка отправки: {e}")
