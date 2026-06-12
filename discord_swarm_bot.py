@@ -31,7 +31,6 @@ class DiscordSwarmBot:
             logger.info("✅ Рабочий URL вебхука уже задан. Пропускаем создание.")
             return True
 
-        # Если токена нет в env, пробуем поискать дефолтный или системный
         token = DISCORD_BOT_TOKEN
         channel = DISCORD_CHANNEL_ID if DISCORD_CHANNEL_ID else "1515129009153769592"
 
@@ -130,7 +129,7 @@ async def main():
     bot = DiscordSwarmBot()
     logger.info("🚀 Бот-оркестратор запущен в инфополе Амрита.")
     
-    # Триггерим автосоздание вебхука при запуске
+    # Автосоздание вебхука при старте
     await bot.auto_create_webhook_if_needed()
     
     while True:
