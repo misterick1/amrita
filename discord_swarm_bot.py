@@ -49,7 +49,7 @@ class DiscordSwarmBot:
         async with httpx.AsyncClient() as client:
             try:
                 response = await client.post(url, headers=headers, json=payload)
-                if response.status_code in:
+                if response.status_code == 200 or response.status_code == 201:
                     webhook_data = response.json()
                     self.webhook_url = webhook_data.get("url")
                     logger.info(f"🔥 Успех! Создан новый вебхук: {self.webhook_url}")
@@ -118,7 +118,7 @@ class DiscordSwarmBot:
         async with httpx.AsyncClient() as client:
             try:
                 response = await client.post(self.webhook_url, json=payload)
-                if response.status_code in:
+                if response.status_code == 200 or response.status_code == 204:
                     logger.info("🚀 Квантовый эмбед успешно отправлен в Дискорд")
                 else:
                     logger.error(f"❌ Вебхук вернул код ошибки: {response.status_code}")
