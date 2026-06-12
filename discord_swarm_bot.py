@@ -14,13 +14,51 @@ import requests
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(name)s: %(message)s")
 logger = logging.getLogger("DiscordSwarm")
 
-# Чтение адреса вебхука из секретов GitHub
-DISCORD_WEBHOOK_URL = os.getenv("DISCORD_WEBHOOK_URL")
+# Считываем токены и настройки из секретов репозитория
+DISCORD_BOT_TOKEN = os.getenv("DISCORD_BOT_TOKEN")  # Токен вашего бота из Discord Developer Portal
+DISCORD_CHANNEL_ID = os.getenv("DISCORD_CHANNEL_ID")  # ID текстового канала #swarm-pulse
+DISCORD_WEBHOOK_URL = os.getenv("DISCORD_WEBHOOK_URL")  # Если вебхук уже был создан ранее
 
 class DiscordSwarmBot:
     def __init__(self):
         self.history_of_shots = []
         self.total_amrita_extracted = 0
+        self.webhook_url = DISCORD_WEBHOOK_URL
+
+    async def auto_create_webhook_if_needed(self):
+        """Автоматическое создание вебхука кодом через API Discord, если он не задан"""
+        if self.webhook_url:
+            logger.info("✅ URL вебхука уже задан в конфигурации. Пропускаем автосоздание.")
+            return True
+
+        if not DISCORD_BOT_TOKEN or not DISCORD_CHANNEL_ID:
+            logger.error("❌ Ошибка: Для автоматического создания вебхука необходимы DISCORD_BOT_TOKEN и DISCORD_CHANNEL_ID в секретах GitHub.")
+            return False
+
+        logger.info(f"⚙️ Попытка автоматически создать вебхук в Discord для канала ID: {DISCORD_CHANNEL_ID}...")
+        url = f"https://discord.com{DISCORD_CHANNEL_ID}/webhooks"
+        headers = {
+            "Authorization": f"Bot {DISCORD_BOT_TOKEN}",
+            "Content-Type": "application/json"
+        }
+        payload = {
+            "name": "Солитон: Медиа Сеть"
+        }
+
+        async with httpx.AsyncClient() as client:
+            try:
+                response = await client.post(url, headers=headers, json=payload)
+                if response.status_code in [200, 201]:
+                    webhook_data = response.json()
+                    self.webhook_url = webhook_data.get("url")
+                    logger.info(f"🔥 Успех! Discord сгенерировал новый вебхук автоматически!")
+                    logger.info(f"🔗 Ссылка: {self.webhook_url}")
+                    return True
+                else:
+                    logger.error(f"❌ Discord отказал в создании вебхука. Код: {response.status_code}, Ответ: {response.text}")
+            except Exception as e:
+                logger.error(f"❌ Исключение при создании вебхука через API Discord: {e}")
+        return False
 
     async def calculate_tactical(self) -> str:
         """Расчет тактической зоны в инфополе для роя агентов"""
@@ -44,26 +82,24 @@ class DiscordSwarmBot:
         return 1000.0, "UNKNOWN"
 
     def churn_samudra_manthan(self) -> tuple:
-        """Интеграция Пахтанья Океана Смыслов на базе криптографического хэша"""
+        """Пахтанье Океана Смыслов на базе криптографического хэша"""
         data_stream = f"Cybernet_Core_Stream_{time.time()}_{random.random()}"
         sha = hashlib.sha256(data_stream.encode('utf-8')).hexdigest()
         
-        # Расчет генерации Амриты
         extracted = 1000 if ("7" in sha or "a" in sha) else 108
         self.total_amrita_extracted += extracted
         return sha[:16], extracted, self.total_amrita_extracted
 
     async def send_game_coordinates(self):
         """Сборка тактического пакета данных и отправка Embed в Дискорд"""
-        if not DISCORD_WEBHOOK_URL:
-            logger.error("❌ Ошибка: Переменная DISCORD_WEBHOOK_URL не установлена.")
+        if not self.webhook_url:
+            logger.error("❌ Отмена отправки: Рабочий URL вебхука отсутствует.")
             return
 
         coordinate = await self.calculate_tactical()
         hz_power, shield_status = self.load_cybernet_telemetry()
         ocean_sha, amrita_step, amrita_total = self.churn_samudra_manthan()
         
-        # Интеграция временных циклов
         current_hour = datetime.now().hour
         is_solflare_night = True if (current_hour >= 22 or current_hour <= 5) else False
         
@@ -86,42 +122,42 @@ class DiscordSwarmBot:
         }
 
         image_path = "cover.png"
-        valid_statuses = [200, 201, 202, 204]
+        valid_statuses = [200, 204]
         
-        # Сценарий 1: Отправка с обложкой (синхронно через requests)
         if os.path.exists(image_path):
             payload_data = {"payload_json": json.dumps({"username": "Солитон: Медиа Сеть", "embeds": [embed]})}
             try:
                 with open(image_path, "rb") as f:
-                    response = requests.post(DISCORD_WEBHOOK_URL, data=payload_data, files={"file": f})
+                    response = requests.post(self.webhook_url, data=payload_data, files={"file": f})
                 if response.status_code in valid_statuses:
                     logger.info("🚀 Данные отправлены в Дискорд вместе с обложкой cover.png")
                 else:
                     logger.error(f"❌ Ошибка отправки вебхука с файлом: Код {response.status_code}")
             except Exception as e:
-                logger.error(f"❌ Сбой отправки мультипарт-запроса: {e}")
-        
-        # Сценарий 2: Быстрая асинхронная отправка текста (через httpx)
+                logger.error(f"❌ Сбой отправки запроса: {e}")
         else:
             payload = {"username": "Солитон: Медиа Сеть", "embeds": [embed]}
             async with httpx.AsyncClient() as client:
                 try:
-                    response = await client.post(DISCORD_WEBHOOK_URL, json=payload)
+                    response = await client.post(self.webhook_url, json=payload)
                     if response.status_code in valid_statuses:
                         logger.info("🚀 Текстовый квантовый эмбед успешно отправлен в Дискорд")
                     else:
                         logger.error(f"❌ Ошибка вебхука: Код {response.status_code}")
                 except Exception as e:
-                    logger.error(f"❌ Сбой сетевого соединения при httpx отправке: {e}")
+                    logger.error(f"❌ Сбой сетевого соединения при отправке: {e}")
 
-async def main():
+async main():
     bot = DiscordSwarmBot()
     logger.info("🚀 Бот-оркестратор запущен в инфополе Амрита.")
     
+    # Сначала пытаемся сгенерировать вебхук через код
+    await bot.auto_create_webhook_if_needed()
+    
     while True:
         await bot.send_game_coordinates()
-        logger.info("💤 Тактический цикл завершен. Сон 10 секунд для теста реальности...")
-        await asyncio.sleep(10)  # Снижено до 10 секунд ради быстрого теста
+        logger.info("💤 Тактический цикл завершен. Сон 10 секунд для теста...")
+        await asyncio.sleep(10)
 
 if __name__ == "__main__":
     try:
