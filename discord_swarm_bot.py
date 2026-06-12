@@ -14,7 +14,7 @@ import requests
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(name)s: %(message)s")
 logger = logging.getLogger("DiscordSwarm")
 
-# Чтение адреса вебхука из секретов GitHub или переменных окружения
+# Чтение адреса вебхука из секретов GitHub
 DISCORD_WEBHOOK_URL = os.getenv("DISCORD_WEBHOOK_URL")
 
 class DiscordSwarmBot:
@@ -86,6 +86,7 @@ class DiscordSwarmBot:
         }
 
         image_path = "cover.png"
+        valid_statuses = [200, 201, 202, 204]
         
         # Сценарий 1: Отправка с обложкой (синхронно через requests)
         if os.path.exists(image_path):
@@ -93,7 +94,7 @@ class DiscordSwarmBot:
             try:
                 with open(image_path, "rb") as f:
                     response = requests.post(DISCORD_WEBHOOK_URL, data=payload_data, files={"file": f})
-                if response.status_code in:
+                if response.status_code in valid_statuses:
                     logger.info("🚀 Данные отправлены в Дискорд вместе с обложкой cover.png")
                 else:
                     logger.error(f"❌ Ошибка отправки вебхука с файлом: Код {response.status_code}")
@@ -106,7 +107,7 @@ class DiscordSwarmBot:
             async with httpx.AsyncClient() as client:
                 try:
                     response = await client.post(DISCORD_WEBHOOK_URL, json=payload)
-                    if response.status_code in:
+                    if response.status_code in valid_statuses:
                         logger.info("🚀 Текстовый квантовый эмбед успешно отправлен в Дискорд")
                     else:
                         logger.error(f"❌ Ошибка вебхука: Код {response.status_code}")
