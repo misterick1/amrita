@@ -1,83 +1,113 @@
 import os
-import logging
-import asyncio
+import sys
+import json
 import random
-import httpx
+import asyncio
+import logging
 from datetime import datetime
-from dotenv import load_dotenv
+import httpx
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-logger = logging.getLogger("DiscordSwarmBot")
+# Настройка логирования
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger("DiscordSwarm")
 
-load_dotenv()
-
+# Токен или Вебхук из окружения
 DISCORD_WEBHOOK_URL = os.getenv("DISCORD_WEBHOOK_URL")
 
 class DiscordSwarmBot:
     def __init__(self):
-        self.rows = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"]
-        self.cols = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
         self.history_of_shots = []
-        logger.info("Бот DiscordSwarmBot успешно инициализирован.")
 
-    async def calculate_tactical_shot(self) -> str:
-        available_cells = [f"{r}{c}" for r in self.rows for c in self.cols if f"{r}{c}" not in self.history_of_shots]
+    async def calculate_tactical(self):
+        # Эмуляция расчета тактических ячеек роя
+        available_cells = [f"r{random.randint(1,100)}" for _ in range(5)]
         if not available_cells:
-            logger.warning("Все клетки поражены! Очистка истории выстрелов.")
-            self.history_of_shots.clear()
-            available_cells = [f"{r}{c}" for r in self.rows for c in self.cols]
+            logger.warning("Все ячейки заняты")
+            available_cells = ["default_zone"]
         target_shot = random.choice(available_cells)
         self.history_of_shots.append(target_shot)
         return target_shot
 
-    async def send_game_coordinate(self, team: str):
-        if not DISCORD_WEBHOOK_URL or "your_actual_webhook_url" in DISCORD_WEBHOOK_URL:
+    async def send_game_coordinates(self):
+        if not DISCORD_WEBHOOK_URL:
+            logger.error("❌ Ошибка: Переменная DISCORD_WEBHOOK_URL не задана!")
             return
 
-        coordinate = await self.calculate_tactical_shot()
+        coordinate = await self.calculate_tactical()
+        
+        # Интеграция новости/времени
+        current_hour = datetime.now().hour
+        is_solflare_night = True if current_hour >= 22 or current_hour <= 6 else False
+        
+        title_text = "🎁 Solflare Swarm Update" if is_solflare_night else "☀️ Solflare Swarm Day Shift"
+        desc_text = f"Специальные тактические маневры роя запущены."
+        color_code = 16761095  # Золотистый цвет
 
-        # Интеграция новости: Проверка специального раунда
-        current_hour = datetime.utcnow().hour
-        is_solflare_night = True  # Активируем раунд
-
-        title_text = "🎁 Solflare Pack Opening Alert!"
-        desc_text = f"Специальный тактический раунд запущен для команды {team}!"
-        color_code = 16761095 if is_solflare_night else 3447003
-
-        payload = {
-            "username": f"Солитон: Игровой Оркестратор ({team})",
-            "embeds": [
-                {
-                    "title": title_text,
-                    "description": desc_text,
-                    "color": color_code,
-                    "fields": [
-                        {"name": "Рекомендованная цель", "value": f"🎯 Клетка **{coordinate}**", "inline": True},
-                        {"name": "Статус паков", "value": "📦 Доступны для минта", "inline": True}
-                    ],
-                    "footer": {"text": f"Fractal Lego Builder • {datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')} UTC"}
-                }
-            ]
+        # Формируем структуру эмбеда
+        embed = {
+            "title": title_text,
+            "description": desc_text,
+            "color": color_code,
+            "fields": [
+                {"name": "🎲 Координаты тактики", "value": str(coordinate), "inline": True},
+                {"name": "🌌 Статус сети", "value": "Синхронизировано", "inline": True}
+            ],
+            "footer": {"text": "Оркестратор Солитон • Режим Роя"}
         }
 
-        async with httpx.AsyncClient() as client:
-            try:
-                response = await client.post(DISCORD_WEBHOOK_URL, json=payload)
-                if response.ok:
-                    logger.info(f"Координата {coordinate} отправлена в Discord.")
-            except Exception as e:
-                logger.error(f"Сбой отправки: {e}")
+        # Путь к файлу обложки, который генерирует ваш музыкальный скрипт
+        image_path = "cover.png" 
+        
+        if os.path.exists(image_path):
+            # Если файл физически существует на диске, привязываем его через attachment://
+            embed["image"] = {"url": "attachment://cover.png"}
+            
+            payload = {
+                "payload_json": (None, json.dumps({
+                    "username": "Солитон: Медиа Оркестратор",
+                    "embeds": [embed]
+                }), "application/json")
+            }
+            
+            # Открываем файл и отправляем его байтами напрямую в Discord API
+            with open(image_path, "rb") as f:
+                files = {
+                    **payload,
+                    "file": ("cover.png", f, "image/png")
+                }
+                async with httpx.AsyncClient() as client:
+                    try:
+                        response = await client.post(DISCORD_WEBHOOK_URL, files=files)
+                        if response.status_code in:
+                            logger.info("🚀 Координаты и обложка успешно доставлены в Discord без мигания!")
+                        else:
+                            logger.error(f"❌ Ошибка вебхука: {response.status_code} - {response.text}")
+                    except Exception as e:
+                        logger.error(f"❌ Сбой сети при отправке файлов: {e}")
+        else:
+            # Если файла на диске нет, шлем чистый текстовый эмбед
+            payload = {
+                "username": "Солитон: Медиа Оркестратор",
+                "embeds": [embed]
+            }
+            async with httpx.AsyncClient() as client:
+                try:
+                    response = await client.post(DISCORD_WEBHOOK_URL, json=payload)
+                    if response.status_code in:
+                        logger.info("🚀 Координаты отправлены (обложка cover.png не найдена на диске).")
+                except Exception as e:
+                    logger.error(f"❌ Сбой сети: {e}")
 
 async def main():
     bot = DiscordSwarmBot()
-    logger.info("🚀 Бесконечный тактический цикл запущен...")
+    logger.info("🚀 Бесконечный цикл бота-оркестратора запущен.")
     while True:
-        await bot.send_game_coordinate(team="Empire")
-        logger.info("💤 Тактический раунд завершен.")
-        await asyncio.sleep(600)
+        await bot.send_game_coordinates()
+        logger.info("💤 Тактический цикл завершен. Сон на 10 минут...")
+        await asyncio.sleep(600)  # Сон 10 минут (600 секунд)
 
 if __name__ == "__main__":
     try:
         asyncio.run(main())
     except KeyboardInterrupt:
-        logger.info("Бот остановлен.")
+        logger.info("Бот остановлен пользователем.")
