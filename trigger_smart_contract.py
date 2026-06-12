@@ -15,8 +15,7 @@ def main():
     # 1. Чтение секретов и кошельков из окружения GitHub Secrets
     private_key_string = os.getenv("SWARM_ORACLE_PRIVATE_KEY")
     developer_wallet_str = os.getenv("DEVELOPER_WALLET")
-    rpc_url = "https://solana.com"
-    
+    rpc_url = "https://ankr.com"
     # 💎 Вшит ваш реальный CA токена Amrita. Больше никаких падений Base58!
     mint_address_str = "2XNkytvTT4zfX3iKFDCUkBfxVRiUZqGunznWHZx7pump"
 
