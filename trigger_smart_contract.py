@@ -16,8 +16,12 @@ def main():
     private_key_string = os.getenv("SWARM_ORACLE_PRIVATE_KEY")
     developer_wallet_str = os.getenv("DEVELOPER_WALLET")
     
-    # Жестко прописываем стабильный RPC-узел Ankr (без rate-лимитов)
-    rpc_url = "https://ankr.com"
+    # Официальные узлы Solana Foundation + резервный шлюз
+    rpc_nodes = [
+        "https://solana.com",
+        "https://allthatnode.com",
+        "https://llamarpc.com"
+    ]
     
     # Вшит ваш реальный CA токена Amrita
     mint_address_str = "2XNkytvTT4zfX3iKFDCUkBfxVRiUZqGunznWHZx7pump"
@@ -41,7 +45,27 @@ def main():
     decimals = 6
     amount_in_lamports = int(reward_amount * (10 ** decimals))
 
-    solana_client = Client(rpc_url)
+    # Перебираем узлы, пока один из них не отдаст нам блокхэш
+    solana_client = None
+    recent_blockhash = None
+    
+    for url in rpc_nodes:
+        try:
+            print(f"🔗 Попытка подключения к RPC: {url}")
+            client_attempt = Client(url)
+            blockhash_resp = client_attempt.get_latest_blockhash()
+            if blockhash_resp.value and blockhash_resp.value.blockhash:
+                solana_client = client_attempt
+                recent_blockhash = blockhash_resp.value.blockhash
+                print("✅ Успешно получен свежий blockhash!")
+                break
+        except Exception as e:
+            print(f"⚠️ Узел {url} временно недоступен или вернул ошибку: {e}")
+            continue
+
+    if not solana_client or not recent_blockhash:
+        print("❌ Критическая ошибка: Все доступные RPC-узлы Solana отклонили запрос blockhash!")
+        sys.exit(1)
 
     # 3. Авторизация кошелька Оракула через приватный ключ
     try:
@@ -70,14 +94,7 @@ def main():
     print(f"🔗 Адрес кармана Оракула: {source_ata}")
     print(f"🔗 Адрес кармана Разработчика: {dest_ata}")
 
-    # 5. Сборка современной транзакции Solana v0
-    try:
-        blockhash_resp = solana_client.get_latest_blockhash()
-        recent_blockhash = blockhash_resp.value.blockhash
-    except Exception as e:
-        print(f"❌ Не удалось получить свежий blockhash от RPC: {e}")
-        sys.exit(1)
-
+    # 5. Сборка инструкции перевода
     transfer_ix = transfer_checked(
         TransferCheckedParams(
             program_id=TOKEN_PROGRAM_ID,
