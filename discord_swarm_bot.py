@@ -12,7 +12,7 @@ class SwarmBot:
         self.webhook_url = os.getenv("DISCORD_WEBHOOK_URL")
         self.tg_token = os.getenv("TELEGRAM_BOT_TOKEN")
         self.tg_channel = os.getenv("TELEGRAM_CHANNEL_ID")
-        
+
     async def send_to_discord(self, text):
         if not self.webhook_url:
             return
@@ -41,28 +41,22 @@ class SwarmBot:
         }
         async with httpx.AsyncClient() as client:
             try:
-                res = await client.post(url, json=payload)
-                if res.status_code == 200:
+                response = await client.post(url, json=payload)
+                if response.status_code == 200:
                     logger.info("🚀 Отправлено в Telegram!")
                 else:
-                    logger.error(f"❌ Ошибка TG API: {res.text}")
+                    logger.error(f"❌ Ошибка TG API: {response.status_code} {response.text}")
             except Exception as e:
                 logger.error(f"❌ Сеть TG легла: {e}")
 
-async def main():
-    bot = SwarmBot()
-    logger.info("🤖 Бот роя запущен на два фронта (интервал: 1 час)...")
-    while True:
-        import random
-        zone_num = random.randint(1, 100)
-        ocean_hash = "%012x" % random.randrange(16**12)
-        message_text = f"🎯 Координаты: zone_{zone_num}\n🌊 Пахтанье Океана: {ocean_hash}"
-        
-        # Отправляем в оба канала параллельно
-        await bot.send_to_discord(message_text)
-        await bot.send_to_telegram(message_text)
-        
-        await asyncio.sleep(3600)  # Пауза 1 час
+    async def run(self):
+        logger.info("🤖 Бот роя запущен на два фронта (интервал: 1 час)...")
+        while True:
+            pulse_text = "Все системы функционируют стабильно. Рой Fractal Lego Builder продолжает автономную работу."
+            await self.send_to_discord(pulse_text)
+            await self.send_to_telegram(pulse_text)
+            await asyncio.sleep(3600)
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    bot = SwarmBot()
+    asyncio.run(bot.run())
