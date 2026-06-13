@@ -3,14 +3,11 @@ name: Fractal Lego Builder (24-7 Swarm Mode)
 on:
   push:
     branches: [ main ]
-  schedule:
-    - cron: '0 */6 * * *' # Автоматический перезапуск каждые 6 часов для обхода ограничений GitHub
-  workflow_dispatch: # Позволяет запускать процесс вручную кнопкой
+  workflow_dispatch:
 
 jobs:
   assemble_and_run_forever:
     runs-on: ubuntu-latest
-
     steps:
     - name: Check out repository
       uses: actions/checkout@v4
@@ -35,7 +32,7 @@ jobs:
       run: |
         echo "🤖 Рой Fractal Lego Builder сканирует изменения..."
         python3 evaluate_complexity.py
-        echo "🚀 Вызов скрипта автовыплаты токенов AMRITA на кошелек разработчика..."
+        echo "🚀 Вызов скрипта автовыплаты..."
         python3 trigger_smart_contract.py
 
     - name: Run Discord Bot 24-7 Loop
@@ -46,11 +43,10 @@ jobs:
       run: |
         echo "🚀 Запуск бесконечного солитона..."
         python discord_swarm_bot.py &
-
         while true; do
           sleep 30
           if ! pgrep -f discord_swarm_bot.py; then
-            echo "🚨 Перезапуск упавшего солитона..."
+            echo "🚨 Перезапуск..."
             python discord_swarm_bot.py &
           fi
         done
