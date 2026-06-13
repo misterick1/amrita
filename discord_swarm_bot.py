@@ -14,7 +14,7 @@ import requests
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(name)s: %(message)s")
 logger = logging.getLogger("DiscordSwarm")
 
-# Считываем настройки из секретов репозитория, которые вы добавили
+# Считываем настройки из секретов репозитория
 DISCORD_BOT_TOKEN = os.getenv("DISCORD_BOT_TOKEN")  
 DISCORD_CHANNEL_ID = os.getenv("DISCORD_CHANNEL_ID")  
 DISCORD_WEBHOOK_URL = os.getenv("DISCORD_WEBHOOK_URL")  
