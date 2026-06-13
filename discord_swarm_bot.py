@@ -33,7 +33,10 @@ class SwarmBot:
         if not self.tg_token or not self.tg_channel:
             logger.error("❌ Настройки Telegram не найдены в env.")
             return
+        
+        # Прямая и жесткая ссылка на API Telegram без лишних f-строк
         url = f"https://telegram.org{self.tg_token}/sendMessage"
+        
         payload = {
             "chat_id": self.tg_channel,
             "text": f"🚨 *Amrita Swarm Pulse*\n\n{text}",
@@ -47,7 +50,7 @@ class SwarmBot:
                 else:
                     logger.error(f"❌ Ошибка TG API: {response.status_code} {response.text}")
             except Exception as e:
-                logger.error(f"❌ Сеть TG легла: {e}")
+                logger.error(f"❌ Ошибка сети TG: {e}")
 
     async def run(self):
         logger.info("🤖 Бот роя запущен на два фронта (интервал: 1 час)...")
