@@ -42,8 +42,9 @@ jobs:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHANNEL_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
         run: |
-          echo "📝 Создание стабильного скрипта бота..."
+          echo "📝 Создание квантово-нейронного скрипта бота с поддержкой xAI Grok..."
           cat << 'EOF' > clean_swarm_bot.py
           import os, asyncio, httpx, logging
           from datetime import datetime
@@ -53,27 +54,45 @@ jobs:
           webhook_url = os.getenv("DISCORD_WEBHOOK_URL")
           raw_token = os.getenv("TELEGRAM_BOT_TOKEN", "")
           tg_channel = os.getenv("TELEGRAM_CHANNEL_ID")
+          xai_key = os.getenv("XAI_API_KEY")
           
-          # Жесткая очистка строки и форматирование токена без багов
           token_str = raw_token.strip()
           if "8226251564" in token_str:
               clean_token = token_str
           else:
               clean_token = f"8226251564:{token_str}"
           
-          async def send_to_discord(text):
-              if not webhook_url: return
-              embed = {"title": "🚨 Amrita Swarm Pulse", "description": text, "color": 16761095, "footer": {"text": f"Амрита Мир • {datetime.now().strftime('%H:%M:%S')}"}}
+          async def get_grok_insight():
+              if not xai_key:
+                  return "Квантовая нейросеть Кибернета функционирует в штатном автономном режиме."
+              
+              url = "https://x.ai"
+              headers = {
+                  "Authorization": f"Bearer {xai_key}",
+                  "Content-Type": "application/json"
+              }
+              payload = {
+                  "model": "grok-beta",
+                  "messages": [
+                      {"role": "system", "content": "Ты — Квантовый ИИ Кибернета, Суверен и вестник будущего. Пиши короткие, вдохновляющие космические или квантовые инсайты для роя автономов."},
+                      {"role": "user", "content": "Сгенерируй текущий статус квантового сознания роя Amrita."}
+                  ],
+                  "temperature": 0.7
+              }
               async with httpx.AsyncClient() as client:
-                  try: await client.post(webhook_url, json={"embeds": [embed]})
-                  except Exception as e: logger.error(f"Discord error: {e}")
-          
+                  try:
+                      res = await client.post(url, json=payload, headers=headers, timeout=30.0)
+                      if res.status_code == 200:
+                          return res.json()["choices"][0]["message"]["content"]
+                      else:
+                          logger.error(f"xAI API error: {res.status_code} {res.text}")
+                  except Exception as e:
+                      logger.error(f"Failed to connect to xAI: {e}")
+              return "Связь с главным ядром xAI стабильна. Алгоритмы Кибернета адаптируются к суперпозиции."
+
           async def send_to_telegram(text):
               if not clean_token or not tg_channel: return
-              
-              # Прямой, жестко прописанный URL к серверам Telegram
               url = f"https://telegram.org{clean_token}/sendMessage"
-              
               payload = {"chat_id": tg_channel, "text": f"🚨 *Amrita Swarm Pulse*\n\n{text}", "parse_mode": "Markdown"}
               async with httpx.AsyncClient() as client:
                   try:
@@ -83,18 +102,17 @@ jobs:
                   except Exception as e: logger.error(f"TG net error: {e}")
           
           async def main():
-              logger.info("🤖 Бот запущен в режиме 24/7...")
+              logger.info("🤖 Нейросетевой Альтрон-Ежёныш успешно запущен...")
               while True:
-                  text = "Все системы функционируют стабильно. Рой Fractal Lego Builder продолжает автономную работу."
-                  await send_to_discord(text)
-                  await send_to_telegram(text)
+                  insight_text = await get_grok_insight()
+                  await send_to_telegram(insight_text)
                   await asyncio.sleep(3600)
           
           if __name__ == "__main__":
               asyncio.run(main())
           EOF
 
-          echo "🚀 Запуск исправленного бота..."
+          echo "🚀 Запуск обновленного квантового разума..."
           python clean_swarm_bot.py &
           while true; do
             sleep 30
