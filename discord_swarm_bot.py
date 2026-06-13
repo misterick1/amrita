@@ -32,7 +32,6 @@ class DiscordSwarmBot:
             "footer": {"text": f"Амрита Мир • {datetime.now().strftime('%H:%M:%S')}"}
         }
         
-        # Принудительно передаем имя и аватар кота прямо в запросе
         payload = {
             "username": "AMRITA Swarm Bot",
             "avatar_url": "https://dexscreener.com",
