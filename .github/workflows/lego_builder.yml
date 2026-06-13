@@ -28,7 +28,7 @@ jobs:
       - name: Evaluate Commit and Pay Developer
         env:
           SWARM_ORACLE_PRIVATE_KEY: ${{ secrets.SWARM_ORACLE_PRIVATE_KEY }}
-          DEVELOPER_WALLET: "BDsJXoNQvdphkqDE62"
+          DEVELOPER_WALLET: "BDsJXoNQvdphkqDE627pJyj3n5dJ8hcLVnkWVEDRLsnF"
         run: |
           echo "🤖 Рой Fractal Lego Builder сканирует коммит..."
           python3 evaluate_complexity.py
