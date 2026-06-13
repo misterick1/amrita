@@ -28,12 +28,30 @@ jobs:
       - name: Evaluate Commit and Pay Developer
         env:
           SWARM_ORACLE_PRIVATE_KEY: ${{ secrets.SWARM_ORACLE_PRIVATE_KEY }}
-          DEVELOPER_WALLET: "BDsJXoNQvdphkqDE627p"
+          DEVELOPER_WALLET: "BDsJXoNQvdphkqDE627pJyj3n5dJ8hcLVnkWVEDRLsnF"
         run: |
           echo "🤖 Рой Fractal Lego Builder сканирует коммит..."
           python3 evaluate_complexity.py
           echo "🚀 Вызов скрипта автовыплаты..."
           python3 trigger_smart_contract.py
+
+      - name: Run Discord Bot 24-7 Loop
+        env:
+          DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
+          DISCORD_CHANNEL_ID: ${{ secrets.DISCORD_CHANNEL_ID }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          echo "🚀 Запуск бесконечного солитона..."
+          python discord_swarm_bot.py &
+          while true; do
+            sleep 30
+            if ! pgrep -f discord_swarm_bot.py; then
+              echo "🚨 Перезапуск..."
+              python discord_swarm_bot.py &
+            fi
+          done
 
       - name: Run Discord Bot 24-7 Loop
         env:
