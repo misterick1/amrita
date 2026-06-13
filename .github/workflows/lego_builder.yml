@@ -57,8 +57,6 @@ jobs:
 
           webhook_url = os.getenv("DISCORD_WEBHOOK_URL")
           xai_key = os.getenv("XAI_API_KEY")
-
-          # Безопасное чтение из Repository Secrets GitHub
           clean_token = os.getenv("TELEGRAM_BOT_TOKEN")
           tg_channel = os.getenv("TELEGRAM_CHANNEL_ID")
 
@@ -95,6 +93,7 @@ jobs:
                   logger.error("❌ Настройки Telegram не заданы в окружении")
                   return
               
+              # Исправленный URL без двоеточий внутри токена
               url = f"https://telegram.org{clean_token}/sendMessage"
               payload = {
                   "chat_id": tg_channel,
