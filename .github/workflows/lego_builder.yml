@@ -43,7 +43,7 @@ jobs:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHANNEL_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: |
-          echo "📝 Создание чистого скрипта бота..."
+          echo "📝 Создание стабильного скрипта бота..."
           cat << 'EOF' > clean_swarm_bot.py
           import os, asyncio, httpx, logging
           from datetime import datetime
@@ -51,8 +51,15 @@ jobs:
           logger = logging.getLogger("SwarmBot")
           
           webhook_url = os.getenv("DISCORD_WEBHOOK_URL")
-          tg_token = os.getenv("TELEGRAM_BOT_TOKEN")
+          raw_token = os.getenv("TELEGRAM_BOT_TOKEN", "")
           tg_channel = os.getenv("TELEGRAM_CHANNEL_ID")
+          
+          # Жесткая очистка строки и форматирование токена без багов
+          token_str = raw_token.strip()
+          if "8226251564" in token_str:
+              clean_token = token_str
+          else:
+              clean_token = f"8226251564:{token_str}"
           
           async def send_to_discord(text):
               if not webhook_url: return
@@ -62,11 +69,10 @@ jobs:
                   except Exception as e: logger.error(f"Discord error: {e}")
           
           async def send_to_telegram(text):
-              if not tg_token or not tg_channel: return
+              if not clean_token or not tg_channel: return
               
-              # ВАЖНО: убираем двоеточие из проверки портов httpx
-              # Формируем чистый URL для отправки запроса в Telegram
-              url = f"https://telegram.org{tg_token}/sendMessage"
+              # Прямой, жестко прописанный URL к серверам Telegram
+              url = f"https://telegram.org{clean_token}/sendMessage"
               
               payload = {"chat_id": tg_channel, "text": f"🚨 *Amrita Swarm Pulse*\n\n{text}", "parse_mode": "Markdown"}
               async with httpx.AsyncClient() as client:
@@ -79,7 +85,7 @@ jobs:
           async def main():
               logger.info("🤖 Бот запущен в режиме 24/7...")
               while True:
-                  text = "Все systems функционируют стабильно. Рой Fractal Lego Builder продолжает автономную работу."
+                  text = "Все системы функционируют стабильно. Рой Fractal Lego Builder продолжает автономную работу."
                   await send_to_discord(text)
                   await send_to_telegram(text)
                   await asyncio.sleep(3600)
