@@ -40,6 +40,8 @@ jobs:
           DISCORD_TOKEN: ${{ secrets.DISCORD_TOKEN }}
           DISCORD_CHANNEL_ID: ${{ secrets.DISCORD_CHANNEL_ID }}
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHANNEL_ID: ${{ secrets.TELEGRAM_CHANNEL_ID }}
           XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
         run: |
           echo "📝 Создание квантово-нейронного бота..."
@@ -56,12 +58,9 @@ jobs:
           webhook_url = os.getenv("DISCORD_WEBHOOK_URL")
           xai_key = os.getenv("XAI_API_KEY")
 
-          # ========================================================
-          # ВСТАВЬТЕ ВАШИ ДАННЫЕ В КАВЫЧКИ НИЖЕ (БЕЗ СЕКРЕТОВ GITHUB)
-          # ========================================================
-          clean_token = "ВСТАВЬТЕ_СЮДА_ТОКЕН_ВАШЕГО_БОТА_ЦЕЛИКОМ"
-          tg_channel = "ВСТАВЬТЕ_СЮДА_ID_КАНАЛА_НАПРИМЕР_-10012345"
-          # ========================================================
+          # Безопасное чтение из Repository Secrets GitHub
+          clean_token = os.getenv("TELEGRAM_BOT_TOKEN")
+          tg_channel = os.getenv("TELEGRAM_CHANNEL_ID")
 
           async def get_grok_insight():
               if not xai_key:
@@ -92,8 +91,8 @@ jobs:
               return "Связь с главным ядром xAI временно недоступна."
 
           async def send_to_telegram(text):
-              if not clean_token or "ВСТАВЬТЕ_СЮДА" in clean_token:
-                  logger.error("❌ Настройки Telegram не заданы внутри кода")
+              if not clean_token or not tg_channel:
+                  logger.error("❌ Настройки Telegram не заданы в окружении")
                   return
               
               url = f"https://telegram.org{clean_token}/sendMessage"
