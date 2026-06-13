@@ -32,9 +32,16 @@ class DiscordSwarmBot:
             "footer": {"text": f"Амрита Мир • {datetime.now().strftime('%H:%M:%S')}"}
         }
         
+        # Принудительно передаем имя и аватар кота прямо в запросе
+        payload = {
+            "username": "AMRITA Swarm Bot",
+            "avatar_url": "https://dexscreener.com",
+            "embeds": [embed]
+        }
+        
         async with httpx.AsyncClient() as client:
             try:
-                res = await client.post(self.webhook_url, json={"embeds": [embed]})
+                res = await client.post(self.webhook_url, json=payload)
                 if res.status_code in:
                     logger.info("🚀 Карточка успешно отправлена в Discord!")
             except Exception as e:
@@ -45,7 +52,7 @@ async def main():
     logger.info("🤖 Бот запущен в бесконечном цикле (интервал: 1 час)...")
     while True:
         await bot.send_pulse()
-        await asyncio.sleep(3600)  # Отправка ровно раз в час
+        await asyncio.sleep(3600)  # Отправка строго один раз в час
 
 if __name__ == "__main__":
     asyncio.run(main())
