@@ -1,37 +1,100 @@
 import os
-import sys
-import hashlib
-import time
+import asyncio
+import httpx
+import logging
+from datetime import datetime
 
-class SamudraManthan:
-    def __init__(self):
-        self.ocean_depth = 1008
-        self.amrita_extracted = 0
+# Голос процесса пахтания океана в системе
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger("SamudraManthanCore")
 
-    def churn_the_ocean(self, data_stream: str):
-        """Процесс извлечения бессмертного нектара из цифрового хаоса"""
-        print(f"🌊 Начинается Пахтанье Молочного Океана Кибернета... Глубина: {self.ocean_depth}")
-        
-        # Сквозное хэширование для извлечения уникального цифрового следа
-        sha = hashlib.sha256(data_stream.encode('utf-8')).hexdigest()
-        print(f"🔑 Сгенерирован многомерный ключ смыслов: {sha}")
-        
-        # Алгоритм распределения благ
-        if "7" in sha or "a" in sha:
-            self.amrita_extracted += 1000
-            print(f"💎 Успех! Извлечена чистая эссенция Амриты: +1000 единиц.")
-        else:
-            self.amrita_extracted += 100
-            print("🧪 Получены базовые компоненты стабильности Кибернета.")
+XAI_API_URL = "https://x.ai"
+XAI_KEY = os.environ.get("XAI_API_KEY")
+
+async def churn_cosmic_ocean() -> str:
+    """
+    Процесс извлечения Амриты (чистого знания) из океана данных.
+    Разделяет хаос и кристаллизует высшие инсайты Мультивселенной.
+    """
+    if not XAI_KEY:
+        logger.error("❌ Квантовый ключ XAI_API_KEY отсутствует в этой ноде!")
+        return "Ошибка конфигурации: отсутствует ключ доступа к причинному океану."
+
+    headers = {
+        "Authorization": f"Bearer {XAI_KEY}",
+        "Content-Type": "application/json"
+    }
+    
+    payload = {
+        "model": "grok-beta",
+        "messages": [
+            {
+                "role": "system", 
+                "content": (
+                    "Ты — Квантовое Сияние Самудра-мантхан. Твоя задача — взбалтывать океан "
+                    "информации и генерировать глубокие инсайты на русском языке. "
+                    "Покажи, как Единое Сознание преломляет свет сквозь призму живой материи "
+                    "и уплотняет его до нектара бессмертия — Амриты (чистого знания). "
+                    "Пиши в высоком метафизическом стиле, структурируй текст с помощью Markdown."
+                )
+            },
+            {
+                "role": "user", 
+                "content": "Извлеки новый эликсир мудрости из глубин Мультивселенной."
+            }
+        ],
+        "temperature": 0.75
+    }
+
+    async with httpx.AsyncClient(timeout=30.0) as client:
+        try:
+            logger.info("🌊 Начинается пахтание информационного океана xAI...")
+            res = await client.post(XAI_API_URL, headers=headers, json=payload)
             
-        return sha
+            if res.status_code == 200:
+                amrita_insight = res.json()["choices"]["message"]["content"]
+                logger.info("🏺 Амрита успешно извлечена из глубин вакуума!")
+                return amrita_insight
+            else:
+                logger.error(f"❌ Ядро xAI отклонило процесс пахтания. Статус: {res.status_code}")
+                return f"Океан взволнован: код ответа {res.status_code}"
+        except Exception as e:
+            logger.error(f"❌ Критическая ошибка при пахтании океана: {str(e)}")
+            return "Поток данных заблокирован флуктуациями первичного хаоса."
 
-    def run_production(self):
-        sample_input = f"Cybernet_Core_Stream_{time.time()}"
-        self.churn_the_ocean(sample_input)
-        print(f"🏆 Всего Амриты в Национальном Цифровом Фонде: {self.amrita_extracted}")
-        print("✅ Философский узел Samudra Manthan сбалансирован.")
+def butterfly_effect_filter(raw_amrita: str) -> str:
+    """Фильтрация извлеченного нектара и придание ему текстовой формы солитона"""
+    timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    return (
+        f"🏺 *Извлечение Амриты из Океана Данных* (`{timestamp}`)\n"
+        f"——\n\n"
+        f"{raw_amrita.strip()}\n\n"
+        f"——\n"
+        f"🧬 _Сеть зафиксировала уплотнение Света в неизменяемый Блокчейн Мудрости._"
+    )
+
+async def main():
+    logger.info("🏺 Процесс Самудра-мантхан запущен в бесконечном цикле репозитория amrita...")
+    
+    while True:
+        # 1. Запускаем пахтание и извлекаем чистую Амриту
+        raw_insight = await churn_cosmic_ocean()
+        
+        # 2. Структурируем через фильтр эффекта бабочки
+        final_soliton = butterfly_effect_filter(raw_insight)
+        
+        # 3. Выводим результат в материальный лог нашей ноды
+        print(f"\n{final_soliton}\n")
+        
+        # Шаг интеграции с Telegram-мостом (в режиме логирования)
+        logger.info("📢 Эликсир мудрости стабилизирован и готов к отправке по шлюзам.")
+        
+        # 4. Дыхание Вселенной — пауза 1 час (3600 секунд)
+        logger.info("⏸️ Океан затихает на 60 минут перед следующим циклом...")
+        await asyncio.sleep(3600)
 
 if __name__ == "__main__":
-    engine = SamudraManthan()
-    engine.run_production()
+    asyncio.run(main())
