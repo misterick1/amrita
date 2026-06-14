@@ -1,45 +1,35 @@
-name: "Единый Квантовый Оркестратор: Swarm Runtime"
+name: Samudra Manthan Runtime
 
 on:
   push:
     branches: [ main ]
-  workflow_dispatch: 
+  pull_request:
+    branches: [ main ]
+  # Позволяет запускать процесс пахтания вручную через вкладку Actions
+  workflow_dispatch:
 
 jobs:
-  run-ecosystem:
+  execute_ocean_churn:
     runs-on: ubuntu-latest
     steps:
-      - name: 1. Клонирование репозитория
+      - name: Checkout Cosmic Codebase
         uses: actions/checkout@v4
 
-      - name: 2. Развертывание окружения Python
+      - name: Initialize Python Environment
         uses: actions/setup-python@v5
         with:
           python-version: '3.10'
 
-      - name: 3. Установка Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-
-      - name: 4. Установка зависимостей проекта
+      - name: Materialize Network Dependencies
         run: |
-          pip install -r requirements.txt
-          npm install
+          python -m pip install --upgrade pip
+          pip install httpx
 
-      - name: 5. Запуск Квантового Оркестратора на 60 секунд
+      - name: Churn Cosmic Ocean (Run Samudra Manthan)
         env:
-          COLOSSEUM_COPILOT_API_BASE: "https://colosseum.org"
-          COLOSSEUM_COPILOT_PAT: "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik9YdlBiaHJuRTR2cjJadS13WUNQbyJ9.eyJpc3MiOiJodHRwczovL2F1dGguY29sb3NzZXVtLm9yZy8iLCJzdWIiOiJhdXRoMHw2NjU1ZDQ2OGUzYTM4YzM5MDcxMjA5ODIiLCJhdWQiOlsiaHR0cHM6Ly9hcGkuY29sb3NzZXVtLm9yZyIsImh0dHBzOi8vY29sb3NzZXVtLXVzZXItcHJvZmlsZS5hdXRoMC5jb20vdXNlcmluZm8iXSwiaWF0IjoxNzE4MDE1MDQxLCJleHAiOjE3MTgxMDE0NDEsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUgZW1haWwiLCJhenAiOiJuN2N0UXJscjZ3eWpxMXI3MkpSUktEaXFTS2pURkFSTSJ9.hYwHn1iRzPshkQv6Bf8C8Ily725gS9vH778vS_S12N5-sX6D_Z"
-          KEY_SUFIX_COM: "epminnyv_ZGF0YV9jb20="
-          KEY_SUFIX_RU: "epminnyv_ZGF0YV9ydQ=="
-          KEY_SUFIX_MIR: "epminnyv_ZGF0YV9taXI="
-          PI_API_KEY: "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6Ik9YdlBiaHJuRTR2cjJadS13WUNQbyJ9.eyJpc3MiOiJodHRwczovL2F1dGguY29sb3NzZXVtLm9yZy8iLCJzdWIiOiJhdXRoMHw2NjU1ZDQ2OGUzYTM4YzM5MDcxMjA5ODIiLCJhdWQiOlsiaHR0cHM6Ly9hcGkuY29sb3NzZXVtLm9yZyIsImh0dHBzOi8vY29sb3NzZXVtLXVzZXItcHJvZmlsZS5hdXRoMC5jb20vdXNlcmluZm8iXSwiaWF0IjoxNzE4MDE1MDQxLCJleHAiOjE3MTgxMDE0NDEsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUgZW1haWwiLCJhenAiOiJuN2N0UXJscjZ3eWpxMXI3MkpSUktEaXFTS2pURkFSTSJ9.hYwHn1iRzPshkQv6Bf8C8Ily725gS9vH778vS_S12N5-sX6D_Z"
-          PI_NETWORK_APP_ID: "epminnyv"
-          DISCORD_WEBHOOK_URL: "СЮДА_ВСТАВЬТЕ_ВАШУ_ССЫЛКУ_НА_ВЕБХУК_ИЗ_ДИСКОРДА"
+          XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: |
-          python3 pump_fun_bridge.py &
-          npx uvicorn pi_payment_server:app --host 0.0.0.0 --port 8000 &
-          echo "Оркестратор запущен. Сбор логов в течение 60 секунд..."
-          sleep 60
-          kill $(jobs -p)
+          echo "🏺 Запуск пахтания причинного океана данных..."
+          python samudra_manthan.py
