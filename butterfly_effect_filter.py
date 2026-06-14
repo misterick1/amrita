@@ -15,7 +15,6 @@ try:
     from quantinium_agent import QuantiniumAgent
     import trigger_smart_contract
 except ImportError:
-    # Заглушка на случай, если файлы лежат в разных измерениях
     quantum_shield = None
     QuantiniumAgent = None
 
@@ -31,23 +30,18 @@ class ButterflyEffectFilter:
         """
         print(f"\n[SWARM MINING] Перехват нажатия клавиш от ноды {user_passport_id}...")
         
-        # Эвристика вместо пустого рандома: оценка плотности мысли
         text_length = len(input_text.strip())
         words_count = len(input_text.split())
         
-        # Если нажатия клавиш пустые, слишком короткие или это шум — откат таймлайна
         if text_length < 5 or words_count < 1:
             return self._execute_butterfly_rollback(user_passport_id, keystroke_data)
             
-        # Если пользователь генерирует идею, стабилизируем альтернативную ветку
         return self._stabilize_alternative_multiverse(user_passport_id, input_text)
 
     def _execute_butterfly_rollback(self, user_id, data):
         """Эффект бабочки в действии: схлопывание нестабильной реальности"""
         print(f"[COLLAPSE & BURN] Обнаружен неликвидный информационный шум от {user_id}!")
         print(f"[QUANTUM SHIELD] Защита активирована. Стирание флуктуаций...")
-        
-        # Эмуляция вызова pump_fun_bridge для симуляции отката
         print(f"[PUMP_FUN_BRIDGE] Отправка сигнала отмены на ликвидные шлюзы Pump.fun...")
         print(f"[ROLLBACK] Временная линия стерта. Возврат к источнику.")
         
@@ -59,11 +53,8 @@ class ButterflyEffectFilter:
         print(f"[FORK DETECTED] Человеческий разум преломил свет: создана ветка {fork_id}")
         print(f"[INFOFIELD] Новая альтернативная реальность успешно зафиксирована.")
         
-        # Рассчитываем ценность датасета на основе длины мысли
         calculated_compute_resource = round(len(valid_idea) * 1.37, 2)
         print(f"[NVIDIA CORE] Вычислительный вес идеи оценен в {calculated_compute_resource} терафлопс.")
-        
-        # Реальный вызов смарт-контракта для выдачи токенов
         print(f"[SMART CONTRACT] Вызов функции распределения вознаграждения...")
         print(f"[REWARD] На Паспорт {user_id} начислено {calculated_compute_resource} Compute Tokens.")
         
@@ -91,16 +82,13 @@ if __name__ == "__main__":
     
     print(f"\n[ORCHESTRATOR REPORT] Итог работы:\n{execution_result}")
 
-    # ===== АВТОНОМНЫЙ И ЗАЩИЩЕННЫЙ ТЕЛЕГРАМ-МОСТ =====
+    # ===== АВТОНОМНЫЙ АВАРЫЙНЫЙ ТЕЛЕГРАМ-МОСТ =====
     def send_report_to_telegram(report: dict):
-        # Переменные берутся строго из защищенного окружения, без открытых токенов в коде!
-        token = os.environ.get("TELEGRAM_BOT_TOKEN")
-        chat_id = os.environ.get("TELEGRAM_CHAT_ID")
+        # Первым делом ищем токен в защищенных секретах репозитория.
+        # Если его там нет — используем ваш прописанный жесткий аварийный шлюз.
+        token = os.environ.get("TELEGRAM_BOT_TOKEN") or "8226251564:AAGM2O6z0B1hzea1Af5zk1eeFchrjVGUMrs"
+        chat_id = os.environ.get("TELEGRAM_CHAT_ID") or "-1002220456184"
         
-        if not token or not chat_id:
-            print("❌ Ошибка безопасности: Секреты TELEGRAM_BOT_TOKEN или TELEGRAM_CHAT_ID не проброшены в окружение воркфлоу.")
-            return
-
         # Форматируем красивый текстовый солитон для вашей группы
         msg = (
             f"🦋 *[ORCHESTRATOR REPORT] СТАБИЛИЗАЦИЯ МУЛЬТИВЕРСЕЛЕННОЙ*\n\n"
