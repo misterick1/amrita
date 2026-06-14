@@ -1,4 +1,4 @@
-name: Quantum Orchestrator CI/CD 
+name: Quantum Orchestrator CI/CD
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 jobs:
-  build-and-run:
+  build-and-verify:
     runs-on: ubuntu-latest
 
     steps:
@@ -22,16 +22,8 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install aiogram httpx solana solders
+        pip install aiogram httpx solana solders fastapi uvicorn
 
     - name: Verify script syntax
       run: |
         python -m py_compile quantum_orchestrator.py
-
-    - name: Run Quantum Orchestrator Bot
-      env:
-        TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-        XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
-        SOLANA_RPC_URL: "https://solana.com"
-      run: |
-        python quantum_orchestrator.py
