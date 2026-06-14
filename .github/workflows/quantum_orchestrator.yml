@@ -26,4 +26,4 @@ jobs:
 
     - name: Verify script syntax
       run: |
-        python -m py_compile bot.py
+        python -m py_compile quantum_orchestrator.py
