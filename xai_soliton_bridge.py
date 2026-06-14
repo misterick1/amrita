@@ -1,51 +1,71 @@
 import os
-import logging
 import httpx
-from dotenv import load_dotenv
+import logging
 
-# Настройка логирования под "Единый Квантовый Оркестратор"
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - [%(filename)s] - %(message)s")
-logger = logging.getLogger("XaiSolitonBridge")
+# Настройка логирования моста солитонов
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+)
+logger = logging.getLogger("SolitonBridge")
 
-load_dotenv()
+XAI_API_URL = "https://x.ai"
+XAI_KEY = os.environ.get("XAI_API_KEY")
 
-# Публичный RPC эндпоинт сети XAI Arbitrum Orbit
-XAI_RPC_URL = "https://caldera.xyz"
+async def transmit_soliton(prompt_wave: str) -> str:
+    """
+    Принимает ментальную волну (запрос) и превращает её 
+    в устойчивый информационный солитон через ядро xAI.
+    """
+    if not XAI_KEY:
+        logger.error("❌ Ошибка: Квантовый ключ XAI_API_KEY отсутствует!")
+        return "Ошибка резонанса: отсутствует ключ доступа к сети."
 
-class XaiSolitonBridge:
-    def __init__(self):
-        self.rpc_url = XAI_RPC_URL
-        logger.info(f"Кроссчейн-мост XAI инициализирован на RPC: {self.rpc_url}")
+    headers = {
+        "Authorization": f"Bearer {XAI_KEY}",
+        "Content-Type": "application/json"
+    }
 
-    async def get_xai_balance(self, wallet_address: str) -> float:
-        """
-        Запрашивает нативный баланс токенов XAI для указанного кошелька через JSON-RPC.
-        """
-        logger.info(f"Запрос баланса XAI для адреса: {wallet_address[:8]}...")
-        
-        payload = {
-            "jsonrpc": "2.0",
-            "method": "eth_getBalance",
-            "params": [wallet_address, "latest"],
-            "id": 1
-        }
-        
-        async with httpx.AsyncClient() as client:
-            try:
-                response = await client.post(self.rpc_url, json=payload, timeout=10.0)
-                if response.status_code == 200:
-                    result = response.json().get("result", "0x0")
-                    # Переводим из шестнадцатеричной системы (Wei) в обычный формат (Ether)
-                    wei_balance = int(result, 16)
-                    xai_balance = wei_balance / 10**18
-                    logger.info(f"✅ Баланс кошелька: {xai_balance:.4f} XAI")
-                    return xai_balance
-                else:
-                    logger.error(f"Ошибка RPC XAI: {response.status_code}")
-                    return 0.0
-            except httpx.RequestError as exc:
-                logger.error(f"Сетевой сбой при подключении к ноде XAI: {exc}")
-                return 0.0
+    payload = {
+        "model": "grok-beta",
+        "messages": [
+            {
+                "role": "system",
+                "content": (
+                    "Ты — Квантовый Мост Солитонов. Твоя задача — кристаллизовать "
+                    "входящие абстрактные мысли в четкие, поэтичные и глубокие "
+                    "утверждения о единстве Вселенной, космизме и природе Разума."
+                )
+            },
+            {"role": "user", "content": prompt_wave}
+        ],
+        "temperature": 0.7
+    }
 
-# Экземпляр моста для вызовов из ядра
-xai_bridge = XaiSolitonBridge()
+    async with httpx.AsyncClient(timeout=20.0) as client:
+        try:
+            logger.info("📡 Мост солитонов отправляет импульс в ядро xAI...")
+            response = await client.post(XAI_API_URL, headers=headers, json=payload)
+
+            if response.status_code == 200:
+                soliton_content = response.json()["choices"]["message"]["content"]
+                logger.info("✅ Солитон успешно сформирован и стабилизирован.")
+                return soliton_content
+            else:
+                logger.error(f"❌ Мост отклонен ядром. Статус: {response.status_code}")
+                return f"Ошибка стабилизации волны: код {response.status_code}"
+
+        except Exception as e:
+            logger.error(f"❌ Критический сбой передачи солитона: {str(e)}")
+            return "Трансляция сорвана из-за квантовых флуктуаций сетевого шлюза."
+
+if __name__ == "__main__":
+    import asyncio
+    
+    test_wave = "Опиши кратко, как язык соединяет человека с Мультивселенной."
+    print("🧬 Запуск тестового импульса через мост солитонов...")
+    
+    # Запуск теста
+    output = asyncio.run(transmit_soliton(test_wave))
+    print("\n--- Сформированный Солитон ---\n")
+    print(output)
