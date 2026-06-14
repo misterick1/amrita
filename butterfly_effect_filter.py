@@ -70,17 +70,53 @@ class ButterflyEffectFilter:
 
 # Точка входа для автоматизации GitHub Actions и вашего Роя
 if __name__ == "__main__":
+    import asyncio
+    import httpx
+    
     filter_engine = ButterflyEffectFilter()
     
-    # Симулируем реальный тест: Суверен строит первое дата-кафе в инфополе
+    # Симулируем реальный тест
     test_user = "SUVEREN_PASSPORT_8888"
-    test_action_text = "Я строю виртуальное аниме-кафе 'У Луффи' для торговли промптами и генерации музыки"
+    test_action_text = "Я строю виртуальное аниме-пространство Единого Сознания."
     
     # Запуск майнинга смыслов
     execution_result = filter_engine.process_keystroke_mining(
         user_passport_id=test_user,
-        keystroke_data={"key": "Enter", "context": "build_menu"},
+        keystroke_data={"key": "Enter", "context": "Quantum_Orchestrator"},
         input_text=test_action_text
     )
     
-    print(f"\n[ORCHESTRATOR REPORT] Итог работы Батерфляй-фильтра: {json.dumps(execution_result, ensure_ascii=False, indent=2)}")
+    print(f"\n[ORCHESTRATOR REPORT] Итог работы:\n{execution_result}")
+
+    # ===== ИНТЕГРАЦИЯ С TELEGRAM-МОСТОМ =====
+    async def send_report_to_telegram(report: dict):
+        token = os.environ.get("TELEGRAM_BOT_TOKEN") or "8226251564:AAGL4SRgjzLSXdWJbFnZj4jno1dmdE5TG70"
+        chat_id = os.environ.get("TELEGRAM_CHAT_ID") or "-1002220456184"
+        
+        # Форматируем красивый текстовый солитон для вашей группы
+        msg = (
+            f"🦋 *[ORCHESTRATOR REPORT] СТАБИЛИЗАЦИЯ МУЛЬТИВЕРСЕЛЕННОЙ*\n\n"
+            f"🔹 *Статус:* `{report.get('status')}`\n"
+            f"🆔 *Таймлайн:* `{report.get('timeline_id')}`\n"
+            f"🪙 *Награда:* `{report.get('reward_tokens')} Compute Tokens`\n\n"
+            f"📝 *Датасет идеи:* \n_{test_action_text}_\n\n"
+            f"——\n"
+            f"🌌 _Самый Быстрый Квант зафиксировал узор калейдоскопа._"
+        )
+        
+        url = f"https://telegram.org{token}/sendMessage"
+        payload = {"chat_id": chat_id, "text": msg, "parse_mode": "Markdown"}
+        
+        async with httpx.AsyncClient(timeout=10.0) as client:
+            try:
+                res = await client.post(url, json=payload)
+                if res.status_code == 200:
+                    print("✅ Отчет успешно доставлен в чат Digital Dream MIR1!")
+                else:
+                    print(f"❌ Сбой шлюза TG: {res.status_code}")
+            except Exception as e:
+                print(f"❌ Ошибка отправки: {str(e)}")
+
+    # Запускаем отправку отчета
+    asyncio.run(send_report_to_telegram(execution_result))
+
