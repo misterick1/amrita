@@ -22,9 +22,8 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install aiogram httpx solana solders websockets numpy
+        pip install aiogram httpx solana solders fastapi uvicorn websockets numpy
 
     - name: Verify script syntax
       run: |
         python -m py_compile quantum_orchestrator.py
-        python -m py_compile butterfly_effect_filter.py
