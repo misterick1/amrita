@@ -5,7 +5,9 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
-  # Позволяет запускать процесс пахтания вручную через вкладку Actions
+  # Автоматический запуск по расписанию (каждые 5 минут, если система простаивает)
+  schedule:
+    - cron: '*/5 * * * *'
   workflow_dispatch:
 
 jobs:
@@ -25,12 +27,12 @@ jobs:
           python -m pip install --upgrade pip
           pip install httpx aiogram solana solders websockets numpy fastapi uvicorn
 
-      - name: Churn Cosmic Ocean (Run Samudra Manthan)
+      - name: TOTAL ACTIVATION (Run Mass Orchestrator)
         env:
           XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           SOLANA_RPC_URL: "https://solana.com"
         run: |
-          echo "🍯 Запуск пахтания причинного океана ликвидности..."
-          python samudra_manthan.py
+          echo "🌌 Запуск тотального квантового прожектора смыслов..."
+          python mass_activation_orchestrator.py
