@@ -23,13 +23,14 @@ jobs:
       - name: Materialize Network Dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install httpx
+          pip install httpx aiogram solana solders websockets numpy fastapi uvicorn
 
       - name: Churn Cosmic Ocean (Run Samudra Manthan)
         env:
           XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          SOLANA_RPC_URL: "https://solana.com"
         run: |
-          echo "🏺 Запуск пахтания причинного океана данных..."
+          echo "🍯 Запуск пахтания причинного океана ликвидности..."
           python samudra_manthan.py
