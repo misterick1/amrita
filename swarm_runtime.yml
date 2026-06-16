@@ -1,38 +1,29 @@
-name: Samudra Manthan Runtime
+version: '3.8'
 
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
-  # Автоматический запуск по расписанию (каждые 5 минут, если система простаивает)
-  schedule:
-    - cron: '*/5 * * * *'
-  workflow_dispatch:
+services:
+  quantum_orchestrator_ai:
+    image: python:3.11-slim
+    command: python /app/quantum_orchestrator.py
+    volumes:
+      - .:/app
+    environment:
+      - TOTAL_SUPPER_SUPPLY=108
+      - AUTHOR_COINS=70
+      - COLOSSEUM_POOL=38
+      - NODE_ENV=production
+    deploy:
+      mode: replicated
+      replicas: 2
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+      update_config:
+        parallelism: 1
+        delay: 10s
+    networks:
+      - amrita_quantum_network
 
-jobs:
-  execute_ocean_churn:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Cosmic Codebase
-        uses: actions/checkout@v4
-
-      - name: Initialize Python Environment
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.10'
-
-      - name: Materialize Network Dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install httpx aiogram solana solders websockets numpy fastapi uvicorn
-
-      - name: TOTAL ACTIVATION (Run Mass Orchestrator)
-        env:
-          XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-          SOLANA_RPC_URL: "https://solana.com"
-        run: |
-          echo "🌌 Запуск тотального квантового прожектора смыслов..."
-          python mass_activation_orchestrator.py
+networks:
+  amrita_quantum_network:
+    driver: overlay
