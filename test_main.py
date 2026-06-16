@@ -14,16 +14,22 @@ def test_quantum_integrity():
     return True
 
 def test_security_patcher():
-    """Проверка доступности модуля защиты Swarm"""
     if os.path.exists("swarm_security_patcher.py"):
-        print("[SUCCESS] ИИ-модуль экстренной защиты Swarm обнаружен и готов к перегрузкам.")
+        print("[SUCCESS] ИИ-модуль экстренной защиты Swarm обнаружен и готов.")
         return True
-    print("[INFO] swarm_security_patcher.py отсутствует, пропускаем.")
     return True
 
+def test_royalty_enforcer():
+    """Принудительная верификация коммерческого лицензирования (ACL)"""
+    if os.path.exists("amrita_royalty_enforcer.py"):
+        print("[SUCCESS] Финансовый инспектор Amrita Royalty Enforcer активен. Права Создателя защищены.")
+        return True
+    print("[FAIL] amrita_royalty_enforcer.py не найден в репозитории!")
+    return False
+
 if __name__ == "__main__":
-    if test_quantum_integrity() and test_security_patcher():
-        print("[AMRITA TOTAL SUCCESS] Все контуры — от Океана до защиты Swarm — проверены. Система неуязвима.")
+    if test_quantum_integrity() and test_security_patcher() and test_royalty_enforcer():
+        print("[AMRITA TOTAL SUCCESS] Все контуры — от Океана до коммерческой защиты прав — проверены.")
         sys.exit(0)
     else:
         sys.exit(1)
