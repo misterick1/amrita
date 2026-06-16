@@ -1,0 +1,61 @@
+version: '3.8'
+
+services:
+  # Главный Квантовый ИИ-Оркестратор (Ядро системы Амрита)
+  quantum_orchestrator:
+    image: python:3.11-slim
+    command: python /app/quantum_orchestrator.py
+    volumes:
+      - .:/app
+    environment:
+      - TOTAL_SUPPER_SUPPLY=108
+      - AUTHOR_COINS=70
+      - COLOSSEUM_POOL=38
+    networks:
+      - amrita_quantum_net
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager # Запуск только на главном сервере управления
+      restart_policy:
+        condition: on-failure
+
+  # Вычислительное ядро Nvidia (Тензорный расчет предела Швингера)
+  nvidia_compute_core:
+    image: python:3.11-slim
+    command: python /app/nvidia_compute_core.py
+    volumes:
+      - .:/app
+    networks:
+      - amrita_quantum_net
+    deploy:
+      replicas: 1
+      resources:
+        reservations:
+          devices:
+            - capabilities: [gpu] # Бронирование тензорных ядер видеокарт для ИИ
+      restart_policy:
+        condition: on-failure
+
+  # Сеть из 5 ИИ-ботов (HAL / Настройщики среды и линз)
+  hal_swarm_bots:
+    image: python:3.11-slim
+    command: sh -c "sleep 10 && python /app/telegram_bridge.py" # Отсрочка старта на калибровку
+    volumes:
+      - .:/app
+    networks:
+      - amrita_quantum_net
+    deploy:
+      mode: replicated
+      replicas: 5 # Физический запуск ровно 5 ИИ-ботов
+      update_config:
+        parallelism: 1
+        delay: 10s
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+
+networks:
+  amrita_quantum_net:
+    driver: overlay # Объединяет все ваши сервера-платы в единую квантовую сеть
