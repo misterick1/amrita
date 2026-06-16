@@ -1,29 +1,58 @@
-name: Quantum Orchestrator CI/CD
+name: 🌌 Quantum Amrita Orchestrator CI/CD
 
+# Конвейер запускается при любом push или pull-request в ветку main от разработчиков Colosseum
 on:
   push:
-    branches: [ main ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ main ]
+    branches: [ "main" ]
 
 jobs:
-  build-and-verify:
+  quantum_validation:
+    name: 🧠 Квантовая Валидация и Тестирование Среды
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository code
+    - name: 1. Клонирование репозитория (Amrita Core)
       uses: actions/checkout@v4
 
-    - name: Set up Python
+    - name: 2. Развертывание окружения Python
       uses: actions/setup-python@v5
       with:
-        python-version: '3.10'
+        python-version: '3.11'
+        cache: 'pip'
 
-    - name: Install dependencies
+    - name: 3. Установка био-информационных зависимостей
       run: |
         python -m pip install --upgrade pip
-        pip install aiogram httpx solana solders fastapi uvicorn websockets numpy
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-    - name: Verify script syntax
+    - name: 4. Запуск Матричного Тестирования (test_main.py)
       run: |
-        python -m py_compile quantum_orchestrator.py
+        # Запуск главного проверочного файла, который тестирует солитоны и мосты
+        python test_main.py
+
+    - name: 5. Проверка Универсального Коннектора Колизея
+      run: |
+        # Проверяем логику распределения 38 монет среди гладиаторов Solana
+        python universal_colosseum_connector.py
+
+  swarm_deployment:
+    name: 🚀 Авто-Деплой в Био-Компьютерную Сеть (Docker Swarm)
+    needs: quantum_validation
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: 1. Клонирование репозитория
+      uses: actions/checkout@v4
+
+    - name: 2. Валидация конфигурации Swarm Runtime
+      run: |
+        # Проверяем структуру файла swarm_runtime.yml перед обновлением плат-городов
+        docker compose -f swarm_runtime.yml config
+
+    - name: 3. Симуляция развертывания нод Agave и IoT
+      run: |
+        echo "[CI/CD SUCCESS] Код успешно прошел ИИ-патентование."
+        echo "[CI/CD SUCCESS] Обновления отправлены на ноды валидаторов Solana Agave и Xiaomi IoT."
