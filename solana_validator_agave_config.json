@@ -1,12 +1,17 @@
 {
-  "validator_program": "Solana_Agave_Node",
-  "network": "testnet",
-  "delegation_program_active": true,
-  "requirements": {
-    "min_agave_version": "4.0.3",
-    "min_firedancer_version": "0.912.40003",
-    "enforcement": "immediate"
+  "validator_program": "Solana_Agave_Mainnet_Beta",
+  "security_status": "EMERGENCY_UPGRADE_REQUIRED",
+  "critical_patch_v4_0_3": {
+    "anza_agave_url": "https://github.com",
+    "jito_solana_url": "https://github.com",
+    "firedancer_url": "https://github.com",
+    "salsa_harmonic_url": "https://github.com"
   },
-  "automation_action": "auto_upgrade_on_fault",
-  "status": "synchronized_with_foundation_rules"
+  "experimental_test_tier": {
+    "target_stake_pct": 10.0,
+    "candidate_version": "4.1.0-rc.1",
+    "candidate_url": "https://github.com"
+  },
+  "automation_action": "force_immediate_patch",
+  "node_protection_level": "MAXIMUM"
 }
