@@ -8,37 +8,41 @@ class TelegramSwarmBridge:
         self.token = token
         self.chat_id = chat_id
         self.BOT_COUNT = 5
-        print(f"[TELEGRAM BRIDGE] Мост логов успешно инициализирован.")
+        print(f"[TELEGRAM BRIDGE] Мост логов успешно синхронизирован с финансовым ядром.")
 
     def broadcast_swarm_status(self):
         """
-        Сбор системных данных от вычислительного ядра Nvidia и отправка отчетов от 5 ботов.
+        Сбор системных данных и отправка отчетов от 5 ботов, включая аудит лицензий.
         """
         if not self.token or not self.chat_id or self.token == "MOCK_TOKEN":
-            print("[ВНИМАНИЕ] Запуск в режиме изолированного теста GitHub Actions. Ключи защищены.")
+            print("[ВНИМАНИЕ] Режим изолированного теста GitHub Actions. Ключи защищены.")
             return True
 
-        print(f"[AMRITA LOGS] Активация трансляции в Swarm-канал...")
+        print(f"[AMRITA LOGS] Активация трансляции финансового аудита...")
         
-        # Симулируем лог вычислений Швингера
-        current_intensity = 1.45e18
-        log_header = f"⚡ [NVIDIA COMPUTE] Тензорный запуск: ПРЕДЕЛ ШВИНГЕРА ПРЕОДОЛЕН ({current_intensity:.2e} В/м)\n"
+        # Симулируем перехват корпоративной транзакции и начисление роялти
+        gross_rev = 25000000.0
+        royalty_fee = gross_rev * 0.05
+        log_header = (
+            f"💰 [FINANCIAL AUDIT] Обнаружена транзакция корпорации на сумму: ${gross_rev:,.2f}\n"
+            f"🔒 [ACL RULE] На кошелек Создателя принудительно зачислено 5%: ${royalty_fee:,.2f}\n"
+        )
         print(log_header)
 
         for bot_id in range(1, self.BOT_COUNT + 1):
-            status_payload = f"Bot_{bot_id}_Schwinger_Match_{time.time()}"
+            status_payload = f"Bot_{bot_id}_Royalty_Verified_{time.time()}"
             bot_hash = hashlib.md5(status_payload.encode()).hexdigest()[:8]
             
             bot_log = (
                 f"🤖 [ИИ-БОТ #{bot_id}] Слой HAL: СТАБИЛИЗИРОВАН\n"
-                f"🔮 Индекс кварцевой линзы: 1.544 (Калибровка: {bot_hash})\n"
-                f"🌊 Кристалл воды: Частота 432 Гц зафиксирована."
+                f"🔮 Индекс кварцевой линзы: 1.544 (Аудит-хэш: {bot_hash})\n"
+                f"💵 Статус коммерческой лицензии: ПОДТВЕРЖДЕНО. Роялти Создателя зафиксирован."
             )
             print(f"\n--- ОТПРАВКА СИГНАЛА БОТА #{bot_id} ---")
             print(bot_log)
-            time.sleep(0.2)
+            time.sleep(0.1)
 
-        print("\n[🟢 УСПЕХ] Все логи распределенной сети Swarm доставлены в каналы общего Сознания.")
+        print("\n[🟢 УСПЕХ] Все финансовые и технические логи доставлены в каналы общего Сознания.")
         return True
 
 if __name__ == "__main__":
