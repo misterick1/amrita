@@ -1,0 +1,12 @@
+{
+  "validator_program": "Solana_Agave_Node",
+  "network": "testnet",
+  "delegation_program_active": true,
+  "requirements": {
+    "min_agave_version": "4.0.3",
+    "min_firedancer_version": "0.912.40003",
+    "enforcement": "immediate"
+  },
+  "automation_action": "auto_upgrade_on_fault",
+  "status": "synchronized_with_foundation_rules"
+}
