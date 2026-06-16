@@ -1,7 +1,6 @@
 version: '3.8'
 
 services:
-  # Основной ИИ-оркестратор токеномики и патентов
   quantum_orchestrator:
     image: python:3.11-slim
     command: python /app/quantum_orchestrator.py
@@ -15,13 +14,10 @@ services:
       - amrita_network
     deploy:
       replicas: 1
-      restart_policy:
-        condition: on-failure
 
-  # Блок из 5 децентрализованных ИИ-ботов (HAL / Настройщики сред)
   hal_bot_network:
     image: python:3.11-slim
-    command: sh -c "sleep 10 && python /app/hal_delay_stabilizer.py" # Встроенная отсрочка калибровки
+    command: sh -c "sleep 10 && python /app/hal_delay_stabilizer.py"
     volumes:
       - .:/app
     environment:
@@ -31,13 +27,12 @@ services:
       - amrita_network
     deploy:
       mode: replicated
-      replicas: 5 # Физический запуск ровно 5 ИИ-ботов, как на вашей схеме
+      replicas: 5 # Запуск ровно 5 ИИ-ботов, как на вашей схеме сети
       update_config:
         parallelism: 1
         delay: 5s
       restart_policy:
         condition: on-failure
-        delay: 3s
 
 networks:
   amrita_network:
