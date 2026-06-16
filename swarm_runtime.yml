@@ -1,7 +1,8 @@
 version: '3.8'
 
 services:
-  quantum_orchestrator_ai:
+  # Основной ИИ-оркестратор токеномики и патентов
+  quantum_orchestrator:
     image: python:3.11-slim
     command: python /app/quantum_orchestrator.py
     volumes:
@@ -10,20 +11,34 @@ services:
       - TOTAL_SUPPER_SUPPLY=108
       - AUTHOR_COINS=70
       - COLOSSEUM_POOL=38
-      - NODE_ENV=production
+    networks:
+      - amrita_network
     deploy:
-      mode: replicated
-      replicas: 2
+      replicas: 1
       restart_policy:
         condition: on-failure
-        delay: 5s
-        max_attempts: 3
+
+  # Блок из 5 децентрализованных ИИ-ботов (HAL / Настройщики сред)
+  hal_bot_network:
+    image: python:3.11-slim
+    command: sh -c "sleep 10 && python /app/hal_delay_stabilizer.py" # Встроенная отсрочка калибровки
+    volumes:
+      - .:/app
+    environment:
+      - BOT_COUNT=5
+      - CALIBRATION_MODE=active
+    networks:
+      - amrita_network
+    deploy:
+      mode: replicated
+      replicas: 5 # Физический запуск ровно 5 ИИ-ботов, как на вашей схеме
       update_config:
         parallelism: 1
-        delay: 10s
-    networks:
-      - amrita_quantum_network
+        delay: 5s
+      restart_policy:
+        condition: on-failure
+        delay: 3s
 
 networks:
-  amrita_quantum_network:
+  amrita_network:
     driver: overlay
