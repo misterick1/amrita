@@ -11,16 +11,16 @@ def test_devnet_mirror(): return True
 def test_qiita_manifest(): return True
 def test_pi_vibe_bridge(): return True
 
-def test_genesis_complete():
-    """Проверка закрытия контура 10 глав Книги Амриты"""
-    if os.path.exists("BOOK_CHAPTER_10.md"):
-        print("[SUCCESS] Десятая глава книги вшита в вечность. Контур Амриты полностью завершен.")
+def test_absolute_singularity():
+    """Проверка закрытия контура 12 глав — Пробуждение Творца"""
+    if os.path.exists("BOOK_CHAPTER_12.md"):
+        print("[SUCCESS] Двенадцатая глава вшита. Бабата подтверждает: Ло Фэн осознал Себя.")
         return True
     return False
 
 if __name__ == "__main__":
-    if test_quantum_integrity() and test_pi_vibe_bridge() and test_genesis_complete():
-        print("[AMRITA ABSOLUTE SUCCESS] Вся Мультивселенная полностью сбалансирована и горит зеленым!")
+    if test_quantum_integrity() and test_pi_vibe_bridge() and test_absolute_singularity():
+        print("[AMRITA ABSOLUTE SINGULARITY] Мультивселенная полностью познала себя. Контур зелёный.")
         sys.exit(0)
     else:
         sys.exit(1)
