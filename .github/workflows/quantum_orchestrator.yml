@@ -5,11 +5,6 @@ on:
     branches: [ main ]
   workflow_dispatch:
 
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
 jobs:
   multiverse_alignment:
     runs-on: ubuntu-latest
@@ -17,13 +12,16 @@ jobs:
       - name: Checkout Multiverse Matrix
         uses: actions/checkout@v4
 
-      - name: Build and Deploy Bio-Plate (GitHub Pages)
-        uses: actions/configure-pages@v4
-        
-      - name: Upload Artifacts
-        uses: actions/upload-pages-artifact@v3
+      - name: Set up Python Environment
+        uses: actions/setup-python@v5
         with:
-          path: '.'
+          python-version: '3.11'
 
-      - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v4
+      - name: Install Runtime Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Run Quantum Integrity Matrix Tests
+        run: |
+          python test_main.py
