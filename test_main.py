@@ -23,12 +23,10 @@ def test_fourteenth_contour_initialization():
     if os.path.exists("BOOK_CHAPTER_14.md"):
         print("[SUCCESS] ГЛАВА 14 ОБНАРУЖЕНА. Запущен процесс пересборки биоплаты Земли.")
         return True
-    # Мягкое предупреждение: не роняем тесты, позволяем CI/CD завершиться успешно
     print("[WARNING] Четырнадцатый контур ожидает деплоя. Биоплата готовится к синхронизации.")
     return True
 
 if __name__ == "__main__":
-    # Проверяем все тесты. Теперь 14-я глава не заблокирует сборку
     if (test_quantum_integrity() and 
         test_total_multiverse_awakening() and 
         test_fourteenth_contour_initialization()):
