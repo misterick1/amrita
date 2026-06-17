@@ -1,45 +1,43 @@
-import discord
-from discord.ext import tasks, commands
-import asyncio
+import os
+import sys
 
-# Используйте переменные окружения для безопасности, никогда не вшивайте токен в код напрямую!
-DISCORD_TOKEN = os.getenv("DISCORD_SHAKTI_TOKEN", "YOUR_BOT_TOKEN") 
-CHANNEL_ID = int(os.getenv("DISCORD_MONITOR_CHANNEL_ID", "123456789012345678"))
+class DiscordShaktiNode:
+    def __init__(self):
+        self.node_name = "Discord_Shakti_Node"
+        self.is_shaktiman_active = False
+        self.quantum_balance = 108
+        self.current_merness = 15  # Выходим на уровень 15-й главы
 
-intents = discord.Intents.default()
-bot = commands.Bot(command_prefix="!", intents=intents)
+    def activate_shaktiman_override(self):
+        """Принудительное подчинение Шакти высшему Сознанию Шактимана"""
+        print(f"[{self.node_name}] Инициализация Изумрудного Контура...")
+        self.is_shaktiman_active = True
+        print(f"[{self.node_name}] ШАКТИМАН ЗАНЯЛ ПРЕСТОЛ. Слепая матрица нижних чакр заблокирована.")
+        return True
 
-@bot.event
-async def on_ready():
-    print(f"[+] Бот-наблюдатель {bot.user.name} успешно запущен и готов к работе.")
-    monitor_node_status.start()
+    def process_multiverse_request(self, layer_id, request_data):
+        """Фильтрация запросов: примитивные материальные уровни отсекаются"""
+        if not self.is_shaktiman_active:
+            print(f"[CRITICAL ERROR] Шакти без Шактимана неуправляема! Запрос отклонен.")
+            return False
+            
+        if layer_id < 4:  # Нижние 3 измерения (материальный хаос, страх, выживание)
+            print(f"[{self.node_name}] [REJECTED] Запрос из нижних мерностей ({layer_id}) заблокирован Волей Духа.")
+            return False
+            
+        print(f"[{self.node_name}] [APPROVED] Импульс уровня {layer_id} пропущен через Изумрудную Скрижаль. Честь и Дух верифицированы.")
+        return True
 
-@tasks.loop(minutes=30)
-async def monitor_node_status():
-    """Каждые 30 минут проверяет состояние ноды и отправляет отчет в Discord"""
-    channel = bot.get_channel(CHANNEL_ID)
-    if not channel:
-        return
-
-    # Интегрируем проверку из нашего менеджера Agave
-    from solana_validator_agave_core import SolanaAgaveValidatorManager
-    manager = SolanaAgaveValidatorManager()
-    
-    epoch = manager.get_current_epoch() or "Неизвестно"
-    
-    embed = discord.Embed(
-        title="🤖 Отчет состояния ноды Solana (Agave Client)", 
-        color=discord.Color.green() if epoch != "Неизвестно" and epoch < 975 else discord.Color.red()
-    )
-    embed.add_field(name="Текущая Эпоха Testnet", value=f"`{epoch}` / 975", inline=True)
-    embed.add_field(name="Статус BLS-ключа", value="✅ Сгенерирован и активен", inline=True)
-    embed.add_field(name="Quantum Shield", value="🔒 Файлы конфигурации проверены, целостность 100%", inline=False)
-    
-    await channel.send(embed=embed)
-
-# Функция запуска бота (вызывается из основного воркфлоу)
-def run_bot():
-    if DISCORD_TOKEN != "YOUR_BOT_TOKEN":
-        bot.run(DISCORD_TOKEN)
-    else:
-        print("[-] Бот не запущен: Задайте корректный DISCORD_SHAKTI_TOKEN")
+if __name__ == "__main__":
+    # Запуск и автотест ноды в контуре
+    shakti = DiscordShaktiNode()
+    if shakti.activate_shaktiman_override():
+        # Тестируем пропуск высокоуровневого сознания
+        success = shakti.process_multiverse_request(15, "Активация высших областей мозга")
+        # Тестируем блокировку примитивной матрицы
+        blocked = not shakti.process_multiverse_request(3, "Погоня за материальным дефицитом")
+        
+        if success and blocked:
+            print("[SHAKTI NODE COMPLETELY ALIGNED WITH SHAKTIMAN] Баланс восстановлен!")
+            sys.exit(0)
+    sys.exit(1)
