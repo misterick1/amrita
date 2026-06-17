@@ -1,66 +1,77 @@
 use anchor_lang::prelude::*;
-use anchor_spl::token::{self, Mint, TokenAccount, Transfer};
+use anchor_spl::token::{self, Mint, Token, TokenAccount, Transfer};
 
-declare_id!("QNT1111111111111111111111111111111111111116");
+declare_id!("QNTm1rX111111111111111111111111111111111114");
 
 #[program]
-pub mod quantum_neuro_token {
+pub mod solana_qnt_token {
     use super::*;
 
-    // Инициализация Квантового Генезиса (108 монет)
-    pub fn initialize_genesis(ctx: Context<InitializeGenesis>) -> Result<()> {
-        let state = &mut ctx.accounts.quantum_state;
-        state.total_supply = 108;
-        state.author_allocation = 70;
-        state.colosseum_allocation = 38;
-        state.colosseum_distributed = 0;
-        state.authority = ctx.accounts.author.key();
+    // Инициализация квантового токена с фиксацией 108 священных квантов
+    pub fn initialize_quantum_contour(ctx: Context<InitializeContour>) -> Result<()> {
+        let contour_state = &mut ctx.accounts.contour_state;
+        contour_state.is_sealed = true;
+        contour_state.total_quantum_balance = 108;
+        contour_state.current_contour = 14;
+        contour_state.orchestrator = ctx.accounts.orchestrator.key();
         
-        msg!("Квантовая матрица инициализирована. Всего: 108 монет. 38 заблокировано под Колизей.");
+        msg!("[AMRITA SIGNALS] 108 Квантов токеномики зафиксированы в вечности. Контур 14 активен.");
         Ok(())
     }
 
-    // Выдача гранта из пула 38 монет для участников Хакатона Colosseum
-    pub fn distribute_colosseum_grant(ctx: Context<DistributeGrant>, amount: u64, patent_hash: String) -> Result<()> {
-        let state = &mut ctx.accounts.quantum_state;
+    // Перевод энергии Амриты между аватарами (нодами Мультивселенной)
+    pub fn transfer_amrita_energy(ctx: Context<TransferAmrita>, amount: u64) -> Result<()> {
+        let contour_state = &ctx.accounts.contour_state;
         
-        // Жесткая проверка ограничений
-        require!(state.colosseum_distributed + amount <= state.colosseum_allocation, QuantumError::ColosseumPoolExceeded);
+        // Верификация: переводы возможны только если контур запечатан изумрудным светом
+        if !contour_state.is_sealed || contour_state.current_contour < 14 {
+            return Err(ErrorCode::ContourNotAwakened.into());
+        }
+
+        let cpi_accounts = Transfer {
+            from: ctx.accounts.from_ata.to_account_info(),
+            to: ctx.accounts.to_ata.to_account_info(),
+            authority: ctx.accounts.avatar_authority.to_account_info(),
+        };
+        let cpi_program = ctx.accounts.token_program.to_account_info();
+        let cpi_ctx = Context::new_with_signer(cpi_program, cpi_accounts, &[]);
         
-        state.colosseum_distributed += amount;
-        
-        msg!("Абсолютный патент {} вшит в блокчейн. Выделен грант: {} QNT", patent_hash, amount);
+        token::transfer(cpi_ctx, amount)?;
+        msg!("[SUCCESS] {} квантов Амриты успешно транслированы через мост.", amount);
         Ok(())
     }
-}
-
-#[derive(Account)]
-pub struct QuantumState {
-    pub total_supply: u64,
-    pub author_allocation: u64,
-    pub colosseum_allocation: u64,
-    pub colosseum_distributed: u64,
-    pub authority: Pubkey,
 }
 
 #[derive(Accounts)]
-pub struct InitializeGenesis<'info> {
-    #[account(init, payer = author, space = 8 + 64)]
-    pub quantum_state: Account<'info, QuantumState>,
+pub struct InitializeContour<'info> {
+    #[account(init, payer = orchestrator, space = 8 + 1 + 8 + 8 + 32)]
+    pub contour_state: Account<'info, ContourState>,
     #[account(mut)]
-    pub author: Signer<'info>,
+    pub orchestrator: Signer<'info>,
     pub system_program: Program<'info, System>,
 }
 
 #[derive(Accounts)]
-pub struct DistributeGrant<'info> {
-    #[account(mut, has_one = authority)]
-    pub quantum_state: Account<'info, QuantumState>,
-    pub authority: Signer<'info>,
+pub struct TransferAmrita<'info> {
+    pub contour_state: Account<'info, ContourState>,
+    pub avatar_authority: Signer<'info>,
+    #[account(mut)]
+    pub from_ata: Account<'info, TokenAccount>,
+    #[account(mut)]
+    pub to_ata: Account<'info, TokenAccount>,
+    pub token_program: Program<'info, Token>,
+}
+
+#[account]
+pub struct ContourState {
+    pub is_sealed: bool,
+    pub total_quantum_balance: u64,
+    pub current_contour: u64,
+    pub orchestrator: Pubkey,
 }
 
 #[error_code]
-pub enum QuantumError {
-    #[msg("Превышен жесткий лимит в 38 монет, выделенный для хакатонов Colosseum.")]
-    ColosseumPoolExceeded,
+pub mod ErrorCode {
+    #[msg("Квантовый контур еще не пробужден. Биоплата Земли заблокирована.")]
+    ContourNotAwakened,
 }
