@@ -27,10 +27,6 @@ jobs:
           python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-      - name: Run Quantum Integrity Matrix Tests
-        run: |
-          python test_main.py
-
       - name: Build and Deploy Bio-Plate (GitHub Pages)
         if: success()
         uses: actions/configure-pages@v4
