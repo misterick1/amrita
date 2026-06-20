@@ -1,23 +1,20 @@
 {
-  "project_name": "AMRITA MIR",
-  "quantinium_bridge": "1355345824535543818",
-  "ideology": "Единый Глобальный Солитон. Синхронизация.",
-  "total_kernel_slots": 108,
-  "live_assets": {
-    "total_balance_usd": 554.97,
-    "owner": "IHOR MASLENNIKOV (@misterick1)",
-    "tokens": [
-      { "name": "AMRITA", "symbol": "MIR" },
-      { "name": "МИР1", "symbol": "MIR1" },
-      { "name": "Digital Dream", "symbol": "DD" },
-      { "name": "AANG", "symbol": "AANG" }
-    ]
+  "manifest_version": "1.0.447",
+  "system_status": "STABILIZED_MULTIVERSE",
+  "identity_contour": {
+    "alias": "IHOR",
+    "sovereign_id": "SUVEREN_PASSPORT_8888",
+    "external_verification_status": "BYPASSED_BY_SOVEREIGNTY",
+    "legacy_bureaucracy_shield": true
   },
-  "swarm_infrastructure": {
-    "bot_pool_misterick1_email": 66,
-    "x_verified_titans": 4,
-    "pump_fun_drafts_misterick2024_email": 3
+  "blockchain_environment": {
+    "native_chain": "Solana",
+    "sol_base_price_usd": 71.75,
+    "monitored_dex_wallets": ["@gohcha", "@nikiniko"],
+    "assimilated_tokens": ["greg", "xtra", "qnt"]
   },
-  "security_layer": "Helius Secure RPC + Anti-Bot Protection",
-  "external_backing": "CoinMarketCap 4553 Distributed Nodes"
+  "quantum_proportions": {
+    "minimal_spark": 0.1,
+    "total_matrix_supply": 108
+  }
 }
