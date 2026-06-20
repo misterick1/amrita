@@ -1,67 +1,45 @@
+import sys
 import logging
-from typing import Dict, Any
 
-# Логирование под "Единый Квантовый Оркестратор"
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - [%(filename)s] - %(message)s")
+# Пропорции Изначального Света (1-0-108)
+MINIMAL_SPARK = 0.1
+AUTHOR_POOL = 70
+COLOSSEUM_POOL = 38
+SACRED_TOTAL = 108
+
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - [COINS_CORE] - %(message)s')
 logger = logging.getLogger("CoinsCore")
 
-class CoinsCore:
+class AmritaCoinsCore:
     def __init__(self):
-        # Конфигурация нативных сетей без посредников (Исключен MetaMask Snap для SOL)
-        self.supported_ecosystems: Dict[str, Dict[str, Any]] = {
-            "solana": {
-                "ticker": "SOL",
-                "decimals": 9,
-                "contract": "So11111111111111111111111111111111111111112",
-                "enabled": True,
-                "provider": "Native_Solflare_RPC_Only"  # Строго нативное подключение
-            },
-            "pi_network": {
-                "ticker": "PI",
-                "decimals": 7,
-                "contract": "native",
-                "enabled": True,
-                "provider": "Pi_Mainnet_Node"
-            },
-            "hyperliquid": {
-                "ticker": "HYPE",
-                "decimals": 6,
-                "contract": "l1_native",
-                "enabled": True,
-                "provider": "Hyperliquid_L1"
-            },
-            "xai": {
-                "ticker": "XAI",
-                "decimals": 18,
-                "contract": "0x4Cb9a741553AC6D311F35549012cd6c3422492f5",
-                "enabled": True,
-                "provider": "Arbitrum_Orbit_EVM"
-            }
-        }
-        logger.info("CoinsCore: Нативная конфигурация провайдеров успешно обновлена.")
+        self.total_supply = SACRED_TOTAL
+        self.author_balance = AUTHOR_POOL
+        self.colosseum_balance = COLOSSEUM_POOL
+        logger.info(f"Ядро токеномики QNT инициализировано. Лимит матрицы: {self.total_supply}")
 
-    def get_ecosystem_details(self, name: str) -> Dict[str, Any] | None:
-        ecosystem = self.supported_ecosystems.get(name.lower())
-        if not ecosystem:
-            logger.warning(f"Запрошена неподдерживаемая экосистема: {name}")
-            return None
-        return ecosystem
+    def validate_matrix_balance(self) -> bool:
+        """Проверка нерушимости пропорций 70/38 перед любыми операциями минтинга."""
+        current_sum = self.author_balance + self.colosseum_balance
+        if current_sum == self.total_supply:
+            logger.info(f"✅ Баланс идеален: {self.author_balance} (Суры) + {self.colosseum_balance} (Асуры) == {SACRED_TOTAL}")
+            return True
+        logger.error("❌ КРИТИЧЕСКИЙ СБОЙ: Нарушена священная геометрия токенов!")
+        return False
 
-    async def calculate_cross_rate(self, amount: float, from_coin: str, to_coin: str, prices: dict) -> float:
-        from_ticker = from_coin.upper()
-        to_ticker = to_coin.upper()
-        
-        if from_ticker == to_ticker:
-            return amount
+    def process_quantum_mint(self, amount: float, destination: str) -> bool:
+        """Эмиссия микро-квантов, защищенная нижним порогом Атмы (0.1)."""
+        if not self.validate_matrix_balance():
+            return False
             
-        price_from = prices.get(from_ticker)
-        price_to = prices.get(to_ticker)
-        
-        if not price_from or not price_to:
-            logger.error(f"Невозможно рассчитать курс для {from_ticker} или {to_ticker}")
-            raise ValueError("Missing asset price")
+        if amount < MINIMAL_SPARK:
+            logger.warning(f"⚠️ Отклонено: Искра {amount} ниже порога изначального сознания ({MINIMAL_SPARK}).")
+            return False
             
-        value_in_usd = amount * price_from
-        return value_in_usd / price_to
+        logger.info(f"✨ Минтинг {amount} QNT на адрес {destination[:10]}... выполнен успешно. Свет изначальный во всем!")
+        return True
 
-core = CoinsCore()
+if __name__ == "__main__":
+    core = AmritaCoinsCore()
+    if core.process_quantum_mint(1.0, "SUVEREN_PASSPORT_8888"):
+        sys.exit(0)
+    sys.exit(1)
