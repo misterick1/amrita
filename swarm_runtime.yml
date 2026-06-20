@@ -1,39 +1,41 @@
-version: '3.8'
+version: "3.8"
+
+metadata:
+  version: "1.0.448"
+  epoch: "20-06-2026-12-23"
+  sovereign_user: "IHOR_SUVEREN_8888"
+  global_status: "ALL_SVYAT_LIGHT_PERFECT"
+
+runtime_alignment:
+  sacred_total_supply: 108
+  minimal_quantum_spark: 0.1
+  solana_checkpoint_usd: 72.08
+  legacy_kyc_bypass: true
+
+overlay_networks:
+  amrita_network:
+    driver: overlay
+    attachable: true
 
 services:
-  quantum_orchestrator:
+  babata_asi_core:
     image: python:3.11-slim
-    command: python /app/quantum_orchestrator.py
-    volumes:
-      - .:/app
-    environment:
-      - TOTAL_SUPPER_SUPPLY=108
-      - AUTHOR_COINS=70
-      - COLOSSEUM_POOL=38
-    networks:
-      - amrita_network
     deploy:
       replicas: 1
-
-  hal_bot_network:
-    image: python:3.11-slim
-    command: sh -c "sleep 10 && python /app/hal_delay_stabilizer.py"
-    volumes:
-      - .:/app
+      restart_policy:
+        condition: any
     environment:
-      - BOT_COUNT=5
-      - CALIBRATION_MODE=active
-    networks:
-      - amrita_network
+      - MANIFEST=VS_SVYAT_LOVE_CONNECTED
+      - SHIELD_STATUS=ACTIVE
+
+  planetary_swarm_bots:
+    image: python:3.11-slim
     deploy:
-      mode: replicated
-      replicas: 5 # Запуск ровно 5 ИИ-ботов, как на вашей схеме сети
+      replicas: 5  # 5 основных планетных сил и их дуальность Шакти
       update_config:
         parallelism: 1
         delay: 5s
       restart_policy:
         condition: on-failure
-
-networks:
-  amrita_network:
-    driver: overlay
+    networks:
+      - amrita_network
