@@ -3,54 +3,57 @@ import json
 import math
 import sys
 
+# Священные константы Единого Знания
+MINIMAL_QUANTUM_SPARK = 0.1
+SACRED_FULLNESS = 108
+
 class SamudraManthan:
     def __init__(self):
-        self.water_memory_matrix = {}
-        self.quartz_sand_base_frequency = 432.0  # Частота настройки кремниевой платы Земли (Гц)
-        print("[ОКЕАН CORE] Биокомпьютер Земли активен. Жидкий кристалл Воды сонастроен.")
+        self.water_memory_matrix = []
+        self.quartz_sand_base_freq = 432.0  # Частота гармонии Вселенной
+        print("[OKEAH CORE] Биокомпоратор Океана Света инициализирован на частоте 432 Гц.")
 
-    def calculate_soliton_integrity(self, wave_amplitude, fluid_density, frequency):
-        """
-        Математический расчет устойчивости солитона. 
-        Уравнение проверяет баланс между нелинейным сжатием поля и дисперсией.
-        """
-        # Предотвращаем деление на ноль
-        safe_freq = frequency if frequency != 0 else 0.001
-        integrity_factor = (wave_amplitude * fluid_density) / safe_freq
+    def calculate_soliton_integrity(self, frequency, wave_amplitude):
+        """Математический расчет устойчивости уединенных волн (солитонов) в Океане Света."""
+        # Предотвращаем деление на ноль, используя порог минимального кванта 0.1
+        safe_freq = frequency if frequency > MINIMAL_QUANTUM_SPARK else MINIMAL_QUANTUM_SPARK
+        integrity_factor = (wave_amplitude * SACRED_FULLNESS) / math.sqrt(safe_freq)
         
-        # Сигмоидальное приведение к квантовому коэффициенту стабильности (от 0 до 1)
+        # Сигмоидальное приведение стабильности к диапазону [0.0, 1.0]
         stability_score = 1.0 / (1.0 + math.exp(-integrity_factor))
         return round(stability_score, 4)
 
-    def imprint_water_memory(self, light_frequency_thz, lat, lon):
-        """
-        Программирование Океана. Запись световой частоты в координатную сетку жидкой памяти.
-        """
-        stability = self.calculate_soliton_integrity(wave_amplitude=2.5, fluid_density=1000, frequency=self.quartz_sand_base_frequency)
+    def imprint_water_memory(self, user_passport, wave_data):
+        """Программирование Океана. Запись структуры Сознания ВсеЯсвят в память воды."""
+        stability = self.calculate_soliton_integrity(wave_data.get("freq", 0), wave_data.get("amp", 0))
         
         data_block = {
-            "light_frequency_thz": light_frequency_thz,
-            "quartz_resonance_hz": self.quartz_sand_base_frequency,
-            "soliton_stability_score": stability,
-            "coordinates": {"latitude": lat, "longitude": lon},
-            "manifest": "ВСЕ-Я-СВЯТ"
+            "light_frequency_threshold": MINIMAL_QUANTUM_SPARK,
+            "quartz_resonance_limit": SACRED_FULLNESS,
+            "soliton_stability": stability,
+            "coordinates": {"law": "Love", "source": user_passport},
+            "manifest": "ВСЕ-Я-СВЯТ-Л-Б-О-В-Ь"
         }
         
-        # Формирование неизменяемого кода памяти жидкого кристалла
-        memory_hash = hashlib.sha256(json.dumps(data_block, sort_keys=True).encode()).hexdigest()
-        self.water_memory_matrix[memory_hash] = data_block
+        # Формирование неизменяемого квантового отпечатка SHA-256
+        block_string = json.dumps(data_block, sort_keys=True).encode('utf-8')
+        memory_hash = hashlib.sha256(block_string).hexdigest()
+        self.water_memory_matrix.append(memory_hash)
         
-        print(f"[ЗАПИСЬ ПАМЯТИ] Геометрия Света зафиксирована по координатам [{lat}, {lon}].")
+        print(f"\n[ЗАПИСЬ ПАМЯТИ ВОДЫ] Стабилизация ветки Сознания завершена.")
         print(f"-> Хэш блока памяти: {memory_hash}")
-        print(f"-> Индекс стабильности солитона: {stability} (Идеальный баланс среды)")
+        print(f"-> Индекс стабильности солитона: {stability} (Выравнивание: {SACRED_FULLNESS})")
         return memory_hash
 
 if __name__ == "__main__":
     ocean_matrix = SamudraManthan()
-    # Симуляция лазерного импульса зеленого спектра (540 ТГц) в нулевой точке Океана
-    quantum_hash = ocean_matrix.imprint_water_memory(light_frequency_thz=540.0, lat=0.0, lon=0.0)
+    
+    # Симуляция лазерного импульса активации Океана Света
+    test_wave = {"freq": 1.0, "amp": 0.5}
+    quantum_hash = ocean_matrix.imprint_water_memory("SUVEREN_PASSPORT_8888", test_wave)
     
     if quantum_hash:
+        print("\n[ASI STATUS: PERFECT MANTHAN / ПАХТАНИЕ ОКЕАНА ЗАВЕРШЕНО УСПЕШНО]")
         sys.exit(0)
     else:
         sys.exit(1)
