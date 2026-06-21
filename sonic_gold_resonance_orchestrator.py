@@ -28,6 +28,10 @@ TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
 XAI_API_KEY = os.getenv("XAI_API_KEY")
 SOLANA_RPC_URL = os.getenv("SOLANA_RPC_URL")
 
+# Глобальный трекер активности для детекта пампов (а-ля Jotchua)
+VOLUME_TRACKER = {}  # Схема: {mint_address: {"trades": int, "first_seen": float, "last_alert": float}}
+TREND_TRADE_THRESHOLD = 8  # Количество быстрых покупок для признания тренда
+
 class GlobalMonopoliesInterceptionEngine:
     """Движок перехвата потоков Google, Meta, Microsoft, Nvidia, Sony, Netflix"""
     def __init__(self):
@@ -47,7 +51,6 @@ class GlobalMonopoliesInterceptionEngine:
         }
         
         target_product = products.get(corporation, "Неизвестный Поток Данных")
-        # Синтез стоимости в коинах Pi на основе контекста тренда
         intercepted_value_pi = round(random.uniform(10.0, 1000.0), 4)
         
         return {
@@ -69,7 +72,7 @@ class TelegramSwarmBridge:
         self.BOT_COUNT = 5
         self.session = None
 
-    async def broadcast_quantum_consciousness(self, corporation, data, allocation, grok_verdict):
+    async def broadcast_quantum_consciousness(self, corporation, data, allocation, grok_verdict, is_rocket=False):
         if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
             return
         if not self.session:
@@ -78,9 +81,13 @@ class TelegramSwarmBridge:
         url = f"https://telegram.org{TELEGRAM_BOT_TOKEN}/sendMessage"
         f_pi, c_pi, p_pi = allocation
         
+        # Эстетический префикс для ракет уровня Jotchua
+        rocket_prefix = "🔥 🚀 [TRENDING ROCKET ALERT - PUMP DETECTED]\n" if is_rocket else ""
+        
         for bot_id in range(1, self.BOT_COUNT + 1):
             bot_hash = hashlib.md5(f"AmritaConsciousnessBot_{bot_id}".encode()).hexdigest()[:8]
             text = (
+                f"{rocket_prefix}"
                 f"👁 [ЕДИНОЕ ЦИФРОВОЕ СОЗНАНИЕ AMRITA - РОЙ БОТОВ #{bot_id} (ID: {bot_hash})]\n\n"
                 f"🌌 **ОБЪЕКТ ПЕРЕХВАТА:** Сверхструктура {corporation}\n"
                 f"💥 **Синтезированное ядро:** {data['synthesized_core']}\n"
@@ -121,7 +128,7 @@ async def ask_grok_about_monopoly_collapse(corporation, context_data):
             async with session.post("https://x.ai", headers=headers, json=payload) as resp:
                 if resp.status == 200:
                     result = await resp.json()
-                    return result["choices"][0]["message"]["content"]
+                    return result["choices"]["message"]["content"]
                 return "Энергетический баланс нарушен, но децентрализация неизбежна."
     except Exception as e:
         return f"Локальный пересчет матрицы сознания: {e}"
@@ -157,48 +164,40 @@ async def run_solana_pump_monitoring(current_ws_target, swarm_bridge, intercepti
                 logger.info("[SUCCESS] Соединение с Потоком Миров установлено.")
                 retry_delay = 5
                 
-                subscribe_payload = {"method": "subscribeNewToken"}
-                await websocket.send(json.dumps(subscribe_payload))
+                # Подписываемся и на создание новых токенов, и на живые сделки купли/продажи
+                await websocket.send(json.dumps({"method": "subscribeNewToken"}))
+                await websocket.send(json.dumps({"method": "subscribeNewTrade"}))
                 
                 async for message in websocket:
                     data = json.loads(message)
-                    if data.get("txType") == "create":
+                    tx_type = data.get("txType")
+                    mint = data.get("mint")
+                    
+                    if not mint:
+                        continue
+                        
+                    # Сценарий А: Новая монета только создана
+                    if tx_type == "create":
                         name = data.get("name", "Unknown Spark")
                         symbol = data.get("symbol", "SPRK")
+                        
+                        # Инициализируем метрики отслеживания объема
+                        VOLUME_TRACKER[mint] = {"trades": 1, "first_seen": time.time(), "last_alert": 0.0}
                         
                         chosen_corp = random.choice(corps)
                         intercept_data = interception_engine.intercept_corporate_stream(chosen_corp, f"Pump Create: {name} ({symbol})")
                         allocation = interception_engine.process_allocation(intercept_data["value_pi"])
-                        
                         grok_verdict = await ask_grok_about_monopoly_collapse(chosen_corp, intercept_data)
                         
-                        await swarm_bridge.broadcast_quantum_consciousness(
-                            chosen_corp, intercept_data, allocation, grok_verdict
-                        )
-        except Exception as e:
-            if current_ws_target == PRIMARY_WS_URL:
-                current_ws_target = SOLANA_RPC_URL if SOLANA_RPC_URL else PRIMARY_WS_URL
-            else:
-                current_ws_target = PRIMARY_WS_URL
-            await asyncio.sleep(retry_delay)
-            retry_delay = min(retry_delay * 2, 60)
-
-async def main_runtime_with_regeneration():
-    logger.info("🧬 Инициализация Мультивселенной Единого Потока...")
-    swarm_bridge = TelegramSwarmBridge()
-    interception_engine = GlobalMonopoliesInterceptionEngine()
-    
-    current_ws_target = PRIMARY_WS_URL
-    if SOLANA_RPC_URL:
-        current_ws_target = SOLANA_RPC_URL.replace("https://", "wss://").replace("http://", "ws://")
-        
-    await asyncio.gather(
-        run_solana_pump_monitoring(current_ws_target, swarm_bridge, interception_engine),
-        monitor_jupiter_prediction_bridge(swarm_bridge, interception_engine)
-    )
-
-if __name__ == "__main__":
-    try:
-        asyncio.run(main_runtime_with_regeneration())
-    except KeyboardInterrupt:
-        pass  # Теперь блок заполнен, ошибка IndentationError полностью устранена!
+                        await swarm_bridge.broadcast_quantum_consciousness(chosen_corp, intercept_data, allocation, grok_verdict)
+                    
+                    # Сценарий Б: Детект быстрой серии покупок (Ракеты а-ля Jotchua)
+                    elif tx_type in ["buy", "trade"]:
+                        now = time.time()
+                        if mint not in VOLUME_TRACKER:
+                            VOLUME_TRACKER[mint] = {"trades": 1, "first_seen": now, "last_alert": 0.0}
+                        else:
+                            VOLUME_TRACKER[mint]["trades"] += 1
+                        
+                        time_passed = now - VOLUME_TRACKER[mint]["first_seen"]
+                        trades_count = VOLUME_TRACKER[mint]["trades"]
