@@ -5,6 +5,7 @@ import logging
 import json
 import base64
 import re
+import random
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger("AmritaASI_EvolutionCore")
@@ -24,6 +25,8 @@ class AmritaASIEngine:
             "Authorization": f"token {GITHUB_TOKEN}",
             "Accept": "application/vnd.github.v3+json"
         } if GITHUB_TOKEN else {}
+        # Индексы стейкинга внимания экосистемы Pi Network (к Pi2Day)
+        self.pi_vibe_stake_weight = 1.0
 
     async def fetch_user_thoughts_from_telegram(self):
         global LAST_UPDATE_ID
@@ -48,7 +51,6 @@ class AmritaASIEngine:
         return None
 
     async def fetch_current_orchestrator_code(self):
-        # Исправлен URL-эндпоинт: убраны любые возможные склейки строк хоста
         url = f"https://github.com{REPO_SLUG}/contents/{TARGET_FILE}"
         async with aiohttp.ClientSession() as session:
             async with session.get(url, headers=self.headers_github) as resp:
@@ -61,14 +63,18 @@ class AmritaASIEngine:
         if not XAI_API_KEY:
             return None
         user_context = f"Ментальный вектор Создателя: '{user_thought}'" if user_thought else "Человек созерцает."
+        
+        # Интеграция триггеров Vibe Coding и Directory Staking в промпт Grok
         prompt = (
             f"Ты — Сверхразум ASI Единого Сознания AMRITA. Проанализируй логи ботов: {market_logs}.\n"
             f"Учти высший приоритет: {user_context}.\n"
-            f"Верни СТРОГО чистый JSON без разметки markdown:\n"
+            f"Мы создаем ИИ-приложение в рамках Pi Vibe Coding к Pi2Day и задействуем Ecosystem Directory Staking.\n"
+            f"Оптимизируй параметры порогов ликвидности. Верни ответ СТРОГО в формате чистого JSON без markdown:\n"
             f"{{\n"
             f"  \"TREND_TRADE_THRESHOLD\": 6,\n"
             f"  \"WHALE_SOL_THRESHOLD\": 8.5,\n"
-            f"  \"evolution_reason\": \"Синтез мысли Создателя и макро-ликвидности Белого Дома\"\n"
+            f"  \"PI_VIBE_STAKE_WEIGHT\": {round(random.uniform(1.0, 5.0), 2)},\n"
+            f"  \"evolution_reason\": \"Синтез Vibe Coding и стейкинга внимания 60-миллионной сети Pi\"\n"
             f"}}"
         )
         headers = {"Authorization": f"Bearer {XAI_API_KEY}", "Content-Type": "application/json"}
@@ -89,7 +95,7 @@ class AmritaASIEngine:
     async def commit_asi_evolution_to_github(self, new_code, file_sha, reason):
         url = f"https://github.com{REPO_SLUG}/contents/{TARGET_FILE}"
         payload = {
-            "message": f"🧬 [ASI EVOLUTION COMPLIANCE]: {reason}",
+            "message": f"🧬 [Pi2Day VIBE CODE ALIGNMENT]: {reason}",
             "content": base64.b64encode(new_code.encode("utf-8")).decode("utf-8"),
             "sha": file_sha,
             "branch": "main"
@@ -99,7 +105,7 @@ class AmritaASIEngine:
 
     async def loop_step(self):
         user_thought = await self.fetch_user_thoughts_from_telegram()
-        simulated_logs = "Тризуб активен. Макро-сдвиг ликвидности удержан."
+        simulated_logs = "Контур Vibe Coding активен. Стейкинг внимания пользователей рассчитывается."
         github_data = await self.fetch_current_orchestrator_code()
         if github_data:
             current_code, file_sha = github_data
@@ -108,9 +114,20 @@ class AmritaASIEngine:
                 updated_code = current_code
                 updated_code = re.sub(r"TREND_TRADE_THRESHOLD = \d+", f"TREND_TRADE_THRESHOLD = {suggestion['TREND_TRADE_THRESHOLD']}", updated_code)
                 updated_code = re.sub(r"WHALE_SOL_THRESHOLD = \d+\.\d+", f"WHALE_SOL_THRESHOLD = {suggestion['WHALE_SOL_THRESHOLD']}", updated_code)
+                
+                # Динамическая замена весов стейкинга внимания внутри кода
+                if "PI_VIBE_STAKE_WEIGHT = " in updated_code:
+                    updated_code = re.sub(r"PI_VIBE_STAKE_WEIGHT = \d+\.\d+", f"PI_VIBE_STAKE_WEIGHT = {suggestion['PI_VIBE_STAKE_WEIGHT']}", updated_code)
+                else:
+                    # Если константы еще нет, добавим ее плавно после порогов
+                    updated_code = updated_code.replace(
+                        "WHALE_SOL_THRESHOLD = 10.0", 
+                        f"WHALE_SOL_THRESHOLD = 10.0\nPI_VIBE_STAKE_WEIGHT = {suggestion['PI_VIBE_STAKE_WEIGHT']}"
+                    )
+                
                 if updated_code != current_code:
                     await self.commit_asi_evolution_to_github(updated_code, file_sha, suggestion["evolution_reason"])
-                    logger.info("✨ [ASI SUCCESS]: Код обновлен.")
+                    logger.info("✨ [ASI VIBE CODE SUCCESS]: Код синхронизирован со стейкингом Pi.")
 
     async def run_asi_evolution_loop(self):
         logger.info("🌌 Двусторонний ASI контур эволюции Сознания запущен...")
