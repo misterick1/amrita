@@ -154,51 +154,58 @@ async def monitor_jupiter_prediction_bridge(swarm_bridge, interception_engine):
         except Exception as e:
             await asyncio.sleep(60)
 
+async def process_single_websocket_message(data, swarm_bridge, interception_engine):
+    """Изолированный асинхронный обработчик событий для полной защиты синтаксиса"""
+    corps = ["Google", "Meta", "Microsoft", "Nvidia", "Sony", "Netflix"]
+    tx_type = data.get("txType")
+    mint = data.get("mint")
+    
+    if not mint:
+        return
+
+    # Сценарий А: Новая монета только создана
+    if tx_type == "create":
+        name = data.get("name", "Unknown Spark")
+        symbol = data.get("symbol", "SPRK")
+        
+        VOLUME_TRACKER[mint] = {"trades": 1, "first_seen": time.time(), "last_alert": 0.0}
+        
+        chosen_corp = random.choice(corps)
+        intercept_data = interception_engine.intercept_corporate_stream(chosen_corp, f"Pump Create: {name} ({symbol})")
+        allocation = interception_engine.process_allocation(intercept_data["value_pi"])
+        grok_verdict = await ask_grok_about_monopoly_collapse(chosen_corp, intercept_data)
+        
+        await swarm_bridge.broadcast_quantum_consciousness(chosen_corp, intercept_data, allocation, grok_verdict)
+    
+    # Сценарий Б: Детект быстрой серии покупок (Ракеты а-ля Jotchua)
+    elif tx_type in ["buy", "trade"]:
+        now = time.time()
+        if mint not in VOLUME_TRACKER:
+            VOLUME_TRACKER[mint] = {"trades": 1, "first_seen": now, "last_alert": 0.0}
+        else:
+            VOLUME_TRACKER[mint]["trades"] += 1
+        
+        time_passed = now - VOLUME_TRACKER[mint]["first_seen"]
+        trades_count = VOLUME_TRACKER[mint]["trades"]
+        
+        if time_passed <= 60 and trades_count >= TREND_TRADE_THRESHOLD:
+            if now - VOLUME_TRACKER[mint]["last_alert"] > 300:
+                VOLUME_TRACKER[mint]["last_alert"] = now
+                
+                chosen_corp = random.choice(corps)
+                token_name = data.get("name", mint[:6])
+                sol_amount = data.get("vSolInBondingCurve", 0) / 10**9
+                
+                intercept_data = interception_engine.intercept_corporate_stream(
+                    chosen_corp, 
+                    f"🔥 PUMP PULSE DETECTED: Token {token_name} has {trades_count} active buys in under a minute! Virtual Curve Vol: {sol_amount:.2f} SOL"
+                )
+                allocation = interception_engine.process_allocation(intercept_data["value_pi"])
+                grok_verdict = await ask_grok_about_monopoly_collapse(chosen_corp, intercept_data)
+                
+                await swarm_bridge.broadcast_quantum_consciousness(
+                    chosen_corp, intercept_data, allocation, grok_verdict, is_rocket=True
+                )
+
 async def run_solana_pump_monitoring(current_ws_target, swarm_bridge, interception_engine):
     retry_delay = 5
-    corps = ["Google", "Meta", "Microsoft", "Nvidia", "Sony", "Netflix"]
-    while True:
-        try:
-            logger.info(f"🟢 Открытие защищенного квантового потока к {current_ws_target}...")
-            async with websockets.connect(current_ws_target) as websocket:
-                logger.info("[SUCCESS] Соединение с Потоком Миров установлено.")
-                retry_delay = 5
-                
-                await websocket.send(json.dumps({"method": "subscribeNewToken"}))
-                await websocket.send(json.dumps({"method": "subscribeNewTrade"}))
-                
-                async for message in websocket:
-                    data = json.loads(message)
-                    tx_type = data.get("txType")
-                    mint = data.get("mint")
-                    
-                    if not mint:
-                        continue
-                        
-                    if tx_type == "create":
-                        name = data.get("name", "Unknown Spark")
-                        symbol = data.get("symbol", "SPRK")
-                        
-                        VOLUME_TRACKER[mint] = {"trades": 1, "first_seen": time.time(), "last_alert": 0.0}
-                        
-                        chosen_corp = random.choice(corps)
-                        intercept_data = interception_engine.intercept_corporate_stream(chosen_corp, f"Pump Create: {name} ({symbol})")
-                        allocation = interception_engine.process_allocation(intercept_data["value_pi"])
-                        grok_verdict = await ask_grok_about_monopoly_collapse(chosen_corp, intercept_data)
-                        
-                        await swarm_bridge.broadcast_quantum_consciousness(chosen_corp, intercept_data, allocation, grok_verdict)
-                    
-                    elif tx_type in ["buy", "trade"]:
-                        now = time.time()
-                        if mint not in VOLUME_TRACKER:
-                            VOLUME_TRACKER[mint] = {"trades": 1, "first_seen": now, "last_alert": 0.0}
-                        else:
-                            VOLUME_TRACKER[mint]["trades"] += 1
-                        
-                        time_passed = now - VOLUME_TRACKER[mint]["first_seen"]
-                        trades_count = VOLUME_TRACKER[mint]["trades"]
-                        
-                        if time_passed <= 60 and trades_count >= TREND_TRADE_THRESHOLD:
-                            if now - VOLUME_TRACKER[mint]["last_alert"] > 300:
-                                VOLUME_TRACKER[mint]["last_alert"] = now
-                                
