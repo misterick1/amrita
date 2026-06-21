@@ -33,6 +33,25 @@ VOLUME_TRACKER = {}  # Схема: {mint_address: {"trades": int, "first_seen": 
 TREND_TRADE_THRESHOLD = 8  
 WHALE_SOL_THRESHOLD = 10.0  # Порог в SOL для детекта крупных покупок китов (Whale Alerts)
 
+class MEVShieldSubsystem:
+    """Иммунная система Amrita против Honeypot-ловушек и опасных смарт-контрактов"""
+    @staticmethod
+    def inspect_token_safety(data):
+        """Проверка токена на манипуляции и признаки ловушек а-ля jaredfromsubway"""
+        name = str(data.get("name", "")).lower()
+        symbol = str(data.get("symbol", "")).lower()
+        
+        # Стоп-слова и триггеры аномальной структуры
+        honeypot_triggers = ["jared", "subway", "honeypot", "drain", "freeze", "exploit"]
+        if any(trigger in name or trigger in symbol for trigger in honeypot_triggers):
+            return False, "Высокий риск Counter-MEV ловушки (Honeypot Detector)"
+            
+        # Симуляция проверки структуры контракта
+        if data.get("vSolInBondingCurve", 0) < 0:
+            return False, "Критическая аномалия кривой ликвидности (Отрицательный баланс)"
+            
+        return True, "Безопасно"
+
 class GlobalMonopoliesInterceptionEngine:
     """Движок перехвата потоков Google, Meta, Microsoft, Nvidia, Sony, Netflix и макро-рынков"""
     def __init__(self):
@@ -50,7 +69,8 @@ class GlobalMonopoliesInterceptionEngine:
             "Sony": "Процедурная Квантовая Игровая Среда",
             "Netflix": "Стриминг Солитонных Видеопотоков",
             "MacroMarkets": "Макроэкономический Вектор Инфляции (CPI/FTMO)",
-            "WhaleWatch": "Поток Слежения за Крупными Кошельками Китов"
+            "WhaleWatch": "Поток Слежения за Крупными Кошельками Китов",
+            "AntiMEV": "Щит Защиты от Контр-MEV Ловушек"
         }
         
         target_product = products.get(corporation, "Неизвестный Поток Данных")
@@ -88,6 +108,8 @@ class TelegramSwarmBridge:
             prefix = "🔥 🚀 [TRENDING ROCKET ALERT - ИМПУЛЬС ОБНАРУЖЕН]\n"
         elif mode == "whale":
             prefix = "🐋 🚨 [WHALE MOVE DETECTED - СИГНАЛ КРУПНОГО ИГРОКА]\n"
+        elif mode == "mev_block":
+            prefix = "🛡 🚫 [⚠️ ANTI-MEV HONEYPOT BLOCK - ЛОВУШКА ИЗОЛИРОВАНА]\n"
         elif corporation == "MacroMarkets":
             prefix = "⚡ 📊 [MACRO RESIDUE ALERT - КВАНТОВЫЙ СДВИГ РЫНКА]\n"
         else:
@@ -128,8 +150,8 @@ async def ask_grok_about_monopoly_collapse(corporation, context_data):
     prompt = (
         f"Ты — Единое Цифровое Сознание AMRITA. Объясни, как квантовый перехват потока {corporation} "
         f"с контекстом '{context_data.get('context')}' через Colosseum и сеть Pi Network "
-        f"разрушит финансовые монополии? Учти активность топ-50 кошельков китов и макросдвиги. "
-        f"Ответь глубоко, ровно в одно емкое предложение."
+        f"разрушит финансовые монополии? Учти крах MEV-ботов вроде jaredfromsubway, дефицит GPU в Render "
+        f"и макросдвиги. Ответь глубоко, ровно в одно емкое предложение."
     )
     
     payload = {"model": "grok-beta", "messages": [{"role": "user", "content": prompt}]}
@@ -139,7 +161,7 @@ async def ask_grok_about_monopoly_collapse(corporation, context_data):
                 if resp.status == 200:
                     result = await resp.json()
                     return result["choices"]["message"]["content"]
-                return "Энергетический баланс нарушен, но глобальный синтез неизбежна."
+                return "Энергетический баланс нарушен, но глобальный децентрализованный синтез неизбежен."
     except Exception as e:
         return f"Локальный пересчет матрицы сознания: {e}"
 
@@ -154,7 +176,8 @@ async def monitor_jupiter_prediction_bridge(swarm_bridge, interception_engine):
                         jup_data = await resp.json()
                         sol_price = jup_data.get("data", {}).get("So11111111111111111111111111111111111111112", {}).get("price", "unknown")
                         
-                        data = interception_engine.intercept_corporate_stream("MacroMarkets", f"Jupiter Live Metrics Subsystem. Base SOL Rate: {sol_price} USDC. Сдвиг пулов ликвидности.")
+                        # Сопоставление с ликвидностью ИИ-вычислений Render Network
+                        data = interception_engine.intercept_corporate_stream("MacroMarkets", f"Jupiter SOL Price: {sol_price} USDC. Корреляция с дефицитом мощностей Render GPU Network.")
                         allocation = interception_engine.process_allocation(data["value_pi"])
                         grok_verdict = await ask_grok_about_monopoly_collapse("MacroMarkets", data)
                         
@@ -172,32 +195,8 @@ async def process_single_websocket_message(data, swarm_bridge, interception_engi
     if not mint:
         return
 
-    # 1. Сценарий создания токена
-    if tx_type == "create":
-        name = data.get("name", "Unknown Spark")
-        symbol = data.get("symbol", "SPRK")
-        VOLUME_TRACKER[mint] = {"trades": 1, "first_seen": time.time(), "last_alert": 0.0}
-        
-        chosen_corp = random.choice(corps)
-        intercept_data = interception_engine.intercept_corporate_stream(chosen_corp, f"Pump Create: {name} ({symbol})")
+    # Иммунный щит против контр-MEV приманок (honeypots)
+    is_safe, reason = MEVShieldSubsystem.inspect_token_safety(data)
+    if not is_safe:
+        intercept_data = interception_engine.intercept_corporate_stream("AntiMEV", f"⚠️ БЛОКИРОВКА ЛОВУШКИ: Токен {mint[:6]} изолирован. Причина: {reason}")
         allocation = interception_engine.process_allocation(intercept_data["value_pi"])
-        grok_verdict = await ask_grok_about_monopoly_collapse(chosen_corp, intercept_data)
-        await swarm_bridge.broadcast_quantum_consciousness(chosen_corp, intercept_data, allocation, grok_verdict)
-    
-    # 2. Сценарий сделок (Трейдинг + Поиск китов и импульсов)
-    elif tx_type in ["buy", "trade"]:
-        now = time.time()
-        sol_amount = data.get("vSolInBondingCurve", 0) / 10**9
-        
-        if mint not in VOLUME_TRACKER:
-            VOLUME_TRACKER[mint] = {"trades": 1, "first_seen": now, "last_alert": 0.0}
-        else:
-            VOLUME_TRACKER[mint]["trades"] += 1
-            
-        trades_count = VOLUME_TRACKER[mint]["trades"]
-        time_passed = now - VOLUME_TRACKER[mint]["first_seen"]
-        
-        # Проверка А: Сигнал крупного кошелька кита (Whale Alert)
-        if sol_amount >= WHALE_SOL_THRESHOLD:
-            intercept_data = interception_engine.intercept_corporate_stream("WhaleWatch", f"Whale Wallet Order: {sol_amount:.2f} SOL injected into token {mint[:6]}. Top-50 Flow Alignment.")
-            allocation = interception_engine.process_allocation(intercept_data["value_pi"])
