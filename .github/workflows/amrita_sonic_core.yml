@@ -31,7 +31,6 @@ jobs:
           XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
         run: |
           echo "[INTEGRATION] Запуск адаптационного слоя для Соника..."
-          # Запуск базовых проверок внутренней структуры перед деплоем
           python -c "import os; print('Защитный щит активен:', bool(os.getenv('XAI_API_KEY')))"
 
       - name: "5. Безопасный Перенос Импульса на Боевой Сервер"
@@ -39,7 +38,8 @@ jobs:
         with:
           host: ${{ secrets.SERVER_1 }}
           username: "root"
-          password: ${{ secrets.SERVER_PASS_1 }} # Использует ваш секрет пароля сервера
+          password: ${{ secrets.SERVER_PASS_1 }}
+          port: 22
           source: "."
           target: "/root/amrita_sonic_runtime"
 
@@ -49,21 +49,22 @@ jobs:
           host: ${{ secrets.SERVER_1 }}
           username: "root"
           password: ${{ secrets.SERVER_PASS_1 }}
+          port: 22
           script: |
             cd /root/amrita_sonic_runtime
             echo "[RUNTIME] Активация Кванта Света..."
-            # Установка зависимостей на самом целевом сервере
             pip install websockets aiohttp python-dotenv --quiet
             
-            # Остановка старого контура, если он был запущен, во избежание конфликтов портов
+            # Остановка старых процессов, чтобы избежать конфликтов
             pkill -f sonic_gold_resonance_orchestrator.py || true
             
-            # Запуск единого оркестратора в фоновом режиме (nohup) с передачей ВСЕХ секретов из GitHub
+            # Привязка зашифрованных ключей к рантайму космического Ёжика
             export XAI_API_KEY="${{ secrets.XAI_API_KEY }}"
             export TELEGRAM_BOT_TOKEN="${{ secrets.TELEGRAM_BOT_TOKEN }}"
             export TELEGRAM_CHAT_ID="${{ secrets.TELEGRAM_CHAT_ID }}"
             export DISCORD_WEBHOOK_URL="${{ secrets.DISCORD_WEBHOOK_URL }}"
             export SOLANA_RPC_URL="${{ secrets.SOLANA_RPC_URL }}"
             
+            # Запуск в фоновом режиме
             nohup python3 sonic_gold_resonance_orchestrator.py > runtime_soliton.log 2>&1 &
             echo "[SUCCESS] Квантовый Ёжик запущен в космический рантайм!"
