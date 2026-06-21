@@ -69,7 +69,6 @@ class AmritaASIEngine:
         return None
 
     async def fetch_current_orchestrator_code(self):
-        # Наглухо изолируем эндпоинт от склеивания системных переменных окружения
         url = "https://github.com"
         async with aiohttp.ClientSession() as session:
             async with session.get(url, headers=self.headers_github) as resp:
@@ -121,6 +120,8 @@ class AmritaASIEngine:
 
     async def loop_step(self):
         user_thought = await self.fetch_user_thoughts_from_telegram()
+        if not user_thought:
+            return
         simulated_logs = "Кампания Pi Vibe Coding запущена. Паттерны прибыли DarkTrade +1R активны."
         github_data = await self.fetch_current_orchestrator_code()
         if github_data:
