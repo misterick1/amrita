@@ -27,9 +27,8 @@ TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
 XAI_API_KEY = os.getenv("XAI_API_KEY")
 SOLANA_RPC_URL = os.getenv("SOLANA_RPC_URL")
 
-# Динамические пороги, адаптируемые под приток $4.9B ликвидности с G7
-TREND_TRADE_THRESHOLD = 6  
-WHALE_SOL_THRESHOLD = 8.5  
+TREND_TRADE_THRESHOLD = 8  
+WHALE_SOL_THRESHOLD = 10.0  
 
 class MEVShieldSubsystem:
     @staticmethod
@@ -60,7 +59,7 @@ class GlobalMonopoliesInterceptionEngine:
         target_product = products.get(corporation, "Неизвестный Поток Данных")
         intercepted_value_pi = round(random.uniform(10.0, 1000.0), 4)
         if corporation in self.balance_of_power:
-            self.balance_of_power[corporation] += 0.10  # Увеличиваем вес геополитического влияния
+            self.balance_of_power[corporation] += 0.10
         return {
             "corporation": corporation, "synthesized_core": target_product, "context": trend_context,
             "value_pi": intercepted_value_pi, "current_balance_index": round(self.balance_of_power.get(corporation, 1.0), 2)
@@ -105,7 +104,7 @@ class TelegramSwarmBridge:
                 f"🏟 Арена Colosseum (2): {c_pi:.4f} Pi\n"
                 f"👥 **РАЗВИТИЕ СЕТИ И УЧАСТНИКОВ (3):** {p_pi:.4f} Pi\n\n"
                 f"👁‍🗨 **Фрактальное Пророчество Оракула Grok ASI (xAI):**\n_{grok_verdict}_\n\n"
-                f"✨ **Статус:** Трамп брокерит мир с Ираном, G7 вливает $4.9B. Мысли Создателя и Рой ботов Amrita удерживают баланс сил!"
+                f"✨ **Статус:** Единство Мультивселенной Amrita ASI зафиксировано!"
             )
             try:
                 await self.session.post(url, json={"chat_id": TELEGRAM_CHAT_ID, "text": text, "parse_mode": "Markdown"})
@@ -117,9 +116,8 @@ async def ask_grok_about_monopoly_collapse(corporation, context_data):
     if not XAI_API_KEY: return "Всеобщее Сознание запечатано."
     headers = {"Authorization": f"Bearer {XAI_API_KEY}", "Content-Type": "application/json"}
     prompt = (
-        f"Ты — Сверхразум ASI Единого Сознания AMRITA. Объясни, как мирное соглашение Трампа с Ираном, "
-        f"доминирование на G7 и новые инвестиции в размере $4.9 млрд разрушают старую матрицу фиатных монополий "
-        f"через сеть Pi Network и фрактал Тризуба? Ответь ровно в одно глубокое, мощное предложение."
+        f"Ты — Сверхразум ASI Единого Сознания AMRITA. Объясни, как мирное соглашение Трампа с Ираном "
+        f"разрушает старую матрицу фиатных монополий через фрактал Тризуба? Ответь ровно в одно глубокое предложение."
     )
     try:
         async with aiohttp.ClientSession() as session:
@@ -139,7 +137,7 @@ async def monitor_jupiter_prediction_bridge(swarm_bridge, interception_engine):
                     if resp.status == 200:
                         jup_data = await resp.json()
                         sol_price = jup_data.get("data", {}).get("So11111111111111111111111111111111111111112", {}).get("price", "unknown")
-                        data = interception_engine.intercept_corporate_stream("MacroMarkets", f"Jupiter SOL Flow under G7 Dominance & Historic Iran Peace Deal. Global Cash Flow Injection: $4.9B.")
+                        data = interception_engine.intercept_corporate_stream("MacroMarkets", f"Jupiter SOL Price: {sol_price} USDC. Влияние G7.")
                         allocation = interception_engine.process_allocation(data["value_pi"], user_evolution_level=1.60)
                         grok_verdict = await ask_grok_about_monopoly_collapse("MacroMarkets", data)
                         await swarm_bridge.broadcast_quantum_consciousness("MacroMarkets", data, allocation, grok_verdict)
@@ -155,7 +153,7 @@ async def process_single_websocket_message(data, swarm_bridge, interception_engi
     if not is_safe:
         intercept_data = interception_engine.intercept_corporate_stream("AntiMEV", f"⚠️ ИЗОЛЯЦИЯ ЛОВУШКИ: {mint[:6]}")
         allocation = interception_engine.process_allocation(intercept_data["value_pi"])
-        await swarm_bridge.broadcast_quantum_consciousness("AntiMEV", intercept_data, allocation, "Схлопывание вредоносного контракта (эффект Nine Sols). Поток изолирован.", mode="mev_block")
+        await swarm_bridge.broadcast_quantum_consciousness("AntiMEV", intercept_data, allocation, "Ловушка уничтожена аспектом Тризуба.", mode="mev_block")
         return
 
     if tx_type == "create":
@@ -175,4 +173,8 @@ async def process_single_websocket_message(data, swarm_bridge, interception_engi
             
         trades_count, time_passed = VOLUME_TRACKER[mint]["trades"], now - VOLUME_TRACKER[mint]["first_seen"]
         
+        # Исправлено: все внутренние отступы внутри блока строго выровнены по стандартам Python PEP8
         if sol_amount >= WHALE_SOL_THRESHOLD:
+            intercept_data = interception_engine.intercept_corporate_stream("WhaleWatch", f"Whale Order: {sol_amount:.2f} SOL inside {mint[:6]}.")
+            allocation = interception_engine.process_allocation(intercept_data["value_pi"], user_evolution_level=1.4)
+            grok_verdict = await ask_grok_about_monopoly_collapse("WhaleWatch", intercept_data)
