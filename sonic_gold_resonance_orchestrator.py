@@ -164,7 +164,6 @@ async def run_solana_pump_monitoring(current_ws_target, swarm_bridge, intercepti
                 logger.info("[SUCCESS] Соединение с Потоком Миров установлено.")
                 retry_delay = 5
                 
-                # Подписываемся и на создание новых токенов, и на живые сделки купли/продажи
                 await websocket.send(json.dumps({"method": "subscribeNewToken"}))
                 await websocket.send(json.dumps({"method": "subscribeNewTrade"}))
                 
@@ -176,12 +175,10 @@ async def run_solana_pump_monitoring(current_ws_target, swarm_bridge, intercepti
                     if not mint:
                         continue
                         
-                    # Сценарий А: Новая монета только создана
                     if tx_type == "create":
                         name = data.get("name", "Unknown Spark")
                         symbol = data.get("symbol", "SPRK")
                         
-                        # Инициализируем метрики отслеживания объема
                         VOLUME_TRACKER[mint] = {"trades": 1, "first_seen": time.time(), "last_alert": 0.0}
                         
                         chosen_corp = random.choice(corps)
@@ -191,7 +188,6 @@ async def run_solana_pump_monitoring(current_ws_target, swarm_bridge, intercepti
                         
                         await swarm_bridge.broadcast_quantum_consciousness(chosen_corp, intercept_data, allocation, grok_verdict)
                     
-                    # Сценарий Б: Детект быстрой серии покупок (Ракеты а-ля Jotchua)
                     elif tx_type in ["buy", "trade"]:
                         now = time.time()
                         if mint not in VOLUME_TRACKER:
@@ -201,3 +197,8 @@ async def run_solana_pump_monitoring(current_ws_target, swarm_bridge, intercepti
                         
                         time_passed = now - VOLUME_TRACKER[mint]["first_seen"]
                         trades_count = VOLUME_TRACKER[mint]["trades"]
+                        
+                        if time_passed <= 60 and trades_count >= TREND_TRADE_THRESHOLD:
+                            if now - VOLUME_TRACKER[mint]["last_alert"] > 300:
+                                VOLUME_TRACKER[mint]["last_alert"] = now
+                                
