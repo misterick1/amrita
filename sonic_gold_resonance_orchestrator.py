@@ -19,7 +19,7 @@ COLOSSEUM_POOL = 38
 MINIMAL_SPARK = 0.1
 
 PRIMARY_WS_URL = "wss://papi.pump.fun/v1/ws"
-JUPITER_PREDICT_API = "https://jup.ag" # Обновлено до актуального эндпоинта цен/ликвидности
+JUPITER_PREDICT_API = "https://jup.ag"
 
 # Запечатанные секреты из сейфа GitHub
 DISCORD_WEBHOOK_URL = os.getenv("DISCORD_WEBHOOK_URL")
@@ -136,24 +136,21 @@ async def ask_grok_about_monopoly_collapse(corporation, context_data):
                 if resp.status == 200:
                     result = await resp.json()
                     return result["choices"]["message"]["content"]
-                return "Энергетический баланс нарушен, но децентрализация и глобальный синтез неизбежны."
+                return "Энергетический баланс нарушен, но децентрализация и глобальный синтез неизбежна."
     except Exception as e:
         return f"Локальный пересчет матрицы сознания при интеграции макро-данных: {e}"
 
 async def monitor_jupiter_prediction_bridge(swarm_bridge, interception_engine):
     logger.info("📡 [COLOSSEUM + JUPITER HIGH-SPEED FLOW] Запуск мониторинга ликвидности Jupiter...")
-    # Отслеживаем ключевые токены ликвидности (SOL, USDC) для вычисления аномалий
     target_tokens = "So11111111111111111111111111111111111111112,EPjFW3dpd87EAFgAG6q6B4xzkNDM27m9gMXmjF6Wrs6"
     while True:
         try:
             async with aiohttp.ClientSession() as session:
-                # Опрашиваем реальный v2 API Jupiter для анализа ценовых импульсов
                 async with session.get(f"{JUPITER_PREDICT_API}?ids={target_tokens}") as resp:
                     if resp.status == 200:
                         jup_data = await resp.json()
                         sol_price = jup_data.get("data", {}).get("So11111111111111111111111111111111111111112", {}).get("price", "unknown")
                         
-                        # Перехватываем макро-сдвиг на основе движения ликвидности
                         data = interception_engine.intercept_corporate_stream(
                             "MacroMarkets", 
                             f"Jupiter Live Metrics Subsystem. Base SOL Rate: {sol_price} USDC. Сдвиг пулов ликвидности."
@@ -164,7 +161,7 @@ async def monitor_jupiter_prediction_bridge(swarm_bridge, interception_engine):
                         await swarm_bridge.broadcast_quantum_consciousness(
                             "MacroMarkets", data, allocation, grok_verdict
                         )
-            await asyncio.sleep(600) # Опрос каждые 10 минут
+            await asyncio.sleep(600)
         except Exception as e:
             logger.error(f"Ошибка Jupiter Sniper хаба: {e}")
             await asyncio.sleep(60)
@@ -202,3 +199,10 @@ async def process_single_websocket_message(data, swarm_bridge, interception_engi
         
         if time_passed <= 60 and trades_count >= TREND_TRADE_THRESHOLD:
             if now - VOLUME_TRACKER[mint]["last_alert"] > 300:
+                VOLUME_TRACKER[mint]["last_alert"] = now
+                
+                chosen_corp = random.choice(corps)
+                token_name = data.get("name", mint[:6])
+                sol_amount = data.get("vSolInBondingCurve", 0) / 10**9
+                
+                intercept_data = interception_engine.intercept_corporate_stream(
