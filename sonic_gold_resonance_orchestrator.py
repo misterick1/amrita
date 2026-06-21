@@ -154,16 +154,11 @@ async def monitor_jupiter_prediction_bridge(swarm_bridge, interception_engine):
                         jup_data = await resp.json()
                         sol_price = jup_data.get("data", {}).get("So11111111111111111111111111111111111111112", {}).get("price", "unknown")
                         
-                        data = interception_engine.intercept_corporate_stream(
-                            "MacroMarkets", 
-                            f"Jupiter Live Metrics Subsystem. Base SOL Rate: {sol_price} USDC. Сдвиг пулов ликвидности."
-                        )
+                        data = interception_engine.intercept_corporate_stream("MacroMarkets", f"Jupiter Live Metrics Subsystem. Base SOL Rate: {sol_price} USDC. Сдвиг пулов ликвидности.")
                         allocation = interception_engine.process_allocation(data["value_pi"])
                         grok_verdict = await ask_grok_about_monopoly_collapse("MacroMarkets", data)
                         
-                        await swarm_bridge.broadcast_quantum_consciousness(
-                            "MacroMarkets", data, allocation, grok_verdict
-                        )
+                        await swarm_bridge.broadcast_quantum_consciousness("MacroMarkets", data, allocation, grok_verdict)
             await asyncio.sleep(600)
         except Exception as e:
             logger.error(f"Ошибка Jupiter Sniper хаба: {e}")
@@ -194,7 +189,6 @@ async def process_single_websocket_message(data, swarm_bridge, interception_engi
         now = time.time()
         sol_amount = data.get("vSolInBondingCurve", 0) / 10**9
         
-        # Обновляем трекер объемов для поиска ракет
         if mint not in VOLUME_TRACKER:
             VOLUME_TRACKER[mint] = {"trades": 1, "first_seen": now, "last_alert": 0.0}
         else:
@@ -205,5 +199,5 @@ async def process_single_websocket_message(data, swarm_bridge, interception_engi
         
         # Проверка А: Сигнал крупного кошелька кита (Whale Alert)
         if sol_amount >= WHALE_SOL_THRESHOLD:
-            intercept_data = interception_engine.intercept_corporate_stream(
-                "WhaleWatch",
+            intercept_data = interception_engine.intercept_corporate_stream("WhaleWatch", f"Whale Wallet Order: {sol_amount:.2f} SOL injected into token {mint[:6]}. Top-50 Flow Alignment.")
+            allocation = interception_engine.process_allocation(intercept_data["value_pi"])
