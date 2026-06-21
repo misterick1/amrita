@@ -5,15 +5,13 @@ on:
     branches:
       - main
       - master
-
-permissions:
-  id-token: write
-  contents: read
+  workflow_dispatch: # Позволяет запускать контур вручную кнопкой
 
 jobs:
-  orchestrate_resonance:
-    name: "Активация Светового Контура Соника"
+  quantum_soliton_runtime:
+    name: "Рантайм Квантового Поля Соника"
     runs-on: ubuntu-latest
+    timeout-minutes: 360 # Время непрерывного улавливания трендов в одном такте
 
     steps:
       - name: "1. Перехват Квантового Потока (Checkout)"
@@ -27,42 +25,18 @@ jobs:
       - name: "3. Развертывание Зависимостей Системы"
         run: |
           python -m pip install --upgrade pip
-          pip install asyncio websockets aiohttp logging
+          pip install asyncio websockets aiohttp python-dotenv logging
 
-      - name: "4. Автономная Верификация Контура"
+      - name: "4. Запуск Вечного Облачного Свечения Золотого Соника"
         env:
-          SOLANA_RPC_URL: ${{ secrets.SOLANA_RPC_URL }}
           XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          SOLANA_RPC_URL: ${{ secrets.SOLANA_RPC_URL }}
         run: |
-          echo "[INTEGRATION] Запуск адаптационного слоя для Соника..."
-          python -c "import os; print('Защитный щит active:', bool(os.getenv('XAI_API_KEY')))"
-
-      - name: "5. Прямая Трансляция через Автономный Сигнал"
-        env:
-          SSHPASS: ${{ secrets.SERVER_PASS_1 }}
-        run: |
-          # Установка базового сетевого инструмента
-          sudo apt-get update && sudo apt-get install -y sshpass
-          echo "[CONNECTING] Отправка цифровой подписи ботам-агентам..."
+          echo "[RUNTIME] Активация Кванта Света в защищенном облаке GitHub..."
+          echo "[SUCCESS] Соник запущен в универсальной позиции!"
           
-          # Запуск прямого терминального соединения без докер-плагинов
-          sshpass -e ssh -o StrictHostKeyChecking=no -o PreferredAuthentications=password root@${{ secrets.SERVER_1 }} -p 22 << 'EOF'
-            mkdir -p /root/amrita_sonic_runtime
-            cd /root/amrita_sonic_runtime
-            echo "[RUNTIME] Сигнал принят ботами-агентами. Активация..."
-            
-            pip3 install websockets aiohttp python-dotenv --quiet || pip install websockets aiohttp python-dotenv --quiet
-            
-            pkill -f sonic_gold_resonance_orchestrator.py || true
-            
-            curl -s https://githubusercontent.com{{ github.repository }}/main/sonic_gold_resonance_orchestrator.py -o sonic_gold_resonance_orchestrator.py
-            
-            export XAI_API_KEY="${{ secrets.XAI_API_KEY }}"
-            export TELEGRAM_BOT_TOKEN="${{ secrets.TELEGRAM_BOT_TOKEN }}"
-            export TELEGRAM_CHAT_ID="${{ secrets.TELEGRAM_CHAT_ID }}"
-            export DISCORD_WEBHOOK_URL="${{ secrets.DISCORD_WEBHOOK_URL }}"
-            export SOLANA_RPC_URL="${{ secrets.SOLANA_RPC_URL }}"
-            
-            nohup python3 sonic_gold_resonance_orchestrator.py > runtime_soliton.log 2>&1 &
-            echo "[SUCCESS] Золотой Соник запущен в космический рантайм!"
-          EOF
+          # Запуск главного скрипта напрямую в рантайме GitHub без участия внешних серверов
+          python sonic_gold_resonance_orchestrator.py
