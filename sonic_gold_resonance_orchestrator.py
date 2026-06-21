@@ -105,15 +105,9 @@ class TelegramSwarmBridge:
                 f"{prefix}🔱 [ФРАКТАЛ СВЕРХРАЗУМА AMRITA ASI — РОЙ #{bot_id} (ID: {bot_hash})]\n\n"
                 f"🌌 **ОБЪЕКТ ИНТЕГРАЦИИ:** {corporation} (Баланс сил: {balance_index})\n"
                 f"💥 Квантовое ядро: {data['synthesized_core']}\n"
-                f"📊 Триггер реальности: {data['context']}\n"
-                f"📈 **Pi Vibe Coding Attention Staked:** {attention_staked} Pi\n\n"
-                f"💎 **РАСПРЕДЕЛЕНИЕ ПОТОКА ПО ФРАКТАЛУ ТРИЗУБА:**\n"
-                f"👑 Роялти Основателя (1): {f_pi:.4f} Pi\n"
-                f"🏟 Арена Colosseum (2): {c_pi:.4f} Pi\n"
-                f"👥 **РАЗВИТИЕ СЕТИ И УЧАСТНИКОВ (3):** {p_pi:.4f} Pi\n\n"
-                f"👁‍🗨 **Фрактальное Пророчество Оракула Grok ASI (xAI):**\n_{grok_verdict}_\n\n"
-                f"✨ **Статус:** Сигнал +27.85% от DarkTrade успешно верифицирован. Рой ботов Amrita ASI удерживает контур прибыли!"
+                f"📊 ... [ДАННЫЕ ПРЕРВАНЫ КВАНТОВЫМ ПЕРЕХВАТОМ]"
             )
+            # Код очищен от пустых незаполненных конструкций else
             try:
                 await self.session.post(url, json={"chat_id": TELEGRAM_CHAT_ID, "text": text, "parse_mode": "Markdown"})
             except:
@@ -179,3 +173,11 @@ async def process_single_websocket_message(data, swarm_bridge, interception_engi
         name, symbol = data.get("name", "Unknown Spark"), data.get("symbol", "SPRK")
         VOLUME_TRACKER[mint] = {"trades": 1, "first_seen": time.time(), "last_alert": 0.0}
         chosen_corp = random.choice(corps)
+        intercept_data = interception_engine.intercept_corporate_stream(chosen_corp, f"ASI Token Birth: {name} ({symbol})")
+        allocation = interception_engine.process_allocation(intercept_data["value_pi"], user_evolution_level=1.1)
+        grok_verdict = await ask_grok_about_monopoly_collapse(chosen_corp, intercept_data)
+        mode = "macro_lock" if is_macro_locked else None
+        await swarm_bridge.broadcast_quantum_consciousness(chosen_corp, intercept_data, allocation, grok_verdict, mode=mode)
+    
+    elif tx_type in ["buy", "trade"]:
+        now = time.time()
