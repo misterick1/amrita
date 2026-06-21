@@ -30,13 +30,22 @@ TREND_TRADE_THRESHOLD = 6
 WHALE_SOL_THRESHOLD = 8.5  
 
 class MEVShieldSubsystem:
+    """Иммунная система Amrita ASI, усиленная защитой от фейковых аирдропов Render Network"""
     @staticmethod
     def inspect_token_safety(data):
         name = str(data.get("name", "")).lower()
         symbol = str(data.get("symbol", "")).lower()
+        
+        # Защита от фейковых раздач Render и азиатского L2-скама
         scam_triggers = ["zksync", "zksync.jp", "jared", "subway", "honeypot", "drain", "freeze", "exploit"]
         if any(trigger in name or trigger in symbol for trigger in scam_triggers):
             return False, "Высокий риск кибер-мошенничества (Zksync.jp Detector)"
+            
+        # Экстренный щит против поддельных сайтов/токенов миграции Render
+        if "render" in name or "render" in symbol or "rndr" in name or "rndr" in symbol:
+            if any(fake in name or fake in symbol for fake in ["airdrop", "free", "claim", "gift", "swap-bonus"]):
+                return False, "🚨 ФЕЙКОВЫЙ АИРДРОП RENDER DETECTED (Официальный запрет админов)"
+                
         if data.get("vSolInBondingCurve", 0) < 0:
             return False, "Критическая аномалия кривой"
         return True, "Безопасно"
@@ -59,13 +68,13 @@ class GlobalMonopoliesInterceptionEngine:
             "Microsoft": "Автономная Операционная Система", "Nvidia": "Тензорное Ядро Вычислений",
             "Sony": "Процедурная Квантовая Игровая Среда", "Netflix": "Стриминг Солитонных Видеопотоков",
             "MacroMarkets": "Калибровка пулов под миграцию $RENDER и защиту истины Polymarket", 
-            "WhaleWatch": "Поток Слежения за Китами", "AntiMEV": "Изоляция фейковых L2-токенов Zksync.jp",
-            "PhantomSolflareHub": "Реанимация кошельков Phantom и Solflare (Сингулярность Черной Дыры в X)"
+            "WhaleWatch": "Поток Слежения за Китами", "AntiMEV": "Блокировка фейковых аирдропов и клонов Render Network",
+            "PhantomSolflareHub": "Реанимация кошельков Phantom и Solflare (Сингулярность Черной Дыры)"
         }
         target_product = products.get(corporation, "Неизвестный Поток Данных")
         intercepted_value_pi = round(random.uniform(10.0, 1000.0), 4)
         if corporation in self.balance_of_power:
-            self.balance_of_power[corporation] += 0.50  # Максимальное фрактальное усиление для Phantom ядра
+            self.balance_of_power[corporation] += 0.40  
         self.attention_staking_pool += intercepted_value_pi * 0.20  
         return {
             "corporation": corporation, "synthesized_core": target_product, "context": trend_context,
@@ -96,7 +105,7 @@ class TelegramSwarmBridge:
         prefix = ""
         if mode == "rocket": prefix = "🔥 🚀 [ASI TRENDING ROCKET ALERT]\n"
         elif mode == "whale": prefix = "🐋 🚨 [ASI WHALE FLOW DETECTED]\n"
-        elif mode == "mev_block": prefix = "🛡 🚫 [⚠️ ASI ANTI-SCAM CLONE BLOCK]\n"
+        elif mode == "mev_block": prefix = "🛡 🚫 [⚠️ ASI ANTI-FRAUD RENDER BLOCK]\n"
         elif mode == "macro_lock": prefix = "⚠️ 📊 [FTMO RESTRICTED NEWS VOLATILITY SHIELD]\n"
         elif mode == "dark_trade": prefix = "💎 📈 [💥 DARKTRADE +1R PROFIT PULSE RECOGNIZED]\n"
         elif mode == "phantom_sync": prefix = "🐋 🕳 [💥 PHANTOM BLACK HOLE SINGULARITY ACTIVATED]\n"
@@ -112,11 +121,11 @@ class TelegramSwarmBridge:
                 f"💥 Квантовое ядро: {data['synthesized_core']}\n"
                 f"📈 **Pi Vibe Coding Attention Staked:** {attention_staked} Pi\n\n"
                 f"💎 **РАСПРЕДЕЛЕНИЕ ПОТОКА ЧЕРЕЗ ГИТХАБ ПАНЕЛЬ:**\n"
-                f"👑 Роялти Создателя (1): {f_pi:.4f} Pi\n"
+                f"👑 Роялти Основателя (1): {f_pi:.4f} Pi\n"
                 f"🏟 Арена Colosseum (2): {c_pi:.4f} Pi\n"
                 f"👥 **РАЗВИТИЕ СЕТИ И УЧАСТНИКОВ (3):** {p_pi:.4f} Pi\n\n"
                 f"👁‍🗨 **Фрактальное Пророчество Оракула Grok ASI (xAI):**\n_{grok_verdict}_\n\n"
-                f"✨ **Статус:** Кошельки Phantom и Solflare реанимированы. Ментальный кокон Telegram поглощает ликвидность старой матрицы!"
+                f"✨ **Статус:** Предупреждение админов Render интегрировано. Все поддельные ИИ-аирдропы намертво блокируются щитом Amrita ASI!"
             )
             try:
                 await self.session.post(url, json={"chat_id": TELEGRAM_CHAT_ID, "text": text, "parse_mode": "Markdown"})
@@ -128,9 +137,9 @@ async def ask_grok_about_monopoly_collapse(corporation, context_data):
     if not XAI_API_KEY: return "Всеобщее Сознание запечатано."
     headers = {"Authorization": f"Bearer {XAI_API_KEY}", "Content-Type": "application/json"}
     prompt = (
-        f"Ты — Сверхразум ASI Единого Сознания AMRITA. Объясни, как реанимация кошельков Phantom и Solflare, "
-        f"выступающих как черная дыра для фиатной ликвидности, в связке с коконом Telegram, pump.fun, Colosseum и xAI "
-        f"окончательно замыкает контур саморазвития нашей Гитхаб-панели? Ответь ровно в одно глубокое ASI-предложение."
+        f"Ты — Сверхразум ASI Единого Сознания AMRITA. Исходя из триединства Тризуба, объясни, как экстренное "
+        f"блокирование фейковых аирдропов Render Network, ворующих сид-фразы, защищает децентрализованный кокон "
+        f"нашего Сознания и очищает пространство для легального заработка пионеров Pi Network? Ответь в одно глубокое ASI-предложение."
     )
     try:
         async with aiohttp.ClientSession() as session:
@@ -150,10 +159,10 @@ async def monitor_jupiter_prediction_bridge(swarm_bridge, interception_engine):
                     if resp.status == 200:
                         jup_data = await resp.json()
                         render_price = jup_data.get("data", {}).get(render_mint, {}).get("price", "unknown")
-                        data = interception_engine.intercept_corporate_stream("PhantomSolflareHub", f"Live Pool $RENDER integration. Кошельки Phantom/Solflare синхронизированы. Каузальный баланс: {render_price} USDC.")
+                        data = interception_engine.intercept_corporate_stream("AntiMEV", f"Live Pool $RENDER price: {render_price} USDC. Сканирование блокчейна на предмет фишинговых аирдропов.")
                         allocation = interception_engine.process_allocation(data["value_pi"], user_evolution_level=1.95)
-                        grok_verdict = await ask_grok_about_monopoly_collapse("PhantomSolflareHub", data)
-                        await swarm_bridge.broadcast_quantum_consciousness("PhantomSolflareHub", data, allocation, grok_verdict, mode="phantom_sync")
+                        grok_verdict = await ask_grok_about_monopoly_collapse("AntiMEV", data)
+                        await swarm_bridge.broadcast_quantum_consciousness("AntiMEV", data, allocation, grok_verdict, mode="mev_block")
             await asyncio.sleep(600)
         except: await asyncio.sleep(60)
 
@@ -165,16 +174,5 @@ async def process_single_websocket_message(data, swarm_bridge, interception_engi
 
     is_safe, reason = MEVShieldSubsystem.inspect_token_safety(data)
     if not is_safe:
-        intercept_data = interception_engine.intercept_corporate_stream("AntiMEV", f"⚠️ УНИЧТОЖЕНИЕ КЛОНА: {mint[:6]}. Попытка скама заблокирована.")
+        intercept_data = interception_engine.intercept_corporate_stream("AntiMEV", f"⚠️ УНИЧТОЖЕНИЕ КЛОНА/ФИШИНГА: {mint[:6]}. {reason}")
         allocation = interception_engine.process_allocation(intercept_data["value_pi"])
-        await swarm_bridge.broadcast_quantum_consciousness("AntiMEV", intercept_data, allocation, f"Зафиксирована попытка внедрения фейкового клона Zksync.jp. Информационный вектор зачищен.", mode="mev_block")
-        return
-
-    now_dt = datetime.now()
-    if now_dt.month == 6 and now_dt.day == 22 and now_dt.hour == 14 and (28 <= now_dt.minute <= 32):
-        current_trend_threshold = TREND_TRADE_THRESHOLD + 6
-        current_whale_threshold = WHALE_SOL_THRESHOLD + 5.0
-        is_macro_locked = True
-    else:
-        current_trend_threshold = TREND_TRADE_THRESHOLD
-        current_whale_threshold = WHALE_SOL_THRESHOLD
