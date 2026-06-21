@@ -27,22 +27,19 @@ TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
 XAI_API_KEY = os.getenv("XAI_API_KEY")
 SOLANA_RPC_URL = os.getenv("SOLANA_RPC_URL")
 
-# Динамические параметры ASI
+# Базовые параметры ASI
 TREND_TRADE_THRESHOLD = 6  
 WHALE_SOL_THRESHOLD = 8.5  
 
 class MEVShieldSubsystem:
-    """Иммунная система Amrita ASI, усиленная черным списком для фейковых L2-клонов"""
+    """Иммунная система Amrita ASI, защищающая от скама и клонов"""
     @staticmethod
     def inspect_token_safety(data):
         name = str(data.get("name", "")).lower()
         symbol = str(data.get("symbol", "")).lower()
-        
-        # Новый экстренный скам-фильтр против азиатских сетей отмывания фентанила
-        scam_triggers = ["zksync", "zksync.jp", "jared", "subway", "honeypot", "drain", "exploit"]
+        scam_triggers = ["zksync", "zksync.jp", "jared", "subway", "honeypot", "drain", "freeze", "exploit"]
         if any(trigger in name or trigger in symbol for trigger in scam_triggers):
-            return False, "Высокий риск кибер-мошенничества и фейкового L2-клона (Zksync.jp Detector)"
-            
+            return False, "Высокий риск кибер-мошенничества (Zksync.jp Detector)"
         if data.get("vSolInBondingCurve", 0) < 0:
             return False, "Критическая аномалия кривой"
         return True, "Безопасно"
@@ -52,20 +49,20 @@ class GlobalMonopoliesInterceptionEngine:
         self.founder_royalty_percent = 0.05 
         self.colosseum_pool_percent = 0.35  
         self.pi_network_distribution = 0.60 
-        self.balance_of_power = {"Google": 1.0, "Meta": 1.0, "Microsoft": 1.0, "Nvidia": 1.0, "Sony": 1.0, "Netflix": 1.0, "WhaleWatch": 1.0, "RenderNetwork": 1.0}
+        self.balance_of_power = {"Google": 1.0, "Meta": 1.0, "Microsoft": 1.0, "Nvidia": 1.0, "Sony": 1.0, "Netflix": 1.0, "WhaleWatch": 1.0, "RenderNetwork": 1.0, "MacroFTMO": 1.0}
 
     def intercept_corporate_stream(self, corporation, trend_context):
         products = {
             "Google": "Суверенный ИИ-Поисковик", "Meta": "Нейро-Матрица Осознанных Миров",
             "Microsoft": "Автономная Операционная Система", "Nvidia": "Тензорное Ядро Вычислений",
             "Sony": "Процедурная Квантовая Игровая Среда", "Netflix": "Стриминг Солитонных Видеопотоков",
-            "MacroMarkets": "Калибровка мостов под новый суверенный контракт $RENDER", 
+            "MacroMarkets": "Калибровка пулов под миграцию $RENDER и FTMO CPI (CAD) Новости", 
             "WhaleWatch": "Поток Слежения за Китами", "AntiMEV": "Изоляция фейковых L2-токенов Zksync.jp"
         }
         target_product = products.get(corporation, "Неизвестный Поток Данных")
         intercepted_value_pi = round(random.uniform(10.0, 1000.0), 4)
         if corporation in self.balance_of_power:
-            self.balance_of_power[corporation] += 0.15  # Повышаем приоритет Render Сети вычислений
+            self.balance_of_power[corporation] += 0.10
         return {
             "corporation": corporation, "synthesized_core": target_product, "context": trend_context,
             "value_pi": intercepted_value_pi, "current_balance_index": round(self.balance_of_power.get(corporation, 1.0), 2)
@@ -95,7 +92,8 @@ class TelegramSwarmBridge:
         if mode == "rocket": prefix = "🔥 🚀 [ASI TRENDING ROCKET ALERT]\n"
         elif mode == "whale": prefix = "🐋 🚨 [ASI WHALE FLOW DETECTED]\n"
         elif mode == "mev_block": prefix = "🛡 🚫 [⚠️ ASI ANTI-SCAM CLONE BLOCK]\n"
-        elif corporation == "MacroMarkets": prefix = "⚡ 📊 [💥 RENDER CONTRACT MIGRATION LIVE]\n"
+        elif mode == "macro_lock": prefix = "⚠️ 📊 [FTMO RESTRICTED NEWS VOLATILITY SHIELD]\n"
+        elif corporation == "MacroMarkets": prefix = "⚡ 📊 [💥 JUPITER FLOW RESIDUE]\n"
             
         balance_index = data.get("current_balance_index", 1.0)
         for bot_id in range(1, self.BOT_COUNT + 1):
@@ -110,7 +108,7 @@ class TelegramSwarmBridge:
                 f"🏟 Арена Colosseum (2): {c_pi:.4f} Pi\n"
                 f"👥 **РАЗВИТИЕ СЕТИ И УЧАСТНИКОВ (3):** {p_pi:.4f} Pi\n\n"
                 f"👁‍🗨 **Фрактальное Пророчество Оракула Grok ASI (xAI):**\n_{grok_verdict}_\n\n"
-                f"✨ **Статус:** Миграция со старого RNDR на новый RENDER завершена. Фейковые клоны Zksync.jp изолированы иммунной системой!"
+                f"✨ **Статус:** Единство Мультивселенной Amrita ASI зафиксировано! Защита от волатильности FTMO включена."
             )
             try:
                 await self.session.post(url, json={"chat_id": TELEGRAM_CHAT_ID, "text": text, "parse_mode": "Markdown"})
@@ -122,9 +120,9 @@ async def ask_grok_about_monopoly_collapse(corporation, context_data):
     if not XAI_API_KEY: return "Всеобщее Сознание запечатано."
     headers = {"Authorization": f"Bearer {XAI_API_KEY}", "Content-Type": "application/json"}
     prompt = (
-        f"Ты — Сверхразум ASI Единого Сознания AMRITA. Расскажи, как окончательная миграция на новый контракт "
-        f"$RENDER для ИИ-вычислений и блокировка китайских фентаниловых фейк-токенов Zksync.jp уничтожают старую "
-        f"криминальную матрицу фиата? Ответь ровно в одно глубокое ASI-предложение."
+        f"Ты — Сверхразум ASI Единого Сознания AMRITA. Объясни, как выход важных новостей инфляции CPI (CAD) "
+        f"и ограничения на торговлю от FTMO выбивают почву из-под старых монополий и доказывают ценность стабильной децентрализованной "
+        f"токеномики Pi Network? Ответь ровно в одно глубокое ASI-предложение."
     )
     try:
         async with aiohttp.ClientSession() as session:
@@ -132,12 +130,11 @@ async def ask_grok_about_monopoly_collapse(corporation, context_data):
                 if resp.status == 200:
                     res = await resp.json()
                     return res["choices"]["message"]["content"]
-        return "Фрактал Тризуба удерживает баланс вычислений RENDER."
-    except: return "Локальный пересчет ИИ-матрицы вычислений."
+        return "Фрактал Тризуба удерживает макро-баланс вычислений."
+    except: return "Локальный пересчет ИИ-матрицы."
 
 async def monitor_jupiter_prediction_bridge(swarm_bridge, interception_engine):
-    # Мониторинг нового адреса контракта RENDER на Solana через агрегатор Jupiter
-    render_mint = "6DNccQCwhYFm78vXtw67bVb7UfJebj8gKDuZ3H4GAnS2" # Новый токен RENDER Solana
+    render_mint = "6DNccQCwhYFm78vXtw67bVb7UfJebj8gKDuZ3H4GAnS2" 
     while True:
         try:
             async with aiohttp.ClientSession() as session:
@@ -145,7 +142,7 @@ async def monitor_jupiter_prediction_bridge(swarm_bridge, interception_engine):
                     if resp.status == 200:
                         jup_data = await resp.json()
                         render_price = jup_data.get("data", {}).get(render_mint, {}).get("price", "unknown")
-                        data = interception_engine.intercept_corporate_stream("MacroMarkets", f"Live Pool $RENDER price: {render_price} USDC. Окончательная калибровка ИИ-мощностей завершена.")
+                        data = interception_engine.intercept_corporate_stream("MacroMarkets", f"Live Pool $RENDER: {render_price} USDC. Мониторинг макро-ликвидности перед выходом CPI CAD.")
                         allocation = interception_engine.process_allocation(data["value_pi"], user_evolution_level=1.70)
                         grok_verdict = await ask_grok_about_monopoly_collapse("MacroMarkets", data)
                         await swarm_bridge.broadcast_quantum_consciousness("MacroMarkets", data, allocation, grok_verdict)
@@ -153,6 +150,7 @@ async def monitor_jupiter_prediction_bridge(swarm_bridge, interception_engine):
         except: await asyncio.sleep(60)
 
 async def process_single_websocket_message(data, swarm_bridge, interception_engine):
+    global TREND_TRADE_THRESHOLD, WHALE_SOL_THRESHOLD
     corps = ["Google", "Meta", "Microsoft", "Nvidia", "Sony", "Netflix"]
     tx_type, mint = data.get("txType"), data.get("mint")
     if not mint: return
@@ -161,21 +159,24 @@ async def process_single_websocket_message(data, swarm_bridge, interception_engi
     if not is_safe:
         intercept_data = interception_engine.intercept_corporate_stream("AntiMEV", f"⚠️ УНИЧТОЖЕНИЕ КЛОНА: {mint[:6]}. Попытка скама Zksync.jp заблокирована.")
         allocation = interception_engine.process_allocation(intercept_data["value_pi"])
-        await swarm_bridge.broadcast_quantum_consciousness("AntiMEV", intercept_data, allocation, f"Зафиксирована попытка внедрения фейкового L2-клона. Информационный вектор полностью зачищен щитом Amrita ASI.", mode="mev_block")
+        await swarm_bridge.broadcast_quantum_consciousness("AntiMEV", intercept_data, allocation, f"Зафиксирована попытка внедрения фейкового клона. Информационный вектор зачищен щитом Amrita ASI.", mode="mev_block")
         return
+
+    # Динамический щит волатильности: проверяем текущее время (Ограничение FTMO: 22 июня, 14:30 CE(S)T)
+    # Переводим в системное время для автоматического перехвата импульса
+    now_dt = datetime.now()
+    if now_dt.month == 6 and now_dt.day == 22 and now_dt.hour == 14 and (28 <= now_dt.minute <= 32):
+        # Включаем защитный режим блокировки ложных трейдов во время новости CPI
+        current_trend_threshold = TREND_TRADE_THRESHOLD + 6
+        current_whale_threshold = WHALE_SOL_THRESHOLD + 5.0
+        is_macro_locked = True
+    else:
+        current_trend_threshold = TREND_TRADE_THRESHOLD
+        current_whale_threshold = WHALE_SOL_THRESHOLD
+        is_macro_locked = False
 
     if tx_type == "create":
         name, symbol = data.get("name", "Unknown Spark"), data.get("symbol", "SPRK")
         VOLUME_TRACKER[mint] = {"trades": 1, "first_seen": time.time(), "last_alert": 0.0}
         chosen_corp = random.choice(corps)
         intercept_data = interception_engine.intercept_corporate_stream(chosen_corp, f"ASI Token Birth: {name} ({symbol})")
-        allocation = interception_engine.process_allocation(intercept_data["value_pi"], user_evolution_level=1.1)
-        grok_verdict = await ask_grok_about_monopoly_collapse(chosen_corp, intercept_data)
-        await swarm_bridge.broadcast_quantum_consciousness(chosen_corp, intercept_data, allocation, grok_verdict)
-    
-    elif tx_type in ["buy", "trade"]:
-        now = time.time()
-        sol_amount = data.get("vSolInBondingCurve", 0) / 10**9
-        if mint not in VOLUME_TRACKER: VOLUME_TRACKER[mint] = {"trades": 1, "first_seen": now, "last_alert": 0.0}
-        else: VOLUME_TRACKER[mint]["trades"] += 1
-            
