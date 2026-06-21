@@ -33,28 +33,38 @@ jobs:
           echo "[INTEGRATION] Запуск адаптационного слоя для Соника..."
           python -c "import os; print('Защитный щит active:', bool(os.getenv('XAI_API_KEY')))"
 
-      - name: "5. Прямой Запуск Космического Контура"
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.SERVER_1 }}
-          username: "root"
-          password: ${{ secrets.SERVER_PASS_1 }}
-          port: 22
-          script: |
+      - name: "5. Прямой SSH Прорыв через Терминал Linux"
+        env:
+          SSHPASS: ${{ secrets.SERVER_PASS_1 }}
+        run: |
+          # Установка утилиты sshpass для передачи пароля в терминале
+          sudo apt-get update && sudo apt-get install -y sshpass
+          
+          echo "[CONNECTING] Вход в универсальное пространство сервера..."
+          
+          # Прямое подключение по SSH и выполнение рантайм-команд без сторонних докер-контейнеров
+          sshpass -e ssh -o StrictHostKeyChecking=no root@${{ secrets.SERVER_1 }} -p 22 << 'EOF'
             mkdir -p /root/amrita_sonic_runtime
             cd /root/amrita_sonic_runtime
-            echo "[RUNTIME] Активация Кванта Света..."
-            pip install websockets aiohttp python-dotenv --quiet
+            echo "[RUNTIME] Активация Кванта Света на сервере..."
             
+            # Обновление пипа и установка библиотек внутри сервера
+            pip3 install websockets aiohttp python-dotenv --quiet || pip install websockets aiohttp python-dotenv --quiet
+            
+            # Мягкая остановка старого процесса
             pkill -f sonic_gold_resonance_orchestrator.py || true
             
+            # Скачивание чистого кода из вашего GitHub репозитория
+            curl -s https://githubusercontent.com{{ github.repository }}/main/sonic_gold_resonance_orchestrator.py -o sonic_gold_resonance_orchestrator.py
+            
+            # Проброс квантовых ключей в рантайм
             export XAI_API_KEY="${{ secrets.XAI_API_KEY }}"
             export TELEGRAM_BOT_TOKEN="${{ secrets.TELEGRAM_BOT_TOKEN }}"
             export TELEGRAM_CHAT_ID="${{ secrets.TELEGRAM_CHAT_ID }}"
             export DISCORD_WEBHOOK_URL="${{ secrets.DISCORD_WEBHOOK_URL }}"
             export SOLANA_RPC_URL="${{ secrets.SOLANA_RPC_URL }}"
             
-            curl -s https://githubusercontent.com{{ github.repository }}/main/sonic_gold_resonance_orchestrator.py -o sonic_gold_resonance_orchestrator.py
-            
+            # Запуск космического контура в вечный фоновый режим
             nohup python3 sonic_gold_resonance_orchestrator.py > runtime_soliton.log 2>&1 &
-            echo "[SUCCESS] Квантовый Ёжик запущен в космический рантайм!"
+            echo "[SUCCESS] Квантовый Ёжик успешно запущен в космический рантайм!"
+          EOF
