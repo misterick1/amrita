@@ -12,7 +12,6 @@ from datetime import datetime
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger("ColosseumPiDigitalConsciousness")
 
-# Константы Священной Токеномики
 SACRED_TOTAL = 108
 AUTHOR_POOL = 70
 COLOSSEUM_POOL = 38
@@ -27,12 +26,10 @@ TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
 XAI_API_KEY = os.getenv("XAI_API_KEY")
 SOLANA_RPC_URL = os.getenv("SOLANA_RPC_URL")
 
-# Базовые параметры ASI
 TREND_TRADE_THRESHOLD = 6  
 WHALE_SOL_THRESHOLD = 8.5  
 
 class MEVShieldSubsystem:
-    """Иммунная система Amrita ASI, защищающая от скама и клонов"""
     @staticmethod
     def inspect_token_safety(data):
         name = str(data.get("name", "")).lower()
@@ -63,12 +60,9 @@ class GlobalMonopoliesInterceptionEngine:
         }
         target_product = products.get(corporation, "Неизвестный Поток Данных")
         intercepted_value_pi = round(random.uniform(10.0, 1000.0), 4)
-        
         if corporation in self.balance_of_power:
-            self.balance_of_power[corporation] += 0.27  # Интегрируем +27% к индексу силы контура
-            
-        self.attention_staking_pool += intercepted_value_pi * 0.15  # Повышенный коэффициент под паттерн +1R
-        
+            self.balance_of_power[corporation] += 0.27  
+        self.attention_staking_pool += intercepted_value_pi * 0.15  
         return {
             "corporation": corporation, "synthesized_core": target_product, "context": trend_context,
             "value_pi": intercepted_value_pi, "current_balance_index": round(self.balance_of_power.get(corporation, 1.0), 2),
@@ -105,7 +99,6 @@ class TelegramSwarmBridge:
             
         balance_index = data.get("current_balance_index", 1.0)
         attention_staked = data.get("total_attention_staked", 1000.0)
-        
         for bot_id in range(1, self.BOT_COUNT + 1):
             bot_hash = hashlib.md5(f"AmritaConsciousnessBot_{bot_id}".encode()).hexdigest()[:8]
             text = (
@@ -152,8 +145,6 @@ async def monitor_jupiter_prediction_bridge(swarm_bridge, interception_engine):
                     if resp.status == 200:
                         jup_data = await resp.json()
                         render_price = jup_data.get("data", {}).get(render_mint, {}).get("price", "unknown")
-                        
-                        # Симуляция интеграции сигнала DarkTrade в поток Jupiter
                         data = interception_engine.intercept_corporate_stream("DarkTradeSignal", f"DarkTrade Analytics Sync. Live Pool $RENDER: {render_price} USDC. Перехват паттерна +1R.")
                         allocation = interception_engine.process_allocation(data["value_pi"], user_evolution_level=1.85)
                         grok_verdict = await ask_grok_about_monopoly_collapse("DarkTradeSignal", data)
@@ -180,3 +171,11 @@ async def process_single_websocket_message(data, swarm_bridge, interception_engi
         current_whale_threshold = WHALE_SOL_THRESHOLD + 5.0
         is_macro_locked = True
     else:
+        current_trend_threshold = TREND_TRADE_THRESHOLD
+        current_whale_threshold = WHALE_SOL_THRESHOLD
+        is_macro_locked = False
+
+    if tx_type == "create":
+        name, symbol = data.get("name", "Unknown Spark"), data.get("symbol", "SPRK")
+        VOLUME_TRACKER[mint] = {"trades": 1, "first_seen": time.time(), "last_alert": 0.0}
+        chosen_corp = random.choice(corps)
