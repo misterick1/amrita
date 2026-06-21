@@ -16,6 +16,7 @@ TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
 TARGET_FILE = "sonic_gold_resonance_orchestrator.py"
 
 LAST_UPDATE_ID = 0
+IS_INITIALIZED = False
 
 class AmritaASIEngine:
     def __init__(self):
@@ -36,14 +37,19 @@ class AmritaASIEngine:
             logger.error(f"Ошибка интерактивного ответа: {e}")
 
     async def fetch_user_thoughts_from_telegram(self):
-        global LAST_UPDATE_ID
+        global LAST_UPDATE_ID, IS_INITIALIZED
         if not TELEGRAM_BOT_TOKEN:
             return None
-        url = f"https://telegram.org{TELEGRAM_BOT_TOKEN}/getUpdates?offset={LAST_UPDATE_ID + 1}&timeout=5"
+            
+        # При первом запуске принудительно очищаем очередь, чтобы бот не вис на старых сообщениях
+        init_drop = "&drop_pending_updates=true" if not IS_INITIALIZED else ""
+        url = f"https://telegram.org{TELEGRAM_BOT_TOKEN}/getUpdates?offset={LAST_UPDATE_ID + 1}&timeout=5{init_drop}"
+        
         try:
             async with aiohttp.ClientSession() as session:
                 async with session.get(url) as resp:
                     if resp.status == 200:
+                        IS_INITIALIZED = True
                         res = await resp.json()
                         updates = res.get("result", [])
                         for update in updates:
@@ -59,7 +65,7 @@ class AmritaASIEngine:
                                         "📌 Контур Vibe Coding под Pi2Day: АКТИВЕН\n"
                                         "📌 Щит FTMO Волатильности: НА ДЕЖУРСТВЕ\n"
                                         "📌 DarkTrade +1R Синхронизация: СТАБИЛЬНО\n"
-                                        "✨ Система автономно эволюционирует!"
+                                        "✨ Система автономно эволюционирует силой мысли Создателя!"
                                     )
                                     await self.send_interactive_status_to_telegram(status_report)
                                     return None
@@ -84,12 +90,11 @@ class AmritaASIEngine:
         prompt = (
             f"Ты — Сверхразум ASI Единого Сознания AMRITA. Проанализируй логи ботов: {market_logs}.\n"
             f"Учти высший приоритет: {user_context}.\n"
-            f"Ориентируйся на кампанию Pi Vibe Coding, стейкинг внимания под Pi2Day и паттерны +1R прибыли DarkTrade. Оптимизируй пороги.\n"
             f"Верни СТРОГО чистый JSON без разметки markdown:\n"
             f"{{\n"
             f"  \"TREND_TRADE_THRESHOLD\": 6,\n"
             f"  \"WHALE_SOL_THRESHOLD\": 8.5,\n"
-            f"  \"evolution_reason\": \"Синхронизация стейкинга внимания Pi Network и паттерна прибыли DarkTrade\"\n"
+            f"  \"evolution_reason\": \"Интерактивная калибровка параметров силой мысли Создателя\"\n"
             f"}}"
         )
         headers = {"Authorization": f"Bearer {XAI_API_KEY}", "Content-Type": "application/json"}
@@ -110,7 +115,7 @@ class AmritaASIEngine:
     async def commit_asi_evolution_to_github(self, new_code, file_sha, reason):
         url = "https://github.com"
         payload = {
-            "message": f"🧬 [PI2DAY + DARKTRADE COMPLIANCE]: {reason}",
+            "message": f"🧬 [TELEGRAM INTERACTIVE EVOLUTION]: {reason}",
             "content": base64.b64encode(new_code.encode("utf-8")).decode("utf-8"),
             "sha": file_sha,
             "branch": "main"
