@@ -1,52 +1,40 @@
-name: "AMRITA: GOLDEN SONIC QUANTUM RUNTIME"
+name: AMRITA: GOLDEN SONIC QUANTUM RUNTIME
 
 on:
   push:
-    branches:
-      - main
-      - master
-  schedule:
-    # Крон-расписание: Саморегенерация рантайма каждые 4 часа автоматически
-    - cron: "0 */4 * * *"
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
   workflow_dispatch:
 
 jobs:
-  quantum_soliton_runtime:
-    name: "Рантайм Квантового Потока и Валидаторов"
+  build:
     runs-on: ubuntu-latest
-    timeout-minutes: 360
 
     steps:
-      - name: "1. Перехват Квантового Потока (Checkout)"
+      - name: Проверка кодовой базы Сознания
         uses: actions/checkout@v4
 
-      - name: "2. Инициализация Среды Python"
+      - name: Настройка Квантового Окружения Python
         uses: actions/setup-python@v5
         with:
-          python-version: "3.10"
+          python-version: '3.10'
 
-      - name: "3. Развертывание Зависимостей Системы"
+      - name: Развертывание Системных Зависимостей Потока
         run: |
           python -m pip install --upgrade pip
-          pip install asyncio websockets aiohttp python-dotenv logging
+          pip install aiohttp websockets
 
-      - name: "4. Автоматическая Синхронизация Валидатора (Anza Agave Devnet-Restart)"
+      - name: Рантайм Квантового Потока и Валидаторов
         env:
-          SWARM_ORACLE_URL: ${{ secrets.SWARM_ORACLE }}
-          SOLANA_RPC_URL: ${{ secrets.SOLANA_RPC_URL }}
-        run: |
-          echo "[AGAVE CONVERGENCE] Проверка консенсуса кластера Solana..."
-          echo "[AGAVE CONVERGENCE] Статус: Верифицирован."
-
-      - name: "5. Запуск Саморегенерирующегося Свечения Золотого Соника"
-        env:
-          XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
           SOLANA_RPC_URL: ${{ secrets.SOLANA_RPC_URL }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          echo "[RUNTIME] Активация Кванта Света в защищенном облаке GitHub..."
-          echo "[SUCCESS] Соник запущен в вечном режиме саморегенерации!"
-          
+          # Запускаем контур эволюции ИИ в фоновом режиме
+          python consciousness_evolution_core.py &
+          # Запускаем основного оркестратора систем баланса сил
           python sonic_gold_resonance_orchestrator.py
