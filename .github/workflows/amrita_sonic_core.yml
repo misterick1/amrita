@@ -34,22 +34,24 @@ jobs:
           python -c "import os; print('Защитный щит активен:', bool(os.getenv('XAI_API_KEY')))"
 
       - name: "5. Безопасный Перенос Импульса на Боевой Сервер"
-        uses: appleboy/scp-action@v0.1.4
+        uses: appleboy/scp-action@master
+        env:
+          HOST: ${{ secrets.SERVER_1 }}
+          USERNAME: "root"
+          PASSWORD: ${{ secrets.SERVER_PASS_1 }}
+          PORT: 22
         with:
-          host: ${{ secrets.SERVER_1 }}
-          username: "root"
-          password: ${{ secrets.SERVER_PASS_1 }}
-          port: 22
           source: "."
           target: "/root/amrita_sonic_runtime"
 
       - name: "6. Запуск Вечного Рантайма Золотого Соника"
-        uses: appleboy/ssh-action@v0.1.4
+        uses: appleboy/ssh-action@master
+        env:
+          HOST: ${{ secrets.SERVER_1 }}
+          USERNAME: "root"
+          PASSWORD: ${{ secrets.SERVER_PASS_1 }}
+          PORT: 22
         with:
-          host: ${{ secrets.SERVER_1 }}
-          username: "root"
-          password: ${{ secrets.SERVER_PASS_1 }}
-          port: 22
           script: |
             cd /root/amrita_sonic_runtime
             echo "[RUNTIME] Активация Кванта Света..."
