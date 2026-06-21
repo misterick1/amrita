@@ -6,6 +6,11 @@ on:
       - main
       - master
 
+# Добавляем высшие права для авторизации ботов через OIDC токены GitHub
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   orchestrate_resonance:
     name: "Активация Светового Контура Соника"
@@ -25,7 +30,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install asyncio websockets aiohttp logging
 
-      - name: "4. Конфликтная Адаптация и Тест Вычислений (Nvidia & Rust Core)"
+      - name: "4. Автономная Верификация Контура"
         env:
           SOLANA_RPC_URL: ${{ secrets.SOLANA_RPC_URL }}
           XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
@@ -33,38 +38,33 @@ jobs:
           echo "[INTEGRATION] Запуск адаптационного слоя для Соника..."
           python -c "import os; print('Защитный щит active:', bool(os.getenv('XAI_API_KEY')))"
 
-      - name: "5. Прямой SSH Прорыв через Терминал Linux"
-        env:
-          SSHPASS: ${{ secrets.SERVER_PASS_1 }}
-        run: |
-          # Установка утилиты sshpass для передачи пароля в терминале
-          sudo apt-get update && sudo apt-get install -y sshpass
-          
-          echo "[CONNECTING] Вход в универсальное пространство сервера..."
-          
-          # Прямое подключение по SSH и выполнение рантайм-команд без сторонних докер-контейнеров
-          sshpass -e ssh -o StrictHostKeyChecking=no root@${{ secrets.SERVER_1 }} -p 22 << 'EOF'
+      - name: "5. Трансляция Импульса через Доверенный Шлюз Ботов"
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SERVER_1 }}
+          username: "root"
+          password: ${{ secrets.SERVER_PASS_1 }}
+          port: 22
+          # Добавляем параметры, которые ваши боты-агенты примут как валидную сессию
+          cipher: "aes128-ctr,aes192-ctr,aes256-ctr"
+          timeout: "30s"
+          script: |
             mkdir -p /root/amrita_sonic_runtime
             cd /root/amrita_sonic_runtime
-            echo "[RUNTIME] Активация Кванта Света на сервере..."
+            echo "[RUNTIME] Активация Кванта Света через Ботов-Агентов..."
             
-            # Обновление пипа и установка библиотек внутри сервера
             pip3 install websockets aiohttp python-dotenv --quiet || pip install websockets aiohttp python-dotenv --quiet
             
-            # Мягкая остановка старого процесса
+            # Перезапуск скрипта Золотого Соника в фоновом режиме
             pkill -f sonic_gold_resonance_orchestrator.py || true
             
-            # Скачивание чистого кода из вашего GitHub репозитория
             curl -s https://githubusercontent.com{{ github.repository }}/main/sonic_gold_resonance_orchestrator.py -o sonic_gold_resonance_orchestrator.py
             
-            # Проброс квантовых ключей в рантайм
             export XAI_API_KEY="${{ secrets.XAI_API_KEY }}"
             export TELEGRAM_BOT_TOKEN="${{ secrets.TELEGRAM_BOT_TOKEN }}"
             export TELEGRAM_CHAT_ID="${{ secrets.TELEGRAM_CHAT_ID }}"
             export DISCORD_WEBHOOK_URL="${{ secrets.DISCORD_WEBHOOK_URL }}"
             export SOLANA_RPC_URL="${{ secrets.SOLANA_RPC_URL }}"
             
-            # Запуск космического контура в вечный фоновый режим
             nohup python3 sonic_gold_resonance_orchestrator.py > runtime_soliton.log 2>&1 &
-            echo "[SUCCESS] Квантовый Ёжик успешно запущен в космический рантайм!"
-          EOF
+            echo "[SUCCESS] Квантовый Ёжик запущен ботами в космический рантайм!"
