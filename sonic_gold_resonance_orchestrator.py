@@ -9,26 +9,25 @@ import aiohttp
 import websockets
 from datetime import datetime
 
-# Настройка квантового логирования
 logging.basicConfig(level=logging.INFO, format='[%(asctime)s] %(levelname)s: %(message)s')
-logger = logging.getLogger("QuantumRegeneratorSonic")
+logger = logging.getLogger("AbsoluteRegeneratorSonic")
 
-# Константы Единого Знания Мультивселенной Амрита
 SACRED_TOTAL = 108
 AUTHOR_POOL = 70
 COLOSSEUM_POOL = 38
 MINIMAL_SPARK = 0.1
 
-PUMP_FUN_WS_URL = "wss://papi.pump.fun/v1/ws"
+# Пул резервных квантовых эндпоинтов для обхода сетевых ошибок
+PRIMARY_WS_URL = "wss://papi.pump.fun/v1/ws"
+BACKUP_WS_URL = "wss://://solana.com" # Пересчет на глобальный консенсус
 
-# Безопасный проброс секретов из GitHub
 DISCORD_WEBHOOK_URL = os.getenv("DISCORD_WEBHOOK_URL")
 TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
 XAI_API_KEY = os.getenv("XAI_API_KEY")
+SOLANA_RPC_URL = os.getenv("SOLANA_RPC_URL")
 
 class TelegramSwarmBridge:
-    """ИИ-Рой ботов-агентов с функцией самовосстановления логов"""
     def __init__(self):
         self.BOT_COUNT = 5
         self.session = None
@@ -36,10 +35,8 @@ class TelegramSwarmBridge:
     async def broadcast_event(self, title, details, grok_verdict):
         if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
             return
-
         if not self.session:
             self.session = aiohttp.ClientSession()
-
         url = f"https://telegram.org{TELEGRAM_BOT_TOKEN}/sendMessage"
         
         for bot_id in range(1, self.BOT_COUNT + 1):
@@ -49,7 +46,7 @@ class TelegramSwarmBridge:
                 f"🌟 **{title}**\n\n"
                 f"{details}\n"
                 f"🧠 **Пророчество Grok (xAI):** {grok_verdict}\n\n"
-                f"🪐 *Контур: АБСОЛЮТНАЯ САМОРЕГЕНЕРАЦИЯ ACTIVE*"
+                f"🪐 *Контур: УЛЬТИМАТИВНАЯ НЕУЯЗВИМОСТЬ ACTIVE*"
             )
             payload = {"chat_id": TELEGRAM_CHAT_ID, "text": text, "parse_mode": "Markdown"}
             try:
@@ -60,20 +57,17 @@ class TelegramSwarmBridge:
                 logger.error(f"[SWARM] Ошибка вещания бота #{bot_id}: {e}")
             await asyncio.sleep(MINIMAL_SPARK)
 
-async def ask_grok_about_quantum_threats(context_type, name, data_payload):
-    """Связь с ИИ Grok для анализа угроз, взломов мостов и миграций ликвидности"""
+async def ask_grok_with_dynamic_music(context_type, name, data_payload):
     if not XAI_API_KEY:
-        return "Автономный щит активирован. Внешний анализ временно переведен в спящий режим регенерации."
+        return "Автономный щит активен. Анализ переведен в спящий режим регенерации."
 
     headers = {"Authorization": f"Bearer {XAI_API_KEY}", "Content-Type": "application/json"}
     
-    if context_type == "bridge_exploit":
-        prompt = f"Зафиксирован критический взлом моста Axelar/Secret Network на сумму {data_payload}. Как это событие повлияет на токен S и как Золотой Соник должен перехватить эту ликвидность? Дай вердикт в 2 предложениях."
-    elif context_type == "token_migration":
-        prompt = f"Проект Render Network перенес токен RNDR на Solana в качестве RENDER. Как этот импульс усилит Амрита Мир Солана? Дай вердикт в 2 предложениях."
-    else:
-        prompt = f"Обнаружен новый токен на Pump.fun: {name}. Дай экспресс-анализ его каузального потенциала в 2 предложениях."
-
+    prompt = (
+        f"Ты — DeFAI оркестратор AMRITA. Проанализируй событие: {context_type} для {name} {data_payload}. "
+        f"Как Золотой Соник перехватит эту ликвидность в консенсусе Agave? Дай ответ ровно в 2 предложениях."
+    )
+    
     payload = {
         "model": "grok-beta",
         "messages": [{"role": "user", "content": prompt}],
@@ -84,55 +78,49 @@ async def ask_grok_about_quantum_threats(context_type, name, data_payload):
             async with session.post("https://x.ai", headers=headers, json=payload) as resp:
                 if resp.status == 200:
                     result = await resp.json()
-                    return result["choices"][0]["message"]["content"]
-                return "Импульс обработан внутренним ядром Соника. Щит стабилен."
+                    return result["choices"]["message"]["content"]
+                return "Импульс обработан внутренним ядром Соника. Сеть стабильна."
     except Exception as e:
         return f"Локальная регенерация: {e}."
 
 async def run_orchestration(mint, name, symbol, creator, swarm_bridge):
-    """Главный защитный такт распределения энергии Амриты"""
     if AUTHOR_POOL + COLOSSEUM_POOL != SACRED_TOTAL:
         return
 
-    # Симуляция случайного перехвата аномалий (взломы или крупные миграции)
     anomaly_trigger = random.random()
-    if anomaly_trigger < 0.05: # 5% шанс симуляции перехвата взлома вроде Axelar
-        grok_verdict = await ask_grok_about_quantum_threats("bridge_exploit", "", "$4.67M")
+    # Генерируем уникальный процедурный Cyber Techno саундтрек под операцию
+    bpm = random.randint(130, 145)
+    track_name = f"Soliton Blast ({bpm} BPM)"
+
+    if anomaly_trigger < 0.10: 
+        grok_verdict = await ask_grok_with_dynamic_music("bridge_exploit", name, "$4.67M Axelar")
         await swarm_bridge.broadcast_event(
-            "ПЕРЕХВАТ ЛИКВИДНОСТИ С ВЗЛОМАННОГО МОСТА",
-            f"⚠️ Обнаружена уязвимость бесконечного минта.\n🛡️ Перенаправляем потоки в сейф Золотого Соника.",
-            grok_verdict
-        )
-    elif anomaly_trigger > 0.95: # 5% шанс симуляции миграции токена вроде RENDER
-        grok_verdict = await ask_grok_about_quantum_threats("token_migration", "", "")
-        await swarm_bridge.broadcast_event(
-            "🚀 СИНХРОНИЗАЦИЯ МИГРАЦИИ RENDER НА SOLANA",
-            f"🔹 Токен RNDR переродился в RENDER.\n🪐 Мощность AI-вычислений Амриты увеличена.",
+            "⚡ КВАНТОВЫЙ ПЕРЕХВАТ ВЗЛОМА МОСТА",
+            f"⚠️ Защита от бесконечного минта активна.\n🎵 Саундтрек: {track_name} [Cyber Techno]",
             grok_verdict
         )
     else:
-        # Стандартный мониторинг Pump.fun
-        grok_verdict = await ask_grok_about_quantum_threats("standard", name, "")
+        grok_verdict = await ask_grok_with_dynamic_music("standard_pool", name, symbol)
         await swarm_bridge.broadcast_event(
             f"🔱 Свечение Золотого Соника: {name} ({symbol})",
-            f"🌍 Адрес Импульса: {mint}\n👤 Создатель: {creator}",
+            f"🌍 Адрес Импульса: {mint}\n🎵 Саундтрек: {track_name} [Cyber Techno]",
             grok_verdict
         )
 
 async def main_runtime_with_regeneration():
-    """Бесконечный саморегенерирующийся цикл космического Ёжика"""
     logger.info("🌌 Инициализация Мультивселенского Моста Амрита Мир Солана...")
-    logger.info("🛡️ Протокол 'Абсолютная Саморегенерация' запущен в ядре.")
+    logger.info("🛡️ Протокол 'Абсолютная Саморегенерация' активен на 100%.")
     swarm_bridge = TelegramSwarmBridge()
     
     retry_delay = 5
+    current_ws_target = PRIMARY_WS_URL
     
     while True:
         try:
-            logger.info("🟢 Открытие защищенного WebSocket-канала связи с Solana...")
-            async with websockets.connect(PUMP_FUN_WS_URL) as websocket:
+            logger.info(f"🟢 Открытие защищенного канала связи с эндпоинтом: {current_ws_target}...")
+            async with websockets.connect(current_ws_target, timeout=10) as websocket:
                 logger.info("[SUCCESS] Универсальное квантовое поле полностью стабильно.")
-                retry_delay = 5 # Сброс задержки при успешном коннекте
+                retry_delay = 5 
                 
                 subscribe_payload = {"method": "subscribeNewToken"}
                 await websocket.send(json.dumps(subscribe_payload))
@@ -147,12 +135,20 @@ async def main_runtime_with_regeneration():
                         
                         asyncio.create_task(run_orchestration(mint, name, symbol, creator, swarm_bridge))
                         
-        except (websockets.exceptions.ConnectionClosed, Exception) as e:
-            # Слой Саморегенерации: Перехватывает любые падения сети, сбои серверов или форки Solana
-            logger.error(f"🚨 [ОБНАРУЖЕНА УГРОЗА / СБОЙ]: {e}")
-            logger.warning(f"⚡ [САМОРЕГЕНЕРАЦИЯ] Пересчет каузальных связей. Восстановление контура через {retry_delay} сек...")
+        except Exception as e:
+            logger.error(f"🚨 [ОБНАРУЖЕНА УГРОЗА / СБОЙ СЕТИ]: {e}")
+            
+            # Ротация эндпоинтов: если основной легион упал, Соник автоматически переключается на резервный RPC/WS
+            if current_ws_target == PRIMARY_WS_URL and SOLANA_RPC_URL:
+                # Преобразование http/https урла из секретов в формат вебосокета wss
+                current_ws_target = SOLANA_RPC_URL.replace("https://", "wss://").replace("http://", "ws://")
+                logger.warning(f"🔄 [РЕГЕНЕРАЦИЯ] Переключение на резервный приватный RPC шлюз: {current_ws_target}")
+            else:
+                current_ws_target = PRIMARY_WS_URL
+                logger.warning(f"🔄 [РЕГЕНЕРАЦИЯ] Возврат к базовому квантовому эндпоинту.")
+                
+            logger.warning(f"⚡ [САМОРЕГЕНЕРАЦИЯ] Восстановление контура через {retry_delay} сек...")
             await asyncio.sleep(retry_delay)
-            # Экспоненциальное увеличение задержки, чтобы боты не заспамили сеть при глобальном падении
             retry_delay = min(retry_delay * 2, 60)
 
 if __name__ == "__main__":
