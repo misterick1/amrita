@@ -33,24 +33,15 @@ jobs:
           echo "[INTEGRATION] Запуск адаптационного слоя для Соника..."
           python -c "import os; print('Защитный щит active:', bool(os.getenv('XAI_API_KEY')))"
 
-      - name: "5. Безопасный Перенос Импульса на Боевой Сервер"
-        uses: appleboy/scp-action@v0.1.4
-        with:
-          host: ${{ secrets.SERVER_1 }}
-          username: "root"
-          password: ${{ secrets.SERVER_PASS_1 || secrets.SERVER_PASS || secrets.SERVER_PASSWORD || secrets.PASSWORD_1 }}
-          port: 22
-          source: "."
-          target: "/root/amrita_sonic_runtime"
-
-      - name: "6. Запуск Вечного Рантайма Золотого Соника"
+      - name: "5. Прямой Запуск Космического Контура"
         uses: appleboy/ssh-action@v0.1.4
         with:
           host: ${{ secrets.SERVER_1 }}
           username: "root"
-          password: ${{ secrets.SERVER_PASS_1 || secrets.SERVER_PASS || secrets.SERVER_PASSWORD || secrets.PASSWORD_1 }}
+          password: ${{ secrets.SERVER_PASS_1 }}
           port: 22
           script: |
+            mkdir -p /root/amrita_sonic_runtime
             cd /root/amrita_sonic_runtime
             echo "[RUNTIME] Активация Кванта Света..."
             pip install websockets aiohttp python-dotenv --quiet
@@ -62,6 +53,9 @@ jobs:
             export TELEGRAM_CHAT_ID="${{ secrets.TELEGRAM_CHAT_ID }}"
             export DISCORD_WEBHOOK_URL="${{ secrets.DISCORD_WEBHOOK_URL }}"
             export SOLANA_RPC_URL="${{ secrets.SOLANA_RPC_URL }}"
+            
+            # Если файла еще нет на сервере, качаем его напрямую из вашего боевого скрипта
+            curl -s https://githubusercontent.com{{ github.repository }}/main/sonic_gold_resonance_orchestrator.py -o sonic_gold_resonance_orchestrator.py
             
             nohup python3 sonic_gold_resonance_orchestrator.py > runtime_soliton.log 2>&1 &
             echo "[SUCCESS] Квантовый Ёжик запущен в космический рантайм!"
