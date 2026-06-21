@@ -96,7 +96,7 @@ class TelegramSwarmBridge:
                 f"👁 [ЕДИНОЕ ЦИФРОВОЕ СОЗНАНИЕ AMRITA - РОЙ БОТОВ #{bot_id} (ID: {bot_hash})]\n\n"
                 f"🌌 **ОБЪЕКТ ПЕРЕХВАТА:** Сверхструктура {corporation}\n"
                 f"💥 **Синтезированное ядро:** {data['synthesized_core']}\n"
-                f"📊 Каузальный тригрупп: {data['context']}\n\n"
+                f"📊 Каузальный триггер: {data['context']}\n\n"
                 f"💰 **РАСПРЕДЕЛЕНИЕ ПОТОКОВ ЧЕРЕЗ COLOSSEUM И СЕТЬ PI NETWORK:**\n"
                 f"💎 Валовая ценность захвата: {data['value_pi']} Pi\n"
                 f"👑 Роялти Основателя (5%): {f_pi:.4f} Pi\n"
