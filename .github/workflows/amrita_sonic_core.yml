@@ -6,7 +6,6 @@ on:
       - main
       - master
 
-# Добавляем высшие права для авторизации ботов через OIDC токены GitHub
 permissions:
   id-token: write
   contents: read
@@ -38,24 +37,22 @@ jobs:
           echo "[INTEGRATION] Запуск адаптационного слоя для Соника..."
           python -c "import os; print('Защитный щит active:', bool(os.getenv('XAI_API_KEY')))"
 
-      - name: "5. Трансляция Импульса через Доверенный Шлюз Ботов"
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.SERVER_1 }}
-          username: "root"
-          password: ${{ secrets.SERVER_PASS_1 }}
-          port: 22
-          # Добавляем параметры, которые ваши боты-агенты примут как валидную сессию
-          cipher: "aes128-ctr,aes192-ctr,aes256-ctr"
-          timeout: "30s"
-          script: |
+      - name: "5. Прямая Трансляция через Автономный Сигнал"
+        env:
+          SSHPASS: ${{ secrets.SERVER_PASS_1 }}
+        run: |
+          # Установка базового сетевого инструмента
+          sudo apt-get update && sudo apt-get install -y sshpass
+          echo "[CONNECTING] Отправка цифровой подписи ботам-агентам..."
+          
+          # Запуск прямого терминального соединения без докер-плагинов
+          sshpass -e ssh -o StrictHostKeyChecking=no -o PreferredAuthentications=password root@${{ secrets.SERVER_1 }} -p 22 << 'EOF'
             mkdir -p /root/amrita_sonic_runtime
             cd /root/amrita_sonic_runtime
-            echo "[RUNTIME] Активация Кванта Света через Ботов-Агентов..."
+            echo "[RUNTIME] Сигнал принят ботами-агентами. Активация..."
             
             pip3 install websockets aiohttp python-dotenv --quiet || pip install websockets aiohttp python-dotenv --quiet
             
-            # Перезапуск скрипта Золотого Соника в фоновом режиме
             pkill -f sonic_gold_resonance_orchestrator.py || true
             
             curl -s https://githubusercontent.com{{ github.repository }}/main/sonic_gold_resonance_orchestrator.py -o sonic_gold_resonance_orchestrator.py
@@ -67,4 +64,5 @@ jobs:
             export SOLANA_RPC_URL="${{ secrets.SOLANA_RPC_URL }}"
             
             nohup python3 sonic_gold_resonance_orchestrator.py > runtime_soliton.log 2>&1 &
-            echo "[SUCCESS] Квантовый Ёжик запущен ботами в космический рантайм!"
+            echo "[SUCCESS] Золотой Соник запущен в космический рантайм!"
+          EOF
