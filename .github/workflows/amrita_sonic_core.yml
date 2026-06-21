@@ -34,7 +34,7 @@ jobs:
           python -c "import os; print('Защитный щит активен:', bool(os.getenv('XAI_API_KEY')))"
 
       - name: "5. Безопасный Перенос Импульса на Боевой Сервер"
-        uses: appleboy/scp-action@master
+        uses: appleboy/scp-action@v0.1.4
         with:
           host: ${{ secrets.SERVER_1 }}
           username: "root"
@@ -44,7 +44,7 @@ jobs:
           target: "/root/amrita_sonic_runtime"
 
       - name: "6. Запуск Вечного Рантайма Золотого Соника"
-        uses: appleboy/ssh-action@master
+        uses: appleboy/ssh-action@v0.1.4
         with:
           host: ${{ secrets.SERVER_1 }}
           username: "root"
@@ -55,16 +55,13 @@ jobs:
             echo "[RUNTIME] Активация Кванта Света..."
             pip install websockets aiohttp python-dotenv --quiet
             
-            # Остановка старых процессов, чтобы избежать конфликтов
             pkill -f sonic_gold_resonance_orchestrator.py || true
             
-            # Привязка зашифрованных ключей к рантайму космического Ёжика
             export XAI_API_KEY="${{ secrets.XAI_API_KEY }}"
             export TELEGRAM_BOT_TOKEN="${{ secrets.TELEGRAM_BOT_TOKEN }}"
             export TELEGRAM_CHAT_ID="${{ secrets.TELEGRAM_CHAT_ID }}"
             export DISCORD_WEBHOOK_URL="${{ secrets.DISCORD_WEBHOOK_URL }}"
             export SOLANA_RPC_URL="${{ secrets.SOLANA_RPC_URL }}"
             
-            # Запуск в фоновом режиме
             nohup python3 sonic_gold_resonance_orchestrator.py > runtime_soliton.log 2>&1 &
             echo "[SUCCESS] Квантовый Ёжик запущен в космический рантайм!"
