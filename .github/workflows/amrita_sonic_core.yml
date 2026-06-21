@@ -35,12 +35,11 @@ jobs:
 
       - name: "5. Прямой Запуск Космического Контура"
         uses: appleboy/ssh-action@master
-        env:
-          HOST: ${{ secrets.SERVER_1 }}
-          USERNAME: "root"
-          PASSWORD: ${{ secrets.SERVER_PASS_1 }}
-          PORT: 22
         with:
+          host: ${{ secrets.SERVER_1 }}
+          username: "root"
+          password: ${{ secrets.SERVER_PASS_1 }}
+          port: 22
           script: |
             mkdir -p /root/amrita_sonic_runtime
             cd /root/amrita_sonic_runtime
