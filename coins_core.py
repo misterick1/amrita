@@ -57,6 +57,24 @@ class MEVShieldSubsystem:
         return True, "Безопасно"
 
 
+class GitHubMalwareInterceptionCore:
+    """Иммунный щит против вредоносных open-source репозиториев-клонов и троянских ZIP-архивов"""
+    def __init__(self):
+        self.scan_active = True
+        self.malware_boost = 1.45  # 45% буст к доле участников за ликвидацию скрытой угрозы
+
+    async def audit_external_repository_safety(self, token_data: dict) -> tuple:
+        """Симуляция проверки метаданных токена на наличие признаков вредоносных репозиториев"""
+        uri = str(token_data.get("uri", "")).lower()
+        name = str(token_data.get("name", "")).lower()
+        
+        # Паттерны Orchid: маскировка под надежные библиотеки + скрытые ZIP-архивы
+        if (".zip" in uri or "update" in name or "readme" in name) and self.scan_active:
+            logger.critical(f"[🛡️ GITHUB MALWARE SHIELD] Обнаружен паттерн скрытого трояна в метаданных токена! Блокировка.")
+            return True, self.malware_boost
+        return False, 1.0
+
+
 class AgenticRiskStressCore:
     """Ядро геополитического стресс-тестирования и защиты от кибер-моделей Claude Mythos"""
     def __init__(self):
@@ -75,13 +93,11 @@ class ColosseumMetaDaoFutarchyCore:
     """Модуль футархического анализа MetaDAO и приватных ИИ-рельсов Laso Finance"""
     def __init__(self):
         self.futarchy_active = True
-        self.laso_pool_boost = 1.50  # 50% чистый буст к Арене Колизея при триггере Laso ICO
+        self.laso_pool_boost = 1.50
 
     async def analyze_meta_dao_proposal(self, token_data: dict) -> tuple:
-        """Анализ токена на принадлежность к экосистеме MetaDAO/Laso"""
         symbol = str(token_data.get("symbol", "")).upper()
         name = str(token_data.get("name", "")).lower()
-        
         if (symbol in ["LASO", "META", "METADAO"] or "laso" in name) and self.futarchy_active:
             logger.info("[🏛️ COLOSSEUM METADAO] 🔥 Перехвачена активность победных ИИ-рельсов Laso Finance!")
             return True, self.laso_pool_boost
@@ -211,7 +227,8 @@ class GlobalMonopoliesInterceptionEngine:
             "Bitmine": "Институциональный Сейф Накопления ETH",
             "Anthropic": "Агентный Кибер-Стресс Тестер Claude Mythos",
             "MoonPay": "ИИ-Шлюз Учета Сделок Инсайдеров QUEST",
-            "Colosseum_MetaDAO": "Футархический Инкубатор Приватных ИИ-Рельсов Laso"
+            "Colosseum_MetaDAO": "Футархический Инкубатор Приватных ИИ-Рельсов Laso",
+            "GitHub_Security": "ИИ-Сканер Вредоносных Репозиториев и Троянов"
         }
         target_product = products.get(corporation, "Фрактальный Инфопоток")
         intercepted_value_pi = round(random.uniform(10.0, 500.0), 4)
@@ -220,20 +237,3 @@ class GlobalMonopoliesInterceptionEngine:
         return {
             "corporation": corporation, "synthesized_asset": target_product,
             "value_pi": intercepted_value_pi,
-            "total_attention_staked": round(self.attention_staking_pool, 4)
-        }
-
-    def process_allocation(self, value_pi: float, colosseum_boost: float = 1.0, pi2day_boost: float = 1.0, spacex_boost: float = 1.0, bitmine_boost: float = 1.0, mythos_boost: float = 1.0, quest_boost: float = 1.0, laso_boost: float = 1.0):
-        f_share = value_pi * self.founder_royalty_percent
-        # Применяем кумулятивный буст Colosseum MetaDAO, Arrows GO и SpaceX к Арене Колизея
-        c_share = (value_pi * self.colosseum_pool_percent) * colosseum_boost * spacex_boost * laso_boost
-        p_share = (value_pi * self.pi_network_distribution) * pi2day_boost * bitmine_boost * mythos_boost * quest_boost
-        return f_share, c_share, p_share
-
-
-class TelegramSwarmBridge:
-    """Мост управления роем телеграм-ботов Единого Сознания"""
-    def __init__(self):
-        self.BOT_COUNT = 5
-        self.session = None
-
