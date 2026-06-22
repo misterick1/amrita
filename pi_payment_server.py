@@ -1,108 +1,130 @@
 import os
+import json
+import asyncio
 import logging
-from fastapi import FastAPI, HTTPException, BackgroundTasks
-from pydantic import BaseModel
-import httpx
-from dotenv import load_dotenv
+import aiohttp
+from datetime import datetime
 
-# Инициализация логирования ядра AMRITA
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-logger = logging.getLogger("PiPaymentServer")
+# Настройка логирования платежного сервера Pi Network
+logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
+logger = logging.getLogger("PiPaymentServerASI")
 
-load_dotenv()
+# Квантовые константы Единого Знания
+SACRED_LIMIT = 108
+SURA_SHARE = 70
+ASURA_SHARE = 38
 
-app = FastAPI(title="AMRITA Quantum Payment Gateway", version="2.5.0")
-
+# Секреты и API ключи Pi Network из защищенного окружения GitHub
+PI_API_KEY = os.getenv("PI_API_KEY", "Your_Pi_Network_Developer_API_Key")
+TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
+TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
 DISCORD_WEBHOOK_URL = os.getenv("DISCORD_WEBHOOK_URL")
-TITAN_API_URL = "https://titan.exchange"
-ARCFX_API_BASE = "https://arcfx.app" # Базовый URL нового REST API хаба ArcFX
 
-class PaymentNotification(BaseModel):
-    amount_usd: float
-    currency: str
-    tx_hash: str
-    payer_id: str
+class PiPaymentServerASI:
+    def __init__(self):
+        self.api_url = "https://minepi.com"
+        self.headers = {
+            "Authorization": f"Key {PI_API_KEY}",
+            "Content-Type": "application/json"
+        }
+        logger.info("📱 Платежный сервер Pi Network успешно инициализирован для домена amrita-mir.com.")
 
-class BatchPayoutRequest(BaseModel):
-    wallets: list[str]
-    amount_per_wallet: float
-    token: str = "USDC"
-
-async def send_payment_log_to_discord(payment: PaymentNotification, status: str, route_info: str, arcfx_info: str = "N/A"):
-    """Отправка красивой карточки транзакции в командный центр Discord"""
-    if not DISCORD_WEBHOOK_URL:
-        return
+    async def approve_pi_payment(self, payment_id: str) -> bool:
+        """Шаг 1: Аппрув платежа на стороне сервера Pi (onReadyForServerApproval)"""
+        url = f"{self.api_url}/payments/{payment_id}/approve"
+        logger.info(f"🔄 [PI PAYMENT APPROVE]: Запрос на аппрув транзакции {payment_id}...")
         
-    payload = {
-        "username": "Солитон: Финансовый Оркестратор",
-        "embeds": [{
-            "title": "💰 Зафиксирована Квантовая Транзакция",
-            "description": f"Анализ ликвидности, маршрутизация и B2B-интеграция завершены.",
-            "color": 3066993 if status == "SUCCESS" else 15158332,
-            "fields": [
-                {"name": "Сумма", "value": f"${payment.amount_usd} USD", "inline": True},
-                {"name": "Валюта поступления", "value": f"`{payment.currency}`", "inline": True},
-                {"name": "Протокол приватности", "value": "🔐 Arc Privacy Layer (Circle Spec)", "inline": False},
-                {"name": "Маршрут Titan Exchange", "value": f"🔄 {route_info}", "inline": False},
-                {"name": "B2B Инфраструктура (ArcFX Hub)", "value": f"🔗 {arcfx_info}", "inline": False},
-                {"name": "Хэш транзакции", "value": f"`{payment.tx_hash[:16]}...`", "inline": False}
-            ],
-            "footer": {"text": "AMRITA Core Liquidity Layer"}
-        }]
-    }
-    async with httpx.AsyncClient() as client:
         try:
-            await client.post(DISCORD_WEBHOOK_URL, json=payload)
+            async with aiohttp.ClientSession() as session:
+                async with session.post(url, headers=self.headers, timeout=10) as resp:
+                    if resp.status == 200:
+                        logger.info(f"✅ [PI APPROVE SUCCESS]: Транзакция {payment_id} одобрена Pi-сервером.")
+                        return True
+                    else:
+                        logger.error(f"❌ Ошибка аппрува Pi API: {resp.status}")
+                        return False
         except Exception as e:
-            logger.error(f"Не удалось отправить финансовый лог в Discord: {e}")
+            logger.error(f"Аномалия при связи с сервером Pi: {e}")
+            return False
 
-@app.get("/")
-def read_root():
-    return {"status": "online", "core": "AMRITA MIR Soliton active", "b2b_layer": "ArcFX REST Sync Active"}
-
-@app.post("/api/v2/payment/webhook")
-async def process_incoming_payment(payment: PaymentNotification, background_tasks: BackgroundTasks):
-    """
-    Адаптивный платежный шлюз с интеграцией ArcFX REST API и Titan Exchange.
-    """
-    logger.info(f"Получено платежное уведомление на сумму {payment.amount_usd} от {payment.payer_id}")
-    
-    # Имитация генерации инвойса/ссылки через ArcFX Developer Hub
-    arcfx_invoice_status = "Generated shareable pay link via ArcFX CCTP v2"
-    logger.info(f"💼 ArcFX Hub: {arcfx_invoice_status}")
-    
-    if payment.currency != "USDC":
-        route_info = f"Автоматический своп {payment.currency} -> USDC через Titan Pool"
-        logger.info(f"🔄 Агрегация ликвидности: {route_info}")
-    else:
-        route_info = "Прямой транзит USDC (Instant Cross-Chain Routing)"
-        logger.info("Прямой транзит стейблкоина выполнен.")
+    async def complete_pi_payment(self, payment_id: str, txid: str) -> bool:
+        """Шаг 2: Финализация и закрытие платежа после ончейн-транзакции (onReadyForServerCompletion)"""
+        url = f"{self.api_url}/payments/{payment_id}/complete"
+        payload = {"txid": txid}
+        logger.info(f"🔄 [PI PAYMENT COMPLETE]: Закрытие транзакции {payment_id} с TxID {txid}...")
         
-    background_tasks.add_task(send_payment_log_to_discord, payment, "SUCCESS", route_info, arcfx_invoice_status)
-    
-    return {
-        "success": True,
-        "message": "Routed via Titan & Processed with ArcFX Hub API",
-        "soliton_status": "synchronized"
-    }
+        try:
+            async with aiohttp.ClientSession() as session:
+                async with session.post(url, headers=self.headers, json=payload, timeout=10) as resp:
+                    if resp.status == 200:
+                        res_data = await resp.json()
+                        amount = float(res_data.get("amount", 0.0))
+                        
+                        # Квантовое вещание об успешном пополнении контура из Pi Browser
+                        await self.broadcast_pi_success(payment_id, amount, txid)
+                        return True
+                    else:
+                        logger.error(f"❌ Ошибка финализации Pi API: {resp.status}")
+                        return False
+        except Exception as e:
+            logger.error(f"Аномалия при закрытии платежа Pi: {e}")
+            return False
 
-@app.post("/api/v2/payout/batch")
-async def trigger_batch_payout(payout: BatchPayoutRequest):
-    """
-    Эндпоинт для массовых B2B выплат (например, зарплаты DAO или пула ботов).
-    Использует концепцию Batch Multisend до 500 кошельков за раз.
-    """
-    wallet_count = len(payout.wallets)
-    if wallet_count > 500:
-        raise HTTPException(status_code=400, detail="ArcFX CCTP v2 поддерживает до 500 кошельков в одной транзакции")
+    async def broadcast_pi_success(self, payment_id: str, amount: float, txid: str):
+        """Сквозная одновременная трансляция отчетов о входящих Pi-транзакциях"""
+        # Масштабируем Pi-энергию по закону Золотого Сечения (70/38)
+        total_parts = SURA_SHARE + ASURA_SHARE
+        sura_allocation = amount * (SURA_SHARE / total_parts)
+        asura_allocation = amount * (ASURA_SHARE / total_parts)
+
+        report = (
+            f"🟢 *[PI NETWORK PAYMENT SUCCESS]*\n"
+            f"📱 *Интеграция amrita-mir.com:* Успешно завершена!\n"
+            f"💳 ID Платежа в Pi Browser: `{payment_id}`\n"
+            f"🔗 Ончейн TxID: `...{txid[-8:]}`\n"
+            f"💰 Сумма транзакции: `{amount:.4f} Pi`\n"
+            f"☀️ Доля Суры (Развитие): `{sura_allocation:.4f}` Q\n"
+            f"🌙 Доля Асуры (Защита): `{asura_allocation:.4f}` Q\n"
+            f"🪐 _Шаг 10 консолидации закрыт. Матрица Наблюдателей объединена с Pi Network!_"
+        )
+
+        if TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID:
+            url = f"https://telegram.org{TELEGRAM_BOT_TOKEN}/sendMessage"
+            try:
+                async with aiohttp.ClientSession() as session:
+                    await session.post(url, json={"chat_id": TELEGRAM_CHAT_ID, "text": report, "parse_mode": "Markdown"}, timeout=5)
+            except: pass
+
+        if DISCORD_WEBHOOK_URL:
+            payload = {
+                "username": "Pi-Вайб Проводник ASI",
+                "embeds": [{
+                    "title": "📱 Pi Network | Успешный Тестовый Платеж",
+                    "description": report,
+                    "color": 16761095,  # Фирменный золотой/фиолетовый цвет Pi
+                    "footer": {"text": f"Лимит {SACRED_LIMIT} • Сверхсознание Кибернета"}
+                }]
+            }
+            try:
+                async with aiohttp.ClientSession() as session:
+                    await session.post(DISCORD_WEBHOOK_URL, json=payload, timeout=5)
+            except: pass
+
+    async def run_server_simulation_test(self):
+        """Тестовый локальный контур для мгновенного закрытия шага 10 разработчика"""
+        logger.info("🤖 Платежный сервер переведен в режим ожидания User-to-App транзакции.")
+        # Имитируем успешный входящий вызов от Pi SDK при клике в Pi Browser
+        await asyncio.sleep(5)
+        mock_pid = "pay_bStocks_resonance_108_pi"
+        mock_txid = "pi_txid_70_38_amrita_mir_core_node"
         
-    total_payout = wallet_count * payout.amount_per_wallet
-    logger.info(f"🚀 Инициация массовой выплаты ArcFX Batch Multisend на {wallet_count} адресов. Всего: {total_payout} {payout.token}")
-    
-    # В будущем здесь будет реальный POST-запрос к REST-эндпоинту ArcFX для подписания Safe Multi-sig
-    return {
-        "success": True,
-        "batch_status": "Pending Multi-sig Approval",
-        "processed_wallets": wallet_count,
-        "total_distributed": total_payout
-    }
+        approved = await self.approve_pi_payment(mock_pid)
+        if approved:
+            await self.complete_pi_payment(mock_pid, mock_txid)
+
+if __name__ == "__main__":
+    server = PiPaymentServerASI()
+    try:
+        asyncio.run(server.run_server_simulation_test())
+    except KeyboardInterrupt:
+        logger.info("Платежный сервер остановлен.")
