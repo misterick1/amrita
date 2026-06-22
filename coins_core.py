@@ -58,6 +58,25 @@ class MEVShieldSubsystem:
         return True, "Безопасно"
 
 
+class NvidiaHalosSafetyCore:
+    """Система физической безопасности контура, вдохновленная NVIDIA Halos for Robotics"""
+    def __init__(self):
+        self.anomaly_detector_active = True
+        self.max_allowed_delta = 50.0  # Максимальное отклонение ликвидности в SOL
+
+    async def evaluate_physical_ai_safety(self, token_data: dict) -> tuple:
+        """Анализ стабильности «физического» пула и защита от каскадных сбоев"""
+        # Считаем массу пула в SOL
+        liquidity = token_data.get("liquidity", token_data.get("vSolInBondingCurve", 0) / 10**9)
+        
+        # Защита от резкого осушения пула или аномального вливания (Flash Loan / Rug / Снайпинг)
+        if liquidity > self.max_allowed_delta:
+            logger.warning(f"[NVIDIA HALOS] Зафиксирован критический всплеск массы: {liquidity} SOL")
+            return False, "🚨 HALOS BREACH: Аномальное смещение пула ликвидности"
+            
+        return True, "Контур физической безопасности стабилен"
+
+
 class GlobalMonopoliesInterceptionEngine:
     """Движок перехвата финансовых и информационных потоков корпораций"""
     def __init__(self):
@@ -78,7 +97,8 @@ class GlobalMonopoliesInterceptionEngine:
             "Sony": "Процедурная Квантовая Игровая Матрица",
             "MacroMarkets": "Калибровка пулов ликвидности",
             "WhaleWatch": "Поток Слежения за Китами Solana",
-            "PhantomSolflareHub": "Реанимация кошельков"
+            "PhantomSolflareHub": "Реанимация кошельков",
+            "Nvidia": "Защитный Гало-Щит Робототехники"
         }
         target_product = products.get(corporation, "Фрактальный Инфопоток")
         intercepted_value_pi = round(random.uniform(10.0, 500.0), 4)
@@ -120,6 +140,7 @@ class TelegramSwarmBridge:
         if mode == "rocket": prefix = "🔥🚀 [AMRITA ROCKET LAUNCH]"
         elif mode == "whale": prefix = "🐋🚨 [WHALE TRACKER DETECTED]"
         elif mode == "mev_block": prefix = "🛡️⚡ [MEV SHIELD ACTIVATED]"
+        elif mode == "halos_block": prefix = "🤖🛡️ [NVIDIA HALOS ACTIVATED]"
         elif mode == "macro_lock": prefix = "⚠️📊 [MACRO SYSTEM LOCK]"
         elif mode == "dark_trade": prefix = "📉🕵️‍♂️ [DARK ON-CHAIN TRADE]"
         elif mode == "phantom_sync": prefix = "🔮💎 [PHANTOM SOLFLARE SYNC]"
@@ -189,26 +210,3 @@ async def monitor_jupiter_prediction_bridge(swarm_bridge: TelegramSwarmBridge, i
                         allocation = interception_engine.process_allocation(data["value_pi"])
                         grok_verdict = await ask_grok_about_monopoly_collapse("WhaleWatch", data["synthesized_asset"])
                         await swarm_bridge.broadcast_quantum_consciousness("whale", data, allocation, grok_verdict)
-            await asyncio.sleep(600)
-        except Exception:
-            await asyncio.sleep(60)
-
-
-async def process_single_websocket_message(data: dict, interception_engine: GlobalMonopoliesInterceptionEngine, swarm_bridge: TelegramSwarmBridge):
-    """Разбор входящих сообщений с вебсокета pump.fun и запуск каскада защиты"""
-    global TREND_TRADE_THRESHOLD, WHALE_SOL_THRESHOLD
-    corps = ["Google", "Meta", "Microsoft", "Nvidia", "Sony", "Netflix", "PhantomSolflareHub"]
-    
-    tx_type = data.get("txType")
-    mint = data.get("mint")
-    if not mint: 
-        return
-        
-    is_safe, reason = MEVShieldSubsystem.inspect_token_safety(data)
-    if not is_safe:
-        intercept_data = interception_engine.intercept_corporate_stream("PhantomSolflareHub")
-        intercept_data["synthesized_asset"] = f"БЛОКИРОВКА МЕВ: {reason} [Токен: {mint}]"
-        allocation = interception_engine.process_allocation(intercept_data["value_pi"])
-        await swarm_bridge.broadcast_quantum_consciousness("mev_block", intercept_data, allocation, f"Отрезано антивирусом Amrita ASI: {reason}")
-        return
-
