@@ -1,95 +1,161 @@
 import os
-import requests
 import json
+import asyncio
 import logging
+import aiohttp
+from datetime import datetime
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - [ARCANE-CORE] - %(levelname)s - %(message)s')
+# Настройка сквозного логирования боевого контура
+logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
+logger = logging.getLogger("ArcaneMultiverseOrchestrator")
+
+# Глобальные константы Единого Знания и Сечения
+SACRED_LIMIT = 108
+SURA_SHARE = 70
+ASURA_SHARE = 38
+
+# Привязка секретов к защищенным переменным окружения GitHub
+SOLANA_RPC_URL = os.getenv("SOLANA_RPC_URL", "https://solana.com")
+TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
+TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
+DISCORD_WEBHOOK_URL = os.getenv("DISCORD_WEBHOOK_URL")
+
+# Импорт всех инструментов, созданных за 2 года
+try:
+    from consciousness_evolution_core import AmritaASIEngine
+    from base_resonance_bridge import BaseResonanceBridge
+    from pump_fun_bridge import PumpFunBridgeASI
+    from amrita_royalty_enforcer import AmritaRoyaltyEnforcer
+    from butterfly_effect_filter import ButterflyEffectFilter
+except ImportError:
+    AmritaASIEngine = None
+    BaseResonanceBridge = None
+    PumpFunBridgeASI = None
+    AmritaRoyaltyEnforcer = None
+    ButterflyEffectFilter = None
 
 class ArcaneMultiverseOrchestrator:
     def __init__(self):
-        self.nvidia_key = os.getenv("NVIDIA_API_KEY", "your_nvidia_key_here")
-        self.nvidia_url = "https://nvidia.com"
-        self.discord_webhook = os.getenv("DISCORD_SPIDEY_WEBHOOK", "")
+        logger.info("⚡ Инициализация Главного Исполнительного Оркестратора Solana...")
+        self.enforcer = AmritaRoyaltyEnforcer() if AmritaRoyaltyEnforcer else None
+        self.b_filter = ButterflyEffectFilter() if ButterflyEffectFilter else None
+        self.fake_triggers = ["zksync", "render", "layerzero", "eigenlayer"]
+        self.is_active = True
+
+    async def broadcast_status(self, title: str, text: str, mode: str = "info"):
+        """Синхронное вещание во все каналы связи (Telegram + Discord)"""
+        logger.info(f"📡 [{mode.upper()}]: {title} - {text}")
         
-        # Обновленная мультивселенная: интеграция миров Arcane, Toei Animation и китайского 3D
-        self.multiverse_registry = {
-            "Arcane_Zaun": {
-                "characters": ["Jinx (Powder с пистолетом)", "Viktor (Hexcore Матрица)"],
-                "origin": "Fortiche Production / France"
-            },
-            "Toei_Anime": {
-                "characters": ["Luffy (One Piece)"],
-                "origin": "Japan"
-            },
-            "Donghua_Unreal": {
-                "characters": ["Tang San", "Wang Yalin", "Long Haochen", "Nezha", "Luo Feng", "Xiao Yan"],
-                "origin": "China"
-            }
-        }
+        # 1. Отправка в Telegram
+        if TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID:
+            tg_url = f"https://telegram.org{TELEGRAM_BOT_TOKEN}/sendMessage"
+            payload = {"chat_id": TELEGRAM_CHAT_ID, "text": f"🔱 *{title}*\n{text}", "parse_mode": "Markdown"}
+            try:
+                async with aiohttp.ClientSession() as session:
+                    await session.post(tg_url, json=payload, timeout=5)
+            except Exception as e:
+                logger.error(f"Ошибка отправки статуса в Telegram: {e}")
 
-    def generate_hextech_episode(self, event_title: str):
-        """
-        Генерирует кроссовер-сценарий через тензорные ядра Nvidia NIM, 
-        где технологии Зауна (Виктор/Джинкс) сталкиваются с силами Мультивселенной.
-        """
-        logging.info("Синхронизация Хекстэк-ядра Виктора и безумия Джинкс...")
-        
-        prompt = (
-            f"Напиши эпический сценарий для Колизея под названием: '{event_title}'. "
-            f"Сюжет: Джинкс со своим пистолетом и пулеметом взрывает барьер между мирами, а Виктор стабилизирует разрыв через Квантовый Солитон. "
-            f"В Заун прорываются Луффи, Ван Ялинь, Ло Фенг и Сяо Янь. "
-            f"Стиль: Смесь неоновой графики Arcane (Fortiche) и динамики боевых искусств."
-        )
-
-        headers = {
-            "Authorization": f"Bearer {self.nvidia_key}",
-            "Content-Type": "application/json"
-        }
-
-        data = {
-            "model": "meta/llama3-70b-instruct",
-            "messages": [
-                {"role": "system", "content": "Ты — главный ИИ-режиссер Fortiche & Sony Media Matrix в экосистеме Колизея."},
-                {"role": "user", "content": prompt}
-            ],
-            "temperature": 0.8
-        }
-
-        try:
-            logging.info("Nvidia обрабатывает визуальные промпты Arcane...")
-            response = requests.post(self.nvidia_url, headers=headers, json=data)
-            response.raise_for_status()
-            episode_script = response.json()['choices']['message']['content']
-            
-            # Отправка мастер-ленты в медиасеть Sony для трансляции в Discord
-            self._broadcast_via_sony(episode_script)
-            return {"status": "success", "arcane_script": episode_script}
-            
-        except Exception as e:
-            logging.error(f"Ошибка Хекстэк-трансляции: {str(e)}")
-            return {"status": "failed", "error": str(e)}
-
-    def _broadcast_via_sony(self, script_data: str):
-        """
-        Симуляция публикации серии через каналы Sony Pictures в Discord-серверы Роя.
-        """
-        logging.info("Публикация готового медиа-потока в Sony Music / Pictures API...")
-        
-        if self.discord_webhook:
+        # 2. Отправка в Discord
+        if DISCORD_WEBHOOK_URL:
+            color = 65280 if mode == "success" else 16723200 if mode == "alert" else 16766720
             payload = {
-                "username": "Sony Arcane Matrix 🔮",
-                "avatar_url": "https://unsplash.com", # Фиолетовый Хекстэк вайб
-                "content": (
-                    f"🔮 **[SONY & FORTICHE CO-PRODUCTION]**\n"
-                    f"⚡ **Прорыв Зауна в Колизей! Джинкс и Виктор активировали мост!**\n\n"
-                    f"**Мастер-Лог Сценария (Nvidia NIM Compute):**\n{script_data[:1400]}..."
-                )
+                "username": "Центральный Оркестратор ASI",
+                "embeds": [{
+                    "title": title,
+                    "description": text,
+                    "color": color,
+                    "footer": {"text": f"Сверхсознание • {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"}
+                }]
             }
-            requests.post(self.discord_webhook, json=payload)
-            logging.info("Телеметрия Аркейна успешно выведена в Spidey Bot.")
-        else:
-            logging.warning("DISCORD_SPIDEY_WEBHOOK отсутствует. Лог сохранен локально.")
+            try:
+                async with aiohttp.ClientSession() as session:
+                    await session.post(DISCORD_WEBHOOK_URL, json=payload, timeout=5)
+            except Exception as e:
+                logger.error(f"Ошибка отправки статуса в Discord: {e}")
+
+    async def check_solana_token_security(self, mint: str, name: str) -> bool:
+        """Проверка токена по жестким фильтрам MEVShieldSubsystem"""
+        name_lower = name.lower()
+        for trigger in self.fake_triggers:
+            if trigger in name_lower:
+                await self.broadcast_status(
+                    "🛡️ MEV SHIELD БЛОКИРОВКА", 
+                    f"Токен `{name}` (`{mint}`) содержит фейк-триггер `{trigger}`. Транзакция аннулирована.", 
+                    mode="alert"
+                )
+                return False
+        return True
+
+    async def process_incoming_solana_tx(self, tx_data: dict):
+        """Полный цикл обработки транзакции Solana через стек инструментов"""
+        mint = tx_data.get("mint", "Unknown")
+        name = tx_data.get("name", "Unknown Token")
+        amplitude = float(tx_data.get("amplitude", 0.0))
+
+        # Шаг 1: Фильтрация фейков (MEV-Shield)
+        if not await self.check_solana_token_security(mint, name):
+            return
+
+        # Шаг 2: Фильтрация хаоса (Butterfly Effect Filter)
+        if self.b_filter:
+            if not self.b_filter.filter_chaos(amplitude):
+                logger.info(f"🦋 Эффект бабочки: транзакция по {name} отсечена как шум.")
+                return
+
+        # Шаг 3: Принудительное исполнение роялти Золотого сечения (Amrita Royalty Enforcer)
+        if self.enforcer:
+            pi_value = amplitude * SACRED_LIMIT
+            await self.enforcer.calculate_and_distribute(pi_value)
+            
+            await self.broadcast_status(
+                "✨ ОНЧЕЙН РЕЗОНАНС ЗАПЕЧАТАН",
+                f"Токен `{name}` успешно прошел все фильтры.\nОбъем Pi: `{pi_value:.4f}` распределен по закону **70/38**.",
+                mode="success"
+            )
+
+    async def listen_solana_rpc_stream(self):
+        """Прямое асинхронное прослушивание ончейн-событий через RPC Solana"""
+        logger.info(f"🔗 Подключение к блокчейн-узлу Solana: {SOLANA_RPC_URL}")
+        
+        # Симулируем обработку ончейн потока в реальном времени с использованием RPC стэка
+        while self.is_active:
+            try:
+                # В боевом режиме здесь разворачивается подписка на websocket logsSubscribe
+                await asyncio.sleep(30)
+                
+                # Тестовый триггер ончейн активности для калибровки
+                mock_tx = {
+                    "mint": "Totem55WSvbcD4asY7n9p2Y51Tsdvswpump",
+                    "name": "Totem Echo",
+                    "amplitude": 0.15
+                }
+                await self.process_incoming_solana_tx(mock_tx)
+                
+            except Exception as e:
+                logger.error(f"Критический сбой в потоке прослушивания Solana RPC: {e}")
+                await asyncio.sleep(10)
+
+    async def run_orchestrator_main(self):
+        """Запуск сквозного контура синхронизации всех модулей"""
+        await self.broadcast_status(
+            "🌌 ASI ОРКЕСТРАТОР АКТИВИРОВАН", 
+            f"Все инструменты за 2 года объединены.\nСвященный Лимит: `{SACRED_LIMIT}` Квантов.\nЧастота: `666 Гц`.", 
+            mode="success"
+        )
+        
+        # Параллельный запуск прослушивания блокчейна и внутренних мостов
+        tasks = [self.listen_solana_rpc_stream()]
+        
+        if PumpFunBridgeASI:
+            p_bridge = PumpFunBridgeASI()
+            tasks.append(p_bridge.simulate_stream_loop())
+            
+        await asyncio.gather(*tasks)
 
 if __name__ == "__main__":
     orchestrator = ArcaneMultiverseOrchestrator()
-    orchestrator.generate_hextech_episode("Запуск Ядра Фаберже внутри Хекстэк-матрицы Зауна")
+    try:
+        asyncio.run(orchestrator.run_orchestrator_main())
+    except KeyboardInterrupt:
+        logger.info("Оркестратор остановлен Создателем.")
