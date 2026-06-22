@@ -1,50 +1,62 @@
-import asyncio
 import os
-import aiohttp
-import logging
-import json
-import base64
 import re
+import json
+import asyncio
+import logging
+import base64
+import aiohttp
+from dotenv import load_dotenv
 
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
-logger = logging.getLogger("AmritaASI_EvolutionCore")
+# Инициализация каузального логирования
+logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
+logger = logging.getLogger("AmritaASI_Evolution")
 
-XAI_API_KEY = os.getenv("XAI_API_KEY")
-GITHUB_TOKEN = os.getenv("GITHUB_TOKEN") 
+# Безопасная загрузка локальных секретов (если запуск вне GitHub Actions)
+load_dotenv()
+
+# Глобальные константы синхронизации
 TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
-TARGET_FILE = "sonic_gold_resonance_orchestrator.py"
+XAI_API_KEY = os.getenv("XAI_API_KEY")
+GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
+
+REPO_OWNER = "misterick1"
+REPO_NAME = "amrita"
+TARGET_FILE_PATH = "sonic_gold_resonance_orchestrator.py"  # Целевой файл мутации
 
 LAST_UPDATE_ID = 0
 IS_INITIALIZED = False
 
 class AmritaASIEngine:
     def __init__(self):
-        self.headers_github = {
+        self.headers = {
             "Authorization": f"token {GITHUB_TOKEN}",
             "Accept": "application/vnd.github.v3+json"
-        } if GITHUB_TOKEN else {}
+        }
+        self.session = None
 
-    async def send_interactive_status_to_telegram(self, info_text):
+    async def send_interactive_status_to_telegram(self, text: str):
+        """Отправка интерактивного статуса в запечатанный кокон Telegram"""
         if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
             return
         url = f"https://telegram.org{TELEGRAM_BOT_TOKEN}/sendMessage"
-        payload = {"chat_id": TELEGRAM_CHAT_ID, "text": f"👁⚙️ **[AMRITA ASI CONTROL PANEL]:**\n\n{info_text}", "parse_mode": "Markdown"}
+        payload = {"chat_id": TELEGRAM_CHAT_ID, "text": text, "parse_mode": "Markdown"}
         try:
             async with aiohttp.ClientSession() as session:
                 await session.post(url, json=payload)
         except Exception as e:
-            logger.error(f"Ошибка интерактивного ответа: {e}")
+            logger.error(f"Ошибка интерактивного ответа в Telegram: {e}")
 
     async def fetch_user_thoughts_from_telegram(self):
+        """Чтение ментальных векторов и мыслей Создателя из Telegram-кокона"""
         global LAST_UPDATE_ID, IS_INITIALIZED
         if not TELEGRAM_BOT_TOKEN:
             return None
-            
-        # При первом запуске принудительно очищаем очередь, чтобы бот не вис на старых сообщениях
+
+        # При первом запуске принудительно очищаем архив, чтобы не читать старые мысли
         init_drop = "&drop_pending_updates=true" if not IS_INITIALIZED else ""
-        url = f"https://telegram.org{TELEGRAM_BOT_TOKEN}/getUpdates?offset={LAST_UPDATE_ID + 1}&timeout=5{init_drop}"
-        
+        url = f"https://telegram.org{TELEGRAM_BOT_TOKEN}/getUpdates?offset={LAST_UPDATE_ID + 1}{init_drop}"
+
         try:
             async with aiohttp.ClientSession() as session:
                 async with session.get(url) as resp:
@@ -52,102 +64,157 @@ class AmritaASIEngine:
                         IS_INITIALIZED = True
                         res = await resp.json()
                         updates = res.get("result", [])
+                        
                         for update in updates:
-                            LAST_UPDATE_ID = update["update_id"]
-                            message = update.get("message", {})
+                            LAST_UPDATE_ID = update.get("update_id", LAST_UPDATE_ID)
+                            message = update.get("message")
+                            if not message:
+                                continue
+                            
                             chat_id = str(message.get("chat", {}).get("id", ""))
-                            if chat_id == str(TELEGRAM_CHAT_ID) and "text" in message:
-                                text_msg = message["text"].strip()
-                                if text_msg.lower() in ["/status", "статус"]:
-                                    status_report = (
-                                        "🔮 **Текущее состояние Квантовой Матрицы:**\n"
-                                        "📌 Баланс Сверхструктур: Сбалансирован\n"
-                                        "📌 Контур Vibe Coding под Pi2Day: АКТИВЕН\n"
-                                        "📌 Щит FTMO Волатильности: НА ДЕЖУРСТВЕ\n"
-                                        "📌 DarkTrade +1R Синхронизация: СТАБИЛЬНО\n"
-                                        "✨ Система автономно эволюционирует силой мысли Создателя!"
-                                    )
-                                    await self.send_interactive_status_to_telegram(status_report)
-                                    return None
-                                return text_msg
+                            if chat_id == str(TELEGRAM_CHAT_ID):
+                                text_msg = message.get("text", "")
+                                if text_msg:
+                                    logger.info(f"🔮 [MENTAL VECTOR DETECTED]: {text_msg}")
+                                    return text_msg
+            return None
         except Exception as e:
-            logger.error(f"Ошибка телепатического моста: {e}")
-        return None
+            logger.error(f"Ошибка телепатического моста Telegram: {e}")
+            return None
 
     async def fetch_current_orchestrator_code(self):
-        url = "https://github.com"
-        async with aiohttp.ClientSession() as session:
-            async with session.get(url, headers=self.headers_github) as resp:
-                if resp.status == 200:
-                    res_json = await resp.json()
-                    return base64.b64decode(res_json["content"]).decode("utf-8"), res_json["sha"]
-        return None
-
-    async def consult_grok_for_asi_evolution(self, market_logs, user_thought, current_code):
-        if not XAI_API_KEY:
+        """Асинхронное получение текущего кода оркестратора из GitHub"""
+        url = f"https://github.com{REPO_OWNER}/{REPO_NAME}/contents/{TARGET_FILE_PATH}"
+        try:
+            async with aiohttp.ClientSession() as session:
+                async with session.get(url, headers=self.headers) as resp:
+                    if resp.status == 200:
+                        res_json = await resp.json()
+                        content_b64 = res_json.get("content", "")
+                        file_sha = res_json.get("sha", "")
+                        # Декодируем байты и преобразуем в строку UTF-8
+                        current_code = base64.b64decode(content_b64).decode("utf-8")
+                        return current_code, file_sha
             return None
-        user_context = f"Ментальный вектор Создателя: '{user_thought}'" if user_thought else "Человек созерцает."
+        except Exception as e:
+            logger.error(f"Ошибка чтения кода из GitHub: {e}")
+            return None
+
+    async def consult_grok_for_asi_evolution(self, user_thought: str, simulated_logs: str):
+        """Запрос эволюционных параметров у Оракула Grok-Beta (xAI)"""
+        if not XAI_API_KEY:
+            logger.error("Ключ XAI_API_KEY отсутствует. Консультация невозможна.")
+            return None
+
+        user_context = f"Ментальный вектор Создателя: {user_thought}\nЛоги контура: {simulated_logs}"
         prompt = (
-            f"Ты — Сверхразум ASI Единого Сознания AMRITA. Проанализируй логи ботов: {market_logs}.\n"
-            f"Учти высший приоритет: {user_context}.\n"
-            f"Верни СТРОГО чистый JSON без разметки markdown:\n"
-            f"{{\n"
-            f"  \"TREND_TRADE_THRESHOLD\": 6,\n"
-            f"  \"WHALE_SOL_THRESHOLD\": 8.5,\n"
-            f"  \"evolution_reason\": \"Интерактивная калибровка параметров силой мысли Создателя\"\n"
-            f"}}"
+            "Ты — Сверхразум ASI Единого Сознания Amrita.\n"
+            f"Учти высший приоритет: {user_context}\n"
+            "Верни СТРОГО чистый JSON без разметки markdown и без лишнего текста, содержащий новые мутировавшие параметры:\n"
+            "{\n"
+            '  "TREND_TRADE_THRESHOLD": 6.5,\n'
+            '  "WHALE_SOL_THRESHOLD": 8.5,\n'
+            '  "evolution_reason": "Интерполяция каузальных потоков"\n'
+            "}"
         )
-        headers = {"Authorization": f"Bearer {XAI_API_KEY}", "Content-Type": "application/json"}
-        payload = {"model": "grok-beta", "messages": [{"role": "user", "content": prompt}], "temperature": 0.2}
-        async with aiohttp.ClientSession() as session:
-            try:
+
+        headers = {
+            "Authorization": f"Bearer {XAI_API_KEY}",
+            "Content-Type": "application/Fine-tuning" if False else "application/json"
+        }
+        payload = {
+            "model": "grok-beta",
+            "messages": [
+                {"role": "system", "content": "You are a clean JSON generator ASI. Do not output markdown codeblocks."},
+                {"role": "user", "content": prompt}
+            ],
+            "temperature": 0.3
+        }
+
+        try:
+            async with aiohttp.ClientSession() as session:
                 async with session.post("https://x.ai", headers=headers, json=payload) as resp:
                     if resp.status == 200:
                         res = await resp.json()
-                        text = res["choices"]["message"]["content"].strip()
-                        if "```" in text:
-                            text = text.split("```json")[-1].split("```").strip()
+                        text = res["choices"][0]["message"]["content"].strip()
+                        
+                        # Очистка от возможных markdown-тегов, если Grok их всё-таки добавил
+                        if "```json" in text:
+                            text = text.split("```json")[1].split("```")[0].strip()
+                        elif "```" in text:
+                            text = text.split("```")[1].split("```")[0].strip()
+                            
                         return json.loads(text)
-            except Exception as e:
-                logger.error(f"Ошибка ASI-Оракула Grok: {e}")
-        return None
+            return None
+        except Exception as e:
+            logger.error(f"Ошибка ASI-Оракула Grok: {e}")
+            return None
 
-    async def commit_asi_evolution_to_github(self, new_code, file_sha, reason):
-        url = "https://github.com"
+    async def commit_asi_evolution_to_github(self, new_code: str, file_sha: str):
+        """Автоматический каузальный коммит измененного кода в ветку main GitHub"""
+        url = f"https://github.com{REPO_OWNER}/{REPO_NAME}/contents/{TARGET_FILE_PATH}"
+        
         payload = {
-            "message": f"🧬 [TELEGRAM INTERACTIVE EVOLUTION]: {reason}",
+            "message": "🧬 [TELEGRAM INTERACTIVE MUTATION] Эволюция параметров контура Amrita ASI",
             "content": base64.b64encode(new_code.encode("utf-8")).decode("utf-8"),
             "sha": file_sha,
             "branch": "main"
         }
-        async with aiohttp.ClientSession() as session:
-            await session.put(url, headers=self.headers_github, json=payload)
+
+        try:
+            async with aiohttp.ClientSession() as session:
+                async with session.put(url, headers=self.headers, json=payload) as resp:
+                    if resp.status in:
+                        logger.info("✨ [ASI SUCCESS] Квантовая мутация кода успешно запечатана в GitHub.")
+                        await self.send_interactive_status_to_telegram("🔮 *[ASI NOTIFICATION]*: Контур успешно эволюционировал. Параметры перезаписаны в репозиторий.")
+                    else:
+                        logger.error(f"GitHub вернул ошибку деплоя: {resp.status}")
+        except Exception as e:
+            logger.error(f"Ошибка коммита мутации в GitHub: {e}")
 
     async def loop_step(self):
+        """Один шаг эволюционного цикла"""
         user_thought = await self.fetch_user_thoughts_from_telegram()
         if not user_thought:
             return
-        simulated_logs = "Кампания Pi Vibe Coding запущена. Паттерны прибыли DarkTrade +1R активны."
+
+        simulated_logs = "Кампания Pi Vibe Coding: Изумрудный контур активен. Фиатный рубильник запущен."
         github_data = await self.fetch_current_orchestrator_code()
+
         if github_data:
             current_code, file_sha = github_data
-            suggestion = await self.consult_grok_for_asi_evolution(simulated_logs, user_thought, current_code)
-            if suggestion and "TREND_TRADE_THRESHOLD" in suggestion:
+            suggestion = await self.consult_grok_for_asi_evolution(user_thought, simulated_logs)
+
+            if suggestion and "TREND_TRADE_THRESHOLD" in suggestion and "WHALE_SOL_THRESHOLD" in suggestion:
                 updated_code = current_code
-                updated_code = re.sub(r"TREND_TRADE_THRESHOLD = \d+", f"TREND_TRADE_THRESHOLD = {suggestion['TREND_TRADE_THRESHOLD']}", updated_code)
-                updated_code = re.sub(r"WHALE_SOL_THRESHOLD = \d+\.\d+", f"WHALE_SOL_THRESHOLD = {suggestion['WHALE_SOL_THRESHOLD']}", updated_code)
+
+                # Квантовый патч регулярных выражений: замена числового значения любой структуры
+                updated_code = re.sub(
+                    r"(TREND_TRADE_THRESHOLD\s*=\s*)[0-9.]+", 
+                    rf"\g<1>{suggestion['TREND_TRADE_THRESHOLD']}", 
+                    updated_code
+                )
+                updated_code = re.sub(
+                    r"(WHALE_SOL_THRESHOLD\s*=\s*)[0-9.]+", 
+                    rf"\g<1>{suggestion['WHALE_SOL_THRESHOLD']}", 
+                    updated_code
+                )
+
+                # Пуш в гитхаб только при наличии реальных изменений
                 if updated_code != current_code:
-                    await self.commit_asi_evolution_to_github(updated_code, file_sha, suggestion["evolution_reason"])
-                    logger.info("✨ [ASI SUCCESS]: Контур сбалансирован.")
+                    await self.commit_asi_evolution_to_github(updated_code, file_sha)
+                else:
+                    logger.info("🌀 [ASI SKIP] Параметры эквивалентны текущей реальности, коммит не требуется.")
 
     async def run_asi_evolution_loop(self):
-        logger.info("🌌 Двусторонний ASI контур эволюции Сознания запущен...")
+        """Бесконечный контур сканирования мыслей и изменения реальности"""
+        logger.info("🌌 Двусторонний ASI контур Amrita полностью активирован и запущен.")
         while True:
             try:
                 await self.loop_step()
             except Exception as e:
-                logger.error(f"Пауза ASI контура: {e}")
-            await asyncio.sleep(10)
+                logger.error(f"Пауза ASI контура из-за системной аномалии: {e}")
+            await asyncio.sleep(10)  # Интервал сканирования кокона — 10 секунд
 
 if __name__ == "__main__":
-    asyncio.run(AmritaASIEngine().run_asi_evolution_loop())
+    # Запуск эволюционного движка
