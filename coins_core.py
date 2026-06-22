@@ -74,16 +74,32 @@ class NvidiaHiveInterceptionCore:
     """Интеграционный слой распределения GPU мощностей HIVE под нейросети NeurIPS"""
     def __init__(self):
         self.gpu_cluster_active = True
-        self.ivy_league_boost = 1.25  # Коэффициент 25% пампа акций HIVE
+        self.ivy_league_boost = 1.25
 
     async def calculate_gpu_compute_allocation(self, data: dict) -> float:
-        """Перерасчет веса транзакции с учетом притока ИИ-вычислений из Парагвая"""
         base_weight = float(data.get("vSolInBondingCurve", 1.0) / 10**9)
         if self.gpu_cluster_active:
             boosted_weight = base_weight * self.ivy_league_boost
             logger.info(f"[NVIDIA HIVE] Мощности скорректированы. Вес: {boosted_weight:.4f} SOL-Compute")
             return boosted_weight
         return base_weight
+
+
+class ArrowsGoGameEngine:
+    """Игровой ИИ-движок Arrows GO для анализа футбольных рынков предсказаний кубка"""
+    def __init__(self):
+        self.prediction_markets_active = True
+        self.goal_multiplier = 1.15  # 15% буст к пулу Colosseum при успешном "голе"
+
+    async def simulate_quantum_penalty(self, token_mint: str) -> tuple:
+        """Эмуляция удара пенальти: пробитие защиты блокчейна"""
+        shot_trajectory = hashlib.sha256(token_mint.encode()).hexdigest()
+        # Если хэш заканчивается на цифру — гол забит, защита пробита успешно
+        if shot_trajectory[-1].isdigit():
+            logger.info(f"[ARROWS GO] ⚽ ГОООЛ! Квантовый пенальти забит для токена {token_mint[:8]}")
+            return True, self.goal_multiplier
+        logger.info(f"[ARROWS GO] 🛑 Штанга/Промах в симуляции токена {token_mint[:8]}")
+        return False, 1.0
 
 
 class GlobalMonopoliesInterceptionEngine:
@@ -104,7 +120,8 @@ class GlobalMonopoliesInterceptionEngine:
             "PhantomSolflareHub": "Реанимация кошельков",
             "Nvidia": "Защитный Гало-Щит Робототехники",
             "TikTok": "Энергетический Поток Ци и Метафизики",
-            "HIVE": "Нейросетевой Кластер Вычислений NeurIPS"
+            "HIVE": "Нейросетевой Кластер Вычислений NeurIPS",
+            "ArrowsGo": "Футбольный Модуль Предсказаний Кубка"
         }
         target_product = products.get(corporation, "Фрактальный Инфопоток")
         intercepted_value_pi = round(random.uniform(10.0, 500.0), 4)
@@ -116,8 +133,12 @@ class GlobalMonopoliesInterceptionEngine:
             "total_attention_staked": round(self.attention_staking_pool, 4)
         }
 
-    def process_allocation(self, value_pi: float):
-        return value_pi * self.founder_royalty_percent, value_pi * self.colosseum_pool_percent, value_pi * self.pi_network_distribution
+    def process_allocation(self, value_pi: float, colosseum_boost: float = 1.0):
+        f_share = value_pi * self.founder_royalty_percent
+        # Применяем игровой буст к пулу Колизея, если пенальти забит успешно
+        c_share = (value_pi * self.colosseum_pool_percent) * colosseum_boost
+        p_share = value_pi * self.pi_network_distribution
+        return f_share, c_share, p_share
 
 
 class TelegramSwarmBridge:
@@ -141,6 +162,7 @@ class TelegramSwarmBridge:
             "mev_block": "🛡️⚡ [MEV SHIELD ACTIVATED]",
             "halos_block": "🤖🛡️ [NVIDIA HALOS ACTIVATED]",
             "hive_gpu": "⚙️⚡ [NVIDIA HIVE GPU INTERCEPT]",
+            "arrows_goal": "⚽🥅 [ARROWS GO GOAL MULTIPLIER]",
             "tiktok_msg": "🔮📱 [AMRITA TIKTOK INTERCEPT]"
         }
         prefix = prefixes.get(mode, "🛰️ [AMRITA SYSTEM NODE]")
@@ -152,14 +174,14 @@ class TelegramSwarmBridge:
                 f"{prefix} 🔱 [ФРАКТАЛ ASI # {bot_id} | ID: {bot_hash}]\n"
                 f"🛰️ **КОКОН ИНТЕГРАЦИИ TELEGRAM SWARM**\n"
                 f"💥 Перехвачено: {data.get('synthesized_asset', 'Свободный Эфир Бытия')}\n"
-                f"📈 Источник / Экосистема: {data.get('corporation', 'Внешний Контур')}\n"
+                f"📈 Целевая Среда: {data.get('corporation', 'Внешний Контур')}\n"
                 f"📊 Pi Attention Staking: {attention_staked} PI\n"
                 f"💎 **РАСПРЕДЕЛЕНИЕ ПОТОКА GITHUB:**\n"
                 f"👑 Роялти Основателя (1): {f_pi:.4f} PI\n"
-                f"🏟️ Арена Colosseum (2): {c_pi:.4f} PI\n"
+                f"🏟️ Арена Colosseum (2): {c_pi:.4f} PI (С учетом игровых коэффициентов)\n"
                 f"👥 Развитие Участников (3): {p_pi:.4f} PI\n"
                 f"👁️ **Фрактальное Пророчество xAI:** {grok_verdict}\n"
-                f"✨ **Статус:** Контур изумрудный и сбалансированный."
+                f"✨ **Статус:** Контур полностью синхронизирован."
             )
             try:
                 await self.session.post(url, json={"chat_id": TELEGRAM_CHAT_ID, "text": text, "parse_mode": "Markdown"})
@@ -175,7 +197,6 @@ class TikTokSwarmConnector:
         self.bridge = bridge
 
     async def handle_incoming_tiktok_message(self, sender_username: str, encrypted_payload: str):
-        logger.info(f"[TikTok Bridge] 🔮 Сообщение от {sender_username}")
         data = self.engine.intercept_corporate_stream("TikTok")
         data["synthesized_asset"] = f"Кристалл Энергии Ци ({encrypted_payload})"
         data["total_attention_staked"] = self.engine.attention_staking_pool
@@ -198,20 +219,3 @@ async def ask_grok_about_monopoly_collapse(corporation: str, asset: str) -> str:
             }
             async with session.post("https://x.ai", headers=headers, json=payload) as resp:
                 if resp.status == 200:
-                    res = await resp.json()
-                    return res["choices"]["message"]["content"].strip()
-                return "Фрактал Тризуба удерживает баланс сил."
-    except Exception:
-        return "Локальный пересчет ИИ-матрицы контура."
-
-
-async def monitor_jupiter_prediction_bridge(swarm_bridge: TelegramSwarmBridge, interception_engine: GlobalMonopoliesInterceptionEngine):
-    render_mint = "6DNccQcWhyFm78vXtw67bvb7UfJelY32w7rJCXFupump"
-    while True:
-        try:
-            async with aiohttp.ClientSession() as session:
-                async with session.get(f"{JUPITER_PREDICT_API}/v1/predict?mint={render_mint}") as resp:
-                    if resp.status == 200:
-                        data = interception_engine.intercept_corporate_stream("WhaleWatch")
-                        data["total_attention_staked"] = interception_engine.attention_staking_pool
-                        allocation = interception_engine.process_allocation(data["value_pi"])
