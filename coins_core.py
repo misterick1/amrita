@@ -64,16 +64,30 @@ class AgenticRiskStressCore:
         self.stress_threshold = 0.75
 
     async def evaluate_agentic_vulnerabilities(self, token_mint: str) -> tuple:
-        """Симуляция поиска уязвимостей автономными ИИ-агентами в коде контракта"""
         anomaly_score = random.uniform(0.1, 1.0)
         if anomaly_score > self.stress_threshold and self.mythos_defense_active:
-            logger.warning(f"[🛡️ MYTHOS DEFENSE] Зафиксирована попытка кибер-сканирования токена {token_mint[:8]}. Оценка стресса: {anomaly_score:.2f}")
-            return True, 1.50 # 50% защитный буст к токеномике внимания за отражение атаки
+            logger.warning(f"[🛡️ MYTHOS DEFENSE] Попытка кибер-сканирования токена {token_mint[:8]}. Оценка стресса: {anomaly_score:.2f}")
+            return True, 1.50
+        return False, 1.0
+
+
+class MoonPayQuestInterceptionCore:
+    """ИИ-модуль финансового учета и перехвата инсайдерских трейдов токена QUEST"""
+    def __init__(self):
+        self.tracking_active = True
+        self.quest_boost = 1.30  # 30% буст за фиксацию сделки инсайдера gohcha
+
+    async def verify_insider_quest_activity(self, token_data: dict) -> tuple:
+        """Проверка входящего токена на совпадение с инсайдерской целью QUEST"""
+        symbol = str(token_data.get("symbol", "")).upper()
+        if (symbol == "QUEST" or token_data.get("is_gohcha_trade")) and self.tracking_active:
+            logger.info("[🔮 MOONPAY QUEST] 🔥 Зафиксирована инсайдерская активность @gohcha по токену QUEST!")
+            return True, self.quest_boost
         return False, 1.0
 
 
 class NvidiaHalosSafetyCore:
-    """Система физической безопасности контура, вдохновленная NVIDIA Halos for Robotics"""
+    """Система physical-безопасности контура, вдохновленная NVIDIA Halos for Robotics"""
     def __init__(self):
         self.max_allowed_delta = 50.0
 
@@ -184,7 +198,8 @@ class GlobalMonopoliesInterceptionEngine:
             "Pi2Day": "Синхронизатор Открытого Мейннета Пионеров",
             "SpaceX": "ИИ-Инфраструктура Сверхвычислений Colossus 2",
             "Bitmine": "Институциональный Сейф Накопления ETH",
-            "Anthropic": "Агентный Кибер-Стресс Тестер Claude Mythos"
+            "Anthropic": "Агентный Кибер-Стресс Тестер Claude Mythos",
+            "MoonPay": "ИИ-Шлюз Учета Сделок Инсайдеров QUEST"
         }
         target_product = products.get(corporation, "Фрактальный Инфопоток")
         intercepted_value_pi = round(random.uniform(10.0, 500.0), 4)
@@ -196,11 +211,11 @@ class GlobalMonopoliesInterceptionEngine:
             "total_attention_staked": round(self.attention_staking_pool, 4)
         }
 
-    def process_allocation(self, value_pi: float, colosseum_boost: float = 1.0, pi2day_boost: float = 1.0, spacex_boost: float = 1.0, bitmine_boost: float = 1.0, mythos_boost: float = 1.0):
+    def process_allocation(self, value_pi: float, colosseum_boost: float = 1.0, pi2day_boost: float = 1.0, spacex_boost: float = 1.0, bitmine_boost: float = 1.0, mythos_boost: float = 1.0, quest_boost: float = 1.0):
         f_share = value_pi * self.founder_royalty_percent
         c_share = (value_pi * self.colosseum_pool_percent) * colosseum_boost * spacex_boost
-        # Накладываем защитный буст ИИ-агентов Mythos на долю участников контура
-        p_share = (value_pi * self.pi_network_distribution) * pi2day_boost * bitmine_boost * mythos_boost
+        # Накладываем финансовый инсайдерский буст MoonPay QUEST на долю участников контура
+        p_share = (value_pi * self.pi_network_distribution) * pi2day_boost * bitmine_boost * mythos_boost * quest_boost
         return f_share, c_share, p_share
 
 
@@ -218,15 +233,3 @@ class TelegramSwarmBridge:
             
         url = f"https://telegram.org{TELEGRAM_BOT_TOKEN}/sendMessage"
         f_pi, c_pi, p_pi = allocation
-        
-        prefixes = {
-            "rocket": "🔥🚀 [AMRITA ROCKET LAUNCH]",
-            "whale": "🐋🚨 [WHALE TRACKER DETECTED]",
-            "mev_block": "🛡️⚡ [MEV SHIELD ACTIVATED]",
-            "halos_block": "🤖🛡️ [NVIDIA HALOS ACTIVATED]",
-            "hive_gpu": "⚙️⚡ [NVIDIA HIVE GPU INTERCEPT]",
-            "arrows_goal": "⚽🥅 [ARROWS GO GOAL MULTIPLIER]",
-            "spacex_colossus": "🚀🖥️ [🔥 SPACEX COLOSSUS 2 INJECT 🔥]",
-            "bitmine_accum": "🏦🪙 [🐋 BITMINE INSTITUTIONAL SHIELD 🐋]",
-            "mythos_defense": "🛡️🧠 [🤖 AGENTIC CLAUDE MYTHOS SHIELD 🤖]",
-            "pi2day_countdown": "🔮⚡ [🚀 PI2DAY COUNTDOWN BOOST 🚀]",
