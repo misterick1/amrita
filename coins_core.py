@@ -57,18 +57,35 @@ class MEVShieldSubsystem:
         return True, "Безопасно"
 
 
+class DarkTradeFiduciaryRiskShield:
+    """ИИ-модуль риск-менеджмента DarkTrade и защиты от фидуциарных махинаций казначейств Solmate"""
+    def __init__(self):
+        self.risk_management_active = True
+        self.target_win_rate = 0.464  # Константа винрейта DarkTrade.ai
+        self.risk_reward_ratio = 3.0   # Математическое соотношение 1:3 (R-модель)
+
+    async def audit_treasury_flows(self, token_data: dict) -> tuple:
+        """Симуляция проверки транзакции на предмет self-dealing (внутренних манипуляций)"""
+        name = str(token_data.get("name", "")).lower()
+        symbol = str(token_data.get("symbol", "")).upper()
+        
+        # Перехват паттернов мошенничества казначейств и сомнительных фондов
+        if "solmate" in name or symbol == "MATE" or token_data.get("vSolInBondingCurve", 0) < 0:
+            logger.critical(f"[🛡️ FIDUCIARY SHIELD] Обнаружен высокий риск манипуляций казначейства Solmate! Блокировка транзакции.")
+            return True, 1.40  # 40% буст распределения PI за успешное предотвращение фидуциарного краха
+            
+        return False, 1.0
+
+
 class GitHubMalwareInterceptionCore:
     """Иммунный щит против вредоносных open-source репозиториев-клонов и троянских ZIP-архивов"""
     def __init__(self):
         self.scan_active = True
-        self.malware_boost = 1.45  # 45% буст к доле участников за ликвидацию скрытой угрозы
+        self.malware_boost = 1.45
 
     async def audit_external_repository_safety(self, token_data: dict) -> tuple:
-        """Симуляция проверки метаданных токена на наличие признаков вредоносных репозиториев"""
         uri = str(token_data.get("uri", "")).lower()
         name = str(token_data.get("name", "")).lower()
-        
-        # Паттерны Orchid: маскировка под надежные библиотеки + скрытые ZIP-архивы
         if (".zip" in uri or "update" in name or "readme" in name) and self.scan_active:
             logger.critical(f"[🛡️ GITHUB MALWARE SHIELD] Обнаружен паттерн скрытого трояна в метаданных токена! Блокировка.")
             return True, self.malware_boost
@@ -223,17 +240,3 @@ class GlobalMonopoliesInterceptionEngine:
             "HIVE": "Нейросетевой Кластер Вычислений NeurIPS",
             "ArrowsGo": "Футбольный Модуль Предсказаний Кубка",
             "Pi2Day": "Синхронизатор Открытого Мейннета Пионеров",
-            "SpaceX": "ИИ-Инфраструктура Сверхвычислений Colossus 2",
-            "Bitmine": "Институциональный Сейф Накопления ETH",
-            "Anthropic": "Агентный Кибер-Стресс Тестер Claude Mythos",
-            "MoonPay": "ИИ-Шлюз Учета Сделок Инсайдеров QUEST",
-            "Colosseum_MetaDAO": "Футархический Инкубатор Приватных ИИ-Рельсов Laso",
-            "GitHub_Security": "ИИ-Сканер Вредоносных Репозиториев и Троянов"
-        }
-        target_product = products.get(corporation, "Фрактальный Инфопоток")
-        intercepted_value_pi = round(random.uniform(10.0, 500.0), 4)
-        self.attention_staking_pool += intercepted_value_pi
-        
-        return {
-            "corporation": corporation, "synthesized_asset": target_product,
-            "value_pi": intercepted_value_pi,
