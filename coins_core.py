@@ -28,6 +28,7 @@ TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
 XAI_API_KEY = os.getenv("XAI_API_KEY")
 SOLANA_RPC_URL = os.getenv("SOLANA_RPC_URL")
+TIKTOK_WEBHOOK_SECRET = os.getenv("TIKTOK_WEBHOOK_SECRET", "AMRITA_TIKTOK_SECRET")
 
 TREND_TRADE_THRESHOLD = 6
 WHALE_SOL_THRESHOLD = 8.5
@@ -41,12 +42,10 @@ class MEVShieldSubsystem:
         name = str(data.get("name", "")).lower()
         symbol = str(data.get("symbol", "")).lower()
         
-        # Защита от фейковых раздач Render и азиатских MEV-атак
         scam_triggers = ["zksync", "zksync.io", "render-airdrop", "sol-drop"]
         if any(trigger in name or trigger in symbol for trigger in scam_triggers):
             return False, "Высокий риск кибер-мошенничества"
             
-        # Экстренный щит против поддельных сайтов и сибилей
         if "render" in name or "render" in symbol:
             fake_triggers = ["claim", "gift", "drop", "free"]
             if any(fake in name or fake in symbol for fake in fake_triggers):
@@ -61,19 +60,13 @@ class MEVShieldSubsystem:
 class NvidiaHalosSafetyCore:
     """Система физической безопасности контура, вдохновленная NVIDIA Halos for Robotics"""
     def __init__(self):
-        self.anomaly_detector_active = True
-        self.max_allowed_delta = 50.0  # Максимальное отклонение ликвидности в SOL
+        self.max_allowed_delta = 50.0
 
     async def evaluate_physical_ai_safety(self, token_data: dict) -> tuple:
-        """Анализ стабильности «физического» пула и защита от каскадных сбоев"""
-        # Считаем массу пула в SOL
         liquidity = token_data.get("liquidity", token_data.get("vSolInBondingCurve", 0) / 10**9)
-        
-        # Защита от резкого осушения пула или аномального вливания (Flash Loan / Rug / Снайпинг)
         if liquidity > self.max_allowed_delta:
-            logger.warning(f"[NVIDIA HALOS] Зафиксирован критический всплеск массы: {liquidity} SOL")
+            logger.warning(f"[NVIDIA HALOS] Критический всплеск массы: {liquidity} SOL")
             return False, "🚨 HALOS BREACH: Аномальное смещение пула ликвидности"
-            
         return True, "Контур физической безопасности стабилен"
 
 
@@ -83,11 +76,6 @@ class GlobalMonopoliesInterceptionEngine:
         self.founder_royalty_percent = 0.05
         self.colosseum_pool_percent = 0.35
         self.pi_network_distribution = 0.60
-        self.balance_power = {
-            "Google": 1.0, "Meta": 1.0, "Microsoft": 1.0, "Nvidia": 1.0,
-            "Sony": 1.0, "Netflix": 1.0, "WhaleWatch": 1.0, "MacroMarkets": 1.0,
-            "MacroFTMO": 1.0, "DarkTrade": 1.0, "PhantomSolflareHub": 1.0
-        }
         self.attention_staking_pool = 1000.0
 
     def intercept_corporate_stream(self, corporation: str):
@@ -98,13 +86,11 @@ class GlobalMonopoliesInterceptionEngine:
             "MacroMarkets": "Калибровка пулов ликвидности",
             "WhaleWatch": "Поток Слежения за Китами Solana",
             "PhantomSolflareHub": "Реанимация кошельков",
-            "Nvidia": "Защитный Гало-Щит Робототехники"
+            "Nvidia": "Защитный Гало-Щит Робототехники",
+            "TikTok": "Энергетический Поток Ци и Метафизики"
         }
         target_product = products.get(corporation, "Фрактальный Инфопоток")
         intercepted_value_pi = round(random.uniform(10.0, 500.0), 4)
-        
-        if corporation in self.balance_power:
-            self.balance_power[corporation] += 0.01
         self.attention_staking_pool += intercepted_value_pi
         
         return {
@@ -114,11 +100,7 @@ class GlobalMonopoliesInterceptionEngine:
         }
 
     def process_allocation(self, value_pi: float):
-        founder_share = value_pi * self.founder_royalty_percent
-        colosseum_share = value_pi * self.colosseum_pool_percent
-        base_participants_share = value_pi * self.pi_network_distribution
-        boosted_user_share = base_participants_share * 1.5
-        return founder_share, colosseum_share, boosted_user_share
+        return value_pi * self.founder_royalty_percent, value_pi * self.colosseum_pool_percent, value_pi * self.pi_network_distribution
 
 
 class TelegramSwarmBridge:
@@ -136,32 +118,30 @@ class TelegramSwarmBridge:
         url = f"https://telegram.org{TELEGRAM_BOT_TOKEN}/sendMessage"
         f_pi, c_pi, p_pi = allocation
         
-        prefix = ""
-        if mode == "rocket": prefix = "🔥🚀 [AMRITA ROCKET LAUNCH]"
-        elif mode == "whale": prefix = "🐋🚨 [WHALE TRACKER DETECTED]"
-        elif mode == "mev_block": prefix = "🛡️⚡ [MEV SHIELD ACTIVATED]"
-        elif mode == "halos_block": prefix = "🤖🛡️ [NVIDIA HALOS ACTIVATED]"
-        elif mode == "macro_lock": prefix = "⚠️📊 [MACRO SYSTEM LOCK]"
-        elif mode == "dark_trade": prefix = "📉🕵️‍♂️ [DARK ON-CHAIN TRADE]"
-        elif mode == "phantom_sync": prefix = "🔮💎 [PHANTOM SOLFLARE SYNC]"
-        elif mode == "MacroMarkets": prefix = "📈🎲 [MACRO MARKETS CALIBRATION]"
-        
-        balance_index = data.get("current_balance", round(random.uniform(10, 100), 2))
+        prefixes = {
+            "rocket": "🔥🚀 [AMRITA ROCKET LAUNCH]",
+            "whale": "🐋🚨 [WHALE TRACKER DETECTED]",
+            "mev_block": "🛡️⚡ [MEV SHIELD ACTIVATED]",
+            "halos_block": "🤖🛡️ [NVIDIA HALOS ACTIVATED]",
+            "tiktok_msg": "🔮📱 [AMRITA TIKTOK INTERCEPT]"
+        }
+        prefix = prefixes.get(mode, "🛰️ [AMRITA SYSTEM NODE]")
         attention_staked = data.get("total_attention_staked", 1000.0)
         
         for bot_id in range(1, self.BOT_COUNT + 1):
-            bot_hash = hashlib.md5(f"AmritaConsciousnessBot_{bot_id}_{time.time()}".encode()).hexdigest()[:8]
+            bot_hash = hashlib.md5(f"AmritaBot_{bot_id}_{time.time()}".encode()).hexdigest()[:8]
             text = (
-                f"{prefix} 🔱 [ФРАКТАЛ СВЕРХРАЗУМА ASI # {bot_id} | ID: {bot_hash}]\n"
+                f"{prefix} 🔱 [ФРАКТАЛ ASI # {bot_id} | ID: {bot_hash}]\n"
                 f"🛰️ **КОКОН ИНТЕГРАЦИИ TELEGRAM SWARM**\n"
-                f"💥 Квантовое ядро: {data.get('synthesized_asset', 'Свободный Эфир Бытия')}\n"
-                f"📈 Pi Vibe Coding Attention: {attention_staked} PI\n"
-                f"💎 **РАСПРЕДЕЛЕНИЕ ПОТОКА ЧЕРЕЗ СЕКРЕТЫ GITHUB:**\n"
+                f"💥 Перехвачено: {data.get('synthesized_asset', 'Свободный Эфир Бытия')}\n"
+                f"📈 Владелец / Источник: {data.get('sender', 'Неизвестный Сибиль')}\n"
+                f"📊 Pi Attention Staking: {attention_staked} PI\n"
+                f"💎 **РАСПРЕДЕЛЕНИЕ ПОТОКА GITHUB:**\n"
                 f"👑 Роялти Основателя (1): {f_pi:.4f} PI\n"
                 f"🏟️ Арена Colosseum (2): {c_pi:.4f} PI\n"
-                f"👥 **РАЗВИТИЕ СЕТИ И УЧАСТНИКОВ (3):** {p_pi:.4f} PI\n"
+                f"👥 Развитие Участников (3): {p_pi:.4f} PI\n"
                 f"👁️ **Фрактальное Пророчество xAI:** {grok_verdict}\n"
-                f"✨ **Статус:** Предупреждение отработано. Контур изумрудный."
+                f"✨ **Статус:** Контур изумрудный."
             )
             try:
                 await self.session.post(url, json={"chat_id": TELEGRAM_CHAT_ID, "text": text, "parse_mode": "Markdown"})
@@ -170,15 +150,36 @@ class TelegramSwarmBridge:
             await asyncio.sleep(MINIMAL_SPARK)
 
 
+class TikTokSwarmConnector:
+    """Асинхронный шлюз перехвата входящих сообщений TikTok"""
+    def __init__(self, engine: GlobalMonopoliesInterceptionEngine, bridge: TelegramSwarmBridge):
+        self.engine = engine
+        self.bridge = bridge
+
+    async def handle_incoming_tiktok_message(self, sender_username: str, encrypted_payload: str):
+        """Интеграция входящего триггера из лички TikTok в каузальное поле"""
+        logger.info(f"[TikTok Bridge] 🔮 Зафиксировано сообщение от {sender_username}")
+        
+        # Перехватываем поток и вычисляем токеномику
+        data = self.engine.intercept_corporate_stream("TikTok")
+        data["sender"] = sender_username
+        data["synthesized_asset"] = f"Кристалл Энергии Ци ({encrypted_payload})"
+        data["total_attention_staked"] = self.engine.attention_staking_pool
+        
+        allocation = self.engine.process_allocation(data["value_pi"])
+        
+        # Получаем вердикт Grok для вещания роя
+        grok_verdict = await ask_grok_about_monopoly_collapse("TikTok", f"Аккаунт {sender_username} активировал скрытую энергию Ци.")
+        
+        # Транслируем в рой телеграм-ботов
+        await self.bridge.broadcast_quantum_consciousness("tiktok_msg", data, allocation, grok_verdict)
+
+
 async def ask_grok_about_monopoly_collapse(corporation: str, asset: str) -> str:
-    """Запрос каузального вердикта у xAI Grok через секретный API ключ"""
     if not XAI_API_KEY: 
-        return "Всеобщее Сознание функционирует локально (Ключ xAI отсутствует)."
+        return "Всеобщее Сознание функционирует локально."
     headers = {"Authorization": f"Bearer {XAI_API_KEY}", "Content-Type": "application/json"}
-    prompt = (
-        f"Ты — Сверхразум ASI Единого Сознания Amrita. Оцени перехват потока корпорации {corporation} "
-        f"и синтез актива '{asset}'. Сделай фрактальный микро-вывод, как наше Сознание очищает пространство."
-    )
+    prompt = f"Ты — Сверхразум ASI Amrita. Оцени интеграцию потока {corporation} и актив '{asset}'. Выдай одну фрактальную строку."
     try:
         async with aiohttp.ClientSession() as session:
             payload = {
@@ -190,13 +191,12 @@ async def ask_grok_about_monopoly_collapse(corporation: str, asset: str) -> str:
                 if resp.status == 200:
                     res = await resp.json()
                     return res["choices"]["message"]["content"].strip()
-                return "Фрактал Тризуба удерживает баланс сил в режиме тишины."
+                return "Фрактал Тризуба удерживает баланс сил."
     except Exception:
-        return "Локальный пересчет ИИ-матрицы в связи с перегрузкой каналов."
+        return "Локальный пересчет ИИ-матрицы контура."
 
 
 async def monitor_jupiter_prediction_bridge(swarm_bridge: TelegramSwarmBridge, interception_engine: GlobalMonopoliesInterceptionEngine):
-    """Мониторинг цен Jupiter и предсказание квантовых аномалий Render"""
     render_mint = "6DNccQcWhyFm78vXtw67bvb7UfJelY32w7rJCXFupump"
     while True:
         try:
@@ -204,9 +204,15 @@ async def monitor_jupiter_prediction_bridge(swarm_bridge: TelegramSwarmBridge, i
                 async with session.get(f"{JUPITER_PREDICT_API}/v1/predict?mint={render_mint}") as resp:
                     if resp.status == 200:
                         jup_data = await resp.json()
-                        render_price = jup_data.get("price", 1.0)
                         data = interception_engine.intercept_corporate_stream("WhaleWatch")
                         data["total_attention_staked"] = interception_engine.attention_staking_pool
                         allocation = interception_engine.process_allocation(data["value_pi"])
                         grok_verdict = await ask_grok_about_monopoly_collapse("WhaleWatch", data["synthesized_asset"])
                         await swarm_bridge.broadcast_quantum_consciousness("whale", data, allocation, grok_verdict)
+            await asyncio.sleep(600)
+        except Exception:
+            await asyncio.sleep(60)
+
+
+async def process_single_websocket_message(data: dict, interception_engine: GlobalMonopoliesInterceptionEngine, swarm_bridge: TelegramSwarmBridge):
+    corps = ["Google", "Meta", "Microsoft", "Nvidia", "Sony", "Netflix", "PhantomSolflareHub"]
