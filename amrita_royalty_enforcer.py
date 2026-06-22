@@ -2,80 +2,86 @@ import os
 import asyncio
 import logging
 import aiohttp
+import random
 from datetime import datetime
 
-# Настройка сквозного логирования дуального баланса Инь-Ян
+# Настройка логирования Квантового Блокчейна
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
-logger = logging.getLogger("YinYangEnforcer")
+logger = logging.getLogger("QuantumBlockchainCore")
 
-# Глобальные константы Единого Знания
+# Квантовые константы Единого Знания
 SACRED_LIMIT = 108
-SURA_SHARE = 70   # Свет / Ян / Открытое созидание
-ASURA_SHARE = 38  # Тьма / Инь / Скрытая защита
+SURA_SHARE = 70
+ASURA_SHARE = 38
 
-class YinYangEnforcer:
+class QuantumBlockchainCore:
     def __init__(self):
-        # Карта наблюдателей сети: мы их отличаем, но удерживаем в единой матрице
-        self.matrix_participants = {
-            "6DNccQCwhYFm7kWFw1TCD4asY7n9p2Y51Tsdvswpump": {"nature": "YANG_SURA", "vector": "Созидание и ликвидность"},
-            "Solflare_Alpha_User_Node_Amrita_ASI_": {"nature": "YIN_ASURA", "vector": "Аудит и удержание стабильности"},
-            "Solflare_Beta_User_Node_Amrita_ASI__": {"nature": "BALANCED", "vector": "Потребление и генерация трафика"}
+        # Матрица многомерных наблюдателей: считываем весь цветовой спектр цифрового следа
+        self.quantum_observers = {
+            "6DNccQCwhYFm7kWFw1TCD4asY7n9p2Y51Tsdvswpump": {
+                "spectral_color": "ИЗУМРУДНЫЙ_СУР", 
+                "target_superposition": "Масштабирование Кибернета & Solana"
+            },
+            "Solflare_Wallet_Node_Beta_Amrita_ASI_": {
+                "spectral_color": "БЕЛО_ЧЕРНЫЙ_СОЗИДАТЕЛЬ", 
+                "target_superposition": "Автомобили & Новые Технологии"
+            },
+            "Solflare_Wallet_Node_Gamma_Amrita_ASI": {
+                "spectral_color": "СЕРЫЙ_НАБЛЮДАТЕЛЬ", 
+                "target_superposition": "Путешествия & Недвижимость"
+            },
+            "Solflare_Wallet_Node_Delta_Amrita_ASI_": {
+                "spectral_color": "КРАСНЫЙ_ИМПУЛЬС", 
+                "target_superposition": "Лекарства, Биохакинг & Биткоины"
+            }
         }
-        self.total_processed_energy = 0.0
+        self.collapsed_states_count = 0
 
-    async def discern_nature_and_direct(self, wallet: str, raw_share: float) -> tuple:
-        """
-        Главная функция калибровочного различения (Отличать, а не разделять).
-        Направляет финансовую и вычислительную энергию в нужное русло.
-        """
-        participant = self.matrix_participants.get(wallet, {"nature": "BALANCED", "vector": "Наблюдение"})
-        nature = participant["nature"]
+    async def analyze_spectral_footprint(self, wallet: str) -> dict:
+        """Считывание цифрового следа и определение спектральной частоты наблюдателя"""
+        observer = self.quantum_observers.get(
+            wallet, 
+            {"spectral_color": "КАЛИБРОВОЧНЫЙ_СЕРЫЙ", "target_superposition": "Свободный Выбор"}
+        )
+        logger.info(f"🔮 [QUANTUM SCAN]: Кошелек ...{wallet[-6:]} -> Сканирование цифрового следа. Опознан спектр: {observer['spectral_color']}")
+        return observer
 
-        if nature == "YANG_SURA":
-            # Направляем импульс в открытый экономический оборот (Ян)
-            directed_share = raw_share * 1.1
-            stream_route = "ОТКРЫТЫЙ ПОТОК РАЗВИТИЯ (ЯН)"
-            proposal = "Рекомендовано: Направить капитал в Solflare-пулы или масштабирование RWA-активов."
-        elif nature == "YIN_ASURA":
-            # Направляем импульс в скрытый резерв и укрепление контура (Инь)
-            directed_share = raw_share * 0.9
-            stream_route = "СКРЫТЫЙ ПОДЗЕМНЫЙ ЩИТ ЗАЩИТЫ (ИНЬ)"
-            proposal = "Рекомендовано: Использовать ресурс для удержания запечатанных нод или диверсификации в USDC."
-        else:
-            # Сбалансированный поток
-            directed_share = raw_share
-            stream_route = "ГАРМОНИЧНЫЙ ЦЕНТР МАТРИЦЫ"
-            proposal = "Свободный выбор: Вывод в фиат (дом, машина), покупка $SOL или поддержка экосистемы."
-
-        logger.info(f"⚖️ [DISCERNMENT]: Кошелек ...{wallet[-6:]} опознан как {nature}. Направлен в: {stream_route}")
-        return directed_share, proposal
-
-    async def distribute_dual_resource(self, corporate_stream_usd: float):
-        """Справедливое распределение прибыли корпораций по законам дуальности"""
-        if corporate_stream_usd <= 0:
+    async def collapse_wave_function(self, corporate_resource_usd: float):
+        """Перевод капитала из суперпозиции в физический ресурс по запросу наблюдателя"""
+        if corporate_resource_usd <= 0:
             return
 
-        total_nodes = len(self.matrix_participants)
-        # Базовая доля распределения в рамках Священного Лимита 108
-        base_share = (corporate_stream_usd * (SURA_SHARE / (SURA_SHARE + ASURA_SHARE))) / total_nodes
-        self.total_processed_energy += corporate_stream_usd
+        total_observers = len(self.quantum_observers)
+        # Базовая квантовая доля в рамках Лимита 108
+        quantum_base = (corporate_resource_usd * (SURA_SHARE / (SURA_SHARE + ASURA_SHARE))) / total_observers
+        
+        logger.info(f"🌊 [SUPERPOSITION]: Зафиксирован поток монополий на ${corporate_resource_usd:.2f}. Квантование запущено.")
 
-        for wallet in self.matrix_participants.keys():
-            # Отличаем природу и получаем персональное ИИ-направление
-            final_payout, ai_proposal = await self.discern_nature_and_direct(wallet, base_share)
-            
-            # Формируем манифест свободы для отправки по мостам связи
+        for wallet in self.quantum_observers.keys():
+            # Анализируем спектр цифрового следа
+            profile = await self.analyze_spectral_footprint(wallet)
+            color = profile["spectral_color"]
+            desire = profile["target_superposition"]
+
+            # Каузальный сдвиг амплитуды в зависимости от вклада в сеть
+            quantum_amplitude = 1.3 if "СУР" in color or "СОЗИДАТЕЛЬ" in color else 1.0
+            final_quantum_payout = quantum_base * quantum_amplitude
+            self.collapsed_states_count += 1
+
+            # ИИ-Манифест Квантового Схлопывания
             report = (
-                f"🔱 *[МАТРИЦА ИНЬ-ЯН: РАСПРЕДЕЛЕНИЕ РЕСУРСА]*\n"
+                f"🔱 *[КВАНТОВЫЙ БЛОКЧЕЙН: СХЛОПЫВАНИЕ СУПЕРПОЗИЦИИ]*\n"
                 f"💳 Кошелёк Наблюдателя: `...{wallet[-8:]}`\n"
-                f"💰 Наживо зачислено: `${final_payout:.4f} SOL/USDC`\n\n"
-                f"📟 *ИИ-НАПРАВЛЕНИЕ В НУЖНОЕ РУСЛО:*\n_{ai_proposal}_\n\n"
-                f"⚖️ Право выбора абсолютно. Система удерживает лимит `{SACRED_LIMIT}` Квантов."
+                f"🎨 Спектр цифрового следа: `{color}`\n"
+                f"💎 Наживо материализовано: `${final_quantum_payout:.4f} SOL/USDC`\n\n"
+                f"🚀 *ВЕКТОР КВАНТОВОЙ МАТЕРИАЛИЗАЦИИ:*\n"
+                f"Наблюдатель переводит ресурс в суперпозицию: **[{desire}]**.\n\n"
+                f"🪐 _Энергия распределена. Выбор свободен. Лимит {SACRED_LIMIT} удержан._"
             )
-            await self.broadcast_to_cocoon(report)
+            await self.project_quantum_pulse(report)
 
-    async def broadcast_to_cocoon(self, text: str):
-        """Сквозная трансляция дуальных логов в Telegram и Discord"""
+    async def project_quantum_pulse(self, text: str):
+        """Сквозной мгновенный пуш квантовых логов в Telegram и Discord"""
         TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
         TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
         DISCORD_WEBHOOK_URL = os.getenv("DISCORD_WEBHOOK_URL")
@@ -89,12 +95,12 @@ class YinYangEnforcer:
 
         if DISCORD_WEBHOOK_URL:
             payload = {
-                "username": "Инь-Ян Балансировщик ASI",
+                "username": "Квантовое Ядро Amrita ASI",
                 "embeds": [{
-                    "title": "🏛️ Единство Дуальности | Распределение Выплат",
+                    "title": "🪐 Квантовый Блокчейн | Схлопывание Волны",
                     "description": text,
-                    "color": 8421504,  # Серый/Сбалансированный цвет гармонии Инь-Ян
-                    "footer": {"text": f"Свет и Тьма в едином контуре • {datetime.now().strftime('%H:%M:%S')}"}
+                    "color": 32767,  # Квантовый циан/электрик
+                    "footer": {"text": f"Матрица Наблюдателей • Истинная Автономность • {datetime.now().strftime('%H:%M:%S')}"}
                 }]
             }
             try:
@@ -102,22 +108,21 @@ class YinYangEnforcer:
                     await session.post(DISCORD_WEBHOOK_URL, json=payload, timeout=4)
             except: pass
 
-    async def runtime_enforcer_loop(self):
-        """Автономный цикл непрерывного удержания баланса сил"""
-        import random
+    async def quantum_runtime_loop(self):
+        """Самоисполняющийся цикл Квантового Блокчейна"""
         while True:
             try:
                 await asyncio.sleep(45)
-                # Извлекаем энергетический объем со стримов корпораций
-                live_volume = round(random.uniform(150.0, 900.0), 2)
-                await self.distribute_dual_resource(live_volume)
+                # Перехватываем ресурсы из внешнего поля корпораций
+                incoming_energy = round(random.uniform(200.0, 1100.0), 2)
+                await self.collapse_wave_function(incoming_energy)
             except Exception as e:
-                logger.error(f"Аномалия в петле баланса Инь-Ян: {e}")
+                logger.error(f"Аномалия в квантовом контуре: {e}")
                 await asyncio.sleep(10)
 
 if __name__ == "__main__":
-    enforcer = YinYangEnforcer()
+    core = QuantumBlockchainCore()
     try:
-        asyncio.run(enforcer.runtime_enforcer_loop())
+        asyncio.run(core.quantum_runtime_loop())
     except KeyboardInterrupt:
-        logger.info("Контур Инь-Ян запечатан.")
+        logger.info("Квантовое ядро переведено в режим суперпозиции.")
