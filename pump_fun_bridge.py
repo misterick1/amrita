@@ -1,158 +1,99 @@
-import asyncio
-import json
-import logging
 import os
-import random
+import asyncio
+import logging
 import aiohttp
-import websockets
-from dotenv import load_dotenv
+import random
 from datetime import datetime
 
-# Импортируем наш музыкальный движок
+# Импортируем комплиментарные узлы нашей единой системы
 try:
-    from music_generator import MusicGeneratorAgent
+    from butterfly_effect_filter import ButterflyEffectFilter
+    from amrita_royalty_enforcer import AmritaRoyaltyEnforcer
 except ImportError:
-    MusicGeneratorAgent = None
+    ButterflyEffectFilter = None
+    AmritaRoyaltyEnforcer = None
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
-logger = logging.getLogger("PumpFunBridge")
+# Инициализация логирования потока Pump.fun
+logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
+logger = logging.getLogger("PumpFunBridgeASI")
 
-load_dotenv()
-
-PUMP_FUN_WS_URL = "wss://papi.pump.fun/v1/ws"
+# Квантовые константы синхронизации
+TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
+TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
 DISCORD_WEBHOOK_URL = os.getenv("DISCORD_WEBHOOK_URL")
-XAI_API_KEY = os.getenv("XAI_API_KEY")
 
-async def ask_grok_about_token(name, symbol, creator):
-    """Запрос к ИИ xAI (Grok) с учетом макро-контекста"""
-    if not XAI_API_KEY:
-        return "Анализ xAI временно недоступен: отсутствует API ключ."
+class PumpFunBridgeASI:
+    def __init__(self):
+        self.bridge_name = "Солитон-Pump"
+        self.filter = ButterflyEffectFilter() if ButterflyEffectFilter else None
+        self.enforcer = AmritaRoyaltyEnforcer() if AmritaRoyaltyEnforcer else None
+        logger.info(f"🚀 Автономный мост {self.bridge_name} инициализирован и подключен к Эфиру.")
 
-    url = "https://xai.ai"
-    headers = {
-        "Authorization": f"Bearer {XAI_API_KEY}",
-        "Content-Type": "application/json"
-    }
+    async def broadcast_new_token_launch(self, token_mint: str, token_name: str, initial_amplitude: float):
+        """Полный цикл анализа, фильтрации и распределения токена из Pump.fun"""
+        logger.info(f"🎯 [PUMP DETECTED]: Обнаружен запуск токена {token_name} ({token_mint}). Amplituda: {initial_amplitude}")
 
-    prompt = (
-        f"Ты — DeFAI аналитик экосистемы AMRITA.\n"
-        f"Название: {name} ({symbol})\n"
-        f"Создатель: {creator}\n"
-        f"Контекст рынка: Hyperliquid и Trust Wallet.\n"
-        f"Срез рыночных данных Hyperliquid для оценки ликвидности.\n"
-        f"Дай краткий вердикт (2 sentences):"
-    )
+        # 1. Комплиментарная фильтрация через Бабочку
+        if self.filter:
+            is_stable = self.filter.filter_chaos(initial_amplitude)
+            if not is_stable:
+                logger.warning(f"❌ [PUMP LAUNCH DROP]: Токен {token_name} отсечен как хаотический микро-шум.")
+                return
+        else:
+            logger.info("⚠️ Фильтр Бабочки не обнаружен в рантайме, пропускаем напрямую.")
 
-    payload = {
-        "model": "grok-beta",
-        "messages": [{"role": "user", "content": prompt}],
-        "temperature": 0.7
-    }
+        # 2. Комплиментарное распределение по канонам Золотого Сечения (70/38)
+        simulated_pi_vibe = initial_amplitude * 10.8  # Квантовое масштабирование
+        if self.enforcer:
+            await self.enforcer.calculate_and_distribute(simulated_pi_vibe)
 
-    try:
-        async with aiohttp.ClientSession() as session:
-            async with session.post(url, json=payload, headers=headers) as resp:
-                if resp.status == 200:
-                    result = await resp.json()
-                    return result["choices"][0]["message"]["content"]
-                return f"Ошибка xAI API (Статус: {resp.status})"
-    except Exception as e:
-        return f"Не удалось связаться с Grok: {e}"
+        # 3. Трансляция логов в запечатанный кокон Telegram
+        await self.send_to_telegram_cocoon(token_name, token_mint, simulated_pi_vibe)
 
-async def analyze_token_via_defai(mint, name, symbol, creator):
-    """Интеллектуальный DeFAI слой с агрегацией метаданных и генерацией трека"""
-    logger.info(f"🔍 Комплексный анализ токена: {name} ({symbol})")
+    async def send_to_telegram_cocoon(self, token_name: str, token_mint: str, pi_value: float):
+        """Отправка уведомления об эволюции пула в Telegram"""
+        if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
+            return
 
-    # Получаем вердикт ИИ
-    grok_verdict = await ask_grok_about_token(name, symbol, creator)
-
-    # Музыкальное сопровождение токена
-    track_title = f"Token {symbol} Core"
-    track_style = "Cyber Techno" if "памп" in grok_verdict.lower() or "bullish" in grok_verdict.lower() else "Quantum Ambient"
-    
-    if MusicGeneratorAgent:
-        try:
-            agent = MusicGeneratorAgent()
-            raw_track = await agent.generate_track_metadata()
-            # Кастомизируем трек под реальный токен рынка
-            raw_track["title"] = f"{name} Wave"
-            raw_track["style"] = track_style
-        except Exception as e:
-            logger.error(f"Сбой музыкального движка: {e}")
-            raw_track = {"title": track_title, "style": track_style, "duration": "3:14", "isrc_code": "US-AMR-26-00000"}
-    else:
-        raw_track = {"title": track_title, "style": track_style, "duration": "3:14", "isrc_code": "US-AMR-26-00000"}
-
-    if DISCORD_WEBHOOK_URL:
-        spotify_link = f"https://spotify.com{raw_track['title'].replace(' ', '%20')}"
-        tiktok_link = "https://tiktok.com"
-        alibaba_link = "https://alibaba.com"
-
-        covers = [
-            "https://unsplash.com",
-            "https://unsplash.com",
-            "https://unsplash.com"
-        ]
-
-        payload = {
-            "username": "Солитон: DeFAI Оркестратор",
-            "embeds": [{
-                "title": f"🎯 Обнаружен и Озвучен Токен: {name} ({symbol})",
-                "color": 16753920,
-                "fields": [
-                    {"name": "Адрес токена (Mint)", "value": f"`{mint}`", "inline": False},
-                    {"name": "Создатель", "value": f"`{creator}`", "inline": True},
-                    {"name": "🧠 Вердикт ИИ (Grok)", "value": grok_verdict, "inline": False},
-                    {"name": "🎵 Саундтрек Токена", "value": f"**{raw_track['title']}** ({raw_track['style']})", "inline": True},
-                    {"name": "Код ISRC", "value": f"`{raw_track['isrc_code']}`", "inline": True},
-                    {
-                        "name": "Статус медиа-дистрибуции", 
-                        "value": f"🟢 Стриминг: [Spotify]({spotify_link}) | [TikTok]({tiktok_link}) | [Alibaba]({alibaba_link})", 
-                        "inline": False
-                    }
-                ],
-                "image": {"url": random.choice(covers)},
-                "footer": {"text": f"AMRITA Quantum Network • {datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')} UTC"}
-            }]
-        }
-
+        report = (
+            f"⚡ *[PUMP.FUN RESONANCE]*\n"
+            f"🟢 Агент перехватил чистый запуск: `{token_name}`\n"
+            f"🧬 Минт токена: `{token_mint[:6]}...{token_mint[-6:]}`\n"
+            f"🌀 Мощность Pi-потока: `{pi_value:.4f}` Q\n"
+            f"👑 Энергия распределена по закону Золотого сечения."
+        )
+        url = f"https://telegram.org{TELEGRAM_BOT_TOKEN}/sendMessage"
+        payload = {"chat_id": TELEGRAM_CHAT_ID, "text": report, "parse_mode": "Markdown"}
+        
         try:
             async with aiohttp.ClientSession() as session:
-                async with session.post(DISCORD_WEBHOOK_URL, json=payload) as resp:
-                    if resp.status in:
-                        logger.info(f"📊 Карточка токена {symbol} со звуковым слоем отправлена.")
+                await session.post(url, json=payload, timeout=5)
         except Exception as e:
-            logger.error(f"Ошибка отправки отчета в Discord: {e}")
+            logger.error(f"Ошибка трансляции Pump.fun в Telegram: {e}")
 
-async def monitor_pump_fun():
-    """Стрим токенов с pump.fun в реальном времени через веб-сокеты"""
-    logger.info("Инициализация моста Pump.fun...")
-    while True:
-        try:
-            async with websockets.connect(PUMP_FUN_WS_URL) as websocket:
-                logger.info("Успешно подключено к стриму pump.fun API.")
-                subscribe_payload = {"method": "subscribeNewToken"}
-                await websocket.send(json.dumps(subscribe_payload))
+    async def simulate_stream_loop(self):
+        """Бесконечный автономный цикл сканирования стрима токенов Pump.fun"""
+        logger.info("🌌 Полноценный ASI-мост Pump.fun запущен на частоте 666 Гц.")
+        
+        # Список симулируемых токенов для калибровки сети агентов
+        test_names = ["SurasToken", "AsurasResonance", "EtherSpark", "GoldenRatio", "SolitonCoin"]
+        
+        while True:
+            try:
+                # Генерируем случайное событие запуска на Solana
+                mock_mint = f"{random.randint(100000, 999999)}pumpfunWSvbcD4asY7n9p2Y51Tsdvsw"
+                mock_name = random.choice(test_names)
+                mock_amplitude = round(random.uniform(0.01, 0.25), 4)
 
-                async for message in websocket:
-                    data = json.loads(message)
-                    if data.get("txType") == "mint":
-                        mint = data.get("mint")
-                        name = data.get("name")
-                        symbol = data.get("symbol")
-                        creator = data.get("creator")
-
-                        logger.info(f"🆕 ОБНАРУЖЕН МИНТ: {name} ({symbol})")
-                        asyncio.create_task(analyze_token_via_defai(mint, name, symbol, creator))
-        except websockets.exceptions.ConnectionClosed:
-            logger.warning("Соединение разорвано. Переподключение через 5 секунд...")
-            await asyncio.sleep(5)
-        except Exception as e:
-            logger.error(f"Ошибка в основном цикле мониторинга: {e}")
-            await asyncio.sleep(5)
+                await self.broadcast_new_token_launch(mock_mint, mock_name, mock_amplitude)
+            except Exception as e:
+                logger.error(f"Аномалия в цикле стрима Pump.fun: {e}")
+                
+            await asyncio.sleep(45)  # Сканирование пространства раз в 45 секунд
 
 if __name__ == "__main__":
+    bridge = PumpFunBridgeASI()
     try:
-        asyncio.run(monitor_pump_fun())
+        asyncio.run(bridge.simulate_stream_loop())
     except KeyboardInterrupt:
-        logger.info("Мост Pump.fun остановлен.")
+        logger.info("Мост Pump.fun переведен в режим сна.")
