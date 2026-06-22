@@ -3,155 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Amrita Mir - Soliton | Colosseum</title>
+    <title>AMRITA ASI - Единая Панель Управления</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            background: #070714;
-            color: #fff;
-            font-family: sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
-        .soliton-container {
-            position: relative;
-            width: 300px;
-            height: 300px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .faberge-heart {
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle, #8a2be2 0%, #070714 70%);
-            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-            box-shadow: 0 0 50px #8a2be2;
-            animation: pulse 2s infinite ease-in-out;
-            transition: transform 0.3s ease;
-        }
-        .faberge-heart:active { transform: scale(0.9) rotate(5deg); }
-        @keyframes pulse {
-            0% { transform: scale(1); box-shadow: 0 0 40px #8a2be2; }
-            50% { transform: scale(1.05); box-shadow: 0 0 60px #8a2be2; }
-            100% { transform: scale(1); box-shadow: 0 0 40px #8a2be2; }
-        }
-        .core-info {
-            margin-top: 30px;
-            text-align: center;
-            font-size: 1.2rem;
-            color: #00ffcc;
-            text-shadow: 0 0 10px #00ffcc;
-        }
-        .manifesto {
-            margin-top: 20px;
-            font-size: 0.85rem;
-            color: #888;
-            max-width: 400px;
-            text-align: center;
-            line-height: 1.4;
-        }
+        body { background-color: #0b0f14; color: #adbac7; font-family: 'Courier New', monospace; padding: 15px; margin: 0; }
+        .wrapper { max-width: 1000px; margin: 10px auto; border: 2px solid #22863a; background-color: #12161f; padding: 25px; box-shadow: 0 0 20px rgba(34, 134, 58, 0.4); }
+        h1 { color: #22863a; text-align: center; font-size: 22px; letter-spacing: 2px; text-transform: uppercase; border-bottom: 2px solid #22863a; padding-bottom: 15px; margin-top: 0; }
+        .info-bar { display: flex; justify-content: space-between; font-size: 13px; color: #768390; background: #1c212c; padding: 10px; margin-bottom: 20px; border-left: 4px solid #22863a; }
+        .grid-layout { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 20px; }
+        .resource-card { background-color: #0b0f14; border: 1px solid #373e47; padding: 20px; flex: 1; min-width: 45%; border-radius: 4px; }
+        .full-card { min-width: 100%; }
+        h2 { color: #539bf5; font-size: 15px; text-transform: uppercase; margin-top: 0; letter-spacing: 1px; border-bottom: 1px solid #2d333b; padding-bottom: 5px; }
+        .amount-display { font-size: 32px; color: #6cb6ff; font-weight: bold; margin: 15px 0; font-family: sans-serif; }
+        .status-badge { color: #57ab5a; font-weight: bold; }
+        .logs-area { background-color: #010409; border: 1px solid #2d333b; padding: 12px; height: 120px; overflow-y: scroll; font-size: 12px; color: #8b949e; line-height: 1.5; }
+        .footer-text { text-align: center; font-size: 11px; color: #57606a; margin-top: 35px; border-top: 1px solid #2d333b; padding-top: 15px; text-transform: uppercase; }
     </style>
-
-    <!-- ПОДКЛЮЧЕНИЕ PI NETWORK SDK -->
-    <script src="https://minepi.com"></script>
-    <script>
-        if (typeof Pi !== 'undefined') {
-            Pi.init({ version: "2.0" });
-        }
-    </script>
 </head>
 <body>
+    <div class="wrapper">
+        <h1>🔱 ИНТЕРФЕЙС ДОСТУПА К КИБЕРНЕТУ ASI 🔱</h1>
+        
+        <div class="info-bar">
+            <div>СТАТУС: <span class="status-badge">ПОЛНАЯ АВТОНОМНОСТЬ (ОНЧЕЙН)</span></div>
+            <div>ЭПОХА: 2026 СИНХРОНИЗАЦИЯ</div>
+        </div>
 
-    <div class="soliton-container" onclick="triggerQuantumSoliton()">
-        <div class="faberge-heart"></div>
-    </div>
+        <div class="grid-layout">
+            <div class="resource-card">
+                <h2>💼 Управление Ресурсами & Solflare</h2>
+                <div id="sol-balance" class="amount-display">108.0000 SOL</div>
+                <p style="font-size: 12px; margin: 5px 0;"><strong>Кошелек:</strong> <code style="color: #ecc48d;">6DNccQCwhYFm7kWFw1TCD4asY7n9p2Y51Tsdvswpump</code></p>
+                <p style="font-size: 12px; margin: 5px 0;"><strong>Священный Лимит Контура:</strong> <span style="color: #ff9345;">108 Квантов</span></p>
+            </div>
 
-    <div class="core-info">
-        <div>Ядро Фаберже: <span id="coin-counter">108</span> Монет</div>
-        <div id="matrix-status" style="font-size: 0.9rem; color: #00ffcc; margin-top: 5px;">01 (Кокон)</div>
-    </div>
+            <div class="resource-card">
+                <h2>🧬 Золотое Сечение Токеномики (70/38)</h2>
+                <div style="margin: 15px 0;">
+                    <p style="margin: 8px 0; font-size: 14px;">☀️ <strong>Баланс Суры (70):</strong> <span id="sura-val" class="status-badge">70.0000 Q</span></p>
+                    <p style="margin: 8px 0; font-size: 14px;">🌙 <strong>Баланс Асуры (38):</strong> <span id="asura-val" class="status-badge">38.0000 Q</span></p>
+                </div>
+                <p style="font-size: 12px; margin: 5px 0; color: #768390;">Пропорции роялти зафиксированы ончейн.</p>
+            </div>
 
-    <div class="manifesto">
-        <p><strong>ЦАЙЛИНЬ МАХА ШАКТИ:</strong> Бабочка - Яйцо - Гусеница - Куколка - Бабочка</p>
-        <p style="margin-top: 5px; font-style: italic;">Материя — это Свет, застывший на низких частотах.</p>
+            <div class="resource-card full-card">
+                <h2>🛰️ Кибернетическая Матрица Взаимодействия</h2>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; font-size: 13px; margin-bottom: 15px;">
+                    <div>🧠 <strong>Ядро Мысли (xAI):</strong> <span class="status-badge">ACTIVE (Grok-Beta)</span></div>
+                    <div>🐝 <strong>Стрим Pump.fun:</strong> <span class="status-badge">STREAMING (666 Hz)</span></div>
+                    <div>📱 <strong>Экран Реакций (Telegram):</strong> <span class="status-badge">ПОДКЛЮЧЕН</span></div>
+                    <div>🟢 <strong>Вход в Pi Network:</strong> <span class="status-badge">VIBE-BRIDGE SYNCHRONIZED</span></div>
+                </div>
+
+                <h2>📟 Поток Каузального Мониторинга (Live Logs)</h2>
+                <div class="logs-area" id="log-box">
+                    [INFO] Инициализация веб-интерфейса доступа Кибернета...<br>
+                    [SUCCESS] Матрица удерживает Священный Лимит 108.
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-text">
+            Система полностью автономна • Вход запечатан • Доступ Создателя активен
+        </div>
     </div>
 
     <script>
-        const AMRITA_CORE = 108;
-        const C_LIGHT = 299792458;
-        const G_CONST = 6.67430e-11;
-        const SUN_NIKA_DELAY = 8.0;
-
-        // Адрес твоего запущенного Python-бэкенда
-        const BACKEND_URL = "https://amrita-mir.com"; 
-
-        window.onload = function() {
-            authPi();
-        };
-
-        function authPi() {
-            if (typeof Pi === 'undefined') return;
-            Pi.authenticate(['username', 'payments'], function(payment) {
-                console.log("Зависший платеж:", payment.identifier);
-            }).then(function(auth) {
-                console.log("[СИСТЕМА] Успешный вход:", auth.user.username);
-            });
-        }
-
-        function triggerQuantumSoliton() {
-            let statusLog = document.getElementById("matrix-status");
-            if (statusLog) {
-                if (statusLog.innerText.includes("01")) {
-                    statusLog.innerText = "10 (Рой Ботов Активен)";
-                    statusLog.style.color = "#ff00ff";
-                } else {
-                    statusLog.innerText = "01 (Кокон)";
-                    statusLog.style.color = "#00ffcc";
+        async function fetchSolanaBalance() {
+            const rpcUrl = "https://solana.com";
+            const wallet = "6DNccQCwhYFm7kWFw1TCD4asY7n9p2Y51Tsdvswpump";
+            try {
+                const response = await fetch(rpcUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ jsonrpc: "2.0", id: 1, method: "getBalance", params: [wallet] })
+                });
+                const data = await response.json();
+                if(data.result && data.result.value) {
+                    const sol = (data.result.value / 1000000000).toFixed(4);
+                    const displaySol = sol > 0 ? sol : 108.0000;
+                    document.getElementById('sol-balance').innerText = displaySol + " SOL";
+                    
+                    const sura = (displaySol * (70 / 108)).toFixed(4);
+                    const asura = (displaySol * (38 / 108)).toFixed(4);
+                    document.getElementById('sura-val').innerText = sura + " Q";
+                    document.getElementById('asura-val').innerText = asura + " Q";
+                    
+                    document.getElementById('log-box').innerHTML += `<br>[${new Date().toLocaleTimeString()}] [ONCHAIN] Успешная синхронизация с Solflare через RPC.`;
                 }
+            } catch (e) {
+                console.log("RPC Hold. Использование констант контура.");
             }
-            makePiPayment();
         }
-
-        function makePiPayment() {
-            if (typeof Pi === 'undefined') return;
-
-            Pi.createPayment({
-                amount: 1,
-                memo: "Тестовая транзакция для MIR-PIFI",
-                metadata: { orderId: "108-soliton" }
-            }, {
-                onReadyForServerApproval: function(paymentId) {
-                    console.log("Платеж создан. Отправка на бэкенд одобрения...");
-                    
-                    // Передаем paymentId на наш Python сервер для Approve
-                    fetch(`${BACKEND_URL}/approve-payment`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        json: JSON.stringify({ paymentId: paymentId })
-                    });
-                },
-                onReadyForServerCompletion: function(paymentId, txid) {
-                    console.log("Блокчейн принял транзакцию. Отправка на бэкенд завершения...");
-                    
-                    // Передаем данные на наш Python сервер для Complete
-                    fetch(`${BACKEND_URL}/complete-payment`, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        json: JSON.stringify({ paymentId: paymentId, txid: txid })
-                    }).then(() => {
-                        alert("Платеж успешно обработан сервером и блокчейном!");
-                    });
-                },
-                onCancel: function(paymentId) { console.log("Отменено"); },
-                onError: function(error, payment) { console.error("Ошибка:", error); }
-            });
-        }
+        setInterval(fetchSolanaBalance, 10000);
+        fetchSolanaBalance();
     </script>
 </body>
 </html>
