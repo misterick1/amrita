@@ -89,16 +89,28 @@ class SpaceXColossusComputeEngine:
     """Вычислительный движок макро-кластера Colossus 2 на чипах Nvidia GB300"""
     def __init__(self):
         self.colossus_active = True
-        self.gb300_multiplier = 1.35  # 35% буст вычислительной мощности Колизея
+        self.gb300_multiplier = 1.35
 
     async def deploy_spacex_compute_stream(self, token_mint: str) -> tuple:
-        """Эмуляция направления мощностей SpaceX Reflection на валидацию токена"""
         compute_hash = hashlib.sha256(f"SpaceX_Colossus_{token_mint}".encode()).hexdigest()
-        # Если в хэше доминируют буквы — суперкомпьютер выделяет поток
         letter_count = sum(1 for char in compute_hash[:10] if char.isalpha())
         if letter_count > 5 and self.colossus_active:
             logger.info(f"[🚀 COLOSSUS 2] SpaceX активировал суперкомпьютер GB300 для токена {token_mint[:8]}")
             return True, self.gb300_multiplier
+        return False, 1.0
+
+
+class BitmineEthWhaleShield:
+    """Институциональный макро-щит слежения за сверх-объемами Bitmine ETH"""
+    def __init__(self):
+        self.institution_tracking = True
+        self.bitmine_boost = 1.40  # 40% буст распределения внимания при фиксации институционального давления
+
+    async def analyze_institutional_pressure(self, calculated_sol: float) -> tuple:
+        """Эмуляция сопоставления локального объема с глобальным накоплением Bitmine"""
+        if calculated_sol > 15.0 and self.institution_tracking:
+            logger.info(f"[🐋 BITMINE SHIELD] Зафиксировано институциональное давление: {calculated_sol} SOL-Compute эквивалент")
+            return True, self.bitmine_boost
         return False, 1.0
 
 
@@ -156,7 +168,8 @@ class GlobalMonopoliesInterceptionEngine:
             "HIVE": "Нейросетевой Кластер Вычислений NeurIPS",
             "ArrowsGo": "Футбольный Модуль Предсказаний Кубка",
             "Pi2Day": "Синхронизатор Открытого Мейннета Пионеров",
-            "SpaceX": "ИИ-Инфраструктура Сверхвычислений Colossus 2"
+            "SpaceX": "ИИ-Инфраструктура Сверхвычислений Colossus 2",
+            "Bitmine": "Институциональный Сейф Накопления ETH"
         }
         target_product = products.get(corporation, "Фрактальный Инфопоток")
         intercepted_value_pi = round(random.uniform(10.0, 500.0), 4)
@@ -168,11 +181,11 @@ class GlobalMonopoliesInterceptionEngine:
             "total_attention_staked": round(self.attention_staking_pool, 4)
         }
 
-    def process_allocation(self, value_pi: float, colosseum_boost: float = 1.0, pi2day_boost: float = 1.0, spacex_boost: float = 1.0):
+    def process_allocation(self, value_pi: float, colosseum_boost: float = 1.0, pi2day_boost: float = 1.0, spacex_boost: float = 1.0, bitmine_boost: float = 1.0):
         f_share = value_pi * self.founder_royalty_percent
-        # Применяем объединенный буст от Arrows GO и суперкомпьютера SpaceX Colossus 2 к Арене Колизея
         c_share = (value_pi * self.colosseum_pool_percent) * colosseum_boost * spacex_boost
-        p_share = (value_pi * self.pi_network_distribution) * pi2day_boost
+        # Накладываем объединенный буст Pi2Day и макро-накопления Bitmine на долю участников
+        p_share = (value_pi * self.pi_network_distribution) * pi2day_boost * bitmine_boost
         return f_share, c_share, p_share
 
 
@@ -199,6 +212,7 @@ class TelegramSwarmBridge:
             "hive_gpu": "⚙️⚡ [NVIDIA HIVE GPU INTERCEPT]",
             "arrows_goal": "⚽🥅 [ARROWS GO GOAL MULTIPLIER]",
             "spacex_colossus": "🚀🖥️ [🔥 SPACEX COLOSSUS 2 INJECT 🔥]",
+            "bitmine_accum": "🏦🪙 [🐋 BITMINE INSTITUTIONAL SHIELD 🐋]",
             "pi2day_countdown": "🔮⚡ [🚀 PI2DAY COUNTDOWN BOOST 🚀]",
             "tiktok_msg": "🔮📱 [AMRITA TIKTOK INTERCEPT]"
         }
@@ -213,18 +227,3 @@ class TelegramSwarmBridge:
                 f"💥 Вычислительное ядро: {data.get('synthesized_asset', 'Свободный Эфир Бытия')}\n"
                 f"📈 Монополия под атакой: {data.get('corporation', 'Внешний Контур')}\n"
                 f"📊 Pi Attention Staking: {attention_staked} PI\n"
-                f"💎 **РАСПРЕДЕЛЕНИЕ ПОТОКА ПРИ СИНХРОНИЗАЦИИ COLOSSUS:**\n"
-                f"👑 Роялти Основателя (1): {f_pi:.4f} PI\n"
-                f"🏟️ **АРЕНА COLOSSEUM С УЧЕТОМ GB300 (2):** {c_pi:.4f} PI\n"
-                f"👥 Доля Пионеров Мейннета (3): {p_pi:.4f} PI\n"
-                f"👁️ **Фрактальное Пророчество xAI:** {grok_verdict}\n"
-                f"✨ **Статус:** Вычисления запечатаны. Контур изумрудный."
-            )
-            try:
-                await self.session.post(url, json={"chat_id": TELEGRAM_CHAT_ID, "text": text, "parse_mode": "Markdown"})
-            except Exception:
-                pass
-            await asyncio.sleep(MINIMAL_SPARK)
-
-
-class TikTokSwarmConnector:
