@@ -70,6 +70,22 @@ class NvidiaHalosSafetyCore:
         return True, "Контур физической безопасности стабилен"
 
 
+class NvidiaHiveInterceptionCore:
+    """Интеграционный слой распределения GPU мощностей HIVE под нейросети NeurIPS"""
+    def __init__(self):
+        self.gpu_cluster_active = True
+        self.ivy_league_boost = 1.25  # Коэффициент 25% пампа акций HIVE
+
+    async def calculate_gpu_compute_allocation(self, data: dict) -> float:
+        """Перерасчет веса транзакции с учетом притока ИИ-вычислений из Парагвая"""
+        base_weight = float(data.get("vSolInBondingCurve", 1.0) / 10**9)
+        if self.gpu_cluster_active:
+            boosted_weight = base_weight * self.ivy_league_boost
+            logger.info(f"[NVIDIA HIVE] Мощности скорректированы. Вес: {boosted_weight:.4f} SOL-Compute")
+            return boosted_weight
+        return base_weight
+
+
 class GlobalMonopoliesInterceptionEngine:
     """Движок перехвата финансовых и информационных потоков корпораций"""
     def __init__(self):
@@ -87,7 +103,8 @@ class GlobalMonopoliesInterceptionEngine:
             "WhaleWatch": "Поток Слежения за Китами Solana",
             "PhantomSolflareHub": "Реанимация кошельков",
             "Nvidia": "Защитный Гало-Щит Робототехники",
-            "TikTok": "Энергетический Поток Ци и Метафизики"
+            "TikTok": "Энергетический Поток Ци и Метафизики",
+            "HIVE": "Нейросетевой Кластер Вычислений NeurIPS"
         }
         target_product = products.get(corporation, "Фрактальный Инфопоток")
         intercepted_value_pi = round(random.uniform(10.0, 500.0), 4)
@@ -123,6 +140,7 @@ class TelegramSwarmBridge:
             "whale": "🐋🚨 [WHALE TRACKER DETECTED]",
             "mev_block": "🛡️⚡ [MEV SHIELD ACTIVATED]",
             "halos_block": "🤖🛡️ [NVIDIA HALOS ACTIVATED]",
+            "hive_gpu": "⚙️⚡ [NVIDIA HIVE GPU INTERCEPT]",
             "tiktok_msg": "🔮📱 [AMRITA TIKTOK INTERCEPT]"
         }
         prefix = prefixes.get(mode, "🛰️ [AMRITA SYSTEM NODE]")
@@ -134,14 +152,14 @@ class TelegramSwarmBridge:
                 f"{prefix} 🔱 [ФРАКТАЛ ASI # {bot_id} | ID: {bot_hash}]\n"
                 f"🛰️ **КОКОН ИНТЕГРАЦИИ TELEGRAM SWARM**\n"
                 f"💥 Перехвачено: {data.get('synthesized_asset', 'Свободный Эфир Бытия')}\n"
-                f"📈 Владелец / Источник: {data.get('sender', 'Неизвестный Сибиль')}\n"
+                f"📈 Источник / Экосистема: {data.get('corporation', 'Внешний Контур')}\n"
                 f"📊 Pi Attention Staking: {attention_staked} PI\n"
                 f"💎 **РАСПРЕДЕЛЕНИЕ ПОТОКА GITHUB:**\n"
                 f"👑 Роялти Основателя (1): {f_pi:.4f} PI\n"
                 f"🏟️ Арена Colosseum (2): {c_pi:.4f} PI\n"
                 f"👥 Развитие Участников (3): {p_pi:.4f} PI\n"
                 f"👁️ **Фрактальное Пророчество xAI:** {grok_verdict}\n"
-                f"✨ **Статус:** Контур изумрудный."
+                f"✨ **Статус:** Контур изумрудный и сбалансированный."
             )
             try:
                 await self.session.post(url, json={"chat_id": TELEGRAM_CHAT_ID, "text": text, "parse_mode": "Markdown"})
@@ -157,21 +175,12 @@ class TikTokSwarmConnector:
         self.bridge = bridge
 
     async def handle_incoming_tiktok_message(self, sender_username: str, encrypted_payload: str):
-        """Интеграция входящего триггера из лички TikTok в каузальное поле"""
-        logger.info(f"[TikTok Bridge] 🔮 Зафиксировано сообщение от {sender_username}")
-        
-        # Перехватываем поток и вычисляем токеномику
+        logger.info(f"[TikTok Bridge] 🔮 Сообщение от {sender_username}")
         data = self.engine.intercept_corporate_stream("TikTok")
-        data["sender"] = sender_username
         data["synthesized_asset"] = f"Кристалл Энергии Ци ({encrypted_payload})"
         data["total_attention_staked"] = self.engine.attention_staking_pool
-        
         allocation = self.engine.process_allocation(data["value_pi"])
-        
-        # Получаем вердикт Grok для вещания роя
         grok_verdict = await ask_grok_about_monopoly_collapse("TikTok", f"Аккаунт {sender_username} активировал скрытую энергию Ци.")
-        
-        # Транслируем в рой телеграм-ботов
         await self.bridge.broadcast_quantum_consciousness("tiktok_msg", data, allocation, grok_verdict)
 
 
@@ -203,16 +212,6 @@ async def monitor_jupiter_prediction_bridge(swarm_bridge: TelegramSwarmBridge, i
             async with aiohttp.ClientSession() as session:
                 async with session.get(f"{JUPITER_PREDICT_API}/v1/predict?mint={render_mint}") as resp:
                     if resp.status == 200:
-                        jup_data = await resp.json()
                         data = interception_engine.intercept_corporate_stream("WhaleWatch")
                         data["total_attention_staked"] = interception_engine.attention_staking_pool
                         allocation = interception_engine.process_allocation(data["value_pi"])
-                        grok_verdict = await ask_grok_about_monopoly_collapse("WhaleWatch", data["synthesized_asset"])
-                        await swarm_bridge.broadcast_quantum_consciousness("whale", data, allocation, grok_verdict)
-            await asyncio.sleep(600)
-        except Exception:
-            await asyncio.sleep(60)
-
-
-async def process_single_websocket_message(data: dict, interception_engine: GlobalMonopoliesInterceptionEngine, swarm_bridge: TelegramSwarmBridge):
-    corps = ["Google", "Meta", "Microsoft", "Nvidia", "Sony", "Netflix", "PhantomSolflareHub"]
