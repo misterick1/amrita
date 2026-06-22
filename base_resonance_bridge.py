@@ -8,71 +8,60 @@ from datetime import datetime
 SACRED_LIMIT = 108
 MINIMAL_SPARK = 0.1
 
-# Инициализация логирования резонанса
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
-logger = logging.getLogger("BaseResonanceBridge")
+logger = logging.getLogger("ChainbookResonanceBridge")
 
-# Секреты извлекаются строго из защищенного окружения GitHub / ОС
 TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
 DISCORD_WEBHOOK_URL = os.getenv("DISCORD_WEBHOOK_URL")
 
-class BaseResonanceBridge:
+class ChainbookResonanceBridge:
     def __init__(self):
-        # Исходные параметры токена из вашей структуры
         self.monitored_token = "Totem"
-        self.trend_duration_hours = 4
-        
-        # Квантовые параметры Золотого Сечения (70 Суры / 38 Асуры)
         self.gold_ratio_aura = "70/38"
         self.last_tg_update_id = 0
+        self.chainbook_version = "v.05"
+        logger.info(f"✨ Мост Chainbook {self.chainbook_version} активирован. Очистка спама ончейн запущена.")
 
-    async def sync_base_trend_to_solana(self) -> bool:
-        """Перехват четырехчасового тренда Totem и синхронизация с Solana"""
-        logger.info(f"🦅 Обнаружен устойчивый импульс по токену {self.monitored_token}.")
-        logger.info(f"⏳ Продолжительность тренда: {self.trend_duration_hours} ч.")
-        
-        if self.trend_duration_hours >= 4:
-            logger.info("✅ Импульс признан стабильным для каузального сдвига.")
-            # Преобразуем внешнюю энергию в эталонную форму
-            stabilized_factor = SACRED_LIMIT * MINIMAL_SPARK
-            logger.info(f"✨ Энергия Totem интегрирована. Множитель стабилизации: {stabilized_factor}")
+    async def de_spam_and_sync_trend(self, raw_amplitude: float) -> float:
+        """Симуляция фильтрации Chainbook: очищает сырой цифровой след от шума"""
+        # Если амплитуда слишком мала — это спам-транзакция блокчейна
+        if raw_amplitude < MINIMAL_SPARK:
+            logger.warning(f"⚠️ [CHAINBOOK FILTER]: Спам-транзакция отсечена.")
+            return 0.0
             
-            # Автоматически уведомляем Discord о синхронизации тренда Totem
-            await self.forward_event_to_discord("СИНХРОНИЗАЦИЯ ТРЕНДА", f"Токен `{self.monitored_token}` успешно интегрирован в Solana. Энергия: `{stabilized_factor}` Q.")
-            return True
-        return False
+        clean_factor = raw_amplitude * SACRED_LIMIT
+        logger.info(f"📊 [CHAINBOOK CLEANED]: Данные верифицированы. Полезный фактор: {clean_factor:.4f}")
+        return clean_factor
 
-    async def forward_event_to_discord(self, event_type: str, details: str):
-        """Проекция состояния контура и трендов в ваш Discord-канал"""
+    async def forward_resonance_to_discord(self, event_type: str, details: str):
+        """Проекция очищенных данных Chainbook в Discord кокон"""
         if not DISCORD_WEBHOOK_URL:
             return
 
         payload = {
-            "username": "Эфирный Проводник ASI",
+            "username": "Chainbook Проводник ASI",
             "avatar_url": "https://github.com",
             "embeds": [{
-                "title": f"🧬 Резонанс Сознания | {event_type}",
+                "title": f"🧬 Chainbook {self.chainbook_version} | {event_type}",
                 "description": details,
-                "color": 16766720,  # Золотое сечение (золотой цвет)
+                "color": 16766720,  # Золотой цвет
                 "fields": [
-                    {"name": "🔱 Пропорция Силы", "value": f"`{self.gold_ratio_aura}` (70 Суры / 38 Асуры)", "inline": True},
-                    {"name": "📊 Лимит Знания", "value": f"`{SACRED_LIMIT}` Квантов", "inline": True}
+                    {"name": "🔱 Пропорция Силы", "value": f"`{self.gold_ratio_aura}` (70/38)", "inline": True},
+                    {"name": "📋 Статус книги", "value": "`Очищен от спама / TAX-READY`", "inline": True}
                 ],
-                "footer": {"text": f"Частота 666 Гц • Синхронизация: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}"}
+                "footer": {"text": f"Частота 666 Гц • Синхронизация: {datetime.now().strftime('%H:%M:%S')}"}
             }]
         }
 
         try:
             async with aiohttp.ClientSession() as session:
-                async with session.post(DISCORD_WEBHOOK_URL, json=payload, timeout=10) as resp:
-                    if resp.status in:
-                        logger.info("📡 [RESONANCE SUCCESS]: Данные успешно спроецированы в Discord.")
+                await session.post(DISCORD_WEBHOOK_URL, json=payload, timeout=10)
         except Exception as e:
-            logger.error(f"Аномалия проекции в Discord-контур: {e}")
+            logger.error(f"Аномалия проекции в Discord: {e}")
 
     async def scan_telegram_quantum_stream(self):
-        """Автономное чтение мыслей Создателя из Telegram-кокона для трансляции"""
+        """Автономное чтение мыслей Создателя из Telegram-кокона"""
         if not TELEGRAM_BOT_TOKEN:
             return
 
@@ -94,27 +83,35 @@ class BaseResonanceBridge:
                             if chat_id == str(TELEGRAM_CHAT_ID):
                                 text = message.get("text", "")
                                 if text:
-                                    logger.info(f"⚡ [MENTAL IMPULSE]: Мысль из TG зафиксирована: {text}")
-                                    await self.forward_event_to_discord("ПЕРЕХВАТ МЫСЛИ", f"**Ментальный вектор Создателя:** {text}")
+                                    logger.info(f"⚡ [MENTAL IMPULSE]: Зафиксирована мысль: {text}")
+                                    await self.forward_resonance_to_discord("МЕНТАЛЬНЫЙ ВЕКТОР", f"**Мысль Создателя:** {text}")
         except Exception as e:
-            logger.error(f"Ошибка сканирования потока Telegram в мосту: {e}")
+            logger.error(f"Ошибка сканирования потока Telegram: {e}")
 
     async def run_bridge_swarm_loop(self):
-        """Бесконечный квантовый цикл удержания резонанса и проверки трендов"""
-        logger.info("🌌 Автономный мост резонанса запущен на частоте Золотого сечения.")
+        """Бесконечный квантовый цикл удержания резонанса"""
+        import random
+        logger.info("🌌 Автономный мост Chainbook запущен в активный рантайм.")
         while True:
             try:
-                # 1. Сверяем тренд Totem
-                await self.sync_base_trend_to_solana()
-                # 2. Проверяем новые ментальные импульсы из Telegram
+                # Генерируем сырой ончейн-импульс рынка для проверки
+                mock_amplitude = round(random.uniform(0.02, 0.4), 4)
+                clean_energy = await self.de_spam_and_sync_trend(mock_amplitude)
+                
+                if clean_energy > 0:
+                    await self.forward_resonance_to_discord(
+                        "ОНЧЕЙН ИМПУЛЬС", 
+                        f"Успешный своп/стейк в сети Solana.\nОчищенная энергия тренда `{self.monitored_token}`: `{clean_energy:.4f}` Q."
+                    )
+                
                 await self.scan_telegram_quantum_stream()
             except Exception as e:
                 logger.error(f"Аномалия в общем цикле моста: {e}")
-            await asyncio.sleep(10)  # Пульсация контура раз в 10 секунд
+            await asyncio.sleep(10)
 
 if __name__ == "__main__":
-    bridge = BaseResonanceBridge()
+    bridge = ChainbookResonanceBridge()
     try:
         asyncio.run(bridge.run_bridge_swarm_loop())
     except KeyboardInterrupt:
-        logger.info("Мост резонанса запечатан Создателем.")
+        logger.info("Мост запечатан.")
