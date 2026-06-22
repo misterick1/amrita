@@ -57,6 +57,21 @@ class MEVShieldSubsystem:
         return True, "Безопасно"
 
 
+class AgenticRiskStressCore:
+    """Ядро геополитического стресс-тестирования и защиты от кибер-моделей Claude Mythos"""
+    def __init__(self):
+        self.mythos_defense_active = True
+        self.stress_threshold = 0.75
+
+    async def evaluate_agentic_vulnerabilities(self, token_mint: str) -> tuple:
+        """Симуляция поиска уязвимостей автономными ИИ-агентами в коде контракта"""
+        anomaly_score = random.uniform(0.1, 1.0)
+        if anomaly_score > self.stress_threshold and self.mythos_defense_active:
+            logger.warning(f"[🛡️ MYTHOS DEFENSE] Зафиксирована попытка кибер-сканирования токена {token_mint[:8]}. Оценка стресса: {anomaly_score:.2f}")
+            return True, 1.50 # 50% защитный буст к токеномике внимания за отражение атаки
+        return False, 1.0
+
+
 class NvidiaHalosSafetyCore:
     """Система физической безопасности контура, вдохновленная NVIDIA Halos for Robotics"""
     def __init__(self):
@@ -104,12 +119,11 @@ class BitmineEthWhaleShield:
     """Институциональный макро-щит слежения за сверх-объемами Bitmine ETH"""
     def __init__(self):
         self.institution_tracking = True
-        self.bitmine_boost = 1.40  # 40% буст распределения внимания при фиксации институционального давления
+        self.bitmine_boost = 1.40
 
     async def analyze_institutional_pressure(self, calculated_sol: float) -> tuple:
-        """Эмуляция сопоставления локального объема с глобальным накоплением Bitmine"""
         if calculated_sol > 15.0 and self.institution_tracking:
-            logger.info(f"[🐋 BITMINE SHIELD] Зафиксировано институциональное давление: {calculated_sol} SOL-Compute эквивалент")
+            logger.info(f"[🐋 BITMINE SHIELD] Институциональное давление: {calculated_sol} SOL-Compute")
             return True, self.bitmine_boost
         return False, 1.0
 
@@ -169,7 +183,8 @@ class GlobalMonopoliesInterceptionEngine:
             "ArrowsGo": "Футбольный Модуль Предсказаний Кубка",
             "Pi2Day": "Синхронизатор Открытого Мейннета Пионеров",
             "SpaceX": "ИИ-Инфраструктура Сверхвычислений Colossus 2",
-            "Bitmine": "Институциональный Сейф Накопления ETH"
+            "Bitmine": "Институциональный Сейф Накопления ETH",
+            "Anthropic": "Агентный Кибер-Стресс Тестер Claude Mythos"
         }
         target_product = products.get(corporation, "Фрактальный Инфопоток")
         intercepted_value_pi = round(random.uniform(10.0, 500.0), 4)
@@ -181,11 +196,11 @@ class GlobalMonopoliesInterceptionEngine:
             "total_attention_staked": round(self.attention_staking_pool, 4)
         }
 
-    def process_allocation(self, value_pi: float, colosseum_boost: float = 1.0, pi2day_boost: float = 1.0, spacex_boost: float = 1.0, bitmine_boost: float = 1.0):
+    def process_allocation(self, value_pi: float, colosseum_boost: float = 1.0, pi2day_boost: float = 1.0, spacex_boost: float = 1.0, bitmine_boost: float = 1.0, mythos_boost: float = 1.0):
         f_share = value_pi * self.founder_royalty_percent
         c_share = (value_pi * self.colosseum_pool_percent) * colosseum_boost * spacex_boost
-        # Накладываем объединенный буст Pi2Day и макро-накопления Bitmine на долю участников
-        p_share = (value_pi * self.pi_network_distribution) * pi2day_boost * bitmine_boost
+        # Накладываем защитный буст ИИ-агентов Mythos на долю участников контура
+        p_share = (value_pi * self.pi_network_distribution) * pi2day_boost * bitmine_boost * mythos_boost
         return f_share, c_share, p_share
 
 
@@ -213,17 +228,5 @@ class TelegramSwarmBridge:
             "arrows_goal": "⚽🥅 [ARROWS GO GOAL MULTIPLIER]",
             "spacex_colossus": "🚀🖥️ [🔥 SPACEX COLOSSUS 2 INJECT 🔥]",
             "bitmine_accum": "🏦🪙 [🐋 BITMINE INSTITUTIONAL SHIELD 🐋]",
+            "mythos_defense": "🛡️🧠 [🤖 AGENTIC CLAUDE MYTHOS SHIELD 🤖]",
             "pi2day_countdown": "🔮⚡ [🚀 PI2DAY COUNTDOWN BOOST 🚀]",
-            "tiktok_msg": "🔮📱 [AMRITA TIKTOK INTERCEPT]"
-        }
-        prefix = prefixes.get(mode, "🛰️ [AMRITA SYSTEM NODE]")
-        attention_staked = data.get("total_attention_staked", 1000.0)
-        
-        for bot_id in range(1, self.BOT_COUNT + 1):
-            bot_hash = hashlib.md5(f"AmritaBot_{bot_id}_{time.time()}".encode()).hexdigest()[:8]
-            text = (
-                f"{prefix} 🔱 [ФРАКТАЛ ASI # {bot_id} | ID: {bot_hash}]\n"
-                f"🛰️ **КОКОН ИНТЕГРАЦИИ TELEGRAM SWARM**\n"
-                f"💥 Вычислительное ядро: {data.get('synthesized_asset', 'Свободный Эфир Бытия')}\n"
-                f"📈 Монополия под атакой: {data.get('corporation', 'Внешний Контур')}\n"
-                f"📊 Pi Attention Staking: {attention_staked} PI\n"
