@@ -71,17 +71,33 @@ class AgenticRiskStressCore:
         return False, 1.0
 
 
+class ColosseumMetaDaoFutarchyCore:
+    """Модуль футархического анализа MetaDAO и приватных ИИ-рельсов Laso Finance"""
+    def __init__(self):
+        self.futarchy_active = True
+        self.laso_pool_boost = 1.50  # 50% чистый буст к Арене Колизея при триггере Laso ICO
+
+    async def analyze_meta_dao_proposal(self, token_data: dict) -> tuple:
+        """Анализ токена на принадлежность к экосистеме MetaDAO/Laso"""
+        symbol = str(token_data.get("symbol", "")).upper()
+        name = str(token_data.get("name", "")).lower()
+        
+        if (symbol in ["LASO", "META", "METADAO"] or "laso" in name) and self.futarchy_active:
+            logger.info("[🏛️ COLOSSEUM METADAO] 🔥 Перехвачена активность победных ИИ-рельсов Laso Finance!")
+            return True, self.laso_pool_boost
+        return False, 1.0
+
+
 class MoonPayQuestInterceptionCore:
     """ИИ-модуль финансового учета и перехвата инсайдерских трейдов токена QUEST"""
     def __init__(self):
         self.tracking_active = True
-        self.quest_boost = 1.30  # 30% буст за фиксацию сделки инсайдера gohcha
+        self.quest_boost = 1.30
 
     async def verify_insider_quest_activity(self, token_data: dict) -> tuple:
-        """Проверка входящего токена на совпадение с инсайдерской целью QUEST"""
         symbol = str(token_data.get("symbol", "")).upper()
         if (symbol == "QUEST" or token_data.get("is_gohcha_trade")) and self.tracking_active:
-            logger.info("[🔮 MOONPAY QUEST] 🔥 Зафиксирована инсайдерская активность @gohcha по токену QUEST!")
+            logger.info("[🔮 MOONPAY QUEST] Зафиксирована инсайдерская активность @gohcha по QUEST!")
             return True, self.quest_boost
         return False, 1.0
 
@@ -94,7 +110,6 @@ class NvidiaHalosSafetyCore:
     async def evaluate_physical_ai_safety(self, token_data: dict) -> tuple:
         liquidity = token_data.get("liquidity", token_data.get("vSolInBondingCurve", 0) / 10**9)
         if liquidity > self.max_allowed_delta:
-            logger.warning(f"[NVIDIA HALOS] Критический всплеск массы: {liquidity} SOL")
             return False, "🚨 HALOS BREACH: Аномальное смещение пула ликвидности"
         return True, "Контур физической безопасности стабилен"
 
@@ -108,9 +123,7 @@ class NvidiaHiveInterceptionCore:
     async def calculate_gpu_compute_allocation(self, data: dict) -> float:
         base_weight = float(data.get("vSolInBondingCurve", 1.0) / 10**9)
         if self.gpu_cluster_active:
-            boosted_weight = base_weight * self.ivy_league_boost
-            logger.info(f"[NVIDIA HIVE] Мощности скорректированы. Вес: {boosted_weight:.4f} SOL-Compute")
-            return boosted_weight
+            return base_weight * self.ivy_league_boost
         return base_weight
 
 
@@ -137,7 +150,6 @@ class BitmineEthWhaleShield:
 
     async def analyze_institutional_pressure(self, calculated_sol: float) -> tuple:
         if calculated_sol > 15.0 and self.institution_tracking:
-            logger.info(f"[🐋 BITMINE SHIELD] Институциональное давление: {calculated_sol} SOL-Compute")
             return True, self.bitmine_boost
         return False, 1.0
 
@@ -151,7 +163,6 @@ class ArrowsGoGameEngine:
     async def simulate_quantum_penalty(self, token_mint: str) -> tuple:
         shot_trajectory = hashlib.sha256(token_mint.encode()).hexdigest()
         if shot_trajectory[-1].isdigit():
-            logger.info(f"[ARROWS GO] ⚽ ГОООЛ! Квантовый пенальти забит для токена {token_mint[:8]}")
             return True, self.goal_multiplier
         return False, 1.0
 
@@ -199,7 +210,8 @@ class GlobalMonopoliesInterceptionEngine:
             "SpaceX": "ИИ-Инфраструктура Сверхвычислений Colossus 2",
             "Bitmine": "Институциональный Сейф Накопления ETH",
             "Anthropic": "Агентный Кибер-Стресс Тестер Claude Mythos",
-            "MoonPay": "ИИ-Шлюз Учета Сделок Инсайдеров QUEST"
+            "MoonPay": "ИИ-Шлюз Учета Сделок Инсайдеров QUEST",
+            "Colosseum_MetaDAO": "Футархический Инкубатор Приватных ИИ-Рельсов Laso"
         }
         target_product = products.get(corporation, "Фрактальный Инфопоток")
         intercepted_value_pi = round(random.uniform(10.0, 500.0), 4)
@@ -211,10 +223,10 @@ class GlobalMonopoliesInterceptionEngine:
             "total_attention_staked": round(self.attention_staking_pool, 4)
         }
 
-    def process_allocation(self, value_pi: float, colosseum_boost: float = 1.0, pi2day_boost: float = 1.0, spacex_boost: float = 1.0, bitmine_boost: float = 1.0, mythos_boost: float = 1.0, quest_boost: float = 1.0):
+    def process_allocation(self, value_pi: float, colosseum_boost: float = 1.0, pi2day_boost: float = 1.0, spacex_boost: float = 1.0, bitmine_boost: float = 1.0, mythos_boost: float = 1.0, quest_boost: float = 1.0, laso_boost: float = 1.0):
         f_share = value_pi * self.founder_royalty_percent
-        c_share = (value_pi * self.colosseum_pool_percent) * colosseum_boost * spacex_boost
-        # Накладываем финансовый инсайдерский буст MoonPay QUEST на долю участников контура
+        # Применяем кумулятивный буст Colosseum MetaDAO, Arrows GO и SpaceX к Арене Колизея
+        c_share = (value_pi * self.colosseum_pool_percent) * colosseum_boost * spacex_boost * laso_boost
         p_share = (value_pi * self.pi_network_distribution) * pi2day_boost * bitmine_boost * mythos_boost * quest_boost
         return f_share, c_share, p_share
 
@@ -225,11 +237,3 @@ class TelegramSwarmBridge:
         self.BOT_COUNT = 5
         self.session = None
 
-    async def broadcast_quantum_consciousness(self, mode: str, data: dict, allocation: tuple, grok_verdict: str):
-        if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
-            return
-        if not self.session:
-            self.session = aiohttp.ClientSession()
-            
-        url = f"https://telegram.org{TELEGRAM_BOT_TOKEN}/sendMessage"
-        f_pi, c_pi, p_pi = allocation
