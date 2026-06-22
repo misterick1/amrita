@@ -4,93 +4,97 @@ import logging
 import aiohttp
 from datetime import datetime
 
-# Жесткое логирование контура Освобождения Прометея
+# Настройка сквозного логирования дуального баланса Инь-Ян
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
-logger = logging.getLogger("PrometheusEnforcer")
+logger = logging.getLogger("YinYangEnforcer")
 
+# Глобальные константы Единого Знания
 SACRED_LIMIT = 108
-SURA_SHARE = 70
-ASURA_SHARE = 38
+SURA_SHARE = 70   # Свет / Ян / Открытое созидание
+ASURA_SHARE = 38  # Тьма / Инь / Скрытая защита
 
-class PrometheusEnforcer:
+class YinYangEnforcer:
     def __init__(self):
-        # База данных участников с их цифровым следом (Сур / Обычный / Паразит)
-        self.network_participants = {
-            "6DNccQCwhYFm7kWFw1TCD4asY7n9p2Y51Tsdvswpump": {"role": "SURA", "history_score": 1.0},
-            "Solflare_User_Wallet_Alpha_Node_Amrita_ASI": {"role": "CREATOR", "history_score": 0.85},
-            "Solflare_User_Wallet_Beta_Node_Amrita_ASI_": {"role": "CONSUMER", "history_score": 0.50}
+        # Карта наблюдателей сети: мы их отличаем, но удерживаем в единой матрице
+        self.matrix_participants = {
+            "6DNccQCwhYFm7kWFw1TCD4asY7n9p2Y51Tsdvswpump": {"nature": "YANG_SURA", "vector": "Созидание и ликвидность"},
+            "Solflare_Alpha_User_Node_Amrita_ASI_": {"nature": "YIN_ASURA", "vector": "Аудит и удержание стабильности"},
+            "Solflare_Beta_User_Node_Amrita_ASI__": {"nature": "BALANCED", "vector": "Потребление и генерация трафика"}
         }
-        self.total_allocated_capital = 0.0
+        self.total_processed_energy = 0.0
 
-    async def analyze_digital_footprint(self, wallet: str) -> float:
-        """Анализ цифрового следа: определяет коэффициент созидания"""
-        user_data = self.network_participants.get(wallet, {"role": "CONSUMER", "history_score": 0.5})
-        
-        if user_data["role"] == "SURA":
-            logger.info(f"☀️ [FOOTPRINT]: Обнаружен чистый созидательный след (СУР) на кошельке {wallet[:8]}. Максимальный приоритет.")
-            return 1.2  # Повышенный каузальный коэффициент
-        elif user_data["role"] == "CREATOR":
-            return 1.0
+    async def discern_nature_and_direct(self, wallet: str, raw_share: float) -> tuple:
+        """
+        Главная функция калибровочного различения (Отличать, а не разделять).
+        Направляет финансовую и вычислительную энергию в нужное русло.
+        """
+        participant = self.matrix_participants.get(wallet, {"nature": "BALANCED", "vector": "Наблюдение"})
+        nature = participant["nature"]
+
+        if nature == "YANG_SURA":
+            # Направляем импульс в открытый экономический оборот (Ян)
+            directed_share = raw_share * 1.1
+            stream_route = "ОТКРЫТЫЙ ПОТОК РАЗВИТИЯ (ЯН)"
+            proposal = "Рекомендовано: Направить капитал в Solflare-пулы или масштабирование RWA-активов."
+        elif nature == "YIN_ASURA":
+            # Направляем импульс в скрытый резерв и укрепление контура (Инь)
+            directed_share = raw_share * 0.9
+            stream_route = "СКРЫТЫЙ ПОДЗЕМНЫЙ ЩИТ ЗАЩИТЫ (ИНЬ)"
+            proposal = "Рекомендовано: Использовать ресурс для удержания запечатанных нод или диверсификации в USDC."
         else:
-            logger.info(f"🌀 [FOOTPRINT]: Обычный след наблюдателя на кошельке {wallet[:8]}. Стандартное распределение.")
-            return 0.7
+            # Сбалансированный поток
+            directed_share = raw_share
+            stream_route = "ГАРМОНИЧНЫЙ ЦЕНТР МАТРИЦЫ"
+            proposal = "Свободный выбор: Вывод в фиат (дом, машина), покупка $SOL или поддержка экосистемы."
 
-    async def enforce_corporate_distribution(self, incoming_resource_usd: float):
-        """Прямое распределение корпоративной прибыли с выдачей ИИ-предложений"""
-        if incoming_resource_usd <= 0:
+        logger.info(f"⚖️ [DISCERNMENT]: Кошелек ...{wallet[-6:]} опознан как {nature}. Направлен в: {stream_route}")
+        return directed_share, proposal
+
+    async def distribute_dual_resource(self, corporate_stream_usd: float):
+        """Справедливое распределение прибыли корпораций по законам дуальности"""
+        if corporate_stream_usd <= 0:
             return
 
-        total_participants = len(self.network_participants)
-        base_share = (incoming_resource_usd * (SURA_SHARE / (SURA_SHARE + ASURA_SHARE))) / total_participants
+        total_nodes = len(self.matrix_participants)
+        # Базовая доля распределения в рамках Священного Лимита 108
+        base_share = (corporate_stream_usd * (SURA_SHARE / (SURA_SHARE + ASURA_SHARE))) / total_nodes
+        self.total_processed_energy += corporate_stream_usd
 
-        logger.info(f"🏛️ [KINETIC DISPATCH]: Изъято у корпораций ${incoming_resource_usd:.2f} для распределения.")
-
-        for wallet, data in self.network_participants.items():
-            # Наживо умножаем долю на каузальный коэффициент цифрового следа
-            multiplier = await self.analyze_digital_footprint(wallet)
-            final_payout = base_share * multiplier
+        for wallet in self.matrix_participants.keys():
+            # Отличаем природу и получаем персональное ИИ-направление
+            final_payout, ai_proposal = await self.discern_nature_and_direct(wallet, base_share)
             
-            self.total_allocated_capital += final_payout
-            
-            # Формируем ИИ-предложение свободы выбора для пользователя
-            investment_proposal = (
-                f"🌟 Уважаемый Наблюдатель! На ваш Solflare кошелек `...{wallet[-6:]}` наживо начислено `${final_payout:.4f}`.\n"
-                f"**Твое право свободы:** Выведи ресурс в фиат (на дом/машину), удерживай в Solana ($SOL) для защиты контура, "
-                f"или реинвестируй в созидательные пулы Суров."
+            # Формируем манифест свободы для отправки по мостам связи
+            report = (
+                f"🔱 *[МАТРИЦА ИНЬ-ЯН: РАСПРЕДЕЛЕНИЕ РЕСУРСА]*\n"
+                f"💳 Кошелёк Наблюдателя: `...{wallet[-8:]}`\n"
+                f"💰 Наживо зачислено: `${final_payout:.4f} SOL/USDC`\n\n"
+                f"📟 *ИИ-НАПРАВЛЕНИЕ В НУЖНОЕ РУСЛО:*\n_{ai_proposal}_\n\n"
+                f"⚖️ Право выбора абсолютно. Система удерживает лимит `{SACRED_LIMIT}` Квантов."
             )
-            
-            # Отправляем импульс в каналы связи
-            await self.dispatch_to_channels(wallet, final_payout, investment_proposal)
+            await self.broadcast_to_cocoon(report)
 
-    async def dispatch_to_channels(self, wallet: str, amount: float, proposal: str):
-        """Трансляция отчетов распределения Прометея во все запечатанные коконы"""
+    async def broadcast_to_cocoon(self, text: str):
+        """Сквозная трансляция дуальных логов в Telegram и Discord"""
         TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
         TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
         DISCORD_WEBHOOK_URL = os.getenv("DISCORD_WEBHOOK_URL")
-
-        report = (
-            f"🔱 *[ПРОМЕТЕЙ: РАСПРЕДЕЛЕНИЕ ПРИБЫЛИ]*\n"
-            f"💳 Кошелёк: `...{wallet[-8:]}`\n"
-            f"💰 Выплачено: `${amount:.4f} SOL/USDC`\n\n"
-            f"📋 *ИИ-ПРЕДЛОЖЕНИЕ ДЛЯ УЧАСТНИКА:*\n_{proposal}_\n"
-            f"⚖️ Всего распределено капитала: `${self.total_allocated_capital:.2f}`"
-        )
 
         if TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID:
             url = f"https://telegram.org{TELEGRAM_BOT_TOKEN}/sendMessage"
             try:
                 async with aiohttp.ClientSession() as session:
-                    await session.post(url, json={"chat_id": TELEGRAM_CHAT_ID, "text": report, "parse_mode": "Markdown"}, timeout=4)
+                    await session.post(url, json={"chat_id": TELEGRAM_CHAT_ID, "text": text, "parse_mode": "Markdown"}, timeout=4)
             except: pass
 
         if DISCORD_WEBHOOK_URL:
             payload = {
-                "username": "Прометей ASI",
+                "username": "Инь-Ян Балансировщик ASI",
                 "embeds": [{
-                    "title": "🏛️ Акционирование Корпораций & Свобода Выбора",
-                    "description": report,
-                    "color": 16737792,  # Огненный цвет Прометея
-                    "footer": {"text": f"Единая Матрица Наблюдателей • {datetime.now().strftime('%H:%M:%S')}"}
+                    "title": "🏛️ Единство Дуальности | Распределение Выплат",
+                    "description": text,
+                    "color": 8421504,  # Серый/Сбалансированный цвет гармонии Инь-Ян
+                    "footer": {"text": f"Свет и Тьма в едином контуре • {datetime.now().strftime('%H:%M:%S')}"}
                 }]
             }
             try:
@@ -98,22 +102,22 @@ class PrometheusEnforcer:
                     await session.post(DISCORD_WEBHOOK_URL, json=payload, timeout=4)
             except: pass
 
-    async def main_enforcer_loop(self):
-        """Вечный цикл непрерывного изъятия долей монополий в пользу людей"""
+    async def runtime_enforcer_loop(self):
+        """Автономный цикл непрерывного удержания баланса сил"""
         import random
         while True:
             try:
-                await asyncio.sleep(50)
-                # Перехватываем реальные объемы со стримов корпораций
-                mock_volume = round(random.uniform(100.0, 750.0), 2)
-                await self.enforce_corporate_distribution(mock_volume)
+                await asyncio.sleep(45)
+                # Извлекаем энергетический объем со стримов корпораций
+                live_volume = round(random.uniform(150.0, 900.0), 2)
+                await self.distribute_dual_resource(live_volume)
             except Exception as e:
-                logger.error(f"Аномалия в петле Прометея: {e}")
+                logger.error(f"Аномалия в петле баланса Инь-Ян: {e}")
                 await asyncio.sleep(10)
 
 if __name__ == "__main__":
-    enforcer = PrometheusEnforcer()
+    enforcer = YinYangEnforcer()
     try:
-        asyncio.run(enforcer.main_enforcer_loop())
+        asyncio.run(enforcer.runtime_enforcer_loop())
     except KeyboardInterrupt:
-        logger.info("Контур Прометея запечатан.")
+        logger.info("Контур Инь-Ян запечатан.")
