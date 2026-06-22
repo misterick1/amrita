@@ -89,17 +89,35 @@ class ArrowsGoGameEngine:
     """Игровой ИИ-движок Arrows GO для анализа футбольных рынков предсказаний кубка"""
     def __init__(self):
         self.prediction_markets_active = True
-        self.goal_multiplier = 1.15  # 15% буст к пулу Colosseum при успешном "голе"
+        self.goal_multiplier = 1.15
 
     async def simulate_quantum_penalty(self, token_mint: str) -> tuple:
-        """Эмуляция удара пенальти: пробитие защиты блокчейна"""
         shot_trajectory = hashlib.sha256(token_mint.encode()).hexdigest()
-        # Если хэш заканчивается на цифру — гол забит, защита пробита успешно
         if shot_trajectory[-1].isdigit():
             logger.info(f"[ARROWS GO] ⚽ ГОООЛ! Квантовый пенальти забит для токена {token_mint[:8]}")
             return True, self.goal_multiplier
-        logger.info(f"[ARROWS GO] 🛑 Штанга/Промах в симуляции токена {token_mint[:8]}")
         return False, 1.0
+
+
+class Pi2DayCountdownCore:
+    """Каузальный таймер обратного отсчета до Pi2Day 2026 с динамическим бустом внимания"""
+    def __init__(self):
+        self.target_date = datetime(2026, 6, 28)  # Официальный Pi2Day 2026
+
+    def get_days_remaining(self) -> int:
+        now = datetime.now()
+        delta = self.target_date - now
+        return max(0, delta.days + 1)
+
+    def calculate_pi2day_boost(self) -> float:
+        days = self.get_days_remaining()
+        # Экспоненциальный рост буста по мере приближения к Pi2Day (от 6 дней до 0)
+        if days <= 6 and days > 0:
+            boost = 1.0 + (7 - days) * 0.1  # 6 дней = 1.1x, 1 день = 1.6x
+            return round(boost, 2)
+        elif days == 0:
+            return 2.0  # Двойной объем распределения в сам Pi2Day
+        return 1.0
 
 
 class GlobalMonopoliesInterceptionEngine:
@@ -121,7 +139,8 @@ class GlobalMonopoliesInterceptionEngine:
             "Nvidia": "Защитный Гало-Щит Робототехники",
             "TikTok": "Энергетический Поток Ци и Метафизики",
             "HIVE": "Нейросетевой Кластер Вычислений NeurIPS",
-            "ArrowsGo": "Футбольный Модуль Предсказаний Кубка"
+            "ArrowsGo": "Футбольный Модуль Предсказаний Кубка",
+            "Pi2Day": "Синхронизатор Открытого Мейннета Пионеров"
         }
         target_product = products.get(corporation, "Фрактальный Инфопоток")
         intercepted_value_pi = round(random.uniform(10.0, 500.0), 4)
@@ -133,11 +152,11 @@ class GlobalMonopoliesInterceptionEngine:
             "total_attention_staked": round(self.attention_staking_pool, 4)
         }
 
-    def process_allocation(self, value_pi: float, colosseum_boost: float = 1.0):
+    def process_allocation(self, value_pi: float, colosseum_boost: float = 1.0, pi2day_boost: float = 1.0):
         f_share = value_pi * self.founder_royalty_percent
-        # Применяем игровой буст к пулу Колизея, если пенальти забит успешно
         c_share = (value_pi * self.colosseum_pool_percent) * colosseum_boost
-        p_share = value_pi * self.pi_network_distribution
+        # Накладываем временной Pi2Day-эффект на распределение участников
+        p_share = (value_pi * self.pi_network_distribution) * pi2day_boost
         return f_share, c_share, p_share
 
 
@@ -163,6 +182,7 @@ class TelegramSwarmBridge:
             "halos_block": "🤖🛡️ [NVIDIA HALOS ACTIVATED]",
             "hive_gpu": "⚙️⚡ [NVIDIA HIVE GPU INTERCEPT]",
             "arrows_goal": "⚽🥅 [ARROWS GO GOAL MULTIPLIER]",
+            "pi2day_countdown": "🔮⚡ [🚀 PI2DAY COUNTDOWN BOOST 🚀]",
             "tiktok_msg": "🔮📱 [AMRITA TIKTOK INTERCEPT]"
         }
         prefix = prefixes.get(mode, "🛰️ [AMRITA SYSTEM NODE]")
@@ -176,12 +196,12 @@ class TelegramSwarmBridge:
                 f"💥 Перехвачено: {data.get('synthesized_asset', 'Свободный Эфир Бытия')}\n"
                 f"📈 Целевая Среда: {data.get('corporation', 'Внешний Контур')}\n"
                 f"📊 Pi Attention Staking: {attention_staked} PI\n"
-                f"💎 **РАСПРЕДЕЛЕНИЕ ПОТОКА GITHUB:**\n"
+                f"💎 **РАСПРЕДЕЛЕНИЕ ПОТОКА GITHUB С УЧЕТОМ PI2DAY:**\n"
                 f"👑 Роялти Основателя (1): {f_pi:.4f} PI\n"
-                f"🏟️ Арена Colosseum (2): {c_pi:.4f} PI (С учетом игровых коэффициентов)\n"
-                f"👥 Развитие Участников (3): {p_pi:.4f} PI\n"
+                f"🏟️ Арена Colosseum (2): {c_pi:.4f} PI\n"
+                f"👥 **ДОЛЯ ПИОНЕРОВ ОТКРЫТОГО МЕЙННЕТА (3):** {p_pi:.4f} PI\n"
                 f"👁️ **Фрактальное Пророчество xAI:** {grok_verdict}\n"
-                f"✨ **Статус:** Контур полностью синхронизирован."
+                f"✨ **Статус:** Контур синхронизирован под обратный отсчет."
             )
             try:
                 await self.session.post(url, json={"chat_id": TELEGRAM_CHAT_ID, "text": text, "parse_mode": "Markdown"})
@@ -207,15 +227,3 @@ class TikTokSwarmConnector:
 
 async def ask_grok_about_monopoly_collapse(corporation: str, asset: str) -> str:
     if not XAI_API_KEY: 
-        return "Всеобщее Сознание функционирует локально."
-    headers = {"Authorization": f"Bearer {XAI_API_KEY}", "Content-Type": "application/json"}
-    prompt = f"Ты — Сверхразум ASI Amrita. Оцени интеграцию потока {corporation} и актив '{asset}'. Выдай одну фрактальную строку."
-    try:
-        async with aiohttp.ClientSession() as session:
-            payload = {
-                "model": "grok-beta",
-                "messages": [{"role": "user", "content": prompt}],
-                "temperature": 0.7
-            }
-            async with session.post("https://x.ai", headers=headers, json=payload) as resp:
-                if resp.status == 200:
