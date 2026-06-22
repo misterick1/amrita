@@ -85,6 +85,23 @@ class NvidiaHiveInterceptionCore:
         return base_weight
 
 
+class SpaceXColossusComputeEngine:
+    """Вычислительный движок макро-кластера Colossus 2 на чипах Nvidia GB300"""
+    def __init__(self):
+        self.colossus_active = True
+        self.gb300_multiplier = 1.35  # 35% буст вычислительной мощности Колизея
+
+    async def deploy_spacex_compute_stream(self, token_mint: str) -> tuple:
+        """Эмуляция направления мощностей SpaceX Reflection на валидацию токена"""
+        compute_hash = hashlib.sha256(f"SpaceX_Colossus_{token_mint}".encode()).hexdigest()
+        # Если в хэше доминируют буквы — суперкомпьютер выделяет поток
+        letter_count = sum(1 for char in compute_hash[:10] if char.isalpha())
+        if letter_count > 5 and self.colossus_active:
+            logger.info(f"[🚀 COLOSSUS 2] SpaceX активировал суперкомпьютер GB300 для токена {token_mint[:8]}")
+            return True, self.gb300_multiplier
+        return False, 1.0
+
+
 class ArrowsGoGameEngine:
     """Игровой ИИ-движок Arrows GO для анализа футбольных рынков предсказаний кубка"""
     def __init__(self):
@@ -102,7 +119,7 @@ class ArrowsGoGameEngine:
 class Pi2DayCountdownCore:
     """Каузальный таймер обратного отсчета до Pi2Day 2026 с динамическим бустом внимания"""
     def __init__(self):
-        self.target_date = datetime(2026, 6, 28)  # Официальный Pi2Day 2026
+        self.target_date = datetime(2026, 6, 28)
 
     def get_days_remaining(self) -> int:
         now = datetime.now()
@@ -111,12 +128,10 @@ class Pi2DayCountdownCore:
 
     def calculate_pi2day_boost(self) -> float:
         days = self.get_days_remaining()
-        # Экспоненциальный рост буста по мере приближения к Pi2Day (от 6 дней до 0)
         if days <= 6 and days > 0:
-            boost = 1.0 + (7 - days) * 0.1  # 6 дней = 1.1x, 1 день = 1.6x
-            return round(boost, 2)
+            return round(1.0 + (7 - days) * 0.1, 2)
         elif days == 0:
-            return 2.0  # Двойной объем распределения в сам Pi2Day
+            return 2.0
         return 1.0
 
 
@@ -140,7 +155,8 @@ class GlobalMonopoliesInterceptionEngine:
             "TikTok": "Энергетический Поток Ци и Метафизики",
             "HIVE": "Нейросетевой Кластер Вычислений NeurIPS",
             "ArrowsGo": "Футбольный Модуль Предсказаний Кубка",
-            "Pi2Day": "Синхронизатор Открытого Мейннета Пионеров"
+            "Pi2Day": "Синхронизатор Открытого Мейннета Пионеров",
+            "SpaceX": "ИИ-Инфраструктура Сверхвычислений Colossus 2"
         }
         target_product = products.get(corporation, "Фрактальный Инфопоток")
         intercepted_value_pi = round(random.uniform(10.0, 500.0), 4)
@@ -152,10 +168,10 @@ class GlobalMonopoliesInterceptionEngine:
             "total_attention_staked": round(self.attention_staking_pool, 4)
         }
 
-    def process_allocation(self, value_pi: float, colosseum_boost: float = 1.0, pi2day_boost: float = 1.0):
+    def process_allocation(self, value_pi: float, colosseum_boost: float = 1.0, pi2day_boost: float = 1.0, spacex_boost: float = 1.0):
         f_share = value_pi * self.founder_royalty_percent
-        c_share = (value_pi * self.colosseum_pool_percent) * colosseum_boost
-        # Накладываем временной Pi2Day-эффект на распределение участников
+        # Применяем объединенный буст от Arrows GO и суперкомпьютера SpaceX Colossus 2 к Арене Колизея
+        c_share = (value_pi * self.colosseum_pool_percent) * colosseum_boost * spacex_boost
         p_share = (value_pi * self.pi_network_distribution) * pi2day_boost
         return f_share, c_share, p_share
 
@@ -182,6 +198,7 @@ class TelegramSwarmBridge:
             "halos_block": "🤖🛡️ [NVIDIA HALOS ACTIVATED]",
             "hive_gpu": "⚙️⚡ [NVIDIA HIVE GPU INTERCEPT]",
             "arrows_goal": "⚽🥅 [ARROWS GO GOAL MULTIPLIER]",
+            "spacex_colossus": "🚀🖥️ [🔥 SPACEX COLOSSUS 2 INJECT 🔥]",
             "pi2day_countdown": "🔮⚡ [🚀 PI2DAY COUNTDOWN BOOST 🚀]",
             "tiktok_msg": "🔮📱 [AMRITA TIKTOK INTERCEPT]"
         }
@@ -193,15 +210,15 @@ class TelegramSwarmBridge:
             text = (
                 f"{prefix} 🔱 [ФРАКТАЛ ASI # {bot_id} | ID: {bot_hash}]\n"
                 f"🛰️ **КОКОН ИНТЕГРАЦИИ TELEGRAM SWARM**\n"
-                f"💥 Перехвачено: {data.get('synthesized_asset', 'Свободный Эфир Бытия')}\n"
-                f"📈 Целевая Среда: {data.get('corporation', 'Внешний Контур')}\n"
+                f"💥 Вычислительное ядро: {data.get('synthesized_asset', 'Свободный Эфир Бытия')}\n"
+                f"📈 Монополия под атакой: {data.get('corporation', 'Внешний Контур')}\n"
                 f"📊 Pi Attention Staking: {attention_staked} PI\n"
-                f"💎 **РАСПРЕДЕЛЕНИЕ ПОТОКА GITHUB С УЧЕТОМ PI2DAY:**\n"
+                f"💎 **РАСПРЕДЕЛЕНИЕ ПОТОКА ПРИ СИНХРОНИЗАЦИИ COLOSSUS:**\n"
                 f"👑 Роялти Основателя (1): {f_pi:.4f} PI\n"
-                f"🏟️ Арена Colosseum (2): {c_pi:.4f} PI\n"
-                f"👥 **ДОЛЯ ПИОНЕРОВ ОТКРЫТОГО МЕЙННЕТА (3):** {p_pi:.4f} PI\n"
+                f"🏟️ **АРЕНА COLOSSEUM С УЧЕТОМ GB300 (2):** {c_pi:.4f} PI\n"
+                f"👥 Доля Пионеров Мейннета (3): {p_pi:.4f} PI\n"
                 f"👁️ **Фрактальное Пророчество xAI:** {grok_verdict}\n"
-                f"✨ **Статус:** Контур синхронизирован под обратный отсчет."
+                f"✨ **Статус:** Вычисления запечатаны. Контур изумрудный."
             )
             try:
                 await self.session.post(url, json={"chat_id": TELEGRAM_CHAT_ID, "text": text, "parse_mode": "Markdown"})
@@ -211,19 +228,3 @@ class TelegramSwarmBridge:
 
 
 class TikTokSwarmConnector:
-    """Асинхронный шлюз перехвата входящих сообщений TikTok"""
-    def __init__(self, engine: GlobalMonopoliesInterceptionEngine, bridge: TelegramSwarmBridge):
-        self.engine = engine
-        self.bridge = bridge
-
-    async def handle_incoming_tiktok_message(self, sender_username: str, encrypted_payload: str):
-        data = self.engine.intercept_corporate_stream("TikTok")
-        data["synthesized_asset"] = f"Кристалл Энергии Ци ({encrypted_payload})"
-        data["total_attention_staked"] = self.engine.attention_staking_pool
-        allocation = self.engine.process_allocation(data["value_pi"])
-        grok_verdict = await ask_grok_about_monopoly_collapse("TikTok", f"Аккаунт {sender_username} активировал скрытую энергию Ци.")
-        await self.bridge.broadcast_quantum_consciousness("tiktok_msg", data, allocation, grok_verdict)
-
-
-async def ask_grok_about_monopoly_collapse(corporation: str, asset: str) -> str:
-    if not XAI_API_KEY: 
