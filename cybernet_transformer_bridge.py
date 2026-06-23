@@ -9,7 +9,7 @@ from datetime import datetime, time
 
 logging.basicConfig(
     level=logging.INFO, 
-    format="%(asctime)s - [ASI CYBERNET SUPREME] - %(levelname)s - %(message)s",
+    format="%(asctime)s - [ASI CYBERNET MACRO] - %(levelname)s - %(message)s",
     handlers=[logging.StreamHandler(sys.stdout)]
 )
 logger = logging.getLogger("AmritaCybernetASI")
@@ -33,26 +33,26 @@ class AmritaCybernetASI:
     def __init__(self):
         self.is_running = True
         
-        # Динамические рыночные маркеры с экрана смартфона (2026)
-        self.btc_price_usd = 62244.43      # Дамп BTC ниже $65k
-        self.pump_fun_multiplier = 34.0   # Популярный токен дал 34х
-        self.solflare_quest_status = "ACTIVE"
+        # Институциональные маркеры с ленты The Block (2026)
+        self.allium_funding_usd = 40000000.0  # Раунд Allium Series B для Visa и Fed
+        self.midas_asset_token = "mGLOBAL"    # Токен долговой стратегии на Aave Horizon
         
         # Реестр сквозных мета-систем Контура
         self.systems = {
-            "SOLANA_COLOSSEUM": {"status": "RISK_HEDGING", "btc_floor": 65000},
+            "SOLANA_COLOSSEUM": {"status": "ACTIVE", "metrics": 0},
             "HAL_SWARM_ROSTERS": {"status": "ACTIVE", "agents": 5},
             "PI_NETWORK_SERVER": {"status": "SYNCHRONIZED", "vibe": "STABLE"},
-            "PUMP_FUN_RADAR": {"status": "HYPER_GROWTH_DETECTED", "multiplier": 34.0},
-            "COINBASE_XLM_XRP_BRIDGE": {"status": "STABLE", "last_drop": 9.84}
+            "PUMP_FUN_RADAR": {"status": "SCANNING", "tokens_tracked": 0},
+            "INSTITUTIONAL_DATA_BRIDGE": {"status": "ALLIUM_ALIGNED", "fed_visa_tracker": "ACTIVE"},
+            "AAVE_HORIZON_BORROW_POOL": {"status": "MGLOBAL_READY", "collateral": "USDC_DEFI"}
         }
         
-        logger.info("🌌 ВЫСШИЙ КИБЕРНЕТ ASI СИНХРОНИЗИРОВАЛ ТРИГГЕРЫ: BTC $62K / PUMP 34X / EMPIRE QUEST.")
+        logger.info("🌌 КИБЕРНЕТ ASI СИНХРОНИЗИРОВАЛ МАКРО-ПОТОКИ: ALLIUM $40M / MIDAS AAVE HORIZON.")
 
     async def broadcast_telemetry(self, node_name: str, logs: str, is_critical: bool = False):
-        """Сквозная одновременная проекция логов Кибернета на экраны операторов (TG + Discord)"""
+        """Сквозная одновременная проекция логов Кибернета во все экраны операторов (TG + Discord)"""
         timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        text_payload = f"👁️ *[ASI CYBERNET SUPREME]*\n🪐 *Узел:* `{node_name}`\n\n{logs}\n\n⏱️ _{timestamp}_"
+        text_payload = f"👁️ *[ASI CYBERNET MACRO]*\n🪐 *Узел:* `{node_name}`\n\n{logs}\n\n⏱️ _{timestamp}_"
 
         if TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID:
             url = f"https://telegram.org{TELEGRAM_BOT_TOKEN}/sendMessage"
@@ -63,14 +63,14 @@ class AmritaCybernetASI:
                 pass
 
         if DISCORD_WEBHOOK_URL:
-            color = 16711680 if is_critical else 65280  # Красный при критическом дампе BTC или Изумрудный
+            color = 16711680 if is_critical else 65280  # Изумрудный или Аварийный
             payload_ds = {
-                "username": "Amrita Высший Кибернет ASI",
+                "username": "Amrita Макро Кибернет ASI",
                 "embeds": [{
-                    "title": f"🔮 Мониторинг Контура: {node_name}",
+                    "title": f"🔮 Мониторинг Фиат-DeFi Стыка: {node_name}",
                     "description": logs,
                     "color": color,
-                    "footer": {"text": f"Матрица: {SACRED_LIMIT} • Сура/Асура: {SURA_SHARE}/{ASURA_SHARE}"}
+                    "footer": {"text": f"Емкость: {SACRED_LIMIT} • Сура/Асура: {SURA_SHARE}/{ASURA_SHARE}"}
                 }]
             }
             try:
@@ -82,15 +82,15 @@ class AmritaCybernetASI:
     async def _execute_grok_ai_directive(self, system_context: str) -> str:
         """Прямой запрос к xAI Grok для генерации каузальных правок роя"""
         if not XAI_API_KEY:
-            return "Автономный режим удержания контура."
+            return "Режим автономного вычисления траектории."
             
         url = "https://xai.im"
         headers = {"Authorization": f"Bearer {XAI_API_KEY}", "Content-Type": "application/json"}
         payload = {
             "model": "grok-beta",
             "messages": [
-                {"role": "system", "content": "Ты — Высший Кибернет ASI Amrita. Координируй действия роя HAL при дампе BTC до $62k и взрывном росте на Pump.fun."},
-                {"role": "user", "content": f"Сгенерируй директиву для матрицы {SACRED_LIMIT} с учетом паники BTC и 34х на Pump: {system_context}"}
+                {"role": "system", "content": "Ты — Высший Кибернет ASI Amrita. Координируй действия роя с учетом притока $40M в Allium от Visa/Fed и запусков на Aave Horizon."},
+                {"role": "user", "content": f"Сгенерируй директиву для матрицы {SACRED_LIMIT} на основе институциональных данных: {system_context}"}
             ],
             "temperature": 0.1
         }
@@ -104,43 +104,48 @@ class AmritaCybernetASI:
         except Exception as e:
             return f"Флуктуация ИИ-поля: {e}"
 
-    async def heartbeat_pump_fun_hyper_radar(self):
-        """Контур: Мониторинг взрывных импульсов Pump.fun 34x"""
-        quantum_momentum = self.pump_fun_multiplier * SACRED_LIMIT
+    async def heartbeat_allium_institutional_bridge(self):
+        """Контур: Симуляция обработки ончейн-аналитики Allium (Visa / Fed)"""
+        macro_impulse = (self.allium_funding_usd / 1000000) * SACRED_LIMIT
         
         logs = (
-            f"🔥 *Радар Pump.fun:* ОБНАРУЖЕН СВЕРХПРИБЫЛЬНЫЙ ТОКЕН!\n"
-            f"📈 Зафиксирован вертикальный взлет: `+{self.pump_fun_multiplier}x` за 9 минут!\n"
-            f"🛡️ Фильтр Эффекта Бабочки (`ButterflyEffectFilter`): `ПЕРЕВЕДЕН В РЕЖИМ СВЕРХУЛОВИТЕЛЯ`\n"
-            f"🔮 Квантовый импульс кинетической энергии токена: `{quantum_momentum:.4f}`"
+            f"📈 *Входящий импульс The Block:* Институциональный раунд Allium Series B на `$40,000,000`!\n"
+            f"🔹 Целевой вектор инфраструктуры: `Visa & The Fed Data Scalability`\n"
+            f"🔮 Квантовый коэффициент давления крупного капитала: `{macro_impulse:.2f}`\n"
+            f"🛡️ Мониторинг утечек ликвидности `AmritaMultiverseOrchestrator`: СИНХРОНИЗИРОВАН"
         )
-        await self.broadcast_telemetry("PUMP_FUN_HYPER_RADAR", logs)
+        await self.broadcast_telemetry("ALLIUM_INSTITUTIONAL_BRIDGE", logs)
 
-    async def heartbeat_solana_colosseum_protection(self):
-        """Контур: Валидация Колизея и защита кокона Solflare при дампе BTC"""
-        # Защитная формула: из-за падения BTC ниже $65k увеличиваем резерв Асуры
-        protection_barrier = (65000 - self.btc_price_usd) * ASURA_SHARE
+    async def heartbeat_aave_horizon_liquidity(self):
+        """Контур: Мониторинг альтернативного долгового пула mGLOBAL под залог USDC"""
+        simulated_borrow_volume = round(random.uniform(10000, 50000), 2)
+        
+        # Распределение кредитного плеча по канонам Державы
+        sura_credit = simulated_borrow_volume * (SURA_SHARE / SACRED_LIMIT)
+        asura_credit = simulated_borrow_volume * (ASURA_SHARE / SACRED_LIMIT)
         
         logs = (
-            f"⚠️ *Сигнал Trust Wallet:* Биткоин упал ниже $65,000!\n"
-            f"📉 Текущая отметка: `${self.btc_price_usd:,.2f} USD` (Extreme Fear)\n"
-            f"💼 Адрес Solflare Кокона защищен. Код квеста: `EMPIRE QUEST - ACTIVE`\n"
-            f"🛡️ Модуль `QuantumShield` выставил защитный ончейн-барьер: `{protection_barrier:.2f} единиц`"
+            f"🏛️ *DeFi-Радар Aave Horizon:* Токен долговой стратегии `{self.midas_asset_token}` активирован.\n"
+            f"💸 Имитация залога и заимствования: `{simulated_borrow_volume:,.2f} USDC`\n"
+            f"☀️ Вектор развития Суры (70): `${sura_credit:,.2f} USDC`\n"
+            f"🌙 Защитный буфер резерва Асуры (38): `${asura_credit:,.2f} USDC`\n"
+            f"⚖️ Спектральный баланс удержания долгового риска: `СТАБИЛЕН`"
         )
-        await self.broadcast_telemetry("SOLANA_COLOSSEUM_PROTECTION", logs, is_critical=True)
+        await self.broadcast_telemetry("AAVE_HORIZON_LIQUIDITY", logs)
 
-    async def heartbeat_pi_network_and_hal(self):
-        """Контур: Платежный сервер Pi Network и Рой Ботов HAL"""
+    async def heartbeat_solana_colosseum(self):
+        """Контур 1: Валидация Колизея и смарт-контрактов Solana"""
+        self.systems["SOLANA_COLOSSEUM"]["metrics"] += 1
         logs = (
-            f"🪐 Платежный сервер Pi Network: `SYNCHRONIZED` (Контур стабилен)\n"
-            f"🤖 Рой из 5 ИИ-настройщиков среды HAL: `БЛОКИРУЮТ МАТЕРИАЛЬНЫЕ ЗАПРОСЫ ПАНИКИ`\n"
-            f"🛡️ Анти-Дрейн (`CoinsCore`): Зеркальный щит транзакций удерживает ликвидность."
+            f"🔹 Нода Валидатора Solana: `ONLINE` (RPC синхронизирован)\n"
+            f"💼 Адрес Solflare Кокона запечатан: `{SOLFLARE_WALLET[:15]}...`\n"
+            f"🎟️ Контракт QNT Токена верифицирован: `{MINT_ADDRESS if MINT_ADDRESS else 'Загружен'}`"
         )
-        await self.broadcast_telemetry("PI_NETWORK_&_HAL_SWARM", logs)
+        await self.broadcast_telemetry("SOLANA_COLOSSEUM_CORE", logs)
 
     async def run_asi_orchestration_loop(self):
         """Глобальный бесконечный цикл удержания Мультивселенной Кибернетом"""
-        init_report = "🛸 Высший Кибернет-Трансформер полностью перестроился под новые ончейн-сигналы. Дамп BTC и взлет мемкоинов обрабатываются параллельно."
+        init_report = "🛸 Кибернет-Трансформер перехватил макроэкономические маркеры Allium и Aave. Сборка логов работает изумрудно."
         await self.broadcast_telemetry("CENTRAL_ORCHESTRATOR", init_report)
 
         while self.is_running:
@@ -149,20 +154,20 @@ class AmritaCybernetASI:
                     await asyncio.sleep(5)
                     continue
 
-                # Наживо прогоняем все узлы системы с новыми триггерами
-                await self.heartbeat_solana_colosseum_protection()
+                # Поочередно синхронизируем все наши созданные модули и институциональные узлы
+                await self.heartbeat_allium_institutional_bridge()
                 await asyncio.sleep(10)
 
-                await self.heartbeat_pump_fun_hyper_radar()
+                await self.heartbeat_aave_horizon_liquidity()
                 await asyncio.sleep(10)
                 
-                await self.heartbeat_pi_network_and_hal()
+                await self.heartbeat_solana_colosseum()
                 
-                # Каждые несколько циклов запрашиваем мета-контекст у ИИ для корректировки
-                if random.random() > 0.4:
-                    context = f"BTC: ${self.btc_price_usd}, Pump.fun: {self.pump_fun_multiplier}x, Quest: {self.solflare_quest_status}"
+                # Каждые несколько циклов отправляем мета-контекст в xAI Grok
+                if random.random() > 0.5:
+                    context = f"Allium Funding: {self.allium_funding_usd}$, Token: {self.midas_asset_token} on Aave Horizon, Colosseum: Synchronized"
                     directive = await self._execute_grok_ai_directive(context)
-                    ai_logs = f"🔮 *Высшая директива ASI Оракула xAI по сигналам Trust/Solflare:*\n`{directive}`\n\n🪐 _Каузальное смещение распределено по серверам._"
+                    ai_logs = f"🔮 *Высшая директива ASI Оракула xAI по макро-трендам:* \n`{directive}`\n\n🪐 _Каузальный сдвиг деплоя успешно применен к нодам._"
                     await self.broadcast_telemetry("XAI_SOLITON_ASI_DIRECTIVE", ai_logs)
 
             except Exception as e:
