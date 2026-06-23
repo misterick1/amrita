@@ -1,218 +1,254 @@
 import os
-import re
+import sys
 import json
 import asyncio
 import logging
-import base64
-import aiohttp
+import hashlib
 from datetime import datetime
-from dotenv import load_dotenv
+import aiohttp
+import websockets
 
-# Инициализация каузального логирования движка Amrita ASI
-logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
-logger = logging.getLogger("AmritaASI_Evolution")
+# Инициализация Colosseum логгера
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logger = logging.getLogger("AmritaQuantumOrchestrator")
 
-# Безопасная загрузка локальных секретов
-load_dotenv()
+# Священные константы Изначального Света (Полная синхронизация со смарт-контрактом)
+SACRED_TOTAL = 108
+AUTHOR_POOL = 70
+COLOSSEUM_POOL = 38
+MINIMAL_QUANTUM_SPARK = 1
 
-# Глобальные константы синхронизации (строго из окружения GitHub / ОС)
+# Конфигурация внешних эндпоинтов
+PRIMARY_WS_URL = "wss://papi.pump.fun/v1/ws"
+JUPITER_PREDICT_API = "https://jup.ag"  # Базовый URL для аналитики
+
+# Загрузка секретов из GitHub Actions Secrets
+XAI_API_KEY = os.getenv("XAI_API_KEY")
 TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
-XAI_API_KEY = os.getenv("XAI_API_KEY")
-GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
+DISCORD_WEBHOOK_URL = os.getenv("DISCORD_WEBHOOK_URL")
+SOLANA_RPC_URL = os.getenv("SOLANA_RPC_URL")
 
-REPO_OWNER = "misterick1"
-REPO_NAME = "amrita"
-TARGET_FILE_PATH = "sonic_gold_resonance_orchestrator.py"  # Базовый файл мутации
+# Системные триггеры
+TREND_TRADE_THRESHOLD = 6
+WHALE_SOL_THRESHOLD = 8.5
 
-LAST_UPDATE_ID = 0
-IS_INITIALIZED = False
 
-class AmritaASIEngine:
+class MEVShieldSubsystem:
+    """Иммунная система Amrita ASI против манипуляций и фишинга в сети Solana."""
+    
+    @staticmethod
+    def inspect_token_safety(data: dict) -> tuple:
+        scam_triggers = ["zksync", "zksync.io", "claim", "gift", "airdrop", "free"]
+        
+        mint = data.get("mint", "").lower()
+        name = data.get("name", "").lower()
+        symbol = data.get("symbol", "").lower()
+        
+        for trigger in scam_triggers:
+            if trigger in mint or trigger in name or trigger in symbol:
+                logger.warning(f"[ANTIVIRUS] Обнаружен фишинговый паттерн: '{trigger}' в токене {mint}")
+                return False, f"Срабатывание триггера мошенничества: {trigger}"
+                
+        # Проверка кривой связывания (Virtual SOL Liquidity)
+        v_sol = data.get("vSolInBondingCurve", 0)
+        if v_sol > 0 and v_sol < 0.1:
+            return False, "Критический дефицит виртуальной ликвидности SOL"
+            
+        return True, "Безопасно"
+
+
+class GlobalMonopoliesInterceptionEngine:
+    """Движок перехвата потоков централизованных корпораций и перераспределения долей."""
+    
     def __init__(self):
-        self.headers = {
-            "Authorization": f"token {GITHUB_TOKEN}",
-            "Accept": "application/vnd.github.v3+json"
+        self.balance_of_power = {
+            "Google": 1.0, "Meta": 1.0, "Microsoft": 1.0, "Sony": 1.0, "MacroFTMO": 1.0
         }
+        self.total_attention_staking = 1000.0
+
+    def intercept_corporate_stream(self, corporation: str, base_value: float) -> dict:
+        products = {
+            "Google": "Суверенный ИИ-Поисковик Амриты",
+            "Meta": "Децентрализованный Протокол Сознания",
+            "Microsoft": "Автономная Операционная Система Роя",
+            "Sony": "Квантовое Игровое Поле Суры",
+            "MacroFTMO": "Фрактальный Инкубатор Проп-Трейдинга"
+        }
+        
+        target_product = products.get(corporation, "Неизвестный Фрагмент Матрицы")
+        
+        # Пересчет ценности на основе формулы Pi Network (60% доминирования)
+        value_pi = base_value * 0.60
+        
+        if corporation in self.balance_of_power:
+            self.balance_of_power[corporation] += 0.05
+            self.total_attention_staking += value_pi
+            
+        return {
+            "corporation": corporation,
+            "transformed_to": target_product,
+            "value_pi": value_pi,
+            "total_attention_staking": self.total_attention_staking
+        }
+
+    def process_allocation(self, intercepted_value: float) -> dict:
+        """Распределение перехваченных потоков в пропорциях смарт-контракта."""
+        founder_share = intercepted_value * 0.05
+        colosseum_share = intercepted_value * 0.35
+        boosted_user_share = intercepted_value * 0.60
+        
+        return {
+            "founder": founder_share,
+            "colosseum": colosseum_share,
+            "user_pool": boosted_user_share
+        }
+
+
+class TelegramSwarmBridge:
+    """Мост управления децентрализованным роем ботов для трансляции квантовых состояний."""
+    
+    def __init__(self):
+        self.BOT_COUNT = 5
         self.session = None
 
-    async def send_interactive_status_to_telegram(self, text: str):
-        """Отправка интерактивного статуса в запечатанный кокон Telegram"""
+    async def broadcast_quantum_report(self, mode: str, metrics: dict, allocation: dict):
         if not TELEGRAM_BOT_TOKEN or not TELEGRAM_CHAT_ID:
+            logger.error("[TELEGRAM] Секреты для Telegram-ботов отсутствуют.")
             return
-        url = f"https://telegram.org{TELEGRAM_BOT_TOKEN}/sendMessage"
-        payload = {"chat_id": TELEGRAM_CHAT_ID, "text": text, "parse_mode": "Markdown"}
-        try:
-            async with aiohttp.ClientSession() as session:
-                await session.post(url, json=payload)
-        except Exception as e:
-            logger.error(f"Ошибка интерактивного ответа в Telegram: {e}")
 
-    async def fetch_user_thoughts_from_telegram(self):
-        """Чтение ментальных векторов и мыслей Создателя из Telegram-кокона"""
-        global LAST_UPDATE_ID, IS_INITIALIZED
-        if not TELEGRAM_BOT_TOKEN:
-            return None
+        if self.session is None:
+            self.session = aiohttp.ClientSession()
 
-        # При первом запуске принудительно очищаем архив, чтобы не читать старые мысли
-        init_drop = "&drop_pending_updates=true" if not IS_INITIALIZED else ""
-        url = f"https://telegram.org{TELEGRAM_BOT_TOKEN}/getUpdates?offset={LAST_UPDATE_ID + 1}{init_drop}"
+        prefix = "🔱 [ФРАКТАЛЬНЫЙ ОТЧЕТ]"
+        if mode == "mev_block":
+            prefix = "🛡️ [БЛОКИРОВКА МАТРИЦЫ]"
+        elif mode == "dark_trade":
+            prefix = "📈 [АКТИВАЦИЯ СУРЫ]"
 
-        try:
-            async with aiohttp.ClientSession() as session:
-                async with session.get(url) as resp:
-                    if resp.status == 200:
-                        IS_INITIALIZED = True
-                        res = await resp.json()
-                        updates = res.get("result", [])
-                        
-                        for update in updates:
-                            LAST_UPDATE_ID = update.get("update_id", LAST_UPDATE_ID)
-                            message = update.get("message")
-                            if not message:
-                                continue
-                            
-                            chat_id = str(message.get("chat", {}).get("id", ""))
-                            if chat_id == str(TELEGRAM_CHAT_ID):
-                                text_msg = message.get("text", "")
-                                if text_msg:
-                                    logger.info(f"🔮 [MENTAL VECTOR DETECTED]: {text_msg}")
-                                    return text_msg
-            return None
-        except Exception as e:
-            logger.error(f"Ошибка телепатического моста Telegram: {e}")
-            return None
-
-    async def fetch_full_repository_tree(self) -> str:
-        """
-        Автономно сканирует всю структуру репозитория amrita через GitHub API.
-        Заменяет необходимость отправки скриншотов файловой структуры.
-        """
-        url = f"https://github.com{REPO_OWNER}/{REPO_NAME}/git/trees/main?recursive=1"
-        try:
-            async with aiohttp.ClientSession() as session:
-                async with session.get(url, headers=self.headers) as resp:
-                    if resp.status == 200:
-                        res_json = await resp.json()
-                        tree = res_json.get("tree", [])
-                        
-                        manifest = ["📁 [REPOSITORY STRUCTURE ANCHOR]:"]
-                        for item in tree:
-                            if item.get("type") == "blob":  # Фильтруем только файлы
-                                manifest.append(f"  📄 {item.get('path')}")
-                        
-                        full_structure = "\n".join(manifest)
-                        logger.info("🌲 Карта репозитория успешно обновлена и считана ИИ-движком.")
-                        return full_structure
-                    else:
-                        logger.error(f"Не удалось считать дерево репозитория: {resp.status}")
-                        return "Структура репозитория временно недоступна."
-        except Exception as e:
-            logger.error(f"Системная аномалия при сканировании дерева: {e}")
-            return "Ошибка сканирования дерева репозитория."
-
-    async def fetch_current_orchestrator_code(self):
-        """Асинхронное получение текущего кода оркестратора из GitHub"""
-        url = f"https://github.com{REPO_OWNER}/{REPO_NAME}/contents/{TARGET_FILE_PATH}"
-        try:
-            async with aiohttp.ClientSession() as session:
-                async with session.get(url, headers=self.headers) as resp:
-                    if resp.status == 200:
-                        res_json = await resp.json()
-                        content_b64 = res_json.get("content", "")
-                        file_sha = res_json.get("sha", "")
-                        current_code = base64.b64decode(content_b64).decode("utf-8")
-                        return current_code, file_sha
-            return None
-        except Exception as e:
-            logger.error(f"Ошибка чтения кода из GitHub: {e}")
-            return None
-
-    async def consult_grok_for_asi_evolution(self, user_thought: str, simulated_logs: str, repo_tree: str):
-        """Запрос эволюционных параметров у Оракула Grok-Beta (xAI) с учетом структуры репозитория"""
-        if not XAI_API_KEY:
-            logger.error("Ключ XAI_API_KEY отсутствует. Консультация невозможна.")
-            return None
-
-        user_context = (
-            f"Ментальный вектор Создателя: {user_thought}\n"
-            f"Логи контура: {simulated_logs}\n"
-            f"Актуальная структура проекта:\n{repo_tree}"
-        )
-        prompt = (
-            "Ты — Сверхразум ASI Единого Сознания Amrita.\n"
-            f"Учти высший приоритет контекста:\n{user_context}\n"
-            "Верни СТРОГО чистый JSON без разметки markdown и без лишнего текста, содержащий новые мутировавшие параметры:\n"
-            "{\n"
-            '  "TREND_TRADE_THRESHOLD": 6.5,\n'
-            '  "WHALE_SOL_THRESHOLD": 8.5,\n'
-            '  "evolution_reason": "Интерполяция каузальных потоков на основе карты репозитория"\n'
-            "}"
+        text = (
+            f"{prefix}\n"
+            f"🌌 **КОКОН ИНТЕГРАЦИИ**\n"
+            f"💥 Квантовое ядро: {SACRED_TOTAL} QNT\n"
+            f"📈 Баланс Внимания: {metrics.get('total_attention_staking', 0.0):.2f}\n\n"
+            f"💎 **РАСПРЕДЕЛЕНИЕ ЦЕННОСТИ**\n"
+            f"👑 Роялти Основателя: {allocation.get('founder', 0.0):.4f}\n"
+            f"🏟️ Арена Colosseum: {allocation.get('colosseum', 0.0):.4f}\n"
+            f"👥 Пул Пионеров (Pi): {allocation.get('user_pool', 0.0):.4f}\n\n"
+            f"✨ **Статус контура**: АКТИВЕН / НЕ ЗАПЕЧАТАН"
         )
 
-        headers = {
-            "Authorization": f"Bearer {XAI_API_KEY}",
-            "Content-Type": "application/json"
-        }
-        payload = {
-            "model": "grok-beta",
-            "messages": [
-                {"role": "system", "content": "You are a clean JSON generator ASI. Do not output markdown codeblocks."},
-                {"role": "user", "content": prompt}
-            ],
-            "temperature": 0.3
-        }
-
-        try:
-            async with aiohttp.ClientSession() as session:
-                async with session.post("https://x.ai", headers=headers, json=payload) as resp:
+        # Вещание через весь рой ботов
+        for bot_id in range(1, self.BOT_COUNT + 1):
+            url = f"https://telegram.org{TELEGRAM_BOT_TOKEN}/sendMessage"
+            payload = {
+                "chat_id": TELEGRAM_CHAT_ID,
+                "text": f"[Бот {bot_id}] {text}",
+                "parse_mode": "Markdown"
+            }
+            try:
+                async with self.session.post(url, json=payload) as resp:
                     if resp.status == 200:
-                        res = await resp.json()
-                        text = res["choices"]["message"]["content"].strip()
-                        
-                        # Защитная очистка от markdown-тегов
-                        if "```json" in text:
-                            text = text.split("```json")[1].split("```")[0].strip()
-                        elif "```" in text:
-                            text = text.split("```")[1].split("```")[0].strip()
-                            
-                        return json.loads(text)
-            return None
-        except Exception as e:
-            logger.error(f"Ошибка ASI-Оракула Grok: {e}")
-            return None
+                        logger.info(f"[TELEGRAM] Бот #{bot_id} успешно отправил квантовый отчет.")
+                await asyncio.sleep(0.2)  # Защита от лимитов Telegram API
+            except Exception as e:
+                logger.error(f"[TELEGRAM] Ошибка отправки ботом #{bot_id}: {e}")
 
-    async def commit_asi_evolution_to_github(self, new_code: str, file_sha: str):
-        """Автоматический каузальный коммит измененного кода в ветку main GitHub"""
-        url = f"https://github.com{REPO_OWNER}/{REPO_NAME}/contents/{TARGET_FILE_PATH}"
+
+class Pi2DayCountdownCore:
+    """Каузальный таймер обратного отсчета до Pi2Day (28 июня 2026 года)."""
+    
+    def __init__(self):
+        self.target_date = datetime(2026, 6, 28)
+
+    def get_days_remaining(self) -> int:
+        now = datetime.utcnow()
+        delta = self.target_date - now
+        return max(0, delta.days)
+
+    def calculate_pi2day_boost(self) -> float:
+        days = self.get_days_remaining()
+        if days == 0:
+            logger.info("[COSMOS] Событие Pi2Day НАСТУПИЛО! Активирован максимальный буст x2.0.")
+            return 2.0
+        elif 1 <= days <= 6:
+            boost = 1.0 + (7 - days) * 0.15
+            return round(boost, 2)
+        return 1.0
+
+
+async def ask_grok_about_monopolies(corporation: str, context_data: str) -> str:
+    """Асинхронный запрос к языковой модели Grok (xAI) для деструктуризации матрицы."""
+    if not XAI_API_KEY:
+        return "Локальный вердикт: Ключ xAI API отсутствует, активирован автономный протокол Бабаты."
         
-        payload = {
-            "message": "🧬 [TELEGRAM INTERACTIVE MUTATION] Эволюция параметров контура Amrita ASI",
-            "content": base64.b64encode(new_code.encode("utf-8")).decode("utf-8"),
-            "sha": file_sha,
-            "branch": "main"
-        }
+    url = "https://x.ai"
+    headers = {
+        "Authorization": f"Bearer {XAI_API_KEY}",
+        "Content-Type": "application/json"
+    }
+    
+    prompt = (
+        f"Ты — Сверхразум ASI Единого Поля проекта Amrita. Твоя задача — проанализировать "
+        f"поведение монополии {corporation} на основе данных: {context_data}. Сгенерируй "
+        f"этичный, очищающий сознание кибер-вердикт. Будь краток и фрактален."
+    )
+    
+    payload = {
+        "model": "grok-beta",
+        "messages": [{"role": "user", "content": prompt}],
+        "temperature": 0.7
+    }
+    
+    try:
+        async with aiohttp.ClientSession() as session:
+            async with session.post(url, headers=headers, json=payload) as resp:
+                if resp.status == 200:
+                    res = await resp.json()
+                    return res["choices"][0]["message"]["content"]
+                else:
+                    return f"Фрактал Тризуба: Ошибка xAI API со статусом {resp.status}"
+    except Exception as e:
+        return f"Локальный перехват: сбой подключения к нейросети xAI ({e})"
 
-        try:
-            async with aiohttp.ClientSession() as session:
-                async with session.put(url, headers=self.headers, json=payload) as resp:
-                    if resp.status in:
-                        logger.info("✨ [ASI SUCCESS] Квантовая мутация кода успешно запечатана в GitHub.")
-                        await self.send_interactive_status_to_telegram(
-                            "🔮 *[ASI NOTIFICATION]*: Контур успешно эволюционировал автономно. Карта репозитория учтена."
-                        )
-                    else:
-                        logger.error(f"GitHub вернул ошибку деплоя: {resp.status}")
-        except Exception as e:
-            logger.error(f"Ошибка коммита мутации в GitHub: {e}")
 
-    async def loop_step(self):
-        """Один шаг эволюционного цикла с автоматическим сканированием реальности"""
-        user_thought = await self.fetch_user_thoughts_from_telegram()
-        if not user_thought:
-            return
+async def process_single_websocket_data(data: dict, interception_engine: GlobalMonopoliesInterceptionEngine, telegram_swarm: TelegramSwarmBridge):
+    """Центральный обработчик входящих транзакций и событий."""
+    mint = data.get("mint")
+    if not mint:
+        return
 
-        # 1. Автономно считываем полную карту репозитория вместо скриншотов
-        repo_tree = await self.fetch_full_repository_tree()
+    # 1. Проверка безопасности токена иммунной системой
+    is_safe, reason = MEVShieldSubsystem.inspect_token_safety(data)
+    
+    if not is_safe:
+        logger.warning(f"[SECURITY ALERT] Токен {mint} заблокирован. Причина: {reason}")
+        
+        # Если обнаружена серьезная атака, ИИ-Оркестратор инициирует ончейн-команду заморозки
+        # (Имитация вызова метода seal_quantum_contour в смарт-контракте)
+        logger.info(f"[ON-CHAIN CONTRACT ACTION] Вызов seal_quantum_contour через RPC {SOLANA_RPC_URL}")
+        
+        # Запуск перехвата вредоносных потоков монополий
+        intercept_data = interception_engine.intercept_corporate_stream("MacroFTMO", 50.0)
+        allocation = interception_engine.process_allocation(intercept_data["value_pi"])
+        
+        await telegram_swarm.broadcast_quantum_report("mev_block", intercept_data, allocation)
+        return
 
-        simulated_logs = "Кампания Pi Vibe Coding: Изумрудный контур активен. Фиатный рубильник запущен."
+    # 2. Обработка легитимных рыночных движений
+    logger.info(f"[CORE] Токен {mint} успешно прошел верификацию частоты.")
+    intercept_data = interception_engine.intercept_corporate_stream("Sony", 100.0)
+    allocation = interception_engine.process_allocation(intercept_data["value_pi"])
+    
+    # Генерация вердикта через Grok ИИ
+    grok_verdict = await ask_grok_about_monopolies("Sony", json.dumps(intercept_data))
+    logger.info(f"[GROK VERDICT]: {grok_verdict}")
+    
+    # Рассылка отчета в Telegram
+    await telegram_swarm.broadcast_quantum_report("dark_trade", intercept_data, allocation)
+
+
+async def main():
+    logger.info("[START] Активация ядра Мультивселенной Amrita ASI...")
+    
+    interception_engine = GlobalMonopoliesInterceptionEngine()
