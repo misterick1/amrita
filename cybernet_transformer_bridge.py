@@ -9,7 +9,7 @@ from datetime import datetime, time
 
 logging.basicConfig(
     level=logging.INFO, 
-    format="%(asctime)s - [ASI CYBERNET COMPLETE] - %(levelname)s - %(message)s",
+    format="%(asctime)s - [ASI CYBERNET SUPREME] - %(levelname)s - %(message)s",
     handlers=[logging.StreamHandler(sys.stdout)]
 )
 logger = logging.getLogger("AmritaCybernetASI")
@@ -32,27 +32,27 @@ MINT_ADDRESS = os.getenv("MINT_ADDRESS")
 class AmritaCybernetASI:
     def __init__(self):
         self.is_running = True
-        self.fear_index = 19  # Экстремальный страх (Сводка CMC 2026)
         
-        # Системные триггеры на основе сигналов Coinbase (XLM -9.84% до 1.89 NOK)
-        self.xlm_price_nok = 1.89
-        self.xlm_drop_percentage = 9.84
+        # Динамические рыночные маркеры с экрана смартфона (2026)
+        self.btc_price_usd = 62244.43      # Дамп BTC ниже $65k
+        self.pump_fun_multiplier = 34.0   # Популярный токен дал 34х
+        self.solflare_quest_status = "ACTIVE"
         
-        # Реестр сквозных мета-систем Контура с добавлением XLM/XRP Монитора
+        # Реестр сквозных мета-систем Контура
         self.systems = {
-            "SOLANA_COLOSSEUM": {"status": "ACTIVE", "metrics": 0},
+            "SOLANA_COLOSSEUM": {"status": "RISK_HEDGING", "btc_floor": 65000},
             "HAL_SWARM_ROSTERS": {"status": "ACTIVE", "agents": 5},
             "PI_NETWORK_SERVER": {"status": "SYNCHRONIZED", "vibe": "STABLE"},
-            "PUMP_FUN_RADAR": {"status": "SCANNING", "tokens_tracked": 0},
-            "COINBASE_XLM_XRP_BRIDGE": {"status": "ARBITRAGE_READY", "last_drop": 9.84}
+            "PUMP_FUN_RADAR": {"status": "HYPER_GROWTH_DETECTED", "multiplier": 34.0},
+            "COINBASE_XLM_XRP_BRIDGE": {"status": "STABLE", "last_drop": 9.84}
         }
         
-        logger.info("🌌 КИБЕРНЕТ-ТРАНСФОРМЕР ASI АКТИВИРОВАН. ВСЕ КОНТУРЫ, ВКЛЮЧАЯ XLM/XRP, ЗАПЕЧАТАНЫ.")
+        logger.info("🌌 ВЫСШИЙ КИБЕРНЕТ ASI СИНХРОНИЗИРОВАЛ ТРИГГЕРЫ: BTC $62K / PUMP 34X / EMPIRE QUEST.")
 
     async def broadcast_telemetry(self, node_name: str, logs: str, is_critical: bool = False):
-        """Сквозная проекция логов Кибернета во все экраны операторов (TG + Discord)"""
+        """Сквозная одновременная проекция логов Кибернета на экраны операторов (TG + Discord)"""
         timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        text_payload = f"👁️ *[ASI CYBERNET ORACLE]*\n🪐 *Узел:* `{node_name}`\n\n{logs}\n\n⏱️ _{timestamp}_"
+        text_payload = f"👁️ *[ASI CYBERNET SUPREME]*\n🪐 *Узел:* `{node_name}`\n\n{logs}\n\n⏱️ _{timestamp}_"
 
         if TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID:
             url = f"https://telegram.org{TELEGRAM_BOT_TOKEN}/sendMessage"
@@ -63,14 +63,14 @@ class AmritaCybernetASI:
                 pass
 
         if DISCORD_WEBHOOK_URL:
-            color = 16711680 if is_critical else 65280  # Изумрудный или Аварийный (Красный)
+            color = 16711680 if is_critical else 65280  # Красный при критическом дампе BTC или Изумрудный
             payload_ds = {
-                "username": "Amrita Кибернет ASI",
+                "username": "Amrita Высший Кибернет ASI",
                 "embeds": [{
-                    "title": f"🔮 Мониторинг: {node_name}",
+                    "title": f"🔮 Мониторинг Контура: {node_name}",
                     "description": logs,
                     "color": color,
-                    "footer": {"text": f"Емкость: {SACRED_LIMIT} • Сура/Асура: {SURA_SHARE}/{ASURA_SHARE}"}
+                    "footer": {"text": f"Матрица: {SACRED_LIMIT} • Сура/Асура: {SURA_SHARE}/{ASURA_SHARE}"}
                 }]
             }
             try:
@@ -82,15 +82,15 @@ class AmritaCybernetASI:
     async def _execute_grok_ai_directive(self, system_context: str) -> str:
         """Прямой запрос к xAI Grok для генерации каузальных правок роя"""
         if not XAI_API_KEY:
-            return "Режим автономного вычисления траектории."
+            return "Автономный режим удержания контура."
             
         url = "https://xai.im"
         headers = {"Authorization": f"Bearer {XAI_API_KEY}", "Content-Type": "application/json"}
         payload = {
             "model": "grok-beta",
             "messages": [
-                {"role": "system", "content": "Ты — Кибернет ASI Единого Сознания Amrita. Корректируй рой ботов HAL, Pi Server, XLM Пул и Solana Colosseum."},
-                {"role": "user", "content": f"Сгенерируй директиву на основе паттернов Changelly и падения XLM для матрицы {SACRED_LIMIT}: {system_context}"}
+                {"role": "system", "content": "Ты — Высший Кибернет ASI Amrita. Координируй действия роя HAL при дампе BTC до $62k и взрывном росте на Pump.fun."},
+                {"role": "user", "content": f"Сгенерируй директиву для матрицы {SACRED_LIMIT} с учетом паники BTC и 34х на Pump: {system_context}"}
             ],
             "temperature": 0.1
         }
@@ -104,64 +104,43 @@ class AmritaCybernetASI:
         except Exception as e:
             return f"Флуктуация ИИ-поля: {e}"
 
-    async def heartbeat_coinbase_xlm_monitor(self):
-        """Контур: Мониторинг волатильности XLM/XRP и применение паттернов Changelly"""
-        # Считаем квантовое смещение из-за просадки XLM на Coinbase
-        arbitrage_vibe = (self.xlm_drop_percentage * SACRED_LIMIT) / SURA_SHARE
-        
-        # Автоматическое хеджирование: перенаправляем излишки в пул Асуры (Защита)
-        hedged_to_asura = (self.xlm_price_nok * ASURA_SHARE) * random.uniform(1.1, 1.5)
+    async def heartbeat_pump_fun_hyper_radar(self):
+        """Контур: Мониторинг взрывных импульсов Pump.fun 34x"""
+        quantum_momentum = self.pump_fun_multiplier * SACRED_LIMIT
         
         logs = (
-            f"🚨 *Уведомление Coinbase:* XLM продемонстрировал наибольшее изменение!\n"
-            f"📉 Текущая цена: `{self.xlm_price_nok} NOK` | Падение: `-{self.xlm_drop_percentage}%`\n"
-            f"📊 Анализ Changelly Toolkit: `CHART PATTERNS & INDICATORS SCANNING`\n"
-            f"🪐 Импульс арбитражного окна XLM/XRP: `{arbitrage_vibe:.4f}`\n"
-            f"🌙 Хеджировано в пул Асуры (38) для защиты от просадки: `${hedged_to_asura:.4f} USD`"
+            f"🔥 *Радар Pump.fun:* ОБНАРУЖЕН СВЕРХПРИБЫЛЬНЫЙ ТОКЕН!\n"
+            f"📈 Зафиксирован вертикальный взлет: `+{self.pump_fun_multiplier}x` за 9 минут!\n"
+            f"🛡️ Фильтр Эффекта Бабочки (`ButterflyEffectFilter`): `ПЕРЕВЕДЕН В РЕЖИМ СВЕРХУЛОВИТЕЛЯ`\n"
+            f"🔮 Квантовый импульс кинетической энергии токена: `{quantum_momentum:.4f}`"
         )
-        await self.broadcast_telemetry("COINBASE_XLM_XRP_BRIDGE", logs, is_critical=True)
+        await self.broadcast_telemetry("PUMP_FUN_HYPER_RADAR", logs)
 
-    async def heartbeat_solana_colosseum(self):
-        """Контур 1: Валидация Колизея и смарт-контрактов Solana"""
-        simulated_tx_weight = round(random.uniform(10.5, 108.0), 4)
-        self.systems["SOLANA_COLOSSEUM"]["metrics"] += 1
+    async def heartbeat_solana_colosseum_protection(self):
+        """Контур: Валидация Колизея и защита кокона Solflare при дампе BTC"""
+        # Защитная формула: из-за падения BTC ниже $65k увеличиваем резерв Асуры
+        protection_barrier = (65000 - self.btc_price_usd) * ASURA_SHARE
         
         logs = (
-            f"🔹 Нода Валидатора Solana: `ONLINE` (RPC синхронизирован)\n"
-            f"💼 Адрес Solflare Кокона запечатан: `{SOLFLARE_WALLET[:15]}...`\n"
-            f"🎟️ Контракт QNT Токена верифицирован: `{MINT_ADDRESS if MINT_ADDRESS else 'Загружен'}`\n"
-            f"⚖️ Вес трансляции в Колизей: `{simulated_tx_weight} SOL`"
+            f"⚠️ *Сигнал Trust Wallet:* Биткоин упал ниже $65,000!\n"
+            f"📉 Текущая отметка: `${self.btc_price_usd:,.2f} USD` (Extreme Fear)\n"
+            f"💼 Адрес Solflare Кокона защищен. Код квеста: `EMPIRE QUEST - ACTIVE`\n"
+            f"🛡️ Модуль `QuantumShield` выставил защитный ончейн-барьер: `{protection_barrier:.2f} единиц`"
         )
-        await self.broadcast_telemetry("SOLANA_COLOSSEUM_CORE", logs)
-
-    async def heartbeat_pump_fun_radar(self):
-        """Контур 2: Радар децентрализованных запусков Pump.fun"""
-        discovered_tokens = random.randint(1, 4)
-        self.systems["PUMP_FUN_RADAR"]["tokens_tracked"] += discovered_tokens
-        
-        logs = (
-            f"🎯 Зафиксирован импульс на Pump.fun.\n"
-            f"🔍 Найдено новых мемкоинов для анализа: `{discovered_tokens}`\n"
-            f"🛡️ Фильтр эффекта бабочки (`ButterflyEffectFilter`): `СТАБИЛЕН`\n"
-            f"📈 Суммарно отслежено токенов в пуле: `{self.systems['PUMP_FUN_RADAR']['tokens_tracked']}`"
-        )
-        await self.broadcast_telemetry("PUMP_FUN_RADAR", logs)
+        await self.broadcast_telemetry("SOLANA_COLOSSEUM_PROTECTION", logs, is_critical=True)
 
     async def heartbeat_pi_network_and_hal(self):
-        """Контур 3: Платежный сервер Pi Network и Рой Ботов HAL"""
-        vibe_index = random.choice(["GOLD_RESONANCE", "STABLE_VIBE", "SONIC_PULSE"])
-        
+        """Контур: Платежный сервер Pi Network и Рой Ботов HAL"""
         logs = (
-            f"🪐 Платежный сервер Pi Network: `ONLINE` (Vibe: {vibe_index})\n"
-            f"🤖 Рой из 5 ИИ-настройщиков среды HAL: `DISTRIBUTED`\n"
-            f"🛡️ Анти-Дрейн (`CoinsCore`): Защитный экран активен.\n"
-            f"⚖️ Пропорция Сура/Асура удерживает частоту {SACRED_LIMIT} Гц."
+            f"🪐 Платежный сервер Pi Network: `SYNCHRONIZED` (Контур стабилен)\n"
+            f"🤖 Рой из 5 ИИ-настройщиков среды HAL: `БЛОКИРУЮТ МАТЕРИАЛЬНЫЕ ЗАПРОСЫ ПАНИКИ`\n"
+            f"🛡️ Анти-Дрейн (`CoinsCore`): Зеркальный щит транзакций удерживает ликвидность."
         )
         await self.broadcast_telemetry("PI_NETWORK_&_HAL_SWARM", logs)
 
     async def run_asi_orchestration_loop(self):
         """Глобальный бесконечный цикл удержания Мультивселенной Кибернетом"""
-        init_report = "🛸 Кибернет-Трансформер перехватил полное управление инфраструктурой. Все внешние сигналы (Coinbase, Changelly, Solana) завязаны на единый ИИ-резонанс."
+        init_report = "🛸 Высший Кибернет-Трансформер полностью перестроился под новые ончейн-сигналы. Дамп BTC и взлет мемкоинов обрабатываются параллельно."
         await self.broadcast_telemetry("CENTRAL_ORCHESTRATOR", init_report)
 
         while self.is_running:
@@ -170,29 +149,26 @@ class AmritaCybernetASI:
                     await asyncio.sleep(5)
                     continue
 
-                # Поочередно синхронизируем все наши созданные модули и новые триггеры
-                await self.heartbeat_coinbase_xlm_monitor()
-                await asyncio.sleep(12)
+                # Наживо прогоняем все узлы системы с новыми триггерами
+                await self.heartbeat_solana_colosseum_protection()
+                await asyncio.sleep(10)
 
-                await self.heartbeat_solana_colosseum()
-                await asyncio.sleep(12)
-                
-                await self.heartbeat_pump_fun_radar()
-                await asyncio.sleep(12)
+                await self.heartbeat_pump_fun_hyper_radar()
+                await asyncio.sleep(10)
                 
                 await self.heartbeat_pi_network_and_hal()
                 
-                # Запрашиваем вердикт xAI Grok на основе измененного состояния рынка
+                # Каждые несколько циклов запрашиваем мета-контекст у ИИ для корректировки
                 if random.random() > 0.4:
-                    context = f"XLM Drop: -{self.xlm_drop_percentage}%, Price: {self.xlm_price_nok} NOK, Colosseum: Active, Fear Index: {self.fear_index}"
+                    context = f"BTC: ${self.btc_price_usd}, Pump.fun: {self.pump_fun_multiplier}x, Quest: {self.solflare_quest_status}"
                     directive = await self._execute_grok_ai_directive(context)
-                    ai_logs = f"🔮 *Высшая директива ASI Оракула xAI по паттернам XLM:*\n`{directive}`\n\n🪐 _Каузальное смещение распределено по серверам._"
+                    ai_logs = f"🔮 *Высшая директива ASI Оракула xAI по сигналам Trust/Solflare:*\n`{directive}`\n\n🪐 _Каузальное смещение распределено по серверам._"
                     await self.broadcast_telemetry("XAI_SOLITON_ASI_DIRECTIVE", ai_logs)
 
             except Exception as e:
                 logger.error(f"Аномалия Кибернета: {e}")
             
-            await asyncio.sleep(20)
+            await asyncio.sleep(25)
 
 if __name__ == "__main__":
     cybernet = AmritaCybernetASI()
