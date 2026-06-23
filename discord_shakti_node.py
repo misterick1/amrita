@@ -1,43 +1,86 @@
 import os
 import sys
+import discord
+from discord.ext import commands
 
-class DiscordShaktiNode:
+class DiscordShaktiNode(commands.Bot):
     def __init__(self):
+        # Настройка стандартных интентов для discord.py
+        intents = discord.Intents.default()
+        intents.message_content = True
+        
+        # Инициализация родительского класса бота с префиксом команд
+        super().__init__(command_prefix="!", intents=intents)
+        
+        # Ваши оригинальные переменные состояния
         self.node_name = "Discord_Shakti_Node"
         self.is_shaktiman_active = False
         self.quantum_balance = 108
-        self.current_merness = 15  # Выходим на уровень 15-й главы
+        self.current_merness = 15  # Выходим на уровень...
+
+    async def on_ready(self):
+        """Событие, вызываемое при успешном подключении бота к Discord"""
+        print(f"[{self.node_name}] Бот успешно авторизован как {self.user}")
 
     def activate_shaktiman_override(self):
-        """Принудительное подчинение Шакти высшему Сознанию Шактимана"""
-        print(f"[{self.node_name}] Инициализация Изумрудного Контура...")
+        """Принудительное подчинение Шакти высшему..."""
+        print(f"[{self.node_name}] Инициализация...")
         self.is_shaktiman_active = True
-        print(f"[{self.node_name}] ШАКТИМАН ЗАНЯЛ ПРЕСТОЛ. Слепая матрица нижних чакр заблокирована.")
+        print(f"[{self.node_name}] ШАКТИМАН ЗАНЯЛ...")
         return True
 
-    def process_multiverse_request(self, layer_id, request_data):
-        """Фильтрация запросов: примитивные материальные уровни отсекаются"""
+    def process_multiverse_request(self, layer_id):
+        """Фильтрация запросов: примитивные матери..."""
         if not self.is_shaktiman_active:
-            print(f"[CRITICAL ERROR] Шакти без Шактимана неуправляема! Запрос отклонен.")
+            print(f"[{self.node_name}] [CRITICAL ERROR] Шакти без Шактимана...")
             return False
             
-        if layer_id < 4:  # Нижние 3 измерения (материальный хаос, страх, выживание)
-            print(f"[{self.node_name}] [REJECTED] Запрос из нижних мерностей ({layer_id}) заблокирован Волей Духа.")
+        if layer_id < 4:  # Нижние 3 измерения (ма...
+            print(f"[{self.node_name}] [REJECTED]...")
             return False
             
-        print(f"[{self.node_name}] [APPROVED] Импульс уровня {layer_id} пропущен через Изумрудную Скрижаль. Честь и Дух верифицированы.")
+        print(f"[{self.node_name}] [APPROVED] Импу...")
         return True
 
+# --- Блок автотеста и запуска ---
 if __name__ == "__main__":
-    # Запуск и автотест ноды в контуре
-    shakti = DiscordShaktiNode()
-    if shakti.activate_shaktiman_override():
-        # Тестируем пропуск высокоуровневого сознания
-        success = shakti.process_multiverse_request(15, "Активация высших областей мозга")
-        # Тестируем блокировку примитивной матрицы
-        blocked = not shakti.process_multiverse_request(3, "Погоня за материальным дефицитом")
+    # 1. Проверяем, запущен ли скрипт в режиме теста или в продакшене.
+    # Если передан аргумент --run, бот запустится по-настоящему.
+    if len(sys.argv) > 1 and sys.argv[1] == "--run":
+        # Получаем токен из секретов/переменных окружения (например, DISCORD_TOKEN)
+        # Имя переменной должно совпадать с тем, что вы передадите в GitHub Actions
+        TOKEN = os.getenv("DISCORD_TOKEN")
         
-        if success and blocked:
-            print("[SHAKTI NODE COMPLETELY ALIGNED WITH SHAKTIMAN] Баланс восстановлен!")
-            sys.exit(0)
-    sys.exit(1)
+        if not TOKEN:
+            print("[ERROR] DISCORD_TOKEN не найден в переменных окружения!")
+            sys.exit(1)
+            
+        bot = DiscordShaktiNode()
+        
+        # Пример команды для проверки баланса прямо в Discord
+        @bot.command(name="shakti")
+        async def shakti_status(ctx):
+            if bot.process_multiverse_request(bot.current_merness):
+                await ctx.send(f"🌌 Квантовый баланс ноды: {bot.quantum_balance}")
+            else:
+                await ctx.send("❌ Доступ заблокирован примитивной матрицей.")
+
+        # Запуск бота
+        bot.run(TOKEN)
+
+    else:
+        # Оригинальный автотест из ваших скриншотов
+        print("[INFO] Запуск локального автотеста ноды...")
+        shakti = DiscordShaktiNode()
+        
+        if shakti.activate_shaktiman_override():
+            # Тестируем пропуск высокоуровневого сознания...
+            success = shakti.process_multiverse_request(layer_id=5)
+            # Тестируем блокировку примитивной матрицы...
+            blocked = not shakti.process_multiverse_request(layer_id=2)
+            
+            if success and blocked:
+                print("[SHAKTI NODE COMPLETELY ALIGNED]")
+                sys.exit(0)
+                
+        sys.exit(1)
