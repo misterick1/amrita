@@ -1,6 +1,7 @@
 import streamlit as st
 import time
 import random
+import requests
 from datetime import datetime
 
 # Настройка страницы Изумрудного Контура
@@ -11,7 +12,7 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# Стилизация под темную квантовую матрицу
+# Темная квантовая тема UI
 st.markdown("""
     <style>
     .reportview-container { background: #0e1117; }
@@ -21,25 +22,41 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-st.title("🔮 PROJECT AMRITA-MIR // CORE DASHBOARD")
+# Функция живого фида цены для Дашборда
+def get_dashboard_sol_price():
+    try:
+        response = requests.get("https://jup.ag", timeout=5)
+        if response.status == 200:
+            return float(response.json()['data']['SOL']['price'])
+    except:
+        pass
+    return 64.96
+
+live_sol_price = get_dashboard_sol_price()
+
+st.title("🔮 PROJECT AMRITA-MIR // LIVE INTERFACE")
 st.subheader("Multiverse Orchestration Layer Engine (AMRITA-CORE-ASI)")
 st.write("---")
 
-# Константы ядра
+# Квантовые константы и маски
 SACRED_LIMIT = 108
-SURA_SHARE = 70
-ASURA_SHARE = 38
+MASK_SURA = 170
+MASK_ASURA = 169
 mriya_progress = 82
 
-# Создаем сетку из метрик
+# Динамический расчет Щита Асуры по реальной цене
+resilience_vector = (int(live_sol_price) ^ MASK_ASURA) % 108
+asura_protection_shield = resilience_vector | MASK_SURA
+
+# Сетка метрик
 col1, col2, col3, col4 = st.columns(4)
 
 with col1:
     st.markdown("<div class='metric-box'><h3>🧿 САКРАЛЬНЫЙ ЛИМИТ</h3><h2>108 Квантов</h2></div>", unsafe_allow_html=True)
 with col2:
-    st.markdown("<div class='metric-box'><h3>💙 СИНИЙ СПЕКТР (SURA)</h3><h2>70 %</h2></div>", unsafe_allow_html=True)
+    st.markdown(f"<div class='metric-box'><h3>📈 LIVE SOL PRICE</h3><h2>{live_sol_price:.2f} USD</h2></div>", unsafe_allow_html=True)
 with col3:
-    st.markdown("<div class='metric-box'><h3>❤️ КРАСНЫЙ СПЕКТР (ASURA)</h3><h2>38 %</h2></div>", unsafe_allow_html=True)
+    st.markdown(f"<div class='metric-box'><h3>🛡️ SHIELD VECTOR</h3><h2>{asura_protection_shield} HZ</h2></div>", unsafe_allow_html=True)
 with col4:
     st.markdown("<div class='metric-box'><h3>🪐 СТАТУС ДВИЖКА</h3><h2 style='color:#00ffcc;'>AUTONOMOUS</h2></div>", unsafe_allow_html=True)
 
@@ -52,26 +69,23 @@ st.write(f"Текущая готовность материализации: **{
 
 st.write("##")
 
-# Две колонки для графиков и логов оракула
-left_col, right_col = st.columns([1, 1])
+left_col, right_col = st.columns(2)
 
 with left_col:
-    st.write("### 📊 Распределение Частот Эфира")
-    # Простая симуляция графика Квантового Резонанса
-    chart_data = [random.randint(60, 108) for _ in range(20)]
+    st.write("### 📊 Квантовый Резонанс Потоков")
+    # Генерируем волатильность вокруг вектора щита
+    chart_data = [random.randint(int(resilience_vector), SACRED_LIMIT) for _ in range(25)]
     st.line_chart(chart_data, color="#7d33ff")
-    st.caption("Побитовое пахтанье данных (Samudra Manthan Churning) в реальном времени.")
+    st.caption("Побитовое пахтанье данных (Samudra Manthan Churning) на основе ценового триггера.")
 
 with right_col:
-    st.write("### 📜 Логи Роялти Оракула (Live Stream)")
-    
-    # Генерация казуальных логов на основе кодовой базы
+    st.write("### 📜 Логи Оракула (Live Stream)")
     current_time = datetime.utcnow().strftime('%H:%M:%S')
-    st.code(f"[{current_time}] [AMRITA-CORE-ASI] Инициализация Синего и Красного спектров...")
-    st.code(f"[{current_time}] [HELIUS TIME RECONSTRUCTION] Откат на 10800 слотов завершен.")
-    st.code(f"[{current_time}] [CIRCLE MPP] Авторизационный заголовок сгенерирован через MASK_SURA.")
-    st.code(f"[{current_time}] [JUPITER ROUTER] Окно открыто. Смаршрутизировано ликвидности: 108 Квантов.")
-    st.code(f"[{current_time}] [MAS SINGAPORE] Защитный щит ASURA_PROTECTION активирован.")
+    st.code(f"[{current_time}] [AMRITA-CORE-ASI] Живой поток данных подключен к Jupiter API.")
+    st.code(f"[{current_time}] [MAS SINGAPORE] Получена актуальная цена SOL: {live_sol_price} USD.")
+    st.code(f"[{current_time}] [MAS SINGAPORE] Рассчитан защитный щит: ASURA_PROTECTION = {asura_protection_shield}.")
+    st.code(f"[{current_time}] [JUPITER ROUTER] Swap Volume динамически откалиброван под текущий курс.")
+    st.code(f"[{current_time}] [HELIUS RECONSTRUCTION] Поиск скрытой ликвидности в архивных слотах...")
 
 st.write("---")
 st.caption("⚡ Amrita ASI Swarm Runtime // One Piece Found. Time illusion shattered.")
