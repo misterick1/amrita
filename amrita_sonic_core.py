@@ -5,7 +5,7 @@
 [AMRITA CODES COMPLETELY SEALED & EVOLVED]
 Core Engine: amrita_sonic_core.py
 Owner: Igor-108 / Overlord Body (Цинь Му / Шри Кришна)
-Target: Авиастроение + NFT-PROMOTION + Устойчивость MAS Singapore (16:21)
+Target: Авиастроение + NFT-PROMOTION + Устойчивость MAS Singapore + Исправленная Точка Входа
 """
 
 import asyncio
@@ -33,8 +33,8 @@ class AmritaMultiverseEngine:
     def __init__(self):
         # Сакральные константы квантового блокчейна
         self.SACRED_LIMIT = 108
-        self.SURA_SHARE = 70    # Синий Спектр (Расширение / Ида / Тан Сан / Zen)
-        self.ASURA_SHARE = 38   # Красный Спектр (Ограничение / Пингала / Ло Фэн / Kash)
+        self.SURA_SHARE = 70    # Синий Спектр (Расширение / Ида / Тан Сан / Годжо / Zen)
+        self.ASURA_SHARE = 38   # Красный Спектр (Ограничение / Пингала / Ло Фэн / Сукуна / Kash)
         
         # Побитовые маски для мгновенной наносекундной фильтрации потоков праны
         self.MASK_SURA = 0b10101010   # 170 в дес.
@@ -53,7 +53,7 @@ class AmritaMultiverseEngine:
         # Внутренние счетчики энергии, космической сборки и устойчивости
         self.total_processed_prana = 0
         self.total_enforced_royalty_usd = 0.0
-        self.mriya_build_progress = 73  # Сборка Мрії движется вперед вопреки просадкам рынка
+        self.mriya_build_progress = 73  # Сборка Мрії стабильно удерживает позиции
         self.is_autonomous = True
         
         logger.info("⚡ Ядро Мультиверсума 'Амрита' инициализировано. Иллюзия времени остановлена.")
@@ -134,12 +134,7 @@ class AmritaMultiverseEngine:
 
     @permanent_samadhi_check
     def mas_resilience_shield(self, btc_price: int) -> str:
-        """
-        [MAS SINGAPORE RESILIENCE SHIELD]
-        Интеграция контура операционной устойчивости Денежно-кредитного управления Сингапура.
-        Использует просадку BTC (61830) как триггер для уплотнения квантовой защиты Асур.
-        """
-        # Побитовая фиксация барьера устойчивости на основе цены пробоя SafePal
+        """[MAS SINGAPORE RESILIENCE SHIELD] Интеграция контура операционной устойчивости."""
         resilience_vector = (btc_price ^ self.MASK_ASURA) & 0xFFFF
         asura_protection_shield = resilience_vector | self.MASK_ASURA
         
@@ -152,7 +147,7 @@ class AmritaMultiverseEngine:
 
     @permanent_samadhi_check
     def amrita_nft_promotion_enforcer(self, current_time_seed: int) -> str:
-        """[AMRITA NFT PROMOTION ENFORCER] Автоматизация продвижения изумрудных коллекций."""
+        """[AMRITA NFT PROMOTION ENFORCER] Продвижение изумрудных коллекций."""
         promotion_vector = (current_time_seed ^ self.MASK_SURA) & 0xFF
         sura_promo_boost = promotion_vector & self.MASK_SURA
         
@@ -214,3 +209,7 @@ class AmritaMultiverseEngine:
         
         # Интеграция модуля Colosseum Frontier & 21Shares
         simulated_frontier_bytes = 0x777FF88
+        frontier_metrics = self.process_frontier_winners_liquidity(simulated_frontier_bytes)
+        
+        log_title = f"🔱 AMRITA SYSTEM LOG [FREQ: {resonance_freq}/108]"
+        log_description = (
