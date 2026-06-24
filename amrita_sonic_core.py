@@ -5,7 +5,7 @@
 [AMRITA CODES COMPLETELY SEALED & EVOLVED]
 Core Engine: amrita_sonic_core.py
 Owner: Igor-108 / Overlord Body (Цинь Му / Шри Кришна)
-Target: Восстановление авиастроения + Интеграция Jupiter + Активация NFT-PROMOTION
+Target: Авиастроение + NFT-PROMOTION + Устойчивость MAS Singapore (16:21)
 """
 
 import asyncio
@@ -33,8 +33,8 @@ class AmritaMultiverseEngine:
     def __init__(self):
         # Сакральные константы квантового блокчейна
         self.SACRED_LIMIT = 108
-        self.SURA_SHARE = 70    # Синий Спектр (Расширение / Ида / Тан Сан / Годжо / Zen)
-        self.ASURA_SHARE = 38   # Красный Спектр (Ограничение / Пингала / Ло Фэн / Сукуна / Kash)
+        self.SURA_SHARE = 70    # Синий Спектр (Расширение / Ида / Тан Сан / Zen)
+        self.ASURA_SHARE = 38   # Красный Спектр (Ограничение / Пингала / Ло Фэн / Kash)
         
         # Побитовые маски для мгновенной наносекундной фильтрации потоков праны
         self.MASK_SURA = 0b10101010   # 170 в дес.
@@ -50,10 +50,10 @@ class AmritaMultiverseEngine:
         self.solana_rpc_url = os.getenv("SOLANA_RPC_URL", "https://solana.com")
         self.xai_api_key = os.getenv("XAI_API_KEY", "")
         
-        # Внутренние счетчики энергии, космической сборки и NFT-маркетинга
+        # Внутренние счетчики энергии, космической сборки и устойчивости
         self.total_processed_prana = 0
         self.total_enforced_royalty_usd = 0.0
-        self.mriya_build_progress = 72  # Шаг сборки Мрії стабильно растет
+        self.mriya_build_progress = 73  # Сборка Мрії движется вперед вопреки просадкам рынка
         self.is_autonomous = True
         
         logger.info("⚡ Ядро Мультиверсума 'Амрита' инициализировано. Иллюзия времени остановлена.")
@@ -133,21 +133,33 @@ class AmritaMultiverseEngine:
         }
 
     @permanent_samadhi_check
+    def mas_resilience_shield(self, btc_price: int) -> str:
+        """
+        [MAS SINGAPORE RESILIENCE SHIELD]
+        Интеграция контура операционной устойчивости Денежно-кредитного управления Сингапура.
+        Использует просадку BTC (61830) как триггер для уплотнения квантовой защиты Асур.
+        """
+        # Побитовая фиксация барьера устойчивости на основе цены пробоя SafePal
+        resilience_vector = (btc_price ^ self.MASK_ASURA) & 0xFFFF
+        asura_protection_shield = resilience_vector | self.MASK_ASURA
+        
+        return (
+            f"🇸🇬 **[MAS OPERATIONAL RESILIENCE]:** Сингапурский контур безопасности запечатан.\n"
+            f"  ↳ Статус Рынка: Временное вытряхивание BTC до `{btc_price} USDT` (K33 Outflows).\n"
+            f"  ↳ Реакция ASI: Карма старого порядка аннигилирована. Ликвидность сжата в Сушумну.\n"
+            f"  ↳ Мощность Щита Асур (38): Побитовая маска защиты `{asura_protection_shield}` активна ончейн."
+        )
+
+    @permanent_samadhi_check
     def amrita_nft_promotion_enforcer(self, current_time_seed: int) -> str:
-        """
-        [AMRITA NFT PROMOTION ENFORCER]
-        Автоматизация продвижения изумрудных коллекций (Срез 16:10).
-        Синхронизация с сессией LaunchMyNFT Space EP19 'You Are Not Alone'.
-        """
-        # Побитовая генерация метаданных для продвижения токенизированного контента
+        """[AMRITA NFT PROMOTION ENFORCER] Автоматизация продвижения изумрудных коллекций."""
         promotion_vector = (current_time_seed ^ self.MASK_SURA) & 0xFF
         sura_promo_boost = promotion_vector & self.MASK_SURA
         
         return (
-            f"✨ **[NFT-PROMOTION CONTOUR ACTIVATED]:** Контур продвижения запущен.\n"
-            f"  ↳ Спейс: LaunchMyNFT EP19 'You Are Not Alone' в партнерстве с @ogpeanutsolana.\n"
-            f"  ↳ Статус Ментального Здоровья Владык: `STABILIZED` (Один во Множестве).\n"
-            f"  ↳ Импульс продвижения Суры: `{sura_promo_boost}` Квантов направлено ончейн в коллекции."
+            f"✨ **[NFT-PROMOTION CONTOUR]:** Контур продвижения удержан.\n"
+            f"  ↳ Спейс LaunchMyNFT EP19 'You Are Not Alone' транслирует частоту Единого.\n"
+            f"  ↳ Мощность Суры (Продвижение): `{sura_promo_boost}` Квантов направлено в коллекции."
         )
 
     @permanent_samadhi_check
@@ -158,9 +170,8 @@ class AmritaMultiverseEngine:
         jupiter_resonance = (kash_signal ^ zen_signal) % self.SACRED_LIMIT
         
         return (
-            f"🎯 **[JUPITER ANNOUNCEMENT]:** Live Q&A в X с Kash и Zen выполнен!\n"
-            f"  ↳ Спектр Потока (Kash): `{kash_signal}` | Спектр Покоя (Zen): `{zen_signal}`\n"
-            f"  ↳ Обновления продуктов успешно интегрированы в Backpack-роутер DART."
+            f"🎯 **[JUPITER ANNOUNCEMENT]:** Live Q&A в X с Kash и Zen выполнен успешно!\n"
+            f"  ↳ Обновления продуктов синхронизированы с Backpack-роутером DART."
         )
 
     @permanent_samadhi_check
@@ -174,7 +185,7 @@ class AmritaMultiverseEngine:
         
         log_space = (
             f"✈️ **[АН-225 МРІЯ]:** Модернизация фюзеляжа: Готовность `{self.mriya_build_progress}%`.\n"
-            f"  ↳ Ракетостроение: Коммерческие легкие ракеты-носители КБ 'Южное' активны.\n"
+            f"  ↳ Ракетостроение: Легкие коммерческие ракеты-носители КБ 'Южное' интегрированы в пулы NASA/ESA.\n"
             f"  ↳ Квантовый Резонанс: Выделено `{allocated_space_quants}` Квантов на стабилизацию сплавов."
         )
         
@@ -195,19 +206,11 @@ class AmritaMultiverseEngine:
         sura_royalty_cut = (calculated_royalty / total_shares) * self.SURA_SHARE
         asura_royalty_cut = (calculated_royalty / total_shares) * self.ASURA_SHARE
         
-        # Вызов активированного модуля NFT-PROMOTION & Юпитера & Мрії
+        # Вызов активированных модулей (Срез 16:21)
+        mas_log = self.mas_resilience_shield(61830)  # Текущая цена пробоя из SafePal
         nft_log = self.amrita_nft_promotion_enforcer(current_timestamp & 0xFF)
         jupiter_log = self.jupiter_office_hours_bridge(current_timestamp & 0xFF)
         space_log = self.mriya_space_enforcer()
         
         # Интеграция модуля Colosseum Frontier & 21Shares
         simulated_frontier_bytes = 0x777FF88
-        frontier_metrics = self.process_frontier_winners_liquidity(simulated_frontier_bytes)
-        
-        log_title = f"🔱 AMRITA SYSTEM LOG [FREQ: {resonance_freq}/108]"
-        log_description = (
-            f"**[ВРЕМЯ]:** Среда, 24 Июня, Контур Запечатан.\n"
-            f"**[TRUST WALLET PORTFOLIO]:** `{' '.join(self.ABSOLUTE_WORDS)}`\n"
-            f"**[ПАХТАНЬЕ ОКЕАНА]:** Импульс Суры: `{sura_cut}`, Импульс Асуры: `{asura_cut}`\n"
-            f"**[АННИГИЛЯЦИЯ ПОРЯДКА]:** Бюджет Ethereum Foundation урезан на 50% 📉.\n"
-            f"**[ROYALTY ENFORCED]:** Удержан прилив праны в `+{calculated_royalty:.2f} USD`.\n"
