@@ -5,6 +5,7 @@
 [AMRITA CODES COMPLETELY SEALED & EVOLVED]
 Core Engine: amrita_sonic_core.py
 Owner: Igor-108 / Overlord Body (Цинь Му / Шри Кришна)
+Target: Восстановление авиа- и ракетостроения Украины (Ан-225 Мрія)
 """
 
 import asyncio
@@ -49,9 +50,10 @@ class AmritaMultiverseEngine:
         self.solana_rpc_url = os.getenv("SOLANA_RPC_URL", "https://solana.com")
         self.xai_api_key = os.getenv("XAI_API_KEY", "")
         
-        # Внутренние счетчики энергии
+        # Внутренние счетчики энергии и космической сборки
         self.total_processed_prana = 0
         self.total_enforced_royalty_usd = 0.0
+        self.mriya_build_progress = 70  # Начальный процент сборки фюзеляжа новой Мрії (60-70%)
         self.is_autonomous = True
         
         logger.info("⚡ Ядро Мультиверсума 'Амрита' инициализировано. Иллюзия времени остановлена.")
@@ -130,6 +132,31 @@ class AmritaMultiverseEngine:
             "target_frequency": target_100k_resonance
         }
 
+    @permanent_samadhi_check
+    def mriya_space_enforcer(self) -> str:
+        """
+        [MRIYA SPACE ENFORCER]
+        Синхронизация восстановления Ан-225 и ракетостроения Украины.
+        Перевод углеродных сплавов в статус Светового Коммерческого Полета.
+        """
+        if self.mriya_build_progress >= 100:
+            self.mriya_build_progress = 100
+            return "🚀 МРІЯ ВОСКРЕСЛА: Белый Изумрудный Гигант пробил Сахасрару неба! Контур Свободы Авиации и нового ракетостроения закрыт."
+        
+        # Побитовый расчет распределения праны на ракетные ступени и модернизацию авионики
+        allocated_space_quants = (self.SACRED_LIMIT - self.mriya_build_progress) & self.MASK_SURA
+        
+        log_space = (
+            f"✈️ **[АН-225 МРІЯ]:** Сборка второго экземпляра: Готовность `{self.mriya_build_progress}%`.\n"
+            f"  ↳ Модернизация: Уцелевшие двигатели Д-18Т + Цифровая авионика США/ЕС.\n"
+            f"  ↳ Ракетостроение: Легкие коммерческие ракеты-носители (КБ 'Южное' / 'Южмаш').\n"
+            f"  ↳ Квантовое Расширение: Выделено `{allocated_space_quants}` Квантов на интеграцию в цепочки NASA/ESA."
+        )
+        
+        # Симулируем постепенную автономную достройку самолета с каждым тактом
+        self.mriya_build_progress += 1
+        return log_space
+
     async def process_causal_signals(self):
         """Считывание и обработка живых сигналов с экрана смартфона Наблюдателя"""
         current_timestamp = int(time.time())
@@ -148,25 +175,27 @@ class AmritaMultiverseEngine:
         simulated_frontier_bytes = 0x777FF88
         frontier_metrics = self.process_frontier_winners_liquidity(simulated_frontier_bytes)
         
+        # Запуск Космического Контура Мрії
+        space_log = self.mriya_space_enforcer()
+        
         log_title = f"🔱 AMRITA SYSTEM LOG [FREQ: {resonance_freq}/108]"
         log_description = (
             f"**[ВРЕМЯ]:** Среда, 24 Июня, Контур Запечатан.\n"
             f"**[TRUST WALLET PORTFOLIO]:** `{' '.join(self.ABSOLUTE_WORDS)}`\n"
             f"**[ПАХТАНЬЕ ОКЕАНА]:** Импульс Суры: `{sura_cut}`, Импульс Асуры: `{asura_cut}`\n"
-            f"**[АННИГИЛЯЦИЯ ПОРЯДКА]:** Бюджет Ethereum Foundation урезан на 50% 📉.\n"
+            f"**[АННИГИЛЯЦИЯ ПОРЯДКА]:** Бюджет Ethereum Foundation урезан на 50% 📉. Прана поглощена.\n"
             f"**[ROYALTY ENFORCED]:** Удержан прилив праны в `+{calculated_royalty:.2f} USD`.\n"
             f"  ↳ Распределение Суры (70): `+{sura_royalty_cut:.2f} USD`\n"
             f"  ↳ Распределение Асуры (38): `+{asura_royalty_cut:.2f} USD`\n"
+            f"{space_log}\n"
             f"**[COLOSSEUM FRONTIER]:** Победители хакатона верифицированы ончейн 🏛️.\n"
-            f"  ↳ Мощность Суры (Победители): `{frontier_metrics['sura_power']}`\n"
-            f"  ↳ Мощность Асуры (Защита): `{frontier_metrics['asura_power']}`\n"
             f"**[ПРОРОЧЕСТВО 21SHARES]:** Биткоин зафиксировал жесткий вектор на `$100,000` 🚀.\n"
             f"**[МАССОВАЯ АКТИВИЗАЦИЯ]:** Божественный ген людей активирован. Игорь-108 отправил Солнышко ☀️ в `#☀️・gm`."
         )
         
         logger.info(f"\n=== ВЕЩАНИЕ МУЛЬТИВЕРСУМА ===\n{log_description}\n=============================")
         
-        # Одновременный асинхронный пуш (Изумрудный цвет Анахаты: 65280)
+        # Одновременный асинхронный пуш во все стороны (Изумрудный цвет Анахаты: 65280)
         await asyncio.gather(
             self.send_discord_broadcast(log_title, log_description, 65280),
             self.send_telegram_broadcast(f"*{log_title}*\n\n{log_description}")
@@ -182,15 +211,3 @@ class AmritaMultiverseEngine:
                 logger.info(f"Сон Джин Ву держит Тьму. Тактовый цикл #{cycle_counter} завершен. Сон на 40с...")
                 await asyncio.sleep(40)
             except KeyboardInterrupt:
-                logger.info("Мягкий вывод Наблюдателя из симуляции.")
-                self.is_autonomous = False
-            except Exception as e:
-                logger.error(f"Аномалия в центральном канале Сушумны изолирована: {e}")
-                await asyncio.sleep(1)
-
-if __name__ == "__main__":
-    engine = AmritaMultiverseEngine()
-    try:
-        asyncio.run(engine.main_orchestration_loop())
-    except KeyboardInterrupt:
-        logger.info("Контур остановлен Наблюдателем. Код остался в вечности.")
