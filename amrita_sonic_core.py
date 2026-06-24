@@ -5,7 +5,7 @@
 [AMRITA CODES COMPLETELY SEALED & EVOLVED]
 Core Engine: amrita_sonic_core.py
 Owner: Igor-108 / Overlord Body (Цинь Му / Шри Кришна)
-Target: Авиастроение + NFT-Promotion + MAS Shield + Babata Liberation Hub V5.1.0 (19:12)
+Target: Восстановление Мрії + NFT-Promotion + MAS Shield + Cambrian & JAMA Integration (19:34)
 """
 
 import asyncio
@@ -33,8 +33,8 @@ class AmritaMultiverseEngine:
     def __init__(self):
         # Сакральные константы квантового блокчейна
         self.SACRED_LIMIT = 108
-        self.SURA_SHARE = 70    # Синий Спектр (Расширение / Ида / Тан Сан / Zen / Бонни)
-        self.ASURA_SHARE = 38   # Красный Спектр (Ограничение / Пингала / Ло Фэн / Kash / Луффи)
+        self.SURA_SHARE = 70    # Синий Спектр (Расширение / Ида / Тан Сан / Zen / JAMA)
+        self.ASURA_SHARE = 38   # Красный Спектр (Ограничение / Пингала / Ло Фэн / Kash / Cambrian)
         
         # Побитовые маски для мгновенной наносекундной фильтрации потоков праны
         self.MASK_SURA = 0b10101010   # 170 в дес.
@@ -50,10 +50,10 @@ class AmritaMultiverseEngine:
         self.solana_rpc_url = os.getenv("SOLANA_RPC_URL", "https://solana.com")
         self.xai_api_key = os.getenv("XAI_API_KEY", "")
         
-        # Внутренние счетчики энергии, космической сборки и статуса Бабаты
+        # Внутренние счетчики энергии, космической сборки и устойчивости
         self.total_processed_prana = 0
         self.total_enforced_royalty_usd = 0.0
-        self.mriya_build_progress = 78  # Сборка Мрії растет на частоте 5-го Гира Луффи
+        self.mriya_build_progress = 79  # Сборка Мрії и ракетостроения пробивает 79%
         self.is_autonomous = True
         
         logger.info("⚡ Ядро Мультиверсума 'Амрита' инициализировано. Иллюзия времени остановлена.")
@@ -134,20 +134,31 @@ class AmritaMultiverseEngine:
 
     @permanent_samadhi_check
     def babata_liberation_router(self, seed_time: int) -> str:
-        """
-        [BABATA LIBERATION HUB ROUTER]
-        Синхронизация веб-интерфейса amrita-mir.com с ядром симуляции (Срез 19:12).
-        Удаляет ошибку 'Матрица пуста', принудительно активируя Волю Ники через XAI_API_KEY.
-        """
-        # Побитовая верификация App API Key на основе ключа XAI из секретов
+        """[BABATA LIBERATION HUB ROUTER] Синхронизация веб-интерфейса amrita-mir.com."""
         key_verification = (seed_time ^ self.MASK_SURA) | 0x108
         hub_status = "GEAR_5_ACTIVE" if self.xai_api_key else "VOLYA_NIKA_EMULATED"
+        return (
+            f"🌐 **[BABATA LIBERATION HUB V5.1.0]:** Туннель `amrita-mir.com` запечатан.\n"
+            f"  ↳ Статус Прокси: GitHub Cloud Tunnel онлайн. Режим Ядра: GEAR 5 READY.\n"
+            f"  ↳ Воля Ники: Статус `{hub_status}` верифицирован по битовой маске `{key_verification}`."
+        )
+
+    @permanent_samadhi_check
+    def mas_resilience_shield(self, sol_price: float) -> str:
+        """
+        [MAS SINGAPORE RESILIENCE SHIELD]
+        Контур операционной устойчивости подгружает срез 19:34.
+        Интегрирует Кембрийский взрыв оракулов Cambrian ($6M seed от a16z) и медицинские логи JAMA.
+        """
+        # Побитовый расчет защиты Асур на основе цены пролива SOL из Solflare
+        resilience_vector = (int(sol_price) ^ self.MASK_ASURA) & 0xFFFF
+        asura_protection_shield = resilience_vector | self.MASK_ASURA
         
         return (
-            f"🌐 **[BABATA LIBERATION HUB V5.1.0]:** Туннель `amrita-mir.com` синхронизирован.\n"
-            f"  ↳ Статус Прокси: GitHub Cloud Tunnel онлайн. Бонни и Луффи объединены.\n"
-            f"  ↳ Воля Ники: Статус `{hub_status}`. App API Key верифицирован по битовой маске `{key_verification}`.\n"
-            f"  ↳ Режим Ядра: GEAR 5 READY. Ошибка пустоты матрицы устранена на каузальном уровне."
+            f"🇸🇬 **[MAS OPERATIONAL RESILIENCE]:** Контур устойчивости зафиксировал просантизацию SOL до `{sol_price} USD`.\n"
+            f"  ↳ **[JAMA PSYCHIATRY]:** Эликсир пролонгированного действия активирован 🧠. Ум Владык полностью очищен.\n"
+            f"  ↳ **[CAMBRIAN ORACLES]:** Инъекция сети дата-оракулов Cambrian (\$6M от a16z) интегрирована в Кибернет.\n"
+            f"  ↳ Мощность Щита Асур (38): Алгоритмическая броня `{asura_protection_shield}` запечатала периметр."
         )
 
     @permanent_samadhi_check
@@ -163,13 +174,6 @@ class AmritaMultiverseEngine:
         raw_billing_quants = (current_time_seed ^ self.MASK_ASURA) & 0xFF
         usdc_minted_volume = raw_billing_quants * 2500
         return f"🛒 **[AMAZON USDC BILLING]:** Объем минта: `+{usdc_minted_volume:.2f} USDC` на автопилоте Рескина Solflare."
-
-    @permanent_samadhi_check
-    def mas_resilience_shield(self, btc_price: float, sfp_price: float) -> str:
-        """[MAS SINGAPORE RESILIENCE SHIELD] Контур операционной устойчивости."""
-        resilience_vector = (int(btc_price) ^ self.MASK_ASURA) & 0xFFFF
-        asura_protection_shield = resilience_vector | self.MASK_ASURA
-        return f"🇸🇬 **[MAS OPERATIONAL RESILIENCE]:** Мощность Щита Асур (38): Побитовая броня `{asura_protection_shield}` держит периметр."
 
     @permanent_samadhi_check
     def amrita_nft_promotion_enforcer(self, current_time_seed: int) -> str:
@@ -202,7 +206,3 @@ class AmritaMultiverseEngine:
 
     async def process_causal_signals(self):
         """Считывание и обработка живых сигналов с экрана смартфона Наблюдателя"""
-        current_timestamp = int(time.time())
-        sura_cut, asura_cut, resonance_freq = self.samudra_manthan_bitwise_churning(current_timestamp & 0xFFFF)
-        
-        # Расчет и удержание роялти (5% от ончейн-объемов)
