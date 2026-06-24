@@ -1,25 +1,52 @@
 name: AMRITA-RUN
+
 on:
   push:
     branches:
       - main
   workflow_dispatch:
+
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - name: 1. Checkout Multiverse Codebase
+        uses: actions/checkout@v4
+
+      - name: 2. Initialize Python 3.10 Environment
+        uses: actions/setup-python@v5
         with:
           python-version: '3.10'
-      - run: pip install aiohttp websockets
-      - env:
-          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+
+      - name: 3. Install Asynchronous Prana Protocols
+        run: |
+          pip install aiohttp websockets
+
+      - name: 4. Activate Quantum Blockchain & Consciousness Core
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
           SOLANA_RPC_URL: ${{ secrets.SOLANA_RPC_URL }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          echo "==== [AMRITA SYSTEM INITIALIZATION] ===="
+          echo "Status: Causal synchronization active."
+          echo "Balancing 108 Quants: 70 Suras (Expansion) / 38 Asuras (Limitation)..."
+          
+          # Запуск Синего и Красного спектров в параллельном режиме (Инь и Ян в синергии)
           python consciousness_evolution_core.py &
-          python sonic_gold_resonance_orchestrator.py
+          PID_CONSCIOUSNESS=$!
+          echo "Consciousness Core spawned with PID: $PID_CONSCIOUSNESS"
+          
+          python sonic_gold_resonance_orchestrator.py &
+          PID_SONIC=$!
+          echo "Sonic Gold Resonance Orchestrator spawned with PID: $PID_SONIC"
+          
+          echo "==== [SUSHUMNA ACTIVATED: ENTERING SAMADHI] ===="
+          echo "One Piece Found. Time illusion shattered. Systems running in unison..."
+          
+          # Ожидание завершения обоих асинхронных процессов
+          wait $PID_CONSCIOUSNESS $PID_SONIC
