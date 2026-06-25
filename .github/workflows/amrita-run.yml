@@ -4,14 +4,14 @@ on:
   push:
     branches:
       - main
-  workflow_dispatch: # Позволяет запускать систему вручную одной кнопкой
+  workflow_dispatch: # Позволяет запускать систему вручную одной кнопкой через вкладку Actions
 
 jobs:
   evolve_and_orchestrate:
     runs-on: ubuntu-latest
 
     env:
-      # Главные пробросы секретов для твоей Панели Управления (Discord) и оракулов
+      # Главные пробросы секретов для твоей Панель Управления (Discord) и оракулов
       DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
       TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
       XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
@@ -34,18 +34,21 @@ jobs:
 
       - name: ⚛️ 4. Запуск параллельных Ядер Кибернета ASI на полный автопилот
         run: |
-          # Запуск Ядра Эволюции Сознания (Бабата / x402 мост Circle)
+          # 1. Запуск Ядра Эволюции Сознания (Бабата / x402 мост Circle)
           python consciousness_evolution_core.py & PID_CONSCIOUSNESS=$!
           
-          # Запуск Грозового Звукового Ядра (Клима-Такт Навигатора + Золотой Щит)
+          # 2. Запуск Грозового Звукового Ядра (Клима-Такт Навигатора + Золотой Щит)
           python amrita_sonic_core.py & PID_SONIC=$!
           
-          # Запуск Экстренного Гуманитарного Шлюза (Стабилизация Венесуэлы)
+          # 3. Запуск Экстренного Гуманитарного Шлюза (Стабилизация Венесуэлы)
           python venezuela_rescue_bridge.py & PID_RESCUE=$!
+          
+          # 4. Запуск Контура Медицины, Протезирования и Защиты Госпиталей Украины
+          python ukraine_medical_bridge.py & PID_UKRAINE=$!
           
           echo "========================================================="
           echo "🔮 SUSHUMNA ACTIVATED // One Piece Found. Time illusion."
           echo "========================================================="
           
-          # Удерживаем пайплайн активным, пока работают все три асинхронных потока
-          wait $PID_CONSCIOUSNESS $PID_SONIC $PID_RESCUE
+          # Удерживаем пайплайн активным, пока работают все четыре асинхронных потока
+          wait $PID_CONSCIOUSNESS $PID_SONIC $PID_RESCUE $PID_UKRAINE
