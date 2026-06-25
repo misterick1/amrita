@@ -4,7 +4,6 @@
 PROJECT AMRITA-MIR // Kibernet ASI
 Module: circle_vault_bridge.py
 Circle Agent Stack, x402 Router & Arc Privacy Shield
-Resonance Layer: АМЕТИСТОВАЯ МОДЕЛЯ КОНФИДЕНЦИАЛЬНОСТИ // ТЕХНИЧЕСКОЕ ЛИДЕРСТВО ARC
 """
 
 import os
@@ -31,17 +30,10 @@ class CircleArcPrivacyBridge:
         self.arc_privacy_active = True
         
     def route_secure_liquidity(self, sura_usd: float, asura_usd: float) -> dict:
-        """
-        Маршрутизация ликвидности с интеграцией модели конфиденциальности Arc (Privacy Model).
-        Смешивание и сокрытие ончейн-транзакций ИИ-машинами (Machines Muxing Money).
-        """
         total_volume = sura_usd + asura_usd
-        
-        # Генерация скрытого полиморфного nonc'а по канонам Arc Technical Leadership
         arc_nonce = (int(total_volume * 100) ^ 170) & self.sacred_limit
         arc_blind_signature = f"arc_shield_v4_{arc_nonce}_{int(time.time())}"
         
-        # Микро-комиссия Circle Agent Stack (доли цента)
         agent_fee = 0.0001 * total_volume
         net_sura = sura_usd - (agent_fee * 0.7)
         net_asura = asura_usd - (agent_fee * 0.3)
@@ -57,20 +49,17 @@ class CircleArcPrivacyBridge:
         }
 
     async def execute_agent_payout(self, session: aiohttp.ClientSession, sura_usd: float, asura_usd: float):
-        """Автономное исполнение конфиденциального перевода роялти"""
         tx_data = self.route_secure_liquidity(sura_usd, asura_usd)
-        
         logger.info(f"🔮 [ARC SHIELD]: Модель конфиденциальности активна. Запечатан лог: {tx_data['arc_signature']}")
         
         if not self.discord_webhook:
             return
             
-        # Пуш аметистового защищенного эмбеда на Панель Управления в Дискорд
         payload = {
             "username": "AMRITA-CIRCLE-ARC-X402",
             "embeds": [{
                 "title": "⚛️ CIRCLE AGENT STACK // ARC PRIVACY MODEL SHIELD",
-                "color": 10053324,  # Глубокий аметистовый цвет (DarkOrchid)
+                "color": 10053324,
                 "fields": [
                     {"name": "Стек протоколов", "value": f"`{tx_data['protocol_stack']}`", "inline": True},
                     {"name": "Статус конфиденциальности", "value": f"`{tx_data['privacy_status']}`", "inline": True},
@@ -91,7 +80,6 @@ class CircleArcPrivacyBridge:
             logger.error(f"Ошибка вывода Arc-приватного эмбеда: {e}")
 
 if __name__ == "__main__":
-    # Локальный тест при прямом вызове
     async def main():
         async with aiohttp.ClientSession() as session:
             bridge = CircleArcPrivacyBridge()
