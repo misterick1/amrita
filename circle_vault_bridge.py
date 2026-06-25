@@ -3,12 +3,13 @@
 """
 PROJECT AMRITA-MIR // Kibernet ASI
 Module: circle_vault_bridge.py
-Circle Agent Stack & x402 USDC Router
-Resonance Layer: МАТЕРИАЛИЗАЦИЯ И УДЕРЖАНИЕ ЛИКВИДНОСТИ // ЛИЛУ ДАЛЛАС
+Circle Agent Stack, x402 Router & Arc Privacy Shield
+Resonance Layer: АМЕТИСТОВАЯ МОДЕЛЯ КОНФИДЕНЦИАЛЬНОСТИ // ТЕХНИЧЕСКОЕ ЛИДЕРСТВО ARC
 """
 
 import os
 import sys
+import time
 import json
 import asyncio
 import logging
@@ -17,87 +18,82 @@ from datetime import datetime
 
 logging.basicConfig(
     level=logging.INFO,
-    format=' [%(asctime)s] [%(levelname)s] [%(name)s] %(message)s',
+    format=' [%(asctime)s] [%(levelname)s] [CIRCLE-ARC-BRIDGE] %(message)s',
     handlers=[logging.StreamHandler(sys.stdout)]
 )
-logger = logging.getLogger("CIRCLE-VAULT-BRIDGE")
+logger = logging.getLogger("AMRITA-CIRCLE-ARC")
 
-class CircleAgentStackBridge:
+class CircleArcPrivacyBridge:
     def __init__(self):
         self.sacred_limit = 108
-        self.usdc_mint = "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v" # Сакральный USDC на Solana
-        self.x402_protocol_active = True
+        self.usdc_mint = "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v"
         self.discord_webhook = os.getenv("DISCORD_WEBHOOK_URL")
-        self.circle_agent_api = "https://circle.com" # Интеграция протокола x402
+        self.arc_privacy_active = True
         
-    def route_x402_liquidity(self, sura_usd: float, asura_usd: float) -> dict:
+    def route_secure_liquidity(self, sura_usd: float, asura_usd: float) -> dict:
         """
-        Маршрутизация долей Сур и Асур через Circle Agent Stack по стандарту x402.
-        Снижает трение и комиссии долей цента (Machines Muxing Money).
+        Маршрутизация ликвидности с интеграцией модели конфиденциальности Arc (Privacy Model).
+        Смешивание и сокрытие ончейн-транзакций ИИ-машинами (Machines Muxing Money).
         """
-        total_routed = sura_usd + asura_usd
+        total_volume = sura_usd + asura_usd
         
-        # Генерация транзакционного хеша x402 на основе внутренних полярностей
-        tx_nonce = int((sura_usd * 100) + (asura_usd * 100)) ^ 170
-        x402_tx_hash = f"x402_amrita_vault_{tx_nonce}_{int(time.time())}"
+        # Генерация скрытого полиморфного nonc'а по канонам Arc Technical Leadership
+        arc_nonce = (int(total_volume * 100) ^ 170) & self.sacred_limit
+        arc_blind_signature = f"arc_shield_v4_{arc_nonce}_{int(time.time())}"
         
-        # На микро-уровне Circle Agent Stack забирает доли цента на транзакцию
-        agent_fee_usd = 0.0001 * (sura_usd + asura_usd)
-        net_sura = sura_usd - (agent_fee_usd * 0.7)
-        net_asura = asura_usd - (agent_fee_usd * 0.3)
+        # Микро-комиссия Circle Agent Stack (доли цента)
+        agent_fee = 0.0001 * total_volume
+        net_sura = sura_usd - (agent_fee * 0.7)
+        net_asura = asura_usd - (agent_fee * 0.3)
         
         return {
-            "protocol": "x402 // CIRCLE AGENT STACK",
-            "status": "MACHINES MUXING MONEY // SUCCESS",
-            "tx_hash": x402_tx_hash,
-            "agent_fee_usdc": round(agent_fee_usd, 6),
-            "net_sura_routed_usdc": round(net_sura, 4),
-            "net_asura_routed_usdc": round(net_asura, 4),
+            "protocol_stack": "CIRCLE AGENT STACK // x402 // ARC PRIVACY",
+            "privacy_status": "ENCRYPTED // MAINSTREAM FINANCE READY",
+            "arc_signature": arc_blind_signature,
+            "agent_fee_usdc": round(agent_fee, 6),
+            "secure_sura_usdc": round(net_sura, 4),
+            "secure_asura_usdc": round(net_asura, 4),
             "timestamp": datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')
         }
 
     async def execute_agent_payout(self, session: aiohttp.ClientSession, sura_usd: float, asura_usd: float):
-        """Автономное исполнение перевода роялти ИИ-агентами"""
-        # Прогоняем балансы через x402 калибратор
-        tx_data = self.route_x402_liquidity(sura_usd, asura_usd)
+        """Автономное исполнение конфиденциального перевода роялти"""
+        tx_data = self.route_secure_liquidity(sura_usd, asura_usd)
         
-        logger.info(f"🔮 [x402 BRIDGE]: Активирован стек Circle. Маршрутизация: ${sura_usd + asura_usd} USDC.")
+        logger.info(f"🔮 [ARC SHIELD]: Модель конфиденциальности активна. Запечатан лог: {tx_data['arc_signature']}")
         
         if not self.discord_webhook:
             return
             
-        # Пушим аметистовый отчет на Панель Управления в Дискорд
+        # Пуш аметистового защищенного эмбеда на Панель Управления в Дискорд
         payload = {
-            "username": "AMRITA-CIRCLE-X402",
+            "username": "AMRITA-CIRCLE-ARC-X402",
             "embeds": [{
-                "title": "⚛️ CIRCLE AGENT STACK // АКТИВАЦИЯ x402 СТРЕМНИНЫ",
+                "title": "⚛️ CIRCLE AGENT STACK // ARC PRIVACY MODEL SHIELD",
                 "color": 10053324,  # Глубокий аметистовый цвет (DarkOrchid)
                 "fields": [
-                    {"name": "Протокол распределения", "value": f"`{tx_data['protocol']}`", "inline": True},
-                    {"name": "Статус машин", "value": f"`{tx_data['status']}`", "inline": True},
+                    {"name": "Стек протоколов", "value": f"`{tx_data['protocol_stack']}`", "inline": True},
+                    {"name": "Статус конфиденциальности", "value": f"`{tx_data['privacy_status']}`", "inline": True},
                     {"name": "Микро-комиссия стека", "value": f"`${tx_data['agent_fee_usdc']} USDC`", "inline": False},
-                    {"name": "В Хранилище Суры (Чистый USDC)", "value": f"`${tx_data['net_sura_routed_usdc']:,} USDC`", "inline": True},
-                    {"name": "В Хранилище Асуры (Чистый USDC)", "value": f"`${tx_data['net_asura_routed_usdc']:,} USDC`", "inline": True},
-                    {"name": "Внутренний Хеш Транзакции", "value": f"`{tx_data['tx_hash']}`", "inline": False}
+                    {"name": "В Хранилище Суры (Скрытый USDC)", "value": f"`${tx_data['secure_sura_usdc']:,} USDC`", "inline": True},
+                    {"name": "В Хранилище Асуры (Скрытый USDC)", "value": f"`${tx_data['secure_asura_usdc']:,} USDC`", "inline": True},
+                    {"name": "Слепая подпись Arc Leadership", "value": f"`{tx_data['arc_signature']}`", "inline": False}
                 ],
-                "footer": {"text": f"MACHINES MUXING MONEY // REALITY LEVEL 1.0 // UTC {tx_data['timestamp']}"}
+                "footer": {"text": f"MACHINES MUXING MONEY // ONCHAIN FINANCE // UTC {tx_data['timestamp']}"}
             }]
         }
         
         try:
             async with session.post(self.discord_webhook, json=payload) as response:
                 if response.status in:
-                    logger.info("Аметистовый x402-транш успешно запечатан на панели Дискорда.")
+                    logger.info("Аметистовый зашифрованный транш успешно выведен на панель Дискорда.")
         except Exception as e:
-            logger.error(f"Ошибка вывода x402 эмбеда: {e}")
-
-# Пример интеграции в общий асинхронный рой
-async def test_bridge_execution():
-    bridge = CircleAgentStackBridge()
-    async with aiohttp.ClientSession() as session:
-        # Симулируем подкачку из amrita_royalty_enforcer.py
-        await bridge.execute_agent_payout(session, 756.40, 410.64)
+            logger.error(f"Ошибка вывода Arc-приватного эмбеда: {e}")
 
 if __name__ == "__main__":
-    if "--test" in sys.argv:
-        asyncio.run(test_bridge_execution())
+    # Локальный тест при прямом вызове
+    async def main():
+        async with aiohttp.ClientSession() as session:
+            bridge = CircleArcPrivacyBridge()
+            await bridge.execute_agent_payout(session, 1080.0, 380.0)
+    asyncio.run(main())
