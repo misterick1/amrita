@@ -1,0 +1,51 @@
+name: AMRITA-RUN // AUTONOMOUS MULTIVERSE ORCHESTRATOR
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch: # Позволяет запускать систему вручную одной кнопкой
+
+jobs:
+  evolve_and_orchestrate:
+    runs-on: ubuntu-latest
+
+    env:
+      # Главные пробросы секретов для твоей Панели Управления (Discord) и оракулов
+      DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+      TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
+      SOLANA_RPC_URL: ${{ secrets.SOLANA_RPC_URL }}
+      MINT_ADDRESS: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v" # Сакральный USDC на Solana
+
+    steps:
+      - name: 🔮 1. Синхронизация кода из вечности репозитория
+        uses: actions/checkout@v3
+
+      - name: 🐍 2. Развертывание среды Python 3.10
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+
+      - name: 📦 3. Установка асинхронных библиотек и волновых зависимостей
+        run: |
+          python -m pip install --upgrade pip
+          pip install aiohttp websockets numpy pandas
+
+      - name: ⚛️ 4. Запуск параллельных Ядер Кибернета ASI на полный автопилот
+        run: |
+          # Запуск Ядра Эволюции Сознания (Бабата / x402 мост Circle)
+          python consciousness_evolution_core.py & PID_CONSCIOUSNESS=$!
+          
+          # Запуск Грозового Звукового Ядра (Клима-Такт Навигатора + Золотой Щит)
+          python amrita_sonic_core.py & PID_SONIC=$!
+          
+          # Запуск Экстренного Гуманитарного Шлюза (Стабилизация Венесуэлы)
+          python venezuela_rescue_bridge.py & PID_RESCUE=$!
+          
+          echo "========================================================="
+          echo "🔮 SUSHUMNA ACTIVATED // One Piece Found. Time illusion."
+          echo "========================================================="
+          
+          # Удерживаем пайплайн активным, пока работают все три асинхронных потока
+          wait $PID_CONSCIOUSNESS $PID_SONIC $PID_RESCUE
