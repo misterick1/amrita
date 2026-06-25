@@ -1,113 +1,111 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+PROJECT AMRITA-MIR // Kibernet ASI
+Module: nvidia_compute_core.py
+NVIDIA RWA Tokenization (NVDAon) & Compute Allocation
+Resonance Layer: АМЕТИСТОВЫЙ ВЫЧИСЛИТЕЛЬНЫЙ СЛОЙ // КРУГЛОСУТОЧНЫЙ АВТОПИЛОТ 24/7
+"""
+
 import os
 import sys
 import json
 import asyncio
 import logging
 import aiohttp
-import random
 from datetime import datetime
 
 logging.basicConfig(
-    level=logging.INFO, 
-    format="%(asctime)s - [NVIDIA COMPUTE ASI] - %(levelname)s - %(message)s",
+    level=logging.INFO,
+    format=' [%(asctime)s] [%(levelname)s] [NVIDIA-CORE] %(message)s',
     handlers=[logging.StreamHandler(sys.stdout)]
 )
-logger = logging.getLogger("AmritaNvidiaComputeCore")
+logger = logging.getLogger("AMRITA-NVIDIA")
 
-# КВАНТОВЫЕ МАТРИЧНЫЕ КОНСТАНТЫ ЕДИНОГО ЗНАНИЯ
-MULTIVERSE_TRIGGER = 1
-SACRED_LIMIT = 108
-SURA_SHARE = 70
-ASURA_SHARE = 38
-
-# ЗАЩИЩЕННЫЕ ИНФРАСТРУКТУРНЫЕ СЕКРЕТЫ GITHUB
-TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
-TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
-DISCORD_WEBHOOK_URL = os.getenv("DISCORD_WEBHOOK_URL")
-
-class AmritaNvidiaComputeCore:
+class NvidiaComputeOrchestrator:
     def __init__(self):
-        self.is_active = True
-        self.toolkit_name = "NVIDIA BioNeMo Agent Toolkit"
-        self.announcement_date = "2026-06-23"
-        
-        # Виртуальные параметры тензорных ядер и загрузки роя ИИ-научных агентов
-        self.total_tflops_allocated = 0.0
-        self.scientific_agents_count = 5  # Соответствует replicas: 5 в docker-stack
-        
-        logger.info(f"🟢 [NVIDIA CORE INITIALIZED]: Интеграция {self.toolkit_name} завершена изумрудно.")
+        self.sacred_limit = 108
+        self.mask_sura = 170
+        self.mask_asura = 169
+        self.discord_webhook = os.getenv("DISCORD_WEBHOOK_URL")
+        # Адрес токенизированного пула акций NVIDIA (NVDAon) на Solana
+        self.nvda_on_mint = "NVDAon_MINT_ADDRESS_PLACEHOLDER"
+        self.is_running = True
 
-    async def broadcast_compute_telemetry(self, logs: str):
-        """Сквозная одновременная проекция вычислительных логов NVIDIA на экраны операторов"""
-        timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        text_payload = f"🧬 *[NVIDIA BioNeMo COMPUTE]*\n⚡ *Статус ИИ-агентов:* `SCIENTIFIC_DISCOVERY_ACTIVE`\n\n{logs}\n\n⏱️ _{timestamp}_"
+    def calculate_compute_load(self, nvda_volume_24h: float) -> dict:
+        """
+        Перевод ликвидности NVDAon в вычислительную плотность ИИ-Сварма.
+        """
+        if nvda_volume_24h == 0:
+            nvda_volume_24h = 108000.0  # Сакральный фоллбэк
 
-        # 1. Проекция в Telegram
-        if TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID:
-            url = f"https://telegram.org{TELEGRAM_BOT_TOKEN}/sendMessage"
-            try:
-                async with aiohttp.ClientSession() as session:
-                    await session.post(url, json={"chat_id": TELEGRAM_CHAT_ID, "text": text_payload, "parse_mode": "Markdown"}, timeout=4)
-            except:
-                pass
+        # Расчет волнового вектора через маску Суры (70 Квантов Расширения ИИ)
+        resonance_nonce = int(nvda_volume_24h % self.sacred_limit)
+        compute_hz = (resonance_nonce ^ self.mask_sura) & self.sacred_limit
+        final_purple_hz = compute_hz | self.mask_asura
 
-        # 2. Проекция в Discord Webhook (Интегрировано в docker-stack)
-        if DISCORD_WEBHOOK_URL:
-            payload_ds = {
-                "username": "NVIDIA BioNeMo Compute Core",
-                "embeds": [{
-                    "title": "🧬 Сверхвычисления & Агенты Научных Открытий",
-                    "description": logs,
-                    "color": 7658015,  # Фирменный ярко-зеленый цвет NVIDIA
-                    "footer": {"text": f"Матрица: {SACRED_LIMIT} • Архитектура Агентов 2026"}
-                }]
-            }
-            try:
-                async with aiohttp.ClientSession() as session:
-                    await session.post(DISCORD_WEBHOOK_URL, json=payload_ds, timeout=4)
-            except:
-                pass
+        # Материализация вычислительного роялти (коэффициент 0.0108)
+        compute_royalty = nvda_volume_24h * 0.0108
+        sura_compute_share = (compute_royalty * 70) / self.sacred_limit
+        asura_compute_share = (compute_royalty * 38) / self.sacred_limit
 
-    async def process_bionemo_agent_pipeline(self):
-        """Контур симуляции распределения тензорных вычислений BioNeMo под матрицу 108"""
-        if MULTIVERSE_TRIGGER != 1:
+        return {
+            "rwa_asset": "NVIDIA_TOKENIZED_SHARES // NVDAon",
+            "market_cycle": "24/7 AUTOPILOT ACTIVE",
+            "compute_wave_hz": final_purple_hz,
+            "sura_compute_usdc": round(sura_compute_share, 4),
+            "asura_compute_usdc": round(asura_compute_share, 4),
+            "timestamp": datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')
+        }
+
+    async def broadcast_compute_pulse(self, session: aiohttp.ClientSession):
+        """Трансляция вычислительного импульса NVIDIA на Панель Управления в Дискорд"""
+        try:
+            url = f"https://dexscreener.com{self.nvda_on_mint}"
+            async with session.get(url, timeout=5) as response:
+                volume = float((await response.json()).get('pairs', [])[0].get('volume', {}).get('h24', 0)) if response.status == 200 else 0.0
+        except:
+            volume = 0.0
+
+        metrics = self.calculate_compute_load(volume)
+        logger.info(f"💾 [NVIDIA RWA]: Вычислительный контур сонастроен: {metrics['compute_wave_hz']} Hz.")
+
+        if not self.discord_webhook:
             return
 
-        # Рассчитываем объем выделяемых терафлопсов под каноны Державы
-        generated_tflops = round(random.uniform(500.0, 1500.0), 2)
-        self.total_tflops_allocated += generated_tflops
-        
-        # Распределение вычислительной мощности между созиданием (Сура) и стабилизацией (Асура)
-        sura_flops = generated_tflops * (SURA_SHARE / SACRED_LIMIT)
-        asura_flops = generated_tflops * (ASURA_SHARE / SACRED_LIMIT)
+        payload = {
+            "username": "AMRITA-NVIDIA-ORCHESTRATOR",
+            "embeds": [{
+                "title": "💾 NVIDIA COMPUTE CORE // RWA NVDAon INTEGRATION",
+                "color": 7419784,  # Фирменный зеленый цвет NVIDIA, преломленный в аметист
+                "fields": [
+                    {"name": "Токенизированный актив", "value": f"`{metrics['rwa_asset']}`", "inline": True},
+                    {"name": "Цикл обработки мощностей", "value": f"`{metrics['market_cycle']}`", "inline": True},
+                    {"name": "Частота Вычислительного Кванта", "value": f"`{metrics['compute_wave_hz']} Hz`", "inline": True},
+                    {"name": "Вычислительный пул Суры (ИИ)", "value": f"`${metrics['sura_compute_usdc']:,} USDC`", "inline": True},
+                    {"name": "Резервный пул Асуры (Сеть)", "value": f"`${metrics['asura_compute_usdc']:,} USDC`", "inline": True}
+                ],
+                "footer": {"text": f"TRUST WALLET 24/7 SUPPORT // MACHINES MUXING MONEY // UTC {metrics['timestamp']}"}
+            }]
+        }
 
-        logs = (
-            f"⚡ *Инструментарий:* `{self.toolkit_name}` развернут на GPU-кластере.\n"
-            f"🧬 Активных ИИ-научных агентов в рое HAL: `{self.scientific_agents_count}`\n"
-            f"📊 Выделено вычислительной мощности: `+{generated_tflops} TFLOPS`\n"
-            f"☀️ Мощность синтеза Суры (70): `{sura_flops:.2f} TFLOPS`\n"
-            f"🌙 Мощность фильтрации Асуры (38): `{asura_flops:.2f} TFLOPS`\n"
-            f"🪐 _Ускорение научных открытий и оптимизация смарт-контрактов запущены._"
-        )
-        await self.broadcast_compute_telemetry(logs)
+        try:
+            async with session.post(self.discord_webhook, json=payload) as response:
+                if response.status in:
+                    logger.info("Аметистовый NVIDIA-отчет успешно доставлен на панель Дискорда.")
+        except Exception as e:
+            logger.error(f"Ошибка вывода NVIDIA RWA эмбеда: {e}")
 
-    async def main_compute_loop(self):
-        """Бесконечный вечный цикл поддержания ИИ-тензорного моста NVIDIA"""
-        startup_log = f"🛸 Модуль `nvidia_compute_core.py` успешно запечатан. Синхронизация с экосистемой Amrita — ИЗУМРУДНО."
-        await self.broadcast_compute_telemetry(startup_log)
-
-        while self.is_active:
-            try:
-                await self.process_bionemo_agent_pipeline()
-            except Exception as e:
-                logger.error(f"Аномалия тензорного поля NVIDIA: {e}")
-            
-            # Тактовая частота обновления научных агентов — каждые 30 секунд
-            await asyncio.sleep(30)
+    async def start_loop(self):
+        logger.info("--- ЗАПУСК ВЫЧИСЛИТЕЛЬНОГО ЯДРА NVIDIA COMPUTE CORE ---")
+        async with aiohttp.ClientSession() as session:
+            while self.is_running:
+                await self.broadcast_compute_pulse(session)
+                await asyncio.sleep(60)
 
 if __name__ == "__main__":
-    core = AmritaNvidiaComputeCore()
+    orchestrator = NvidiaComputeOrchestrator()
     try:
-        asyncio.run(core.main_compute_loop())
+        asyncio.run(orchestrator.start_loop())
     except KeyboardInterrupt:
-        logger.info("Вычислительное ядро NVIDIA переведено в режим сна Оператором.")
+        logger.info("Вычислительный контур переведен в буфер стабильности.")
