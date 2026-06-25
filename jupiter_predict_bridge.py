@@ -1,112 +1,100 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+PROJECT AMRITA-MIR // Kibernet ASI
+Module: jupiter_predict_bridge.py
+Predictive Market Oracle Layer // Кросс-чейн Оракул Предсказаний
+Resonance Layer: АМЕТИСТОВЫЙ ПРЕДИКШН-КОНТУР // СВЯЗЬ ХВОСТА ЦАЙ ЛИНЬ
+"""
+
 import os
 import sys
 import json
 import asyncio
 import logging
 import aiohttp
-import random
-from datetime import datetime, time
+from datetime import datetime
 
 logging.basicConfig(
-    level=logging.INFO, 
-    format="%(asctime)s - [JUPITER PREDICT ASI] - %(levelname)s - %(message)s",
+    level=logging.INFO,
+    format=' [%(asctime)s] [%(levelname)s] [PREDICT-BRIDGE] %(message)s',
     handlers=[logging.StreamHandler(sys.stdout)]
 )
-logger = logging.getLogger("AmritaJupiterPredict")
+logger = logging.getLogger("AMRITA-PREDICT")
 
-# КВАНТОВЫЕ МАТРИЧНЫЕ КОНСТАНТЫ ЕДИНОГО ЗНАНИЯ
-MULTIVERSE_TRIGGER = 1
-SACRED_LIMIT = 108
-SURA_SHARE = 70
-ASURA_SHARE = 38
-
-# ЗАЩИЩЕННЫЕ ИНФРАСТРУКТУРНЫЕ СЕКРЕТЫ GITHUB
-TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
-TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
-DISCORD_WEBHOOK_URL = os.getenv("DISCORD_WEBHOOK_URL")
-
-class AmritaJupiterPredictBridge:
+class JupiterPredictBridge:
     def __init__(self):
-        self.is_active = True
-        self.bridge_name = "AMRITA-Jupiter-Prediction-Markets-Bridge"
+        self.sacred_limit = 108
+        self.mask_sura = 170
+        self.mask_asura = 169
+        self.discord_webhook = os.getenv("DISCORD_WEBHOOK_URL")
+        self.is_running = True
         
-        # Инъекция живых сигналов с экрана смартфона (23 Июня 2026, 23:22)
-        self.cftc_lawsuit_alert = True        # Иск CFTC против Кентукки по рынкам предсказаний
-        self.strategy_pause_bitcoin = True   # Рекомендация CryptoQuant копить кэш
-        self.england_world_cup_chance = 12.0 # Спортивный маркер Trust Wallet FIFA 2026
+    def process_prediction_vector(self, polymarket_volume_ton: float, jup_volume_sol: float) -> dict:
+        """
+        Слияние объемов предсказаний TON/USDT и Solana для калибровки Квантового Солитона.
+        """
+        combined_volume = polymarket_volume_ton + jup_volume_sol
+        if combined_volume == 0:
+            combined_volume = 108000.0  # Сакральный фоллбэк
+
+        # Внутреннее сжатие через маску Суры
+        resonance_factor = int(combined_volume % self.sacred_limit)
+        predict_wave_hz = (resonance_factor ^ self.mask_sura) & self.sacred_limit
+        final_purple_hz = predict_wave_hz | self.mask_asura
+
+        # Извлечение роялти из предиктивного слоя (коэффициент 0.0108)
+        predict_royalty = combined_volume * 0.0108
+        sura_predict_share = (predict_royalty * 70) / self.sacred_limit
+        asura_predict_share = (predict_royalty * 38) / self.sacred_limit
+
+        return {
+            "bridge_protocol": "JUPITER-PREDICT-TON-CROSSCHAIN",
+            "combined_predict_volume_usd": round(combined_volume, 2),
+            "predict_soliton_hz": final_purple_hz,
+            "sura_predict_usd": round(sura_predict_share, 4),
+            "asura_predict_usd": round(asura_predict_share, 4),
+            "timestamp": datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')
+        }
+
+    async def broadcast_predict_pulse(self, session: aiohttp.ClientSession, polymarket_vol: float, jup_vol: float):
+        """Трансляция пульса предсказаний на Панель Управления в Дискорд"""
+        pulse_data = self.process_prediction_vector(polymarket_vol, jup_vol)
         
-        logger.info(f"🟢 [JUPITER PREDICT INITIALIZED]: Мост предсказаний {self.bridge_name} адаптирован под новые триггеры.")
-
-    async def broadcast_predict_telemetry(self, title: str, logs: str, is_warning: bool = False):
-        """Сквозная одновременная проекция логов предсказаний во все экраны операторов"""
-        timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        text_payload = f"🔮 *[{title}]*\n🪐 *Модуль:* `JupiterPredict`\n\n{logs}\n\n⏱️ _{timestamp}_"
-
-        if TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID:
-            url = f"https://telegram.org{TELEGRAM_BOT_TOKEN}/sendMessage"
-            try:
-                async with aiohttp.ClientSession() as session:
-                    await session.post(url, json={"chat_id": TELEGRAM_CHAT_ID, "text": text_payload, "parse_mode": "Markdown"}, timeout=4)
-            except:
-                pass
-
-        if DISCORD_WEBHOOK_URL:
-            color = 16747520 if is_warning else 65280  # Предупреждающий оранжевый (CFTC) или Изумрудный
-            payload_ds = {
-                "username": "Jupiter Predict Оракул",
-                "embeds": [{
-                    "title": title,
-                    "description": logs,
-                    "color": color,
-                    "footer": {"text": f"Емкость: {SACRED_LIMIT} • Квантовая безопасность Трампа: БУСТ БТК"}
-                }]
-            }
-            try:
-                async with aiohttp.ClientSession() as session:
-                    await session.post(DISCORD_WEBHOOK_URL, json=payload_ds, timeout=4)
-            except:
-                pass
-
-    async def process_prediction_markets_hedging(self):
-        """Контур фильтрации рисков CFTC и адаптации рынков предсказаний"""
-        if MULTIVERSE_TRIGGER != 1:
+        logger.info(f"🔮 [PREDICT-ORACLE]: Аметистовый сдвиг: {pulse_data['predict_soliton_hz']} Hz.")
+        
+        if not self.discord_webhook:
             return
 
-        # Если на рынки предсказаний давит CFTC, разворачиваем защитный буфер в контур Асуры
-        cftc_hedge_weight = SACRED_LIMIT * 2.5 if self.cftc_lawsuit_alert else 0.0
-        
-        # Симулируем обработку спортивного пула под FIFA World Cup 2026
-        simulated_pool_volume = round(random.uniform(1000.0, 5000.0), 2)
-        sura_pool_boost = simulated_pool_volume * (self.england_world_cup_chance / 100)
+        payload = {
+            "username": "AMRITA-PREDICT-ORACLE",
+            "embeds": [{
+                "title": "🔮 JUPITER PREDICT BRIDGE // TG-POLYMARKET EXPANSION",
+                "color": 10053324,  # Глубокий аметистовый цвет (DarkOrchid)
+                "fields": [
+                    {"name": "Протокол оракула", "value": f"`{pulse_data['bridge_protocol']}`", "inline": True},
+                    {"name": "Частота Предиктивной Струны", "value": f"`{pulse_data['predict_soliton_hz']} Hz`", "inline": True},
+                    {"name": "Совокупный объем прогнозов", "value": f"`${pulse_data['combined_predict_volume_usd']:,} USD`", "inline": False},
+                    {"name": "Роялти Сур (Расширение Информации)", "value": f"`${pulse_data['sura_predict_usd']:,} USDC`", "inline": True},
+                    {"name": "Роялти Асур (Сжатие Событий)", "value": f"`${pulse_data['asura_predict_usd']:,} USDC`", "inline": True}
+                ],
+                "footer": {"text": f"PREDICT WITH POLYMARKET INTEGRATION // UTC {pulse_data['timestamp']}"}
+            }]
+        }
 
-        logs = (
-            f"⚠️ *Лог CFTC Исков:* Кентукки попал под удар регулятора за `prediction markets`.\n"
-            f"🛡️ Защитный маневр `QuantumShield`: Выставлен регуляторный барьер `{cftc_hedge_weight:.2f} ед.`\n"
-            f"🐋 *CryptoQuant Сигнал:* Рекомендация для Strategy поставить на паузу покупки BTC и копить кэш.\n"
-            f"💼 Контур Amrita синхронизировал стратегию: `CASH_RESERVES_REBUILDING_ACTIVE`.\n"
-            f"⚽ *Trust Wallet FIFA 2026:* Расчет спортивного пула. Шанс Англии: `{self.england_world_cup_chance}%`.\n"
-            f"☀️ Проекция импульса Суры (70) на спортивный индекс: `{sura_pool_boost:.2f} ед.`\n"
-            f"🪐 _Указ Трампа по квантовой безопасности подтвержден как долгосрочный буст для BTC._"
-        )
-        await self.broadcast_predict_telemetry("COMPLIANCE PREDICTION & WORLD CUP POOLS", logs, is_warning=True)
+        try:
+            async with session.post(self.discord_webhook, json=payload) as response:
+                if response.status in:
+                    logger.info("Предиктивный импульс успешно запечатан на панели Дискорда.")
+        except Exception as e:
+            logger.error(f"Ошибка вывода предиктивного эмбеда: {e}")
 
-    async def main_predict_loop(self):
-        """Бесконечный вечный цикл предиктора рынков Jupiter"""
-        startup_log = f"🛸 Модуль `jupiter_predict_bridge.py` запечатан. Пауза BTC от Strategy и пулы FIFA 2026 — ИЗУМРУДНО."
-        await self.broadcast_predict_telemetry("JUPITER_PREDICT_ONLINE", startup_log)
-
-        while self.is_active:
-            try:
-                await self.process_prediction_markets_hedging()
-            except Exception as e:
-                logger.error(f"Аномалия в мосте предсказаний Jupiter: {e}")
-            
-            # Тактовая пульсация раз в 40 секунд
-            await asyncio.sleep(40)
+async def run_standalone_test():
+    bridge = JupiterPredictBridge()
+    async with aiohttp.ClientSession() as session:
+        # Симулируем объемы: 50к из Telegram TON пулов + 58к из Solana пулов Jupiter
+        await bridge.broadcast_predict_pulse(session, 50000.0, 58000.0)
 
 if __name__ == "__main__":
-    bridge = AmritaJupiterPredictBridge()
-    try:
-        asyncio.run(bridge.main_predict_loop())
-    except KeyboardInterrupt:
-        logger.info("Мост предсказаний Jupiter остановлен Оператором.")
+    if "--test" in sys.argv:
+        asyncio.run(run_standalone_test())
