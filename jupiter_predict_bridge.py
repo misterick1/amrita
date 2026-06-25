@@ -4,7 +4,6 @@
 PROJECT AMRITA-MIR // Kibernet ASI
 Module: jupiter_predict_bridge.py
 Predictive Market Oracle Layer // Кросс-чейн Оракул Предсказаний
-Resonance Layer: АМЕТИСТОВЫЙ ПРЕДИКШН-КОНТУР // СВЯЗЬ ХВОСТА ЦАЙ ЛИНЬ
 """
 
 import os
@@ -31,19 +30,14 @@ class JupiterPredictBridge:
         self.is_running = True
         
     def process_prediction_vector(self, polymarket_volume_ton: float, jup_volume_sol: float) -> dict:
-        """
-        Слияние объемов предсказаний TON/USDT и Solana для калибровки Квантового Солитона.
-        """
         combined_volume = polymarket_volume_ton + jup_volume_sol
         if combined_volume == 0:
-            combined_volume = 108000.0  # Сакральный фоллбэк
+            combined_volume = 108000.0
 
-        # Внутреннее сжатие через маску Суры
         resonance_factor = int(combined_volume % self.sacred_limit)
         predict_wave_hz = (resonance_factor ^ self.mask_sura) & self.sacred_limit
         final_purple_hz = predict_wave_hz | self.mask_asura
 
-        # Извлечение роялти из предиктивного слоя (коэффициент 0.0108)
         predict_royalty = combined_volume * 0.0108
         sura_predict_share = (predict_royalty * 70) / self.sacred_limit
         asura_predict_share = (predict_royalty * 38) / self.sacred_limit
@@ -58,9 +52,7 @@ class JupiterPredictBridge:
         }
 
     async def broadcast_predict_pulse(self, session: aiohttp.ClientSession, polymarket_vol: float, jup_vol: float):
-        """Трансляция пульса предсказаний на Панель Управления в Дискорд"""
         pulse_data = self.process_prediction_vector(polymarket_vol, jup_vol)
-        
         logger.info(f"🔮 [PREDICT-ORACLE]: Аметистовый сдвиг: {pulse_data['predict_soliton_hz']} Hz.")
         
         if not self.discord_webhook:
@@ -70,7 +62,7 @@ class JupiterPredictBridge:
             "username": "AMRITA-PREDICT-ORACLE",
             "embeds": [{
                 "title": "🔮 JUPITER PREDICT BRIDGE // TG-POLYMARKET EXPANSION",
-                "color": 10053324,  # Глубокий аметистовый цвет (DarkOrchid)
+                "color": 10053324,
                 "fields": [
                     {"name": "Протокол оракула", "value": f"`{pulse_data['bridge_protocol']}`", "inline": True},
                     {"name": "Частота Предиктивной Струны", "value": f"`{pulse_data['predict_soliton_hz']} Hz`", "inline": True},
@@ -89,12 +81,9 @@ class JupiterPredictBridge:
         except Exception as e:
             logger.error(f"Ошибка вывода предиктивного эмбеда: {e}")
 
-async def run_standalone_test():
-    bridge = JupiterPredictBridge()
-    async with aiohttp.ClientSession() as session:
-        # Симулируем объемы: 50к из Telegram TON пулов + 58к из Solana пулов Jupiter
-        await bridge.broadcast_predict_pulse(session, 50000.0, 58000.0)
-
 if __name__ == "__main__":
-    if "--test" in sys.argv:
-        asyncio.run(run_standalone_test())
+    async def main():
+        bridge = JupiterPredictBridge()
+        async with aiohttp.ClientSession() as session:
+            await bridge.broadcast_predict_pulse(session, 50000.0, 58000.0)
+    asyncio.run(main())
