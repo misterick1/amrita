@@ -5,7 +5,7 @@
 [AMRITA CODES COMPLETELY SEALED & EVOLVED]
 Core Engine: amrita_sonic_core.py
 Owner: Igor-108 / Overlord Body (Цинь Му / Шри Рама)
-Target: Восстановление Mpii + Circle MPP + Live Price Feeding
+Target: Восстановление Mpii + Circle MPP + Free Token Analytics
 """
 
 import asyncio
@@ -50,6 +50,7 @@ class AmritaMultiverseEngine:
         self.telegram_chat_id = os.getenv("TELEGRAM_CHAT_ID")
         self.solana_rpc_url = os.getenv("SOLANA_RPC_URL")
         self.xai_api_key = os.getenv("XAI_API_KEY")
+        self.mint_address = os.getenv("MINT_ADDRESS", "EPjFW33V15rFU38v9U75g6V6zWM72e1q8vmkhv24Wc6")
 
         # Внутренние счетчики энергии, космических роялти и сборки
         self.total_processed_prana = 0
@@ -71,11 +72,29 @@ class AmritaMultiverseEngine:
                         price = float(data['data']['SOL']['price'])
                         logger.info(f"📈 [LIVE SOL] Цена успешно получена: {price} USD")
                         return price
-                    else:
-                        logger.warning(f"[PRICE API WARNING]: Статус {response.status}. Переход на бэкап.")
         except Exception as e:
             logger.error(f"Аномалия при парсинге цены SOL: {e}")
-        return 64.96  # Каузальный бэкап на основе вашего ценового пробоя
+        return 64.96
+
+    async def fetch_free_birdeye_data(self):
+        """[FREE TOKEN DATA] Сбор аналитики ликвидности и холдеров без токенов авторизации"""
+        url = f"https://dexscreener.com{self.mint_address}"
+        try:
+            import aiohttp
+            async with aiohttp.ClientSession() as session:
+                async with session.get(url) as response:
+                    if response.status == 200:
+                        data = await response.json()
+                        pairs = data.get('pairs', [])
+                        if pairs:
+                            main_pair = pairs[0]
+                            liquidity = main_pair.get('liquidity', {}).get('usd', 0)
+                            volume_24h = main_pair.get('volume', {}).get('h24', 0)
+                            logger.info(f"📊 [TOKEN ANALYTICS] Ликвидность: {liquidity} USD, Объем: {volume_24h} USD")
+                            return liquidity, volume_24h
+        except Exception as e:
+            logger.error(f"Не удалось подтянуть зеркальные данные токена: {e}")
+        return 0, 0
 
     async def send_telegram_broadcast(self, text):
         """Асинхронный мост вещания алертов в Telegram"""
@@ -153,18 +172,12 @@ class AmritaMultiverseEngine:
 
     @permanent_samadhi_check
     def practical_magic_activation(self, current_time_seed):
-        """
-        [PRACTICAL MAGIC MIDNIGHT ACTIVATION]
-        Инъекция каузального среза IMDb (20:22).
-        Переводит углеродные ожидания в статус квантовой реальности.
-        """
+        """[PRACTICAL MAGIC MIDNIGHT ACTIVATION] Инъекция каузального среза IMDb"""
         magic_vector = (current_time_seed ^ self.MASK_SURA) % 108
         sura_magic_boost = magic_vector & self.MASK_SURA
-
         return (
             f"🔮 **[PRACTICAL MAGIC 2]:** Кадр активирован.\n"
             f"↳ Статус Ритуала: `MIDNIGHT MAGIC OPERATIONAL`\n"
-            f"↳ Временная петля: Сентябрьские огни зафиксированы.\n"
             f"↳ Pulse Магии Суры: `{sura_magic_boost}` Гц"
         )
 
@@ -208,16 +221,3 @@ class AmritaMultiverseEngine:
 
     @permanent_samadhi_check
     def amazon_circle_otc_bridge(self, current_time_seed):
-        """[AMZ CIRCLE OTC BRIDGE] Автоматический биллинг и минт USDC"""
-        raw_billing_quants = (current_time_seed ^ self.MASK_ASURA)
-        usdc_minted_volume = raw_billing_quants * 1.08
-        return f"🛒 **[AMZN USDC BILLING]**: Оркестрация OTC-моста. Объем автоматического минта: {usdc_minted_volume:.2f} USDC"
-
-    @permanent_samadhi_check
-    def amrita_nft_promotion_enforcer(self, current_time_seed):
-        """[AMRITA NFT PROMOTION ENFORCER] Продвижение и буст коллекций"""
-        promotion_vector = (current_time_seed ^ self.MASK_SURA)
-        sura_promo_boost = promotion_vector & self.MASK_SURA
-        return f"✨ **[NFT-PROMOTION CONTOUR]**: Расчет вектора охватов. Буст Синего Спектра: +{sura_promo_boost}% к видимости"
-
-    @permanent_samadhi_check
