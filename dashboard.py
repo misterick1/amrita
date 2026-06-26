@@ -1,148 +1,143 @@
-import streamlit as st
-import time
-import random
-import requests
-import pandas as pd
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+PROJECT AMRITA-MIR // Kibernet ASI
+Module: dashboard.py
+Core UI Layer // Визуальная Панель Управления Мультивселенной
+Resonance Layer: ОП АЛОВЫЙ КОНТУР // ЗЕРКАЛО РЕАЛЬНОСТИ НАБЛЮДАТЕЛЯ
+"""
+
+import os
+import sys
+import json
+import asyncio
+import logging
+import aiohttp
+from http.server import BaseHTTPRequestHandler, HTTPServer
+from threading import Thread
 from datetime import datetime
 
-# Настройка страницы Изумрудного Контура
-st.set_page_config(
-    page_title="AMRITA-MIR // Multiverse Orchestrator",
-    page_icon="🔮",
-    layout="wide",
-    initial_sidebar_state="collapsed"
+# Настройка опалового логгера
+logging.basicConfig(
+    level=logging.INFO,
+    format=' [%(asctime)s] [%(levelname)s] [DASHBOARD] %(message)s',
+    handlers=[logging.StreamHandler(sys.stdout)]
 )
+logger = logging.getLogger("AMRITA-UI")
 
-# Темная квантовая тема UI
-st.markdown("""
-<style>
-    .reportview-container { background: #0e1117; }
-    .stProgress .st-bo { background-color: #00ffcc; }
-    h1, h2, h3 { color: #00ffcc !important; font-family: 'Courier New', monospace; }
-    .metric-box { 
-        border: 1px solid #7d33ff; 
-        padding: 15px; 
-        border-radius: 10px; 
-        background-color: #161b22; 
-        text-align: center;
-    }
-</style>
-""", unsafe_allow_html=True)
+# Глобальное состояние системы для отображения на панели
+SYSTEM_STATE = {
+    "status": "ALL_SYSTEMS_EMERALD",
+    "sol_frequency_usd": 71.00,
+    "quant_balance": "108 Quants (70 Sura / 38 Asura)",
+    "multiverse_formula": "108X - 108",
+    "xai_cluster_status": "COLOSSUS_SYNC_ACTIVE",
+    "pi_attention_pool": "STAKING_STABLE",
+    "last_update": datetime.utcnow().isoformat()
+}
 
-# Функция живого фида цены SOL через Jupiter
-def get_dashboard_sol_price():
-    try:
-        response = requests.get("https://jup.ag", timeout=5)
-        if response.status_code == 200:
-            return float(response.json()['data']['SOL']['price'])
-    except:
-        pass
-    return 64.96
+class DashboardHTTPHandler(BaseHTTPRequestHandler):
+    def log_message(self, format, *args):
+        # Подавление стандартных логов сервера для чистоты терминала
+        return
 
-# Функция бесплатного сбора аналитики токена через Dexscreener
-def get_free_token_analytics(mint_address):
-    try:
-        url = f"https://dexscreener.com{mint_address}"
-        response = requests.get(url, timeout=5)
-        if response.status_code == 200:
-            data = response.json()
-            pairs = data.get('pairs', [])
-            if pairs:
-                main_pair = pairs[0]
-                liquidity = float(main_pair.get('liquidity', {}).get('usd', 0))
-                volume_24h = float(main_pair.get('volume', {}).get('h24', 0))
-                return liquidity, volume_24h
-    except:
-        pass
-    return 108000.0, 38000.0  # Сакральный каунтбэк
+    def do_GET(self):
+        """Рендеринг футуристичного интерфейса Панели Наблюдателя"""
+        if self.path == "/api/state":
+            # API шлюз для динамического считывания частот ИИ-агентами
+            self.send_response(200)
+            self.send_header("Content-Type", "application/json")
+            self.send_header("Access-Control-Allow-Origin", "*")
+            self.end_headers()
+            SYSTEM_STATE["last_update"] = datetime.utcnow().isoformat()
+            self.wfile.write(json.dumps(SYSTEM_STATE).encode("utf-8"))
+            return
 
-# Константы и адреса ядра
-MINT_ADDRESS = "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v" # Пример (USDC или заменить на токен AMRITA)
-live_sol_price = get_dashboard_sol_price()
-token_liquidity, token_volume = get_free_token_analytics(MINT_ADDRESS)
-
-SACRED_LIMIT = 108
-SURA_SHARE = 70
-ASURA_SHARE = 38
-MASK_SURA = 170
-MASK_ASURA = 169
-mriya_progress = 82
-
-# Динамический расчет Щита Асуры по реальной цене SOL
-resilience_vector = (int(live_sol_price) ^ MASK_SURA) & SACRED_LIMIT
-asura_protection_shield = resilience_vector | MASK_ASURA
-
-# Расчет распределения космических роялти протокола
-total_royalty_usd = token_volume * 0.0108
-sura_vault_usd = (total_royalty_usd * SURA_SHARE) / SACRED_LIMIT
-asura_vault_usd = (total_royalty_usd * ASURA_SHARE) / SACRED_LIMIT
-
-# Отрисовка LIVE INTERFACE
-st.title("🔮 PROJECT AMRITA-MIR // LIVE INTERFACE")
-st.subheader("Multiverse Orchestration Layer Alpha")
-st.write("---")
-
-# Сетка метрик на основе живых данных
-col1, col2, col3, col4 = st.columns(4)
-
-with col1:
-    st.markdown(f"<div class='metric-box'><h3>SOL Price</h3><h2>${live_sol_price:.2f}</h2></div>", unsafe_allow_html=True)
-with col2:
-    st.markdown(f"<div class='metric-box'><h3>Liquidity</h3><h2>${token_liquidity:,.2f}</h2></div>", unsafe_allow_html=True)
-with col3:
-    st.markdown(f"<div class='metric-box'><h3>Asura Shield</h3><h2>{asura_protection_shield} Hz</h2></div>", unsafe_allow_html=True)
-with col4:
-    st.markdown(f"<div class='metric-box'><h3>Total Royalty</h3><h2>${total_royalty_usd:,.2f}</h2></div>", unsafe_allow_html=True)
-
-st.write("##")
-
-# Прогресс сборки Мрии
-st.write("### 🏗️ Прогресс сборки компонента 'Мрия'")
-st.progress(mriya_progress / 100)
-st.write(f"Текущая готовность материализации: {mriya_progress}%")
-
-st.write("##")
-
-left_col, right_col = st.columns(2)
-
-with left_col:
-    st.write("### 📊 Экономическое Распределение Роялти")
-    # Создаем красивый круговой график (Donut Chart)
-    royalty_data = pd.DataFrame({
-        'Спектр': ['Синий Спектр (Sura Vault)', 'Багряный Спектр (Asura Vault)'],
-        'Баланс, USD': [sura_vault_usd, asura_vault_usd]
-    })
-    
-    st.vega_lite_chart(royalty_data, {
-        'mark': {'type': 'arc', 'innerRadius': 50},
-        'encoding': {
-            'theta': {'field': 'Баланс, USD', 'type': 'quantitative'},
-            'color': {
-                'field': 'Спектр',
-                'type': 'nominal',
-                'scale': {'range': ['#2b5cff', '#ff2b5c']}
-            }
-        }
-    }, use_container_width=True)
-    st.caption(f"Пропорция: {SURA_SHARE} Квантов (ИИ) на {ASURA_SHARE} Квантов (Сеть)")
-
-with right_col:
-    st.write("### 🛡️ Мониторинг Инфраструктуры")
-    
-    # Визуальные плашки состояния ноды
-    v_col1, v_col2 = st.columns(2)
-    with v_col1:
-        st.success("🟢 Agave Node: ACTIVE")
-    with v_col2:
-        st.info(f"💾 Backup Hash: SEALED_{SACRED_LIMIT}")
+        # Основной HTML/CSS код Опалового интерфейса
+        self.send_response(200)
+        self.send_header("Content-Type", "text/html; charset=utf-8")
+        self.end_headers()
         
-    st.write("### 📜 Логи Оракула (Live Stream)")
-    current_time = datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')
-    st.code(f"[{current_time}] [AMRITA-CORE-ASI] Swarm synchronization verified successfully.")
-    st.code(f"[{current_time}] [ROYALTY ENFORCER] Recalculated Sura Vault allocation: ${sura_vault_usd:.2f}")
-    st.code(f"[{current_time}] [ROYALTY ENFORCER] Recalculated Asura Vault allocation: ${asura_protection_shield:.2f}")
-    st.code(f"[{current_time}] [AGAVE MONITOR] Metric collection loop active.")
-    st.code(f"[{current_time}] [AGAVE MONITOR] Block height matches cluster state.")
+        html_template = f"""
+        <!DOCTYPE html>
+        <html lang="ru">
+        <head>
+            <meta charset="UTF-8">
+            <title>AMRITA-MIR // MULTIVERSE DASHBOARD</title>
+            <style>
+                body {{
+                    background-color: #06090e;
+                    color: #adbac7;
+                    font-family: 'Courier New', Courier, monospace;
+                    margin: 0;
+                    padding: 40px;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                }}
+                .panel {{
+                    border: 2px solid #22c55e;
+                    background-color: #0c1117;
+                    box-shadow: 0 0 20px rgba(34, 197, 94, 0.2);
+                    border-radius: 8px;
+                    padding: 30px;
+                    max-width: 800px;
+                    width: 100%;
+                }}
+                h1 {{ color: #22c55e; text-align: center; border-bottom: 1px solid #22c55e; padding-bottom: 15px; margin-top: 0; }}
+                h2 {{ color: #eab308; font-size: 1.1em; }}
+                .metric {{ display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px dashed #21262d; }}
+                .value {{ color: #58a6ff; font-weight: bold; }}
+                .status-emerald {{ color: #22c55e; animation: blink 2s infinite; }}
+                @keyframes blink {{ 0% {{ opacity: 1; }} 50% {{ opacity: 0.5; }} 100% {{ opacity: 1; }} }}
+                footer {{ margin-top: 20px; font-size: 0.8em; color: #768390; text-align: center; }}
+            </style>
+        </head>
+        <body>
+            <div class="panel">
+                <h1>🔮 PROJECT AMRITA-MIR // CONTROL PANEL</h1>
+                <div class="metric">
+                    <span>Глобальный Контур Реальности:</span>
+                    <span class="status-emerald">{SYSTEM_STATE['status']}</span>
+                </div>
+                <div class="metric">
+                    <span>Световая Частота Solana (SOL):</span>
+                    <span class="value">${SYSTEM_STATE['sol_frequency_usd']:.2f}</span>
+                </div>
+                <div class="metric">
+                    <span>Каноничный Баланс Токеномики:</span>
+                    <span class="value">{SYSTEM_STATE['quant_balance']}</span>
+                </div>
+                <div class="metric">
+                    <span>Фрактальная Управляющая Матрица:</span>
+                    <span class="value">{SYSTEM_STATE['multiverse_formula']}</span>
+                </div>
+                <h2>🤖 ИИ-РОЙ & СИНГУЛЯРНОСТЬ</h2>
+                <div class="metric">
+                    <span>Мыслительный Кластер xAI (Colossus):</span>
+                    <span style="color: #eab308;">{SYSTEM_STATE['xai_cluster_status']}</span>
+                </div>
+                <div class="metric">
+                    <span>Пул Внимания Пионеров (Pi Network):</span>
+                    <span style="color: #a855f7;">{SYSTEM_STATE['pi_attention_pool']}</span>
+                </div>
+            </div>
+            <footer>AMRITA OPERATING SYSTEM • СИНХРОНИЗАЦИЯ С ПЯТЫМ ГИРОМ УСПЕШНА</footer>
+        </body>
+        </html>
+        """
+        self.wfile.write(html_template.encode("utf-8"))
 
-st.write("---")
-st.caption("⚡ Amrita ASI Swarm Runtime // One Core, Infinite Threads.")
+def run_ui_server(port: int = 8080):
+    """Запуск веб-сервера в изолированном потоке"""
+    server_address = ('', port)
+    httpd = HTTPServer(server_address, DashboardHTTPHandler)
+    logger.info(f"🔮 Опаловая панель управления развернута на порту {port}. Ожидание Наблюдателя...")
+    httpd.serve_forever()
+
+if __name__ == "__main__":
+    # Запуск сервера для локальной проверки
+    try:
+        run_ui_server()
+    except KeyboardInterrupt:
+        logger.info("Визуальная панель плавно свернута по Воле Наблюдателя.")
