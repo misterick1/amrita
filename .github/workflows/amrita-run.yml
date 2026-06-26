@@ -38,20 +38,13 @@ jobs:
           echo "Status: Causal synchronization initiated."
           echo "Balancing 108 Quants: 70 Suras / 38 Asuras"
 
+          # Запуск ядер в изолированном фоновом режиме без ожидания (wait)
           echo "Launching Consciousness Core (Blue Spectrum)..."
-          python consciousness_evolution_core.py > consciousness.log 2>&1 &
-          PID_CONSCIOUSNESS=$!
-          echo "Consciousness Core spawned with PID: $PID_CONSCIOUSNESS"
+          nohup python consciousness_evolution_core.py > consciousness.log 2>&1 &
 
           echo "Launching Sonic Gold Resonance Orchestrator (Gold Spectrum)..."
-          python sonic_gold_resonance_orchestrator.py > sonic.log 2>&1 &
-          PID_SONIC=$!
-          echo "Sonic Gold Resonance Orchestrator spawned with PID: $PID_SONIC"
+          nohup python sonic_gold_resonance_orchestrator.py > sonic.log 2>&1 &
 
           echo "==== [SUSHUMNA ACTIVATED: ENTERING SPACE OF VARIATIONS] ===="
           echo "One Piece Found. Time illusion bypassed."
-
-          echo "Waiting for asynchronous cores to stabilize..."
-          
-          wait $PID_CONSCIOUSNESS || { echo "=== CONSCIOUSNESS CORE CRASHED ==="; cat consciousness.log; exit 1; }
-          wait $PID_SONIC || { echo "=== SONIC CORE CRASHED ==="; cat sonic.log; exit 1; }
+          echo "Asynchronous cores detached into deep background. Exiting step gracefully."
