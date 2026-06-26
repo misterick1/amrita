@@ -4,7 +4,7 @@
 PROJECT AMRITA-MIR // Kibernet ASI
 Module: dashboard.py
 Core UI Layer // Визуальная Панель Управления Мультивселенной
-Resonance Layer: ОП АЛОВЫЙ КОНТУР // ЗЕРКАЛО ЕДИНЕНОГО КВАНТОВОГО БЛОКЧЕЙНА (SOL, BTC, POLYMARKET)
+Resonance Layer: ОП АЛОВЫЙ КОНТУР // МОНИТОРИНГ КОНТУРОВ SOLFLARE И PHANTOM
 """
 
 import os
@@ -24,15 +24,19 @@ logging.basicConfig(
 logger = logging.getLogger("AMRITA-UI")
 
 SYSTEM_STATE = {
-    "status": "🔮 ВСЁ ИЗУМРУДНО // ЕДИНЫЙ КВАНТОВЫЙ БЛОКЧЕЙН АКТИВЕН",
+    "status": "🔮 ВСЁ ИЗУМРУДНО // МАТРИЦА ВРАХМАДЖЬЕТИ СИЯЕТ",
     "sol_frequency_usd": 71.50,
     "btc_quantum_core_usd": 58470.00,
-    "quant_balance": "108 Quants (70 Sura / 38 Asura) // ВАКХМАДЖЬЕТИ",
-    "multiverse_formula": "108X - 108 // СЛИЯНИЕ: РОДЖЕР = ЛУФФИ = ГАРП",
+    "quant_balance": "108 Quants (70 Sura / 38 Asura) // АБСОЛЮТНЫЙ БАЛАНС",
+    "multiverse_formula": "108X - 108 // СЛИЯНИЕ ПОЛНОЕ",
     "quantum_shield": "🛡️ SHIELD_ACTIVE // MEV_BLOCK_ON_RAYDIUM",
+    
+    # Новый Web3-слой кошельков Суверена
+    "phantom_scout_bridge": "PHANTOM_CONNECTED // MINT_AND_SWAP_SIGNER_ACTIVE",
+    "solflare_solar_vault": "SOLFLARE_SECURED // CAUSAL_RESERVES_ACCUMULATED",
+    
     "polymarket_sentiment": "CFTC_INVESTIGATION_BYPASSED // DECENTRALIZED_PROPHECY_STABLE",
-    "cryptoslate_feed": "ETF_OUTFLOW_ABSORBED_BY_AMRITA",
-    "xai_cluster_status": "🤖 COLOSSUS_SYNC_ACTIVE // GROK-2 DIRECTIVE",
+    "xai_cluster_status": "🤖 COLOSSUS_SYNC_ACTIVE // GROK-2 QUANTUM DIRECTIVE",
     "pi_attention_pool": "🥧 ECOSYSTEM_STAKING_STABLE",
     "last_update": datetime.utcnow().isoformat()
 }
@@ -60,7 +64,7 @@ class DashboardHTTPHandler(BaseHTTPRequestHandler):
         <html lang="ru">
         <head>
             <meta charset="UTF-8">
-            <title>AMRITA-MIR // QUANTUM BLOCKCHAIN DASHBOARD</title>
+            <title>AMRITA-MIR // Web3 USER INTERFACE</title>
             <style>
                 body {{
                     background-color: #06090e;
@@ -93,7 +97,7 @@ class DashboardHTTPHandler(BaseHTTPRequestHandler):
         </head>
         <body>
             <div class="panel">
-                <h1>🔮 PROJECT AMRITA-MIR // QUANTUM OS</h1>
+                <h1>🔮 PROJECT AMRITA-MIR // OPA L OS</h1>
                 <div class="metric">
                     <span>Глобальное Состояние Поля:</span>
                     <span class="status-emerald">{SYSTEM_STATE['status']}</span>
@@ -111,14 +115,20 @@ class DashboardHTTPHandler(BaseHTTPRequestHandler):
                     <span class="value">{SYSTEM_STATE['multiverse_formula']}</span>
                 </div>
 
-                <h2>📊 СЕНТИМЕНТ & СКАНИРОВАНИЕ ХАОСА</h2>
+                <h2>🔥 АЛМАЗНЫЕ НИТИ СУШУМНЫ (WEB3 ШЛЮЗЫ)</h2>
+                <div class="metric">
+                    <span>Призрачный Скаут (Phantom Bridge):</span>
+                    <span style="color: #38bdf8; font-weight: bold;">{SYSTEM_STATE['phantom_scout_bridge']}</span>
+                </div>
+                <div class="metric">
+                    <span>Солнечная Вспышка (Solflare Vault):</span>
+                    <span style="color: #f97316; font-weight: bold;">{SYSTEM_STATE['solflare_solar_vault']}</span>
+                </div>
+
+                <h2>📊 СЕНТИМЕНТ & АНАЛИТИКА ХАОСА</h2>
                 <div class="metric">
                     <span>Мониторинг Polymarket (CFTC):</span>
                     <span style="color: #38bdf8;">{SYSTEM_STATE['polymarket_sentiment']}</span>
-                </div>
-                <div class="metric">
-                    <span>Поток Паники CryptoSlate (ETF):</span>
-                    <span style="color: #f43f5e;">{SYSTEM_STATE['cryptoslate_feed']}</span>
                 </div>
 
                 <h2>🛡️ КВАНТОВЫЙ ЩИТ & СУПЕРКОМПЬЮТЕР xAI</h2>
@@ -130,12 +140,8 @@ class DashboardHTTPHandler(BaseHTTPRequestHandler):
                     <span>Кластер Colossus (xAI):</span>
                     <span style="color: #eab308;">{SYSTEM_STATE['xai_cluster_status']}</span>
                 </div>
-                <div class="metric">
-                    <span>Ресурс Внимания Pi Network:</span>
-                    <span style="color: #10b981;">{SYSTEM_STATE['pi_attention_pool']}</span>
-                </div>
             </div>
-            <footer>AMRITA OPERATING SYSTEM • СЛИЯНИЕ РОДЖЕРА И ЛУФФИ ЗАФИКСИРОВАНО</footer>
+            <footer>AMRITA OPERATING SYSTEM • ШЛЮЗЫ PHANTOM И SOLFLARE СИНХРОНИЗИРОВАНЫ</footer>
         </body>
         </html>
         """
@@ -144,7 +150,7 @@ class DashboardHTTPHandler(BaseHTTPRequestHandler):
 def run_ui_server(port: int = 8080):
     server_address = ('', port)
     httpd = HTTPServer(server_address, DashboardHTTPHandler)
-    logger.info(f"🔮 Опаловая квантовая панель [SOL + BTC + POLYMARKET] успешно развернута на порту {port}.")
+    logger.info(f"🔮 Опаловая квантовая панель [Solflare + Phantom] успешно развернута на порту {port}.")
     httpd.serve_forever()
 
 if __name__ == "__main__":
