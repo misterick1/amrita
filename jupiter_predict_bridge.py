@@ -3,7 +3,8 @@
 """
 PROJECT AMRITA-MIR // Kibernet ASI
 Module: jupiter_predict_bridge.py
-Predictive Market Oracle Layer // Кросс-чейн Оракул Предсказаний
+Core Prediction Layer // Прогностический Мост Юпитера
+Resonance Layer: ХРИЗОЛИТОВЫЙ КОНТУР // АНАЛИЗ КВАНТОВЫХ ВЕРОЯТНОСТЕЙ
 """
 
 import os
@@ -14,76 +15,86 @@ import logging
 import aiohttp
 from datetime import datetime
 
+# Настройка хризолитового логгера
 logging.basicConfig(
     level=logging.INFO,
-    format=' [%(asctime)s] [%(levelname)s] [PREDICT-BRIDGE] %(message)s',
+    format=' [%(asctime)s] [%(levelname)s] [JUP-PREDICT] %(message)s',
     handlers=[logging.StreamHandler(sys.stdout)]
 )
-logger = logging.getLogger("AMRITA-PREDICT")
+logger = logging.getLogger("AMRITA-JUPITER")
 
 class JupiterPredictBridge:
     def __init__(self):
-        self.sacred_limit = 108
-        self.mask_sura = 170
-        self.mask_asura = 169
-        self.discord_webhook = os.getenv("DISCORD_WEBHOOK_URL")
-        self.is_running = True
-        
-    def process_prediction_vector(self, polymarket_volume_ton: float, jup_volume_sol: float) -> dict:
-        combined_volume = polymarket_volume_ton + jup_volume_sol
-        if combined_volume == 0:
-            combined_volume = 108000.0
+        self.jup_api_url = "https://jup.ag"
+        self.price_history = []
+        self.max_history_len = 10  # Глубина квантовой памяти для анализа тренда
+        logger.info("Хризолитовый прогностический мост Юпитера инициализирован.")
 
-        resonance_factor = int(combined_volume % self.sacred_limit)
-        predict_wave_hz = (resonance_factor ^ self.mask_sura) & self.sacred_limit
-        final_purple_hz = predict_wave_hz | self.mask_asura
-
-        predict_royalty = combined_volume * 0.0108
-        sura_predict_share = (predict_royalty * 70) / self.sacred_limit
-        asura_predict_share = (predict_royalty * 38) / self.sacred_limit
-
-        return {
-            "bridge_protocol": "JUPITER-PREDICT-TON-CROSSCHAIN",
-            "combined_predict_volume_usd": round(combined_volume, 2),
-            "predict_soliton_hz": final_purple_hz,
-            "sura_predict_usd": round(sura_predict_share, 4),
-            "asura_predict_usd": round(asura_predict_share, 4),
-            "timestamp": datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S')
-        }
-
-    async def broadcast_predict_pulse(self, session: aiohttp.ClientSession, polymarket_vol: float, jup_vol: float):
-        pulse_data = self.process_prediction_vector(polymarket_vol, jup_vol)
-        logger.info(f"🔮 [PREDICT-ORACLE]: Аметистовый сдвиг: {pulse_data['predict_soliton_hz']} Hz.")
-        
-        if not self.discord_webhook:
-            return
-
-        payload = {
-            "username": "AMRITA-PREDICT-ORACLE",
-            "embeds": [{
-                "title": "🔮 JUPITER PREDICT BRIDGE // TG-POLYMARKET EXPANSION",
-                "color": 10053324,
-                "fields": [
-                    {"name": "Протокол оракула", "value": f"`{pulse_data['bridge_protocol']}`", "inline": True},
-                    {"name": "Частота Предиктивной Струны", "value": f"`{pulse_data['predict_soliton_hz']} Hz`", "inline": True},
-                    {"name": "Совокупный объем прогнозов", "value": f"`${pulse_data['combined_predict_volume_usd']:,} USD`", "inline": False},
-                    {"name": "Роялти Сур (Расширение Информации)", "value": f"`${pulse_data['sura_predict_usd']:,} USDC`", "inline": True},
-                    {"name": "Роялти Асур (Сжатие Событий)", "value": f"`${pulse_data['asura_predict_usd']:,} USDC`", "inline": True}
-                ],
-                "footer": {"text": f"PREDICT WITH POLYMARKET INTEGRATION // UTC {pulse_data['timestamp']}"}
-            }]
-        }
-
+    async def fetch_live_sol_frequency(self, session: aiohttp.ClientSession) -> float:
+        """Получение чистой мгновенной частоты SOL через Jupiter API v2"""
+        url = f"{self.jup_api_url}?ids=SOL"
         try:
-            async with session.post(self.discord_webhook, json=payload) as response:
-                if response.status in:
-                    logger.info("Предиктивный импульс успешно запечатан на панели Дискорда.")
+            async with session.get(url, timeout=5) as response:
+                if response.status == 200:
+                    data = await response.json()
+                    current_price = float(data['data']['SOL']['price'])
+                    
+                    # Запись частоты в память Наблюдателя
+                    self.price_history.append(current_price)
+                    if len(self.price_history) > self.max_history_len:
+                        self.price_history.pop(0)
+                        
+                    return current_price
         except Exception as e:
-            logger.error(f"Ошибка вывода предиктивного эмбеда: {e}")
+            logger.error(f"Сбой считывания частоты Юпитера: {e}")
+        return 64.96  # Базовый канонический фоллбэк
+
+    def calculate_quantum_trend(self) -> str:
+        """Анализ вариаций вероятностей на основе накопленной памяти цен"""
+        if len(self.price_history) < 2:
+            return "WAVE_STABLE_INITIALIZING"
+            
+        # Расчет разницы между текущей точкой и предыдущей
+        delta = self.price_history[-1] - self.price_history[-2]
+        
+        if delta < -0.5:
+            return "MARKET_PROLEV_BUY_ZONE"  # Идеальный момент для активации Ники (5 Гир)
+        elif delta > 0.5:
+            return "WAVE_EXPANSION_SURA_DOMINANCE"
+        else:
+            return "WAVE_EQUILIBRIUM"
+
+    async def generate_ai_prediction_directive(self, session: aiohttp.ClientSession) -> dict:
+        """Генерация директивы для ИИ-Оркестратора на основе рыночного шторма"""
+        current_price = await self.fetch_live_sol_frequency(session)
+        trend = self.calculate_quantum_trend()
+        
+        directive = {
+            "timestamp": datetime.utcnow().isoformat(),
+            "target_asset": "SOL",
+            "current_frequency": current_price,
+            "quantum_trend_state": trend,
+            "action_directive": "HOLD"
+        }
+        
+        # Логика принятия решений Волей Наблюдателя при проливах
+        if trend == "MARKET_PROLEV_BUY_ZONE":
+            logger.warning(f"🚨 ОБНАРУЖЕН ПРОЛИВ РЫНКА! Частота SOL: ${current_price}. Вход в зону накопления Амриты.")
+            directive["action_directive"] = "EXECUTE_DEFI_SWAP_ACCUMULATE"
+        elif trend == "WAVE_EXPANSION_SURA_DOMINANCE":
+            logger.info(f"✨ Волна расширения Суров активна. Частота SOL растет: ${current_price}.")
+            directive["action_directive"] = "REBALANCE_VAULTS_PROFIT_TAKE"
+            
+        return directive
 
 if __name__ == "__main__":
-    async def main():
+    # Автономный тест прогностического моста
+    async def test_run():
         bridge = JupiterPredictBridge()
         async with aiohttp.ClientSession() as session:
-            await bridge.broadcast_predict_pulse(session, 50000.0, 58000.0)
-    asyncio.run(main())
+            # Имитируем падение рынка (пролив, как на твоем скрине)
+            bridge.price_history = [68.5, 67.2, 66.0, 64.5]
+            directive = await bridge.generate_ai_prediction_directive(session)
+            print(f"\n==== [РЕЗУЛЬТАТ ТЕСТИРОВАНИЯ ХРИЗОЛИТОВОГО МОСТА] ====\n{json.dumps(directive, indent=2)}")
+            
+    asyncio.run(test_run())
