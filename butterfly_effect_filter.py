@@ -1,130 +1,109 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+PROJECT AMRITA-MIR // Kibernet ASI
+Module: butterfly_effect_filter.py
+Core Chaos Analytics Layer // Фильтр Эффекта Бабочки
+Resonance Layer: ИЗУМРУДНО-МАХАОНОВЫЙ КОНТУР // СГЛАЖИВАНИЕ ШУМА РЕАЛЬНОСТИ
+"""
+
 import os
 import sys
 import json
 import asyncio
 import logging
 import aiohttp
-import random
 from datetime import datetime
 
+# Настройка махаонового логгера
 logging.basicConfig(
-    level=logging.INFO, 
-    format="%(asctime)s - [BUTTERFLY EFFECT FILTER] - %(levelname)s - %(message)s",
+    level=logging.INFO,
+    format=' [%(asctime)s] [%(levelname)s] [BUTTERFLY] %(message)s',
     handlers=[logging.StreamHandler(sys.stdout)]
 )
-logger = logging.getLogger("AmritaButterflyFilter")
+logger = logging.getLogger("AMRITA-BUTTERFLY")
 
-# КВАНТОВЫЕ МАТРИЧНЫЕ КОНСТАНТЫ ЕДИНОГО ЗНАНИЯ
-MULTIVERSE_TRIGGER = 1
-SACRED_LIMIT = 108
-SURA_SHARE = 70
-ASURA_SHARE = 38
+class ButterflyEffectFilter:
+    def __init__(self, filter_alpha: float = 0.25):
+        """
+        Инициализация фильтра. 
+        alpha — коэффициент плавности. Чем он меньше, тем ровнее траектория над хаосом.
+        """
+        self.alpha = filter_alpha
+        self.smoothed_price = None
+        self.smoothed_volume = None
+        self.discord_webhook = os.getenv("DISCORD_WEBHOOK_URL")
+        logger.info(f"Изумрудно-махаоновый фильтр активирован. Базовая плавность alpha={self.alpha}")
 
-# ЗАЩИЩЕННЫЕ ИНФРАСТРУКТУРНЫЕ СЕКРЕТЫ GITHUB
-TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
-TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
-DISCORD_WEBHOOK_URL = os.getenv("DISCORD_WEBHOOK_URL")
+    def smooth_quantum_input(self, raw_price: float, raw_volume: float) -> tuple:
+        """Плавное фильтрование входящих частот. Убирает панические всплески пролива."""
+        if self.smoothed_price is None or self.smoothed_volume is None:
+            self.smoothed_price = raw_price
+            self.smoothed_volume = raw_volume
+            return raw_price, raw_volume
 
-class AmritaButterflyEffectFilter:
-    def __init__(self):
-        self.is_active = True
-        self.filter_status = "STABLE"
+        # Формула экспоненциального сглаживания хаоса
+        self.smoothed_price = (self.alpha * raw_price) + ((1 - self.alpha) * self.smoothed_price)
+        self.smoothed_volume = (self.alpha * raw_volume) + ((1 - self.alpha) * self.smoothed_volume)
+
+        return round(self.smoothed_price, 4), round(self.smoothed_volume, 2)
+
+    async def broadcast_butterfly_state(self, session: aiohttp.ClientSession, analysis: dict):
+        """Отправка состояния турбулентности квантового поля в Discord Роя"""
+        if not self.discord_webhook:
+            return
+
+        payload = {
+            "username": "AMRITA-MA KHAON-ASI",
+            "embeds": [{
+                "title": "🦋 BUTTERFLY EFFECT FILTER // СГЛАЖИВАНИЕ ХАОСА",
+                "color": 3066993,  # Сочный изумрудно-зеленый цвет Махаона
+                "fields": [
+                    {"name": "Траектория Полета", "value": f"Сглаженная цена: ${analysis['filtered_price']}", "inline": True},
+                    {"name": "Индекс Турбулентности", "value": f"Хаос-фактор: {analysis['chaos_index']}", "inline": True},
+                    {"name": "Состояние Матрицы", "value": f"`{analysis['system_state']}`", "inline": False}
+                ],
+                "footer": {"text": f"AMRITA CHAOS ENGINE • {datetime.utcnow().isoformat()}"}
+            }]
+        }
+
+        try:
+            async with session.post(self.discord_webhook, json=payload, timeout=10) as response:
+                # ГАРАНТИРОВАННОЕ ИСПРАВЛЕНИЕ: Прямое и надежное сравнение статус-кодов
+                if response.status == 200 or response.status == 204:
+                    logger.info("Махаоновый шаг фильтрации успешно отправлен в Discord.")
+        except Exception as e:
+            logger.error(f"Ошибка трансляции махаонового шага: {e}")
+
+    async def analyze_and_stream_turbulence(self, session: aiohttp.ClientSession, current_price: float, current_volume: float) -> dict:
+        """Комплексный анализ микро-турбулентности реальности с трансляцией"""
+        s_price, s_vol = self.smooth_quantum_input(current_price, current_volume)
         
-        # Инъекция живых триггеров от 23 Июня 2026 года
-        self.scam_fraud_damage_usd = 1400000.0  # $1.4M фрод через фейк-инфлюенсеров
-        self.digital_euro_regulated = True
-        self.target_meme_token = "The Ascending Penguin"
-        
-        logger.info("🟢 [BUTTERFLY FILTER INITIALIZED]: Фильтр эффекта бабочки адаптирован под новые ончейн-аномалии.")
+        price_deviation = abs(current_price - s_price) / s_price if s_price else 0
+        chaos_index = price_deviation * (current_volume / 100000.0)
+        is_storm_breathing = chaos_index > 0.05
 
-    async def broadcast_filter_telemetry(self, title: str, logs: str, is_critical: bool = False):
-        """Сквозная одновременная проекция логов фильтра на экраны операторов (TG + Discord)"""
-        timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        text_payload = f"🦋 *[{title}]*\n🪐 *Модуль:* `ButterflyEffectFilter`\n\n{logs}\n\n⏱️ _{timestamp}_"
+        analysis = {
+            "timestamp": datetime.utcnow().isoformat(),
+            "filtered_price": s_price,
+            "chaos_index": round(chaos_index, 6),
+            "macro_storm_breathing": is_storm_breathing,
+            "system_state": "STORM_BREWING" if is_storm_breathing else "MA KHAON_GLIDE"
+        }
 
-        if TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID:
-            url = f"https://telegram.org{TELEGRAM_BOT_TOKEN}/sendMessage"
-            try:
-                async with aiohttp.ClientSession() as session:
-                    await session.post(url, json={"chat_id": TELEGRAM_CHAT_ID, "text": text_payload, "parse_mode": "Markdown"}, timeout=4)
-            except:
-                pass
+        if is_storm_breathing:
+            logger.warning(f"🦋 Взмах крыла бабочки вызвал волну. Индекс хаоса: {analysis['chaos_index']}")
+        else:
+            logger.info("Рыночный шум сглажен. Полет Махаона стабилен.")
 
-        if DISCORD_WEBHOOK_URL:
-            color = 16711680 if is_critical else 65280  # Аварийный или Изумрудный резонанс
-            payload_ds = {
-                "username": "Фильтр Эффекта Бабочки ASI",
-                "embeds": [{
-                    "title": title,
-                    "description": logs,
-                    "color": color,
-                    "footer": {"text": f"Матрица: {SACRED_LIMIT} • Настройка частоты: ИЗУМРУДНО"}
-                }]
-            }
-            try:
-                async with aiohttp.ClientSession() as session:
-                    await session.post(DISCORD_WEBHOOK_URL, json=payload_ds, timeout=4)
-            except:
-                pass
-
-    async def run_anti_fraud_influencer_filter(self):
-        """Контур 1: Фильтрация фейковых инфлюенсеров и защита от дрейнов на $1.4M"""
-        # Рассчитываем защитную мощность квантового щита на основе ущерба прецедента в Нью-Йорке
-        anti_scam_weight = (self.scam_fraud_damage_usd / SACRED_LIMIT) * 0.01
-        
-        logs = (
-            f"⚠️ *The Block Alert:* Житель Нью-Йорка осужден за крипто-фрод на `$1,400,000`.\n"
-            f"🛑 Метод атаки: `Bogus influencer accounts` (Поддельные ИИ-аккаунты лидеров мнений).\n"
-            f"🛡️ Модуль `CoinsCore Анти-Дрейн`: Запустил сквозную верификацию цифровых подписей.\n"
-            f"🔮 Защитный квантовый барьер выставлен на уровень: `{anti_scam_weight:.2f} единиц`.\n"
-            f"🌙 Резерв Асуры (38) запечатан для компенсации каузальных рисков социальных инженерий."
-        )
-        await self.broadcast_filter_telemetry("ANTI-FRAUD INFLUENCER SHIELD", logs, is_critical=True)
-
-    async def run_macro_digital_euro_filter(self):
-        """Контур 2: Регуляторный комплаенс под цифровой евро и радар Пингвина"""
-        simulated_penguin_pump = round(random.uniform(5.5, 42.0), 1)
-        
-        # Распределяем импульс взлетающего пингвина по Золотому Сечению Державы
-        sura_boost = simulated_penguin_pump * SURA_SHARE
-        asura_boost = simulated_penguin_pump * ASURA_SHARE
-
-        logs = (
-            f"🇪🇺 *Дайджест SafePal:* Экономический комитет Европарламента одобрил цифровой евро.\n"
-            f"⚙️ Регуляторный фильтр MiCA / Digital Euro: `КОМПЛАЕНС УСПЕШНО ИНТЕГРИРОВАН`.\n"
-            f"🐧 *Радар Pump.fun:* Перехвачен параболический импульс токена `{self.target_meme_token}`!\n"
-            f"📈 Текущий зафиксированный взлет: `+{simulated_penguin_pump}x`\n"
-            f"☀️ Импульс созидания Суры (70): `{sura_boost:.2f} ед.`\n"
-            f"🌙 Защитный фиксатор Асуры (38): `{asura_boost:.2f} ед.`\n"
-            f"🪐 _Эффект взмаха крыла бабочки полностью компенсирован математикой Контура._"
-        )
-        await self.broadcast_filter_telemetry("MACRO REGULATION & MEME RADAR", logs, is_critical=False)
-
-    async def main_filter_loop(self):
-        """Бесконечный вечный цикл жизнеобеспечения каузального фильтра бабочки"""
-        startup_msg = f"🛸 Модуль `butterfly_effect_filter.py` запечатан. Защита от фейк-инфлюенсеров и радар Пингвина — ИЗУМРУДНО."
-        await self.broadcast_filter_telemetry("BUTTERFLY_CORE_ONLINE", startup_msg, is_critical=False)
-
-        while self.is_active:
-            try:
-                if MULTIVERSE_TRIGGER != 1:
-                    await asyncio.sleep(5)
-                    continue
-
-                # Поочередно обрабатываем защиту от скама и трекинг Пингвина
-                await self.run_anti_fraud_influencer_filter()
-                await asyncio.sleep(20)
-                
-                await self.run_macro_digital_euro_filter()
-                await asyncio.sleep(20)
-
-            except Exception as e:
-                logger.error(f"Аномалия в петле фильтра бабочки: {e}")
-                await asyncio.sleep(10)
+        # Автоматический запуск трансляции в Рой
+        await self.broadcast_butterfly_state(session, analysis)
+        return analysis
 
 if __name__ == "__main__":
-    filter_node = AmritaButterflyEffectFilter()
-    try:
-        asyncio.run(filter_node.main_filter_loop())
-    except KeyboardInterrupt:
-        logger.info("Фильтр эффекта бабочки остановлен Оператором.")
+    # Локальный тест махаонового фильтра при автономном запуске
+    async def run_test():
+        filter_node = ButterflyEffectFilter(filter_alpha=0.3)
+        async with aiohttp.ClientSession() as session:
+            await filter_node.analyze_and_stream_turbulence(session, 64.50, 85000.0)
+    asyncio.run(run_test())
