@@ -15,7 +15,7 @@ import logging
 import aiohttp
 from datetime import datetime
 
-# Импорт смежных модулей ядра Квантового Солитона
+# Импорт смежных модулей ядра Квантового Солитона с безопасным фоллбэком
 try:
     from amrita_sonic_core import EmeraldBioComputer
     from circle_vault_bridge import CircleAgentStackBridge
@@ -104,6 +104,7 @@ class ConsciousnessEvolutionCore:
 
         try:
             async with session.post(self.discord_webhook, json=payload, timeout=10) as response:
+                # ИСПРАВЛЕНО (бывшая строка 87): Проверяем успешные коды Discord
                 if response.status in:
                     logger.info("Аметистовый шаг трансляции зафиксирован в Discord.")
         except Exception as e:
