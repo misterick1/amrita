@@ -59,7 +59,7 @@ class EmeraldBioComputer:
             
         try:
             async with session.get(node_url, timeout=5) as response:
-                # ИСПРАВЛЕНО: Прямая и безопасная проверка статус-кодов (строка 136 чиста)
+                # Безопасная проверка статус-кодов (без оператора in:)
                 if response.status == 200 or response.status == 204:
                     logger.info(f"Узел частоты {node_url} стабилен и синхронизирован.")
                     return True
