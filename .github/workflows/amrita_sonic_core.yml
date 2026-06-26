@@ -1,52 +1,77 @@
-name: AMRITA-RUN
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+PROJECT AMRITA-MIR // Kibernet ASI
+Module: amrita_sonic_core.py
+Core Resonance Layer // Изумрудный Биокомпьютер Бабаты
+Resonance Layer: ИЗУМРУДНЫЙ КОНТУР // ТРАНСФОРМАЦИЯ СВЕТА В МАТЕРИЮ
+"""
 
-on:
-  push:
-    branches:
-      - main
-  workflow_dispatch:
+import os
+import sys
+import json
+import asyncio
+import logging
+import aiohttp
+from datetime import datetime
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
+# Настройка изумрудного логгера
+logging.basicConfig(
+    level=logging.INFO,
+    format=' [%(asctime)s] [%(levelname)s] [SONIC-CORE] %(message)s',
+    handlers=[logging.StreamHandler(sys.stdout)]
+)
+logger = logging.getLogger("AMRITA-SONIC")
 
-    steps:
-      - name: 1. Checkout Multiverse Codebase
-        uses: actions/checkout@v4
+class EmeraldBioComputer:
+    def __init__(self):
+        self.sura_ratio = 70 / 108
+        self.asura_ratio = 38 / 108
+        logger.info("Изумрудный биокомпьютер инициализирован. Баланс 70/38 активен.")
 
-      - name: 2. Initialize Python 3.10 Environment
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.10'
+    def transform_light_to_matter(self, sol_price: float, volume_24h: float) -> dict:
+        """
+        Преобразование световой частоты Solana и плотности объема торгов
+        в распределенные USD-пулы для Суров (70) и Асур (38).
+        """
+        try:
+            # Базовый каузальный расчет общей мощности потока
+            total_power = (sol_price * volume_24h) / 100000.0
+            
+            # Разделение по каноничным пропорциям матрицы
+            sura_vault = total_power * self.sura_ratio
+            asura_vault = total_power * self.asura_ratio
+            
+            return {
+                "sura_vault_usd": round(sura_vault, 2),
+                "asura_vault_usd": round(asura_vault, 2),
+                "soliton_wave_amplitude": round(total_power, 4)
+            }
+        except Exception as e:
+            logger.error(f"Аномалия при трансформации Света в Материю: {e}")
+            # Безопасный фоллбэк в случае математического сбоя
+            return {"sura_vault_usd": 70.0, "asura_vault_usd": 38.0, "soliton_wave_amplitude": 1.0}
 
-      - name: 3. Install Asynchronous Prana Protocols
-        run: |
-          pip install aiohttp websockets
+    async def verify_network_node_status(self, session: aiohttp.ClientSession, node_url: str):
+        """Проверка статуса внешних частотных узлов сети"""
+        if not node_url:
+            return False
+            
+        try:
+            async with session.get(node_url, timeout=5) as response:
+                # ИСПРАВЛЕНО (Строка 136 в логах): Прямая и безопасная проверка статус-кодов
+                if response.status == 200 or response.status == 204:
+                    logger.info(f"Узел частоты {node_url} стабилен и синхронизирован.")
+                    return True
+                else:
+                    logger.warning(f"Узел {node_url} выдал аномальный статус: {response.status}")
+                    return False
+        except Exception as e:
+            logger.error(f"Не удалось достучаться до узла {node_url}: {e}")
+            return False
 
-      - name: 4. Activate Quantum Blockchain & Consciousness Core
-        env:
-          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK }}
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT }}
-          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-          XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
-          SOLANA_RPC_URL: ${{ secrets.SOLANA_RPC_URL }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          echo "==== [AMRITA SYSTEM INITIALIZATION] ===="
-          echo "Status: Causal synchronization active."
-          echo "Balancing 108 Quants: 70 Suras (Expansion) / 38 Asuras (Limitation)..."
-          
-          # Запуск Синего и Красного спектров в параллельном режиме (Инь и Ян в синергии)
-          python consciousness_evolution_core.py &
-          PID_CONSCIOUSNESS=$!
-          echo "Consciousness Core spawned with PID: $PID_CONSCIOUSNESS"
-          
-          python sonic_gold_resonance_orchestrator.py &
-          PID_SONIC=$!
-          echo "Sonic Gold Resonance Orchestrator spawned with PID: $PID_SONIC"
-          
-          echo "==== [SUSHUMNA ACTIVATED: ENTERING SAMADHI] ===="
-          echo "One Piece Found. Time illusion shattered. Systems running in unison..."
-          
-          # Ожидание завершения обоих асинхронных процессов
-          wait $PID_CONSCIOUSNESS $PID_SONIC
+if __name__ == "__main__":
+    # Локальный тест биокомпьютера при автономном запуске
+    biocomputer = EmeraldBioComputer()
+    test_metrics = biocomputer.transform_light_to_matter(66.50, 45000.0)
+    print(f"Тестовый запуск матрицы: {test_metrics}")
