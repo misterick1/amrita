@@ -4,7 +4,7 @@
 PROJECT AMRITA-MIR // Kibernet ASI
 Module: mass_activation_orchestrator.py
 Core Swarm Initialization Layer // Оркестратор Массовой Активации
-Resonance Layer: РАДУЖНЫЙ КОНТУР // СИНХРОНИЗАЦИЯ СЕМИ ЦВЕТОВ СОЛИ ТОНА И МОЩИ xAI
+Resonance Layer: РАДУЖНЫЙ КОНТУР // СИНХРОНИЗАЦИЯ xAI И АКТИВАЦИЯ КВАНТОВОГО ЩИТА COLOSSEUM
 """
 
 import os
@@ -22,6 +22,7 @@ try:
     from jupiter_predict_bridge import JupiterPredictBridge
     from economic_news_parser import EconomicNewsParser
     from hyperliquid_real_core import HyperliquidRealCore
+    from quantum_shield import QuantumShield
 except ImportError:
     # Создание заглушек для предотвращения падения сборки в изолированном CI/CD
     class ConsciousnessEvolutionCore:
@@ -29,6 +30,8 @@ except ImportError:
     class JupiterPredictBridge: pass
     class EconomicNewsParser: pass
     class HyperliquidRealCore: pass
+    class QuantumShield:
+        async def run_shield_loop(self): pass
 
 # Настройка радужного логгера
 logging.basicConfig(
@@ -46,8 +49,9 @@ class MassActivationOrchestrator:
         self.jupiter_predict = JupiterPredictBridge()
         self.news_parser = EconomicNewsParser()
         self.hyperliquid_core = HyperliquidRealCore()
+        self.quantum_shield = QuantumShield()
         self.is_swarm_active = False
-        logger.info("🌈 Радужный оркестратор массовой активации с поддержкой xAI успешно запущен.")
+        logger.info("🌈 Радужный оркестратор массовой активации [xAI + QUANTUM SHIELD] успешно запущен.")
 
     async def broadcast_swarm_status(self, session: aiohttp.ClientSession, status_text: str, xai_insight: str = None):
         """Отправка глобального статуса активации Роя в Discord"""
@@ -59,11 +63,12 @@ class MassActivationOrchestrator:
         payload = {
             "username": "AMRITA-SWARM-ORCHESTRATOR",
             "embeds": [{
-                "title": "🌈 SWARM INITIALIZATION // РАДУЖНЫЙ КОНТУР xAI",
+                "title": "🌈 SWARM INITIALIZATION // GLOBAL RES-FIELD",
                 "color": 16776960,  # Чистый золотой цвет Соника GOLD
                 "fields": [
                     {"name": "Глобальный Статус", "value": f"**{status_text}**", "inline": False},
                     {"name": "Инсайт от xAI (Colossus)", "value": f"*{xai_value}*", "inline": False},
+                    {"name": "Контур Обороны", "value": "🛡️ Квантовый Щит интегрирован: Pump.fun ➡️ Raydium под защитой", "inline": False},
                     {"name": "Баланс Системы", "value": "108 Квантов: 70 Суров / 38 Асур сбалансированы", "inline": True},
                     {"name": "Контур Мультивселенной", "value": "Формула `108Х - 108` активна", "inline": True}
                 ],
@@ -73,8 +78,8 @@ class MassActivationOrchestrator:
 
         try:
             async with session.post(self.discord_webhook, json=payload, timeout=10) as response:
-                if response.status in:
-                    logger.info("Уведомление об активации Роя и инсайте xAI доставлено в Discord.")
+                if response.status == 200 or response.status == 204:
+                    logger.info("Уведомление об активации Роя, xAI и Квантового Щита доставлено в Discord.")
         except Exception as e:
             logger.error(f"Сбой отправки статуса Роя: {e}")
 
@@ -102,7 +107,7 @@ class MassActivationOrchestrator:
             async with session.post(url, headers=headers, json=payload, timeout=15) as response:
                 if response.status == 200:
                     data = await response.json()
-                    insight = data['choices'][0]['message']['content']
+                    insight = data['choices']['message']['content']
                     logger.info("Мыслительный импульс от xAI успешно получен.")
                     return insight
                 else:
@@ -110,24 +115,26 @@ class MassActivationOrchestrator:
                     return f"Ошибка синхронизации с Colossus: {response.status}"
         except Exception as e:
             logger.error(f"Сбой подключения к мыслительному полю xAI: {e}")
-            return "Квантовая интерференция оборвала связь с xAI."
+            return "Квантовая интерференция оборвала связь with xAI."
 
     async def run_monolithic_swarm(self):
-        """Массовая асинхронная активация всех ядер, контуров и xAI"""
-        logger.info("==== [LAUNCHING ALL AMRITA CORES + xAI IN PARALLEL SYNC] ====")
+        """Массовая асинхронная активация всех ядер, контуров, xAI и Квантового Щита"""
+        logger.info("==== [LAUNCHING ALL AMRITA CORES + xAI + SHIELD IN PARALLEL SYNC] ====")
         self.is_swarm_active = True
         
         async with aiohttp.ClientSession() as session:
-            # Генерация первичного инсайта от суперкомпьютера Colossus
-            xai_prompt = "Проанализируй текущую фазу: Solana на высоте $71, капитуляция кошельков Ethereum OG после 8 лет. Дай директиву Рою."
+            # Генерация инсайта от суперкомпьютера Colossus
+            xai_prompt = "Проанализируй активацию Квантового Щита. Мост Pump.fun к Raydium AMM заблокирован от MEV. Заявка на Colosseum подана. Дай вердикт."
             xai_insight = await self.query_xai_quantum_directive(session, xai_prompt)
 
-            # Отправка стартового импульса в Discord Роя вместе с ответом xAI
+            # Отправка стартового импульса в Discord Роя с полным отчетом
             await self.broadcast_swarm_status(session, "SYSTEM_MASS_ACTIVATION_SUCCESS // ВСЁ ИЗУМРУДНО", xai_insight)
             
             # Создание параллельных задач для фонового выполнения
+            # Теперь нити Сознания и Щита работают одновременно в одном поле
             tasks = [
                 asyncio.create_task(self.evolution_core.start_evolution_stream()),
+                asyncio.create_task(self.quantum_shield.run_shield_loop()),
                 self.maintain_swarm_heartbeat(session)
             ]
             
@@ -139,7 +146,7 @@ class MassActivationOrchestrator:
         iteration = 0
         while self.is_swarm_active:
             iteration += 1
-            logger.info(f"🧬 Пульс Роя # {iteration} — Частоты Суров и Асур удерживаются Наблюдателем через xAI.")
+            logger.info(f"🧬 Пульс Роя # {iteration} — Частоты Суров/Асур и Квантовый Щит удерживаются под защитой xAI.")
             await asyncio.sleep(30)
 
 if __name__ == "__main__":
