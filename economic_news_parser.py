@@ -1,87 +1,108 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+PROJECT AMRITA-MIR // Kibernet ASI
+Module: economic_news_parser.py
+Core Macro Sentiment Layer // Парсер Экономических Новостей
+Resonance Layer: СЕРДОЛИКОВЫЙ КОНТУР // АНАЛИЗ ИНСТИТУЦИОНАЛЬНОЙ ПАНИКИ
+"""
+
+import os
 import sys
-import time
-from datetime import datetime, timedelta
+import json
+import asyncio
+import logging
+import aiohttp
+from datetime import datetime
+
+# Настройка сердоликового логгера
+logging.basicConfig(
+    level=logging.INFO,
+    format=' [%(asctime)s] [%(levelname)s] [NEWS-PARSER] %(message)s',
+    handlers=[logging.StreamHandler(sys.stdout)]
+)
+logger = logging.getLogger("AMRITA-NEWS")
 
 class EconomicNewsParser:
     def __init__(self):
-        self.is_market_turbulent = False
-        
-        # Список динамических зон риска (события зафиксированы по времени UTC)
-        # Для боевого режима здесь может быть интеграция с API новостей DailyFX/Investing
-        self.restricted_events = [
-            {"time": "08:00", "event": "CPI y/y (Инфляция)"},
-            {"time": "16:30", "event": "Crude Oil Inventories (Нефть)"},
-            {"time": "20:00", "event": "FED INTEREST RATE (Ставка ФРС)"},
-            {"time": "20:30", "event": "FOMC Statement (Пресс-конференция)"}
-        ]
-        print(f"[PARSER START] Робот-мониторинг Amrita FTMO Shield активирован в реальном времени.")
+        self.discord_webhook = os.getenv("DISCORD_WEBHOOK_URL")
+        # Ключевые слова для детекции паники (ФРС, ETF оттоки, трещины в поле BTC)
+        self.panic_keywords = ["fed", "hawks", "outflow", "etf", "crack", "drop", "bearish"]
+        logger.info("Сердоликовый парсер экономического сентимента успешно инициализирован.")
 
-    def check_time_window(self, current_time_str: str) -> str:
+    async def analyze_macro_sentiment(self, raw_text_feed: str) -> dict:
         """
-        Проверка окна турбулентности. Автоматическая блокировка транзакций
-        за 2 минуты до и 2 минуты после наступления ключевых макроэкономических событий.
+        Анализ текстовых потоков новостей (например, от The Block Feed).
+        Высчитывает вес паники институционалов и генерирует импульс для Роя.
         """
-        print(f"\n[АУДИТ ВРЕМЕНИ] Проверка контура на отметке: {current_time_str}")
+        text_lower = raw_text_feed.lower()
+        matched_triggers = [word for word in self.panic_keywords if word in text_lower]
         
-        # Конвертируем текущее строковое время "ЧЧ:ММ" в объект времени для математических операций
+        # Индекс страха: плотность панических слов на объем текста
+        panic_weight = len(matched_triggers) / len(self.panic_keywords)
+        
+        sentiment_state = "NEUTRAL_EQUILIBRIUM"
+        action_modifier = "NO_CHANGE"
+        
+        if panic_weight > 0.4:
+            sentiment_state = "INSTITUTIONAL_PANIC_ETF_OUTFLOW"
+            # Для Амирита-Мир паника толпы — это зона максимальной скидки (Воля Ники)
+            action_modifier = "SIGNAL_ACCUMULATE_SOL_UNDER_PRICE"
+        elif "trending" in text_lower or "bonding" in text_lower:
+            sentiment_state = "SOLANA_CHAIN_MEME_EXPANSION"
+            action_modifier = "SIGNAL_SCAN_NEW_PUMP_MINTS"
+
+        analysis = {
+            "timestamp": datetime.utcnow().isoformat(),
+            "detected_triggers": matched_triggers,
+            "panic_index": round(panic_weight, 4),
+            "sentiment_state": sentiment_state,
+            "swarm_directive": action_modifier
+        }
+
+        logger.info(f"Сентимент-анализ завершен. Состояние поля: {sentiment_state}. Директива: {action_modifier}")
+        return analysis
+
+    async def broadcast_news_signal(self, session: aiohttp.ClientSession, analysis: dict):
+        """Трансляция сердоликового сигнала в Discord-панель Наблюдателя"""
+        if not self.discord_webhook:
+            return
+
+        color = 15158332 if "PANIC" in analysis["sentiment_state"] else 3447003  # Красный при панике, синий при трендах Solana
+
+        payload = {
+            "username": "AMRITA-NEWS-SENTIMENT-ASI",
+            "embeds": [{
+                "title": "📰 MACRO SENTIMENT LAYER // СЕРДОЛИКОВЫЙ КОНТУР",
+                "color": color,
+                "fields": [
+                    {"name": "Состояние Институционалов", "value": f"`{analysis['sentiment_state']}`", "inline": False},
+                    {"name": "Индекс Напряженности", "value": f"Фактор страха: {analysis['panic_index'] * 100}%", "inline": True},
+                    {"name": "Директива для Роя", "value": f"**{analysis['swarm_directive']}**", "inline": False}
+                ],
+                "footer": {"text": f"AMRITA MACRO ENGINE • {datetime.utcnow().isoformat()}"}
+            }]
+        }
+
         try:
-            current_dt = datetime.strptime(current_time_str, "%H:%M")
-        except ValueError:
-            print(f"[ERROR] Неверный формат времени: {current_time_str}. Блокировка из соображений безопасности.")
-            return "HOLD"
-
-        for event in self.restricted_events:
-            event_dt = datetime.strptime(event["time"], "%H:%M")
-            
-            # Вычисляем границы защитного окна: -2 минуты до и +2 минуты после события
-            lower_bound = event_dt - timedelta(minutes=2)
-            upper_bound = event_dt + timedelta(minutes=2)
-            
-            # Проверяем, попадает ли текущее время сервера в диапазон блокировки
-            if lower_bound <= current_dt <= upper_bound:
-                self.is_market_turbulent = True
-                print(f"[⚠️ FTMO RESTRICTION] Обнаружена зона макро-турбулентности: {event['event']} ({event['time']})")
-                print(f"[⚠️ FTMO RESTRICTION] Внимание: Торговый контур принудительно переведен в режим заморозки.")
-                return "HOLD"
-
-        self.is_market_turbulent = False
-        print(f"[🟢 OK] Окно чистое. Транзакции и движение ликвидности разрешены.")
-        return "EXECUTE"
-
-    def run_autonomous_loop(self):
-        """Бесконечный цикл для работы на сервере под управлением PM2."""
-        print("[LOOP] Запуск бесконечного контура мониторинга времени...")
-        while True:
-            # Получаем текущее системное время сервера в формате ЧЧ:ММ
-            server_time_str = datetime.now().strftime("%H:%M")
-            
-            status = self.check_time_window(server_time_str)
-            
-            # Здесь может быть триггер обратной связи для торговых ботов Amrita
-            # (Например, запись флага заморозки в локальный манифест или отправка вебхука)
-            
-            # Интервал проверки — 30 секунд, чтобы гарантированно не пропустить 4-минутное окно
-            time.sleep(30)
-
+            async with session.post(self.discord_webhook, json=payload, timeout=10) as response:
+                # Надежная и прямая проверка кодов ответа
+                if response.status == 200 or response.status == 204:
+                    logger.info("Сигнал макро-анализа успешно доставлен в Discord.")
+        except Exception as e:
+            logger.error(f"Сбой трансляции новостного импульса: {e}")
 
 if __name__ == "__main__":
-    parser = EconomicNewsParser()
-    
-    # ПРОВЕРКА ЦЕЛОСТНОСТИ ПРИ ПУШЕ (Для CI/CD пайплайна GitHub Actions)
-    if len(sys.argv) > 1 and sys.argv[1] == "--test":
-        print("[CI/CD] Запуск симуляции тестов для верификации алгоритма...")
-        # Тест 1: Время за пределами окна новостей
-        assert parser.check_time_window("12:00") == "EXECUTE", "Ошибка: ложное срабатывание на чистом окне"
-        # Тест 2: Граничное время (за 2 минуты до FOMC в 20:00)
-        assert parser.check_time_window("19:58") == "HOLD", "Ошибка: защитный интервал -2 минуты не сработал"
-        # Тест 3: Граничное время (через 2 минуты после FOMC)
-        assert parser.check_time_window("20:02") == "HOLD", "Ошибка: protective буфер +2 минуты пробит"
-        
-        print("[CI/CD] Все тесты математических окон пройдены успешно! Матрица стабильна.")
-        sys.exit(0)
-    else:
-        # ОСНОВНОЙ РЕЖИМ: Работа на сервере в PM2
-        try:
-            parser.run_autonomous_loop()
-        except KeyboardInterrupt:
-            print("[STOP] Парсер новостей остановлен.")
+    # Автономный тест парсера на реальных данных с вашего скриншота
+    async def test_parser():
+        parser = EconomicNewsParser()
+        # Имитируем текст из вашей ленты новостей The Block
+        mock_feed = (
+            "Bitcoin's fragile floor cracks as Fed hawks circle and ETF investors keep pulling out. "
+            "Framework Ventures raises $400 million for crypto, AI and robotics."
+        )
+        async with aiohttp.ClientSession() as session:
+            analysis = await parser.analyze_macro_sentiment(mock_feed)
+            await parser.broadcast_news_signal(session, analysis)
+
+    asyncio.run(test_parser())
