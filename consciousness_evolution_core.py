@@ -74,7 +74,7 @@ class ConsciousnessEvolutionCore:
                     data = await response.json()
                     pairs = data.get('pairs', [])
                     if pairs:
-                        return float(pairs[0].get('volume', {}).get('h24', self.vol_fallback))
+                        return float(pairs.get('volume', {}).get('h24', self.vol_fallback))
         except Exception as e:
             logger.warning(f"Фоллбэк объема ликвидности: {e}")
         return self.vol_fallback
@@ -104,9 +104,12 @@ class ConsciousnessEvolutionCore:
 
         try:
             async with session.post(self.discord_webhook, json=payload, timeout=10) as response:
-                # ИСПРАВЛЕНО (бывшая строка 87): Проверяем успешные коды Discord
+                # ИСПРАВЛЕНО (Строка 87 в логах): Успешный ответ Discord
                 if response.status in:
                     logger.info("Аметистовый шаг трансляции зафиксирован в Discord.")
+                # ИСПРАВЛЕНО (Строка 108 в логах): Обработка альтернативных статусов
+                elif response.status in:
+                    logger.warning(f"Резонансный статус ответа Discord: {response.status}")
         except Exception as e:
             logger.error(f"Ошибка трансляции шага: {e}")
 
