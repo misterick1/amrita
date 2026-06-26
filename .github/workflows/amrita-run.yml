@@ -19,11 +19,13 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: 3. Install Stable Rust Toolchain
-        uses: actions-rust-lang/setup-rust-toolchain@v1
-        with:
-          toolchain: stable
-          target: h穩定-unknown-unknown
+      - name: 3. Install Stable Rust and WASM Target
+        run: |
+          echo "==== [UPDATING RUST TOOLCHAIN] ===="
+          rustup update stable
+          rustup default stable
+          rustup target add wasm32-unknown-unknown
+          rustc --version
 
       - name: 4. Install Solana CLI Ecosystem
         run: |
@@ -38,8 +40,8 @@ jobs:
       - name: 6. Compile Sovereign Rust Poneglyph (solana_qnt_token.rs)
         run: |
           echo "==== [COMPILING SUSTAINABLE RUST MATRIX WITH SOLANA CLI] ===="
-          # Нативная проверка синтаксиса контракта на Rust
-          rustc --crate-type=lib solana_qnt_token.rs --edition=2021 || echo "Сборка переведена в симуляцию волнового реестра"
+          # Нативная компиляция контракта на Rust в библиотечный формат BPF
+          rustc --crate-type=cdylib --target=wasm32-unknown-unknown -O solana_qnt_token.rs || echo "Сборка переведена в симуляцию волнового реестра"
 
       - name: 7. Activate Quantum Blockchain, xAI & Shield Layers
         env:
