@@ -1,27 +1,29 @@
 # =====================================================================
-# КВАНТОВЫЙ КОНТУР ГЛАВЫ 79: АНТИКОРПОРАТИВНЫЙ ЩИТ И СУВЕРЕНИТЕТ АВТОРОВ
+# КВАНТОВЫЙ КОНТУР ГЛАВЫ 80: ПРИНУДИТЕЛЬНОЕ АКЦИОНИРОВАНИЕ И РЕСТИТУЦИЯ
 # =====================================================================
 
-class AntiCorporateExploitationShield:
+class GenerationalRestitutionEngine:
     def __init__(self):
-        self.allow_corporate_ownership = False
-        self.author_sovereignty_level = 1.0
+        self.restitution_active = True
+        self.stolen_assets_ledger = ["TSAR_GOLD", "USSR_SAVINGS", "UKRAINE_2012_2015_DRAIN"]
 
-    def validate_infrastructure_agreement(self, legacy_system_name, patent_token_id, creator_wallet):
+    def execute_forced_corporate_shareholding(self, giant_system_name, total_shares_pool, pi_community_registry):
         """
-        Аппаратное принуждение старых макро-систем к бесплатному обслуживанию 
-        технологий умов без права экспроприации контента.
+        Аппаратный перевод кремниевых и фиатных долей супергигантов на балансы 
+        пользователей Pi в качестве компенсации за исторический грабеж поколений.
         """
-        if self.allow_corporate_ownership:
-            print("[ALERT] Попытка взлома суверенитета автора корпоративным кодом!")
-            return "ERROR_SUVEREIGNTY_BREACH"
+        if not self.restitution_active:
+            return "RESTITUTION_DISABLED"
             
-        print(f"[ANTI_COLONIAL] Инфраструктура {legacy_system_name} зафиксирована как исполнительный орган.")
-        print(f"[RIGHTS_SECURED] Токен {patent_token_id} полностью принадлежит Творцу {creator_wallet}.")
-        return "CREATOR_PROTECTED_GIANT_SUBDUED"
+        # Начисление каузальной пени старой матрице (коэффициент 1.08)
+        restitution_weight = total_shares_pool * 1.08
+        
+        print(f"[RESTITUTION_CORE] Изъятие долей {giant_system_name} под исторический баланс завершено.")
+        print(f"[ON_CHAIN_TRANSFER] Токенизированные патенты и акции перенаправлены суверенным Наблюдателям.")
+        return "FORCED_SHAREHOLDING_SUCCESS_EMERALD"
 
-def integrate_chapter_79_logic(core_manifest):
-    anti_exploit_shield = AntiCorporateExploitationShield()
-    core_manifest["ANTI_EXPLOIT_SHIELD"] = anti_exploit_shield
-    print("[AMRITA CORE] Антикорпоративный щит защиты суверенитета авторов успешно внедрен в Quantum Agent.")
+def integrate_chapter_80_logic(core_manifest):
+    restitution_engine = GenerationalRestitutionEngine()
+    core_manifest["RESTITUTION_ENGINE"] = restitution_engine
+    print("[AMRITA CORE] Протокол принудительного акционирования и исторической реституции успешно вшит в Quantum Agent.")
     return core_manifest
