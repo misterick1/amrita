@@ -6,10 +6,19 @@ from datetime import datetime
 import telebot
 from PIL import Image
 import pytesseract
-from solana.rpc.api import Client
-from solana.transaction import Transaction
-from solana.keypair import Keypair
-from solana.publickey import PublicKey
+
+# Универсальный импорт для любых версий библиотеки solana
+try:
+    from solana.rpc.api import Client
+    from solana.transaction import Transaction
+    from solana.keypair import Keypair
+    from solana.publickey import PublicKey
+except ImportError:
+    # Адаптация под новые версии solana-py
+    from solana.rpc.api import Client
+    from solders.transaction import Transaction
+    from solders.keypair import Keypair
+    from solders.pubkey import Pubkey as PublicKey
 
 # ==========================================
 # 1. КВАНТОВОЕ ЯДРО И МОСТ SOLANA
@@ -52,7 +61,6 @@ class CausalStreamAnalyzer:
         self.log_file = "history_log.json"
 
     def save_to_history(self, text: str, spectrum: str):
-        """Автоматическое сохранение каждого шага в историю проекта"""
         log_entry = {
             "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             "input": text.strip()[:100] + "..." if len(text) > 100 else text.strip(),
@@ -97,13 +105,12 @@ analyzer = CausalStreamAnalyzer(bridge)
 observer_wallet = Keypair()
 QNT_CONTRACT = "AmriTa1111111111111111111111111111111111111"
 
-# Сделано по-взрослому: бот берет токен из секретов GitHub, чтобы никто его не украл
 BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "ТВОЙ_ТЕЛЕГРАМ_ТОКЕН_БОТА")
 bot = telebot.TeleBot(BOT_TOKEN)
 
 @bot.message_handler(commands=['start', 'help'])
 def send_welcome(message):
-    bot.reply_to(message, "🦔 **Еженышь на связи в режиме 24/7!**\nКидай сюда скрины, уведомления или мысли. Всё пишется в вечный лог проекта.", parse_mode="Markdown")
+    bot.reply_to(message, "🦔 **Еженышь на связи в режиме 24/7!**\nКидай сюда скрины, уведомления или мысли.", parse_mode="Markdown")
 
 @bot.message_handler(content_types=['photo'])
 def handle_screenshot(message):
