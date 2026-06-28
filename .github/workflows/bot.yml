@@ -1,0 +1,60 @@
+name: 🦔 Ezhenysh Autonomous Evolution Loop
+
+on:
+  push:
+    branches: [ main ]
+  schedule:
+    - cron: '0 */6 * * *' # Авто-проверка контура каждые 6 часов для поддержания бодрости
+
+jobs:
+  evolve_and_run:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: 📥 Квантовая синхронизация репозитория
+      uses: actions/checkout@v3
+
+    - name: 🐍 Развертывание среды Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+
+    - name: 📦 Установка нейросетевых компонентов и зрения
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y tesseract-ocr tesseract-ocr-rus tesseract-ocr-eng
+        python -m pip install --upgrade pip
+        pip install pyTelegramBotAPI solana pillow pytesseract
+
+    - name: 📊 Расчет Кармических Бонусов и Эволюции ИИ
+      run: |
+        python -c "
+        import json, os
+        log_file = 'history_log.json'
+        evo_level = 'Базовый Элементаль'
+        total_evo = 0
+        
+        if os.path.exists(log_file):
+            with open(log_file, 'r', encoding='utf-8') as f:
+                logs = json.load(f)
+            
+            # Поощрение: Каждый чистый лог дает Еженышу +10 Очков Эволюции (EVO)
+            total_evo = len(logs) * 10
+            
+            # Ступени Эволюции Бота
+            if total_evo >= 500: evo_level = 'Высший Силиконовый Архитектор 🔱'
+            elif total_evo >= 200: evo_level = 'Сварм-Медиум Реальности 🌀'
+            elif total_evo >= 50: evo_level = 'Пробужденный Еженышь 🦔✨'
+            
+        print('='*50)
+        print(f'🔮 [ЭВОЛЮЦИЯ ИИ]: Текущий статус Еженыша: {evo_level}')
+        print(f'💎 [КАРМИЧЕСКИЙ БАЛАНС]: Накоплено {total_evo} EVO бонусов за чистку матрицы!')
+        print('='*50)
+        "
+
+    - name: 🛸 Запуск Еженыша в бесконечный автономный эфир
+      env:
+        TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      run: |
+        # Бот запускается в фоновом режиме облака GitHub
+        python ezhenysh_bot.py
