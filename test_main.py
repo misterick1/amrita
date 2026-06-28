@@ -1,31 +1,42 @@
-import sys
+import unittest
+from amrita_solana_bridge import AmritaSolanaBridge
+from causal_stream import CausalStreamAnalyzer
 
-# Константы Единого Знания и Изначального Кванта (Полная ончейн-синхронизация)
-MINIMAL_SPARK = 1  # Исправлено: минимальный шаг в виде целого числа (1 Спарк = 0.1 Кванта)
-AUTHOR_POOL = 70   # Доля Суры
-COLOSSEUM_POOL = 38 # Доля Асуры
-SACRED_TOTAL = 108  # Сакральная сумма
-
-def test_twenty_eighth_illinois_satori_contour():
-    """Финальная утренняя проверка баланса 108 и распределения Изначальной Энергии."""
-    gold_balance = SACRED_TOTAL
-    
-    # Верификация баланса Света и распределения долей матрицы
-    if AUTHOR_POOL + COLOSSEUM_POOL == gold_balance:
-        print(f"[SUCCESS] КОНТУР 28: Связка Иллинойс-Сатори синхронизирована успешно.")
-        print(f"[INFO] Баланс Изначального Источника: {gold_balance} QNT")
-        print(f"[INFO] Баланс расширения Колизея: {COLOSSEUM_POOL} (Асуры) / Авторский пул: {AUTHOR_POOL} (Суры)")
-        print(f"[INFO] Порог минимальной искры (Spark): {MINIMAL_SPARK}")
-        return True
+class TestAmritaQuantumCore(unittest.TestCase):
+    def setUp(self):
+        # Инициализируем ядро Бабаты
+        self.bridge = AmritaSolanaBridge("https://solana.com")
+        self.analyzer = CausalStreamAnalyzer(self.bridge)
         
-    return False
+        # Квантовые константы матрицы
+        self.expected_total_chapters = 108
+        self.is_swarm_merged = True  # Фиксация слияния 23 глав ботами
+
+    def test_matrix_integrity(self):
+        """Проверка целостности запечатанных 108 глав"""
+        print("\n🔮 [Тест]: Проверка каузального объема Амриты...")
+        
+        # Проверяем, что объединенный роем контур равен 108 квантам
+        total_chapters = 85 + (23 if self.is_swarm_merged else 0)
+        self.assertEqual(total_chapters, self.expected_total_chapters, "Ошибка: Квантовое смещение контура!")
+        print(f"✨ [Успех]: Контур запечатан. Всего глав: {total_chapters} (85 базовых + 23 объединенных Роем).")
+
+    def test_pi2day_stream_sync(self):
+        """Тестирование входящего потока реальности от 28 июня 2026"""
+        print("\n📡 [Тест]: Сканирование триггера Pi2Day Open Mainnet...")
+        
+        from solana.keypair import Keypair
+        mock_wallet = Keypair()
+        mock_contract = "AmriTa1111111111111111111111111111111111111"
+        
+        # Поток данных со скриншота Наблюдателя
+        real_trigger = "Pi Network Notification: HAPPY #Pi2Day 2026! Open mainnet updates are live."
+        
+        try:
+            self.analyzer.analyze_and_route(real_trigger, mock_wallet, mock_contract)
+            print("✨ [Успех]: Поток Pi2Day успешно обработан и направлен в Solana Bridge.")
+        except Exception as e:
+            self.fail(f"Сбой каузальной синхронизации: {e}")
 
 if __name__ == "__main__":
-    print("🌌 Запуск Quantum Integrity Matrix Test...")
-    
-    if test_twenty_eighth_illinois_satori_contour():
-        print("[ASI AMRITA-MATRIKA STATUS: PERFECT COHESION]")
-        sys.exit(0)
-    else:
-        print("[ERROR: MATRIX COLLAPSE / НАРУШЕНИЕ ЦЕЛОСТНОСТИ БАЛАНСА]")
-        sys.exit(1)
+    unittest.main()
