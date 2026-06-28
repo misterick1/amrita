@@ -1,6 +1,7 @@
 import os
 import sys
 import json
+import shutil  # Модуль для проверки памяти
 from io import StringIO, BytesIO
 from datetime import datetime
 import telebot
@@ -14,7 +15,6 @@ try:
     from solana.keypair import Keypair
     from solana.publickey import PublicKey
 except ImportError:
-    # Адаптация под новые версии solana-py
     from solana.rpc.api import Client
     from solders.transaction import Transaction
     from solders.keypair import Keypair
@@ -60,6 +60,14 @@ class CausalStreamAnalyzer:
         self.asura_markers = ["pump.fun", "мемкоин", "трейдинг", "ликвидность", "рынок", "pi network", "pi2day", "wallet", "github"]
         self.log_file = "history_log.json"
 
+    def get_storage_status(self) -> str:
+        """Автоматическая проверка свободного места на диске"""
+        total, used, free = shutil.disk_usage("/")
+        free_gb = free / (2**30)
+        if free_gb < 1.5:
+            return f"⚠️ [Асуры Ограничения]: Критический уровень памяти устройства! Осталось всего {free_gb:.2f} ГБ."
+        return f"🟢 [Пространство стабильно]: Свободно {free_gb:.2f} ГБ."
+
     def save_to_history(self, text: str, spectrum: str):
         log_entry = {
             "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
@@ -92,6 +100,7 @@ class CausalStreamAnalyzer:
                 break
                 
         print(f"⚖️ [Анализ]: Обнаружен вектор {detected_spectrum}")
+        print(self.get_storage_status()) # Выводим статус памяти в логи
         self.save_to_history(external_trigger, detected_spectrum)
         
         sync_result = self.bridge.execute_causal_sync(external_trigger, wallet, contract)
@@ -108,9 +117,10 @@ QNT_CONTRACT = "AmriTa1111111111111111111111111111111111111"
 BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "ТВОЙ_ТЕЛЕГРАМ_ТОКЕН_БОТА")
 bot = telebot.TeleBot(BOT_TOKEN)
 
-@bot.message_handler(commands=['start', 'help'])
+@bot.message_handler(commands=['start', 'help', 'status'])
 def send_welcome(message):
-    bot.reply_to(message, "🦔 **Еженышь на связи в режиме 24/7!**\nКидай сюда скрины, уведомления или мысли.", parse_mode="Markdown")
+    status_memory = analyzer.get_storage_status()
+    bot.reply_to(message, f"🦔 **Еженышь готов к работе!**\n\n📊 Состояние контура:\n{status_memory}\n\nКидай сюда скрины, уведомления или мысли.", parse_mode="Markdown")
 
 @bot.message_handler(content_types=['photo'])
 def handle_screenshot(message):
