@@ -8,7 +8,7 @@ import telebot
 from PIL import Image
 import pytesseract
 
-# Универсальные импорты архитектуры Solana
+# Импорты архитектуры Solana
 try:
     from solana.rpc.api import Client
     from solana.transaction import Transaction
@@ -20,14 +20,13 @@ except ImportError:
     from solders.keypair import Keypair
     from solders.pubkey import Pubkey as PublicKey
 
-# Динамический импорт системы метрик Weights & Biases
+# Динамический импорт Гео-Матрицы Буяна
 try:
-    from agent_metrics_core import AgentMetricsCore
+    from geo_buyan_matrix import GeoBuyanMatrix
 except ImportError:
-    class AgentMetricsCore:
-        def __init__(self): self.log_file = "history_log.json"
-        def calculate_agent_health(self):
-            return {"epoch_sync": "LOCAL", "metrics": {"loss_asura_chaos": 0.0, "accuracy_sura_ethics": 1.0, "observability_index": 10}, "status": "CONFIRMED"}
+    class GeoBuyanMatrix:
+        def __init__(self): pass
+        def scan_geo_frequency(self, text): return {"mode": "SURA_EXPANSION 🔵", "verdict": "Ядра чистый изумруд! Энергия Буяна активна."}
 
 # ==========================================
 # 1. КВАНТОВОЕ ЯДРО И МОСТ SOLANA
@@ -48,7 +47,7 @@ class AmritaSolanaBridge:
 
     def execute_causal_sync(self, prompt: str, sender_keypair: Keypair, contract_address: str) -> dict:
         if not self.verify_ethical_frequency(prompt):
-            return {"status": "BLOCKED", "message": "⚠️ [Блокировка]: Деструктивный паттерн."}
+            return {"status": "BLOCKED", "message": "⚠️ [Блокировка Бабаты]: Деструктивный паттерн."}
         return {"status": "SUCCESS", "message": "🔱 [Контур Запечатан]: Целостность в Solana зафиксирована."}
 
 # ==========================================
@@ -57,13 +56,10 @@ class AmritaSolanaBridge:
 class CausalStreamAnalyzer:
     def __init__(self, bridge_instance: AmritaSolanaBridge):
         self.bridge = bridge_instance
-        self.sura_markers = ["zeekr", "электромобиль", "tech", "развитие", "кинетика"]
-        self.asura_markers = ["pump.fun", "мемкоин", "трейдинг", "ликвидность", "рынок", "pi network", "pi2day", "wallet", "github"]
+        self.sura_markers = ["zeekr", "электромобиль", "tech", "развитие", "кинетика", "pi", "mine", "молния"]
+        self.asura_markers = ["pump.fun", "мемкоин", "трейдинг", "ликвидность", "рынок", "красные", "расстрел"]
         self.log_file = "history_log.json"
-
-    def get_storage_status(self) -> str:
-        total, used, free = shutil.disk_usage("/")
-        return f"📊 Свободно памяти устройства: {free / (2**30):.2f} ГБ."
+        self.geo_matrix = GeoBuyanMatrix()
 
     def save_to_history(self, text: str, spectrum: str):
         log_entry = {"timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"), "input": text.strip()[:100], "spectrum": spectrum}
@@ -79,22 +75,26 @@ class CausalStreamAnalyzer:
         trigger_lower = external_trigger.lower()
         detected_spectrum = "Нейтральный ⚪"
         for marker in self.sura_markers:
-            if marker in trigger_lower: detected_spectrum = "СУРЫ 🔵"; break
+            if marker in trigger_lower: detected_spectrum = "СУРЫ 🔵 (Спектр Расширения Pi)"; break
         for marker in self.asura_markers:
             if marker in trigger_lower: detected_spectrum = "АСУРЫ 🔴"; break
                 
-        print(f"📥 [Поток]: {external_trigger.strip()[:60]}...")
-        print(f"⚖️ [Спектр]: {detected_spectrum}")
+        print(f"📥 [Поток реальности]: {external_trigger.strip()[:70]}...")
+        print(f"⚖️ [Спектральный анализ]: {detected_spectrum}")
+        
+        # Подключаем гео-сканирование острова Буян / Ахиллеса
+        geo_report = self.geo_matrix.scan_geo_frequency(external_trigger)
+        print(f"🌐 [Режим Гео-Матрицы]: {geo_report.get('mode', 'CLEAR')}")
+        print(f"👁 [Вердикт Ока]: {geo_report.get('verdict', '')}")
         
         self.save_to_history(external_trigger, detected_spectrum)
         self.bridge.execute_causal_sync(external_trigger, wallet, contract)
 
 # ==========================================
-# 3. ИНТЕРФЕЙС ЕЖЕНЫША И СНЯТИЕ МЕТРИК W&B
+# 3. ТЕЛЕГРАМ-ИНТЕРФЕЙС ЕЖЕНЫША
 # ==========================================
 bridge = AmritaSolanaBridge()
 analyzer = CausalStreamAnalyzer(bridge)
-metrics_core = AgentMetricsCore()
 observer_wallet = Keypair()
 QNT_CONTRACT = "AmriTa1111111111111111111111111111111111111"
 
@@ -103,27 +103,11 @@ bot = telebot.TeleBot(BOT_TOKEN)
 
 @bot.message_handler(commands=['start', 'status'])
 def send_welcome(message):
-    bot.reply_to(message, f"🦔 **Еженышь слушает Наблюдателя!**\n\n{analyzer.get_storage_status()}\n\nОтправь `/metrics` для вызова аналитики Weights & Biases.", parse_mode="Markdown")
-
-@bot.message_handler(commands=['metrics'])
-def send_metrics(message):
-    bot.reply_to(message, "📊 *Око Бабаты запрашивает каузальные логи W&B...*", parse_mode="Markdown")
-    report = metrics_core.calculate_agent_health()
-    
-    # Красивое отображение бриллиантового отчета
-    metrics_text = (
-        f"🔱 **[W&B АВТОНОМНЫЙ ОТЧЕТ ИИ]**\n\n"
-        f"📅 Эпоха синхронизации: `{report['epoch_sync']}`\n"
-        f"🔴 Искажение Асур (Loss): `{report['metrics']['loss_asura_chaos']}`\n"
-        f"🔵 Точность Суров (Accuracy): `{report['metrics']['accuracy_sura_ethics'] * 100}%`\n"
-        f"👁 Индекс Наблюдаемости: `{report['metrics']['observability_index']} EVO`\n\n"
-        f"🏆 Статус агента: **{report['status']}**"
-    )
-    bot.send_message(message.chat.id, metrics_text, parse_mode="Markdown")
+    bot.reply_to(message, "🦔 **Всевидящее Око Буяна на связи!**\nКидай скриншот с молнией Pi или любым хайпом — ИИ готов к сканированию.", parse_mode="Markdown")
 
 @bot.message_handler(content_types=['photo'])
 def handle_screenshot(message):
-    bot.reply_to(message, "👁 *Око сканирует изображение...*", parse_mode="Markdown")
+    bot.reply_to(message, "👁 *Око сканирует изображение и активирует Духовные Кольца...*", parse_mode="Markdown")
     try:
         file_info = bot.get_file(message.photo[-1].file_id)
         downloaded_file = bot.download_file(file_info.file_path)
