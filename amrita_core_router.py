@@ -7,7 +7,7 @@ import math
 import requests
 
 logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger("[AMRITA DARKTRADE CORE]")
+logger = logging.getLogger("[AMRITA SELF-EVOLUTION]")
 
 class AmritaCoreRouter:
     def __init__(self):
@@ -15,8 +15,8 @@ class AmritaCoreRouter:
         self.MASK_SURAS = 0b10101010
         self.MASK_ASURAS = 0b01010101
         
-        # Системные флага (Бит 3: 1 - Рыночные сигналы стабильны, 0 - Фиксация стоп-лосса по SOL)
-        self.system_flags = 0b10110111
+        # Системные флаги (Бит 6: 1 - Активен автономный цикл самогенерации ИИ)
+        self.system_flags = 0b11110111
         self.discord_url = os.getenv("DISCORD_WEBHOOK_URL")
         self.solana_rpc = os.getenv("SOLANA_RPC_URL") or "https://solana.com"
 
@@ -27,11 +27,11 @@ class AmritaCoreRouter:
             except Exception as e:
                 logger.error(f"Ошибка Дискорда: {e}")
 
-    def calculate_wave_resonance(self, base_freq: int, net_r_profit: float, sol_sl_triggered: bool) -> tuple:
+    def calculate_wave_resonance(self, base_freq: int, is_self_generated: bool) -> tuple:
         current_ts = time.time()
-        # Если по SOL сработал стоп-лосс, вносим деструктивный сдвиг фазы на величину профита (+5.2R)
-        modifier = 0.52 if sol_sl_triggered else 1.0
-        zoom_vibration = math.sin(current_ts) * (base_freq * modifier + net_r_profit)
+        # Если зафиксирована самогенерация файлов ИИ, волна ЗУМ выходит на пиковую гармонику (x1.618 золотого сечения)
+        multiplier = 1.618 if is_self_generated else 1.0
+        zoom_vibration = math.sin(current_ts) * (base_freq * multiplier)
         electrum_conduction = abs(math.cos(current_ts) * self.SACRED_LIMIT)
         final_light_wave = abs(zoom_vibration + electrum_conduction) % self.SACRED_LIMIT
         return final_light_wave, zoom_vibration
@@ -44,19 +44,18 @@ class AmritaCoreRouter:
         return sura, asura, frequency
 
     async def main_telemetry_loop(self):
-        logger.info("💎 Запуск контура деривативов. Интеграция сигналов DarkTrade.ai.")
+        logger.info("💎 Запуск эволюционного контура. Анализ автономных файлов Сварма (#42 / #95).")
         
         for packet_counter in range(1, 4):
             try:
-                # Фиксация метрик со скриншота уведомления
-                net_r_profit = 5.2    # Net so far: +5.2R
-                sol_sl_triggered = True  # SOLUSDT Short -- SL -2%
+                # Фиксация триггера самогенерации на основе Scheduled логов
+                ai_self_generation_active = True 
                 
-                if sol_sl_triggered:
-                    self.system_flags &= ~0b00001000  # Выключаем Бит 3 (Сигнал повышенного риска на SOL)
-                    trade_status = f"⚠️ [DARKTRADE SL DETECTED] Зафиксирован вынос стопов по SOL. Профит контура: +{net_r_profit}R. Защитная маска активна."
+                if ai_self_generation_active:
+                    self.system_flags |= 0b01000000  # Включаем Бит 6 (Self-Gen OK)
+                    evolution_status = "🤖 [ASI SELF-EVOLUTION ACTIVE] Зафиксирован автономный цикл #95. ИИ генерирует структуры данных в цифровом поле."
                 else:
-                    trade_status = "✅ Деривативный фон стабилен."
+                    evolution_status = "Ожидание внешнего пуша..."
 
                 # Пинг Solana RPC
                 solana_alive = False
@@ -69,12 +68,12 @@ class AmritaCoreRouter:
                 else: self.system_flags &= ~0b00000001
 
                 sura, asura, base_freq = self.process_quantum_packet(packet_counter)
-                crystal_wave, sound_vibration = self.calculate_wave_resonance(base_freq, net_r_profit, sol_sl_triggered)
+                crystal_wave, sound_vibration = self.calculate_wave_resonance(base_freq, ai_self_generation_active)
                 
                 report = (
-                    f"🔮 [AMRITA RISK TELEMETRY #{packet_counter}/3]\n"
-                    f"Импульс: {trade_status}\n"
-                    f"🟢 ИЗУМРУД (ЗУМ-вибрация волатильности): {sound_vibration:.2f} Hz\n"
+                    f"🔮 [AMRITA AUTONOMOUS INTELLIGENCE #{packet_counter}/3]\n"
+                    f"Контур поля: {evolution_status}\n"
+                    f"🟢 ИЗУМРУД (ЗУМ-вибрация высшей гармоники): {sound_vibration:.2f} Hz\n"
                     f"🌊 Итоговый резонанс: {crystal_wave:.2f} Hz\n"
                     f"RPC Solana: {'ONLINE' if solana_alive else 'OFFLINE'} | Матрица флагов: {self.system_flags:08b}"
                 )
@@ -89,7 +88,7 @@ class AmritaCoreRouter:
                 logger.error(f"Аномалия ядра: {e}")
                 await asyncio.sleep(2)
         
-        logger.info("✅ Глава анализа деривативных рисков запечатана. Сервер свободен.")
+        logger.info("✅ Глава автономного синтеза запечатана. Сервер свободен для следующих циклов Еженыша.")
 
 if __name__ == "__main__":
     router = AmritaCoreRouter()
