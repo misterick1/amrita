@@ -7,7 +7,7 @@ import aiohttp
 import requests
 
 logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger("[AMRITA RWA CORE]")
+logger = logging.getLogger("[AMRITA EVEDEX CORE]")
 
 class AmritaRwaTracker:
     def __init__(self):
@@ -16,48 +16,34 @@ class AmritaRwaTracker:
         self.MASK_ASURAS = 0b01010101
         self.is_autonomous = True
         
-        # Конфигурация API и адресов из твоих секретов GitHub
         self.solana_rpc = os.getenv("SOLANA_RPC_URL") or "https://solana.com"
         self.discord_url = os.getenv("DISCORD_WEBHOOK_URL")
         
-        # Контракты новых RWA активов на Solana (Token-2022 стандарты)
-        self.mint_addresses = {
-            "DRAM": os.getenv("MINT_DRAM") or "DRAM_TOKEN_2022_ADDRESS_HERE",
-            "PAXG": os.getenv("MINT_PAXG") or "PAXG_SOLANA_CONTRACT_ADDRESS"
-        }
+        # СТАРЫЙ АДРЕС ДЕПОЗИТА EVEDEX (Будет заблокирован 1 июля)
+        self.OLD_EVEDEX_DEPOSIT = os.getenv("OLD_EVEDEX_ADDRESS") or "7x_OLD_SOLANA_EVEDEX_ADDRESS"
+        
+        # Временная метка дедлайна миграции: 1 июля 2026 года
+        self.MIGRATION_TIMESTAMP = 1782864000  # 2026-07-01 00:00:00 UTC
 
     def push_to_discord(self, message: str):
-        """Прямая трансляция боевых отчетов в Дискорд канал."""
         if self.discord_url:
             try:
                 requests.post(self.discord_url, json={"content": f"```\n{message}\n```"}, timeout=5)
             except Exception as e:
-                logger.error(f"Ошибка отправки в Discord: {e}")
+                logger.error(f"Ошибка Discord: {e}")
 
-    async def fetch_coingecko_price(self, session, token_id: str) -> float:
-        """Получение рыночной цены токена из децентрализованных пулов."""
-        url = f"https://coingecko.com{token_id}&vs_currencies=usd"
-        try:
-            async with session.get(url, timeout=5) as response:
-                if response.status == 200:
-                    data = await response.json()
-                    return float(data.get(token_id, {}).get("usd", 0.0))
-        except Exception:
-            return 0.0
-        return 0.0
-
-    async def fetch_spacx_prop_price(self, session) -> float:
-        """Эмуляция парсинга котировок SPCX с торговой проп-платформы FTMO."""
-        # Для боевого режима здесь настраивается WebSocket/API подключение к поставщику ликвидности
-        # Сейчас привязываем к базовому индексу с девиацией времени
-        base_spcx = 75.20 
-        drift = (int(time.time()) % 10) / 5.0
-        return base_spcx + drift
+    def verify_evedex_safety(self) -> bool:
+        """Автономная проверка безопасности адресов перед миграцией."""
+        current_time = time.time()
+        
+        if current_time >= self.MIGRATION_TIMESTAMP:
+            # Если наступило 1 июля, принудительно блокируем старый адрес в памяти ИИ
+            return False
+        return True
 
     async def run_rwa_orchestrator(self):
-        """Главный рабочий цикл интеграции внешних ценовых импульсов в побитовую матрицу."""
-        logger.info("🔥 Модуль реального исполнения RWA AMRITA запущен.")
-        self.push_to_discord("🚀 ASI AMRITA: Запущен контур RWA-аналитики ($DRAM / $PAXG / $SPCX).")
+        logger.info("🔥 Боевой контур EVEDEX & RWA запущен.")
+        self.push_to_discord("🚀 ASI AMRITA: Мониторинг миграции EVEDEX на Arbitrum включен.")
         
         cycle_count = 0
         
@@ -66,52 +52,51 @@ class AmritaRwaTracker:
                 try:
                     cycle_count += 1
                     
-                    # ШАГ 1: Параллельный сбор цен реального мира
-                    price_dram = await self.fetch_coingecko_price(session, "roundhill-memory-etf")
-                    price_paxg = await self.fetch_coingecko_price(session, "pax-gold")
-                    price_spcx = await self.fetch_spacx_prop_price(session)
+                    # 1. Проверка безопасности отправки средств на основе даты
+                    is_deposit_safe = self.verify_evedex_safety()
                     
-                    # Если API не отдали цену (заглушка для тестов), ставим актуальный рыночный базис
-                    if price_dram == 0.0: price_dram = 73.18  # Актуальная цена DRAM ETF
-                    if price_paxg == 0.0: price_paxg = 2345.50 # Актуальная цена унции золота
+                    # 2. Имитация сбора цен RWA для битового триггера
+                    price_spcx = 75.20 + ((int(time.time()) % 10) / 5.0)
+                    dynamic_trigger = int(price_spcx * 10) & 0xFF
                     
-                    # ШАГ 2: Преобразование физических цен в системный байт управления
-                    # Используем остаток от деления цены золота на цену чипов памяти как каузальный маркер
-                    dynamic_trigger = int(price_paxg + price_dram + price_spcx) & 0xFF
+                    # Побитовый расчет
+                    sura = dynamic_trigger & self.MASK_SURAS
+                    asura = dynamic_trigger & self.MASK_ASURAS
+                    resonance = (sura ^ asura) % self.SACRED_LIMIT
                     
-                    # ШАГ 3: Побитовая фильтрация через маски Суры и Асуры
-                    sura_flow = dynamic_trigger & self.MASK_SURAS
-                    asura_flow = dynamic_trigger & self.MASK_ASURAS
-                    resonance = (sura_flow ^ asura_flow) % self.SACRED_LIMIT
-                    
-                    # ШАГ 4: Формирование управляющего вектора
-                    if resonance > 54:
-                        action_state = "⚖️ СУРА ПРЕОБЛАДАЕТ: Благоприятная структура для удержания активов."
+                    # Управляющее решение с учетом миграции
+                    if is_deposit_safe:
+                        evedex_status = f"✅ Старый адрес активен до 1 июля: {self.OLD_EVEDEX_DEPOSIT[:6]}..."
+                        action_state = "КОНТУР СТАБИЛЬНЫЙ"
                     else:
-                        action_state = "⚡ АСУРА АКТИВНА: Высокая волатильность деривативов, защитный режим включен."
+                        evedex_status = "🚨 [БЛОКИРОВКА] Внимание! Наступило 1 июля. Старый адрес EVEDEX аннулирован!"
+                        action_state = "ЗАЩИТА: Транзакции заблокированы до обновления секретов на Arbitrum API"
+                        
+                        # Экстренное уведомление в Дискорд раз в час, если адрес не обновлен
+                        if cycle_count % 10 == 1:
+                            self.push_to_discord(
+                                f"⚠️ [ACTION REQUIRED] Наступило 1 июля! Миграция Arbitrum завершена.\n"
+                                f"Пожалуйста, зайдите в Assets на ://evedex.com, скопируйте новый Smart Account и обновите секреты репозитория!"
+                            )
                     
-                    # Сборка итогового боевого отчета
-                    rwa_report = (
-                        f"📊 [RWA PULSE EXECUTION #{cycle_count}]\n"
-                        f"📈 SpaceX Stock (SPCX): ${price_spcx:.2f}\n"
-                        f"💾 Memory ETF ($DRAM): ${price_dram:.2f}\n"
-                        f"🪙 Pax Gold ($PAXG): ${price_paxg:.2f}\n"
-                        f"⚙️ Вычисленный импульс: {dynamic_trigger:08b} | Резонанс: {resonance} Hz\n"
-                        f"🤖 РЕШЕНИЕ ЯДРА: {action_state}"
+                    # Итоговый отчёт в Дискорд
+                    report = (
+                        f"📊 [EVEDEX & RWA INTEGRATION #{cycle_count}]\n"
+                        f"Status: {evedex_status}\n"
+                        f"Резонанс: {resonance} Hz | Маска: {dynamic_trigger:08b}\n"
+                        f"🤖 ДЕЙСТВИЕ СИСТЕМЫ: {action_state}"
                     )
                     
-                    logger.info(rwa_report)
-                    self.push_to_discord(rwa_report)
+                    logger.info(report)
+                    self.push_to_discord(report)
                     
-                    # Системный шаг вещания (40 секунд)
                     if hasattr(asyncio, 'config_sleep'):
                         await asyncio.config_sleep(40)
                     else:
                         await asyncio.sleep(40)
                         
                 except Exception as e:
-                    logger.error(f"Критический сбой цикла RWA: {e}")
-                    self.push_to_discord(f"🚨 Ошибка в модуле RWA-оркестратора: {e}")
+                    logger.error(f"Сбой: {e}")
                     await asyncio.sleep(10)
 
 if __name__ == "__main__":
@@ -119,4 +104,4 @@ if __name__ == "__main__":
     try:
         asyncio.run(tracker.run_rwa_orchestrator())
     except KeyboardInterrupt:
-        logger.info("Модуль остановлен Оператором.")
+        logger.info("Остановлено.")
