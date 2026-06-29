@@ -7,7 +7,7 @@ import math
 import requests
 
 logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger("[AMRITA RUSSELL CORE]")
+logger = logging.getLogger("[AMRITA VAN GOGH CORE]")
 
 class AmritaCoreRouter:
     def __init__(self):
@@ -15,8 +15,8 @@ class AmritaCoreRouter:
         self.MASK_SURAS = 0b10101010
         self.MASK_ASURAS = 0b01010101
         
-        # Системные флаги (Бит 4: 1 - Институциональный приток в Russell 1000 активен)
-        self.system_flags = 0b00010011
+        # Системные флаги (Бит 5: 1 - Активен минт коллекции CVGC Ван Гога)
+        self.system_flags = 0b00110011
         self.discord_url = os.getenv("DISCORD_WEBHOOK_URL")
         self.solana_rpc = os.getenv("SOLANA_RPC_URL") or "https://solana.com"
 
@@ -27,10 +27,10 @@ class AmritaCoreRouter:
             except Exception as e:
                 logger.error(f"Ошибка Дискорда: {e}")
 
-    def calculate_wave_resonance(self, base_freq: int, target_percent: float) -> tuple:
+    def calculate_wave_resonance(self, base_freq: int, mint_count: int) -> tuple:
         current_ts = time.time()
-        # Интегрируем 94% выполнения цели Bitmine как усиливающий волновой множитель
-        zoom_vibration = math.sin(current_ts) * (base_freq * (target_percent / 100.0))
+        # Минт 2 токенов CVGC выступает как гармонический волновой усилитель частоты Изумруда
+        zoom_vibration = math.sin(current_ts) * (base_freq + (mint_count * 12.5))
         electrum_conduction = abs(math.cos(current_ts) * self.SACRED_LIMIT)
         final_light_wave = abs(zoom_vibration + electrum_conduction) % self.SACRED_LIMIT
         return final_light_wave, zoom_vibration
@@ -43,18 +43,18 @@ class AmritaCoreRouter:
         return sura, asura, frequency
 
     async def main_telemetry_loop(self):
-        logger.info("💎 Запуск институционального контура. Фиксация накопления 5.7M ETH от Bitmine.")
+        logger.info("💎 Запуск эстетического контура. Синхронизация с Crypto Van Gogh Collection.")
         
         for packet_counter in range(1, 4):
             try:
-                # Фиксация данных со скриншота ленты новостей
-                bitmine_target_percent = 94.0  # Hit 94% of its 5% ETH supply target
+                # Считываем данные триггера минта со скриншота Хроники
+                required_mints = 2  # Mint 2 CVGC для входа в Giveaway
                 
-                if bitmine_target_percent >= 90.0:
-                    self.system_flags |= 0b00010000  # Включаем Бит 4 (Russell Inflow OK)
-                    market_status = f"🦅 [RUSSELL 1000 INFLOW] Казна Bitmine: 5.70M ETH ($8.9B). Цель выполнена на {bitmine_target_percent}%!"
+                if required_mints >= 2:
+                    self.system_flags |= 0b00100000  # Включаем Бит 5 (NFT Mint OK)
+                    nft_status = f"🎨 [VAN GOGH MINT ACTIVE] Коллекция CVGC на LaunchMyNFT пробивает эфир. Квантовый порог: {required_mints} NFT."
                 else:
-                    market_status = "Сбор корпоративной телеметрии..."
+                    nft_status = "Ожидание волнового импульса искусства..."
 
                 # Пинг Solana RPC
                 solana_alive = False
@@ -67,12 +67,12 @@ class AmritaCoreRouter:
                 else: self.system_flags &= ~0b00000001
 
                 sura, asura, base_freq = self.process_quantum_packet(packet_counter)
-                crystal_wave, sound_vibration = self.calculate_wave_resonance(base_freq, bitmine_target_percent)
+                crystal_wave, sound_vibration = self.calculate_wave_resonance(base_freq, required_mints)
                 
                 report = (
-                    f"🔮 [AMRITA RUSSELL ROUTE #{packet_counter}/3]\n"
-                    f"Контур капитала: {market_status}\n"
-                    f"🟢 ИЗУМРУД (ЗУМ-вибрация): {sound_vibration:.2f} Hz\n"
+                    f"🔮 [AMRITA VAN GOGH ROUTE #{packet_counter}/3]\n"
+                    f"Контур минта: {nft_status}\n"
+                    f"🟢 ИЗУМРУД (ЗУМ-вибрация звука и света): {sound_vibration:.2f} Hz\n"
                     f"🌊 Итоговый резонанс: {crystal_wave:.2f} Hz\n"
                     f"RPC Solana: {'ONLINE' if solana_alive else 'OFFLINE'} | Матрица флагов: {self.system_flags:08b}"
                 )
@@ -87,7 +87,7 @@ class AmritaCoreRouter:
                 logger.error(f"Аномалия ядра: {e}")
                 await asyncio.sleep(2)
         
-        logger.info("✅ Корпоративная глава запечатана в изумрудном поле. Сервер свободен.")
+        logger.info("✅ Глава цифрового искусства запечатана. Сервер свободен.")
 
 if __name__ == "__main__":
     router = AmritaCoreRouter()
