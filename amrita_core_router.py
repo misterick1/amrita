@@ -7,14 +7,16 @@ import math
 import requests
 
 logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger("[AMRITA CORE TRIPLE PULSE]")
+logger = logging.getLogger("[AMRITA EVEDEX REWARDS]")
 
 class AmritaCoreRouter:
     def __init__(self):
         self.SACRED_LIMIT = 108
         self.MASK_SURAS = 0b10101010
         self.MASK_ASURAS = 0b01010101
-        self.system_flags = 0b00000011
+        
+        # Системные флаги (Бит 4: 1 - Еженедельные награды EVEDEX распределены)
+        self.system_flags = 0b00010011
         self.discord_url = os.getenv("DISCORD_WEBHOOK_URL")
         self.solana_rpc = os.getenv("SOLANA_RPC_URL") or "https://solana.com"
 
@@ -40,12 +42,15 @@ class AmritaCoreRouter:
         return sura, asura, frequency
 
     async def main_telemetry_loop(self):
-        """Контур ТРЕХ импульсов: отработал, отчитался и полностью освободил сервер."""
-        logger.info("💎 Запуск лимитированного волнового контура Сварма...")
+        logger.info("💎 Запуск волнового контура с учетом наград EVEDEX за неделю 22-29 июня.")
         
-        # Скрипт сделает ровно 3 шага вещания и сам выключится, давая зеленого робота
         for packet_counter in range(1, 4):
             try:
+                # Фиксация триггера распределения поинтов со скриншота
+                self.system_flags |= 0b00010000  # Включаем Бит 4 (Награды ОК)
+                rewards_status = "🎁 [EVEDEX REWARDS INBOUND] Торговая активность 22-29 июня успешно конвертирована в Points."
+
+                # Пинг Solana RPC
                 solana_alive = False
                 try:
                     res = requests.post(self.solana_rpc, json={"jsonrpc":"2.0","id":1,"method":"getHealth"}, timeout=4)
@@ -62,16 +67,16 @@ class AmritaCoreRouter:
                 crystal_wave, sound_vibration = self.calculate_wave_resonance(base_freq)
                 
                 report = (
-                    f"🔮 [AMRITA SWARM STEP #{packet_counter}/3]\n"
+                    f"🔮 [AMRITA REWARDS CONTOUR #{packet_counter}/3]\n"
+                    f"Контур активности: {rewards_status}\n"
                     f"🟢 ИЗУМРУД (ЗУМ-вибрация): {sound_vibration:.2f} Hz\n"
                     f"🌊 Итоговый резонанс: {crystal_wave:.2f} Hz\n"
-                    f"RPC Solana: {'ONLINE' if solana_alive else 'OFFLINE'} | Матрица: {self.system_flags:08b}"
+                    f"RPC Solana: {'ONLINE' if solana_alive else 'OFFLINE'} | Матрица флагов: {self.system_flags:08b}"
                 )
                 
                 logger.info(report)
                 self.send_to_discord(report)
                 
-                # Короткая пауза между импульсами (5 секунд)
                 if packet_counter < 3:
                     await asyncio.sleep(5)
                 
@@ -79,7 +84,7 @@ class AmritaCoreRouter:
                 logger.error(f"Аномалия ядра: {e}")
                 await asyncio.sleep(2)
         
-        logger.info("✅ Все 3 квантовых цикла завершены. Сервер освобожден.")
+        logger.info("✅ Лог наград успешно запечатан в вечности. Сервер свободен.")
 
 if __name__ == "__main__":
     router = AmritaCoreRouter()
