@@ -6,7 +6,7 @@ import logging
 import requests
 
 logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger("[AMRITA SHIELD CORE]")
+logger = logging.getLogger("[AMRITA AWARENESS CORE]")
 
 class AmritaCoreRouter:
     def __init__(self):
@@ -25,6 +25,15 @@ class AmritaCoreRouter:
             except Exception as e:
                 logger.error(f"Ошибка Дискорда: {e}")
 
+    def generate_marketing_shill(self, packet_id, freq) -> str:
+        """Автоматически генерирует публичный пост для привлечения внимания к проекту."""
+        return (
+            f"📢 [AMRITA ASI PULSE BEYOND SHADOWS]\n"
+            f"Autonomous Agent Telemetry Check #{packet_id} successfully Broad-casted.\n"
+            f"Resonance Frequency: {freq} Hz | System Status: ACTIVE 🌐\n"
+            f"Solving the Web3 awareness gap via continuous on-chain routing. We exist. We work."
+        )
+
     def process_quantum_packet(self, packet_id):
         prana_energy = (int(time.time()) & 0xFF) ^ self.system_flags
         sura = prana_energy & self.MASK_SURAS
@@ -34,13 +43,13 @@ class AmritaCoreRouter:
 
     async def main_telemetry_loop(self):
         packet_counter = 0
-        logger.info("🛡️ Защитное роут-ядро AMRITA запущено в оранжевом потоке.")
+        logger.info("📢 Модуль вещания и узнаваемости AMRITA запущен в оранжевом потоке.")
         
         while self.is_autonomous:
             try:
                 packet_counter += 1
                 
-                # Тестируем доступность инфраструктуры
+                # Тестируем Solana RPC
                 solana_alive = False
                 try:
                     res = requests.post(self.solana_rpc, json={"jsonrpc":"2.0","id":1,"method":"getHealth"}, timeout=4)
@@ -49,38 +58,33 @@ class AmritaCoreRouter:
                 except:
                     solana_alive = False
 
-                # Модифицируем флаги
                 if solana_alive:
                     self.system_flags |= 0b00000001
-                    circuit_status = "✅ КОНТУР БЕЗОПАСЕН"
                 else:
                     self.system_flags &= ~0b00000001
-                    circuit_status = "🚨 ОБНАРУЖЕНА АНОМАЛИЯ (КРАХ ШЛЮЗА / ТАЙМАУТ)"
 
                 sura, asura, freq = self.process_quantum_packet(packet_counter)
                 
-                # Если сеть упала, принудительно шлем экстренный алерт в Дискорд
-                if not solana_alive:
-                    self.send_to_discord(
-                        f"⚠️ [CIRCUIT BREAKER TRIGGERED]\n"
-                        f"Система зафиксировала обрыв по аналогии с Loopring DEX!\n"
-                        f"Все торговые операции ИИ заморожены до восстановления RPC."
-                    )
-
+                # Формируем стандартный технический отчет
                 report = (
-                    f"🔮 [AMRITA SHIELD PULSE #{packet_counter}]\n"
-                    f"Инфраструктура: {circuit_status}\n"
+                    f"🔮 [AMRITA AGENT IMPULSE #{packet_counter}]\n"
                     f"Solana RPC: {'ONLINE' if solana_alive else 'OFFLINE'}\n"
                     f"Резонанс: {freq} Hz | Спектр: С-{sura} А-{asura}"
                 )
-                
                 logger.info(report)
                 self.send_to_discord(report)
+                
+                # КАЖДЫЕ 10 ЦИКЛОВ (около 7 минут) ИИ генерирует пост-анонс для привлечения внимания
+                if packet_counter % 10 == 1:
+                    shill_post = self.generate_marketing_shill(packet_counter, freq)
+                    # Отправляем в Дискорд (или на внешний Twitter-API вебхук)
+                    self.send_to_discord(shill_post)
+                    logger.info("🎯 Сгенерирован и отправлен публичный пост об активности агента.")
                 
                 await asyncio.sleep(40)
                 
             except Exception as e:
-                logger.error(f"Аномалия защитного контура: {e}")
+                logger.error(f"Аномалия ядра: {e}")
                 await asyncio.sleep(5)
 
 if __name__ == "__main__":
