@@ -6,6 +6,11 @@ on:
   schedule:
     - cron: '0 */3 * * *'
 
+# КЛЮЧЕВОЙ ПРЕДОХРАНИТЕЛЬ: Глушит старые зависшие потоки при новом пуше
+concurrency:
+  group: amrita-core-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   run_core:
     runs-on: ubuntu-latest
@@ -21,12 +26,9 @@ jobs:
     - name: Установка сетевых зависимостей
       run: pip install requests aiohttp
 
-    - name: Старт побитового DART-вещания и Qiita-публикатора
+    - name: Старт квантового вещания
       env:
         DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         SOLANA_RPC_URL: ${{ secrets.SOLANA_RPC_URL }}
         DEVELOPER_WALLET: ${{ secrets.DEVELOPER_WALLET }}
-        QIITA_ACCESS_TOKEN: ${{ secrets.QIITA_ACCESS_TOKEN }}
-      run: |
-        python amrita_qiita_publisher.py
-        python amrita_core_router.py
+      run: python amrita_core_router.py
