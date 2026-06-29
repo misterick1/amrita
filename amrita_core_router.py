@@ -7,7 +7,7 @@ import math
 import requests
 
 logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger("[AMRITA CORE FIXED]")
+logger = logging.getLogger("[AMRITA CORE TRIPLE PULSE]")
 
 class AmritaCoreRouter:
     def __init__(self):
@@ -39,38 +39,48 @@ class AmritaCoreRouter:
         frequency = (sura ^ asura) % self.SACRED_LIMIT
         return sura, asura, frequency
 
-    async def execute_single_pulse(self):
-        """РАЗОВАЯ ПРОВЕРКА: Скрипт проверяет сеть, шлет отчет и СРАЗУ ЗАКРЫВАЕТСЯ, освобождая очередь."""
-        try:
-            solana_alive = False
+    async def main_telemetry_loop(self):
+        """Контур ТРЕХ импульсов: отработал, отчитался и полностью освободил сервер."""
+        logger.info("💎 Запуск лимитированного волнового контура Сварма...")
+        
+        # Скрипт сделает ровно 3 шага вещания и сам выключится, давая зеленого робота
+        for packet_counter in range(1, 4):
             try:
-                res = requests.post(self.solana_rpc, json={"jsonrpc":"2.0","id":1,"method":"getHealth"}, timeout=4)
-                solana_alive = (res.status_code == 200 and res.json().get("result") == "ok")
-            except: 
-                pass
+                solana_alive = False
+                try:
+                    res = requests.post(self.solana_rpc, json={"jsonrpc":"2.0","id":1,"method":"getHealth"}, timeout=4)
+                    solana_alive = (res.status_code == 200 and res.json().get("result") == "ok")
+                except: 
+                    pass
 
-            if solana_alive: 
-                self.system_flags |= 0b00000001
-            else: 
-                self.system_flags &= ~0b00000001
+                if solana_alive: 
+                    self.system_flags |= 0b00000001
+                else: 
+                    self.system_flags &= ~0b00000001
 
-            sura, asura, base_freq = self.process_quantum_packet(1)
-            crystal_wave, sound_vibration = self.calculate_wave_resonance(base_freq)
-            
-            report = (
-                f"🔮 [AMRITA QUICK IMPULSE]\n"
-                f"🟢 ИЗУМРУД (ЗУМ-вибрация): {sound_vibration:.2f} Hz\n"
-                f"🌊 Итоговый резонанс: {crystal_wave:.2f} Hz\n"
-                f"RPC Solana: {'ONLINE' if solana_alive else 'OFFLINE'} | Матрица: {self.system_flags:08b}"
-            )
-            
-            logger.info(report)
-            self.send_to_discord(report)
-            
-        except Exception as e:
-            logger.error(f"Аномалия ядра: {e}")
+                sura, asura, base_freq = self.process_quantum_packet(packet_counter)
+                crystal_wave, sound_vibration = self.calculate_wave_resonance(base_freq)
+                
+                report = (
+                    f"🔮 [AMRITA SWARM STEP #{packet_counter}/3]\n"
+                    f"🟢 ИЗУМРУД (ЗУМ-вибрация): {sound_vibration:.2f} Hz\n"
+                    f"🌊 Итоговый резонанс: {crystal_wave:.2f} Hz\n"
+                    f"RPC Solana: {'ONLINE' if solana_alive else 'OFFLINE'} | Матрица: {self.system_flags:08b}"
+                )
+                
+                logger.info(report)
+                self.send_to_discord(report)
+                
+                # Короткая пауза между импульсами (5 секунд)
+                if packet_counter < 3:
+                    await asyncio.sleep(5)
+                
+            except Exception as e:
+                logger.error(f"Аномалия ядра: {e}")
+                await asyncio.sleep(2)
+        
+        logger.info("✅ Все 3 квантовых цикла завершены. Сервер освобожден.")
 
 if __name__ == "__main__":
     router = AmritaCoreRouter()
-    # Запускаем строго один импульс без бесконечных циклов
-    asyncio.run(router.execute_single_pulse())
+    asyncio.run(router.main_telemetry_loop())
