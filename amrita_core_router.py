@@ -7,7 +7,7 @@ import math
 import requests
 
 logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger("[AMRITA COOLDOWN CORE]")
+logger = logging.getLogger("[AMRITA MACRO SHIELD]")
 
 class AmritaCoreRouter:
     def __init__(self):
@@ -15,8 +15,8 @@ class AmritaCoreRouter:
         self.MASK_SURAS = 0b10101010
         self.MASK_ASURAS = 0b01010101
         
-        # Системные флаги (Бит 2: 1 - Лимиты деплоя в норме, 0 - Обнаружен лимит GitHub Pages 500+)
-        self.system_flags = 0b11110011
+        # Системные флаги (Бит 2: 1 - Макро-фон стабилен, 0 - Включена макро-защита Nasdaq/JOLTS)
+        self.system_flags = 0b11110111
         self.discord_url = os.getenv("DISCORD_WEBHOOK_URL")
         self.solana_rpc = os.getenv("SOLANA_RPC_URL") or "https://solana.com"
 
@@ -27,11 +27,11 @@ class AmritaCoreRouter:
             except Exception as e:
                 logger.error(f"Ошибка Дискорда: {e}")
 
-    def calculate_wave_resonance(self, base_freq: int, deploy_overflow: bool) -> tuple:
+    def calculate_wave_resonance(self, base_freq: int, btc_price: float, is_macro_risk: bool) -> tuple:
         current_ts = time.time()
-        # Если лимиты деплоя превышены, вносим сдерживающий коэффициент (0.50), стабилизируя ЗУМ-волну
-        modifier = 0.50 if deploy_overflow else 1.0
-        zoom_vibration = math.sin(current_ts) * (base_freq * modifier)
+        # Если Биткоин зажат на $60k и есть геополитический риск, сжимаем амплитуду ЗУМ-волны
+        risk_modifier = 0.60 if is_macro_risk else 1.0
+        zoom_vibration = math.sin(current_ts) * (base_freq * risk_modifier + (btc_price / 1000.0))
         electrum_conduction = abs(math.cos(current_ts) * self.SACRED_LIMIT)
         final_light_wave = abs(zoom_vibration + electrum_conduction) % self.SACRED_LIMIT
         return final_light_wave, zoom_vibration
@@ -44,19 +44,19 @@ class AmritaCoreRouter:
         return sura, asura, frequency
 
     async def main_telemetry_loop(self):
-        logger.info("💎 Запуск защитного контура деплоя. Стабилизация лимитов GitHub Pages (500+).")
+        logger.info("💎 Запуск макроэкономического контура. Фиксация триггеров FTMO (SPCX Nasdaq / JOLTS).")
         
         for packet_counter in range(1, 4):
             try:
-                # Фиксация перегрузки деплоя со скриншота
-                total_deployments = 500
-                pages_error_detected = True
+                # Фиксация данных макро-поля со скриншота уведомлений
+                btc_support_level = 60000.0  # Bitcoin holds $60k
+                macro_risk_active = True     # Geopolitical Risks Escalate + $13B Strategy Loss
                 
-                if pages_error_detected and total_deployments >= 500:
-                    self.system_flags &= ~0b00000100  # Сбрасываем Бит 2 (Сигнал лимита деплоя)
-                    cooldown_status = f"⏳ [PAGES DEPLOY COOLDOWN] Зафиксирован отказ github-pages (Сборок: {total_deployments}). Включен защитный фильтр кэша."
+                if macro_risk_active and btc_support_level <= 61000:
+                    self.system_flags &= ~0b00000100  # Сбрасываем Бит 2 (Сигнал макро-риска)
+                    macro_status = f"🦅 [MACRO RISK TRIGGER] BTC: $60k | Убыток Strategy: $13B. SpaceX форсирует Nasdaq! Ожидание US JOLTS (Вторник 16:00). Защита активна."
                 else:
-                    cooldown_status = "✅ Контур деплоя страниц стабилен."
+                    macro_status = "✅ Макро-контур стабилен."
 
                 # Пинг Solana RPC
                 solana_alive = False
@@ -69,12 +69,12 @@ class AmritaCoreRouter:
                 else: self.system_flags &= ~0b00000001
 
                 sura, asura, base_freq = self.process_quantum_packet(packet_counter)
-                crystal_wave, sound_vibration = self.calculate_wave_resonance(base_freq, pages_error_detected)
+                crystal_wave, sound_vibration = self.calculate_wave_resonance(base_freq, btc_support_level, macro_risk_active)
                 
                 report = (
-                    f"🔮 [AMRITA DEPLOY INFRASTRUCTURE #{packet_counter}/3]\n"
-                    f"Монитор: {cooldown_status}\n"
-                    f"🟢 ИЗУМРУД (ЗУМ-вибрация стабилизации): {sound_vibration:.2f} Hz\n"
+                    f"🔮 [AMRITA MACRO ROUTE #{packet_counter}/3]\n"
+                    f"Контур поля: {macro_status}\n"
+                    f"🟢 ИЗУМРУД (ЗУМ-вибрация макро-риска): {sound_vibration:.2f} Hz\n"
                     f"🌊 Итоговый резонанс: {crystal_wave:.2f} Hz\n"
                     f"RPC Solana: {'ONLINE' if solana_alive else 'OFFLINE'} | Матрица флагов: {self.system_flags:08b}"
                 )
@@ -86,10 +86,10 @@ class AmritaCoreRouter:
                     await asyncio.sleep(5)
                 
             except Exception as e:
-                logger.error(f"Аномалия ядра: {e}")
+                logger.error(f"Аномалия макро-ядра: {e}")
                 await asyncio.sleep(2)
         
-        logger.info("✅ Глава защиты инфраструктурных лимитов запечатана. Сервер свободен.")
+        logger.info("✅ Глава макроэкономического контроля запечатана в изумрудном спектре. Сервер свободен.")
 
 if __name__ == "__main__":
     router = AmritaCoreRouter()
