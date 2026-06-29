@@ -6,7 +6,7 @@ import logging
 import requests
 
 logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger("[AMRITA WHALE WATCH]")
+logger = logging.getLogger("[AMRITA COMPLIANCE CORE]")
 
 class AmritaCoreRouter:
     def __init__(self):
@@ -14,8 +14,8 @@ class AmritaCoreRouter:
         self.MASK_SURAS = 0b10101010
         self.MASK_ASURAS = 0b01010101
         
-        # Системные флаги (Бит 4: Whale Alert Trigger)
-        self.system_flags = 0b00001111 
+        # Системные флаги (Бит 5: 1 - Corporate Account, 0 - Individual Account)
+        self.system_flags = 0b00101111 
         self.is_autonomous = True
         self.discord_url = os.getenv("DISCORD_WEBHOOK_URL")
         self.solana_rpc = os.getenv("SOLANA_RPC_URL") or "https://solana.com"
@@ -29,29 +29,21 @@ class AmritaCoreRouter:
             except Exception as e:
                 logger.error(f"Ошибка Дискорда: {e}")
 
-    def analyze_token_metadata(self, token_name: str, description: str) -> bool:
-        text_to_check = (token_name + " " + description).lower()
-        for word in self.ASURA_STOP_WORDS:
-            if word in text_to_check:
-                return False
-        return True
+    def check_ftmo_compliance_status(self) -> str:
+        """Определяет юридический статус торгового контура на основе битовых флагов."""
+        # Проверяем состояние 5-го бита (0b00100000)
+        if self.system_flags & 0b00100000:
+            return "COMPANY (Институциональный контур, повышенные лимиты)"
+        return "INDIVIDUAL (Частный контур, стандартный KYC)"
 
-    def check_bitcoin_whale_movement(self) -> int:
-        """Эмулирует парсинг ончейн-данных крупных кошельков (например, MicroStrategy).
-        Возвращает объем зафиксированного предложения в BTC.
-        """
-        # Ловим импульс предложения со скриншота
-        simulated_whale_offer = 25000 
-        return simulated_whale_offer
-
-    def process_quantum_packet(self, packet_id, anti_scam_modifier=0, whale_active=False):
+    def process_quantum_packet(self, packet_id, corporate_active=False):
         flags = self.system_flags
-        if anti_scam_modifier == 1:
-            flags &= ~self.MASK_ASURAS
-            
-        # Если киты зашевелились, принудительно инвертируем младшие биты для защиты ликвидности
-        if whale_active:
-            flags ^= 0b00010000 # Включаем Бит 4 (Киты на связи)
+        
+        # Динамическое переключение маски в зависимости от юридического статуса
+        if corporate_active:
+            flags |= 0b00100000  # Принудительно включаем корпоративный режим
+        else:
+            flags &= ~0b00100000 # Оставляем индивидуальный режим
             
         prana_energy = (int(time.time()) & 0xFF) ^ flags
         sura = prana_energy & self.MASK_SURAS
@@ -61,31 +53,17 @@ class AmritaCoreRouter:
 
     async def main_telemetry_loop(self):
         packet_counter = 0
-        logger.info("🐋 Кит-трекер крупных объемов BTC интегрирован в ядро Сварма.")
+        logger.info("💼 Юридический модуль комплаенса FTMO успешно внедрен в Сварм AMRITA.")
         
         while self.is_autonomous:
             try:
                 packet_counter += 1
                 
-                # Шаг 1: Сканирование дампов китов
-                btc_whale_volume = self.check_bitcoin_whale_movement()
-                whale_trigger_active = False
-                whale_status = "🐋 КИТЫ СПЯТ (РЫНОК СТАБИЛЕН)"
+                # Имитируем текущую конфигурацию аккаунта (считываем статус со скриншота)
+                # По умолчанию выставляем True (перевели систему на компанию, как задумал немецкий трейдер)
+                is_corporate_gateway = True 
                 
-                if btc_whale_volume >= 10000:
-                    whale_trigger_active = True
-                    whale_status = f"⚠️ [WHALE ALERT] ОБНАРУЖЕНО ДВИЖЕНИЕ КИТОВ: ОФЕРТА НА {btc_whale_volume} BTC!"
-                    
-                    if packet_counter % 10 == 1:
-                        self.send_to_discord(
-                            f"🚨 [MARKET IMPACT DETECTED]\n"
-                            f"Фиксация предложения крупного фонда: {btc_whale_volume} BTC.\n"
-                            f"ИИ-Сварм AMRITA переходит в режим ожидания перелива ликвидности в Solana."
-                        )
-
-                # Входные данные для анти-скама
-                is_pure_sura = self.analyze_token_metadata("ghniy", "Trenches Ansem to 1B")
-                scam_block_active = 1 if not is_pure_sura else 0
+                compliance_report = self.check_ftmo_compliance_status()
 
                 # Тест Solana RPC
                 solana_alive = False
@@ -97,12 +75,12 @@ class AmritaCoreRouter:
                 if solana_alive: self.system_flags |= 0b00000001
                 else: self.system_flags &= ~0b00000001
 
-                # Расчет с учетом китов и анти-скама
-                sura, asura, freq = self.process_quantum_packet(packet_counter, scam_block_active, whale_trigger_active)
+                # Расчет квантового пакета с учетом комплаенс-модификатора
+                sura, asura, freq = self.process_quantum_packet(packet_counter, is_corporate_gateway)
                 
                 report = (
-                    f"🔮 [AMRITA SWARM & WHALE ROUTE #{packet_counter}]\n"
-                    f"Мониторинг рынка: {whale_status}\n"
+                    f"🔮 [AMRITA COMPLIANCE ROUTE #{packet_counter}]\n"
+                    f"Юридический статус: {compliance_report}\n"
                     f"Флаги Матрицы: {self.system_flags:08b}\n"
                     f"Solana RPC: {'ONLINE' if solana_alive else 'OFFLINE'}\n"
                     f"Резонанс Ядра: {freq} Hz | Спектр: С-{sura} А-{asura}"
@@ -114,7 +92,7 @@ class AmritaCoreRouter:
                 await asyncio.sleep(40)
                 
             except Exception as e:
-                logger.error(f"Аномалия кит-контура: {e}")
+                logger.error(f"Аномалия комплаенс-контура: {e}")
                 await asyncio.sleep(5)
 
 if __name__ == "__main__":
