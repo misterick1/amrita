@@ -1,10 +1,8 @@
 name: AMRITA RUN // AUTONOMOUS MULTIVERSE ORCHESTRATOR
 
+# Отставляем запуск только по ручной команде (Workflow Dispatch), чтобы сбросить автоматическую пробку
 on:
-  push:
-    branches: [ main ]
-  schedule:
-    - cron: '0 */3 * * *'
+  workflow_dispatch:
 
 jobs:
   run_core:
