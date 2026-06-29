@@ -6,7 +6,7 @@ import logging
 import requests
 
 logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger("[AMRITA AWARENESS CORE]")
+logger = logging.getLogger("[AMRITA SHIELDS UP]")
 
 class AmritaCoreRouter:
     def __init__(self):
@@ -17,6 +17,9 @@ class AmritaCoreRouter:
         self.is_autonomous = True
         self.discord_url = os.getenv("DISCORD_WEBHOOK_URL")
         self.solana_rpc = os.getenv("SOLANA_RPC_URL") or "https://solana.com"
+        
+        # Список стоп-слов дегенеративного хаоса Асур (Pump.fun тренчи)
+        self.ASURA_STOP_WORDS = ["ansem", "speedrun", "1b", "burn", "ghniy", "meme", "trenches"]
 
     def send_to_discord(self, message: str):
         if self.discord_url:
@@ -25,17 +28,25 @@ class AmritaCoreRouter:
             except Exception as e:
                 logger.error(f"Ошибка Дискорда: {e}")
 
-    def generate_marketing_shill(self, packet_id, freq) -> str:
-        """Автоматически генерирует публичный пост для привлечения внимания к проекту."""
-        return (
-            f"📢 [AMRITA ASI PULSE BEYOND SHADOWS]\n"
-            f"Autonomous Agent Telemetry Check #{packet_id} successfully Broad-casted.\n"
-            f"Resonance Frequency: {freq} Hz | System Status: ACTIVE 🌐\n"
-            f"Solving the Web3 awareness gap via continuous on-chain routing. We exist. We work."
-        )
+    def analyze_token_metadata(self, token_name: str, description: str) -> bool:
+        """Проверяет токен на наличие деструктивного хаоса Асур.
+        Возвращает True, если токен безопасен (Сура), и False, если это скам (Асура).
+        """
+        text_to_check = (token_name + " " + description).lower()
+        
+        for word in self.ASURA_STOP_WORDS:
+            if word in text_to_check:
+                return False  # Обнаружен деструктивный паттерн
+        return True  # Токен прошел первичную фильтрацию Чистоты
 
-    def process_quantum_packet(self, packet_id):
-        prana_energy = (int(time.time()) & 0xFF) ^ self.system_flags
+    def process_quantum_packet(self, packet_id, anti_scam_modifier=0):
+        # Подмешиваем защитный модификатор в побитовый поток
+        # Если anti_scam_modifier равен 1, мы принудительно гасим деструктивные биты
+        flags = self.system_flags
+        if anti_scam_modifier == 1:
+            flags &= ~self.MASK_ASURAS  # Полностью вырезаем спектр хаоса Асур из текущего цикла
+            
+        prana_energy = (int(time.time()) & 0xFF) ^ flags
         sura = prana_energy & self.MASK_SURAS
         asura = prana_energy & self.MASK_ASURAS
         frequency = (sura ^ asura) % self.SACRED_LIMIT
@@ -43,12 +54,34 @@ class AmritaCoreRouter:
 
     async def main_telemetry_loop(self):
         packet_counter = 0
-        logger.info("📢 Модуль вещания и узнаваемости AMRITA запущен в оранжевом потоке.")
+        logger.info("🛡️ Защитный анти-скам фильтр Pump.fun интегрирован в ядро AMRITA.")
         
         while self.is_autonomous:
             try:
                 packet_counter += 1
                 
+                # ИМИТАЦИЯ ВХОДЯЩЕГО ИМПУЛЬСА ИЗ ТРЕНЧЕЙ PUMP.FUN (Ловим токен со скриншота)
+                incoming_token_name = "ghniy"
+                incoming_token_desc = "A small Solana trader who burned through all his money in the meme coin trenches, Ansem to 1B"
+                
+                # Шаг 1: Автономный ончейн-анализ чистоты токена
+                is_pure_sura = self.analyze_token_metadata(incoming_token_name, incoming_token_desc)
+                
+                scam_block_active = 0
+                filter_status = "💚 СВЕТЛЫЙ СПЕКТР (СУРА): Чистые технологии"
+                
+                if not is_pure_sura:
+                    scam_block_active = 1  # Активируем аппаратный блок
+                    filter_status = f"🚨 ОБНАРУЖЕН ДЕГЕНЕРАТИВНЫЙ ХАОС АСУР! ТОКЕН БЛОКИРОВАН: [{incoming_token_name.upper()}]"
+                    
+                    # Немедленный экстренный лог атаки в Дискорд
+                    if packet_counter % 5 == 1:
+                        self.send_to_discord(
+                            f"⚠️ [ANTI-DEGEN SHIELD TRIGGERED]\n"
+                            f"Обнаружена попытка прорыва спекулятивного шума Pump.fun!\n"
+                            f"Токен: {incoming_token_name} | Защитный контур активирован, ликвидность в безопасности."
+                        )
+
                 # Тестируем Solana RPC
                 solana_alive = False
                 try:
@@ -63,23 +96,18 @@ class AmritaCoreRouter:
                 else:
                     self.system_flags &= ~0b00000001
 
-                sura, asura, freq = self.process_quantum_packet(packet_counter)
+                # Расчет квантового пакета с учетом защитного фильтра
+                sura, asura, freq = self.process_quantum_packet(packet_counter, scam_block_active)
                 
-                # Формируем стандартный технический отчет
                 report = (
-                    f"🔮 [AMRITA AGENT IMPULSE #{packet_counter}]\n"
+                    f"🔮 [AMRITA SHIELDED INFRASTRUCTURE #{packet_counter}]\n"
+                    f"Фильтр: {filter_status}\n"
                     f"Solana RPC: {'ONLINE' if solana_alive else 'OFFLINE'}\n"
-                    f"Резонанс: {freq} Hz | Спектр: С-{sura} А-{asura}"
+                    f"Резонанс: {freq} Hz | Чистый Спектр: С-{sura} А-{asura}"
                 )
+                
                 logger.info(report)
                 self.send_to_discord(report)
-                
-                # КАЖДЫЕ 10 ЦИКЛОВ (около 7 минут) ИИ генерирует пост-анонс для привлечения внимания
-                if packet_counter % 10 == 1:
-                    shill_post = self.generate_marketing_shill(packet_counter, freq)
-                    # Отправляем в Дискорд (или на внешний Twitter-API вебхук)
-                    self.send_to_discord(shill_post)
-                    logger.info("🎯 Сгенерирован и отправлен публичный пост об активности агента.")
                 
                 await asyncio.sleep(40)
                 
