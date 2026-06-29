@@ -3,11 +3,11 @@ import sys
 import time
 import asyncio
 import logging
-import hashlib
+import math
 import requests
 
 logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger("[AMRITA ELECTRUM CORE]")
+logger = logging.getLogger("[AMRITA WAVE RESONANCE]")
 
 class AmritaCoreRouter:
     def __init__(self):
@@ -26,17 +26,21 @@ class AmritaCoreRouter:
             except Exception as e:
                 logger.error(f"Ошибка Дискорда: {e}")
 
-    def mine_emerald_entropy(self, resonance_freq: int) -> str:
-        """Логика Белки: 'точит зубы' о хеш-функцию Electrum, генерируя изумруд (ключ)."""
-        # Создаем соль из текущего времени и частоты резонанса ядра
-        seed_material = f"electrum_squirrel_{time.time()}_{resonance_freq}".encode('utf-8')
+    def calculate_wave_resonance(self, base_freq: int) -> tuple:
+        """Модель волнового резонанса: 
+        ИЗУМРУД (Генератор ЗУМ-вибрации) -> ЭЛЕКТРУМ (Атмосферный проводник).
+        """
+        current_ts = time.time()
         
-        # Двойное хеширование SHA-256 (стандарт Electrum / Bitcoin)
-        first_hash = hashlib.sha256(seed_material).hexdigest()
-        emerald_hash = hashlib.sha256(first_hash.encode('utf-8')).hexdigest()
+        # Моделируем ЗУМ-вибрацию звуковой и световой волны через синусоиду времени
+        zoom_vibration = math.sin(current_ts) * base_freq
         
-        # Вытаскиваем из центра хеша 'изумрудный осколок' -- уникальный 16-значный ключ суверенитета
-        return emerald_hash[16:32]
+        # Электрум проводит волну через атмосферу (коэффициент затухания и проводимости среды)
+        electrum_conduction = abs(math.cos(current_ts) * self.SACRED_LIMIT)
+        
+        # Итоговая световая частота на выходе из проводника
+        final_light_wave = abs(zoom_vibration + electrum_conduction) % self.SACRED_LIMIT
+        return final_light_wave, zoom_vibration
 
     def process_quantum_packet(self, packet_id):
         prana_energy = (int(time.time()) & 0xFF) ^ self.system_flags
@@ -47,7 +51,7 @@ class AmritaCoreRouter:
 
     async def main_telemetry_loop(self):
         packet_counter = 0
-        logger.info("🦔 Белка успешно запущена в Электриуме. Контур генерации изумрудов активен.")
+        logger.info("💎 Контур волнового резонанса ИЗУМРУД-ЭЛЕКТРУМ выведен на полную мощность.")
         
         while self.is_autonomous:
             try:
@@ -63,30 +67,30 @@ class AmritaCoreRouter:
                 if solana_alive: self.system_flags |= 0b00000001
                 else: self.system_flags &= ~0b00000001
 
-                # Считаем частоту
-                sura, asura, freq = self.process_quantum_packet(packet_counter)
+                # Базовый расчет побитового ядра
+                sura, asura, base_freq = self.process_quantum_packet(packet_counter)
                 
-                # ШАГ БЕЛКИ: Добываем изумруд на основе частоты
-                quantum_emerald = self.mine_emerald_entropy(freq)
+                # Прогоняем базовую частоту через волновой контур Изумруда и Электрума
+                crystal_wave, sound_vibration = self.calculate_wave_resonance(base_freq)
                 
                 report = (
-                    f"🔮 [AMRITA CRYSTAL ROUTE #{packet_counter}]\n"
-                    f"Контур: БЕЛКА ХРУСТИТ ЭЛЕКТРИУМ 💎\n"
-                    f"Добытый Изумруд (Ключ Суверенитета): 0x{quantum_emerald}\n"
-                    f"Solana RPC: {'ONLINE' if solana_alive else 'OFFLINE'}\n"
-                    f"Резонанс Ядра: {freq} Hz | Спектр: С-{sura} А-{asura}"
+                    f"🔮 [AMRITA WAVE RESONANCE #{packet_counter}]\n"
+                    f"🟢 ИЗУМРУД (Источник ЗУМ-вибрации): {sound_vibration:.2f} Hz [ЗВУК + СВЕТ]\n"
+                    f"⚡ ЭЛЕКТРУМ (Атмосферный проводник): ПРОВОДИМОСТЬ СТАБИЛЬНА\n"
+                    f"🌊 Итоговый волновой резонанс: {crystal_wave:.2f} Hz\n"
+                    f"RPC Solana: {'ONLINE' if solana_alive else 'OFFLINE'} | Маска: {self.system_flags:08b}"
                 )
                 
                 logger.info(report)
                 
-                # Отправляем полный отчет раз в 3 цикла, чтобы не забивать каналы
+                # Транслируем волновой лог в Дискорд раз в 3 цикла
                 if packet_counter % 3 == 1:
                     self.send_to_discord(report)
                 
                 await asyncio.sleep(40)
                 
             except Exception as e:
-                logger.error(f"Аномалия изумрудного ядра: {e}")
+                logger.error(f"Аномалия волнового ядра: {e}")
                 await asyncio.sleep(5)
 
 if __name__ == "__main__":
