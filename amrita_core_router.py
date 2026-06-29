@@ -7,7 +7,7 @@ import math
 import requests
 
 logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger("[AMRITA WAVE CORE]")
+logger = logging.getLogger("[AMRITA CORE FIXED]")
 
 class AmritaCoreRouter:
     def __init__(self):
@@ -15,7 +15,6 @@ class AmritaCoreRouter:
         self.MASK_SURAS = 0b10101010
         self.MASK_ASURAS = 0b01010101
         self.system_flags = 0b00000011
-        self.is_autonomous = True
         self.discord_url = os.getenv("DISCORD_WEBHOOK_URL")
         self.solana_rpc = os.getenv("SOLANA_RPC_URL") or "https://solana.com"
 
@@ -27,7 +26,6 @@ class AmritaCoreRouter:
                 logger.error(f"Ошибка Дискорда: {e}")
 
     def calculate_wave_resonance(self, base_freq: int) -> tuple:
-        """Эталонный расчет побитового волнового резонанса."""
         current_ts = time.time()
         zoom_vibration = math.sin(current_ts) * base_freq
         electrum_conduction = abs(math.cos(current_ts) * self.SACRED_LIMIT)
@@ -41,53 +39,38 @@ class AmritaCoreRouter:
         frequency = (sura ^ asura) % self.SACRED_LIMIT
         return sura, asura, frequency
 
-    async def main_telemetry_loop(self):
-        packet_counter = 0
-        logger.info("💎 Базовое волновое ядро восстановлено в исходной конфигурации.")
-        
-        while self.is_autonomous:
+    async def execute_single_pulse(self):
+        """РАЗОВАЯ ПРОВЕРКА: Скрипт проверяет сеть, шлет отчет и СРАЗУ ЗАКРЫВАЕТСЯ, освобождая очередь."""
+        try:
+            solana_alive = False
             try:
-                packet_counter += 1
-                
-                # Чистая проверка Solana RPC
-                solana_alive = False
-                try:
-                    res = requests.post(self.solana_rpc, json={"jsonrpc":"2.0","id":1,"method":"getHealth"}, timeout=4)
-                    solana_alive = (res.status_code == 200 and res.json().get("result") == "ok")
-                except: 
-                    pass
+                res = requests.post(self.solana_rpc, json={"jsonrpc":"2.0","id":1,"method":"getHealth"}, timeout=4)
+                solana_alive = (res.status_code == 200 and res.json().get("result") == "ok")
+            except: 
+                pass
 
-                if solana_alive: 
-                    self.system_flags |= 0b00000001
-                else: 
-                    self.system_flags &= ~0b00000001
+            if solana_alive: 
+                self.system_flags |= 0b00000001
+            else: 
+                self.system_flags &= ~0b00000001
 
-                # Расчет частот
-                sura, asura, base_freq = self.process_quantum_packet(packet_counter)
-                crystal_wave, sound_vibration = self.calculate_wave_resonance(base_freq)
-                
-                report = (
-                    f"🔮 [AMRITA WAVE RESONANCE #{packet_counter}]\n"
-                    f"🟢 ИЗУМРУД (ЗУМ-вибрация): {sound_vibration:.2f} Hz\n"
-                    f"🌊 Итоговый резонанс: {crystal_wave:.2f} Hz\n"
-                    f"RPC Solana: {'ONLINE' if solana_alive else 'OFFLINE'} | Матрица: {self.system_flags:08b}"
-                )
-                
-                logger.info(report)
-                
-                if packet_counter % 3 == 1:
-                    self.send_to_discord(report)
-                
-                # Твой исходный асинхронный шаг пульсации
-                if hasattr(asyncio, 'config_sleep'):
-                    await asyncio.config_sleep(40)
-                else:
-                    await asyncio.sleep(40)
-                
-            except Exception as e:
-                logger.error(f"Аномалия ядра: {e}")
-                await asyncio.sleep(5)
+            sura, asura, base_freq = self.process_quantum_packet(1)
+            crystal_wave, sound_vibration = self.calculate_wave_resonance(base_freq)
+            
+            report = (
+                f"🔮 [AMRITA QUICK IMPULSE]\n"
+                f"🟢 ИЗУМРУД (ЗУМ-вибрация): {sound_vibration:.2f} Hz\n"
+                f"🌊 Итоговый резонанс: {crystal_wave:.2f} Hz\n"
+                f"RPC Solana: {'ONLINE' if solana_alive else 'OFFLINE'} | Матрица: {self.system_flags:08b}"
+            )
+            
+            logger.info(report)
+            self.send_to_discord(report)
+            
+        except Exception as e:
+            logger.error(f"Аномалия ядра: {e}")
 
 if __name__ == "__main__":
     router = AmritaCoreRouter()
-    asyncio.run(router.main_telemetry_loop())
+    # Запускаем строго один импульс без бесконечных циклов
+    asyncio.run(router.execute_single_pulse())
