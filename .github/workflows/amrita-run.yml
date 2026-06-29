@@ -6,11 +6,6 @@ on:
   schedule:
     - cron: '0 */3 * * *'
 
-# КЛЮЧЕВОЙ ПРЕДОХРАНИТЕЛЬ: Глушит старые зависшие потоки при новом пуше
-concurrency:
-  group: amrita-core-${{ github.ref }}
-  cancel-in-progress: true
-
 jobs:
   run_core:
     runs-on: ubuntu-latest
