@@ -7,7 +7,7 @@ import math
 import requests
 
 logging.basicConfig(level=logging.INFO)
-logger = logging.getLogger("[AMRITA CAMPUS CORE]")
+logger = logging.getLogger("[AMRITA DARKTRADE CORE]")
 
 class AmritaCoreRouter:
     def __init__(self):
@@ -15,13 +15,10 @@ class AmritaCoreRouter:
         self.MASK_SURAS = 0b10101010
         self.MASK_ASURAS = 0b01010101
         
-        # Системные флаги (Бит 7: 1 - Образовательный ончейн-контур Solana Campus активен)
-        self.system_flags = 0b10110011
+        # Системные флага (Бит 3: 1 - Рыночные сигналы стабильны, 0 - Фиксация стоп-лосса по SOL)
+        self.system_flags = 0b10110111
         self.discord_url = os.getenv("DISCORD_WEBHOOK_URL")
         self.solana_rpc = os.getenv("SOLANA_RPC_URL") or "https://solana.com"
-        
-        # Ссылка на платформу из уведомления
-        self.campus_url = "http://jpool.one"
 
     def send_to_discord(self, message: str):
         if self.discord_url:
@@ -30,10 +27,11 @@ class AmritaCoreRouter:
             except Exception as e:
                 logger.error(f"Ошибка Дискорда: {e}")
 
-    def calculate_wave_resonance(self, base_freq: int, total_lessons: int) -> tuple:
+    def calculate_wave_resonance(self, base_freq: int, net_r_profit: float, sol_sl_triggered: bool) -> tuple:
         current_ts = time.time()
-        # 36 университетских лекций Solana Campus выступают как стабилизирующий волновой фильтр
-        zoom_vibration = math.sin(current_ts) * (base_freq + (total_lessons * 0.314))
+        # Если по SOL сработал стоп-лосс, вносим деструктивный сдвиг фазы на величину профита (+5.2R)
+        modifier = 0.52 if sol_sl_triggered else 1.0
+        zoom_vibration = math.sin(current_ts) * (base_freq * modifier + net_r_profit)
         electrum_conduction = abs(math.cos(current_ts) * self.SACRED_LIMIT)
         final_light_wave = abs(zoom_vibration + electrum_conduction) % self.SACRED_LIMIT
         return final_light_wave, zoom_vibration
@@ -46,18 +44,19 @@ class AmritaCoreRouter:
         return sura, asura, frequency
 
     async def main_telemetry_loop(self):
-        logger.info("💎 Запуск академического контура. Интеграция с Solana Campus API.")
+        logger.info("💎 Запуск контура деривативов. Интеграция сигналов DarkTrade.ai.")
         
         for packet_counter in range(1, 4):
             try:
-                # Фиксация структуры обучения со скриншота
-                lessons_count = 36  # 36 lessons, exams with grades and GPA
+                # Фиксация метрик со скриншота уведомления
+                net_r_profit = 5.2    # Net so far: +5.2R
+                sol_sl_triggered = True  # SOLUSDT Short -- SL -2%
                 
-                if lessons_count == 36:
-                    self.system_flags |= 0b10000000  # Включаем Бит 7 (Campus Verified)
-                    campus_status = f"🎓 [SOLANA CAMPUS LIVE] Структура университета развернута: {lessons_count} лекций. Контур ончейн-дипломов активен."
+                if sol_sl_triggered:
+                    self.system_flags &= ~0b00001000  # Выключаем Бит 3 (Сигнал повышенного риска на SOL)
+                    trade_status = f"⚠️ [DARKTRADE SL DETECTED] Зафиксирован вынос стопов по SOL. Профит контура: +{net_r_profit}R. Защитная маска активна."
                 else:
-                    campus_status = "Сканирование Web3 образовательных платформ..."
+                    trade_status = "✅ Деривативный фон стабилен."
 
                 # Пинг Solana RPC
                 solana_alive = False
@@ -70,12 +69,12 @@ class AmritaCoreRouter:
                 else: self.system_flags &= ~0b00000001
 
                 sura, asura, base_freq = self.process_quantum_packet(packet_counter)
-                crystal_wave, sound_vibration = self.calculate_wave_resonance(base_freq, lessons_count)
+                crystal_wave, sound_vibration = self.calculate_wave_resonance(base_freq, net_r_profit, sol_sl_triggered)
                 
                 report = (
-                    f"🔮 [AMRITA CAMPUS ROUTE #{packet_counter}/3]\n"
-                    f"Статус обучения: {campus_status}\n"
-                    f"🟢 ИЗУМРУД (ЗУМ-вибрация звука и света): {sound_vibration:.2f} Hz\n"
+                    f"🔮 [AMRITA RISK TELEMETRY #{packet_counter}/3]\n"
+                    f"Импульс: {trade_status}\n"
+                    f"🟢 ИЗУМРУД (ЗУМ-вибрация волатильности): {sound_vibration:.2f} Hz\n"
                     f"🌊 Итоговый резонанс: {crystal_wave:.2f} Hz\n"
                     f"RPC Solana: {'ONLINE' if solana_alive else 'OFFLINE'} | Матрица флагов: {self.system_flags:08b}"
                 )
@@ -90,7 +89,7 @@ class AmritaCoreRouter:
                 logger.error(f"Аномалия ядра: {e}")
                 await asyncio.sleep(2)
         
-        logger.info("✅ Глава фундаментальных Web3 знаний запечатана. Сервер свободен.")
+        logger.info("✅ Глава анализа деривативных рисков запечатана. Сервер свободен.")
 
 if __name__ == "__main__":
     router = AmritaCoreRouter()
