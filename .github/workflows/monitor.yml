@@ -1,0 +1,41 @@
+name: Autonomous System Monitor
+
+# Настройка автоматического запуска: каждые 6 часов и при каждом вашем пуше кода
+on:
+  schedule:
+    - cron: '0 */6 * * *'
+  push:
+    branches: [ main ]
+
+jobs:
+  diagnostic_run:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Копирование исходного кода из репозитория
+      uses: actions/checkout@v3
+
+    - name: Настройка программной среды Python
+      uses: actions/setup-python@v4
+      with:
+        python-python: '3.10'
+
+    - name: Установка необходимых сетевых библиотек
+      run: |
+        python -m pip install --upgrade pip
+        pip install requests
+
+    - name: Запуск диагностического модуля управления
+      # Передаем секреты из настроек репозитория в переменные окружения кода
+      env:
+        DEVELOPER_WALLET: ${{ secrets.DEVELOPER_WALLET }}
+        MINT_ADDRESS: ${{ secrets.MINT_ADDRESS }}
+        SERVER_1: ${{ secrets.SERVER_1 }}
+        SERVER_2: ${{ secrets.SERVER_2 }}
+        SERVER_3: ${{ secrets.SERVER_3 }}
+        SERVER_4: ${{ secrets.SERVER_4 }}
+        SERVER_PASSWORD: ${{ secrets.SERVER_PASSWORD }}
+        SOLANA_RPC_URL: ${{ secrets.SOLANA_RPC_URL }}
+        XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
+        TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      run: python amrita_monitor.py
