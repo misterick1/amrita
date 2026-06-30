@@ -95,7 +95,8 @@ class CausalStreamAnalyzer:
         self.asura_markers = [
             "pump.fun", "мемкоин", "хайп", "competition", "trading", "live", "fomo", 
             "solana", "бесплатно", "breakpoint", "ftmo", "oil", "cybersport", 
-            "киберспорт", "cs2", "dota", "спириты", "betboom", "battle"
+            "киберспорт", "cs2", "dota", "спириты", "betboom", "battle",
+            "trump", "trump's", "disclosure", "million", "world liberty", "token"
         ]
         self.log_file = "history_log.json"
         self.geo_matrix = GeoBuyanMatrix()
@@ -252,7 +253,5 @@ def handle_screenshot(message):
         )
         bot.send_message(message.chat.id, final_response, parse_mode="Markdown")
     except Exception as e:
-        bot.send_message(message.chat.id, f"⚠️ Ошибка каузального сбоя при обработке фото: {e}")
+        bot.send_message(message.chat.id, f"⚠️ Ошибка каузального сбоя при обработке photo: {e}")
 
-@bot.message_handler(func=lambda message: True)
-def handle_text_flow(message):
