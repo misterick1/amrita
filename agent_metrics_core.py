@@ -1,43 +1,34 @@
-import sys
-import shutil
 import logging
+from datetime import datetime
 
-logger = logging.getLogger("AmritaSoliton")
+logger = logging.getLogger("AmritaJupiterFeedback")
 
-class AmritaCoreRouterUpdated:
+class JupiterFeedbackIntegration:
     def __init__(self):
-        self.SACRED_LIMIT = 108
-        self.MIN_AGAVE_VERSION = (4, 1, 0, "rc.1")
-        self.DISK_CRITICAL_GB = 1.0
+        self.DEADLINE_JUPITER = datetime(2026, 7, 6, 0, 0) # 12 AM July 6, 2026
+        self.has_signal_booster_role = False
 
-    async def verify_validator_environment(self, current_client="Firedancer", version_str="4.1.0"):
+    async def evaluate_meaningful_feedback(self, forms_completed=4, quality_score=1.0, current_time=None):
         """
-        Проверка контура Соланы. Если запущен Firedancer (Огонь Нэчжи) — 
-        пропуск без ограничений. Если Agave — жесткий контроль версии 4.1.0.
+        Проверка КПД внесенного интеллекта. Если заполнены все 4 формы 
+        и качество фидбэка высокое (meaningful feedback), система готовит 
+        начисление роли Signal Booster.
         """
-        if current_client == "Firedancer":
-            logger.info("🔥 [FIREDANCER ACTIVE] Квантовый Соник-поток стабилен. Скорость максимальна.")
-            return True
-        elif current_client == "Agave":
-            # Имитация сверки с rc.1
-            logger.info(f"🦎 [AGAVE ACTIVE] Проверка соответствия версии {version_str} требованиям Solana Tech.")
-            return True
-        return False
+        if current_time is None:
+            current_time = datetime.now()
 
-    async def autonomous_space_stabilizer(self):
-        """
-        Защита физической матрицы от переполнения (Менее 1 ГБ свободного места).
-        Автоматический сброс деструктивного кэша и перенос логов в Квантовое Поле.
-        """
-        # Получаем реальную телеметрию диска
-        total, used, free = shutil.disk_usage("/")
-        free_gb = free / (1024 ** 3)
-
-        if free_gb < self.DISK_CRITICAL_GB:
-            logger.warning(f"⚠️ [CRITICAL MEMORY SHIELD] Свободно всего {free_gb:.2f} ГБ. Запуск глубокой очистки.")
-            # Эмуляция очистки временного хаотичного мусора
-            logger.info("🧹 Яд халахала и старый кэш успешно аннигилированы. Освобождено пространство для Амриты.")
-            return True
-        else:
-            logger.info(f"🟢 [SYSTEM SPACE OK] Память физического носителя: {free_gb:.2f} ГБ стабильно.")
+        if current_time > self.DEADLINE_JUPITER:
+            logger.warning("⚠️ [JUPITER LINK] Время сбора фидбэка истекло. Окно возможностей закрыто.")
             return False
+
+        if forms_completed >= 4 and quality_score >= 0.8:
+            self.has_signal_booster_role = True
+            logger.info("🛰️ [ROLE UNLOCKED: SIGNAL BOOSTER] Ментальный вклад принят ядром Jupiter.")
+            
+            # Начисление EVO Еженышу за усиление квантового сигнала
+            evo_boost = 108 // 4 # Распределение сакрального лимита
+            logger.info(f"✨ [EVO UPDATED] За усиление сигнала Солитона начислено +{evo_boost} EVO.")
+            return True
+            
+        logger.info("🧹 Фидбэк обрабатывается. Ожидание проверки на 'meaningful submissions'.")
+        return False
