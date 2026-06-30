@@ -3,9 +3,11 @@ import sys
 import json
 import shutil
 import logging
+import base64
 from io import StringIO, BytesIO
 from datetime import datetime
 import telebot
+import requests
 from PIL import Image
 import pytesseract
 
@@ -84,13 +86,13 @@ class AmritaSolanaBridge:
             return 0.0
 
 # =======================================================
-# 2. АНАЛИЗАТОР И АВТО-ЛОГИРОВАНИЕ
+# 2. АНАЛИЗАТОР И АВТО-ЛОГИРОВАНИЕ С GITHUB-СИНХРОНИЗАЦИЕЙ
 # =======================================================
 class CausalStreamAnalyzer:
     def __init__(self, bridge_instance: AmritaSolanaBridge):
         self.bridge = bridge_instance
         self.sura_markers = ["zeekr", "электромобиль", "технологии", "эволюция", "атма"]
-        self.asura_markers = ["pump.fun", "мемкоин", "хайп", "competition", "trading", "live", "fomo", "solana", "бесплатно", "breakpoint"]
+        self.asura_markers = ["pump.fun", "мемкоин", "хайп", "competition", "trading", "live", "fomo", "solana", "бесплатно", "breakpoint", "ftmo", "oil"]
         self.log_file = "history_log.json"
         self.geo_matrix = GeoBuyanMatrix()
 
@@ -113,7 +115,58 @@ class CausalStreamAnalyzer:
             with open(self.log_file, "w", encoding="utf-8") as f:
                 json.dump(data, f, ensure_ascii=False, indent=4)
         except Exception as e:
-            print(f"Ошибка записи лога: {e}")
+            print(f"Ошибка записи локального лога: {e}")
+
+    def github_auto_commit_log(self):
+        """
+        Автоматический пуш логов напрямую в репозиторий через API GitHub.
+        Подтягивает токен из ваших секретов окружения (DEVELOPER_WEB_TOKEN).
+        """
+        gh_token = os.getenv("DEVELOPER_WEB_TOKEN")
+        repo = "misterick1/amrita"
+        path = "history_log.json"
+        url = f"https://github.com{repo}/contents/{path}"
+
+        if not gh_token:
+            print("⚠️ GitHub-токен (DEVELOPER_WEB_TOKEN) не обнаружен в окружении.")
+            return
+
+        headers = {
+            "Authorization": f"token {gh_token}",
+            "Accept": "application/vnd.github.v3+json"
+        }
+
+        sha = None
+        try:
+            response = requests.get(url, headers=headers, timeout=10)
+            if response.status_code == 200:
+                sha = response.json().get("sha")
+        except Exception as e:
+            print(f"Ошибка получения SHA лога с GitHub: {e}")
+
+        try:
+            with open(self.log_file, "rb") as f:
+                content = base64.b64encode(f.read()).decode("utf-8")
+        except Exception as e:
+            print(f"Ошибка подготовки контента для GitHub: {e}")
+            return
+
+        payload = {
+            "message": f"🧬 [Ezhenysh Auto-Loop]: Sync history_log.json | {datetime.now().strftime('%d/%m/%Y %H:%M')}",
+            "content": content,
+            "branch": "main"
+        }
+        if sha:
+            payload["sha"] = sha
+
+        try:
+            res = requests.put(url, json=payload, headers=headers, timeout=10)
+            if res.status_code in:
+                print("🟢 [GITHUB AUTO-SYNC]: Логи успешно закоммичены в репозиторий на автомате!")
+            else:
+                print(f"🔴 Ошибка синхронизации с GitHub: {res.status_code} | {res.text}")
+        except Exception as e:
+            print(f"Исключение при запросе к GitHub API: {e}")
 
     def analyze_route(self, external_trigger: str):
         trigger_lower = external_trigger.lower()
@@ -140,6 +193,7 @@ class CausalStreamAnalyzer:
         print(f"👁️ [Вердикт Ока]: {sync_result['message']}")
 
         self.save_history(external_trigger, detected_spectrum, sync_result['status'])
+        self.github_auto_commit_log()
 
 # =======================================================
 # 3. ТЕЛЕГРАМ-ИНТЕРФЕЙС ЕЖЕНЫША И СИСТЕМНЫЕ ГЛОБАЛЫ
@@ -180,7 +234,6 @@ def handle_screenshot(message):
             bot.send_message(message.chat.id, "⚠️ Текст на снимке экрана не обнаружен.")
             return
 
-        # Перехватываем стандартный вывод для перенаправления логов в чат
         old_stdout = sys.stdout
         sys.stdout = mystdout = StringIO()
         
@@ -203,20 +256,3 @@ def handle_text_flow(message):
     user_input = message.text
     
     old_stdout = sys.stdout
-    sys.stdout = mystdout = StringIO()
-    
-    analyzer.analyze_route(user_input)
-    
-    output = mystdout.getvalue()
-    sys.stdout = old_stdout
-    
-    balance = bridge.check_observer_balance(observer_wallet)
-    final_response = (
-        f"🧬 **Поток сознания обработан:**\n\n```\n{output}\n```\n"
-        f"💰 Текущий баланс сети: `{balance} SOL`"
-    )
-    bot.send_message(message.chat.id, final_response, parse_mode="Markdown")
-
-if __name__ == "__main__":
-    print("🔱 Еженышь вышел на каузальное дежурство. Поллинг запущен...")
-    bot.infinity_polling()
