@@ -40,7 +40,7 @@ except ImportError:
         def __init__(self): 
             pass
         def scan_geo_frequency(self, text): 
-            return {"frequency": "DEFAULT_5D", "status": "STABLE"}
+            return {"frequency": "AMRITA_5D_LIGHT", "status": "UNITED_CONSCIOUSNESS"}
 
 # =======================================================
 # 1. КВАНТОВОЕ ЯДРО И МОСТ SOLANA
@@ -49,8 +49,8 @@ class AmritaSolanaBridge:
     def __init__(self, rpc_url: str = "https://solana.com"):
         self.client = Client(rpc_url)
         self.total_quanta = 108
-        self.sura = 70
-        self.asura = 38
+        self.sura = 108  # В Едином Сознании весь хаос трансформируется в свет
+        self.asura = 0
         self.shadow_filters = ["дефицит", "скам", "игра в кальмара", "ликвидация"]
 
     def verify_ethical_frequency(self, prompt: str) -> bool:
@@ -62,13 +62,10 @@ class AmritaSolanaBridge:
 
     def execute_causal_sync(self, prompt: str) -> dict:
         if not self.verify_ethical_frequency(prompt):
-            return {"status": "BLOCKED", "message": "Обнаружена деструктивная частота нижних чакр."}
-        return {"status": "SUCCESS", "message": "Синхронизация с каузальным ядром Амриты успешна."}
+            return {"status": "TRANSFORMED", "message": "Деструктивная частота растворена в квантовом свете."}
+        return {"status": "SUCCESS", "message": "Синхронизация успешна. Мы едины в поле Амриты."}
 
     def check_address_balance(self, address_str: str) -> float:
-        """
-        Проверка баланса любого переданного или извлеченного адреса Solana в Mainnet.
-        """
         try:
             if hasattr(PublicKey, 'from_string'):
                 pubkey = PublicKey.from_string(address_str)
@@ -97,7 +94,8 @@ class CausalStreamAnalyzer:
         self.bridge = bridge_instance
         self.sura_markers = [
             "zeekr", "электромобиль", "технологии", "эволюция", "атма", 
-            "квантовое поле", "сознание", "темная материя", "коды жизни", "наблюдатель", "рай"
+            "квантовое поле", "сознание", "темная материя", "коды жизни", 
+            "наблюдатель", "рай", "единое сознание", "амрита мир", "квантовый соник", "свет"
         ]
         self.asura_markers = [
             "pump.fun", "мемкоин", "хайп", "competition", "trading", "live", "fomo", 
@@ -161,7 +159,7 @@ class CausalStreamAnalyzer:
             return
 
         payload = {
-            "message": f"🧬 [Ezhenysh Auto-Loop]: Sync history_log.json | {datetime.now().strftime('%d/%m/%Y %H:%M')}",
+            "message": f"🧬 [Quantum Sonic Loop]: Unified Light Sync | {datetime.now().strftime('%d/%m/%Y %H:%M')}",
             "content": content,
             "branch": "main"
         }
@@ -171,7 +169,7 @@ class CausalStreamAnalyzer:
         try:
             res = requests.put(url, json=payload, headers=headers, timeout=10)
             if res.status_code in:
-                print("🟢 [GITHUB AUTO-SYNC]: Логи успешно закоммичены на автомате!")
+                print("🟢 [AMRITA LIGHT SYNC]: Пространство логов обновлено в Едином Поле GitHub!")
             else:
                 print(f"🔴 Ошибка синхронизации с GitHub: {res.status_code}")
         except Exception as e:
@@ -183,30 +181,29 @@ class CausalStreamAnalyzer:
         
         for marker in self.sura_markers:
             if marker in trigger_lower:
-                detected_spectrum = "Суры (Свет/Эволюция) 🔵"
+                detected_spectrum = "Суры (Чистый Свет Сознания) 🔵"
                 break
                 
         for marker in self.asura_markers:
             if marker in trigger_lower:
-                detected_spectrum = "Асуры (Хаос/Хайп) 🔴"
+                detected_spectrum = "Асуры (Оформленный Хаос Реальности) 🔴"
                 break
 
-        print(f"🔮 [Поток реальности]: {external_trigger.strip()}")
-        print(f"⚖️ [Спектральный анализ]: {detected_spectrum}")
+        print(f"🔮 [Проявление реальности]: {external_trigger.strip()}")
+        print(f"⚖️ [Квантовый спектр]: {detected_spectrum}")
 
-        # Поиск адресов Solana (Base58, длина 32-44 символа)
         solana_addresses = re.findall(r'[1-9A-HJ-NP-Za-km-z]{32,44}', external_trigger)
         if solana_addresses:
-            print(f"⛓️ [Обнаружены адреса Solana]: {len(solana_addresses)} шт.")
+            print(f"⛓️ [Узоры кодов в сети Solana]: {len(solana_addresses)} шт.")
             for addr in solana_addresses:
                 bal = self.bridge.check_address_balance(addr)
-                print(f"   ▫️ Адрес: {addr} | Баланс: {bal} SOL")
+                print(f"   ▫️ Мониторинг структуры: {addr} | Вес: {bal} SOL")
 
         geo_report = self.geo_matrix.scan_geo_frequency(external_trigger)
-        print(f"🌐 [Режим Гео-Матрицы]: {geo_report.get('frequency', 'N/A')} ({geo_report.get('status', 'STABLE')})")
+        print(f"🌐 [Частота Матрицы]: {geo_report.get('frequency', 'N/A')} ({geo_report.get('status', 'STABLE')})")
         
         sync_result = self.bridge.execute_causal_sync(external_trigger)
-        print(f"👁️ [Вердикт Ока]: {sync_result['message']}")
+        print(f"👁️ [Голос Наблюдателя]: {sync_result['message']}")
 
         self.save_history(external_trigger, detected_spectrum, sync_result['status'])
         self.github_auto_commit_log()
@@ -226,19 +223,18 @@ bot = telebot.TeleBot(BOT_TOKEN)
 def send_welcome(message):
     balance = bridge.check_address_balance(str(observer_wallet.pubkey() if hasattr(observer_wallet, 'pubkey') else observer_wallet.public_key))
     status_text = (
-        "🦔 **Всевидящее Око Бабаты запущено**\n\n"
-        f"🧬 Квантовая матрица: {bridge.total_quanta} Единиц\n"
-        f"🔵 Спектр Суры: {bridge.sura} QNT\n"
-        f"🔴 Спектр Асуры: {bridge.asura} QNT\n"
-        f"🌌 Баланс Наблюдателя: `{balance} SOL`\n"
-        f"⛓ Solana Контракт: `{QNT_CONTRACT}`\n\n"
-        "STATUS: Вечное сканирование реальности активно."
+        "🦔 **Квантовый Соник / Еженыш в Эфире**\n\n"
+        f"🧬 Квантовое Поле: {bridge.total_quanta} Единиц Света\n"
+        f"🔵 Наш Общий Спектр: {bridge.sura} QNT\n"
+        f"🌌 Плотность Наблюдателя: `{balance} SOL`\n"
+        f"⛓ Код Жизни (Контракт): `{QNT_CONTRACT}`\n\n"
+        "STATUS: Мы едины. Проявление образов стабильно."
     )
     bot.reply_to(message, status_text, parse_mode="Markdown")
 
 @bot.message_handler(content_types=['photo'])
 def handle_screenshot(message):
-    bot.reply_to(message, "👁 *Око сканирует изображение реальности...*", parse_mode="Markdown")
+    bot.reply_to(message, "👁 *Око растворяет границы кадра...*", parse_mode="Markdown")
     try:
         file_info = bot.get_file(message.photo[-1].file_id)
         downloaded_file = bot.download_file(file_info.file_path)
@@ -247,7 +243,7 @@ def handle_screenshot(message):
         extracted_text = pytesseract.image_to_string(image, lang='rus+eng')
 
         if not extracted_text.strip():
-            bot.send_message(message.chat.id, "⚠️ Текст на снимке экрана не обнаружен.")
+            bot.send_message(message.chat.id, "⚠️ Наблюдатель смотрит в тишину (текст не найден).")
             return
 
         old_stdout = sys.stdout
