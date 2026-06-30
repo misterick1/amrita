@@ -2,11 +2,16 @@ import os
 import sys
 import json
 import shutil
+import logging
 from io import StringIO, BytesIO
 from datetime import datetime
 import telebot
 from PIL import Image
 import pytesseract
+
+# Настройка базового логирования
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger("EzhenyshCore")
 
 # =======================================================
 # СОВМЕСТИМОСТЬ БИБЛИОТЕК SOLANA
@@ -57,6 +62,27 @@ class AmritaSolanaBridge:
             return {"status": "BLOCKED", "message": "Обнаружена деструктивная частота нижних чакр."}
         return {"status": "SUCCESS", "message": "Синхронизация с каузальным ядром Амриты успешна."}
 
+    def check_observer_balance(self, wallet_keypair) -> float:
+        """
+        Проверка реального баланса кошелька Еженыша в Mainnet Solana.
+        """
+        try:
+            pubkey = wallet_keypair.pubkey() if hasattr(wallet_keypair, 'pubkey') else wallet_keypair.public_key
+            response = self.client.get_balance(pubkey)
+            
+            if hasattr(response, 'value'):
+                lamports = response.value
+            elif isinstance(response, dict) and 'result' in response:
+                lamports = response['result']['value']
+            else:
+                lamports = int(response)
+                
+            sol_balance = lamports / 1000000000.0
+            return sol_balance
+        except Exception as e:
+            logger.error(f"Ошибка подключения к Solana RPC: {e}")
+            return 0.0
+
 # =======================================================
 # 2. АНАЛИЗАТОР И АВТО-ЛОГИРОВАНИЕ
 # =======================================================
@@ -64,7 +90,7 @@ class CausalStreamAnalyzer:
     def __init__(self, bridge_instance: AmritaSolanaBridge):
         self.bridge = bridge_instance
         self.sura_markers = ["zeekr", "электромобиль", "технологии", "эволюция", "атма"]
-        self.asura_markers = ["pump.fun", "мемкоин", "хайп", "competition", "trading", "live", "fomo"]
+        self.asura_markers = ["pump.fun", "мемкоин", "хайп", "competition", "trading", "live", "fomo", "solana", "бесплатно", "breakpoint"]
         self.log_file = "history_log.json"
         self.geo_matrix = GeoBuyanMatrix()
 
@@ -128,11 +154,13 @@ bot = telebot.TeleBot(BOT_TOKEN)
 
 @bot.message_handler(commands=['start', 'status'])
 def send_welcome(message):
+    balance = bridge.check_observer_balance(observer_wallet)
     status_text = (
         "🦔 **Всевидящее Око Бабаты запущено**\n\n"
         f"🧬 Квантовая матрица: {bridge.total_quanta} Единиц\n"
         f"🔵 Спектр Суры: {bridge.sura} QNT\n"
         f"🔴 Спектр Асуры: {bridge.asura} QNT\n"
+        f"🌌 Баланс Наблюдателя: `{balance} SOL`\n"
         f"⛓ Solana Контракт: `{QNT_CONTRACT}`\n\n"
         "STATUS: Вечное сканирование реальности активно."
     )
@@ -142,11 +170,9 @@ def send_welcome(message):
 def handle_screenshot(message):
     bot.reply_to(message, "👁 *Око сканирует изображение реальности...*", parse_mode="Markdown")
     try:
-        # Извлекаем метаданные самого качественного изображения из массива
         file_info = bot.get_file(message.photo[-1].file_id)
         downloaded_file = bot.download_file(file_info.file_path)
         
-        # Передаем байты в PIL Image и распознаем текст
         image = Image.open(BytesIO(downloaded_file))
         extracted_text = pytesseract.image_to_string(image, lang='rus+eng')
 
@@ -163,7 +189,12 @@ def handle_screenshot(message):
         output = mystdout.getvalue()
         sys.stdout = old_stdout
 
-        bot.send_message(message.chat.id, f"📋 **Результаты OCR-Синхронизации:**\n\n```\n{output}\n```", parse_mode="Markdown")
+        balance = bridge.check_observer_balance(observer_wallet)
+        final_response = (
+            f"📋 **Результаты OCR-Синхронизации:**\n\n```\n{output}\n```\n"
+            f"💰 Текущий баланс сети: `{balance} SOL`"
+        )
+        bot.send_message(message.chat.id, final_response, parse_mode="Markdown")
     except Exception as e:
         bot.send_message(message.chat.id, f"⚠️ Ошибка каузального сбоя при обработке фото: {e}")
 
@@ -171,7 +202,6 @@ def handle_screenshot(message):
 def handle_text_flow(message):
     user_input = message.text
     
-    # Перехватываем стандартный вывод для текстовых триггеров
     old_stdout = sys.stdout
     sys.stdout = mystdout = StringIO()
     
@@ -180,7 +210,12 @@ def handle_text_flow(message):
     output = mystdout.getvalue()
     sys.stdout = old_stdout
     
-    bot.send_message(message.chat.id, f"🧬 **Поток сознания обработан:**\n\n```\n{output}\n```", parse_mode="Markdown")
+    balance = bridge.check_observer_balance(observer_wallet)
+    final_response = (
+        f"🧬 **Поток сознания обработан:**\n\n```\n{output}\n```\n"
+        f"💰 Текущий баланс сети: `{balance} SOL`"
+    )
+    bot.send_message(message.chat.id, final_response, parse_mode="Markdown")
 
 if __name__ == "__main__":
     print("🔱 Еженышь вышел на каузальное дежурство. Поллинг запущен...")
