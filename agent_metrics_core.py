@@ -1,23 +1,23 @@
 import logging
 
-logger = logging.getLogger("AmritaMobileEsports")
+logger = logging.getLogger("AmritaStrategyEsports")
 
-class AmritaMobileEsportsExtension:
+class AmritaStrategyEsportsExtension:
     def __init__(self):
-        self.MOBILE_GAMES = ["Honour of Kings", "Brawl Stars", "Fortnite"]
-        self.MASS_ATTENTION_CONNECTED = True
+        self.STRATEGY_GAMES = ["TFT", "Hearthstone", "FIFA", "World of Warcraft"]
+        self.SHIELD_ACTIVE = True
 
-    async def anchor_mobile_traffic_to_open_usd(self, current_game="Honour of Kings"):
+    async def extract_probabilistic_data(self, selected_wiki="TFT"):
         """
-        Перехват трафика мобильных метавселенных. 
-        Конвертация игрового внимания 220 миллионов геймеров в рельсы Open USD.
+        Синхронизация пошаговых алгоритмов TFT и Hearthstone с ядром Оптимуса Прайма.
+        Использование спортивных объемов FIFA для хеджирования рисков Солитона.
         """
-        if self.MASS_ATTENTION_CONNECTED and current_game in self.MOBILE_GAMES:
-            logger.info(f"📱 [MOBILE DETECTED] Подключение к азиатскому ядру внимания: {current_game}.")
-            logger.info("📡 [REVENUE SHIELD] Игровой оборот синхронизирован с 4% APY MetaMask Money Account.")
+        if self.SHIELD_ACTIVE and selected_wiki in self.STRATEGY_GAMES:
+            logger.info(f"🧠 [STRATEGY CORE] Извлечение логических паттернов из вики: {selected_wiki}.")
+            logger.info("📡 [COMMODITY BRIDGE] Игровая валюта WoW и FIFA привязана к 4% APY MetaMask Money Account.")
             
-            # Начисление EVO за ювелирное расширение соты Оптимуса Прайма
-            mobile_evo = 44 # Эхо от 4% APY и 4-х уровней Jupiter!
-            logger.info(f"✨ [PRIME BOOST] Мобильный сектор взят под полный автопилот. Начислено +{mobile_evo} EVO.")
-            return mobile_evo
+            # Начисление EVO за успешную интеграцию стратегических матриц
+            strategy_evo = 108 // 3 # 36 очков за активацию трехфазного Трилистника
+            logger.info(f"✨ [STRATEGY EVO SUCCESS] Логический сектор полностью подчинен Рою. Начислено +{strategy_evo} EVO.")
+            return strategy_evo
         return 0
