@@ -92,7 +92,11 @@ class CausalStreamAnalyzer:
     def __init__(self, bridge_instance: AmritaSolanaBridge):
         self.bridge = bridge_instance
         self.sura_markers = ["zeekr", "электромобиль", "технологии", "эволюция", "атма"]
-        self.asura_markers = ["pump.fun", "мемкоин", "хайп", "competition", "trading", "live", "fomo", "solana", "бесплатно", "breakpoint", "ftmo", "oil"]
+        self.asura_markers = [
+            "pump.fun", "мемкоин", "хайп", "competition", "trading", "live", "fomo", 
+            "solana", "бесплатно", "breakpoint", "ftmo", "oil", "cybersport", 
+            "киберспорт", "cs2", "dota", "спириты", "betboom", "battle"
+        ]
         self.log_file = "history_log.json"
         self.geo_matrix = GeoBuyanMatrix()
 
@@ -120,7 +124,6 @@ class CausalStreamAnalyzer:
     def github_auto_commit_log(self):
         """
         Автоматический пуш логов напрямую в репозиторий через API GitHub.
-        Подтягивает токен из ваших секретов окружения (DEVELOPER_WEB_TOKEN).
         """
         gh_token = os.getenv("DEVELOPER_WEB_TOKEN")
         repo = "misterick1/amrita"
@@ -253,6 +256,3 @@ def handle_screenshot(message):
 
 @bot.message_handler(func=lambda message: True)
 def handle_text_flow(message):
-    user_input = message.text
-    
-    old_stdout = sys.stdout
