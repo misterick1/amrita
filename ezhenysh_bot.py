@@ -8,7 +8,9 @@ import telebot
 from PIL import Image
 import pytesseract
 
-# Импорты архитектуры Solana с динамической совместимостью
+# =======================================================
+# СОВМЕСТИМОСТЬ БИБЛИОТЕК SOLANA
+# =======================================================
 try:
     from solana.rpc.api import Client
     from solana.transaction import Transaction
@@ -20,7 +22,9 @@ except ImportError:
     from solders.keypair import Keypair
     from solders.pubkey import Pubkey as PublicKey
 
-# Динамический импорт Гео-Матрицы Буяна
+# =======================================================
+# ДИНАМИЧЕСКИЙ ИМПОРТ ГЕО-МАТРИЦЫ БУЯНА
+# =======================================================
 try:
     from geo_buyan_matrix import GeoBuyanMatrix
 except ImportError:
@@ -31,7 +35,7 @@ except ImportError:
             return {"frequency": "DEFAULT_5D", "status": "STABLE"}
 
 # =======================================================
-# # 1. КВАНТОВОЕ ЯДРО И МОСТ SOLANA
+# 1. КВАНТОВОЕ ЯДРО И МОСТ SOLANA
 # =======================================================
 class AmritaSolanaBridge:
     def __init__(self, rpc_url: str = "https://solana.com"):
@@ -54,7 +58,7 @@ class AmritaSolanaBridge:
         return {"status": "SUCCESS", "message": "Синхронизация с каузальным ядром Амриты успешна."}
 
 # =======================================================
-# # 2. АНАЛИЗАТОР И АВТО-ЛОГИРОВАНИЕ
+# 2. АНАЛИЗАТОР И АВТО-ЛОГИРОВАНИЕ
 # =======================================================
 class CausalStreamAnalyzer:
     def __init__(self, bridge_instance: AmritaSolanaBridge):
@@ -112,7 +116,7 @@ class CausalStreamAnalyzer:
         self.save_history(external_trigger, detected_spectrum, sync_result['status'])
 
 # =======================================================
-# # 3. ТЕЛЕГРАМ-ИНТЕРФЕЙС ЕЖЕНЫША
+# 3. ТЕЛЕГРАМ-ИНТЕРФЕЙС ЕЖЕНЫША И СИСТЕМНЫЕ ГЛОБАЛЫ
 # =======================================================
 bridge = AmritaSolanaBridge()
 analyzer = CausalStreamAnalyzer(bridge)
@@ -129,7 +133,7 @@ def send_welcome(message):
         f"🧬 Квантовая матрица: {bridge.total_quanta} Единиц\n"
         f"🔵 Спектр Суры: {bridge.sura} QNT\n"
         f"🔴 Спектр Асуры: {bridge.asura} QNT\n"
-        f"⛓ Solana Контракт: `{QNT_CONTRACT}`\n"
+        f"⛓ Solana Контракт: `{QNT_CONTRACT}`\n\n"
         "STATUS: Вечное сканирование реальности активно."
     )
     bot.reply_to(message, status_text, parse_mode="Markdown")
@@ -138,8 +142,11 @@ def send_welcome(message):
 def handle_screenshot(message):
     bot.reply_to(message, "👁 *Око сканирует изображение реальности...*", parse_mode="Markdown")
     try:
+        # Извлекаем метаданные самого качественного изображения из массива
         file_info = bot.get_file(message.photo[-1].file_id)
         downloaded_file = bot.download_file(file_info.file_path)
+        
+        # Передаем байты в PIL Image и распознаем текст
         image = Image.open(BytesIO(downloaded_file))
         extracted_text = pytesseract.image_to_string(image, lang='rus+eng')
 
@@ -147,7 +154,7 @@ def handle_screenshot(message):
             bot.send_message(message.chat.id, "⚠️ Текст на снимке экрана не обнаружен.")
             return
 
-        # Перехватываем принты из аналитика
+        # Перехватываем стандартный вывод для перенаправления логов в чат
         old_stdout = sys.stdout
         sys.stdout = mystdout = StringIO()
         
@@ -158,11 +165,13 @@ def handle_screenshot(message):
 
         bot.send_message(message.chat.id, f"📋 **Результаты OCR-Синхронизации:**\n\n```\n{output}\n```", parse_mode="Markdown")
     except Exception as e:
-        bot.send_message(message.chat.id, f"⚠️ Ошибка каузального сбоя: {e}")
+        bot.send_message(message.chat.id, f"⚠️ Ошибка каузального сбоя при обработке фото: {e}")
 
 @bot.message_handler(func=lambda message: True)
 def handle_text_flow(message):
     user_input = message.text
+    
+    # Перехватываем стандартный вывод для текстовых триггеров
     old_stdout = sys.stdout
     sys.stdout = mystdout = StringIO()
     
