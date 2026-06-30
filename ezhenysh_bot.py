@@ -96,7 +96,8 @@ class CausalStreamAnalyzer:
             "pump.fun", "мемкоин", "хайп", "competition", "trading", "live", "fomo", 
             "solana", "бесплатно", "breakpoint", "ftmo", "oil", "cybersport", 
             "киберспорт", "cs2", "dota", "спириты", "betboom", "battle",
-            "trump", "trump's", "disclosure", "million", "world liberty", "token"
+            "trump", "trump's", "disclosure", "million", "world liberty", "token",
+            "safepal", "prediction", "predict", "world cup", "messi", "hardware wallet", "swap"
         ]
         self.log_file = "history_log.json"
         self.geo_matrix = GeoBuyanMatrix()
@@ -253,5 +254,3 @@ def handle_screenshot(message):
         )
         bot.send_message(message.chat.id, final_response, parse_mode="Markdown")
     except Exception as e:
-        bot.send_message(message.chat.id, f"⚠️ Ошибка каузального сбоя при обработке photo: {e}")
-
