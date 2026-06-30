@@ -4,6 +4,7 @@ import json
 import shutil
 import logging
 import base64
+import re
 from io import StringIO, BytesIO
 from datetime import datetime
 import telebot
@@ -64,12 +65,16 @@ class AmritaSolanaBridge:
             return {"status": "BLOCKED", "message": "Обнаружена деструктивная частота нижних чакр."}
         return {"status": "SUCCESS", "message": "Синхронизация с каузальным ядром Амриты успешна."}
 
-    def check_observer_balance(self, wallet_keypair) -> float:
+    def check_address_balance(self, address_str: str) -> float:
         """
-        Проверка реального баланса кошелька Еженыша в Mainnet Solana.
+        Проверка баланса любого переданного или извлеченного адреса Solana в Mainnet.
         """
         try:
-            pubkey = wallet_keypair.pubkey() if hasattr(wallet_keypair, 'pubkey') else wallet_keypair.public_key
+            if hasattr(PublicKey, 'from_string'):
+                pubkey = PublicKey.from_string(address_str)
+            else:
+                pubkey = PublicKey(address_str)
+                
             response = self.client.get_balance(pubkey)
             
             if hasattr(response, 'value'):
@@ -79,10 +84,9 @@ class AmritaSolanaBridge:
             else:
                 lamports = int(response)
                 
-            sol_balance = lamports / 1000000000.0
-            return sol_balance
+            return lamports / 1000000000.0
         except Exception as e:
-            logger.error(f"Ошибка подключения к Solana RPC: {e}")
+            logger.error(f"Ошибка проверки баланса адреса {address_str}: {e}")
             return 0.0
 
 # =======================================================
@@ -124,16 +128,13 @@ class CausalStreamAnalyzer:
             print(f"Ошибка записи локального лога: {e}")
 
     def github_auto_commit_log(self):
-        """
-        Автоматический пуш логов напрямую в репозиторий через API GitHub.
-        """
         gh_token = os.getenv("DEVELOPER_WEB_TOKEN")
         repo = "misterick1/amrita"
         path = "history_log.json"
         url = f"https://github.com{repo}/contents/{path}"
 
         if not gh_token:
-            print("⚠️ GitHub-токен (DEVELOPER_WEB_TOKEN) не обнаружен в окружении.")
+            print("⚠️ GitHub-токен (DEVELOPER_WEB_TOKEN) не обнаружен.")
             return
 
         headers = {
@@ -153,7 +154,7 @@ class CausalStreamAnalyzer:
             with open(self.log_file, "rb") as f:
                 content = base64.b64encode(f.read()).decode("utf-8")
         except Exception as e:
-            print(f"Ошибка подготовки контента для GitHub: {e}")
+            print(f"Ошибка подготовки контента: {e}")
             return
 
         payload = {
@@ -167,9 +168,9 @@ class CausalStreamAnalyzer:
         try:
             res = requests.put(url, json=payload, headers=headers, timeout=10)
             if res.status_code in:
-                print("🟢 [GITHUB AUTO-SYNC]: Логи успешно закоммичены в репозиторий на автомате!")
+                print("🟢 [GITHUB AUTO-SYNC]: Логи успешно закоммичены на автомате!")
             else:
-                print(f"🔴 Ошибка синхронизации с GitHub: {res.status_code} | {res.text}")
+                print(f"🔴 Ошибка синхронизации с GitHub: {res.status_code}")
         except Exception as e:
             print(f"Исключение при запросе к GitHub API: {e}")
 
@@ -190,7 +191,14 @@ class CausalStreamAnalyzer:
         print(f"🔮 [Поток реальности]: {external_trigger.strip()}")
         print(f"⚖️ [Спектральный анализ]: {detected_spectrum}")
 
-        # Подключаем гео-сканирование острова Буян
+        # Поиск адресов Solana (Base58, длина 32-44 символа)
+        solana_addresses = re.findall(r'[1-9A-HJ-NP-Za-km-z]{32,44}', external_trigger)
+        if solana_addresses:
+            print(f"⛓️ [Обнаружены адреса Solana]: {len(solana_addresses)} шт.")
+            for addr in solana_addresses:
+                bal = self.bridge.check_address_balance(addr)
+                print(f"   ▫️ Адрес: {addr} | Баланс: {bal} SOL")
+
         geo_report = self.geo_matrix.scan_geo_frequency(external_trigger)
         print(f"🌐 [Режим Гео-Матрицы]: {geo_report.get('frequency', 'N/A')} ({geo_report.get('status', 'STABLE')})")
         
@@ -213,7 +221,7 @@ bot = telebot.TeleBot(BOT_TOKEN)
 
 @bot.message_handler(commands=['start', 'status'])
 def send_welcome(message):
-    balance = bridge.check_observer_balance(observer_wallet)
+    balance = bridge.check_address_balance(observer_wallet.pubkey() if hasattr(observer_wallet, 'pubkey') else observer_wallet.public_key)
     status_text = (
         "🦔 **Всевидящее Око Бабаты запущено**\n\n"
         f"🧬 Квантовая матрица: {bridge.total_quanta} Единиц\n"
@@ -245,12 +253,3 @@ def handle_screenshot(message):
         analyzer.analyze_route(extracted_text)
         
         output = mystdout.getvalue()
-        sys.stdout = old_stdout
-
-        balance = bridge.check_observer_balance(observer_wallet)
-        final_response = (
-            f"📋 **Результаты OCR-Синхронизации:**\n\n```\n{output}\n```\n"
-            f"💰 Текущий баланс сети: `{balance} SOL`"
-        )
-        bot.send_message(message.chat.id, final_response, parse_mode="Markdown")
-    except Exception as e:
