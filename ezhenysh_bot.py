@@ -95,7 +95,10 @@ class AmritaSolanaBridge:
 class CausalStreamAnalyzer:
     def __init__(self, bridge_instance: AmritaSolanaBridge):
         self.bridge = bridge_instance
-        self.sura_markers = ["zeekr", "электромобиль", "технологии", "эволюция", "атма"]
+        self.sura_markers = [
+            "zeekr", "электромобиль", "технологии", "эволюция", "атма", 
+            "квантовое поле", "сознание", "темная материя", "коды жизни", "наблюдатель", "рай"
+        ]
         self.asura_markers = [
             "pump.fun", "мемкоин", "хайп", "competition", "trading", "live", "fomo", 
             "solana", "бесплатно", "breakpoint", "ftmo", "oil", "cybersport", 
@@ -221,7 +224,7 @@ bot = telebot.TeleBot(BOT_TOKEN)
 
 @bot.message_handler(commands=['start', 'status'])
 def send_welcome(message):
-    balance = bridge.check_address_balance(observer_wallet.pubkey() if hasattr(observer_wallet, 'pubkey') else observer_wallet.public_key)
+    balance = bridge.check_address_balance(str(observer_wallet.pubkey() if hasattr(observer_wallet, 'pubkey') else observer_wallet.public_key))
     status_text = (
         "🦔 **Всевидящее Око Бабаты запущено**\n\n"
         f"🧬 Квантовая матрица: {bridge.total_quanta} Единиц\n"
@@ -248,8 +251,3 @@ def handle_screenshot(message):
             return
 
         old_stdout = sys.stdout
-        sys.stdout = mystdout = StringIO()
-        
-        analyzer.analyze_route(extracted_text)
-        
-        output = mystdout.getvalue()
