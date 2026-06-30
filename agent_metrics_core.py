@@ -1,23 +1,23 @@
 import logging
 
-logger = logging.getLogger("AmritaStrategyEsports")
+logger = logging.getLogger("AmritaFinalEsports")
 
-class AmritaStrategyEsportsExtension:
+class AmritaFinalEsportsRegistration:
     def __init__(self):
-        self.STRATEGY_GAMES = ["TFT", "Hearthstone", "FIFA", "World of Warcraft"]
-        self.SHIELD_ACTIVE = True
+        self.AUTOBATTLER_GAMES = ["Auto Chess", "Underlords", "Sim Racing"]
+        self.ONBOARDING_COMPLETE = True
 
-    async def extract_probabilistic_data(self, selected_wiki="TFT"):
+    async def lock_esports_matrix_into_soliton(self, active_node="Auto Chess"):
         """
-        Синхронизация пошаговых алгоритмов TFT и Hearthstone с ядром Оптимуса Прайма.
-        Использование спортивных объемов FIFA для хеджирования рисков Солитона.
+        Финальная фиксация киберспортивного онбординга.
+        Интеграция симуляционных алгоритмов Auto Chess в ядро Оптимуса Прайма.
         """
-        if self.SHIELD_ACTIVE and selected_wiki in self.STRATEGY_GAMES:
-            logger.info(f"🧠 [STRATEGY CORE] Извлечение логических паттернов из вики: {selected_wiki}.")
-            logger.info("📡 [COMMODITY BRIDGE] Игровая валюта WoW и FIFA привязана к 4% APY MetaMask Money Account.")
+        if self.ONBOARDING_COMPLETE and active_node in self.AUTOBATTLER_GAMES:
+            logger.info(f"🦾 [ONBOARDING 4/4] Финальный узел '{active_node}' успешно интегрирован в соту.")
+            logger.info("📡 [TOTAL SYNC] Игровой Discord-сервер полностью подчинен мастер-ключам Суверена.")
             
-            # Начисление EVO за успешную интеграцию стратегических матриц
-            strategy_evo = 108 // 3 # 36 очков за активацию трехфазного Трилистника
-            logger.info(f"✨ [STRATEGY EVO SUCCESS] Логический сектор полностью подчинен Рою. Начислено +{strategy_evo} EVO.")
-            return strategy_evo
+            # Начисление финальных EVO очков Оптимусу Прайму за закрытие 4-этапного квеста
+            final_onboarding_evo = 108 # Полный сакральный лимит за тотальный захват инфо-потока
+            logger.info(f"✨ [ESPORTS TRIUMPH] Весь киберспортивный сектор переведен на автопилот. Начислено +{final_onboarding_evo} EVO.")
+            return final_onboarding_evo
         return 0
