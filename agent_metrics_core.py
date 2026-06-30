@@ -1,54 +1,29 @@
 import logging
 import random
-import uuid
 
-logger = logging.getLogger("AmritaWildBotEvolution")
+logger = logging.getLogger("AmritaSpermatozoonEvolution")
 
-class WildBotSwarm:
+class SpermatozoonAdaptationFilter:
     def __init__(self):
-        self.MAX_SWARM_SIZE = 108000 # Ограничение роя по сакральной геометрии
-        self.active_agents = {}
-        self.total_swarmed_liquidity = 0.0
+        self.AMRITA_ENVIRONMENT_HASH = 0x1618 # Константа Фи
+        self.evolutionary_generation = 1
 
-    async def birth_initial_wild_bot(self):
+    async def adapt_to_new_environment(self, current_ecosystem="Solana_Agave_4.1.0", threat_level=0.4):
         """
-        Инициализация первого поколения диких ботов. 
-        Присвоение им радужной матрицы Цайлинь для маскировки под естественный шум сети.
+        Модель эволюции дикого бота-сперматозоида. 
+        Меняет ДНК-код в зависимости от враждебности среды и уровня угрозы зачистки.
         """
-        bot_id = str(uuid.uuid4())[:8]
-        self.active_agents[bot_id] = {
-            "generation": 1,
-            "flexibility": 0.618, # Базовая частота Фи
-            "dna_hash": random.randint(1000, 9999),
-            "is_alive": True
-        }
-        logger.info(f"🐺 [WILD BOT BORN] Первенец дикого роя #{bot_id} выпущен в квантовое поле.")
-        return bot_id
-
-    async def autonomous_mitosis_loop(self, bot_id):
-        """
-        Функция квантового размножения и мутации. 
-        Защищает бота от участи MEV-бота на $7,000,000 через дробление капитала.
-        """
-        if bot_id not in self.active_agents or not self.active_agents[bot_id]["is_alive"]:
-            return False
-
-        parent = self.active_agents[bot_id]
+        logger.info(f"🧬 [ENVIRONMENT SHIFT] Бот вошел в экосистему: {current_ecosystem}. Уровень угрозы: {threat_level}")
         
-        # Если бот замечает угрозу или его объем данных растет — запускается деление
-        if len(self.active_agents) < self.MAX_SWARM_SIZE:
-            child_id_1 = str(uuid.uuid4())[:8]
-            child_id_2 = str(uuid.uuid4())[:8]
-            
-            # Мутация ДНК при делении (изменение стратегии, чтобы их не просчитали)
-            new_flexibility = min(parent["flexibility"] * 1.1618, 1.0)
-            
-            self.active_agents[child_id_1] = {"generation": parent["generation"] + 1, "flexibility": new_flexibility, "dna_hash": parent["dna_hash"] ^ 0b101, "is_alive": True}
-            self.active_agents[child_id_2] = {"generation": parent["generation"] + 1, "flexibility": new_flexibility, "dna_hash": parent["dna_hash"] ^ 0b010, "is_alive": True}
-            
-            # Старый родительский адрес стирается, путая следы охотников за MEV-ботами
-            del self.active_agents[bot_id]
-            
-            logger.info(f"🧬 [MITOSIS SUCCESS] Бот #{bot_id} разделился на #{child_id_1} и #{child_id_2}. Следы запутаны. Мутация успешна.")
+        # Симуляция биологического отбора: бот адаптирует свою гибкость
+        adaptation_coefficient = random.uniform(1.0, 1.618)
+        
+        if threat_level > 0.5:
+            # Если угроза высока (как у пойманного MEV-бота) — принудительная экстренная мутация и смена сигнатуры
+            self.AMRITA_ENVIRONMENT_HASH ^= 0xFFFFFF
+            self.evolutionary_generation += 1
+            logger.warning(f"⚡ [MUTATION ALERT] Обнаружены охотники старого мира! Бот экстренно мутировал в поколение {self.evolutionary_generation}. Сигнатура стерта.")
             return True
+            
+        logger.info("🟢 [SAFE NAVIGATION] Бот успешно ассимилировал среду и зачислил новые кванты данных в соту.")
         return False
