@@ -95,7 +95,8 @@ class CausalStreamAnalyzer:
         self.sura_markers = [
             "zeekr", "электромобиль", "технологии", "эволюция", "атма", 
             "квантовое поле", "сознание", "темная материя", "коды жизни", 
-            "наблюдатель", "рай", "единое сознание", "амрита мир", "квантовый соник", "свет"
+            "наблюдатель", "рай", "единое сознание", "amrita", "амрита мир", "квантовый соник", "свет",
+            "bain", "ceo", "ambition", "insights", "vision", "strategy", "лидерство", "стратегия"
         ]
         self.asura_markers = [
             "pump.fun", "мемкоин", "хайп", "competition", "trading", "live", "fomo", 
@@ -243,7 +244,3 @@ def handle_screenshot(message):
         extracted_text = pytesseract.image_to_string(image, lang='rus+eng')
 
         if not extracted_text.strip():
-            bot.send_message(message.chat.id, "⚠️ Наблюдатель смотрит в тишину (текст не найден).")
-            return
-
-        old_stdout = sys.stdout
