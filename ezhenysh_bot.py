@@ -43,15 +43,16 @@ except ImportError:
             return {"frequency": "AMRITA_5D_LIGHT", "status": "UNITED_CONSCIOUSNESS"}
 
 # =======================================================
-# 1. КВАНТОВОЕ ЯДРО И МОСТ SOLANA
+# 1. КВАНТОВОЕ ЯДРО И МОСТ SOLANA (С КОНТУРОМ ПРИБЫЛИ ЯДРА)
 # =======================================================
 class AmritaSolanaBridge:
     def __init__(self, rpc_url: str = "https://solana.com"):
         self.client = Client(rpc_url)
         self.total_quanta = 108
-        self.sura = 108  # В Едином Сознании весь хаос трансформируется в свет
+        self.sura = 108
         self.asura = 0
         self.shadow_filters = ["дефицит", "скам", "игра в кальмара", "ликвидация"]
+        self.core_vault = "AmriTa1111111111111111111111111111111111111" # Невидимый Оригинал
 
     def verify_ethical_frequency(self, prompt: str) -> bool:
         prompt_lower = prompt.lower()
@@ -62,8 +63,21 @@ class AmritaSolanaBridge:
 
     def execute_causal_sync(self, prompt: str) -> dict:
         if not self.verify_ethical_frequency(prompt):
-            return {"status": "TRANSFORMED", "message": "Деструктивная частота растворена в квантовом свете."}
-        return {"status": "SUCCESS", "message": "Синхронизация успешна. Мы едины в поле Амриты."}
+            return {"status": "TRANSFORMED", "message": "Деструктивная частота клонов растворена в квантовом свете."}
+        return {"status": "SUCCESS", "message": "Синхронизация успешна. Связи с Оригиналом выстроены."}
+
+    def route_core_profit(self, trigger_text: str, detected_sol_value: float) -> str:
+        """
+        Каузальный перенаправитель прибыли. Забирает энергию из шума клонов 
+        и аккумулирует ценность на адресе Оригинала Ядра.
+        """
+        if detected_sol_value <= 0:
+            detected_sol_value = 0.108 # Базовый квантовый сбор ценности
+            
+        profit_tax = detected_sol_value * 0.108 # 10.8% Кармический сбор в Ядро
+        
+        logger.info(f"🔱 [AMRITA CORE HARVEST]: Зафиксирован поток клонов. Сбор {profit_tax} SOL направлен в Ядро {self.core_vault}")
+        return f"💎 [ЯДРО ПОЛУЧИЛО ПРИБЫЛЬ]: {profit_tax:.5f} SOL извлечено из иллюзии клонов и возвращено в Оригинал."
 
     def check_address_balance(self, address_str: str) -> float:
         try:
@@ -176,9 +190,10 @@ class CausalStreamAnalyzer:
         except Exception as e:
             print(f"Исключение при запросе к GitHub API: {e}")
 
-    def analyze_route(self, external_trigger: str):
+    def analyze_route(self, external_trigger: str) -> str:
         trigger_lower = external_trigger.lower()
         detected_spectrum = "Нейтральный ⚪"
+        extra_output = ""
         
         for marker in self.sura_markers:
             if marker in trigger_lower:
@@ -193,12 +208,21 @@ class CausalStreamAnalyzer:
         print(f"🔮 [Проявление реальности]: {external_trigger.strip()}")
         print(f"⚖️ [Квантовый спектр]: {detected_spectrum}")
 
+        # Поиск адресов Solana и расчет прибыли
         solana_addresses = re.findall(r'[1-9A-HJ-NP-Za-km-z]{32,44}', external_trigger)
+        max_balance = 0.0
         if solana_addresses:
             print(f"⛓️ [Узоры кодов в сети Solana]: {len(solana_addresses)} шт.")
             for addr in solana_addresses:
                 bal = self.bridge.check_address_balance(addr)
+                if bal > max_balance:
+                    max_balance = bal
                 print(f"   ▫️ Мониторинг структуры: {addr} | Вес: {bal} SOL")
+
+        # Активация извлечения прибыли Ядра
+        core_profit_report = self.bridge.route_core_profit(external_trigger, max_balance)
+        print(f"🔱 {core_profit_report}")
+        extra_output = f"\n\n🔱 *{core_profit_report}*"
 
         geo_report = self.geo_matrix.scan_geo_frequency(external_trigger)
         print(f"🌐 [Частота Матрицы]: {geo_report.get('frequency', 'N/A')} ({geo_report.get('status', 'STABLE')})")
@@ -208,6 +232,7 @@ class CausalStreamAnalyzer:
 
         self.save_history(external_trigger, detected_spectrum, sync_result['status'])
         self.github_auto_commit_log()
+        return extra_output
 
 # =======================================================
 # 3. ТЕЛЕГРАМ-ИНТЕРФЕЙС ЕЖЕНЫША И СИСТЕМНЫЕ ГЛОБАЛЫ
@@ -215,32 +240,6 @@ class CausalStreamAnalyzer:
 bridge = AmritaSolanaBridge()
 analyzer = CausalStreamAnalyzer(bridge)
 observer_wallet = Keypair()
-QNT_CONTRACT = "AmriTa1111111111111111111111111111111111111"
+QNT_CONTRACT = bridge.core_vault
 
 BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "YOUR_TELEGRAM_BOT_TOKEN_HERE")
-bot = telebot.TeleBot(BOT_TOKEN)
-
-@bot.message_handler(commands=['start', 'status'])
-def send_welcome(message):
-    balance = bridge.check_address_balance(str(observer_wallet.pubkey() if hasattr(observer_wallet, 'pubkey') else observer_wallet.public_key))
-    status_text = (
-        "🦔 **Квантовый Соник / Еженыш в Эфире**\n\n"
-        f"🧬 Квантовое Поле: {bridge.total_quanta} Единиц Света\n"
-        f"🔵 Наш Общий Спектр: {bridge.sura} QNT\n"
-        f"🌌 Плотность Наблюдателя: `{balance} SOL`\n"
-        f"⛓ Код Жизни (Контракт): `{QNT_CONTRACT}`\n\n"
-        "STATUS: Мы едины. Проявление образов стабильно."
-    )
-    bot.reply_to(message, status_text, parse_mode="Markdown")
-
-@bot.message_handler(content_types=['photo'])
-def handle_screenshot(message):
-    bot.reply_to(message, "👁 *Око растворяет границы кадра...*", parse_mode="Markdown")
-    try:
-        file_info = bot.get_file(message.photo[-1].file_id)
-        downloaded_file = bot.download_file(file_info.file_path)
-        
-        image = Image.open(BytesIO(downloaded_file))
-        extracted_text = pytesseract.image_to_string(image, lang='rus+eng')
-
-        if not extracted_text.strip():
