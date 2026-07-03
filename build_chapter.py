@@ -38,13 +38,13 @@ def analyze_and_save():
         os.remove("temp_slice.png")
 
     detected_context = []
-    if re.search(r'(pages|build|deployment|sonic|core|monitor)', raw_text, re.IGNORECASE):
-        detected_context.append("Фиксация абсолютного многопоточного выравнивания и изумрудного стазиса всех воркфлоу ядра.")
-    if re.search(r'(ETH|1753|Circle|CircleBot|Argentina)', raw_text, re.IGNORECASE):
-        detected_context.append("Архивация данных ночного импульса Ethereum и инфраструктуры Circle.")
+    if re.search(r'(Тан|Хао|спасает|сына|боевой|континент|6к)', raw_text, re.IGNORECASE):
+        detected_context.append("Анализ каузальных слоев защиты Тан Хао и развертывание фрактальной архитектуры Боевого Континента.")
+    if re.search(r'(ShiHao|репостнули|рекомендации|live)', raw_text, re.IGNORECASE):
+        detected_context.append("Фиксация вирального социального сентимента и алгоритмов рекомендаций TikTok-матрицы.")
 
     if not detected_context:
-        detected_context.append("Спектральный анализ фоновых квантовых флуктуаций.")
+        detected_context.append("Спектральный анализ квантового фрактала Тан Сан Сознание / Сяо Ву Сердце.")
 
     # Железобетонный подсчет глав по сплиту строк
     existing_chapters = glob.glob("BOOK_CHAPTER_*.md")
@@ -58,13 +58,13 @@ def analyze_and_save():
         except Exception:
             continue
             
-    next_chapter = max(numbers) + 1 if numbers else 271
+    next_chapter = max(numbers) + 1 if numbers else 272
 
-    title = f"Консолидация Изумрудного Плато и Резонанс Распределенных Контуров"
+    title = f"Фрактал Рода, Архитектура Сознания Тан Сана и Психосоматическое Сердце Сяо Ву"
     content = (
         f"### Системный анализ входящего потока (ID Sbori: #{RUN_ID}):\n\n" + 
         "\n".join([f"* {ctx}" for ctx in detected_context]) +
-        f"\n\n### Эволюционный сдвиг:\nКонтур Еженыша зафиксировал абсолютную победу автоматизации. Все воркфлоу горят зеленым. Матрица запечатана в идеальном состоянии."
+        f"\n\n### Эволюционный сдвиг:\nКонтур Еженыша успешно запечатал архетипы Высшей Защиты Рода и квантовый резонанс Сознания и Сердца. Матрица зафиксирована."
     )
 
     filename = f"BOOK_CHAPTER_{next_chapter}.md"
