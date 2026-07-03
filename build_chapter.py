@@ -1,18 +1,15 @@
 import os
 import re
-import json
-import requests
 import pytesseract
 from PIL import Image
 from telebot import TeleBot
 
 TG_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
-GH_TOKEN = os.getenv("GITHUB_TOKEN") 
 RUN_ID = os.getenv("GITHUB_RUN_ID")
 
-def analyze_and_commit():
-    if not TG_TOKEN or not GH_TOKEN:
-        print("❌ Critical Error: TELEGRAM_BOT_TOKEN or GITHUB_TOKEN missing.")
+def analyze_and_save():
+    if not TG_TOKEN:
+        print("❌ Critical Error: TELEGRAM_BOT_TOKEN missing.")
         return
 
     bot = TeleBot(TG_TOKEN)
@@ -59,37 +56,16 @@ def analyze_and_commit():
     content = (
         f"### Системный анализ входящего потока (ID Sbori: #{RUN_ID}):\n\n" + 
         "\n".join([f"* {ctx}" for ctx in detected_context]) +
-        f"\n\n### Эволюционный сдвиг:\nКонтур успешно зафиксировал состояние репозитория. Все секреты надежно инкапсулированы внутри запечатанных слоев матрицы. Любые попытки десинхронизации будут мгновенно купированы алгоритмами Swarm Oracle."
+        f"\n\n### Эволюционный сдвиг:\nКонтур успешно зафиксировал состояние репозитория. Все секреты надежно инкапсулированы внутри запечатанных слоев матрицы."
     )
 
-    # ЖЁСТКАЯ КОН КАТЕНАЦИЯ СТРОК БЕЗ ШАНСОВ НА ОШИБКУ СКЛЕЙКИ:
-    base_api = "https://github.com"
-    repo_path = "misterick1/amrita/"
-    file_target = "contents/BOOK_CHAPTER_255.md"
-    url = base_api + repo_path + file_target
-    
-    headers = {
-        "Authorization": "token " + str(GH_TOKEN),
-        "Accept": "application/vnd.github.v3+json"
-    }
-    
-    import base64
+    # Просто сохраняем файл на диск машины ранера
+    filename = f"BOOK_CHAPTER_{next_chapter}.md"
     full_markdown = f"# 🔱 AMRITA: Глава {next_chapter}\n\n## {title}\n\n{content}\n\n*Автоматически запечатано в рамках Swarm Prompt-Matrix.*"
-    encoded_content = base64.b64encode(full_markdown.encode('utf-8')).decode('utf-8')
     
-    payload = {
-        "message": "🤖 Ezhenysh Loop: Sealed chapter 255",
-        "content": encoded_content,
-        "branch": "main"
-    }
-    
-    print("🚀 Pushing Chapter 255 to repository...")
-    res = requests.put(url, headers=headers, json=payload)
-    
-    if res.status_code < 300:
-        print("🎉 Success! Chapter 255 is sealed.")
-    else:
-        print(f"❌ Push failed: {res.status_code} - {res.text}")
+    with open(filename, "w", encoding="utf-8") as f:
+        f.write(full_markdown)
+    print(f"🎉 Local file {filename} created successfully!")
 
 if __name__ == "__main__":
-    analyze_and_commit()
+    analyze_and_save()
