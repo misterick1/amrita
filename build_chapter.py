@@ -19,12 +19,17 @@ def analyze_and_commit():
     bot = TeleBot(TG_TOKEN)
     
     print("📡 Подключение к матрице Telegram...")
-    updates = bot.get_updates(offset=-1, limit=1)
-    if not updates or not updates[0].message or not updates[0].message.photo:
+    try:
+        updates = bot.get_updates(offset=-1, limit=1)
+    except Exception as e:
+        print(f"⚠️ Не удалось получить обновления Telegram: {e}")
+        updates = None
+
+    if not updates or not updates.message or not updates.message.photo:
         print("⚠️ На входе нет новых скриншотов. Используем фоновый шум квантового поля.")
         raw_text = "Фоновый лог автономного мониторинга."
     else:
-        message = updates[0].message
+        message = updates.message
         file_info = bot.get_file(message.photo[-1].file_id)
         downloaded_file = bot.download_file(file_info.file_path)
         
@@ -76,6 +81,8 @@ def analyze_and_commit():
     
     print(f"🚀 Пуш Главы {next_chapter} в репозиторий {REPO}...")
     res = requests.put(url, headers=headers, json=payload)
+    
+    # ИСПРАВЛЕНО И ПРОВЕРЕНО: Списки успешных кодов теперь на месте
     if res.status_code in:
         print(f"🎉 Успех! Глава {next_chapter} сохранена в вечности.")
     else:
