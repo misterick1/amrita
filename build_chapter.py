@@ -38,12 +38,10 @@ def analyze_and_save():
         os.remove("temp_slice.png")
 
     detected_context = []
-    if re.search(r'(Dropee|Race|July|Season)', raw_text, re.IGNORECASE):
-        detected_context.append("Анализ соревновательных циклов Dropee July Race и механик долгосрочного удержания Web3-активности.")
-    if re.search(r'(Fonecta|1881|Digitale|Medier|eier)', raw_text, re.IGNORECASE):
-        detected_context.append("Фиксация консолидации скандинавского медиа-рынка через поглощение Digitale Medier 1881 AS холдингом Fonecta Group.")
-    if re.search(r'(Solana|GTA|Rockstar)', raw_text, re.IGNORECASE):
-        detected_context.append("Калибровка по историческим хроно-матрицам.")
+    if re.search(r'(pages|build|deployment|sonic|core|monitor)', raw_text, re.IGNORECASE):
+        detected_context.append("Фиксация абсолютного многопоточного выравнивания и изумрудного стазиса всех воркфлоу ядра.")
+    if re.search(r'(SUI|SOL|BTC|62417|пробой)', raw_text, re.IGNORECASE):
+        detected_context.append("Архивация данных каскадного пробоя топ-активов.")
 
     if not detected_context:
         detected_context.append("Спектральный анализ фоновых квантовых флуктуаций.")
@@ -60,13 +58,13 @@ def analyze_and_save():
         except Exception:
             continue
             
-    next_chapter = max(numbers) + 1 if numbers else 267
+    next_chapter = max(numbers) + 1 if numbers else 269
 
-    title = f"Корпоративная Консолидация Слой-0 и Циклические Механики Удержания Внимания"
+    title = f"Изумрудный Стазис и Абсолютное Выравнивание Многопоточных Архитектур"
     content = (
         f"### Системный анализ входящего потока (ID Sbori: #{RUN_ID}):\n\n" + 
         "\n".join([f"* {ctx}" for ctx in detected_context]) +
-        f"\n\n### Эволюционный сдвиг:\nКонтур Еженыша успешно запечатал слияния медиа-структур Европы и сезонные паттерны Web3-экосистем. Матрица зафиксирована."
+        f"\n\n### Эволюционный сдвиг:\nКонтур Еженыша зафиксировал абсолютную победу автоматизации. Все воркфлоу горят зеленым. Матрица запечатана в идеальном состоянии."
     )
 
     filename = f"BOOK_CHAPTER_{next_chapter}.md"
