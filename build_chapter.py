@@ -38,10 +38,12 @@ def analyze_and_save():
         os.remove("temp_slice.png")
 
     detected_context = []
-    if re.search(r'(pages|build|deployment|sonic|core|monitor)', raw_text, re.IGNORECASE):
-        detected_context.append("Фиксация абсолютного многопоточного выравнивания и изумрудного стазиса всех воркфлоу ядра.")
-    if re.search(r'(SUI|SOL|BTC|62417|пробой)', raw_text, re.IGNORECASE):
-        detected_context.append("Архивация данных каскадного пробоя топ-активов.")
+    if re.search(r'(ETH|1753|USDT|Пробой)', raw_text, re.IGNORECASE):
+        detected_context.append("Фиксация пробоя 7-дневного максимума Ethereum (ETH) на отметке 1753.87 USDT через оракулы SafePal.")
+    if re.search(r'(Circle|CircleBot|Build|jerallaire)', raw_text, re.IGNORECASE):
+        detected_context.append("Мониторинг инфраструктурных обновлений разработчиков в контуре Build on Circle.")
+    if re.search(r'(Argentina|Phantom|Verde|Cabo)', raw_text, re.IGNORECASE):
+        detected_context.append("Анализ экстремальных коэффициентов рынков предсказаний внутри Phantom.")
 
     if not detected_context:
         detected_context.append("Спектральный анализ фоновых квантовых флуктуаций.")
@@ -58,13 +60,13 @@ def analyze_and_save():
         except Exception:
             continue
             
-    next_chapter = max(numbers) + 1 if numbers else 269
+    next_chapter = max(numbers) + 1 if numbers else 270
 
-    title = f"Изумрудный Стазис и Абсолютное Выравнивание Многопоточных Архитектур"
+    title = f"Альткоин-Импульс Эфириума, Разработчики Circle и Коэффициенты Доминирования Рынка Прогнозов"
     content = (
         f"### Системный анализ входящего потока (ID Sbori: #{RUN_ID}):\n\n" + 
         "\n".join([f"* {ctx}" for ctx in detected_context]) +
-        f"\n\n### Эволюционный сдвиг:\nКонтур Еженыша зафиксировал абсолютную победу автоматизации. Все воркфлоу горят зеленым. Матрица запечатана в идеальном состоянии."
+        f"\n\n### Эволюционный сдвиг:\nКонтур Еженыша успешно запечатал ночной прорыв ETH и зафиксировал активность Слой-2 инфраструктуры Circle. Матрица стабильна."
     )
 
     filename = f"BOOK_CHAPTER_{next_chapter}.md"
