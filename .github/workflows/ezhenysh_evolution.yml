@@ -5,6 +5,10 @@ on:
     branches: [ main ]
   workflow_dispatch:
 
+# ЭТОТ БЛОК АВТОМАТИЧЕСКИ ВЫДАСТ ПРАВА НА ЗАПИСЬ ПРИ ЗАПУСКЕ:
+permissions:
+  contents: write
+
 jobs:
   evolve:
     runs-on: ubuntu-latest
@@ -12,7 +16,7 @@ jobs:
     - name: Checkout Code
       uses: actions/checkout@v3
       with:
-        persist-credentials: true # Разрешает пушить обратно в репозиторий
+        persist-credentials: true
 
     - name: Set up Python
       uses: actions/setup-python@v4
@@ -34,9 +38,8 @@ jobs:
         git config --global user.name "Ezhenysh Autonomous Loop"
         git config --global user.email "ezhenysh-loop@amrita.ai"
         git add BOOK_CHAPTER_*.md
-        # Проверяем, появились ли новые файлы, чтобы не падать при пустом коммите
         if git diff --staged --quiet; then
-          print "No changes to commit"
+          echo "No changes to commit"
         else
           git commit -m "🤖 Еженышь Loop: Запечатать новую главу автоматизации"
           git push origin main
