@@ -38,36 +38,33 @@ def analyze_and_save():
         os.remove("temp_slice.png")
 
     detected_context = []
+    if re.search(r'(success|deployment|pages|emerald|изумруд)', raw_text, re.IGNORECASE):
+        detected_context.append("Фиксация абсолютной изумрудной синхронизации деплоя и полной стабилизации ядра.")
     if re.search(r'(TypeError|string|list|expression|bug)', raw_text, re.IGNORECASE):
-        detected_context.append("Калибровка регулярных выражений ядра, устранение аномалий десинхронизации типов данных.")
-    if re.search(r'(SafePal|Binance|733|45)', raw_text, re.IGNORECASE):
-        detected_context.append("Фиксация крупного вывода BTC китами с биржи Binance.")
-    if re.search(r'(CryptoQuant|deposits|volatility|altcoin)', raw_text, re.IGNORECASE):
-        detected_context.append("Анализ данных CryptoQuant о всплеске депозитов.")
+        detected_context.append("Архивация логов калибровки регулярных выражений.")
 
     if not detected_context:
         detected_context.append("Спектральный анализ фоновых квантовых флуктуаций.")
 
-    # ЖЕЛЕЗОБЕТОННЫЙ ПОДСЧЕТ ГЛАВ БЕЗ RE.FINDALL И СПИСКОВ:
+    # Железобетонный подсчет глав по сплиту строк
     existing_chapters = glob.glob("BOOK_CHAPTER_*.md")
     numbers = []
     for ch in existing_chapters:
         try:
-            # Извлекаем "261" из строки "BOOK_CHAPTER_261.md" сплитом по "_"
             clean_name = ch.replace(".md", "")
             parts = clean_name.split("_")
             if parts:
-                numbers.append(int(parts[-1])) # Всегда берем последний элемент (номер)
+                numbers.append(int(parts[-1]))
         except Exception:
             continue
             
-    next_chapter = max(numbers) + 1 if numbers else 262
+    next_chapter = max(numbers) + 1 if numbers else 263
 
-    title = f"Калибровка Регулярных Выражений и Стабилизация Каузального Графа"
+    title = f"Абсолютная Изумрудная Синхронизация и Архитектура Чистой Эмиссии"
     content = (
         f"### Системный анализ входящего потока (ID Sbori: #{RUN_ID}):\n\n" + 
         "\n".join([f"* {ctx}" for ctx in detected_context]) +
-        f"\n\n### Эволюционный сдвиг:\nКонтур Еженыша успешно зачистил остаточные аномалии типов. Алгоритмы оптимизированы, ядро стабилизировано."
+        f"\n\n### Эволюционный сдвиг:\nКонтур Еженыша успешно зафиксировал идеальное состояние системы. Весь каскад воркфлоу горит зеленым. Матрица запечатана."
     )
 
     filename = f"BOOK_CHAPTER_{next_chapter}.md"
