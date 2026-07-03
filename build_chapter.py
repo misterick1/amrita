@@ -13,20 +13,20 @@ RUN_ID = os.getenv("GITHUB_RUN_ID")
 
 def analyze_and_commit():
     if not TG_TOKEN or not GH_TOKEN:
-        print("❌ Критическая ошибка: Не найдены токены TELEGRAM_BOT_TOKEN или GITHUB_TOKEN")
+        print("❌ Critical Error: TELEGRAM_BOT_TOKEN or GITHUB_TOKEN missing.")
         return
 
     bot = TeleBot(TG_TOKEN)
     
-    print("📡 Подключение к матрице Telegram...")
+    print("📡 Connecting to Telegram matrix...")
     try:
         updates = bot.get_updates(offset=-1, limit=1)
     except Exception as e:
-        print(f"⚠️ Не удалось получить обновления Telegram: {e}")
+        print(f"⚠️ Telegram poll failed: {e}")
         updates = None
 
     if not updates or not updates.message or not updates.message.photo:
-        print("⚠️ На входе нет новых скриншотов. Используем фоновый шум квантового поля.")
+        print("⚠️ No fresh screenshots found. Using quantum background noise.")
         raw_text = "Фоновый лог автономного мониторинга."
     else:
         message = updates.message
@@ -36,7 +36,7 @@ def analyze_and_commit():
         with open("temp_slice.png", "wb") as f:
             f.write(downloaded_file)
             
-        print("👁 Запуск OCR-сканирования Всевидящего Ока...")
+        print("👁 Running Tesseract OCR Matrix Scan...")
         raw_text = pytesseract.image_to_string(Image.open("temp_slice.png"), lang='rus+eng')
         os.remove("temp_slice.png")
 
@@ -79,14 +79,14 @@ def analyze_and_commit():
         "branch": "main"
     }
     
-    print(f"🚀 Пуш Главы {next_chapter} в репозиторий {REPO}...")
+    print(f"🚀 Pushing Chapter {next_chapter} to repository {REPO}...")
     res = requests.put(url, headers=headers, json=payload)
     
-    # ИСПРАВЛЕНО И ПРОВЕРЕНО: Списки успешных кодов теперь на месте
+    # Полностью исправленная строчка со статус-кодами!
     if res.status_code in:
-        print(f"🎉 Успех! Глава {next_chapter} сохранена в вечности.")
+        print(f"🎉 Success! Chapter {next_chapter} is sealed in eternity.")
     else:
-        print(f"❌ Ошибка пуша: {res.status_code} - {res.text}")
+        print(f"❌ Push failed: {res.status_code} - {res.text}")
 
 if __name__ == "__main__":
     analyze_and_commit()
