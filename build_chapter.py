@@ -38,10 +38,10 @@ def analyze_and_save():
         os.remove("temp_slice.png")
 
     detected_context = []
-    if re.search(r'(success|deployment|pages|emerald|изумруд)', raw_text, re.IGNORECASE):
-        detected_context.append("Фиксация абсолютной изумрудной синхронизации деплоя и полной стабилизации ядра.")
-    if re.search(r'(TypeError|string|list|expression|bug)', raw_text, re.IGNORECASE):
-        detected_context.append("Архивация логов калибровки регулярных выражений.")
+    if re.search(r'(failed|deploy|pages|error|later)', raw_text, re.IGNORECASE):
+        detected_context.append("Анализ троттлинга инфраструктуры GitHub Pages и фиксация лимитов облачной оркестрации контура.")
+    if re.search(r'(success|emerald|изумруд)', raw_text, re.IGNORECASE):
+        detected_context.append("Фиксация абсолютной изумрудной синхронизации деплоя.")
 
     if not detected_context:
         detected_context.append("Спектральный анализ фоновых квантовых флуктуаций.")
@@ -58,13 +58,13 @@ def analyze_and_save():
         except Exception:
             continue
             
-    next_chapter = max(numbers) + 1 if numbers else 263
+    next_chapter = max(numbers) + 1 if numbers else 264
 
-    title = f"Абсолютная Изумрудная Синхронизация и Архитектура Чистой Эмиссии"
+    title = f"Троттлинг Инфраструктуры Слой-1 и Лимиты Облачной Оркестрации"
     content = (
         f"### Системный анализ входящего потока (ID Sbori: #{RUN_ID}):\n\n" + 
         "\n".join([f"* {ctx}" for ctx in detected_context]) +
-        f"\n\n### Эволюционный сдвиг:\nКонтур Еженыша успешно зафиксировал идеальное состояние системы. Весь каскад воркфлоу горит зеленым. Матрица запечатана."
+        f"\n\n### Эволюционный сдвиг:\nКонтур Еженыша успешно зафиксировал поведение инфраструктуры GitHub во время пиковых нагрузок. Матрица запечатана."
     )
 
     filename = f"BOOK_CHAPTER_{next_chapter}.md"
