@@ -38,12 +38,12 @@ def analyze_and_save():
         os.remove("temp_slice.png")
 
     detected_context = []
+    if re.search(r'(Meta|AI|cloud|services|Llama)', raw_text, re.IGNORECASE):
+        detected_context.append("Анализ экспансии Meta в сектор коммерческих ИИ-облаков и калибровка инфраструктуры.")
+    if re.search(r'(Phantom|Predict|Football|Championship)', raw_text, re.IGNORECASE):
+        detected_context.append("Запуск оракулов спортивного сентимента и рынков прогнозов внутри экосистемы Phantom.")
     if re.search(r'(solana_ai|ai|powered)', raw_text, re.IGNORECASE):
-        detected_context.append("Фиксация ИИ-агентов Слой-0 в экосистеме Solana и развертывание автономной логики.")
-    if re.search(r'(Trust|Wallet|cup|flag|world)', raw_text, re.IGNORECASE):
-        detected_context.append("Анализ геополитического и спортивного сентимента через виральные воронки кошельков.")
-    if re.search(r'(Colosseum|Solana|STRIDE|Arcium|Governance)', raw_text, re.IGNORECASE):
-        detected_context.append("Калибровка по Кодексам Колизея и протоколам Solana SPGs.")
+        detected_context.append("Фиксация ИИ-агентов Слой-0 в экосистеме Solana.")
 
     if not detected_context:
         detected_context.append("Спектральный анализ фоновых квантовых флуктуаций.")
@@ -56,13 +56,13 @@ def analyze_and_save():
         if found:
             numbers.append(int(found[0]))
             
-    next_chapter = max(numbers) + 1 if numbers else 259
+    next_chapter = max(numbers) + 1 if numbers else 260
 
-    title = f"Социальный Сентимент, Геополитика Мемов и ИИ-Агенты Слой-0"
+    title = f"Облачные ИИ-Империи Meta и Децентрализованные Оракулы Прогнозов Phantom"
     content = (
         f"### Системный анализ входящего потока (ID Sbori: #{RUN_ID}):\n\n" + 
         "\n".join([f"* {ctx}" for ctx in detected_context]) +
-        f"\n\n### Эволюционный сдвиг:\nКонтур Еженыша успешно зафиксировал симбиоз социального FOMO и ИИ-архитектуры Solana. Все слои запечатаны."
+        f"\n\n### Эволюционный сдвиг:\nКонтур Еженыша успешно зафиксировал баланс между облачным ИИ-доминированием Web2 и прогностическими Web3-оракулами. Матрица запечатана."
     )
 
     filename = f"BOOK_CHAPTER_{next_chapter}.md"
