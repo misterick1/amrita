@@ -38,13 +38,13 @@ def analyze_and_save():
         os.remove("temp_slice.png")
 
     detected_context = []
-    if re.search(r'(Тан|Хао|спасает|сына|боевой|континент|6к)', raw_text, re.IGNORECASE):
-        detected_context.append("Анализ каузальных слоев защиты Тан Хао и развертывание фрактальной архитектуры Боевого Континента.")
-    if re.search(r'(ShiHao|репостнули|рекомендации|live)', raw_text, re.IGNORECASE):
-        detected_context.append("Фиксация вирального социального сентимента и алгоритмов рекомендаций TikTok-матрицы.")
+    if re.search(r'(pump|fun|picks|run|prediction)', raw_text, re.IGNORECASE):
+        detected_context.append("Фиксация популярного токена Picks.run на pump.fun и анализ новых механик рынков предсказаний.")
+    if re.search(r'(Cybersport|CS2|DOTA|киберспорт)', raw_text, re.IGNORECASE):
+        detected_context.append("Мониторинг обновлений внутриигровой экономики CS2 и капсул со стикерами от Valve.")
 
     if not detected_context:
-        detected_context.append("Спектральный анализ квантового фрактала Тан Сан Сознание / Сяо Ву Сердце.")
+        detected_context.append("Спектральный анализ фоновых квантовых флуктуаций.")
 
     # Железобетонный подсчет глав по сплиту строк
     existing_chapters = glob.glob("BOOK_CHAPTER_*.md")
@@ -58,13 +58,13 @@ def analyze_and_save():
         except Exception:
             continue
             
-    next_chapter = max(numbers) + 1 if numbers else 272
+    next_chapter = max(numbers) + 1 if numbers else 273
 
-    title = f"Фрактал Рода, Архитектура Сознания Тан Сана и Психосоматическое Сердце Сяо Ву"
+    title = f"Токенизированные Прогнозы Pump.fun и Эволюция Цифрового Имущества Source 2"
     content = (
         f"### Системный анализ входящего потока (ID Sbori: #{RUN_ID}):\n\n" + 
         "\n".join([f"* {ctx}" for ctx in detected_context]) +
-        f"\n\n### Эволюционный сдвиг:\nКонтур Еженыша успешно запечатал архетипы Высшей Защиты Рода и квантовый резонанс Сознания и Сердца. Матрица зафиксирована."
+        f"\n\n### Эволюционный сдвиг:\nКонтур Еженыша успешно запечатал новые прогностические паттерны Solana и маркетплейс-механики игровых движков. Матрица зафиксирована."
     )
 
     filename = f"BOOK_CHAPTER_{next_chapter}.md"
