@@ -8,7 +8,6 @@ from telebot import TeleBot
 
 TG_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 GH_TOKEN = os.getenv("GITHUB_TOKEN") 
-REPO = os.getenv("GITHUB_REPOSITORY")
 RUN_ID = os.getenv("GITHUB_RUN_ID")
 
 def analyze_and_commit():
@@ -63,7 +62,9 @@ def analyze_and_commit():
         f"\n\n### Эволюционный сдвиг:\nКонтур успешно зафиксировал состояние репозитория. Все секреты надежно инкапсулированы внутри запечатанных слоев матрицы. Любые попытки десинхронизации будут мгновенно купированы алгоритмами Swarm Oracle."
     )
 
-    url = f"https://github.com{REPO}/contents/BOOK_CHAPTER_{next_chapter}.md"
+    # ЖЁСТКИЙ И ПРАВИЛЬНЫЙ АДРЕС БЕЗ СКЛЕЕК:
+    url = f"https://github.com_{next_chapter}.md"
+    
     headers = {
         "Authorization": f"token {GH_TOKEN}",
         "Accept": "application/vnd.github.v3+json"
@@ -79,14 +80,13 @@ def analyze_and_commit():
         "branch": "main"
     }
     
-    print(f"🚀 Pushing Chapter {next_chapter} to repository {REPO}...")
+    print(f"🚀 Pushing Chapter {next_chapter} to repository...")
     res = requests.put(url, headers=headers, json=payload)
     
-    # Идеальная математическая проверка без использования слова "in" и скобок
     if res.status_code < 300:
         print(f"🎉 Success! Chapter {next_chapter} is sealed.")
     else:
-        print(f"❌ Push failed: {res.status_code}")
+        print(f"❌ Push failed: {res.status_code} - {res.text}")
 
 if __name__ == "__main__":
     analyze_and_commit()
