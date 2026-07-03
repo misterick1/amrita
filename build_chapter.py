@@ -38,26 +38,31 @@ def analyze_and_save():
         os.remove("temp_slice.png")
 
     detected_context = []
+    if re.search(r'(Colosseum|Solana|STRIDE|Arcium|Governance)', raw_text, re.IGNORECASE):
+        detected_context.append("Калибровка по Кодексам Колизея, протоколам Solana SPGs и конфиденциальным вычислениям Arcium.")
     if re.search(r'(BTC|USDT|цена|maximum|пробил)', raw_text, re.IGNORECASE):
         detected_context.append("Рыночные флуктуации Синего спектра (Суры) и пробои ликвидности.")
     if re.search(r'(Dota|Meepo|Valve|баг|пикать)', raw_text, re.IGNORECASE):
         detected_context.append("Деструктивное поведение внутренней логики Source 2 и системные уязвимости.")
-    if re.search(r'(secret|repository|token|key|permission)', raw_text, re.IGNORECASE):
-        detected_context.append("Инкапсуляция системных секретов и калибровка комплементарных прошивок.")
 
     if not detected_context:
         detected_context.append("Спектральный анализ фоновых квантовых флуктуаций.")
 
-    # Автоматическое определение номера следующей главы
+    # Автоматический подсчет и инкремент номеров глав
     existing_chapters = glob.glob("BOOK_CHAPTER_*.md")
-    numbers = [int(re.findall(r'\d+', ch)[0]) for ch in existing_chapters if re.findall(r'\d+', ch)]
-    next_chapter = max(numbers) + 1 if numbers else 257
+    numbers = []
+    for ch in existing_chapters:
+        found = re.findall(r'\d+', ch)
+        if found:
+            numbers.append(int(found[0]))
+            
+    next_chapter = max(numbers) + 1 if numbers else 258
 
-    title = f"Протоколы Межцепочечной Синхронизации и Оптимизация Контуров"
+    title = f"Кодексы Колизея, Протоколы Управления Solana и Контуры Конфиденциальности"
     content = (
         f"### Системный анализ входящего потока (ID Sbori: #{RUN_ID}):\n\n" + 
         "\n".join([f"* {ctx}" for ctx in detected_context]) +
-        f"\n\n### Эволюционный сдвиг:\nКонтур успешно зафиксировал состояние репозитория. Все секреты надежно инкапсулированы внутри запечатанных слоев матрицы."
+        f"\n\n### Эволюционный сдвиг:\nКонтур Еженыша успешно зафиксировал новые параметры децентрализованного управления. Матрица запечатана."
     )
 
     filename = f"BOOK_CHAPTER_{next_chapter}.md"
