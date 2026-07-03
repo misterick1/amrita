@@ -1,0 +1,29 @@
+name: 🦔 Ezhenysh Autonomous Evolution Loop
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch: # Позволяет запускать вручную из панели управления
+
+jobs:
+  evolve:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-python: '3.10'
+
+    - name: Install Dependencies
+      run: |
+        sudo apt-get install -y tesseract-ocr tesseract-ocr-rus tesseract-ocr-eng
+        pip install pyTelegramBotAPI pillow pytesseract requests
+
+    - name: Execute Interchain Firmware
+      env:
+        TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Системный секрет, настраивать вручную не нужно
+      run: python build_chapter.py
