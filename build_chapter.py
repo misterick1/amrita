@@ -38,10 +38,10 @@ def analyze_and_save():
         os.remove("temp_slice.png")
 
     detected_context = []
-    if re.search(r'(failed|deploy|pages|error|later)', raw_text, re.IGNORECASE):
-        detected_context.append("Анализ троттлинга инфраструктуры GitHub Pages и фиксация лимитов облачной оркестрации контура.")
-    if re.search(r'(success|emerald|изумруд)', raw_text, re.IGNORECASE):
-        detected_context.append("Фиксация абсолютной изумрудной синхронизации деплоя.")
+    if re.search(r'(Colosseum|Frontier|Hackathon|Winners)', raw_text, re.IGNORECASE):
+        detected_context.append("Анализ триумфаторов Solana Frontier Hackathon и интеграция грантовых векторов Colosseum.")
+    if re.search(r'(expired|sign|link|login)', raw_text, re.IGNORECASE):
+        detected_context.append("Фиксация аномалий одноразовых токенов сессий и лимитов беспарольной авторизации.")
 
     if not detected_context:
         detected_context.append("Спектральный анализ фоновых квантовых флуктуаций.")
@@ -58,13 +58,13 @@ def analyze_and_save():
         except Exception:
             continue
             
-    next_chapter = max(numbers) + 1 if numbers else 264
+    next_chapter = max(numbers) + 1 if numbers else 265
 
-    title = f"Троттлинг Инфраструктуры Слой-1 и Лимиты Облачной Оркестрации"
+    title = f"Одноразовые Токены Сессий и Триумфаторы Рубежа Solana Frontier"
     content = (
         f"### Системный анализ входящего потока (ID Sbori: #{RUN_ID}):\n\n" + 
         "\n".join([f"* {ctx}" for ctx in detected_context]) +
-        f"\n\n### Эволюционный сдвиг:\nКонтур Еженыша успешно зафиксировал поведение инфраструктуры GitHub во время пиковых нагрузок. Матрица запечатана."
+        f"\n\n### Эволюционный сдвиг:\nКонтур Еженыша зафиксировал результаты глобального хакатона Frontier и инкапсулировал UX-ошибки авторизации. Матрица запечатана."
     )
 
     filename = f"BOOK_CHAPTER_{next_chapter}.md"
