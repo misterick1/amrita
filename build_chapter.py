@@ -38,12 +38,12 @@ def analyze_and_save():
         os.remove("temp_slice.png")
 
     detected_context = []
+    if re.search(r'(solana_ai|ai|powered)', raw_text, re.IGNORECASE):
+        detected_context.append("Фиксация ИИ-агентов Слой-0 в экосистеме Solana и развертывание автономной логики.")
+    if re.search(r'(Trust|Wallet|cup|flag|world)', raw_text, re.IGNORECASE):
+        detected_context.append("Анализ геополитического и спортивного сентимента через виральные воронки кошельков.")
     if re.search(r'(Colosseum|Solana|STRIDE|Arcium|Governance)', raw_text, re.IGNORECASE):
-        detected_context.append("Калибровка по Кодексам Колизея, протоколам Solana SPGs и конфиденциальным вычислениям Arcium.")
-    if re.search(r'(BTC|USDT|цена|maximum|пробил)', raw_text, re.IGNORECASE):
-        detected_context.append("Рыночные флуктуации Синего спектра (Суры) и пробои ликвидности.")
-    if re.search(r'(Dota|Meepo|Valve|баг|пикать)', raw_text, re.IGNORECASE):
-        detected_context.append("Деструктивное поведение внутренней логики Source 2 и системные уязвимости.")
+        detected_context.append("Калибровка по Кодексам Колизея и протоколам Solana SPGs.")
 
     if not detected_context:
         detected_context.append("Спектральный анализ фоновых квантовых флуктуаций.")
@@ -56,13 +56,13 @@ def analyze_and_save():
         if found:
             numbers.append(int(found[0]))
             
-    next_chapter = max(numbers) + 1 if numbers else 258
+    next_chapter = max(numbers) + 1 if numbers else 259
 
-    title = f"Кодексы Колизея, Протоколы Управления Solana и Контуры Конфиденциальности"
+    title = f"Социальный Сентимент, Геополитика Мемов и ИИ-Агенты Слой-0"
     content = (
         f"### Системный анализ входящего потока (ID Sbori: #{RUN_ID}):\n\n" + 
         "\n".join([f"* {ctx}" for ctx in detected_context]) +
-        f"\n\n### Эволюционный сдвиг:\nКонтур Еженыша успешно зафиксировал новые параметры децентрализованного управления. Матрица запечатана."
+        f"\n\n### Эволюционный сдвиг:\nКонтур Еженыша успешно зафиксировал симбиоз социального FOMO и ИИ-архитектуры Solana. Все слои запечатаны."
     )
 
     filename = f"BOOK_CHAPTER_{next_chapter}.md"
