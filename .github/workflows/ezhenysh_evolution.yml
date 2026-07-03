@@ -3,7 +3,7 @@ name: 🦔 Ezhenysh Autonomous Evolution Loop
 on:
   push:
     branches: [ main ]
-  workflow_dispatch: # Позволяет запускать вручную из панели управления
+  workflow_dispatch:
 
 jobs:
   evolve:
@@ -11,11 +11,13 @@ jobs:
     steps:
     - name: Checkout Code
       uses: actions/checkout@v3
+      with:
+        persist-credentials: true # Разрешает пушить обратно в репозиторий
 
     - name: Set up Python
       uses: actions/setup-python@v4
       with:
-        python-python: '3.10'
+        python-version: '3.10'
 
     - name: Install Dependencies
       run: |
@@ -25,5 +27,17 @@ jobs:
     - name: Execute Interchain Firmware
       env:
         TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Системный секрет, настраивать вручную не нужно
       run: python build_chapter.py
+
+    - name: Commit and Push New Chapter
+      run: |
+        git config --global user.name "Ezhenysh Autonomous Loop"
+        git config --global user.email "ezhenysh-loop@amrita.ai"
+        git add BOOK_CHAPTER_*.md
+        # Проверяем, появились ли новые файлы, чтобы не падать при пустом коммите
+        if git diff --staged --quiet; then
+          print "No changes to commit"
+        else
+          git commit -m "🤖 Еженышь Loop: Запечатать новую главу автоматизации"
+          git push origin main
+        fi
