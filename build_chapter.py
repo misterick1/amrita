@@ -56,9 +56,9 @@ def analyze_and_commit():
     chapters_count = 254 
     next_chapter = chapters_count + 1
 
-    title = f"Калибровка Скрытых Слоев и Архивация Секретов Контура"
+    title = f"Калибровка Скрытых Слоев и Архивация Секретов Kontura"
     content = (
-        f"### Системный анализ входящего потока (ID Сборки: #{RUN_ID}):\n\n" + 
+        f"### Системный анализ входящего потока (ID Sbori: #{RUN_ID}):\n\n" + 
         "\n".join([f"* {ctx}" for ctx in detected_context]) +
         f"\n\n### Эволюционный сдвиг:\nКонтур успешно зафиксировал состояние репозитория. Все секреты надежно инкапсулированы внутри запечатанных слоев матрицы. Любые попытки десинхронизации будут мгновенно купированы алгоритмами Swarm Oracle."
     )
@@ -74,7 +74,7 @@ def analyze_and_commit():
     encoded_content = base64.b64encode(full_markdown.encode('utf-8')).decode('utf-8')
     
     payload = {
-        "message": f"🤖 Еженышь Loop: Запечатать главу {next_chapter}",
+        "message": f"🤖 Ezhenysh Loop: Sealed chapter {next_chapter}",
         "content": encoded_content,
         "branch": "main"
     }
@@ -82,11 +82,11 @@ def analyze_and_commit():
     print(f"🚀 Pushing Chapter {next_chapter} to repository {REPO}...")
     res = requests.put(url, headers=headers, json=payload)
     
-    # Полностью исправленная строчка со статус-кодами!
-    if res.status_code in:
-        print(f"🎉 Success! Chapter {next_chapter} is sealed in eternity.")
+    # Идеальная математическая проверка без использования слова "in" и скобок
+    if res.status_code < 300:
+        print(f"🎉 Success! Chapter {next_chapter} is sealed.")
     else:
-        print(f"❌ Push failed: {res.status_code} - {res.text}")
+        print(f"❌ Push failed: {res.status_code}")
 
 if __name__ == "__main__":
     analyze_and_commit()
