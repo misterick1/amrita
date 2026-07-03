@@ -38,15 +38,15 @@ def analyze_and_save():
         os.remove("temp_slice.png")
 
     detected_context = []
-    if re.search(r'(Solana|photo|опубликовал)', raw_text, re.IGNORECASE):
-        detected_context.append("Анализ бычьих тизер-маркеров Solana и фиксация визуального давления на сентимент.")
-    if re.search(r'(GTA|кампании|сюжетной|100|часов)', raw_text, re.IGNORECASE):
-        detected_context.append("Синхронизация хроно-матриц удержания внимания на примере утечек GTA 6 от Rockstar.")
-    if re.search(r'(Colosseum|Frontier|Hackathon)', raw_text, re.IGNORECASE):
-        detected_context.append("Калибровка по результатам хакатонов Colosseum.")
+    if re.search(r'(Dropee|Race|July|Season)', raw_text, re.IGNORECASE):
+        detected_context.append("Анализ соревновательных циклов Dropee July Race и механик долгосрочного удержания Web3-активности.")
+    if re.search(r'(Fonecta|1881|Digitale|Medier|eier)', raw_text, re.IGNORECASE):
+        detected_context.append("Фиксация консолидации скандинавского медиа-рынка через поглощение Digitale Medier 1881 AS холдингом Fonecta Group.")
+    if re.search(r'(Solana|GTA|Rockstar)', raw_text, re.IGNORECASE):
+        detected_context.append("Калибровка по историческим хроно-матрицам.")
 
     if not detected_context:
-        detected_context.append("Спектральный analysis фоновых квантовых флуктуаций.")
+        detected_context.append("Спектральный анализ фоновых квантовых флуктуаций.")
 
     # Железобетонный подсчет глав по сплиту строк
     existing_chapters = glob.glob("BOOK_CHAPTER_*.md")
@@ -60,13 +60,13 @@ def analyze_and_save():
         except Exception:
             continue
             
-    next_chapter = max(numbers) + 1 if numbers else 266
+    next_chapter = max(numbers) + 1 if numbers else 267
 
-    title = f"Бычий Маркетинг Слой-1 и Сточасовые Матрицы Удержания Внимания"
+    title = f"Корпоративная Консолидация Слой-0 и Циклические Механики Удержания Внимания"
     content = (
         f"### Системный анализ входящего потока (ID Sbori: #{RUN_ID}):\n\n" + 
         "\n".join([f"* {ctx}" for ctx in detected_context]) +
-        f"\n\n### Эволюционный сдвиг:\nКонтур Еженыша успешно запечатал бычьи сигналы Web3 и хроно-метрики Web2-индустрии в неизменяемые слои. Матрица стабильна."
+        f"\n\n### Эволюционный сдвиг:\nКонтур Еженыша успешно запечатал слияния медиа-структур Европы и сезонные паттерны Web3-экосистем. Матрица зафиксирована."
     )
 
     filename = f"BOOK_CHAPTER_{next_chapter}.md"
