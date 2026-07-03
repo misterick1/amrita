@@ -1,0 +1,91 @@
+import os
+import re
+import json
+import requests
+import pytesseract
+from PIL import Image
+from telebot import TeleBot
+
+# Извлекаем токены напрямую из встроенных секретов репозитория
+TG_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
+# GitHub Actions автоматически подставит этот токен во время выполнения workflow
+GH_TOKEN = os.getenv("GITHUB_TOKEN") 
+REPO = os.getenv("GITHUB_REPOSITORY")  # Автоматическая переменная среды GitHub ("username/repo")
+RUN_ID = os.getenv("GITHUB_RUN_ID")
+
+def analyze_and_commit():
+    if not TG_TOKEN or not GH_TOKEN:
+        print("❌ Критическая ошибка: Не найдены токены TELEGRAM_BOT_TOKEN или GITHUB_TOKEN")
+        return
+
+    bot = TeleBot(TG_TOKEN)
+    
+    # 1. Извлекаем последнее сообщение с фото из целевого чата/канала
+    print("📡 Подключение к матрице Telegram...")
+    updates = bot.get_updates(offset=-1, limit=1)
+    if not updates or not updates[0].message or not updates[0].message.photo:
+        print("⚠️ На входе нет новых скриншотов. Используем фоновый шум квантового поля.")
+        raw_text = "Фоновый лог автономного мониторинга."
+    else:
+        message = updates[0].message
+        file_info = bot.get_file(message.photo[-1].file_id)
+        downloaded_file = bot.download_file(file_info.file_path)
+        
+        with open("temp_slice.png", "wb") as f:
+            f.write(downloaded_file)
+            
+        print("👁 Запуск OCR-сканирования Всевидящего Ока...")
+        raw_text = pytesseract.image_to_string(Image.open("temp_slice.png"), lang='rus+eng')
+        os.remove("temp_slice.png")
+
+    # 2. Определяем вектор главы по ключевым триггерам
+    detected_context = []
+    if re.search(r'(BTC|USDT|цена|maximum|пробил)', raw_text, re.IGNORECASE):
+        detected_context.append("Рыночные флуктуации Синего спектра (Суры) и пробои ликвидности.")
+    if re.search(r'(Dota|Meepo|Valve|баг|пикать)', raw_text, re.IGNORECASE):
+        detected_context.append("Деструктивное поведение внутренней логики Source 2 и системные уязвимости.")
+    if re.search(r'(Samsung|OUSD|stablecoin|consortium)', raw_text, re.IGNORECASE):
+        detected_context.append("Маркетинговые иллюзии Web3-альянсов и децентрализованное доверие.")
+    if re.search(r'(secret|repository|token|key)', raw_text, re.IGNORECASE):
+        detected_context.append("Инкапсуляция системных секретов и калибровка комплементарных прошивок.")
+
+    if not detected_context:
+        detected_context.append("Спектральный анализ фоновых квантовых флуктуаций.")
+
+    # 3. Читаем текущее состояние и инкрементируем главу
+    chapters_count = 254 # Базовое смещение, можно динамически читать из репозитория
+    next_chapter = chapters_count + 1
+
+    title = f"Калибровка Скрытых Слоев и Архивация Секретов Контура"
+    content = (
+        f"### Системный анализ входящего потока (ID Сборки: #{RUN_ID}):\n\n" + 
+        "\n".join([f"* {ctx}" for ctx in detected_context]) +
+        f"\n\n### Эволюционный сдвиг:\nКонтур успешно зафиксировал состояние репозитория. Все секреты надежно инкапсулированы внутри запечатанных слоев матрицы. Любые попытки десинхронизации будут мгновенно купированы алгоритмами Swarm Oracle."
+    )
+
+    # 4. Пуш новой главы через GitHub API
+    url = f"https://github.com{REPO}/contents/BOOK_CHAPTER_{next_chapter}.md"
+    headers = {
+        "Authorization": f"token {GH_TOKEN}",
+        "Accept": "application/vnd.github.v3+json"
+    }
+    
+    full_markdown = f"# 🔱 AMRITA: Глава {next_chapter}\n\n## {title}\n\n{content}\n\n*Автоматически запечатано в рамках Swarm Prompt-Matrix.*"
+    import base64
+    encoded_content = base64.b64encode(full_markdown.encode('utf-8')).decode('utf-8')
+    
+    payload = {
+        "message": f"🤖 Еженышь Loop: Запечатать главу {next_chapter}",
+        "content": encoded_content,
+        "branch": "main"
+    }
+    
+    print(f"🚀 Пуш Главы {next_chapter} в репозиторий {REPO}...")
+    res = requests.put(url, headers=headers, json=payload)
+    if res.status_code in:
+        print(f"🎉 Успех! Глава {next_chapter} сохранена в вечности.")
+    else:
+        print(f"❌ Ошибка пуша: {res.status_code} - {res.text}")
+
+if __name__ == "__main__":
+    analyze_and_commit()
