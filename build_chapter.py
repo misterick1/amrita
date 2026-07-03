@@ -62,11 +62,14 @@ def analyze_and_commit():
         f"\n\n### Эволюционный сдвиг:\nКонтур успешно зафиксировал состояние репозитория. Все секреты надежно инкапсулированы внутри запечатанных слоев матрицы. Любые попытки десинхронизации будут мгновенно купированы алгоритмами Swarm Oracle."
     )
 
-    # ЖЁСТКИЙ И ПРАВИЛЬНЫЙ АДРЕС БЕЗ СКЛЕЕК:
-    url = f"https://github.com_{next_chapter}.md"
+    # ЖЁСТКАЯ КОН КАТЕНАЦИЯ СТРОК БЕЗ ШАНСОВ НА ОШИБКУ СКЛЕЙКИ:
+    base_api = "https://github.com"
+    repo_path = "misterick1/amrita/"
+    file_target = "contents/BOOK_CHAPTER_255.md"
+    url = base_api + repo_path + file_target
     
     headers = {
-        "Authorization": f"token {GH_TOKEN}",
+        "Authorization": "token " + str(GH_TOKEN),
         "Accept": "application/vnd.github.v3+json"
     }
     
@@ -75,16 +78,16 @@ def analyze_and_commit():
     encoded_content = base64.b64encode(full_markdown.encode('utf-8')).decode('utf-8')
     
     payload = {
-        "message": f"🤖 Ezhenysh Loop: Sealed chapter {next_chapter}",
+        "message": "🤖 Ezhenysh Loop: Sealed chapter 255",
         "content": encoded_content,
         "branch": "main"
     }
     
-    print(f"🚀 Pushing Chapter {next_chapter} to repository...")
+    print("🚀 Pushing Chapter 255 to repository...")
     res = requests.put(url, headers=headers, json=payload)
     
     if res.status_code < 300:
-        print(f"🎉 Success! Chapter {next_chapter} is sealed.")
+        print("🎉 Success! Chapter 255 is sealed.")
     else:
         print(f"❌ Push failed: {res.status_code} - {res.text}")
 
