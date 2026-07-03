@@ -48,13 +48,13 @@ def analyze_and_save():
     if not detected_context:
         detected_context.append("Спектральный анализ фоновых квантовых флуктуаций.")
 
-    # Автоматический подсчет и инкремент номеров глав
+    # ИСПРАВЛЕНО: Безопасное извлечение номера главы без падения в TypeError
     existing_chapters = glob.glob("BOOK_CHAPTER_*.md")
     numbers = []
     for ch in existing_chapters:
         found = re.findall(r'\d+', ch)
         if found:
-            numbers.append(int(found))
+            numbers.append(int(found[0])) # Берем первый элемент списка строк
             
     next_chapter = max(numbers) + 1 if numbers else 261
 
