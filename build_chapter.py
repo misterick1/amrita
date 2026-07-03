@@ -48,13 +48,18 @@ def analyze_and_save():
     if not detected_context:
         detected_context.append("Спектральный анализ фоновых квантовых флуктуаций.")
 
-    # Строгий подсчет и инкремент номеров глав
+    # ЖЕЛЕЗОБЕТОННЫЙ ПОДСЧЕТ ГЛАВ БЕЗ RE.FINDALL И СПИСКОВ:
     existing_chapters = glob.glob("BOOK_CHAPTER_*.md")
     numbers = []
     for ch in existing_chapters:
-        found = re.findall(r'\d+', ch)
-        if found:
-            numbers.append(int(found))
+        try:
+            # Извлекаем "261" из строки "BOOK_CHAPTER_261.md" сплитом по "_"
+            clean_name = ch.replace(".md", "")
+            parts = clean_name.split("_")
+            if parts:
+                numbers.append(int(parts[-1])) # Всегда берем последний элемент (номер)
+        except Exception:
+            continue
             
     next_chapter = max(numbers) + 1 if numbers else 262
 
