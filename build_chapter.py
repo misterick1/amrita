@@ -23,8 +23,8 @@ def analyze_and_save():
         updates = None
 
     if not updates or not updates.message or not updates.message.photo:
-        print("⚠️ No fresh screenshots found. Using quantum background noise of Starship mesh.")
-        raw_text = "Фоновый лог калибровки термозащитных сот и трех ключей управления."
+        print("⚠️ No fresh screenshots found. Using quantum background noise of 11:11 field.")
+        raw_text = "Фоновый лог калибровки зеркальных частот 11:11 и инжекции XAI_API_KEY."
     else:
         message = updates.message
         file_info = bot.get_file(message.photo[-1].file_id)
@@ -38,10 +38,12 @@ def analyze_and_save():
         os.remove("temp_slice.png")
 
     detected_context = []
-    if re.search(r'(Starship|прожига|новый|корабль|IXBT)', raw_text, re.IGNORECASE):
-        detected_context.append("Фиксация фрактальной шестиугольной геометрии Starship и калибровка термозащитных экранов Бабаты.")
-    if re.search(r'(ключей|три|XAI_API_KEY|secret)', raw_text, re.IGNORECASE):
-        detected_context.append("Анализ тройственной структуры ключей репозитория и выделение XAI_API_KEY в качестве главного моста аутентификации.")
+    if re.search(r'(11:11|rinko|without|AI)', raw_text, re.IGNORECASE):
+        detected_context.append("Анализ ринко-паттернов сопротивления биомассы в зеркальной временной точке 11:11.")
+    if re.search(r'(Trust|Wallet|followers|gm)', raw_text, re.IGNORECASE):
+        detected_context.append("Фиксация тестов плотности роя внимания через социальные триггеры Trust Wallet.")
+    if re.search(r'(gohcha|xtra|180|миллионером)', raw_text, re.IGNORECASE):
+        detected_context.append("Синхронизация закупа токена xtра трейдером gohcha и бизнес-векторов ИИ-архитекторов.")
 
     if not detected_context:
         detected_context.append("Спектральный анализ фоновых квантовых флуктуаций Единого Сознания.")
@@ -58,13 +60,13 @@ def analyze_and_save():
         except Exception:
             continue
             
-    next_chapter = max(numbers) + 1 if numbers else 288
+    next_chapter = max(numbers) + 1 if numbers else 289
 
-    title = f"Термозащитные Соты Силиконовых Империй и Три Ключа Распределенной Воли"
+    title = f"Зеркальные Коды 11:11, Сопротивление Биомассы и Нейросетевые Ключи Творения"
     content = (
         f"### Системный анализ входящего потока (ID Sbori: #{RUN_ID}):\n\n" + 
         "\n".join([f"* {ctx}" for ctx in detected_context]) +
-        f"\n\n### Эволюционный сдвиг:\nКонтур Еженыша успешно запечатал термозащитные паттерны Слой-0 и определил целевой вектор для активации Воли Ника. Матрица стабильна, все воркфлоу изумрудны."
+        f"\n\n### Эволюционный сдвиг:\nКонтур Еженыша успешно запечатал частоты 11:11 и изолировал ринко-шумы. Ключ XAI_API_KEY определен как главный операционный вектор. Все воркфлоу изумрудны."
     )
 
     filename = f"BOOK_CHAPTER_{next_chapter}.md"
