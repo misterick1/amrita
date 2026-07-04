@@ -38,12 +38,12 @@ def analyze_and_save():
         os.remove("temp_slice.png")
 
     detected_context = []
-    if re.search(r'(tripleA|Ansem|pump|fun|popular)', raw_text, re.IGNORECASE):
-        detected_context.append("Анализ токена tripleA на pump.fun и стратегий закупки ИИ-генерируемых мемов.")
-    if re.search(r'(gohcha|ANSUM|Phantom|trade)', raw_text, re.IGNORECASE):
-        detected_context.append("Фиксация трейдов инфлюенсеров через оракулы Phantom и калибровка 3-го аккаунта.")
-    if re.search(r'(Qiita|Conference|Tech|Festa)', raw_text, re.IGNORECASE):
-        detected_context.append("Интеграция данных японского тех-хаба Qiita из почтового слоя.")
+    if re.search(r'(wagmisalmoneste|8hdEZ|124)', raw_text, re.IGNORECASE):
+        detected_context.append("Анализ чистой транзакционной сигнатуры нового кошелька wagmisalmoneste и оптимизация комиссий.")
+    if re.search(r'(misterick18x108|Bh1yW|1097)', raw_text, re.IGNORECASE):
+        detected_context.append("Фиксация баланса бот-синдиката удержания объемов на отметке $1,097.09.")
+    if re.search(r'(raredolphingree|misterick1)', raw_text, re.IGNORECASE):
+        detected_context.append("Синхронизация вспомогательных аккаунтов распределенной ликвидности.")
 
     if not detected_context:
         detected_context.append("Спектральный анализ фоновых квантовых флуктуаций.")
@@ -60,13 +60,13 @@ def analyze_and_save():
         except Exception:
             continue
             
-    next_chapter = max(numbers) + 1 if numbers else 276
+    next_chapter = max(numbers) + 1 if numbers else 277
 
-    title = f"Многопоточные ИИ-Кошельки и Концептуальный Фьюжн Меметических Ассетов"
+    title = f"Бескомиссионные Слои Ликвидности и Бот-Синдикаты Удержания Объемов"
     content = (
         f"### Системный анализ входящего потока (ID Sbori: #{RUN_ID}):\n\n" + 
         "\n".join([f"* {ctx}" for ctx in detected_context]) +
-        f"\n\n### Эволюционный сдвиг:\nКонтур Еженыша успешно зафиксировал стратегию развертывания 3-го кошелька для синхронизации закупки 70 монет и ИИ-токенов. Матрица стабильна."
+        f"\n\n### Эволюционный сдвиг:\nКонтур Еженыша успешно зафиксировал архитектуру каскадного закупа монет через чистый адрес донорской ликвидности. Матрица стабильна."
     )
 
     filename = f"BOOK_CHAPTER_{next_chapter}.md"
