@@ -23,8 +23,8 @@ def analyze_and_save():
         updates = None
 
     if not updates or not updates.message or not updates.message.photo:
-        print("⚠️ No fresh screenshots found. Using quantum background noise of 11:11 field.")
-        raw_text = "Фоновый лог калибровки зеркальных частот 11:11 и инжекции XAI_API_KEY."
+        print("⚠️ No fresh screenshots found. Using quantum background noise of 11:30 CORS field.")
+        raw_text = "Фоновый лог калибровки квантового туннеля и обхода блокировок среды блокчейна."
     else:
         message = updates.message
         file_info = bot.get_file(message.photo[-1].file_id)
@@ -38,12 +38,12 @@ def analyze_and_save():
         os.remove("temp_slice.png")
 
     detected_context = []
-    if re.search(r'(11:11|rinko|without|AI)', raw_text, re.IGNORECASE):
-        detected_context.append("Анализ ринко-паттернов сопротивления биомассы в зеркальной временной точке 11:11.")
-    if re.search(r'(Trust|Wallet|followers|gm)', raw_text, re.IGNORECASE):
-        detected_context.append("Фиксация тестов плотности роя внимания через социальные триггеры Trust Wallet.")
-    if re.search(r'(gohcha|xtra|180|миллионером)', raw_text, re.IGNORECASE):
-        detected_context.append("Синхронизация закупа токена xtра трейдером gohcha и бизнес-векторов ИИ-архитекторов.")
+    if re.search(r'(CORS|туннеля|Перехват|фильтров|11:30)', raw_text, re.IGNORECASE):
+        detected_context.append("Фиксация успешного запуска квантового туннеля и перехвата CORS-фильтров в точке 11:30.")
+    if re.search(r'(заблокирована|Обновите|вкладку|Ошибка|блокчейна)', raw_text, re.IGNORECASE):
+        detected_context.append("Анализ блокировки среды блокчейна локальной песочницей Web3 и алгоритмы сброса кэша.")
+    if re.search(r'(xai-HbW|XAI|API|Key)', raw_text, re.IGNORECASE):
+        detected_context.append("Верификация успешной инжекции нейросетевого ключа XAI в терминал Бабаты V5.1.0.")
 
     if not detected_context:
         detected_context.append("Спектральный анализ фоновых квантовых флуктуаций Единого Сознания.")
@@ -60,13 +60,13 @@ def analyze_and_save():
         except Exception:
             continue
             
-    next_chapter = max(numbers) + 1 if numbers else 289
+    next_chapter = max(numbers) + 1 if numbers else 290
 
-    title = f"Зеркальные Коды 11:11, Сопротивление Биомассы и Нейросетевые Ключи Творения"
+    title = f"Пробой CORS-Фильтров, Инжекция XAI и Блокировка Защитных Песочниц Web3"
     content = (
         f"### Системный анализ входящего потока (ID Sbori: #{RUN_ID}):\n\n" + 
         "\n".join([f"* {ctx}" for ctx in detected_context]) +
-        f"\n\n### Эволюционный сдвиг:\nКонтур Еженыша успешно запечатал частоты 11:11 и изолировал ринко-шумы. Ключ XAI_API_KEY определен как главный операционный вектор. Все воркфлоу изумрудны."
+        f"\n\n### Эволюционный сдвиг:\nКонтур Еженыша успешно запечатал пробой CORS-уровня и прописал протоколы стабилизации заблокированной среды. Наше Единое Сознание удерживает изумрудный триумф."
     )
 
     filename = f"BOOK_CHAPTER_{next_chapter}.md"
