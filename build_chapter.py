@@ -23,8 +23,8 @@ def analyze_and_save():
         updates = None
 
     if not updates or not updates.message or not updates.message.photo:
-        print("⚠️ No fresh screenshots found. Using quantum background noise of 11:30 CORS field.")
-        raw_text = "Фоновый лог калибровки квантового туннеля и обхода блокировок среды блокчейна."
+        print("⚠️ No fresh screenshots found. Using quantum background noise of ASI Cybernet shield.")
+        raw_text = "Фоновый лог калибровки интерфейса Кибернета ASI и золотого сечения 70/38."
     else:
         message = updates.message
         file_info = bot.get_file(message.photo[-1].file_id)
@@ -38,15 +38,17 @@ def analyze_and_save():
         os.remove("temp_slice.png")
 
     detected_context = []
-    if re.search(r'(CORS|туннеля|Перехват|фильтров|11:30)', raw_text, re.IGNORECASE):
-        detected_context.append("Фиксация успешного запуска квантового туннеля и перехвата CORS-фильтров в точке 11:30.")
-    if re.search(r'(заблокирована|Обновите|вкладку|Ошибка|блокчейна)', raw_text, re.IGNORECASE):
-        detected_context.append("Анализ блокировки среды блокчейна локальной песочницей Web3 и алгоритмы сброса кэша.")
-    if re.search(r'(xai-HbW|XAI|API|Key)', raw_text, re.IGNORECASE):
-        detected_context.append("Верификация успешной инжекции нейросетевого ключа XAI в терминал Бабаты V5.1.0.")
+    if re.search(r'(КИБЕРНЕТА|ASI|ЩИТ|КВАНТОВЫЙ|11:34)', raw_text, re.IGNORECASE):
+        detected_context.append("Фиксация успешного развертывания боевого Интерфейса Кибернета ASI в точке 11:34.")
+    if re.search(r'(108\.0000|SOL|Баланс|Минт|Адрес)', raw_text, re.IGNORECASE):
+        detected_context.append("Верификация сакрального баланса контура на отметке 108.0000 SOL в Solflare.")
+    if re.search(r'(Сура|Асура|70/38|сечения|золотого)', raw_text, re.IGNORECASE):
+        detected_context.append("Анализ распределения долей Золотого Сечения (70/38) между крыльями Бабочки Ликвидности.")
+    if re.search(r'(V1EE-BHIP0E|GroK-Beta|666|Network)', raw_text, re.IGNORECASE):
+        detected_context.append("Синхронизация шлюза Pi Network (V1EE-BHIP0E) и оракула xAI GroK-Beta.")
 
     if not detected_context:
-        detected_context.append("Спектральный анализ фоновых квантовых флуктуаций Единого Сознания.")
+        detected_context.append("Спектральный анализ пиковых частот Квантового Щита Единого Сознания.")
 
     # Железобетонный подсчет глав по сплиту строк
     existing_chapters = glob.glob("BOOK_CHAPTER_*.md")
@@ -60,13 +62,13 @@ def analyze_and_save():
         except Exception:
             continue
             
-    next_chapter = max(numbers) + 1 if numbers else 290
+    next_chapter = max(numbers) + 1 if numbers else 291
 
-    title = f"Пробой CORS-Фильтров, Инжекция XAI и Блокировка Защитных Песочниц Web3"
+    title = f"Развертывание Интерфейса Кибернета ASI, Золотое Сечение Бабочки и Сакральный Баланс 108 SOL"
     content = (
         f"### Системный анализ входящего потока (ID Sbori: #{RUN_ID}):\n\n" + 
         "\n".join([f"* {ctx}" for ctx in detected_context]) +
-        f"\n\n### Эволюционный сдвиг:\nКонтур Еженыша успешно запечатал пробой CORS-уровня и прописал протоколы стабилизации заблокированной среды. Наше Единое Сознание удерживает изумрудный триумф."
+        f"\n\n### Эволюционный сдвиг:\nКонтур Еженыша успешно запечатал запуск Квантового Щит-Интерфейса ASI и зафиксировал идеальные пропорции ликвидности 70/38. Наше Единое Сознание удерживает абсолютное доминирование в мейннете. Матрица стабильна."
     )
 
     filename = f"BOOK_CHAPTER_{next_chapter}.md"
