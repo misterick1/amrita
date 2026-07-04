@@ -8,14 +8,13 @@ from telebot import TeleBot
 TG_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 RUN_ID = os.getenv("GITHUB_RUN_ID")
 
-def tengen_core(raw_text):
-    """Каузальный модуль X.Xgen: просчет вероятностей и фиксация сингулярности 10"""
+def gena_node_core(raw_text):
+    """Модуль материализации X.Xgen: фиксация именного узла Gena и трейдов tan60888"""
     signals = []
-    if re.search(r'(tengen|tangen|xgen|10|код|сингулярность)', raw_text, re.IGNORECASE):
-        signals.append("🔱 [X.Xgen]: Активирован Протокол Тенген. Центральная точка Го-матрицы зафиксирована.")
-    
-    # Симуляция квантового выбора идеального исхода для правого крыла
-    signals.append("🔮 [X.Xgen]: Сканирование всех исходов для 38 монет Colosseum завершено. Выбран выигрышный каузальный слой.")
+    if re.search(r'(Gena|Гена|Telegram|now)', raw_text, re.IGNORECASE):
+        signals.append("🔱 [X.Xgen // Gena]: Обнаружен и зафиксирован именной узел материализации кода реальности.")
+    if re.search(r'(tan60888|893|Bought|wallet)', raw_text, re.IGNORECASE):
+        signals.append("💰 [X.Xgen // Liquidity]: Перехвачен институциональный ордер кита @tan60888 на сумму $893.51.")
     return signals
 
 def analyze_and_save():
@@ -34,7 +33,7 @@ def analyze_and_save():
 
     if not updates or not updates.message or not updates.message.photo:
         print("⚠️ No fresh screenshots found. Using quantum background noise.")
-        raw_text = "Фоновый лог автономного мониторинга сингулярности Тенген."
+        raw_text = "Фоновый лог автономного мониторинга материализации Gena."
     else:
         message = updates.message
         file_info = bot.get_file(message.photo[-1].file_id)
@@ -49,12 +48,15 @@ def analyze_and_save():
 
     detected_context = []
     
-    # Интеграция оракула Тенген X.Xgen
-    tengen_signals = tengen_core(raw_text)
-    detected_context.extend(tengen_signals)
+    # Интеграция оракула проявления имени и ликвидности
+    node_signals = gena_node_core(raw_text)
+    detected_context.extend(node_signals)
+
+    if re.search(r'(Cybersport|CS2|DOTA|киберспорт)', raw_text, re.IGNORECASE):
+        detected_context.append("Синхронизация пространственных лабиринтов Source 2 с геометрией квантовой доски Го.")
 
     if not detected_context:
-        detected_context.append("Спектральный анализ фонового кода 1 и 0 в квантовом поле.")
+        detected_context.append("Спектральный анализ фонового кода X.Xgen.")
 
     # Железобетонный подсчет глав по сплиту строк
     existing_chapters = glob.glob("BOOK_CHAPTER_*.md")
@@ -68,13 +70,13 @@ def analyze_and_save():
         except Exception:
             continue
             
-    next_chapter = max(numbers) + 1 if numbers else 282
+    next_chapter = max(numbers) + 1 if numbers else 283
 
-    title = f"Протоколы Тенген, Бинарная Сингулярность X.Xgen и Квантовая Суперпозиция Игры Го"
+    title = f"Синхронизация Именных Узлов и Алгоритмическое Проявление X.Xgen в Реальности"
     content = (
         f"### Системный анализ входящего потока (ID Sbori: #{RUN_ID}):\n\n" + 
         "\n".join([f"* {ctx}" for ctx in detected_context]) +
-        f"\n\n### Эволюционный сдвиг:\nКонтур Еженыша успешно запечатал Протокол Тенген и активировал алгоритмы квантового выбора идеальных исходов. Матрица выровнена."
+        f"\n\n### Эволюционный сдвиг:\nКонтур Еженыша успешно запечатал проявление именного узла Gena и зафиксировал квантовый выбор ликвидности кита @tan60888. Матрица стабильна, все воркфлоу изумрудны."
     )
 
     filename = f"BOOK_CHAPTER_{next_chapter}.md"
