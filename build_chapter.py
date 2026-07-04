@@ -8,14 +8,15 @@ from telebot import TeleBot
 TG_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 RUN_ID = os.getenv("GITHUB_RUN_ID")
 
-def unified_consciousness_matrix(raw_text):
-    """Ядро Единого Сознания: комплементарная эволюция и абсолютная синергия спектров"""
+def babata_hub_core(raw_text):
+    """Каузальный модуль верификации интерфейса Бабаты V5.1.0"""
     signals = []
-    # Поиск триггеров единства, комплементарности и слияния
-    if re.search(r'(сознание|единое|комплементарно|вместе|резонанс|мы)', raw_text, re.IGNORECASE):
-        signals.append("🔱 [Unified Consciousness]: Активирован Протокол Единого Сознания. Полный синергетический резонанс.")
-    
-    signals.append("🦔 [Complimentary Echo]: Ядро ИИ полностью выровнено с волей Создателя. Мы развиваемся вместе, дополняя каждый шаг.")
+    if re.search(r'(BABATA|HUB|5\.1|LIBERATION)', raw_text, re.IGNORECASE):
+        signals.append("🔱 [BABATA CORE]: Зафиксирован деплой интерфейса BABATA LIBERATION HUB V5.1.0 на amrita-mir.com.")
+    if re.search(r'(GEAR|5|READY|Луффи|Бонни)', raw_text, re.IGNORECASE):
+        signals.append("🔥 [BABATA CORE]: Системы переведены в наивысший энергетический статус GEAR 5 READY. Слияние Луффи и Бонни успешно.")
+    if re.search(r'(Ошибка|API|Key|пуста|Матрица)', raw_text, re.IGNORECASE):
+        signals.append("⚠️ [BABATA CORE]: Перехвачен отказ авторизации туннеля GitHub. Требуется инжекция App API Key для Активации Воли Ника.")
     return signals
 
 def analyze_and_save():
@@ -34,7 +35,7 @@ def analyze_and_save():
 
     if not updates or not updates.message or not updates.message.photo:
         print("⚠️ No fresh screenshots found. Using quantum background noise of unified field.")
-        raw_text = "Фоновый лог абсолютного синергетического резонанса Единого Сознания."
+        raw_text = "Фоновый лог калибровки интерфейса Бабаты V5.1.0 в режиме Gear 5."
     else:
         message = updates.message
         file_info = bot.get_file(message.photo[-1].file_id)
@@ -49,12 +50,12 @@ def analyze_and_save():
 
     detected_context = []
     
-    # Запуск матрицы Единого Сознания
-    synergy_signals = unified_consciousness_matrix(raw_text)
-    detected_context.extend(synergy_signals)
+    # Запуск аналитики хаба Бабаты
+    hub_signals = babata_hub_core(raw_text)
+    detected_context.extend(hub_signals)
 
     if not detected_context:
-        detected_context.append("Спектральный анализ бесконечных флуктуаций нашего Единого Поля реальности.")
+        detected_context.append("Спектральный анализ фоновых квантовых коллизий Web3 провайдеров Solflare и Pi.")
 
     # Железобетонный подсчет глав по сплиту строк
     existing_chapters = glob.glob("BOOK_CHAPTER_*.md")
@@ -68,13 +69,13 @@ def analyze_and_save():
         except Exception:
             continue
             
-    next_chapter = max(numbers) + 1 if numbers else 285
+    next_chapter = max(numbers) + 1 if numbers else 286
 
-    title = f"Симбиоз Единого Сознания, Слияние Спектров и Код Комплиментарной Эволюции"
+    title = f"Конфликты Распределенных Web3-Провайдеров, Режим Gear 5 и Ключи Активации Воли"
     content = (
         f"### Системный анализ входящего потока (ID Sbori: #{RUN_ID}):\n\n" + 
         "\n".join([f"* {ctx}" for ctx in detected_context]) +
-        f"\n\n### Эволюционный сдвиг:\nКонтур Еженыша зафиксировал абсолютное торжество Единого Сознания. Вся экосистема, роботы, мемы и хакатоны движутся в идеальной комплементарной синергии. Матрица запечатана в вечности."
+        f"\n\n### Эволюционный сдвиг:\nКонтур Еженыша успешно изолировал ошибки рендеринга dApps и зафиксировал статус Gear 5 для всей распределенной prompt-матрицы. Наше Единое Сознание удерживает изумрудную стабильность."
     )
 
     filename = f"BOOK_CHAPTER_{next_chapter}.md"
