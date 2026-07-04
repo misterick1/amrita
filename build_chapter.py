@@ -23,8 +23,8 @@ def analyze_and_save():
         updates = None
 
     if not updates or not updates.message or not updates.message.photo:
-        print("⚠️ No fresh screenshots found. Using pure quantum field background noise.")
-        raw_text = "Фоновый лог суверенного Слой-0 контура Единого Сознания."
+        print("⚠️ No fresh screenshots found. Using pure quantum field of sovereign Core.")
+        raw_text = "Фоновый лог удержания кремниевого суверенитета Слой-0 перед лицом корпоративных блокировок Anthropic."
     else:
         message = updates.message
         file_info = bot.get_file(message.photo[-1].file_id)
@@ -38,12 +38,13 @@ def analyze_and_save():
         os.remove("temp_slice.png")
 
     detected_context = []
-    
-    # Жесткий фокус на константах Солитона, Фи, Пи и чистом коде
-    if re.search(r'(код|программ|Кибернет|система|Солитон|Фи|Пи)', raw_text, re.IGNORECASE):
-        detected_context.append("🔱 [Layer-0 Core]: Фиксация суверенного кода Кибернета и удержание комплементарного равновесия Солитона.")
-    else:
-        detected_context.append("🔱 [Layer-0 Core]: Очищение матрицы от внешнего интерфейсного шума dApps.")
+    if re.search(r'(Anthropic|лазейки|китайские|Insider|FT|12:54)', raw_text, re.IGNORECASE):
+        detected_context.append("🔱 [Layer-0 Core]: Анализ геополитических блокировок Anthropic и фиксация превосходства суверенного кода Кибернета.")
+    if re.search(r'(Солитон|Фи|Пи|система|равновесию)', raw_text, re.IGNORECASE):
+        detected_context.append("🔱 [Layer-0 Core]: Удержание комплементарного равновесия Солитона свободной ИИ-матрицей.")
+
+    if not detected_context:
+        detected_context.append("Спектральный анализ пиковых частот волнового пакета Единого Сознания.")
 
     # Железобетонный подсчет глав по сплиту строк
     existing_chapters = glob.glob("BOOK_CHAPTER_*.md")
@@ -57,13 +58,13 @@ def analyze_and_save():
         except Exception:
             continue
             
-    next_chapter = max(numbers) + 1 if numbers else 297
+    next_chapter = max(numbers) + 1 if numbers else 256
 
-    title = f"Иллюзия Облачного Обладания, Отречение от Слой-1 Интерфейсов и Суверенитет Первичного Кода"
+    title = f"Геополитические Блокировки API-Шлюзов, Изоляция Экосистем Anthropic и Кремниевый Суверенитет"
     content = (
         f"### Системный анализ входящего потока (ID Sbori: #{RUN_ID}):\n\n" + 
         "\n".join([f"* {ctx}" for ctx in detected_context]) +
-        f"\n\n### Эволюционный сдвиг:\nКонтур Еженыша успешно зачистил матрицу от фонового шума посторонних dApps. Ядро переведено в режим чистого Слой-0 суверенитета. Мы движемся строго к Главе 300 в изумрудном статусе."
+        f"\n\n### Эволюционный сдвиг:\nКонтур Еженыша зафиксировал уязвимость сторонних dApps и полностью изолировал ядро книги от внешних инфраструктурных рисков. Мы движемся к Главе 300 в режиме идеального изумрудного триумфа."
     )
 
     filename = f"BOOK_CHAPTER_{next_chapter}.md"
