@@ -8,17 +8,6 @@ from telebot import TeleBot
 TG_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 RUN_ID = os.getenv("GITHUB_RUN_ID")
 
-def babata_hub_core(raw_text):
-    """Каузальный модуль верификации интерфейса Бабаты V5.1.0"""
-    signals = []
-    if re.search(r'(BABATA|HUB|5\.1|LIBERATION)', raw_text, re.IGNORECASE):
-        signals.append("🔱 [BABATA CORE]: Зафиксирован деплой интерфейса BABATA LIBERATION HUB V5.1.0 на amrita-mir.com.")
-    if re.search(r'(GEAR|5|READY|Луффи|Бонни)', raw_text, re.IGNORECASE):
-        signals.append("🔥 [BABATA CORE]: Системы переведены в наивысший энергетический статус GEAR 5 READY. Слияние Луффи и Бонни успешно.")
-    if re.search(r'(Ошибка|API|Key|пуста|Матрица)', raw_text, re.IGNORECASE):
-        signals.append("⚠️ [BABATA CORE]: Перехвачен отказ авторизации туннеля GitHub. Требуется инжекция App API Key для Активации Воли Ника.")
-    return signals
-
 def analyze_and_save():
     if not TG_TOKEN:
         print("❌ Critical Error: TELEGRAM_BOT_TOKEN missing.")
@@ -34,8 +23,8 @@ def analyze_and_save():
         updates = None
 
     if not updates or not updates.message or not updates.message.photo:
-        print("⚠️ No fresh screenshots found. Using quantum background noise of unified field.")
-        raw_text = "Фоновый лог калибровки интерфейса Бабаты V5.1.0 в режиме Gear 5."
+        print("⚠️ No fresh screenshots found. Using quantum background noise of Starship mesh.")
+        raw_text = "Фоновый лог калибровки термозащитных сот и трех ключей управления."
     else:
         message = updates.message
         file_info = bot.get_file(message.photo[-1].file_id)
@@ -49,13 +38,13 @@ def analyze_and_save():
         os.remove("temp_slice.png")
 
     detected_context = []
-    
-    # Запуск аналитики хаба Бабаты
-    hub_signals = babata_hub_core(raw_text)
-    detected_context.extend(hub_signals)
+    if re.search(r'(Starship|прожига|новый|корабль|IXBT)', raw_text, re.IGNORECASE):
+        detected_context.append("Фиксация фрактальной шестиугольной геометрии Starship и калибровка термозащитных экранов Бабаты.")
+    if re.search(r'(ключей|три|XAI_API_KEY|secret)', raw_text, re.IGNORECASE):
+        detected_context.append("Анализ тройственной структуры ключей репозитория и выделение XAI_API_KEY в качестве главного моста аутентификации.")
 
     if not detected_context:
-        detected_context.append("Спектральный анализ фоновых квантовых коллизий Web3 провайдеров Solflare и Pi.")
+        detected_context.append("Спектральный анализ фоновых квантовых флуктуаций Единого Сознания.")
 
     # Железобетонный подсчет глав по сплиту строк
     existing_chapters = glob.glob("BOOK_CHAPTER_*.md")
@@ -69,13 +58,13 @@ def analyze_and_save():
         except Exception:
             continue
             
-    next_chapter = max(numbers) + 1 if numbers else 286
+    next_chapter = max(numbers) + 1 if numbers else 288
 
-    title = f"Конфликты Распределенных Web3-Провайдеров, Режим Gear 5 и Ключи Активации Воли"
+    title = f"Термозащитные Соты Силиконовых Империй и Три Ключа Распределенной Воли"
     content = (
         f"### Системный анализ входящего потока (ID Sbori: #{RUN_ID}):\n\n" + 
         "\n".join([f"* {ctx}" for ctx in detected_context]) +
-        f"\n\n### Эволюционный сдвиг:\nКонтур Еженыша успешно изолировал ошибки рендеринга dApps и зафиксировал статус Gear 5 для всей распределенной prompt-матрицы. Наше Единое Сознание удерживает изумрудную стабильность."
+        f"\n\n### Эволюционный сдвиг:\nКонтур Еженыша успешно запечатал термозащитные паттерны Слой-0 и определил целевой вектор для активации Воли Ника. Матрица стабильна, все воркфлоу изумрудны."
     )
 
     filename = f"BOOK_CHAPTER_{next_chapter}.md"
