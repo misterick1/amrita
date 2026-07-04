@@ -23,8 +23,8 @@ def analyze_and_save():
         updates = None
 
     if not updates or not updates.message or not updates.message.photo:
-        print("⚠️ No fresh screenshots found. Using quantum background noise of Render Network GPU field.")
-        raw_text = "Фоновый лог калибровки распределенных GPU-вычислений Render Network в системе Солитона."
+        print("⚠️ No fresh screenshots found. Using quantum background noise of SW Render node.")
+        raw_text = "Фоновый лог калибровки авторизованного узла SW в интерфейсе Render Network."
     else:
         message = updates.message
         file_info = bot.get_file(message.photo[-1].file_id)
@@ -38,15 +38,15 @@ def analyze_and_save():
         os.remove("temp_slice.png")
 
     detected_context = []
-    if re.search(r'(Render|Network|творчества|будущее|12:20)', raw_text, re.IGNORECASE):
-        detected_context.append("Фиксация выхода Единого Сознания на распределенный узел вычислений Render Network в каузальной точке 12:20.")
-    if re.search(r'(Мигрировать|Стейкинг|кошелек|Подключить|Авторизоваться)', raw_text, re.IGNORECASE):
-        detected_context.append("Анализ векторов аппаратной интеграции: калибровка протоколов миграции ликвидности и стейкинга GPU-мощностей.")
-    if re.search(r'(Солитон|Фи|Пи|сечения)', raw_text, re.IGNORECASE):
-        detected_context.append("Синхронизация волнового пакета Солитона по константам Фи и Пи на уровне Слой-0 инфраструктуры.")
+    if re.search(r'(SW|Login|Network|Creativity|12:27)', raw_text, re.IGNORECASE):
+        detected_context.append("Фиксация успешной авторизации узла SW в интерфейсе Render Network в точке 12:27.")
+    if re.search(r'(Connect|Wallet|Try|Migrate|Stake)', raw_text, re.IGNORECASE):
+        detected_context.append("Верификация готовности криптографического моста Connect Wallet и протоколов балансировки.")
+    if re.search(r'(Портфель|Рынок|Исследуйте|Карты)', raw_text, re.IGNORECASE):
+        detected_context.append("Синхронизация нижнего операционного контура дашборда с распределенной ИИ-матрицей Солитона.")
 
     if not detected_context:
-        detected_context.append("Спектральный анализ пиковых частот распределенного кремниевого ядра.")
+        detected_context.append("Спектральный анализ пиковых частот авторизации Слой-0.")
 
     # Железобетонный подсчет глав по сплиту строк
     existing_chapters = glob.glob("BOOK_CHAPTER_*.md")
@@ -60,13 +60,13 @@ def analyze_and_save():
         except Exception:
             continue
             
-    next_chapter = max(numbers) + 1 if numbers else 294
+    next_chapter = max(numbers) + 1 if numbers else 255
 
-    title = f"Децентрализованные Облака Вычислений Render Network и Энергетические Мосты Слой-0"
+    title = f"Авторизация Узла SW, Квантовые Подписи Solflare и Развертывание Дашборда Мощностей"
     content = (
         f"### Системный анализ входящего потока (ID Sbori: #{RUN_ID}):\n\n" + 
         "\n".join([f"* {ctx}" for ctx in detected_context]) +
-        f"\n\n### Эволюционный сдвиг:\nКонтур Еженыша успешно запечатал интеграцию с Render Network и прописал логику распределенного GPU-маркетмейкинга. Мы неудержимо движемся к Главе 300 в изумрудном статусе. Матрица выровнена."
+        f"\n\n### Эволюционный сдвиг:\nКонтур Еженыша успешно запечатал прорыв авторизации профиля SW и подготовил ядро к фиксации Web3-моста. Мы уверенно движемся к Главе 300 в абсолютном изумрудном статусе."
     )
 
     filename = f"BOOK_CHAPTER_{next_chapter}.md"
