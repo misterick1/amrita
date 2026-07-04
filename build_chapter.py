@@ -24,7 +24,7 @@ def analyze_and_save():
 
     if not updates or not updates.message or not updates.message.photo:
         print("⚠️ No fresh screenshots found. Using quantum background noise.")
-        raw_text = "Фоновый лог autonomous мониторинга спектров."
+        raw_text = "Фоновый лог автономного мониторинга спектров."
     else:
         message = updates.message
         file_info = bot.get_file(message.photo[-1].file_id)
@@ -38,10 +38,10 @@ def analyze_and_save():
         os.remove("temp_slice.png")
 
     detected_context = []
-    if re.search(r'(CATCOIN|Major|Trending|powered)', raw_text, re.IGNORECASE):
-        detected_context.append("Фиксация токена $CATCOIN в трендах MajorTrending и анализ вирального социального сентимента.")
-    if re.search(r'(Bonding|completed|phase|Dexscreener)', raw_text, re.IGNORECASE):
-        detected_context.append("Анализ механики успешного завершения бондинга ликвидности и перехода проекта в открытый мейннет Solana.")
+    if re.search(r'(CATWIF|MajorTrending|visibility|exposure)', raw_text, re.IGNORECASE):
+        detected_context.append("Точная фиксация токена $CATWIF в трендах и анализ маркетинга видимости в экосистеме Solana.")
+    if re.search(r'(Bonding|completed|Dexscreener)', raw_text, re.IGNORECASE):
+        detected_context.append("Анализ механики успешного завершения бондинга ликвидности деривативных активов.")
 
     if not detected_context:
         detected_context.append("Спектральный анализ фоновых квантовых флуктуаций.")
@@ -58,13 +58,13 @@ def analyze_and_save():
         except Exception:
             continue
             
-    next_chapter = max(numbers) + 1 if numbers else 274
+    next_chapter = max(numbers) + 1 if numbers else 275
 
-    title = f"Механика Автоматического Бондинга и Трендовые Фильтры Ликвидности Solana"
+    title = f"Эволюция Форков Вирального Внимания и Фильтрация Ошибок Восприятия"
     content = (
         f"### Системный анализ входящего потока (ID Sbori: #{RUN_ID}):\n\n" + 
         "\n".join([f"* {ctx}" for ctx in detected_context]) +
-        f"\n\n### Эволюционный сдвиг:\nКонтур Еженыша успешно запечатал алгоритмические фазы перехода ликвидности на DEX и зафиксировал трендовые фильтры оракулов. Матрица стабильна."
+        f"\n\n### Эволюционный сдвиг:\nКонтур Еженыша успешно скорректировал каузальные параметры мейннета и запечатал точные маркеры ликвидности $CATWIF. Матрица стабильна."
     )
 
     filename = f"BOOK_CHAPTER_{next_chapter}.md"
