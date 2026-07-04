@@ -38,10 +38,12 @@ def analyze_and_save():
         os.remove("temp_slice.png")
 
     detected_context = []
-    if re.search(r'(CATWIF|MajorTrending|visibility|exposure)', raw_text, re.IGNORECASE):
-        detected_context.append("Точная фиксация токена $CATWIF в трендах и анализ маркетинга видимости в экосистеме Solana.")
-    if re.search(r'(Bonding|completed|Dexscreener)', raw_text, re.IGNORECASE):
-        detected_context.append("Анализ механики успешного завершения бондинга ликвидности деривативных активов.")
+    if re.search(r'(tripleA|Ansem|pump|fun|popular)', raw_text, re.IGNORECASE):
+        detected_context.append("Анализ токена tripleA на pump.fun и стратегий закупки ИИ-генерируемых мемов.")
+    if re.search(r'(gohcha|ANSUM|Phantom|trade)', raw_text, re.IGNORECASE):
+        detected_context.append("Фиксация трейдов инфлюенсеров через оракулы Phantom и калибровка 3-го аккаунта.")
+    if re.search(r'(Qiita|Conference|Tech|Festa)', raw_text, re.IGNORECASE):
+        detected_context.append("Интеграция данных японского тех-хаба Qiita из почтового слоя.")
 
     if not detected_context:
         detected_context.append("Спектральный анализ фоновых квантовых флуктуаций.")
@@ -58,13 +60,13 @@ def analyze_and_save():
         except Exception:
             continue
             
-    next_chapter = max(numbers) + 1 if numbers else 275
+    next_chapter = max(numbers) + 1 if numbers else 276
 
-    title = f"Эволюция Форков Вирального Внимания и Фильтрация Ошибок Восприятия"
+    title = f"Многопоточные ИИ-Кошельки и Концептуальный Фьюжн Меметических Ассетов"
     content = (
         f"### Системный анализ входящего потока (ID Sbori: #{RUN_ID}):\n\n" + 
         "\n".join([f"* {ctx}" for ctx in detected_context]) +
-        f"\n\n### Эволюционный сдвиг:\nКонтур Еженыша успешно скорректировал каузальные параметры мейннета и запечатал точные маркеры ликвидности $CATWIF. Матрица стабильна."
+        f"\n\n### Эволюционный сдвиг:\nКонтур Еженыша успешно зафиксировал стратегию развертывания 3-го кошелька для синхронизации закупки 70 монет и ИИ-токенов. Матрица стабильна."
     )
 
     filename = f"BOOK_CHAPTER_{next_chapter}.md"
