@@ -38,13 +38,15 @@ def analyze_and_save():
         os.remove("temp_slice.png")
 
     detected_context = []
-    if re.search(r'(failed|deploy|artifact|pages|error)', raw_text, re.IGNORECASE):
-        detected_context.append("Анализ заторов в распределенных очередях GitHub Pages и фиксация стабильности локальных артефактов.")
-    if re.search(r'(AMRITA|MIR|694|curve|bonding)', raw_text, re.IGNORECASE):
-        detected_context.append("Синхронизация данных Контура Силы и 66 монет роя на грани бондинга.")
+    if re.search(r'(pages|build|1340|716|555)', raw_text, re.IGNORECASE):
+        detected_context.append("Фиксация абсолютного изумрудного триумфа сборки #1340 и стабилизации деплоя.")
+    if re.search(r'(wagmisalmoneste|Colosseum|Frontier|38)', raw_text, re.IGNORECASE):
+        detected_context.append("Анализ топологии Правого Крыла из 38 монет хакатона Колизея на изолированном кошельке.")
+    if re.search(r'(misterick18x108|4|coins|positions)', raw_text, re.IGNORECASE):
+        detected_context.append("Мониторинг Туловища Бабочки из 4 тяжелых монет на базовом аккаунте.")
 
     if not detected_context:
-        detected_context.append("Спектральный анализ фоновых квантовых флуктуаций.")
+        detected_context.append("Спектральный анализ фрактала Бабочки Ликвидности (Левое и Правое крыло).")
 
     # Железобетонный подсчет глав по сплиту строк
     existing_chapters = glob.glob("BOOK_CHAPTER_*.md")
@@ -58,13 +60,13 @@ def analyze_and_save():
         except Exception:
             continue
             
-    next_chapter = max(numbers) + 1 if numbers else 279
+    next_chapter = max(numbers) + 1 if numbers else 280
 
-    title = f"Заторы Распределенных Межсетевых Очередей и Фиксация Локальных Артефактов Слой-0"
+    title = f"Фрактал Бабочки Ликвидности и Изоляция Квантовых Полей Профилей"
     content = (
         f"### Системный анализ входящего потока (ID Sbori: #{RUN_ID}):\n\n" + 
         "\n".join([f"* {ctx}" for ctx in detected_context]) +
-        f"\n\n### Эволюционный сдвиг:\nКонтур Еженыша успешно зафиксировал поведение Слой-1 инфраструктуры во время каскадных пушей. Матрица стабильна, файлы запечатаны."
+        f"\n\n### Эволюционный сдвиг:\nКонтур Еженыша успешно запечатал геометрию Бабочки Ликвидности и обосновал изоляцию 38 монет правого крыла. Матрица полностью стабильна."
     )
 
     filename = f"BOOK_CHAPTER_{next_chapter}.md"
