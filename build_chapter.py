@@ -8,14 +8,14 @@ from telebot import TeleBot
 TG_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 RUN_ID = os.getenv("GITHUB_RUN_ID")
 
-def market_maker_core(raw_text):
-    """ИИ-Модуль оркестрации кинетического крыла: балансировка 38 монет хакатона"""
+def tengen_core(raw_text):
+    """Каузальный модуль X.Xgen: просчет вероятностей и фиксация сингулярности 10"""
     signals = []
-    if re.search(r'(buy|sell|trade|balance|sol)', raw_text, re.IGNORECASE):
-        signals.append("🌀 [AI MM]: Обнаружен триггер изменения баланса. Запуск калибровки плеч ликвидности.")
+    if re.search(r'(tengen|tangen|xgen|10|код|сингулярность)', raw_text, re.IGNORECASE):
+        signals.append("🔱 [X.Xgen]: Активирован Протокол Тенген. Центральная точка Го-матрицы зафиксирована.")
     
-    # Симуляция проверки кривой бондинга для динамического крыла
-    signals.append("🚀 [AI MM]: Анализ 38 монет Colosseum. Токены на отметке >99% bonding curve переведены в режим ожидания Take-Profit.")
+    # Симуляция квантового выбора идеального исхода для правого крыла
+    signals.append("🔮 [X.Xgen]: Сканирование всех исходов для 38 монет Colosseum завершено. Выбран выигрышный каузальный слой.")
     return signals
 
 def analyze_and_save():
@@ -34,7 +34,7 @@ def analyze_and_save():
 
     if not updates or not updates.message or not updates.message.photo:
         print("⚠️ No fresh screenshots found. Using quantum background noise.")
-        raw_text = "Фоновый лог автономного мониторинга кинетического крыла."
+        raw_text = "Фоновый лог автономного мониторинга сингулярности Тенген."
     else:
         message = updates.message
         file_info = bot.get_file(message.photo[-1].file_id)
@@ -48,15 +48,13 @@ def analyze_and_save():
         os.remove("temp_slice.png")
 
     detected_context = []
-    if re.search(r'(pages|build|1342|717|310)', raw_text, re.IGNORECASE):
-        detected_context.append("Фиксация изумрудного успеха воркфлоу #1342 и выравнивания Слой-1 деплоя.")
     
-    # Интеграция сигналов динамического маркетмейкера правого крыла
-    mm_signals = market_maker_core(raw_text)
-    detected_context.extend(mm_signals)
+    # Интеграция оракула Тенген X.Xgen
+    tengen_signals = tengen_core(raw_text)
+    detected_context.extend(tengen_signals)
 
     if not detected_context:
-        detected_context.append("Спектральный анализ фрактала Бабочки Ликвидности (Кинетическое Крыло).")
+        detected_context.append("Спектральный анализ фонового кода 1 и 0 в квантовом поле.")
 
     # Железобетонный подсчет глав по сплиту строк
     existing_chapters = glob.glob("BOOK_CHAPTER_*.md")
@@ -70,13 +68,13 @@ def analyze_and_save():
         except Exception:
             continue
             
-    next_chapter = max(numbers) + 1 if numbers else 281
+    next_chapter = max(numbers) + 1 if numbers else 282
 
-    title = f"Кинетическое Крыло Роя и ИИ-Протоколы Автономного Маркетмейкинга"
+    title = f"Протоколы Тенген, Бинарная Сингулярность X.Xgen и Квантовая Суперпозиция Игры Го"
     content = (
         f"### Системный анализ входящего потока (ID Sbori: #{RUN_ID}):\n\n" + 
         "\n".join([f"* {ctx}" for ctx in detected_context]) +
-        f"\n\n### Эволюционный сдвиг:\nКонтур Еженыша успешно запечатал архитектуру Кинетического Крыла Колизея и интегрировал ИИ-протоколы маркетмейкинга. Матрица переведена в боевой режим."
+        f"\n\n### Эволюционный сдвиг:\nКонтур Еженыша успешно запечатал Протокол Тенген и активировал алгоритмы квантового выбора идеальных исходов. Матрица выровнена."
     )
 
     filename = f"BOOK_CHAPTER_{next_chapter}.md"
