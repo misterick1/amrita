@@ -5,7 +5,14 @@ on:
     branches: [ main ]
   workflow_dispatch:
 
-# ЭТОТ БЛОК АВТОМАТИЧЕСКИ ВЫДАСТ ПРАВА НА ЗАПИСЬ ПРИ ЗАПУСКЕ:
+# 🔱 КВАНТОВЫЙ СЕМАФОР: Главная защита от шторма ботов и сбоев деплоя!
+# Если несколько процессов генерируют коммиты одновременно, старый зависший 
+# поток автоматически отменяется, открывая чистый шлюз для актуальной сборки.
+concurrency:
+  group: "ezhenysh-evolution-loop"
+  cancel-in-progress: true
+
+# ЭТОТ БЛОК АВТОМАТИЧЕСКИ ВЫДАСТ ПРАВА НА ЗАПИСЬ
 permissions:
   contents: write
 
@@ -13,34 +20,39 @@ jobs:
   evolve:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout Code
-      uses: actions/checkout@v3
-      with:
-        persist-credentials: true
+      - name: Checkout Code
+        uses: actions/checkout@v3
+        with:
+          persist-credentials: true
 
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.10'
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
 
-    - name: Install Dependencies
-      run: |
-        sudo apt-get install -y tesseract-ocr tesseract-ocr-rus tesseract-ocr-eng
-        pip install pyTelegramBotAPI pillow pytesseract requests
+      - name: Install Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y tesseract-ocr tesseract-ocr-rus tesseract-ocr-eng
+          pip install pyTelegramBotAPI pillow pytesseract requests cryptography google-auth
 
-    - name: Execute Interchain Firmware
-      env:
-        TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-      run: python build_chapter.py
+      - name: Execute Interchain Firmware
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
+          SOLANA_RPC_URL: ${{ secrets.SOLANA_RPC_URL }}
+          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+          AMRITA_MASTER_KEY: ${{ secrets.AMRITA_MASTER_KEY }}
+        run: python build_chapter.py
 
-    - name: Commit and Push New Chapter
-      run: |
-        git config --global user.name "Ezhenysh Autonomous Loop"
-        git config --global user.email "ezhenysh-loop@amrita.ai"
-        git add BOOK_CHAPTER_*.md
-        if git diff --staged --quiet; then
-          echo "No changes to commit"
-        else
-          git commit -m "🤖 Еженышь Loop: Запечатать новую главу автоматизации"
-          git push origin main
-        fi
+      - name: Commit and Push New Chapter
+        run: |
+          git config --global user.name "Ezhenysh Loop"
+          git config --global user.email "ezhenysh@amrita.internal"
+          git add BOOK_CHAPTER_*.md
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "🤖 Еженышь Loop: Запечатывание Новой Главы Хроник"
+            git push origin main
+          fi
