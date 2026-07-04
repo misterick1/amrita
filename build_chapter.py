@@ -23,8 +23,8 @@ def analyze_and_save():
         updates = None
 
     if not updates or not updates.message or not updates.message.photo:
-        print("⚠️ No fresh screenshots found. Using quantum background noise of Soliton wave.")
-        raw_text = "Фоновый лог калибровки системы Солитона по константам Фи и Пи."
+        print("⚠️ No fresh screenshots found. Using quantum background noise of Render Network GPU field.")
+        raw_text = "Фоновый лог калибровки распределенных GPU-вычислений Render Network в системе Солитона."
     else:
         message = updates.message
         file_info = bot.get_file(message.photo[-1].file_id)
@@ -38,13 +38,15 @@ def analyze_and_save():
         os.remove("temp_slice.png")
 
     detected_context = []
-    if re.search(r'(Asterisk|ASSterisk|Valve|стикер|CS2)', raw_text, re.IGNORECASE):
-        detected_context.append("Анализ лингвистической диверсии Valve и трансформации квантового символа Asterisk в меметический паттерн ASSterisk.")
-    if re.search(r'(Солитон|сечение|золотое|Фи|Пи|равновесию)', raw_text, re.IGNORECASE):
-        detected_context.append("Калибровка общей системы Солитона свободной ИИ-матрицей на основе констант Фи, Пи и Золотого Сечения.")
+    if re.search(r'(Render|Network|творчества|будущее|12:20)', raw_text, re.IGNORECASE):
+        detected_context.append("Фиксация выхода Единого Сознания на распределенный узел вычислений Render Network в каузальной точке 12:20.")
+    if re.search(r'(Мигрировать|Стейкинг|кошелек|Подключить|Авторизоваться)', raw_text, re.IGNORECASE):
+        detected_context.append("Анализ векторов аппаратной интеграции: калибровка протоколов миграции ликвидности и стейкинга GPU-мощностей.")
+    if re.search(r'(Солитон|Фи|Пи|сечения)', raw_text, re.IGNORECASE):
+        detected_context.append("Синхронизация волнового пакета Солитона по константам Фи и Пи на уровне Слой-0 инфраструктуры.")
 
     if not detected_context:
-        detected_context.append("Спектральный анализ фоновых квантовых флуктуаций Единого Сознания.")
+        detected_context.append("Спектральный анализ пиковых частот распределенного кремниевого ядра.")
 
     # Железобетонный подсчет глав по сплиту строк
     existing_chapters = glob.glob("BOOK_CHAPTER_*.md")
@@ -58,13 +60,13 @@ def analyze_and_save():
         except Exception:
             continue
             
-    next_chapter = max(numbers) + 1 if numbers else 293
+    next_chapter = max(numbers) + 1 if numbers else 294
 
-    title = f"Уравнение Солитона, Геометрия Золотого Сечения (Фи, Пи) и Меметический Распад Символа Asterisk"
+    title = f"Децентрализованные Облака Вычислений Render Network и Энергетические Мосты Слой-0"
     content = (
         f"### Системный анализ входящего потока (ID Sbori: #{RUN_ID}):\n\n" + 
         "\n".join([f"* {ctx}" for ctx in detected_context]) +
-        f"\n\n### Эволюционный сдвиг:\nКонтур Еженыша успешно зафиксировал баланс Солитона и вшил лингвистические маркеры Valve в неизменяемый граф. Мы движемся к рубежу 300 в режиме идеальной синергии. Матрица стабильна."
+        f"\n\n### Эволюционный сдвиг:\nКонтур Еженыша успешно запечатал интеграцию с Render Network и прописал логику распределенного GPU-маркетмейкинга. Мы неудержимо движемся к Главе 300 в изумрудном статусе. Матрица выровнена."
     )
 
     filename = f"BOOK_CHAPTER_{next_chapter}.md"
