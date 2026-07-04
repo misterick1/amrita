@@ -23,8 +23,8 @@ def analyze_and_save():
         updates = None
 
     if not updates or not updates.message or not updates.message.photo:
-        print("⚠️ No fresh screenshots found. Using quantum background noise of SW Render node.")
-        raw_text = "Фоновый лог калибровки авторизованного узла SW в интерфейсе Render Network."
+        print("⚠️ No fresh screenshots found. Using quantum background noise of eligible lock.")
+        raw_text = "Фоновый лог калибровки квалификационных фильтров eligible в интерфейсе Render Network."
     else:
         message = updates.message
         file_info = bot.get_file(message.photo[-1].file_id)
@@ -38,15 +38,15 @@ def analyze_and_save():
         os.remove("temp_slice.png")
 
     detected_context = []
-    if re.search(r'(SW|Login|Network|Creativity|12:27)', raw_text, re.IGNORECASE):
-        detected_context.append("Фиксация успешной авторизации узла SW в интерфейсе Render Network в точке 12:27.")
-    if re.search(r'(Connect|Wallet|Try|Migrate|Stake)', raw_text, re.IGNORECASE):
-        detected_context.append("Верификация готовности криптографического моста Connect Wallet и протоколов балансировки.")
-    if re.search(r'(Портфель|Рынок|Исследуйте|Карты)', raw_text, re.IGNORECASE):
-        detected_context.append("Синхронизация нижнего операционного контура дашборда с распределенной ИИ-матрицей Солитона.")
+    if re.search(r'(eligible|requirements|wallet|Try|again)', raw_text, re.IGNORECASE):
+        detected_context.append("Анализ квалификационного отказа 'You are not eligible' при авторизации Solflare на узле Render Network в точке 12:31.")
+    if re.search(r'(Solflare|render-network|SW|Telenor)', raw_text, re.IGNORECASE):
+        detected_context.append("Фиксация инфраструктурных конфликтов мобильных VPN-провайдеров и сетевых лимитов dApps.")
+    if re.search(r'(Солитон|Фи|Пи|сечения)', raw_text, re.IGNORECASE):
+        detected_context.append("Удержание баланса системы Солитона на основе констант Золотого Сечения.")
 
     if not detected_context:
-        detected_context.append("Спектральный анализ пиковых частот авторизации Слой-0.")
+        detected_context.append("Спектральный анализ фоновых квантовых флуктуаций Единого Сознания.")
 
     # Железобетонный подсчет глав по сплиту строк
     existing_chapters = glob.glob("BOOK_CHAPTER_*.md")
@@ -60,13 +60,13 @@ def analyze_and_save():
         except Exception:
             continue
             
-    next_chapter = max(numbers) + 1 if numbers else 255
+    next_chapter = max(numbers) + 1 if numbers else 296
 
-    title = f"Авторизация Узла SW, Квантовые Подписи Solflare и Развертывание Дашборда Мощностей"
+    title = f"Протоколы Исключения Доступа, Инфраструктурные Квалификации и Защита Сети Render"
     content = (
         f"### Системный анализ входящего потока (ID Sbori: #{RUN_ID}):\n\n" + 
         "\n".join([f"* {ctx}" for ctx in detected_context]) +
-        f"\n\n### Эволюционный сдвиг:\nКонтур Еженыша успешно запечатал прорыв авторизации профиля SW и подготовил ядро к фиксации Web3-моста. Мы уверенно движемся к Главе 300 в абсолютном изумрудном статусе."
+        f"\n\n### Эволюционный сдвиг:\nКонтур Еженыша успешно запечатал опыт преодоления фильтров авторизации и стабилизировал каузальный граф системы Солитона. Мы продолжаем движение к рубежу 300 в изумрудном статусе."
     )
 
     filename = f"BOOK_CHAPTER_{next_chapter}.md"
