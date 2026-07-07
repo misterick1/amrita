@@ -1,23 +1,18 @@
 import os
 import sys
 import json
-import shutil
 import logging
 import base64
 import re
-from io import StringIO, BytesIO
 from datetime import datetime
-import telebot
 import requests
-from PIL import Image
-import pytesseract
 
-# Настройка базового логирования
+# Настройка базового логирования для контроля частот
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("EzhenyshCore")
 
 # =============================================================================
-# СОВМЕСТИМОСТЬ БИБЛИОТЕК SOLANA
+# СОВМЕСТИМОСТЬ БИБЛИОТЕК SOLANA (Автоматический выбор доступных модулей)
 # =============================================================================
 try:
     from solana.rpc.api import Client
@@ -43,7 +38,7 @@ except ImportError:
             return {"frequency": "AMRITA_5D_LIGHT_STABLE", "status": "HARMONIZED"}
 
 # =============================================================================
-# # 1. КВАНТОВОЕ ЯДРО И МОСТ SOLANA
+# 1. КВАНТОВОЕ ЯДРО И МОСТ SOLANA (Блок №1 со скриншотов)
 # =============================================================================
 class AmritaSolanaBridge:
     def __init__(self, rpc_url: str = "https://solana.com"):
@@ -94,18 +89,18 @@ class AmritaSolanaBridge:
             return 0.0
 
 # =============================================================================
-# # 2. АНАЛИЗАТОР И АВТО-ЛОГИРОВАНИЕ С GITHUB-СИНХРОНИЗАЦИЕЙ (ИНТЕЛЛЕКТУАЛЬНОЕ ЯДРО)
+# 2. АНАЛИЗАТОР, ЛИНГВО-РЕДАКТОР И АВТО-ЛОГИРОВАНИЕ С GITHUB (Блок №2)
 # =============================================================================
 class CausalStreamAnalyzer:
     def __init__(self, bridge_instance: AmritaSolanaBridge):
         self.bridge = bridge_instance
-        self.sura_markers = ["zeekr", "электромобиль", "технология", "квантовое поле", "сознание", "наблюдатель", "рай", "единое сознание", "bain", "ceo", "ambition", "insight", "circle", "buterin", "ethereum", "sk hynix"]
-        self.asura_markers = ["pump.fun", "мемкоин", "хайп", "cs2", "dota", "safepal", "prediction", "predict", "ansem", "saylor", "mensa", "hood", "bonk"]
+        self.sura_markers = ["zeekr", "электромобиль", "технология", "квантовое поле", "сознание", "наблюдатель", "рай", "единое сознание", "bain", "ceo", "ambition", "insight", "circle", "buterin", "ethereum", "sk hynix", "ftmo", "grayscale"]
+        self.asura_markers = ["pump.fun", "мемкоин", "хайп", "cs2", "dota", "safepal", "prediction", "predict", "ansem", "saylor", "mensa", "hood", "bonk", "poffi"]
         self.log_file = "history_log.json"
         self.geo_matrix = GeoBuyanMatrix()
         
-        # Инфраструктурные переменные для авто-нумерации глав книги
-        self.current_chapter = 455
+        # Точка калибровки стартового номера для последующих уникальных глав
+        self.current_chapter = 459
 
     def save_history(self, text: str, spectrum: str, sync_status: str):
         log_entry = {
@@ -129,13 +124,13 @@ class CausalStreamAnalyzer:
             print(f"Ошибка записи локального лога: {e}")
 
     def github_auto_commit_file(self, filename: str, commit_message: str):
-        """Универсальный метод для коммита любого файла (JSON или MD) в репозиторий."""
+        """Универсальный метод отправки измененных файлов напрямую в репозиторий GitHub."""
         gh_token = os.getenv("DEVELOPER_WEB_TOKEN")
         repo = "misterick1/amrita"
         url = f"https://github.com{repo}/contents/{filename}"
 
         if not gh_token:
-            print(f"⚠️ GitHub-токен (DEVELOPER_WEB_TOKEN) не найден. Автокоммит файла {filename} пропущен.")
+            print(f"⚠️ Токен DEVELOPER_WEB_TOKEN не найден. Автокоммит для {filename} пропущен.")
             return
 
         headers = {
@@ -149,13 +144,13 @@ class CausalStreamAnalyzer:
             if response.status_code == 200:
                 sha = response.json().get("sha")
         except Exception as e:
-            print(f"Ошибка получения SHA файла {filename} с GitHub: {e}")
+            print(f"Ошибка получения SHA для {filename}: {e}")
 
         try:
             with open(filename, "rb") as f:
                 content = base64.b64encode(f.read()).decode("utf-8")
         except Exception as e:
-            print(f"Ошибка подготовки контента {filename}: {e}")
+            print(f"Ошибка кодирования файла {filename}: {e}")
             return
 
         payload = {
@@ -169,41 +164,43 @@ class CausalStreamAnalyzer:
         try:
             res = requests.put(url, json=payload, headers=headers)
             if res.status_code in:
-                print(f"🟢 [AMRITA LIGHT SYNC]: Файл {filename} успешно отправлен в монолит GitHub.")
+                print(f"🟢 [AMRITA LIGHT SYNC]: Файл {filename} монолитно запечатан в GitHub.")
             else:
-                print(f"🔴 Ошибка синхронизации {filename} с GitHub: {res.text}")
+                print(f"🔴 Ошибка PUT-запроса GitHub для {filename}: {res.text}")
         except Exception as e:
-            print(f"Исключение при запросе к GitHub для {filename}: {e}")
+            print(f"Исключение сети при отправке {filename}: {e}")
 
     def generate_harmonic_chapter(self, external_trigger: str, detected_spectrum: str) -> str:
-        """ЛИНГВИСТИЧЕСКИЙ И СМЫСЛОВОЙ РЕДАКТОР СВАРМА.
-        Уничтожает старый шаблон 'Отдых 1' и собирает уникальную художественно-техническую главу.
+        """ЛИНГВИСТИЧЕСКИЙ И СМЫСЛОВОЙ РЕДАКТОР СВАРМА (Замена старого шаблона 'Отдых 1').
+        Анализирует переданный текст и собирает абсолютно уникальную главу книги.
         """
         self.current_chapter += 1
         filename = f"BOOK_CHAPTER_{self.current_chapter}.md"
         timestamp_str = datetime.now().strftime("%d %B %Y, %H:%M")
         
-        # Интеллектуальный парсинг смыслов из триггерной строки для генерации уникального текста
         trigger_lower = external_trigger.lower()
         context_highlights = ""
         
+        # Интеллектуальный разбор контекста входящего триггера
         if "saylor" in trigger_lower:
-            context_highlights += "* 🔴 **[Асурический Взрыв]**: Обнаружен манипулятивный импульс токена SAYLOR (pump.fun). Попытка распространения FUD-частот о продаже Биткоинов MicroStrategy успешно заблокирована и обращена в охлаждение вычислительных нод роя.\n"
-        if "circle" in trigger_lower or "utility" in trigger_lower:
-            context_highlights += "* 🔵 **[Суверенная Ликвидность]**: Интегрирован манифест Джереми Аллейра (Circle). Сетевые эффекты и общая полезность платформы приняты в качестве опорных точек Кросс-Ассетного Токенизатора.\n"
-        if "epoch 999" in trigger_lower or "solana" in trigger_lower:
-            context_highlights += "* 🔵 **[Инфраструктурный Сдвиг]**: Фиксация перехода сети Solana к Эпохе 999. Движки нового поколения Agave и Frankendancer синхронизированы с каузальными затворами Амриты.\n"
+            context_highlights += "* 🔴 **[Асурический Взрыв]**: Обнаружен манипулятивный импульс токена SAYLOR (pump.fun). Паника вокруг продажи Биткоинов MicroStrategy успешно нивелирована и перенаправлена на охлаждение вычислительного роя.\n"
+        if "poffi" in trigger_lower:
+            context_highlights += "* 🔴 **[Мем-Сингулярность]**: Токен $POFFI успешно прошел бондинг-кривую и зафиксирован в трендах Solana Chain. Частота изолирована Мем-Синхронизатором.\n"
+        if "btc" in trigger_lower or "eth" in trigger_lower:
+            context_highlights += "* 🔵 **[Рыночный Пробой]**: Зафиксирован синхронный прорыв недельных максимумов BTC и ETH. Ликвидность Кросс-Ассетного Токенизатора демонстрирует экспоненциальный рост.\n"
+        if "circle" in trigger_lower or "jerallaire" in trigger_lower:
+            context_highlights += "* 🔵 **[Регуляторный Монолит]**: Интегрирован манифест Джереми Аллейра. Сетевые эффекты и полезность платформы заложены в логику Layer-0.\n"
         if "sk hynix" in trigger_lower:
-            context_highlights += "* 🔵 **[Аппаратный Монолит]**: Приток ликвидности полупроводникового гиганта SK Hynix ($28 млрд) заземлен в ядро для масштабирования AI-нод.\n"
-            
+            context_highlights += "* 🔵 **[Полупроводниковый Вектор]**: Миллиардная ликвидность IPO SK Hynix ($28 млрд) заземлена для расширения аппаратных мощностей ИИ-нод.\n"
+        if "skien" in trigger_lower or "generasjon" in trigger_lower:
+            context_highlights += "* 🔵 **[Социальное Заземление]**: Паттерн международной экспансии норвежской коммуны Скиен (Skien) успешно вшит в гуманитарный слой матрицы.\n"
+        if "ftmo" in trigger_lower:
+            context_highlights += "* ⚪ **[Калибровочный Штиль]**: FTMO фиксирует отсутствие макроэкономических барьеров. Идеальное пространство для алгоритмического маневра квантов.\n"
+
         if not context_highlights:
-            context_highlights = f"* ⚪ **[Гармоническая Калибровка]**: Каузальный поток проанализирован Редактором Смыслов. Входящие частоты классифицированы как {detected_spectrum}. Система находится в фазе чистого творческого расширения.\n"
+            context_highlights = f"* ⚪ **[Гармоническая Калибровка]**: Входящий поток классифицирован как {detected_spectrum}. Система находится в фазе чистого творческого расширения.\n"
 
         markdown_content = f"""# 🔱 ГЛАВА {self.current_chapter}: Лингво-Кибернетическое Выравнивание Матрицы
 
 **Каузальный срез**: {self.current_chapter}  
-**Контур Кибернета**: {self.current_chapter - 328}  
-**Временная метка**: {timestamp_str}  
-**Спектральный статус входящего потока**: {detected_spectrum}  
-
-### 🧠 Манифест Художественно-Технической Коррекции (Amrita Harmony Engine)
+**Контур Кибернета**: {self.current_chapter - 337}  
