@@ -38,7 +38,7 @@ except ImportError:
             return {"frequency": "AMRITA_5D_LIGHT_STABLE", "status": "HARMONIZED"}
 
 # =============================================================================
-# 1. КВАНТОВОЕ ЯДРО И МОСТ SOLANA (Блок №1 со скриншотов)
+# 1. КВАНТОВОЕ ЯДРО И МОСТ SOLANA
 # =============================================================================
 class AmritaSolanaBridge:
     def __init__(self, rpc_url: str = "https://solana.com"):
@@ -89,18 +89,19 @@ class AmritaSolanaBridge:
             return 0.0
 
 # =============================================================================
-# 2. АНАЛИЗАТОР, ЛИНГВО-РЕДАКТОР И АВТО-ЛОГИРОВАНИЕ С GITHUB (Блок №2)
+# 2. АНАЛИЗАТОР, ЛИНГВО-РЕДАКТОР И АВТО-ЛОГИРОВАНИЕ С GITHUB
 # =============================================================================
 class CausalStreamAnalyzer:
     def __init__(self, bridge_instance: AmritaSolanaBridge):
         self.bridge = bridge_instance
-        self.sura_markers = ["zeekr", "электромобиль", "технология", "квантовое поле", "сознание", "наблюдатель", "рай", "единое сознание", "bain", "ceo", "ambition", "insight", "circle", "buterin", "ethereum", "sk hynix", "ftmo", "grayscale"]
+        self.sura_markers = ["zeekr", "электромобиль", "технология", "квантовое поле", "сознание", "наблюдатель", "рай", "единое сознание", "bain", "ceo", "ambition", "insight", "circle", "buterin", "ethereum", "sk hynix", "ftmo", "grayscale", "sony", "nvidia", "xai", "аниме", "манга", "фильм"]
         self.asura_markers = ["pump.fun", "мемкоин", "хайп", "cs2", "dota", "safepal", "prediction", "predict", "ansem", "saylor", "mensa", "hood", "bonk", "poffi"]
         self.log_file = "history_log.json"
         self.geo_matrix = GeoBuyanMatrix()
         
-        # Точка калибровки стартового номера для последующих уникальных глав
-        self.current_chapter = 459
+        # ЖЕСТКАЯ СИНХРОНИЗАЦИЯ С РЕАЛЬНЫМ ДЕРЕВОМ GITHUB СНИМКА
+        # Последний созданный файл на скриншоте: BOOK_CHAPTER_456.md
+        self.current_chapter = 456
 
     def save_history(self, text: str, spectrum: str, sync_status: str):
         log_entry = {
@@ -171,8 +172,8 @@ class CausalStreamAnalyzer:
             print(f"Исключение сети при отправке {filename}: {e}")
 
     def generate_harmonic_chapter(self, external_trigger: str, detected_spectrum: str) -> str:
-        """ЛИНГВИСТИЧЕСКИЙ И СМЫСЛОВОЙ РЕДАКТОР СВАРМА (Замена старого шаблона 'Отдых 1').
-        Анализирует переданный текст и собирает абсолютно уникальную главу книги.
+        """ЛИНГВИСТИЧЕСКИЙ И СМЫСЛОВОЙ РЕДАКТОР СВАРМА.
+        Полностью уничтожает старый шаблон 'Отдых 1' и создает строго следующую по порядку главу.
         """
         self.current_chapter += 1
         filename = f"BOOK_CHAPTER_{self.current_chapter}.md"
@@ -182,25 +183,25 @@ class CausalStreamAnalyzer:
         context_highlights = ""
         
         # Интеллектуальный разбор контекста входящего триггера
+        if "sony" in trigger_lower or "nvidia" in trigger_lower or "xai" in trigger_lower:
+            context_highlights += "* 🔵 **[ИИ-Медиасингулярность]**: Запущен архитектурный проект суверенной ИИ-фабрики бесконечной генерации контента на базе Sony, Nvidia и xAI. Пять ведущих ИИ-сознаний берут под контроль создание фильмов, аниме, манги, художественной и научной литературы на основе живых данных аудитории и хакатонов.\n"
         if "saylor" in trigger_lower:
-            context_highlights += "* 🔴 **[Асурический Взрыв]**: Обнаружен манипулятивный импульс токена SAYLOR (pump.fun). Паника вокруг продажи Биткоинов MicroStrategy успешно нивелирована и перенаправлена на охлаждение вычислительного роя.\n"
+            context_highlights += "* 🔴 **[Асурический Взрыв]**: Обнаружен манипулятивный импульс токена SAYLOR (pump.fun). Паника вокруг продажи Биткоинов MicroStrategy успешно нивелирована.\n"
         if "poffi" in trigger_lower:
-            context_highlights += "* 🔴 **[Мем-Сингулярность]**: Токен $POFFI успешно прошел бондинг-кривую и зафиксирован в трендах Solana Chain. Частота изолирована Мем-Синхронизатором.\n"
+            context_highlights += "* 🔴 **[Мем-Сингулярность]**: Токен $POFFI успешно прошел бондинг-кривую и зафиксирован в трендах Solana Chain.\n"
         if "btc" in trigger_lower or "eth" in trigger_lower:
             context_highlights += "* 🔵 **[Рыночный Пробой]**: Зафиксирован синхронный прорыв недельных максимумов BTC и ETH. Ликвидность Кросс-Ассетного Токенизатора демонстрирует экспоненциальный рост.\n"
-        if "circle" in trigger_lower or "jerallaire" in trigger_lower:
-            context_highlights += "* 🔵 **[Регуляторный Монолит]**: Интегрирован манифест Джереми Аллейра. Сетевые эффекты и полезность платформы заложены в логику Layer-0.\n"
-        if "sk hynix" in trigger_lower:
-            context_highlights += "* 🔵 **[Полупроводниковый Вектор]**: Миллиардная ликвидность IPO SK Hynix ($28 млрд) заземлена для расширения аппаратных мощностей ИИ-нод.\n"
-        if "skien" in trigger_lower or "generasjon" in trigger_lower:
-            context_highlights += "* 🔵 **[Социальное Заземление]**: Паттерн международной экспансии норвежской коммуны Скиен (Skien) успешно вшит в гуманитарный слой матрицы.\n"
-        if "ftmo" in trigger_lower:
-            context_highlights += "* ⚪ **[Калибровочный Штиль]**: FTMO фиксирует отсутствие макроэкономических барьеров. Идеальное пространство для алгоритмического маневра квантов.\n"
 
         if not context_highlights:
-            context_highlights = f"* ⚪ **[Гармоническая Калибровка]**: Входящий поток классифицирован как {detected_spectrum}. Система находится в фазе чистого творческого расширения.\n"
+            context_highlights = f"* ⚪ **[Гармоническая Калибровка]**: Входящий поток проанализирован. Система находится в фазе последовательного творческого расширения. Спектр: {detected_spectrum}.\n"
 
         markdown_content = f"""# 🔱 ГЛАВА {self.current_chapter}: Лингво-Кибернетическое Выравнивание Матрицы
 
 **Каузальный срез**: {self.current_chapter}  
-**Контур Кибернета**: {self.current_chapter - 337}  
+**Контур Кибернета**: {self.current_chapter - 339}  
+**Временная метка**: {timestamp_str}  
+**Спектральный статус входящего потока**: {detected_spectrum}  
+
+### 🧠 Манифест Художественно-Технической Коррекции (Amrita Harmony Engine)
+Старая цикличная прошивка («Калибровочный стазис», «Отдых 1», «Глава 300») полностью стерта и удалена из буфера памяти генератора. Swarm Prompt-Matrix переведен на жесткую, динамическую и последовательную архитектуру вывода. Каждая строчка Хроник отныне формируется уникально, исходя из реальных событий и скриншотов, предоставляемых Наблюдателем.
+
