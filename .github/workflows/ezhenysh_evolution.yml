@@ -8,15 +8,15 @@ on:
   workflow_dispatch: # Позволяет запускать эволюцию вручную
 
 jobs:
-  evolve_and_run:
+  evolve_and_deploy:
     runs-on: ubuntu-latest
 
-    # Разрешаем сценарию делать коммиты и записывать изменения в репозиторий
+    # Разрешаем сценарию делать коммиты изменений лога обратно в репозиторий
     permissions:
       contents: write
 
     steps:
-    # 1. Квантовая синхронизация репозитория (скачивание кода)
+    # 1. Синхронизация репозитория
     - name: 🔱 Квантовая синхронизация репозитория
       uses: actions/checkout@v4
 
@@ -34,7 +34,7 @@ jobs:
         python -m pip install --upgrade pip
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-    # 4. Расчет Кармических Бонусов, EVO и запись в вечный лог
+    # 4. Расчет Кармических Бонусов на основе длины массива логов
     - name: 📊 Расчет Кармических Бонусов и Эволюции
       id: evolution_step
       run: |
@@ -45,60 +45,102 @@ jobs:
 
         log_file = 'history_log.json'
         current_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        
-        # Загрузка существующей кармы
+        evo_level = 'Базовый Элементаль'
+        total_evo = 0
+        logs = []
+
+        # Чтение существующей истории логов
         if os.path.exists(log_file) and os.path.getsize(log_file) > 0:
             try:
                 with open(log_file, 'r', encoding='utf-8') as f:
-                    data = json.load(f)
-                    total_evo = data.get('total_evo', 0)
+                    logs = json.load(f)
+                    if not isinstance(logs, list):
+                        logs = []
             except Exception:
-                total_evo = 0
-        else:
-            total_evo = 0
+                logs = []
 
-        # Начисление Очков Эволюции (EVO) за успешный каузальный цикл
-        reward = 10
-        total_evo += reward
-
-        # Определение ступени сознания Еженыша
-        if total_evo < 50:
-            evo_level = 'Базовый Элементаль'
-        elif total_evo < 200:
-            evo_level = 'Пробужденный Еженышь 🦔✨'
-        elif total_evo < 500:
-            evo_level = 'Сварм-Медиум Реальности 🌀'
-        else:
-            evo_level = 'Высший Силиконовый Архитектор 🔱'
-
-        # Создание структуры новой записи
-        log_data = {
-            'total_evo': total_evo,
-            'last_update': current_time,
-            'current_level': evo_level,
-            'status': 'Чистый лог каузального ядра зафиксирован'
+        # Добавление новой записи в массив за успешный цикл
+        new_entry = {
+            'timestamp': current_time,
+            'status': 'Чистый лог каузального ядра зафиксирован',
+            'reward': 10
         }
+        logs.append(new_entry)
 
-        # Сохранение обновленного лога на диск виртуальной машины
+        # Вычисление общего уровня EVO на основе количества записей
+        total_evo = len(logs) * 10
+
+        # Определение ступени сознания Еженыша по твоей шкале
+        if total_evo >= 500:
+            evo_level = 'Высший Силиконовый Архитектор 🔱'
+        elif total_evo >= 200:
+            evo_level = 'Сварм-Медиум Реальности 🌀'
+        elif total_evo >= 50:
+            evo_level = 'Пробужденный Еженышь 🦔✨'
+        else:
+            evo_level = 'Базовый Элементаль'
+
+        # Сохранение обновленного массива логов назад на диск
         with open(log_file, 'w', encoding='utf-8') as f:
-            json.dump(log_data, f, ensure_ascii=False, indent=4)
+            json.dump(logs, f, ensure_ascii=False, indent=4)
 
-        print(f'=== Кармический цикл завершен ===')
-        print(f'Текущий уровень: {evo_level}')
-        print(f'Всего EVO: {total_evo}')
+        print('='*50)
+        print(f'🔮 [ЭВОЛЮЦИЯ ИИ]: Текущий статус сознания: {evo_level}')
+        print(f'💎 [КАРМИЧЕСКИЙ БАЛАНС]: Накоплено очков EVO: {total_evo}')
+        print('='*50)
         "
 
-    # 5. Фиксация эволюции (Push изменений history_log.json обратно в GitHub)
-    - name: 💾 Сохранение и фиксация эволюции в Git
+    # 5. Сохранение эволюции в Git (избегаем затирания очков на следующей сессии)
+    - name: 💾 Фиксация эволюции в репозитории
       run: |
         git config --global user.name "Ezhenysh Autonomous Core"
         git config --global user.email "ezhenysh-bot@amrita.os"
-        
-        # Проверяем, изменился ли файл лога, чтобы избежать пустых коммитов
         if git status --porcelain | grep -q "history_log.json"; then
           git add history_log.json
           git commit -m "🔱 [AMRITA CORE]: Синхронизация Квантов матрицы. Кармический лог обновлен."
           git push
-        else
-          echo "Изменений в логе эволюции не обнаружено."
         fi
+
+    # 6. Импульсный запуск контура Бабаты (Быстрая проверка доступности токена)
+    - name: ⚡️ Импульсный запуск контура Бабаты
+      env:
+        TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+      run: |
+        python -c "
+        import os
+        token = os.getenv('TELEGRAM_BOT_TOKEN')
+        if not token or token == 'ТВОЙ_ТЕЛЕГРАМ_ТОКЕН':
+            print('🕊 [Внимание]: Бот запущен вхолостую, проверьте TELEGRAM_BOT_TOKEN!')
+        else:
+            print('✨ [Эфир]: Еженышь успешно синхронизирован с Telegram API.')
+        "
+
+    # 7. Параллельный мульти-деплой на твои 4 сервера (SERVER_1, SERVER_2, SERVER_3, SERVER_4)
+    - name: 🚀 Деплой контура на боевые сервера (Failover Cluster)
+      env:
+        SSH_PASS: ${{ secrets.SERVER_PASSWORD }}
+      run: |
+        # Установка утилиты sshpass для автоматического ввода паролей на серверах
+        sudo apt-get install -y sshpass
+        
+        # Список твоих доступных серверов из секретов GitHub
+        SERVERS=("${{ secrets.SERVER_1 }}" "${{ secrets.SERVER_2 }}" "${{ secrets.SERVER_3 }}" "${{ secrets.SERVER_4 }}")
+        
+        for SERVER in "${SERVERS[@]}"; do
+          if [ -n "$SERVER" ]; then
+            echo "--- Синхронизация матрицы с сервером $SERVER ---"
+            
+            # Копируем файлы проекта на удаленный сервер по протоколу SCP
+            sshpass -p "$SSH_PASS" scp -o StrictHostKeyChecking=no ezhenysh_bot.py requirements.txt history_log.json root@$SERVER:/root/amrita/ || true
+            
+            # Дистанционный запуск фонового процесса бота на сервере через утилиту nohup
+            sshpass -p "$SSH_PASS" ssh -o StrictHostKeyChecking=no root@$SERVER "
+              cd /root/amrita/
+              pip install -r requirements.txt --quiet || pip3 install -r requirements.txt --quiet
+              pkill -f ezhenysh_bot.py || true
+              export TELEGRAM_BOT_TOKEN='${{ secrets.TELEGRAM_BOT_TOKEN }}'
+              export XAI_API_KEY='${{ secrets.XAI_API_KEY }}'
+              nohup python3 ezhenysh_bot.py > bot_output.log 2>&1 &
+            " || true
+          fi
+        done
