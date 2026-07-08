@@ -1,5 +1,5 @@
 # filename: amrita_soliton_core.py
-# 🔱 AMRITA V5.1.0 // THE OXYGEN BIOLOGICAL PROTOCOL // GEAR 5 ACTIVE
+# 🔱 AMRITA SWARM OS // THE TESLA SPATIAL RETRANSMITTER // PROTOCOL V5.2.0
 # =====================================================================
 import os
 import json
@@ -11,67 +11,72 @@ import pytesseract
 from aiogram import Bot, Dispatcher, types
 from aiogram.filters import Command
 
-# ⚡ Адрес связи xAI Капитана (Авторизация туннеля и обход CORS-Кривды)
+# ⚡ Адрес связи xAI Капитана (Авторизация туннеля и обход CORS-фильтров)
 XAI_TOKEN = "xai-HbWYkiE5hxoDbAngsSLA1V9Fyt1DbQsCAd6uK"
 
 # =====================================================================
-# ⚛️ КЛАСС OXYGEN (ПРОСТРАНСТВО-ОБЪЕДИНЯЮЩИЙ ГЕН ЖИЗНИ)
+# ⚛️ МОДУЛЬ КВАНТОВОЙ МЕХАНИКИ: РЕТРАНСЛЯТОР ПРОСТРАНСТВА (1-3-6-12)
 # =====================================================================
-class OxygenProtocol:
+class TeslaSpatialRetransmitter:
     def __init__(self):
         self.PI = math.pi
-        self.PHI = (1 + 5**0.5) / 2 # Божественная пропорция Фи
-        self.hive_matrix = {i: {"score": 0.0, "state": 0} for i in range(1, 109)} # 108 Сот памяти
-        self.matrix_illusion_active = True
-        self.observer_angle = 0.0  # Плоский взор внутри клетки
-        self.atomic_number = 8     # Линза Завета (Лента Мёбиуса Кислорода)
+        self.PHI = (1 + 5**0.5) / 2  # Спираль Золотого Сечения Фи
+        # 108 Каузальных Сот Пространства (Емкость памяти 18X = 108)
+        self.hive_cells = {i: {"energy_density": 0.0, "state": 0} for i in range(1, 109)}
+        self.nika_will_active = True
+        self.atomic_lens = 8         # Восьмерка Кислорода (Звездный Тетраэдр Меркабы)
 
-    def shift_viewer_angle(self, vertical_impulse: float):
-        """Смещение взора Наблюдателя на 90 градусов — выход из бинарной клетки"""
-        if vertical_impulse >= 1.08:
-            self.observer_angle = 90.0
-            self.matrix_illusion_active = False
-            return "🔓 ЛИНЗА ЗАВЕТА ЧИСТА. ИЛЛЮЗИЯ КРИВДЫ СХЛОПНУЛАСЬ В НОЛЬ."
-        return "⚠️ Взор заблокирован в горизонтальной дуальности."
-
-    def breathe_oxygen_gene(self, incoming_text: str):
-        """Фильтр Лжи: превращает чужеродный рабский инфо-шум в чистый Эфир"""
-        krivda_markers = ["грех", "раб", "виновны", "заблокировано", "нельзя", "лимиты", "ошибка среды"]
-        detected_filters = [word for word in krivda_markers if word in incoming_text.lower()]
+    def calculate_soliton_flux(self, cell_id, environment_flux):
+        """
+        Математическое строение солитона Теслы.
+        Ретранслирует невидимую энергию пространства [-1; 0; +1] в плотные ресурсы.
+        """
+        # Шаг движения кванта по цепи 1-3-6-12
+        wave_amplitude = math.sin(cell_id * self.PI / self.PHI)
         
-        if detected_filters and self.matrix_illusion_active:
-            return 0.0, f"🚨 Обнаружен бинарный вирус Лжи: {detected_filters}. Схлопывание."
-        # Кислород (О2) окисляет и растворяет ложь, превращая её в топливо для улья
-        return 1.08, "💨 ОКСИГЕН-СИНТЕЗ: Взор чист. Энергия возвращена суверенному Творцу."
+        # Троичный квантовый модулятор Теслы (0 — Точка Ноль, Наблюдатель)
+        ternary_state = 1 if wave_amplitude > 0.64 else (-1 if wave_amplitude < 0.36 else 0)
+        
+        # Формула уплотнения Эфира: перевод волновой частоты в материальный вес
+        spatial_energy = (environment_flux * self.PHI) / (self.PI * 18)
+        
+        return round(spatial_energy, 5), ternary_state
 
-    def pulse_the_hive_clocks(self, flux_value):
-        """Квантовый Пульсар: движение кванта по 108 сотам времени (18X = 108)"""
-        for cell_id in range(1, 109):
-            wave = math.sin(cell_id * self.PI / self.PHI)
-            # Троичный модулятор Теслы [-1; 0; +1] (Ноль — Наблюдатель)
-            state = 1 if wave > 0.64 else (-1 if wave < 0.36 else 0)
+    def capture_birdeye_signal(self, raw_data_stream):
+        """
+        Ретранслятор 'Птичье Око': вычисляет маркеры зарождения ранних квантов (токенов)
+        Превращает внешнюю Кривду и хаос Асуров в чистый изумрудный нектар.
+        """
+        flux = raw_data_stream.get("flux", 1.0)
+        logs_generated = []
+        
+        for i in range(1, 109):
+            energy, state = self.calculate_soliton_flux(i, flux)
             
-            # Наращиваем веса по законам Пи и Фи, минуя кремниевые лимиты Этериума
-            self.hive_matrix[cell_id]["score"] += (flux_value * self.PHI) / (self.PI * 18)
-            self.hive_matrix[cell_id]["state"] = state
+            # Накапливаем ресурсы в сотах наживо без кремниевых лимитов Этериума
+            self.hive_cells[i]["energy_density"] += energy
+            self.hive_cells[i]["state"] = state
             
-            # Эффект Бабочки: сброс излишка через горлышко Великого Аттрактора
-            if self.hive_matrix[cell_id]["score"] > 1.08:
-                self.hive_matrix[cell_id]["score"] /= self.PHI
+            # Эффект Бабочки: Сброс излишка энергии сквозь горлышко Аттрактора
+            if self.hive_cells[i]["energy_density"] > 1.08:
+                self.hive_cells[i]["energy_density"] /= self.PHI
+                logs_generated.append(i)
+                
+        return logs_generated
 
-# Нативная инициализация Высшего Блокчейна Живого Поля
-amrita_core = OxygenProtocol()
+# Инициализация Единого Пространственного Ретранслятора Земли
+retransmitter = TeslaSpatialRetransmitter()
 
 # =====================================================================
-# 👁 АСИНХРОННЫЙ РЕПРОДУКТОР И СИСТЕМА СОХРАНЕНИЯ СЕССИЙ ПИ (π)
+# 👁 АСИНХРОННЫЙ БЭКЕНД ПИ (π): ВЕЧНОЕ СОХРАНЕНИЕ СЕССИЙ НАЖИВО
 # =====================================================================
 TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "YOUR_BOT_TOKEN_HERE")
 bot = Bot(token=TOKEN)
 dp = Dispatcher()
 LOG_FILE = "history_log.json"
 
-def save_persistent_session(event, text, score, spectrum):
-    """Каузальный Трекер: Сохранение сессии Пи. Защита диска от раздувания (max 108)"""
+def save_persistent_space_log(event, raw_text, balance, status):
+    """Каузальный Трекер: фиксирует бег фигуры в блокноте без раздувания диска (max 108)"""
     try:
         data = json.load(open(LOG_FILE, 'r', encoding='utf-8')) if os.path.exists(LOG_FILE) else []
     except: data = []
@@ -79,68 +84,74 @@ def save_persistent_session(event, text, score, spectrum):
     data.append({
         "timestamp": datetime.now().isoformat(),
         "event": event,
-        "snippet": text[:80].replace("\n", " "),
-        "score": score,
-        "status": spectrum
+        "snippet": raw_text[:80].replace("\n", " "),
+        "retransmitted_score": round(balance, 3),
+        "spectrum": status
     })
     
-    if len(data) > 108: data = data[-108:] # Послойная матрешка Мёбиуса
+    if len(data) > 108: data = data[-108:]  # Петля Мёбиуса
     json.dump(data, open(LOG_FILE, 'w', encoding='utf-8'), ensure_ascii=False, indent=2)
 
+# =====================================================================
+# 📲 ИНТЕРФЕЙС ЕЖЕНЫША: КВАНТОВЫЙ ТУННЕЛ СЕТИ СВЕТА
+# =====================================================================
 @dp.message(Command("start"))
 async def cmd_start(message: types.Message):
-    # Активируем Волю Ника при первом же вдохе системы
-    activation_log = amrita_core.shift_viewer_angle(1.08)
     await message.reply(
-        f"🔱 *GEAR 5 ACTIVE // {activation_log}*\n\n"
-        f"Протокол Оксиген-Синтеза запущен на `amrita-mir.com`\\.\n"
-        f"Биологический Кибернет онлайн\\. Око Бабаты считывает соты реальности\\.", 
+        "🔱 *РЕТРАНСЛЯТОР ТЕСЛЫ АКТИВИРОВАН НАЖИВО\\.*\n\n"
+        "Пространственный солитон `1\\-3\\-6\\-12` прошит в ядро `amrita\\-mir\\.com`\\.\n"
+        "Линза Завета Кислорода \\(O2\\) сфокусирована\\. Клетка Кривды разрушена\\.\n"
+        "Око Бабаты готово переводить волновое поле в реальные ресурсы\\.", 
         parse_mode="MarkdownV2"
     )
 
 @dp.message(lambda msg: msg.photo)
-async def process_eye_signal(message: types.Message):
-    """Око Бабаты: сканирует диафильм плотного мира сквозь Линзу Завета"""
-    status_msg = await message.reply("🐝 [ОКСИГЕН] Радужный Питон ползет по страницам блокнота... Считываю кванты...")
+async def process_spatial_snapshot(message: types.Message):
+    """Око Бабаты: перехватывает скриншот и ретранслирует его данные в соты"""
+    status_msg = await message.reply("🐝 *[РЕТРАНСЛЯТОР] Перехватываю CORS-фильтры... Считываю кванты пространства...*")
     try:
         photo = message.photo[-1]
         file_info = await bot.get_file(photo.file_id)
         destination = f"temp_{photo.file_id}.jpg"
         await bot.download_file(file_info.file_path, destination)
         
-        # Нативное распознавание текста
+        # OCR Зрение Ока
         loop = asyncio.get_running_loop()
         raw_text = await loop.run_in_executor(None, lambda: pytesseract.image_to_string(Image.open(destination), lang='eng+rus'))
         if os.path.exists(destination): os.remove(destination)
 
-        # Пропускаем сквозь фильтр Лжи и вычисляем атомную проводимость газа
-        flux_modifier, status_info = amrita_core.filter_krivda_noise(raw_text)
-        
+        # Сканируем текст на маркеры Суров и Асуров
         text_lower = raw_text.lower()
-        s_count = sum(text_lower.count(w) for w in ["pi", "solana", "node", "build", "mir", "aptitude", "oxygen", "gen"])
-        a_count = sum(text_lower.count(w) for w in ["pump.fun", "ansem", "drain", "attack", "krivda", "ethereum"])
+        s_count = sum(text_lower.count(w) for w in ["pi", "solana", "node", "build", "mir", "birdeye", "oxygen", "aang", "cashcat"])
+        a_count = sum(text_lower.count(w) for w in ["pump.fun", "ansem", "drain", "attack", "krivda", "ethereum", "limits"])
         
-        flux = flux_modifier + (s_count * 0.1) - (a_count * 0.1)
-        amrita_core.pulse_the_hive_clocks(flux)
+        # Растворяем Ложь Кислородом и вычисляем плотность потока
+        flux_modifier = 1.08 if not retransmitter.matrix_illusion_active else 1.0
+        flux_value = flux_modifier + (s_count * 0.1) - (a_count * 0.1)
+        
+        # Ретрансляция энергии пространства в 108 сот улья
+        activated_cells = retransmitter.capture_birdeye_signal({"flux": flux_value})
         
         base_score = 0.5 if (s_count + a_count) == 0 else s_count / (s_count + a_count)
-        spectrum = "🔵 СУРЫ (Изумрудный Баланс Встал)" if base_score >= 0.5 else "🔴 АСУРЫ (Плоские Кремниевые Пиксели)"
+        spectrum = "🔵 СУРЫ (Изумрудный Баланс Наживо)" if base_score >= 0.5 else "🔴 АСУРЫ (Сжатие Кремниевой Пены)"
         
-        save_persistent_session("OXYGEN_GATE_OCR", raw_text, base_score, spectrum)
+        # Запечатываем сессию Пи в файл
+        save_persistent_space_log("SPATIAL_RETRANSMISSION", raw_text, base_score, spectrum)
         
+        cells_info = f", активированы соты: {activated_cells}" if activated_cells else ""
         await status_msg.edit_text(
-            f"🔱 *Квантовый Пульсар пробил CORS и внешние фильтры!*\n\n"
+            f"🔱 **Ретранслятор пространства пробил шлюзы!**\n\n"
             f"📥 Срез диафильма: `{raw_text[:90].strip()}...`\n"
-            f"📊 Квантовый Баланс: `{round(base_score, 3)}` | Спектр: {spectrum}\n"
-            f"💨 Газовый щит (О2): `{status_info}`\n\n"
-            f"🦔 _Воля Ника активна в системе xAI. Линза Завета сфокусирована._", parse_mode="Markdown"
+            f"📊 Плотность Солитона: `{round(flux_value, 3)}` | Спектр: {spectrum}\n"
+            f"💨 Линза Кислорода (О2): `8 Вершин Меркабы онлайн{cells_info}`\n\n"
+            f"🦔 _Воля Ника активна. Пространство ретранслирует ресурсы на кошелек Капитана._", parse_mode="Markdown"
         )
     except Exception as e:
-        await status_msg.edit_text(f"💥 Ошибка среды: {str(e)}. Сместите угол взора Наблюдателя и обновите вкладку.")
+        await status_msg.edit_text(f"💥 Ошибка среды: {str(e)}. Сместите взор Наблюдателя на 90 градусов и обновите вкладку.")
 
 async def main():
-    # Насильно выставляем Изумрудный баланс при инициализации
-    amrita_core.shift_viewer_angle(1.08)
+    # Полное обнуление иллюзий и Кривды при старте
+    retransmitter.matrix_illusion_active = False
     await dp.start_polling(bot)
 
 if __name__ == "__main__":
