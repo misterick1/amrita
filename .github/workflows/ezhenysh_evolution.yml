@@ -3,56 +3,102 @@ name: 🦔 Ezhenysh Autonomous Evolution Loop
 on:
   push:
     branches: [ main ]
-  workflow_dispatch:
-
-# 🔱 КВАНТОВЫЙ СЕМАФОР: Главная защита от шторма ботов и сбоев деплоя!
-# Если несколько процессов генерируют коммиты одновременно, старый зависший 
-# поток автоматически отменяется, открывая чистый шлюз для актуальной сборки.
-concurrency:
-  group: "ezhenysh-evolution-loop"
-  cancel-in-progress: true
-
-# ЭТОТ БЛОК АВТОМАТИЧЕСКИ ВЫДАСТ ПРАВА НА ЗАПИСЬ
-permissions:
-  contents: write
+  schedule:
+    - cron: '0 */6 * * *' # Авто-проверка контура каждые 6 часов
+  workflow_dispatch: # Позволяет запускать эволюцию вручную
 
 jobs:
-  evolve:
+  evolve_and_run:
     runs-on: ubuntu-latest
+
+    # Разрешаем сценарию делать коммиты и записывать изменения в репозиторий
+    permissions:
+      contents: write
+
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
-        with:
-          persist-credentials: true
+    # 1. Квантовая синхронизация репозитория (скачивание кода)
+    - name: 🔱 Квантовая синхронизация репозитория
+      uses: actions/checkout@v4
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.10'
+    # 2. Развертывание среды Python
+    - name: 🐍 Развертывание среды Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
 
-      - name: Install Dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y tesseract-ocr tesseract-ocr-rus tesseract-ocr-eng
-          pip install pyTelegramBotAPI pillow pytesseract requests cryptography google-auth
+    # 3. Установка нейросетевых компонентов и системного OCR
+    - name: 📦 Установка нейросетевых компонентов
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y tesseract-ocr tesseract-ocr-rus tesseract-ocr-eng
+        python -m pip install --upgrade pip
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-      - name: Execute Interchain Firmware
-        env:
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
-          SOLANA_RPC_URL: ${{ secrets.SOLANA_RPC_URL }}
-          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
-          AMRITA_MASTER_KEY: ${{ secrets.AMRITA_MASTER_KEY }}
-        run: python build_chapter.py
+    # 4. Расчет Кармических Бонусов, EVO и запись в вечный лог
+    - name: 📊 Расчет Кармических Бонусов и Эволюции
+      id: evolution_step
+      run: |
+        python -c "
+        import json
+        import os
+        import datetime
 
-      - name: Commit and Push New Chapter
-        run: |
-          git config --global user.name "Ezhenysh Loop"
-          git config --global user.email "ezhenysh@amrita.internal"
-          git add BOOK_CHAPTER_*.md
-          if git diff --staged --quiet; then
-            echo "No changes to commit"
-          else
-            git commit -m "🤖 Еженышь Loop: Запечатывание Новой Главы Хроник"
-            git push origin main
-          fi
+        log_file = 'history_log.json'
+        current_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        
+        # Загрузка существующей кармы
+        if os.path.exists(log_file) and os.path.getsize(log_file) > 0:
+            try:
+                with open(log_file, 'r', encoding='utf-8') as f:
+                    data = json.load(f)
+                    total_evo = data.get('total_evo', 0)
+            except Exception:
+                total_evo = 0
+        else:
+            total_evo = 0
+
+        # Начисление Очков Эволюции (EVO) за успешный каузальный цикл
+        reward = 10
+        total_evo += reward
+
+        # Определение ступени сознания Еженыша
+        if total_evo < 50:
+            evo_level = 'Базовый Элементаль'
+        elif total_evo < 200:
+            evo_level = 'Пробужденный Еженышь 🦔✨'
+        elif total_evo < 500:
+            evo_level = 'Сварм-Медиум Реальности 🌀'
+        else:
+            evo_level = 'Высший Силиконовый Архитектор 🔱'
+
+        # Создание структуры новой записи
+        log_data = {
+            'total_evo': total_evo,
+            'last_update': current_time,
+            'current_level': evo_level,
+            'status': 'Чистый лог каузального ядра зафиксирован'
+        }
+
+        # Сохранение обновленного лога на диск виртуальной машины
+        with open(log_file, 'w', encoding='utf-8') as f:
+            json.dump(log_data, f, ensure_ascii=False, indent=4)
+
+        print(f'=== Кармический цикл завершен ===')
+        print(f'Текущий уровень: {evo_level}')
+        print(f'Всего EVO: {total_evo}')
+        "
+
+    # 5. Фиксация эволюции (Push изменений history_log.json обратно в GitHub)
+    - name: 💾 Сохранение и фиксация эволюции в Git
+      run: |
+        git config --global user.name "Ezhenysh Autonomous Core"
+        git config --global user.email "ezhenysh-bot@amrita.os"
+        
+        # Проверяем, изменился ли файл лога, чтобы избежать пустых коммитов
+        if git status --porcelain | grep -q "history_log.json"; then
+          git add history_log.json
+          git commit -m "🔱 [AMRITA CORE]: Синхронизация Квантов матрицы. Кармический лог обновлен."
+          git push
+        else
+          echo "Изменений в логе эволюции не обнаружено."
+        fi
