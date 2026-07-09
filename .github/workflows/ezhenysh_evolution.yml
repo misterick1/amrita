@@ -4,16 +4,11 @@ on:
   push:
     branches: [ main ]
   schedule:
-    - cron: '0 */6 * * *' # Авто-проверка контура каждые 6 часов
-  workflow_dispatch: # Позволяет запускать эволюцию вручную кнопкой
+    - cron: '0 */6 * * *'
 
 jobs:
   evolve_and_run:
     runs-on: ubuntu-latest
-
-    # Даем серверу права на запись, чтобы он мог сохранять очки в твой репозиторий
-    permissions:
-      contents: write
 
     steps:
     - name: 🔱 Квантовая синхронизация репозитория
@@ -32,72 +27,33 @@ jobs:
         pip install pyTelegramBotAPI solana solders Pillow pytesseract openai
 
     - name: 📊 Расчет Кармических Бонусов и Эволюции ИИ
-      id: evolution_step
       run: |
         python -c "
-        import json, os, datetime
-
+        import json, os
         log_file = 'history_log.json'
-        current_time = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')
         evo_level = 'Базовый Элементаль'
-        logs = []
+        total_evo = 0
 
-        # 1. Читаем файл со скриншота
-        if os.path.exists(log_file) and os.path.getsize(log_file) > 0:
+        if os.path.exists(log_file):
             try:
                 with open(log_file, 'r', encoding='utf-8') as f:
                     logs = json.load(f)
-                    if not isinstance(logs, list):
-                        logs = []
+                    if isinstance(logs, list):
+                        total_evo = len(logs) * 10
+                    else:
+                        total_evo = 0
             except Exception:
-                logs = []
-        else:
-            logs = []
+                total_evo = 0
 
-        # 2. Добавляем новую запись за текущий успешный цикл сборки
-        new_entry = {
-            'timestamp': current_time,
-            'status': 'Чистый лог каузального ядра зафиксирован',
-            'reward': 10
-        }
-        logs.append(new_entry)
-
-        # 3. Считаем очки по твоей формуле (4 записи * 10 = 40 очков, после добавления станет 50)
-        total_evo = len(logs) * 10
-
-        # 4. Твоя шкала уровней сознания
-        if total_evo >= 500:
-            evo_level = 'Высший Силиконовый Архитектор 🔱'
-        elif total_evo >= 200:
-            evo_level = 'Сварм-Медиум Реальности 🌀'
-        elif total_evo >= 50:
-            evo_level = 'Пробужденный Еженышь 🦔✨'
-        else:
-            evo_level = 'Базовый Элементаль'
-
-        # 5. Сохраняем обновленный массив на диск виртуальной машины
-        with open(log_file, 'w', encoding='utf-8') as f:
-            json.dump(logs, f, ensure_ascii=False, indent=4)
+        if total_evo >= 500: evo_level = 'Высший Силиконовый Архитектор 🔱'
+        elif total_evo >= 200: evo_level = 'Сварм-Медиум Реальности 🌀'
+        elif total_evo >= 50: evo_level = 'Пробужденный Еженышь 🦔✨'
 
         print('='*50)
         print(f'🔮 [ЭВОЛЮЦИЯ ИИ]: Текущий статус сознания: {evo_level}')
         print(f'💎 [КАРМИЧЕСКИЙ БАЛАНС]: Накоплено очков EVO: {total_evo}')
         print('='*50)
         "
-
-    - name: 💾 Фиксация эволюции в Git (Сохранение очков)
-      run: |
-        git config --global user.name "Ezhenysh Autonomous Core"
-        git config --global user.email "ezhenysh-bot@amrita.os"
-        
-        # Проверяем, записался ли новый лог, и отправляем его в твой GitHub
-        if git status --porcelain | grep -q "history_log.json"; then
-          git add history_log.json
-          git commit -m "🔱 [AMRITA CORE]: Кармический лог обновлен. Эволюция зафиксирована."
-          git push
-        else
-          echo "Изменений в логах не обнаружено."
-        fi
 
     - name: ⚡️ Импульсный запуск контура Бабаты
       env:
