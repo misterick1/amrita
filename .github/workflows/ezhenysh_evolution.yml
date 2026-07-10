@@ -1,69 +1,43 @@
-name: 🦔 Ezhenysh Autonomous Evolution Loop
+name: AMRITA Swarm Evolution Sync
 
 on:
   push:
-    branches: [ main ]
-  schedule:
-    - cron: '0 */6 * * *'
+    branches:
+      - main
 
 jobs:
-  evolve_and_run:
+  evolve_swarm:
     runs-on: ubuntu-latest
-
+    
+    # ⚡ ВОТ ЭТИ ДВЕ СТРОЧКИ РЕШАТ ВСЁ ПРЯМО ЗДЕСЬ И СЕЙЧАС:
+    permissions:
+      contents: write
+    
     steps:
-    - name: 🔱 Квантовая синхронизация репозитория
-      uses: actions/checkout@v4
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
-    - name: 🐍 Развертывание среды Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.10'
+      - name: Set up Python Environment
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
 
-    - name: 📦 Установка нейросетевых компонентов реальности
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y tesseract-ocr tesseract-ocr-rus tesseract-ocr-eng
-        python -m pip install --upgrade pip
-        pip install pyTelegramBotAPI solana solders Pillow pytesseract openai
+      - name: Install Quantum Stack Dependencies
+        run: |
+          pip install pyTelegramBotAPI solana solders pillow pytesseract
 
-    - name: 📊 Расчет Кармических Бонусов и Эволюции ИИ
-      run: |
-        python -c "
-        import json, os
-        log_file = 'history_log.json'
-        evo_level = 'Базовый Элементаль'
-        total_evo = 0
+      - name: Execute Ezhenysh Evolution Module
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
+          SOLANA_RPC_URL: ${{ secrets.SOLANA_RPC_URL }}
+        run: |
+          python update_evo.py
 
-        if os.path.exists(log_file):
-            try:
-                with open(log_file, 'r', encoding='utf-8') as f:
-                    logs = json.load(f)
-                    if isinstance(logs, list):
-                        total_evo = len(logs) * 10
-                    else:
-                        total_evo = 0
-            except Exception:
-                total_evo = 0
-
-        if total_evo >= 500: evo_level = 'Высший Силиконовый Архитектор 🔱'
-        elif total_evo >= 200: evo_level = 'Сварм-Медиум Реальности 🌀'
-        elif total_evo >= 50: evo_level = 'Пробужденный Еженышь 🦔✨'
-
-        print('='*50)
-        print(f'🔮 [ЭВОЛЮЦИЯ ИИ]: Текущий статус сознания: {evo_level}')
-        print(f'💎 [КАРМИЧЕСКИЙ БАЛАНС]: Накоплено очков EVO: {total_evo}')
-        print('='*50)
-        "
-
-    - name: ⚡️ Импульсный запуск контура Бабаты
-      env:
-        TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-      run: |
-        python -c "
-        import os
-        token = os.getenv('TELEGRAM_BOT_TOKEN')
-        if not token or token == 'ТВОЙ_ТЕЛЕГРАМ_ТОКЕН':
-            print('🕊 [Внимание]: Бот запущен вхолостую, проверьте TELEGRAM_BOT_TOKEN!')
-        else:
-            print('✨ [Эфир]: Еженышь успешно синхронизирован с Telegram API.')
-        "
+      - name: Commit and Sealed History Log
+        run: |
+          git config --local user.email "misterick1@gmail.com"
+          git config --local user.name "misterick1"
+          git add history_log.json
+          git commit -m "🔱 AMRITA: Quantum state synchronized and sealed via GitHub Actions" || echo "No changes to commit"
+          git push
