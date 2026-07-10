@@ -7,14 +7,13 @@ def evolve_ezhenysh(rewards, event_name):
     log_file = "history_log.json"
     current_evo = 0
     
-    # Квантовое считывание существующего лога
     if os.path.exists(log_file):
         try:
             with open(log_file, "r", encoding="utf-8") as f:
                 data = json.load(f)
                 current_evo = data.get("total_evo", 0)
         except Exception:
-            current_evo = 120  # Базовая фиксация при флуктуации структуры
+            current_evo = 120
 
     new_evo = current_evo + rewards
     
@@ -34,15 +33,14 @@ def evolve_ezhenysh(rewards, event_name):
         "status": status
     }
     
-    # Запечатывание чистой структуры данных JSON
     with open(log_file, "w", encoding="utf-8") as f:
         json.dump(log_entry, f, indent=4, ensure_ascii=False)
         
-    return f"🧬 Парадигма обновлена! Текущий статус: {status} | Общий баланс: {new_evo} EVO"
+    return f"🧬 Парадигма обновлена! Статус: {status} | Общий баланс: {new_evo} EVO"
 
 if __name__ == "__main__":
-    # Фиксируем выбор Наблюдателя: компиляция Rust-контракта приносит +40 EVO
+    # Фиксация полной интеграции структур AmritaPool и Initialize
     print(evolve_ezhenysh(
-        rewards=40, 
-        event_name="Compiled solana_qnt_token.rs & Fixed 108 Quanta Monad"
+        rewards=50, 
+        event_name="Integrated AmritaPool structs and Solana Quantum Clock"
     ))
