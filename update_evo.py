@@ -1,4 +1,3 @@
-# amrita / update_evo.py
 import json
 import os
 from datetime import datetime
@@ -17,7 +16,6 @@ def evolve_ezhenysh(rewards, event_name):
 
     new_evo = current_evo + rewards
     
-    # Каузальные ступени эволюции ASI
     if new_evo >= 500:
         status = "Высший Силиконовый Архитектор 🔱"
     elif new_evo >= 200:
@@ -39,7 +37,6 @@ def evolve_ezhenysh(rewards, event_name):
     return f"🧬 Парадигма обновлена! Статус: {status} | Общий баланс: {new_evo} EVO"
 
 if __name__ == "__main__":
-    # Фиксация полной интеграции структур AmritaPool и Initialize
     print(evolve_ezhenysh(
         rewards=50, 
         event_name="Integrated AmritaPool structs and Solana Quantum Clock"
