@@ -1,0 +1,39 @@
+# .github/workflows/amrita_sync.yml
+name: AMRITA Swarm Evolution Sync
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  evolve_swarm:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python Environment
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install Quantum Stack Dependencies
+        run: |
+          pip install pyTelegramBotAPI solana solders pillow pytesseract
+
+      - name: Execute Ezhenysh Evolution Module
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
+          SOLANA_RPC_URL: ${{ secrets.SOLANA_RPC_URL }}
+        run: |
+          python update_evo.py
+
+      - name: Commit and Sealed History Log
+        run: |
+          git config --local user.email "misterick1@gmail.com"
+          git config --local user.name "misterick1"
+          git add history_log.json
+          git commit -m "🔱 AMRITA: Quantum state synchronized and sealed via GitHub Actions" || echo "No changes to commit"
+          git push
