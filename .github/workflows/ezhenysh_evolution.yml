@@ -1,42 +1,42 @@
-name: AMRITA Swarm Evolution Sync
+name: Ezhenysh Swarm Evolution
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
+  workflow_dispatch:
 
 jobs:
   evolve_swarm:
     runs-on: ubuntu-latest
-    
-    permissions:
-      contents: write
-    
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: Set up Python Environment
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v4
         with:
           python-version: '3.10'
 
       - name: Install Quantum Stack Dependencies
         run: |
-          pip install pyTelegramBotAPI solana solders pillow pytesseract
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
       - name: Execute Ezhenysh Evolution Module
-        env:
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
-          SOLANA_RPC_URL: ${{ secrets.SOLANA_RPC_URL }}
         run: |
-          python update_evo.py
+          if [ -f ezhenysh_bot.py ]; then python ezhenysh_bot.py; else echo "Core module not found"; fi
 
       - name: Commit and Sealed History Log
         run: |
           git config --local user.email "misterick1@gmail.com"
           git config --local user.name "misterick1"
-          git add history_log.json
-          git commit -m "🔱 AMRITA: Quantum state synchronized and sealed via GitHub Actions" || echo "No changes to commit"
-          git push
+          git add -A
+          if ! git diff-index --quiet HEAD --; then
+            git commit -m "🔱 AMRITA: Quantum state synchronized and sealed via GitHub Actions"
+            git pull --rebase origin main
+            git push origin main
+          else
+            echo "No changes in quantum field state."
+          fi
