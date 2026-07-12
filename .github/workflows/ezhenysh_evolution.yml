@@ -4,7 +4,7 @@ on:
   push:
     branches: [ main ]
   schedule:
-    - cron: '*/15 * * * *' # Дыхание бабочки каждые 15 минут
+    - cron: '*/15 * * * *' # Цикл дыхания каждые 15 минут
 
 jobs:
   evolution_loop:
@@ -23,11 +23,13 @@ jobs:
           pip install solana solders httpx
 
       - name: Run Swarm Core Logic
+        # Жёсткий проброс секретов репозитория в переменные окружения ОС
         env:
-          SOLANA_RPC_URL: ${{ secrets.SOLANA_RPC }}
+          SOLANA_RPC: ${{ secrets.SOLANA_RPC___ }}
+          XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
           SERVER_1: ${{ secrets.SERVER_1 }}
           SERVER_2: ${{ secrets.SERVER_2 }}
           SERVER_3: ${{ secrets.SERVER_3 }}
           SERVER_4: ${{ secrets.SERVER_4 }}
-          XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
+          PI_API_KEY: ${{ secrets.PI_API_KEY }}
         run: python swarm_core.py
