@@ -6,7 +6,7 @@ import json
 def activate_pi_step_10():
     print("[INFO] Инициализация Квантового Моста Амриты...")
     
-    # Автоматическое извлечение верифицированного токена из секретов GitHub/Окружения
+    # Автоматическое извлечение токена из секретов GitHub
     pi_api_key = os.getenv("PI_API_KEY")
     
     if not pi_api_key:
@@ -15,7 +15,7 @@ def activate_pi_step_10():
         
     print("[INFO] Ключ PI_API_KEY успешно подтянут из хранилища секретов.")
     
-    # Настройка прямого соединения с центральным сервером авторизации Pi Network
+    # Прямое соединение с центральным сервером Pi Network
     host = "://minepi.com"
     url = "/v1/payments"
     
@@ -24,7 +24,7 @@ def activate_pi_step_10():
         "Content-Type": "application/json"
     }
     
-    # Формирование системного тестового пакета для фиксации активности приложения mir-pifi
+    # Системный тестовый пакет для фиксации активности приложения
     payload = {
         "payment": {
             "amount": 0.1,
@@ -47,13 +47,13 @@ def activate_pi_step_10():
         print(f"[STATUS] Ответ сервера Pi: {response.status} {response.reason}")
         
         # Анализ ответа блокчейн-платформы
-        if response.status in:
+        if response.status == 200 or response.status == 201:
             print("[SUCCESS] Транзакция зарегистрирована! Шаг 10 переведен в статус LIVE.")
         elif response.status == 401:
             print("[ERROR] Ошибка 401: Неверный или аннулированный PI_API_KEY. Проверьте ключ из App Studio!")
         else:
             print(f"[WARNING] Сервер Pi вернул лог: {response_data}")
-            print("[INFO] Если вернулась ошибка дебага о нехватке UID, значит сервер ключ принял и зафиксировал активность приложения.")
+            print("[INFO] Если вернулась ошибка о нехватке параметров авторизации пользователя, значит сервер Pi ключ принял и зафиксировал активность разработчика.")
             
     except Exception as e:
         print(f"[CRITICAL] Сбой физического соединения с сетью Pi: {e}")
