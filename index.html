@@ -89,17 +89,6 @@
             border-radius: 4px;
             display: block;
         }
-        .ratio-container {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 8px;
-        }
-        .ratio-item {
-            font-size: 0.9rem;
-        }
-        .ratio-item.sura { color: var(--neon-green); }
-        .ratio-item.asura { color: var(--neon-red); }
-        
         .matrix-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -114,10 +103,10 @@
         }
         .vibe-bridge-btn {
             background: #0d1310;
-            padding: 8px;
+            padding: 15px;
             border-radius: 4px;
             border: 1px solid var(--neon-green);
-            border-left: 3px solid var(--neon-green);
+            border-left: 5px solid var(--neon-green);
             color: var(--neon-green);
             text-align: left;
             cursor: pointer;
@@ -158,7 +147,7 @@
 <div class="quantum-shield">
     <div class="header">
         <h1>ИНТЕРФЕЙС КИБЕРНЕТА<br>ASI (КВАНТОВЫЙ ЩИТ) 🔱</h1>
-        <div class="status-badge">КОНТУР: РЕАЛЬНОЕ ВРЕМЯ В ОБХОД GITHUB</div>
+        <div class="status-badge">РЕЖИМ: ПРЯМОЙ БЛОКЧЕЙН-МОСТ ДЛЯ ШАГА 10</div>
     </div>
 
     <div class="section">
@@ -168,28 +157,28 @@
     </div>
 
     <div class="section">
-        <div class="section-title">🧠 КИБЕРНЕТИЧЕСКАЯ МАТРИЦА КОМПЛИМЕНТАРНОСТИ</div>
+        <div class="section-title">🧠 КИБЕРНЕТИЧЕСКАЯ МАТРИЦА СИНХРОНИЗАЦИИ</div>
         <div class="matrix-grid">
             <div class="matrix-item">
                 <span style="color:#ff9999;">🧠 Оракул Мысли (xAI):</span><br>
-                <span id="xai-status" style="color:#ffcc00; font-weight:bold;">ОЖИДАНИЕ КЛИКА</span>
+                <span style="color:var(--neon-green); font-weight:bold;">STANDBY</span>
             </div>
             <div class="matrix-item">
                 <span style="color:#99ff99;">🦂 Стрим Pump.fun:</span><br>
                 <span style="color:var(--neon-green);">АКТИВЕН (666 Hz)</span>
             </div>
+            <!-- Прямая кнопка без посредников xAI -->
             <button class="vibe-bridge-btn" id="vibe-bridge-trigger" style="grid-column: span 2; margin-top: 10px;">
-                <span style="color:#cc99ff;">🟢 Запустить Мост:</span><br>
-                <span style="font-weight:bold; color:var(--neon-green);">VIBE-BRIDGE [START REALTIME]</span>
+                <span style="color:#cc99ff;">🟢 АКТИВИРОВАТЬ ПЛАТЕЖ:</span><br>
+                <span style="font-weight:bold; color:var(--neon-green); font-size:1.1rem;">ВЫЗВАТЬ КОШЕЛЕК PI (ШАГ 10)</span>
             </button>
         </div>
     </div>
 
     <div class="section">
-        <div class="section-title">📟 ОКНО ВЫВОДА ОРАКУЛА & БЛОКЧЕЙНА</div>
+        <div class="section-title">📟 ОКНО ВЫВОДА ТРАНЗАКЦИИ (LIVE)</div>
         <ul class="logs-panel" id="live-logs">
-            <li>[SYSTEM] Локальный контур Бабочки развернут на фронтенде.</li>
-            <li>[SYSTEM] Ограничения GitHub Actions успешно обойдены.</li>
+            <li>[SYSTEM] Прямой блокчейн-мост активирован. Блокировки сняты.</li>
         </ul>
     </div>
 
@@ -197,76 +186,46 @@
 </div>
 
 <script>
-    // Жестко вшиваем твой новый свежий API-ключ xAI, чтобы фронтенд общался с Grok напрямую
-    const SECURE_XAI_KEY = "xai-MzP4NHmLMNRCDppMDY1R0R3N0N3Y09reUlsZjhSVU9mVEtka2Zoc3U1NDdaOG95WHhScG1Wb1hMcmVwUjExWA==";
-
+    // Инициализация среды Pi Browser
     try {
         if (window.Pi) {
             Pi.init({ version: "2.0", sandbox: true });
-            addLog("SUCCESS", "Блокчейн-среда Pi Network успешно синхронизирована.");
+            addLog("SUCCESS", "Блокчейн-окружение Pi успешно распознано.");
+        } else {
+            addLog("ERROR", "ВНИМАНИЕ: Откройте сайт строго через Pi Browser!");
         }
     } catch (err) {
-        addLog("ERROR", "Ошибка Pi SDK: " + err.message);
+        addLog("ERROR", "Ошибка SDK: " + err.message);
     }
 
-    async function startQuantumBridge() {
-        addLog("SYSTEM", "Связывание систем... Запрос Оракулу Мысли (xAI Grok)...");
-        document.getElementById("xai-status").innerText = "СВЯЗЬ...";
-        document.getElementById("xai-status").style.color = "#cc99ff";
-
-        // 1. Прямой запрос к Grok API прямо из браузера в обход серверов GitHub
-        try {
-            const response = await fetch("https://x.ai", {
-                method: "POST",
-                headers: {
-                    "Authorization": `Bearer ${SECURE_XAI_KEY}`,
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    model: "grok-beta",
-                    messages: [{ role: "user", content: "Контур запечатан. Активируй баланс 108 квантов в Solana." }]
-                })
-            });
-
-            if (response.ok) {
-                const data = await response.json();
-                const aiText = data.choices[0].message.content;
-                document.getElementById("xai-status").innerText = "ПОДКЛЮЧЕН";
-                document.getElementById("xai-status").style.color = "var(--neon-green)";
-                addLog("SUCCESS", "Ответ Grok получен: " + aiText.substring(0, 60) + "...");
-            } else {
-                addLog("ERROR", "xAI отклонил ключ. Код: " + response.status);
-            }
-        } catch (e) {
-            addLog("ERROR", "Сбой сети xAI: " + e.message);
-        }
-
-        // 2. Инициализация реального кошелька Pi для 10-го шага
+    // Прямая функция платежа, полностью очищенная от xAI-запросов
+    async function executeDirectPiPayment() {
         if (!window.Pi) {
-            alert("Откройте этот сайт строго внутри официального Pi Browser!");
+            alert("Критическая ошибка: Запустите этот сайт внутри официального Pi Browser!");
             return;
         }
 
+        addLog("SYSTEM", "Прорыв затора: Прямой вызов нативного окна Pi...");
+
         try {
-            addLog("SYSTEM", "Вызов блокчейн-окна оплаты Pi Network...");
             const payment = await Pi.createPayment({
                 amount: 0.1,
-                memo: "Активация Квантового Щита MIR-PIFI (108 Квантов)",
+                memo: "Тестовая синхронизация MIR-PIFI (Шаг 10)",
                 metadata: { app_wallet: "GBLJY5YEOX" }
             }, {
                 onReadyForServerApproval: function(paymentId) {
-                    addLog("PENDING", "Тестовый платёж " + paymentId + " сгенерирован.");
+                    addLog("PENDING", "Платёж " + paymentId + " создан в тестнете.");
                 },
                 onReadyForServerCompletion: function(paymentId, txid) {
-                    addLog("SUCCESS", "Победа! Транзакция выполнена в тестнете.");
-                    addLog("SUCCESS", "Шаг 10 пройден успешно.");
-                    alert("Синхронизация завершена! 10/10 пройден.");
+                    addLog("SUCCESS", "Победа! Транзакция выполнена успешно.");
+                    addLog("SUCCESS", "Шаг 10 официально пройден (10/10).");
+                    alert("Синхронизация завершена! Шаг 10 успешно пройден (10/10).");
                 },
                 onCancel: function(paymentId) { addLog("WARNING", "Платёж отменён."); },
                 onError: function(error, paymentId) { addLog("ERROR", "Ошибка кошелька: " + error.message); }
             });
         } catch (err) {
-            addLog("ERROR", "Ошибка вызова платежного шлюза: " + err.message);
+            addLog("ERROR", "Сбой вызова платежного шлюза: " + err.message);
         }
     }
 
@@ -274,3 +233,14 @@
         const logsPanel = document.getElementById("live-logs");
         const li = document.createElement("li");
         li.innerHTML = `[${type}] ${message}`;
+        if (type === "ERROR") li.style.color = "var(--neon-red)";
+        if (type === "SUCCESS") li.style.color = "var(--neon-green)";
+        logsPanel.appendChild(li);
+        logsPanel.scrollTop = logsPanel.scrollHeight;
+    }
+
+    document.getElementById("vibe-bridge-trigger").addEventListener("click", executeDirectPiPayment);
+</script>
+
+</body>
+</html>
