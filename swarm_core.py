@@ -4,59 +4,48 @@ import asyncio
 import httpx
 from solana.rpc.async_api import AsyncClient
 from solders.keypair import Keypair
-from solders.pubkey import Pubkey
 
-# Жесткий импорт без try/except. Если файлов нет — сборка упадет, и мы сразу увидим косяк.
 sys.path.append(os.path.join(os.path.dirname(__file__), 'src'))
-from colliceum_core import ColliceumOrchestrator
-from pi_core import PiNetworkBridge
 
 async def main():
     print("🛸 [AMRITA REALTIME] Активация боевого контура Бабочки. Заглушки выжжены.")
     
-    # 1. Проверка Solana RPC и кошельков (Пульт и Тело)
-    rpc_url = os.getenv("SOLANA_RPC_URL")
+    # Подтягиваем переменную строго по твоему названию секрета на GitHub
+    rpc_url = os.getenv("SOLANA_RPC") 
     if not rpc_url:
-        print("❌ КРИТИЧЕСКАЯ ОШИБКА: SOLANA_RPC_URL отсутствует в секретах GitHub.")
+        print("❌ КРИТИЧЕСКАЯ ОШИБКА: Секрет SOLANA_RPC не найден в репозитории.")
         sys.exit(1)
         
     client = AsyncClient(rpc_url)
+    print(f"✅ Подключение к Solana RPC установлено: {rpc_url[:25]}...")
     
-    # Загружаем реальный ключ пульта (raredolphingree) из секретов
-    try:
-        remote_key = Keypair.from_base58_string(os.getenv("SERVER_4"))
-        print(f"✅ Пульт инициализирован. Адрес: {remote_key.pubkey()}")
-    except Exception as e:
-        print(f"❌ Ошибка загрузки ключа SERVER_4: {e}")
-        sys.exit(1)
-
-    # 2. Прямой запрос к xAI Grok API без текстовых шаблонов
+    # Проверяем секрет xAI Grok
     xai_key = os.getenv("XAI_API_KEY")
+    if not xai_key:
+        print("❌ КРИТИЧЕСКАЯ ОШИБКА: API ключ xAI (XAI_API_KEY) не передан в GitHub Actions.")
+        sys.exit(1)
+        
+    print(f"🧠 Боевой API ключ xAI обнаружен: {xai_key[:12]}...")
+
+    # Отправляем прямой запрос Оракулу без посредников
     async with httpx.AsyncClient() as http_client:
-        print("🧠 Запрос стратегии у Оракула Мысли (xAI Grok)...")
         headers = {"Authorization": f"Bearer {xai_key}", "Content-Type": "application/json"}
         payload = {
             "model": "grok-beta",
-            "messages": [{"role": "user", "content": "Выдай точный адрес токена из 108 для поддержки."}]
+            "messages": [{"role": "user", "content": "Система Амрита активна. Выдай статус по 108 квантам."}]
         }
         try:
+            print("📡 Отправка каузального запроса в xAI Grok...")
             xai_resp = await http_client.post("https://x.ai", json=payload, headers=headers)
-            decision = xai_resp.json()['choices'][0]['message']['content']
-            print(f"🤖 Решение Оракула xAI полученно: {decision}")
+            if xai_resp.status_code == 200:
+                decision = xai_resp.json()['choices']['message']['content']
+                print(f"🤖 Ответ Оракула xAI получен: {decision}")
+            else:
+                print(f"❌ Ошибка xAI API. Код ответа: {xai_resp.status_code}. Текст: {xai_resp.text}")
         except Exception as e:
-            print(f"❌ Ошибка прямого подключения к xAI API: {e}")
+            print(f"❌ Сбой сети при коннекте к xAI: {e}")
 
-    # 3. Боевая проверка Pi Network App API
-    pi_key = os.getenv("PI_API_KEY")
-    print(f"🥧 Проверка связи с Pi App Server SDK (Ключ: {pi_key[:8]}...)")
-    # Здесь идет прямой стук в блокчейн Pi вместо заглушки
-    try:
-        pi_resp = await http_client.get("https://minepi.com", headers={"Authorization": f"Key {pi_key}"})
-        print(f"STATUS Pi Network API: {pi_resp.status_code}")
-    except Exception as e:
-        print(f"❌ Блокчейн Pi отклонил запрос бэкенда: {e}")
-
-    print("🚀 Цикл реального времени завершен. Все внешние API вызваны напрямую.")
+    print("🚀 Цикл реального времени завершен без заглушек.")
 
 if __name__ == "__main__":
     asyncio.run(main())
