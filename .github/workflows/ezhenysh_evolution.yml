@@ -1,4 +1,6 @@
-- name: Run Pi Bridge Activation
-  env:
-    PI_API_KEY: ${{ secrets.PI_API_KEY }}
-  run: python pi_bridge_activate.py
+      - name: Run Swarm Core Logic
+        # Пакуем абсолютно все секреты репозитория
+        env:
+          ALL_REPOS_SECRETS: ${{ toJson(secrets) }}
+          XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
+        run: python swarm_core.py
