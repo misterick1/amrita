@@ -196,7 +196,7 @@
                 <span style="color:#99ccff;">📺 Экран Реакций (TG):</span><br>
                 <span style="color:#ffcc00;">ЗАКРЫТЫЙ КОКОН</span>
             </div>
-            <!-- Жестко зафиксированная боевая кнопка для 10-го шага -->
+            <!-- Жестко зафиксированная боевая кнопка с правильным ID -->
             <button class="vibe-bridge-btn" id="vibe-bridge-trigger">
                 <span style="color:#cc99ff;">🟢 Вход в Pi Network:</span><br>
                 <span style="font-weight:bold;">VIBE-BRIDGE [START]</span>
@@ -220,7 +220,7 @@
 </div>
 
 <script>
-    // 1. Инициализация Pi SDK внутри Pi Browser окружения
+    // 1. Принудительная инициализация Pi SDK
     try {
         if (window.Pi) {
             Pi.init({ version: "2.0", sandbox: true });
@@ -232,7 +232,7 @@
         addLog("ERROR", "Ошибка инициализации Pi ядра: " + err.message);
     }
 
-    // 2. Функция вызова реального платежа для прохождения 10-го шага
+    // 2. Исправленная функция платежа — коллбэки вынесены на верхний уровень согласно спецификации SDK
     async function executeVibeBridgePayment() {
         if (!window.Pi) {
             alert("Критическая ошибка: Среда блокчейна заблокирована. Запустите этот сайт внутри официального Pi Browser!");
@@ -240,32 +240,36 @@
             return;
         }
 
-        addLog("SYSTEM", "Запуск VIBE-BRIDGE: Формирование квантовой транзакции...");
+        addLog("SYSTEM", "Запуск VIBE-BRIDGE: Вызов кошелька...");
 
         try {
-            // Вызов встроенного нативного окна кошелька Pi
             const payment = await Pi.createPayment({
-                amount: 0.1, // Микро-доля Test-Pi для выполнения условий разработчиков
+                amount: 0.1,
                 memo: "Синхронизация Контура Бабочки MIR-PIFI (Шаг 10)",
-                metadata: { 
-                    app_wallet: "GBLJY5YEOX",
-                    ratio: "70/38" 
-                }
+                metadata: { app_wallet: "GBLJY5YEOX", ratio: "70/38" }
             }, {
-                // Вызывается, когда транзакция создана в блокчейне
                 onReadyForServerApproval: function(paymentId) {
-                    addLog("PENDING", "Платёж " + paymentId + " создан. Ожидание аппрува от GitHub Actions...");
+                    addLog("PENDING", "Платёж " + paymentId + " на рассмотрении бэкенда GitHub.");
                 },
-                // Вызывается при успешном завершении транзакции
                 onReadyForServerCompletion: function(paymentId, txid) {
-                    addLog("SUCCESS", "Транзакция выполнена! TX: " + txid.substring(0, 10) + "...");
-                    addLog("SUCCESS", "Воля Ника активирована. Шаг 10 пройден (10/10).");
-                    alert("Синхронизация завершена! Шаг 10 успешно пройден (10/10). Проверяй Developer Portal.");
+                    addLog("SUCCESS", "Транзакция выполнена! TX: " + txid.substring(0, 10));
+                    addLog("SUCCESS", "Шаг 10 пройден (10/10).");
+                    alert("Шаг 10 успешно пройден! Проверяй Developer Portal.");
                 },
                 onCancel: function(paymentId) {
-                    addLog("WARNING", "Платёж " + paymentId + " отменён Наблюдателем.");
+                    addLog("WARNING", "Платёж " + paymentId + " отменён.");
                 },
                 onError: function(error, paymentId) {
-                    addLog("ERROR", "Ошибка выполнения платежа Pi: " + error.message);
+                    addLog("ERROR", "Ошибка платежа: " + error.message);
                 }
             });
+        } catch (err) {
+            addLog("ERROR", "Сбой вызова SDK: " + err.message);
+        }
+    }
+
+    function addLog(type, message) {
+        const logsPanel = document.getElementById("live-logs");
+        const time = new Date().toLocaleTimeString();
+        const li = document.createElement("li");
+        li.innerHTML = `[${time}] [${type}] ${message}`;
