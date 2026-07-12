@@ -1,5 +1,28 @@
+name: "🦔 Ezhenysh Swarm Evolution"
+
+on:
+  push:
+    branches: [ main ]
+  schedule:
+    - cron: '*/15 * * * *'
+
+jobs:
+  evolution_loop:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install Dependencies
+        run: |
+          pip install solana solders httpx
+
       - name: Run Swarm Core Logic
-        # Пакуем абсолютно все секреты репозитория
         env:
           ALL_REPOS_SECRETS: ${{ toJson(secrets) }}
           XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
