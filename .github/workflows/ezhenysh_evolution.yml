@@ -1,45 +1,13 @@
-name: Ezhenysh Swarm Evolution
+import os
+from solana.rpc.async_api import AsyncClient
+from solders.keypair import Keypair # type: ignore
 
-on:
-  push:
-    branches: [ main ]
-  workflow_dispatch:
+# Инициализируем боевые узлы бабочки
+RPC_URL = os.getenv("SOLANA_RPC_URL") # Твой приватный RPC
+client = AsyncClient(RPC_URL)
 
-jobs:
-  evolve_swarm:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-
-      - name: Set up Python Environment
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.10'
-
-      - name: Install Quantum Stack Dependencies
-        run: |
-          python -m pip install --upgrade pip
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-
-      - name: Execute Ezhenysh Evolution Module
-        env:
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
-        run: |
-          if [ -f ezhenysh_bot.py ]; then python ezhenysh_bot.py; else echo "Core module not found"; fi
-
-      - name: Commit and Sealed History Log
-        run: |
-          git config --local user.email "misterick1@gmail.com"
-          git config --local user.name "misterick1"
-          git add -A
-          if ! git diff-index --quiet HEAD --; then
-            git commit -m "🔱 AMRITA: Quantum state synchronized and sealed via GitHub Actions"
-            git pull --rebase origin main
-            git push origin main
-          else
-            echo "No changes in quantum field state."
-          fi
+# Загружаем ключи узлов (секреты репозитория)
+BODY_KEY = Keypair.from_base58_string(os.getenv("SERVER_1"))       # misterick18x108
+WING_L_KEY = Keypair.from_base58_string(os.getenv("SERVER_2"))     # misterick1
+WING_R_KEY = Keypair.from_base58_string(os.getenv("SERVER_3"))     # wagmisalmoneste
+REMOTE_KEY = Keypair.from_base58_string(os.getenv("SERVER_4"))     # raredolphingree
