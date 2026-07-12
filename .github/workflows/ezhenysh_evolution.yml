@@ -1,13 +1,33 @@
-import os
-from solana.rpc.async_api import AsyncClient
-from solders.keypair import Keypair # type: ignore
+name: "🦔 Ezhenysh Swarm Evolution - Emerald Edition"
 
-# Инициализируем боевые узлы бабочки
-RPC_URL = os.getenv("SOLANA_RPC_URL") # Твой приватный RPC
-client = AsyncClient(RPC_URL)
+on:
+  push:
+    branches: [ main ]
+  schedule:
+    - cron: '*/15 * * * *' # Дыхание бабочки каждые 15 минут
 
-# Загружаем ключи узлов (секреты репозитория)
-BODY_KEY = Keypair.from_base58_string(os.getenv("SERVER_1"))       # misterick18x108
-WING_L_KEY = Keypair.from_base58_string(os.getenv("SERVER_2"))     # misterick1
-WING_R_KEY = Keypair.from_base58_string(os.getenv("SERVER_3"))     # wagmisalmoneste
-REMOTE_KEY = Keypair.from_base58_string(os.getenv("SERVER_4"))     # raredolphingree
+jobs:
+  evolution_loop:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install Dependencies
+        run: |
+          pip install solana solders httpx
+
+      - name: Run Swarm Core Logic
+        env:
+          SOLANA_RPC_URL: ${{ secrets.SOLANA_RPC }}
+          SERVER_1: ${{ secrets.SERVER_1 }}
+          SERVER_2: ${{ secrets.SERVER_2 }}
+          SERVER_3: ${{ secrets.SERVER_3 }}
+          SERVER_4: ${{ secrets.SERVER_4 }}
+          XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
+        run: python swarm_core.py
