@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AMRITA OS // СУВЕРЕННЫЙ ЦИФРОВОЙ СЛЕПОК</title>
+    <script src="https://minepi.com"></script>
     <style>
         body {
             background-color: #000;
@@ -87,9 +88,6 @@
             overflow-y: auto;
             color: #00ff00;
         }
-        .success-text {
-            color: #00ff00;
-        }
     </style>
 </head>
 <body>
@@ -99,67 +97,67 @@
     
     <div class="step-indicator">10</div>
 
-    <!-- Блок баланса Solana и Solflare -->
     <div class="card">
         <div class="card-title">💼 БАЛАНС КОНТУРА & SOLFLARE</div>
         <div class="balance">108.0000 SOL</div>
         <div class="wallet-address">6DNccQCWHyFm7kMFW1TCD4ssY7n9pZY51TsdvswpumP</div>
     </div>
 
-    <!-- Матрица синхронизации -->
     <div class="card">
         <div class="card-title">🧠 КИБЕРНЕТИЧЕСКАЯ МАТРИЦА СИНХРОНИЗАЦИЯ</div>
-        <div id="status-message">Автономная экосистема Амриты переведена в режим прямой интеграции Web3.</div>
-        <button class="btn" onclick="connectSolanaWallet()">Активировать контур Solflare</button>
+        <div id="status-message">Автономная экосистема Амриты. Контур авторизации Pi Network SDK.</div>
+        <button class="btn" onclick="launchPiPayment()">ВЫЗВАТЬ КОШЕЛЕК PI</button>
     </div>
 
-    <!-- Окно вывода транзакции LIVE -->
     <div class="card">
         <div class="card-title">📟 ОКНО ВЫВОДА ТРАНЗАКЦИИ (LIVE)</div>
         <div class="log-box" id="log-output">
-            [SYSTEM] Прямой блокчейн-мост активирован.<br>
-            [SYSTEM] Блокировки Pi Browser успешно сняты со всей структуры Кибернета.<br>
-            [SYSTEM] Ожидание инициализации кошелька Solflare...
+            [SYSTEM] Инициализация Pi SDK моста...<br>
+            [SYSTEM] Ожидание вызова среды Pi Browser...
         </div>
     </div>
 </div>
 
 <script>
-    // Логика вывода логов на экран
     function logToScreen(message) {
         const logBox = document.getElementById('log-output');
         logBox.innerHTML += `<br>${message}`;
         logBox.scrollTop = logBox.scrollHeight;
     }
 
-    // Чистый вызов контура Solana без блокировок и алертов Pi Browser
-    async function connectSolanaWallet() {
-        logToScreen("[INFO] Запуск сканирования расширений Web3...");
-        
-        // Проверка наличия кошелька Solana (Solflare или Phantom)
-        const provider = window.solana || (window.solflare ? window.solflare : null);
-        
-        if (provider) {
+    // Инициализация оригинального Pi SDK
+    window.onload = function() {
+        if (typeof Pi !== 'undefined') {
             try {
-                logToScreen("[INFO] Отправка запроса на подключение к Solflare...");
-                const response = await provider.connect();
-                const pubKey = response.publicKey ? response.publicKey.toString() : provider.publicKey.toString();
-                
-                logToScreen(`<span class="success-text">[SUCCESS] Контур Solflare успешно активирован! Публичный ключ: ${pubKey}</span>`);
-                document.getElementById('status-message').innerHTML = `<span class="success-text">СИНХРОНИЗАЦИЯ УСПЕШНО ЗАВЕРШЕНА. КИБЕРНЕТ В РЕЖИМЕ LIVE.</span>`;
-            } catch (err) {
-                logToScreen(`[ERROR] Пользователь отклонил подключение или произошел сбой: ${err.message}`);
+                Pi.init({ version: "2.0", sandbox: true });
+                logToScreen("[SUCCESS] Pi SDK успешно инициализирован в песочнице.");
+            } catch (e) {
+                logToScreen("[ERROR] Ошибка инициализации Pi SDK: " + e.message);
             }
         } else {
-            logToScreen("[WARNING] Кошелек Solflare не обнаружен в браузере.");
-            alert("Пожалуйста, установите или откройте кошелек Solflare / Phantom для завершения транзакции!");
+            logToScreen("[WARNING] Запустите этот сайт внутри официального Pi Browser!");
+        }
+    };
+
+    // Оригинальная функция вызова платежа для пользователей Pi
+    function launchPiPayment() {
+        logToScreen("[INFO] Запуск транзакции активации...");
+        if (typeof Pi !== 'undefined') {
+            Pi.createPayment({
+                amount: 1,
+                memo: "Amrita Core Activation",
+                metadata: { swarm: "ezhenysh" },
+                uid: "user-activation-pifi"
+            }, {
+                onReadyForServerApproval: function(paymentId) { logToScreen("[SERVER] Одобрено: " + paymentId); },
+                onReadyForServerCompletion: function(paymentId, txid) { logToScreen("[SUCCESS] Финал: " + txid); },
+                onCancel: function(paymentId) { logToScreen("[CANCEL] Отменено пользователем."); },
+                onError: function(error, paymentId) { logToScreen("[ERROR] Ошибка моста: " + error.message); }
+            });
+        } else {
+            alert("Критическая ошибка: Запустите этот сайт внутри официального Pi Browser!");
         }
     }
-
-    // Скрипт выполняется сразу при загрузке страницы, гарантируя отсутствие старых окон ошибок
-    window.onload = function() {
-        console.log("Amrita OS Core loaded. All Pi restrictions hard-removed.");
-    };
 </script>
 
 </body>
