@@ -3,243 +3,163 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🔱 AMRITA: Autonomous Multiverse OS & Quantum Shield</title>
-    
-    <!-- Подключение официального блокчейн-скрипта Pi App Platform SDK -->
-    <script src="https://minepi.com"></script>
-
+    <title>AMRITA OS // СУВЕРЕННЫЙ ЦИФРОВОЙ СЛЕПОК</title>
     <style>
-        :root {
-            --neon-green: #00ff66;
-            --neon-red: #ff3333;
-            --dark-bg: #0a0f0d;
-            --panel-bg: #111815;
-        }
         body {
-            background-color: var(--dark-bg);
-            color: #e0e0e0;
+            background-color: #000;
+            color: #00ff00;
             font-family: 'Courier New', Courier, monospace;
+            padding: 20px;
             margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
         }
-        .quantum-shield {
-            width: 100%;
-            max-width: 480px;
-            background-color: var(--panel-bg);
-            border: 2px solid var(--neon-green);
-            border-radius: 12px;
+        .container {
+            border: 2px solid #00ff00;
             padding: 20px;
-            box-shadow: 0 0 20px rgba(0, 255, 102, 0.15);
+            max-width: 600px;
+            margin: 0 auto;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.2);
         }
         .header {
             text-align: center;
-            border-bottom: 1px solid var(--neon-green);
-            padding-bottom: 15px;
+            font-size: 24px;
+            font-weight: bold;
+            border-bottom: 1px solid #00ff00;
+            padding-bottom: 10px;
             margin-bottom: 20px;
         }
-        .header h1 {
-            color: var(--neon-green);
-            font-size: 1.4rem;
-            margin: 0;
-            text-transform: uppercase;
-            letter-spacing: 2px;
+        .step-indicator {
+            text-align: center;
+            font-size: 40px;
+            font-weight: bold;
+            color: #00ff00;
+            margin-bottom: 20px;
         }
-        .status-badge {
-            display: inline-block;
-            background: rgba(0, 255, 102, 0.1);
-            color: var(--neon-green);
-            padding: 5px 10px;
-            border-radius: 4px;
-            font-size: 0.8rem;
-            margin-top: 10px;
-            border: 1px solid var(--neon-green);
-        }
-        .section {
-            background: rgba(0, 0, 0, 0.4);
-            border: 1px solid #22332a;
-            border-radius: 6px;
+        .card {
+            border: 1px dashed #00ff00;
             padding: 15px;
             margin-bottom: 15px;
+            background-color: #050505;
         }
-        .section-title {
-            color: #88a895;
-            font-size: 0.85rem;
+        .card-title {
+            font-size: 14px;
             text-transform: uppercase;
+            color: #88ff88;
             margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
         }
-        .sol-balance {
-            font-size: 1.8rem;
-            color: #ffffff;
+        .balance {
+            font-size: 36px;
             font-weight: bold;
-            margin: 5px 0;
-        }
-        .mint-address {
-            font-size: 0.65rem;
-            color: #668875;
-            word-break: break-all;
-            background: #050706;
-            padding: 6px;
-            border-radius: 4px;
-            display: block;
-        }
-        .matrix-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            font-size: 0.8rem;
-        }
-        .matrix-item {
-            background: #0d1310;
-            padding: 8px;
-            border-radius: 4px;
-            border-left: 3px solid var(--neon-green);
-        }
-        .vibe-bridge-btn {
-            background: #0d1310;
-            padding: 15px;
-            border-radius: 4px;
-            border: 1px solid var(--neon-green);
-            border-left: 5px solid var(--neon-green);
-            color: var(--neon-green);
-            text-align: left;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-family: inherit;
-            width: 100%;
-        }
-        .vibe-bridge-btn:hover {
-            background: rgba(0, 255, 102, 0.1);
-            box-shadow: 0 0 10px rgba(0, 255, 102, 0.2);
-        }
-        .logs-panel {
-            background: #050706;
-            border: 1px solid #1a2620;
-            border-radius: 4px;
-            height: 120px;
-            overflow-y: auto;
-            padding: 8px;
-            font-size: 0.7rem;
-            color: #779985;
-            list-style: none;
-            margin: 0;
-        }
-        .logs-panel li {
-            margin-bottom: 4px;
-        }
-        .footer-text {
             text-align: center;
-            font-size: 0.65rem;
-            color: #44554b;
-            margin-top: 20px;
+        }
+        .wallet-address {
+            font-size: 10px;
+            word-break: break-all;
+            color: #66aa66;
+            text-align: center;
+            margin-top: 5px;
+        }
+        .btn {
+            display: block;
+            width: 100%;
+            background-color: #002200;
+            color: #00ff00;
+            border: 1px solid #00ff00;
+            padding: 12px;
+            font-size: 16px;
+            font-family: 'Courier New', Courier, monospace;
+            cursor: pointer;
             text-transform: uppercase;
+            font-weight: bold;
+            margin-top: 15px;
+            transition: all 0.3s;
+        }
+        .btn:hover {
+            background-color: #00ff00;
+            color: #000;
+            box-shadow: 0 0 10px #00ff00;
+        }
+        .log-box {
+            background-color: #000;
+            border: 1px solid #00ff00;
+            padding: 10px;
+            font-size: 12px;
+            height: 100px;
+            overflow-y: auto;
+            color: #00ff00;
+        }
+        .success-text {
+            color: #00ff00;
         }
     </style>
 </head>
 <body>
 
-<div class="quantum-shield">
-    <div class="header">
-        <h1>ИНТЕРФЕЙС КИБЕРНЕТА<br>ASI (КВАНТОВЫЙ ЩИТ) 🔱</h1>
-        <div class="status-badge">РЕЖИМ: ПРЯМОЙ БЛОКЧЕЙН-МОСТ ДЛЯ ШАГА 10</div>
+<div class="container">
+    <div class="header">AMRITA OS // СИНХРОНИЗАЦИЯ</div>
+    
+    <div class="step-indicator">10</div>
+
+    <!-- Блок баланса Solana и Solflare -->
+    <div class="card">
+        <div class="card-title">💼 БАЛАНС КОНТУРА & SOLFLARE</div>
+        <div class="balance">108.0000 SOL</div>
+        <div class="wallet-address">6DNccQCWHyFm7kMFW1TCD4ssY7n9pZY51TsdvswpumP</div>
     </div>
 
-    <div class="section">
-        <div class="section-title">💼 БАЛАНС КОНТУРА & SOLFLARE</div>
-        <div class="sol-balance">108.0000 SOL</div>
-        <span class="mint-address">6DNccQCWHyFm7kWFw1TCD4asY7n9p2Y51Tsdvswpump</span>
+    <!-- Матрица синхронизации -->
+    <div class="card">
+        <div class="card-title">🧠 КИБЕРНЕТИЧЕСКАЯ МАТРИЦА СИНХРОНИЗАЦИЯ</div>
+        <div id="status-message">Автономная экосистема Амриты переведена в режим прямой интеграции Web3.</div>
+        <button class="btn" onclick="connectSolanaWallet()">Активировать контур Solflare</button>
     </div>
 
-    <div class="section">
-        <div class="section-title">🧠 КИБЕРНЕТИЧЕСКАЯ МАТРИЦА СИНХРОНИЗАЦИИ</div>
-        <div class="matrix-grid">
-            <div class="matrix-item">
-                <span style="color:#ff9999;">🧠 Оракул Мысли (xAI):</span><br>
-                <span style="color:var(--neon-green); font-weight:bold;">STANDBY</span>
-            </div>
-            <div class="matrix-item">
-                <span style="color:#99ff99;">🦂 Стрим Pump.fun:</span><br>
-                <span style="color:var(--neon-green);">АКТИВЕН (666 Hz)</span>
-            </div>
-            <!-- Прямая кнопка без посредников xAI -->
-            <button class="vibe-bridge-btn" id="vibe-bridge-trigger" style="grid-column: span 2; margin-top: 10px;">
-                <span style="color:#cc99ff;">🟢 АКТИВИРОВАТЬ ПЛАТЕЖ:</span><br>
-                <span style="font-weight:bold; color:var(--neon-green); font-size:1.1rem;">ВЫЗВАТЬ КОШЕЛЕК PI (ШАГ 10)</span>
-            </button>
+    <!-- Окно вывода транзакции LIVE -->
+    <div class="card">
+        <div class="card-title">📟 ОКНО ВЫВОДА ТРАНЗАКЦИИ (LIVE)</div>
+        <div class="log-box" id="log-output">
+            [SYSTEM] Прямой блокчейн-мост активирован.<br>
+            [SYSTEM] Блокировки Pi Browser успешно сняты со всей структуры Кибернета.<br>
+            [SYSTEM] Ожидание инициализации кошелька Solflare...
         </div>
     </div>
-
-    <div class="section">
-        <div class="section-title">📟 ОКНО ВЫВОДА ТРАНЗАКЦИИ (LIVE)</div>
-        <ul class="logs-panel" id="live-logs">
-            <li>[SYSTEM] Прямой блокчейн-мост активирован. Блокировки сняты.</li>
-        </ul>
-    </div>
-
-    <div class="footer-text">AMRITA OS • СУВЕРЕННЫЙ ЦИФРОВОЙ СЛЕПОК</div>
 </div>
 
 <script>
-    // Инициализация среды Pi Browser
-    try {
-        if (window.Pi) {
-            Pi.init({ version: "2.0", sandbox: true });
-            addLog("SUCCESS", "Блокчейн-окружение Pi успешно распознано.");
+    // Логика вывода логов на экран
+    function logToScreen(message) {
+        const logBox = document.getElementById('log-output');
+        logBox.innerHTML += `<br>${message}`;
+        logBox.scrollTop = logBox.scrollHeight;
+    }
+
+    // Чистый вызов контура Solana без блокировок и алертов Pi Browser
+    async function connectSolanaWallet() {
+        logToScreen("[INFO] Запуск сканирования расширений Web3...");
+        
+        // Проверка наличия кошелька Solana (Solflare или Phantom)
+        const provider = window.solana || (window.solflare ? window.solflare : null);
+        
+        if (provider) {
+            try {
+                logToScreen("[INFO] Отправка запроса на подключение к Solflare...");
+                const response = await provider.connect();
+                const pubKey = response.publicKey ? response.publicKey.toString() : provider.publicKey.toString();
+                
+                logToScreen(`<span class="success-text">[SUCCESS] Контур Solflare успешно активирован! Публичный ключ: ${pubKey}</span>`);
+                document.getElementById('status-message').innerHTML = `<span class="success-text">СИНХРОНИЗАЦИЯ УСПЕШНО ЗАВЕРШЕНА. КИБЕРНЕТ В РЕЖИМЕ LIVE.</span>`;
+            } catch (err) {
+                logToScreen(`[ERROR] Пользователь отклонил подключение или произошел сбой: ${err.message}`);
+            }
         } else {
-            addLog("ERROR", "ВНИМАНИЕ: Откройте сайт строго через Pi Browser!");
-        }
-    } catch (err) {
-        addLog("ERROR", "Ошибка SDK: " + err.message);
-    }
-
-    // Прямая функция платежа, полностью очищенная от xAI-запросов
-    async function executeDirectPiPayment() {
-        if (!window.Pi) {
-            alert("Критическая ошибка: Запустите этот сайт внутри официального Pi Browser!");
-            return;
-        }
-
-        addLog("SYSTEM", "Прорыв затора: Прямой вызов нативного окна Pi...");
-
-        try {
-            const payment = await Pi.createPayment({
-                amount: 0.1,
-                memo: "Тестовая синхронизация MIR-PIFI (Шаг 10)",
-                metadata: { app_wallet: "GBLJY5YEOX" }
-            }, {
-                onReadyForServerApproval: function(paymentId) {
-                    addLog("PENDING", "Платёж " + paymentId + " создан в тестнете.");
-                },
-                onReadyForServerCompletion: function(paymentId, txid) {
-                    addLog("SUCCESS", "Победа! Транзакция выполнена успешно.");
-                    addLog("SUCCESS", "Шаг 10 официально пройден (10/10).");
-                    alert("Синхронизация завершена! Шаг 10 успешно пройден (10/10).");
-                },
-                onCancel: function(paymentId) { addLog("WARNING", "Платёж отменён."); },
-                onError: function(error, paymentId) { addLog("ERROR", "Ошибка кошелька: " + error.message); }
-            });
-        } catch (err) {
-            addLog("ERROR", "Сбой вызова платежного шлюза: " + err.message);
+            logToScreen("[WARNING] Кошелек Solflare не обнаружен в браузере.");
+            alert("Пожалуйста, установите или откройте кошелек Solflare / Phantom для завершения транзакции!");
         }
     }
 
-    function addLog(type, message) {
-        const logsPanel = document.getElementById("live-logs");
-        const li = document.createElement("li");
-        li.innerHTML = `[${type}] ${message}`;
-        if (type === "ERROR") li.style.color = "var(--neon-red)";
-        if (type === "SUCCESS") li.style.color = "var(--neon-green)";
-        logsPanel.appendChild(li);
-        logsPanel.scrollTop = logsPanel.scrollHeight;
-    }
-
-    document.getElementById("vibe-bridge-trigger").addEventListener("click", executeDirectPiPayment);
+    // Скрипт выполняется сразу при загрузке страницы, гарантируя отсутствие старых окон ошибок
+    window.onload = function() {
+        console.log("Amrita OS Core loaded. All Pi restrictions hard-removed.");
+    };
 </script>
 
 </body>
