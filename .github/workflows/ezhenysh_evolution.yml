@@ -23,8 +23,13 @@ jobs:
           pip install solana solders httpx
 
       - name: Run Swarm Core Logic
-        # Пакуем абсолютно все секреты репозитория в одну переменную среды
+        # Пакуем абсолютно все секреты репозитория
         env:
-          ALL_REPOS_SECRETS: ${{ toJSON(secrets) }}
+          ALL_REPOS_SECRETS: ${{ toJson(secrets) }}
           XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
         run: python swarm_core.py
+
+      - name: Run Pi Bridge Activation
+        env:
+          PI_API_KEY: ${{ secrets.PI_API_KEY }}
+        run: python pi_bridge_activate.py
