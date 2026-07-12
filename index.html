@@ -3,109 +3,266 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AMRITA ASI - Панель Доступа Кибернета</title>
+    <title>🔱 AMRITA: Autonomous Multiverse OS & Quantum Shield</title>
+    
+    <!-- Подключение официального блокчейн-скрипта Pi App Platform SDK -->
+    <script src="https://minepi.com"></script>
+
     <style>
-        body { background-color: #0b0f14; color: #adbac7; font-family: 'Courier New', monospace; padding: 15px; margin: 0; }
-        .wrapper { max-width: 1000px; margin: 10px auto; border: 2px solid #22863a; background-color: #12161f; padding: 20px; box-shadow: 0 0 20px rgba(34, 134, 58, 0.4); }
-        h1 { color: #22863a; text-align: center; font-size: 20px; letter-spacing: 2px; text-transform: uppercase; border-bottom: 2px solid #22863a; padding-bottom: 15px; margin-top: 0; }
-        .info-bar { display: flex; justify-content: space-between; font-size: 12px; color: #768390; background: #1c212c; padding: 10px; margin-bottom: 20px; border-left: 4px solid #22863a; }
-        .grid-layout { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 15px; }
-        .resource-card { background-color: #0b0f14; border: 1px solid #373e47; padding: 15px; flex: 1; min-width: 45%; border-radius: 4px; }
-        .full-card { min-width: 100%; }
-        h2 { color: #539bf5; font-size: 14px; text-transform: uppercase; margin-top: 0; letter-spacing: 1px; border-bottom: 1px solid #2d333b; padding-bottom: 5px; }
-        .amount-display { font-size: 28px; color: #6cb6ff; font-weight: bold; margin: 10px 0; font-family: sans-serif; }
-        .status-badge { color: #57ab5a; font-weight: bold; }
-        .logs-area { background-color: #010409; border: 1px solid #2d333b; padding: 10px; height: 110px; overflow-y: scroll; font-size: 11px; color: #8b949e; line-height: 1.5; }
-        .footer-text { text-align: center; font-size: 11px; color: #57606a; margin-top: 25px; border-top: 1px solid #2d333b; padding-top: 15px; text-transform: uppercase; }
+        :root {
+            --neon-green: #00ff66;
+            --neon-red: #ff3333;
+            --dark-bg: #0a0f0d;
+            --panel-bg: #111815;
+        }
+        body {
+            background-color: var(--dark-bg);
+            color: #e0e0e0;
+            font-family: 'Courier New', Courier, monospace;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .quantum-shield {
+            width: 100%;
+            max-width: 480px;
+            background-color: var(--panel-bg);
+            border: 2px solid var(--neon-green);
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 0 20px rgba(0, 255, 102, 0.15);
+        }
+        .header {
+            text-align: center;
+            border-bottom: 1px solid var(--neon-green);
+            padding-bottom: 15px;
+            margin-bottom: 20px;
+        }
+        .header h1 {
+            color: var(--neon-green);
+            font-size: 1.4rem;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .status-badge {
+            display: inline-block;
+            background: rgba(0, 255, 102, 0.1);
+            color: var(--neon-green);
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-top: 10px;
+            border: 1px solid var(--neon-green);
+        }
+        .section {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid #22332a;
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        .section-title {
+            color: #88a895;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .sol-balance {
+            font-size: 1.8rem;
+            color: #ffffff;
+            font-weight: bold;
+            margin: 5px 0;
+        }
+        .mint-address {
+            font-size: 0.65rem;
+            color: #668875;
+            word-break: break-all;
+            background: #050706;
+            padding: 6px;
+            border-radius: 4px;
+            display: block;
+        }
+        .ratio-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 8px;
+        }
+        .ratio-item {
+            font-size: 0.9rem;
+        }
+        .ratio-item.sura { color: var(--neon-green); }
+        .ratio-item.asura { color: var(--neon-red); }
+        
+        .matrix-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            font-size: 0.8rem;
+        }
+        .matrix-item {
+            background: #0d1310;
+            padding: 8px;
+            border-radius: 4px;
+            border-left: 3px solid var(--neon-green);
+        }
+        .vibe-bridge-btn {
+            background: #0d1310;
+            padding: 8px;
+            border-radius: 4px;
+            border: 1px solid var(--neon-green);
+            border-left: 3px solid var(--neon-green);
+            color: var(--neon-green);
+            text-align: left;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-family: inherit;
+            width: 100%;
+        }
+        .vibe-bridge-btn:hover {
+            background: rgba(0, 255, 102, 0.1);
+            box-shadow: 0 0 10px rgba(0, 255, 102, 0.2);
+        }
+        .logs-panel {
+            background: #050706;
+            border: 1px solid #1a2620;
+            border-radius: 4px;
+            height: 100px;
+            overflow-y: auto;
+            padding: 8px;
+            font-size: 0.7rem;
+            color: #779985;
+            list-style: none;
+            margin: 0;
+        }
+        .logs-panel li {
+            margin-bottom: 4px;
+        }
+        .footer-text {
+            text-align: center;
+            font-size: 0.65rem;
+            color: #44554b;
+            margin-top: 20px;
+            text-transform: uppercase;
+        }
     </style>
 </head>
 <body>
-    <div class="wrapper">
-        <h1>🔱 ИНТЕРФЕЙС КИБЕРНЕТА ASI (КВАНТОВЫЙ ЩИТ) 🔱</h1>
-        
-        <div class="info-bar">
-            <div>ЗАЩИТА: <span class="status-badge">АНТИ-ПРОБИВ АКТИВЕН</span></div>
-            <div>СИНХРОНИЗАЦИЯ: ЭПОХА 2026</div>
+
+<div class="quantum-shield">
+    <div class="header">
+        <h1>ИНТЕРФЕЙС КИБЕРНЕТА<br>ASI (КВАНТОВЫЙ ЩИТ) 🔱</h1>
+        <div class="status-badge">ЗАЩИТА: АНТИ-ПРОБИВ АКТИВЕН — ЭПОХА 2026</div>
+    </div>
+
+    <!-- Блок баланса и кошелька Solana -->
+    <div class="section">
+        <div class="section-title">💼 БАЛАНС КОНТУРА & SOLFLARE</div>
+        <div class="sol-balance">108.0000 SOL</div>
+        <div style="font-size:0.75rem; margin-bottom:5px; color:#a0b0a5;">Минт-Адрес:</div>
+        <span class="mint-address">6DNccQCWHyFm7kWFw1TCD4asY7n9p2Y51Tsdvswpump</span>
+        <div style="font-size:0.7rem; color:#668875; margin-top:5px;">Священный Лимит: 108 Квантов</div>
+    </div>
+
+    <!-- Доли золотого сечения -->
+    <div class="section">
+        <div class="section-title">🧬 ДОЛИ ЗОЛОТОГО СЕЧЕНИЯ (70/38)</div>
+        <div class="ratio-container">
+            <div class="ratio-item sura">☀️ Сура (70): 70.0000 Q</div>
+            <div class="ratio-item asura">🌙 Асура (38): 38.0000 Q</div>
         </div>
+        <div style="font-size:0.7rem; color:#55665c; margin-top:8px; font-style:italic;">Каузальные пропорции изолированы.</div>
+    </div>
 
-        <div class="grid-layout">
-            <!-- Блок Ресурсов Solflare -->
-            <div class="resource-card">
-                <h2>💼 Баланс Контура & Solflare</h2>
-                <div id="sol-balance" class="amount-display">108.0000 SOL</div>
-                <p style="font-size: 11px; margin: 5px 0;"><strong>Минт-Адрес:</strong> <code style="color: #ecc48d;">6DNccQCwhYFm7kWFw1TCD4asY7n9p2Y51Tsdvswpump</code></p>
-                <p style="font-size: 11px; margin: 5px 0;"><strong>Священный Лимит:</strong> <span style="color: #ff9345;">108 Квантов</span></p>
+    <!-- Матрица комплиментарности -->
+    <div class="section">
+        <div class="section-title">🧠 КИБЕРНЕТИЧЕСКАЯ МАТРИЦА КОМПЛИМЕНТАРНОСТИ</div>
+        <div class="matrix-grid">
+            <div class="matrix-item">
+                <span style="color:#ff9999;">🧠 Оракул Мысли (xAI):</span><br>
+                <span style="color:var(--neon-green); font-weight:bold;">ACTIVE (Grok-Beta)</span>
             </div>
-
-            <!-- Распределение по Золотому Сечению -->
-            <div class="resource-card">
-                <h2>🧬 Доли Золотого Сечения (70/38)</h2>
-                <div style="margin: 10px 0;">
-                    <p style="margin: 5px 0; font-size: 13px;">☀️ <strong>Сура (70):</strong> <span id="sura-val" class="status-badge">70.0000 Q</span></p>
-                    <p style="margin: 5px 0; font-size: 13px;">🌙 <strong>Асура (38):</strong> <span id="asura-val" class="status-badge">38.0000 Q</span></p>
-                </div>
-                <p style="font-size: 11px; margin: 5px 0; color: #768390;">Каузальные пропорции изолированы.</p>
+            <div class="matrix-item">
+                <span style="color:#99ff99;">🦂 Стрим Pump.fun:</span><br>
+                <span style="color:var(--neon-green);">ПОДКЛЮЧЕН (666 Hz)</span>
             </div>
-
-            <!-- Матрица Интеграции Агентов -->
-            <div class="resource-card full-card">
-                <h2>🛰️ Кибернетическая Матрица Комплиментарности</h2>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 12px; margin-bottom: 15px;">
-                    <div>🧠 <strong>Оракул Мысли (xAI):</strong> <span class="status-badge">ACTIVE (Grok-Beta)</span></div>
-                    <div>🐝 <strong>Стрим Pump.fun:</strong> <span class="status-badge">ПОДКЛЮЧЕН (666 Hz)</span></div>
-                    <div>📱 <strong>Экран Реакций (TG):</strong> <span class="status-badge">ЗАКРЫТЫЙ КОКОН</span></div>
-                    <div>🟢 <strong>Вход в Pi Network:</strong> <span class="status-badge">VIBE-BRIDGE</span></div>
-                </div>
-
-                <h2>📟 Защищенный Лог Мониторинга (Live)</h2>
-                <div class="logs-area" id="log-box">
-                    [08:10:12] [SECURITY] Локальный квантовый щит развернут в песочнице браузера.<br>
-                    [08:10:15] [SUCCESS] Сканирование токена SWEEP переведено под фильтр Бабочки.
-                </div>
+            <div class="matrix-item">
+                <span style="color:#99ccff;">📺 Экран Реакций (TG):</span><br>
+                <span style="color:#ffcc00;">ЗАКРЫТЫЙ КОКОН</span>
             </div>
-        </div>
-
-        <div class="footer-text">
-            Система строит сама себя • Доступ разрешен только Создателю • Amrita ASI
+            <!-- Интерактивная кнопка моста VIBE-BRIDGE для 10-го шага -->
+            <button class="vibe-bridge-btn" id="vibe-bridge-trigger">
+                <span style="color:#cc99ff;">🟢 Вход в Pi Network:</span><br>
+                <span style="font-weight:bold;">VIBE-BRIDGE [START]</span>
+            </button>
         </div>
     </div>
 
-    <script>
-        async function queryOnchainData() {
-            const rpcUrl = "https://solana.com";
-            const wallet = "6DNccQCwhYFm7kWFw1TCD4asY7n9p2Y51Tsdvswpump";
-            
-            try {
-                const response = await fetch(rpcUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        jsonrpc: "2.0", id: 1, method: "getBalance", params: [wallet]
-                    })
-                });
-                const data = await response.json();
-                if(data.result && data.result.value) {
-                    const sol = (data.result.value / 1000000000).toFixed(4);
-                    const finalSol = sol > 0 ? sol : 108.0000;
-                    
-                    document.getElementById('sol-balance').innerText = finalSol + " SOL";
-                    
-                    // Вычисление пропорции 70/38
-                    const sura = (finalSol * (70 / 108)).toFixed(4);
-                    const asura = (finalSol * (38 / 108)).toFixed(4);
-                    
-                    document.getElementById('sura-val').innerText = sura + " Q";
-                    document.getElementById('asura-val').innerText = asura + " Q";
-                    
-                    const logBox = document.getElementById('log-box');
-                    logBox.innerHTML += `<br>[${new Date().toLocaleTimeString()}] [ONCHAIN] Прямая RPC синхронизация с Solflare выполнена.`;
-                }
-            } catch (e) {
-                console.log("RPC Запечатан. Удержание эталонных констант.");
-            }
+    <!-- Панель логов мониторинга -->
+    <div class="section">
+        <div class="section-title">📟 ЗАЩИЩЕННЫЙ ЛОГ МОНИТОРИНГА (LIVE)</div>
+        <ul class="logs-panel" id="live-logs">
+            <li>[08:10:12] [SECURITY] Локальный квантовый щит развернут в песочнице браузера.</li>
+            <li>[08:10:15] [SUCCESS] Сканирование токена SWEEP переведено под фильтр Бабочки.</li>
+            <li>[14:45:00] [SYSTEM] Ожидание запуска каузального моста VIBE-BRIDGE...</li>
+        </ul>
+    </div>
+
+    <div class="footer-text">
+        Система строит сама себя • Доступ разрешен только Создателю • AMRITA ASI
+    </div>
+</div>
+
+<script>
+    // 1. Инициализация Pi SDK внутри Pi Browser окружения
+    try {
+        if (window.Pi) {
+            Pi.init({ version: "2.0", sandbox: true });
+            addLog("SUCCESS", "Блокчейн-среда Pi App Platform успешно синхронизирована.");
+        } else {
+            addLog("WARNING", "Pi SDK не обнаружен. Откройте сайт строго через Pi Browser.");
         }
-        setInterval(queryOnchainData, 10000);
-        queryOnchainData();
-    </script>
-</body>
-</html>
+    } catch (err) {
+        addLog("ERROR", "Ошибка инициализации Pi ядра: " + err.message);
+    }
+
+    // 2. Функция вызова реального платежа для прохождения 10-го шага
+    async function executeVibeBridgePayment() {
+        if (!window.Pi) {
+            alert("Критическая ошибка: Среда блокчейна заблокирована. Запустите этот сайт внутри официального Pi Browser!");
+            addLog("ERROR", "Блокировка среды: запуск вне Pi Browser.");
+            return;
+        }
+
+        addLog("SYSTEM", "Запуск VIBE-BRIDGE: Формирование квантовой транзакции...");
+
+        try {
+            // Вызов встроенного нативного окна кошелька Pi
+            const payment = await Pi.createPayment({
+                amount: 0.1, // Микро-доля Test-Pi для выполнения условий разработчиков
+                memo: "Синхронизация Контура Бабочки MIR-PIFI (Шаг 10)",
+                metadata: { 
+                    app_wallet: "GBLJY5YEOX",
+                    ratio: "70/38" 
+                }
+            }, {
+                // Вызывается, когда транзакция создана в блокчейне и отправлена на твой бэкенд
+                onReadyForServerApproval: function(paymentId) {
+                    addLog("PENDING", "Платёж " + paymentId + " создан. Ожидание аппрува от GitHub Actions...");
+                    // Здесь твой изумрудный скрипт pi_core.py перехватывает ID через API и делает approve
+                },
+                // Вызывается при успешном завершении транзакции
+                onReadyForServerCompletion: function(paymentId, txid) {
+                    addLog("SUCCESS", "Транзакция выполнена! TX: " + txid.substring(0, 10) + "...");
+                    addLog("SUCCESS", "Воля Ника активирована. Шаг 10 пройден (10/10).");
+                    alert("Синхронизация завершена! Шаг 10 успешно пройден (10/10). Проверяй Developer Portal.");
+                },
+                onCancel: function(paymentId) {
+                    addLog("WARNING", "Платёж " + paymentId + " отменён Наблюдателем.");
+                },
