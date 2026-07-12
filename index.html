@@ -158,7 +158,7 @@
 <div class="quantum-shield">
     <div class="header">
         <h1>ИНТЕРФЕЙС КИБЕРНЕТА<br>ASI (КВАНТОВЫЙ ЩИТ) 🔱</h1>
-        <div class="status-badge">ЗАЩИТА: АНТИ-ПРОБИВ АКТИВЕН — ЭПОХА 2026</div>
+        <div class="status-badge">ЗАЩИТА: АНТИ-ПРОБИВ АКТИВЕН — TESTNET РЕЖИМ</div>
     </div>
 
     <!-- Блок баланса и кошелька Solana -->
@@ -196,10 +196,10 @@
                 <span style="color:#99ccff;">📺 Экран Реакций (TG):</span><br>
                 <span style="color:#ffcc00;">ЗАКРЫТЫЙ КОКОН</span>
             </div>
-            <!-- Жестко зафиксированная боевая кнопка с правильным ID -->
+            <!-- Жестко зафиксированная боевая кнопка -->
             <button class="vibe-bridge-btn" id="vibe-bridge-trigger">
                 <span style="color:#cc99ff;">🟢 Вход в Pi Network:</span><br>
-                <span style="font-weight:bold;">VIBE-BRIDGE [START]</span>
+                <span style="font-weight:bold;">VIBE-BRIDGE [TESTNET START]</span>
             </button>
         </div>
     </div>
@@ -210,7 +210,7 @@
         <ul class="logs-panel" id="live-logs">
             <li>[08:10:12] [SECURITY] Локальный квантовый щит развернут в песочнице браузера.</li>
             <li>[08:10:15] [SUCCESS] Сканирование токена SWEEP переведено под фильтр Бабочки.</li>
-            <li>[14:45:00] [SYSTEM] Ожидание запуска каузального моста VIBE-BRIDGE...</li>
+            <li>[14:45:00] [SYSTEM] Ожидание запуска тестового моста MIR-PIFI...</li>
         </ul>
     </div>
 
@@ -220,51 +220,50 @@
 </div>
 
 <script>
-    // 1. Принудительная инициализация Pi SDK
+    // Инициализация СТРОГО в режиме sandbox: true для совпадения с Testnet статусом MIR-PIFI
     try {
         if (window.Pi) {
             Pi.init({ version: "2.0", sandbox: true });
-            addLog("SUCCESS", "Блокчейн-среда Pi App Platform успешно синхронизирована.");
+            addLog("SUCCESS", "Блокчейн-среда TESTNET синхронизирована успешно.");
         } else {
-            addLog("WARNING", "Pi SDK не обнаружен. Откройте сайт строго через Pi Browser.");
+            addLog("WARNING", "Откройте сайт строго через Pi Browser.");
         }
     } catch (err) {
-        addLog("ERROR", "Ошибка инициализации Pi ядра: " + err.message);
+        addLog("ERROR", "Ошибка инициализации ядра: " + err.message);
     }
 
-    // 2. Исправленная функция платежа — коллбэки вынесены на верхний уровень согласно спецификации SDK
     async function executeVibeBridgePayment() {
         if (!window.Pi) {
-            alert("Критическая ошибка: Среда блокчейна заблокирована. Запустите этот сайт внутри официального Pi Browser!");
-            addLog("ERROR", "Блокировка среды: запуск вне Pi Browser.");
+            alert("Критическая ошибка: Запустите этот сайт внутри официального Pi Browser!");
             return;
         }
 
-        addLog("SYSTEM", "Запуск VIBE-BRIDGE: Вызов кошелька...");
+        addLog("SYSTEM", "Запуск VIBE-BRIDGE [TESTNET]: Вызов кошелька...");
 
         try {
+            // Запрос платежа в тестовой сети Test-Pi для пробития шага 10
             const payment = await Pi.createPayment({
                 amount: 0.1,
-                memo: "Синхронизация Контура Бабочки MIR-PIFI (Шаг 10)",
-                metadata: { app_wallet: "GBLJY5YEOX", ratio: "70/38" }
+                memo: "Тестовая синхронизация MIR-PIFI (Шаг 10)",
+                metadata: { app_wallet: "GBLJY5YEOX", network: "testnet" }
             }, {
                 onReadyForServerApproval: function(paymentId) {
-                    addLog("PENDING", "Платёж " + paymentId + " на рассмотрении бэкенда GitHub.");
+                    addLog("PENDING", "Тестовый платёж " + paymentId + " отправлен на GitHub.");
                 },
                 onReadyForServerCompletion: function(paymentId, txid) {
-                    addLog("SUCCESS", "Транзакция выполнена! TX: " + txid.substring(0, 10));
-                    addLog("SUCCESS", "Шаг 10 пройден (10/10).");
-                    alert("Шаг 10 успешно пройден! Проверяй Developer Portal.");
+                    addLog("SUCCESS", "Тестовая транзакция выполнена успешно!");
+                    addLog("SUCCESS", "Шаг 10 пройден (10/10) в экосистеме MIR-PIFI.");
+                    alert("Победа! Шаг 10 успешно пройден (10/10) в тестнете.");
                 },
                 onCancel: function(paymentId) {
                     addLog("WARNING", "Платёж " + paymentId + " отменён.");
                 },
                 onError: function(error, paymentId) {
-                    addLog("ERROR", "Ошибка платежа: " + error.message);
+                    addLog("ERROR", "Ошибка тестнет-платежа: " + error.message);
                 }
             });
         } catch (err) {
-            addLog("ERROR", "Сбой вызова SDK: " + err.message);
+            addLog("ERROR", "Сбой вызова тестового SDK: " + err.message);
         }
     }
 
@@ -273,3 +272,5 @@
         const time = new Date().toLocaleTimeString();
         const li = document.createElement("li");
         li.innerHTML = `[${time}] [${type}] ${message}`;
+        if (type === "ERROR") li.style.color = "var(--neon-red)";
+        if (type === "SUCCESS") li.style.color = "var(--neon-green)";
