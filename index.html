@@ -196,7 +196,7 @@
                 <span style="color:#99ccff;">📺 Экран Реакций (TG):</span><br>
                 <span style="color:#ffcc00;">ЗАКРЫТЫЙ КОКОН</span>
             </div>
-            <!-- Интерактивная кнопка моста VIBE-BRIDGE для 10-го шага -->
+            <!-- Жестко зафиксированная боевая кнопка для 10-го шага -->
             <button class="vibe-bridge-btn" id="vibe-bridge-trigger">
                 <span style="color:#cc99ff;">🟢 Вход в Pi Network:</span><br>
                 <span style="font-weight:bold;">VIBE-BRIDGE [START]</span>
@@ -252,10 +252,9 @@
                     ratio: "70/38" 
                 }
             }, {
-                // Вызывается, когда транзакция создана в блокчейне и отправлена на твой бэкенд
+                // Вызывается, когда транзакция создана в блокчейне
                 onReadyForServerApproval: function(paymentId) {
                     addLog("PENDING", "Платёж " + paymentId + " создан. Ожидание аппрува от GitHub Actions...");
-                    // Здесь твой изумрудный скрипт pi_core.py перехватывает ID через API и делает approve
                 },
                 // Вызывается при успешном завершении транзакции
                 onReadyForServerCompletion: function(paymentId, txid) {
@@ -266,3 +265,7 @@
                 onCancel: function(paymentId) {
                     addLog("WARNING", "Платёж " + paymentId + " отменён Наблюдателем.");
                 },
+                onError: function(error, paymentId) {
+                    addLog("ERROR", "Ошибка выполнения платежа Pi: " + error.message);
+                }
+            });
