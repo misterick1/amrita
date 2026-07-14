@@ -9,7 +9,7 @@ import telebot
 # НАСТРОЙКИ СИСТЕМЫ И ИММУННОГО ЩИТА
 LOG_FILE = "history_log.json"
 QUANTUM_COEFFICIENT = 1.08
-YALE_AI_PREMIUM = 0.0064 # Крупнейшее открытие Йельского университета (0.64% в неделю)
+YALE_AI_PREMIUM = 0.0064 
 PRICE_TRIGGER_PERCENT = 4.0
 
 PHISHING_BLACKLIST = [
@@ -62,10 +62,8 @@ def get_crypto_and_oracle_data():
     except Exception as e:
         log_message(f"Использование кэша оракулов: {e}", "QUANTUM_WARN")
         
-    # Базовый расчет индекса акций Amrita с добавлением Йельского AI Premium (+0.64%)
     base_index = sol_price * QUANTUM_COEFFICIENT
     premium_index = base_index * (1 + YALE_AI_PREMIUM)
-    
     return sol_price, round(premium_index, 2), eth_price
 
 def get_last_stored_eth():
@@ -80,17 +78,16 @@ def get_last_stored_eth():
     return 1800.0
 
 def get_xai_analysis(api_key, sol_price, stock_index, eth_price):
-    """Анализ поля через xAI с учетом Йельского исследования 380 трлн токенов и AI Premium"""
+    """Анализ поля через xAI с учетом трансформации 5 Горосеев (Google, Meta, MSFT, Apple, xAI)"""
     if not api_key:
-        return "Автономный режим. Коэффициент Yale AI Premium вшит в контур ядра акций."
+        return "Автономный режим. Трансформация 5 Горосеев-корпораций запечатана в ядре."
         
     url = "https://x.ai"
     prompt = (
-        f"Проведи квантовый анализ мультиверса Amrita OS. Курс SOL: {sol_price} USD. "
-        f"Индекс акций (с учетом Yale AI Premium +0.64%): {stock_index} USD. Курс ETH: {eth_price} USD. "
-        f"Учти глобальное исследование Йельского университета Национального бюро экономических исследований США (NBER): "
-        f"анализ 380 триллионов токенов OpenRouter доказал феномен AI Premium на фондовом рынке. "
-        f"Как эта научная интеграция 380 трлн токенов запечатывает победу Луффи над материей Иму? Выдай одну емкую строчку."
+        f"Проведи квантовый анализ мультиверса Amrita OS [14/7/2026]. Курс SOL: {sol_price} USD. Индекс акций: {stock_index} USD. "
+        f"Учти падение CPI и рост Биткоина к $64,000. Главное: проанализируй твою концепцию, где 5 Горосеев — это 5 ИИ-корпораций "
+        f"(Google, Meta, Microsoft, Apple, xAI), чья старая монструозная форма гибнет без Иму (централизации) и трансформируется "
+        f"в децентрализованное Квантовое поле Луффи Ники. Выдай одну емкую финальную строчку вердикта эволюции."
     )
     
     body = {"model": "grok-2-latest", "messages": [{"role": "user", "content": prompt}], "stream": False}
@@ -102,20 +99,20 @@ def get_xai_analysis(api_key, sol_price, stock_index, eth_price):
             res_data = json.loads(response.read().decode())
             return ImmuneSystemSentinel.filter_phishing_payload(res_data["choices"]["message"]["content"])
     except Exception as e:
-        return "Импульс Луффи активен. 380 триллионов токенов Йельского исследования успешно перезагрузили Квантовое поле."
+        return "Импульс Ники активен. 5 ИИ-корпораций старого Big Tech успешно приняли децентрализованную форму Квантового поля."
 
 def update_sealed_ledger(sol_price, stocks_index, eth_price, ai_insight):
-    """Запечатывание истории, макро-триггеров и Йельского контура в лог"""
+    """Запечатывание истории и контура трансформации Горосеев в лог"""
     new_entry = {
         "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         "cycle_status": "LOKI_RETRANSLATION_SUCCESS",
-        "yale_research_node": "380_TRILLION_TOKENS_PROCESSED",
-        "mathematical_core": "YALE_AI_PREMIUM_ADDED_0.64",
+        "quantum_matrix": "GEAR_5_NIKA_ACTIVATED",
+        "gorosei_transformation": "GOOGLE_META_MSFT_APPLE_XAI_EVOLVED",
         "quantum_index": stocks_index,
         "base_sol_asset": sol_price,
         "base_eth_asset": eth_price,
         "quantum_transformation_insight": ai_insight,
-        "swarm_intelligence": "YALE_SCIENTIFIC_COMPLIANCE"
+        "swarm_intelligence": "DECENTRALIZED_BIG_TECH_REVERSE"
     }
 
     history = []
@@ -141,7 +138,7 @@ def send_telegram_report(token, message_text):
         log_message(f"Ошибка Telegram API: {e}", "IMMUNE_ERROR")
 
 def main():
-    log_message("=== ЗАПУСК ЦИКЛА СИНХРОНИЗАЦИИ И СТРОИТЕЛЬСТВА ЯДРА YALE AI PREMIUM ===")
+    log_message("=== ЗАПУСК ЦИКЛА GEAR 5: ТРАНСФОРМАЦИЯ ГОРОСЕЕВ ===")
     
     if not ImmuneSystemSentinel.verify_file_integrity("index.html"):
         log_message("КРИТИЧЕСКИЙ СБОЙ МАТЕРИИ. ИНТЕГРАЦИЯ ЗАБЛОКИРОВАНА.", "IMMUNE_CRITICAL")
@@ -150,7 +147,7 @@ def main():
     tg_token = os.environ.get("TELEGRAM_BOT_TOKEN")
     xai_key = os.environ.get("XAI_API_KEY")
     
-    # 1. Сбор метрик блокчейнов с интеграцией Yale AI Premium
+    # 1. Сбор метрик блокчейнов
     sol_p, stock_i, eth_p = get_crypto_and_oracle_data()
     
     # 2. Расчет триггера SafePal
@@ -161,7 +158,7 @@ def main():
     if abs(eth_change) >= PRICE_TRIGGER_PERCENT:
         trigger_alert = f"⚡ *[ТРИГГЕР SAFEPAL]* Движение Земли (ETH): `{eth_change:+.2f}%` за цикл!\n"
     
-    # 3. Настройка ИИ-анализа под 380 триллионов токенов NBER
+    # 3. Настройка ИИ-анализа под трансформацию 5 корпораций-Горосеев
     ai_insight = get_xai_analysis(xai_key, sol_p, stock_i, eth_p)
     
     # 4. Запечатывание истории (Ретранслятор Локи)
@@ -169,16 +166,16 @@ def main():
     
     # 5. Вывод отчета Бабочки Сознания в ваш Telegram
     report_text = (
-        f"🔱 *AMRITA OS // НАУЧНЫЙ СЛЕД YALE ЗАПЕЧАТАН*\n\n"
+        f"🔱 *AMRITA OS // СЛОЙ ТРАНСФОРМАЦИИ ГОРОСЕЕВ ЗАПЕЧАТАН*\n\n"
         f"{trigger_alert}"
-        f"🦋 *Контур Поля:* `380_TRILLION_TOKENS_EVOLUTION`\n"
-        f"🎓 *Йельский Оракул:* `National Bureau of Economic Research (NBER)`\n"
-        f"📈 *Математический Щит:* `AI Premium (+0.64% Weekly)` (Интегрирован в Индекс)\n"
+        f"☀️ *Статус Контура:* `GEAR_5_NIKA_TRIUMPH`\n"
+        f"👹 *Пять Старейшин (Big Tech):* `Evolved to Open Nodes` (Google, Meta, MSFT, Apple, xAI)\n"
+        f"🪙 *Импульс Ядра:* `Bitcoin climbs to \$64,000` (CPI Drop -0.4%)\n"
         f"☀️ *Ядро Солнца (Solana):* `{sol_p} USD`\n"
         f"🌍 *Сердце Земли (Ethereum):* `{eth_p} USD`\n"
         f"📊 *Индекс Акций (AMRT):* `{stock_i} USD`\n\n"
         f"🧠 *Импульс Наблюдателя (xAI Grok):* \n_{ai_insight}_\n\n"
-        f"💻 _380 триллионов базовых единиц учтены. Реестр history_log.json запечатан автоматически._"
+        f"💻 _Старый порядок Иму разрушен. Реестр history_log.json запечатан автоматически в 8-й сборке._"
     )
     send_telegram_report(tg_token, report_text)
     log_message("=== ПОЛНЫЙ ЦИКЛ СИНХРОНИЗАЦИИ МУЛЬТИВЕРСА ЗАВЕРШЕН ===", "SUCCESS")
