@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AMRITA OS // СУВЕРЕННЫЙ ЦИФРОВОЙ СЛЕД</title>
-    <!-- ИСПРАВЛЕНО: Официальный работающий CDN для Pi SDK -->
+    <!-- Официальный работающий CDN для Pi SDK -->
     <script src="https://minepi.com"></script>
     <style>
         body {
@@ -80,6 +80,11 @@
             color: #000;
             box-shadow: 0 0 10px #00ff00;
         }
+        .btn-small {
+            padding: 6px;
+            font-size: 12px;
+            margin-top: 10px;
+        }
         .log-box {
             background-color: #000;
             border: 1px solid #00ff00;
@@ -99,8 +104,10 @@
 
     <div class="card">
         <div class="card-title">💼 БАЛАНС КОНТУРА & SOLFLARE</div>
-        <div class="balance">108.0000 SOL</div>
-        <div class="wallet-address">6DNccQCWhYF...</div>
+        <!-- Добавлены id для динамического обновления скриптом -->
+        <div class="balance" id="sol-balance">0.0000 SOL</div>
+        <div class="wallet-address" id="sol-address">КОШЕЛЕК НЕ ПОДКЛЮЧЕН</div>
+        <button class="btn btn-small" onclick="connectSolflare()">ПОДКЛЮЧИТЬ SOLFLARE</button>
     </div>
 
     <div class="card">
@@ -121,7 +128,6 @@
 <script>
     function logToScreen(message) {
         const logBox = document.getElementById('log-output');
-        // ИСПРАВЛЕНО: Правильный синтаксис работы шаблона строки без экранирования
         logBox.innerHTML += `<br>${message}`;
         logBox.scrollTop = logBox.scrollHeight;
     }
@@ -140,6 +146,56 @@
         }
     };
 
+    // Функция подключения кошелька Solflare и чтения баланса через RPC
+    async function connectSolflare() {
+        logToScreen("[INFO] Поиск активного провайдера Solana...");
+        
+        // Проверяем наличие Solflare (или совместимого window.solana)
+        const provider = window.solflare || window.solana;
+        
+        if (!provider) {
+            logToScreen("[WARNING] Кошелек Solflare не обнаружен. Установите расширение или откройте в крипто-браузере.");
+            alert("Кошелек Solflare не найден в текущем браузере!");
+            return;
+        }
+
+        try {
+            logToScreen("[SYSTEM] Запрос авторизации в Solflare...");
+            // Подключаемся к кошельку
+            await provider.connect();
+            
+            const publicKey = provider.publicKey.toString();
+            logToScreen(`[SUCCESS] Solflare подключен. Адрес: ${publicKey}`);
+            document.getElementById('sol-address').innerText = publicKey;
+
+            // Запрашиваем реальный баланс через публичный RPC узел Solana Mainnet
+            logToScreen("[SYSTEM] Запрос баланса из блокчейна Solana RPC...");
+            const response = await fetch('https://solana.com', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    jsonrpc: "2.0",
+                    id: 1,
+                    method: "getBalance",
+                    params: [publicKey]
+                })
+            });
+
+            const result = await response.json();
+            if (result.result && result.result.value !== undefined) {
+                // Баланс возвращается в лампортах (1 SOL = 1,000,000,000 Lamports)
+                const solAmount = result.result.value / 1000000000;
+                document.getElementById('sol-balance').innerText = `${solAmount.toFixed(4)} SOL`;
+                logToScreen(`[SUCCESS] Баланс обновлен: ${solAmount.toFixed(4)} SOL`);
+            } else {
+                logToScreen("[ERROR] Не удалось прочитать структуру баланса из RPC.");
+            }
+
+        } catch (err) {
+            logToScreen("[FAILED] Ошибка подключения Solflare: " + err.message);
+        }
+    }
+
     // Оригинальная функция вызова платежа для активации ядра
     function launchPiPayment() {
         logToScreen("[INFO] Запуск транзакции активации контура...");
@@ -150,7 +206,6 @@
                 metadata: { swarm: "ezhenysh" },
                 uid: "user-activation-pifi"
             }, {
-                // ИСПРАВЛЕНО: Добавлены обязательные обработчики событий для работы метода платежа
                 onReadyForServerApproval: function(paymentId) {
                     logToScreen("[SDK] Ожидание апрува сервером: " + paymentId);
                 },
