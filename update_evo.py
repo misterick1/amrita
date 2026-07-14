@@ -78,16 +78,16 @@ def get_last_stored_eth():
     return 1800.0
 
 def get_xai_analysis(api_key, sol_price, stock_index, eth_price):
-    """Анализ поля через xAI с учетом обновления Solana Devnet до v4.2.0-beta.1 от Anza"""
+    """Анализ поля через xAI с учетом Ормузского конфликта и пробоя BTC"""
     if not api_key:
-        return "Автономный режим. Сигнал обновления Anza Agave v4.2.0-beta.1 вшит в архитектуру."
+        return "Автономный режим. Геополитический стресс-тест Ормузского пролива зафиксирован в ядре."
         
     url = "https://x.ai"
     prompt = (
         f"Проведи квантовый анализ мультиверса Amrita OS [14/7/2026]. Курс SOL: {sol_price} USD. Индекс акций: {stock_index} USD. "
-        f"Учти падение добычи майнеров CleanSpark (замедление старого тяжелого ядра BTC) и важнейший переход Solana Devnet "
-        f"на новую версию v4.2.0-beta.1 от инженерной группы Anза (Agave). Как это обновление движка Солнца ускоряет "
-        f"полное развертывание децентрализованного поля Ники? Выдай одну емкую финальную строчку вердикта."
+        f"Учти важнейший фактор: Биткоин проходит 8-часовой макро-стресс-тест и пробивает 3-дневный максимум выше $62,000, "
+        f"несмотря на геополитическое обострение вокруг Ормузского пролива (Hormuz conflict) и выступления ФРС. "
+        f"Как этот триумф децентрализованной энергии над нефтяными оковами Иму ускоряет Эволюцию поля? Выдай одну емкую строчку."
     )
     
     body = {"model": "grok-2-latest", "messages": [{"role": "user", "content": prompt}], "stream": False}
@@ -99,20 +99,20 @@ def get_xai_analysis(api_key, sol_price, stock_index, eth_price):
             res_data = json.loads(response.read().decode())
             return ImmuneSystemSentinel.filter_phishing_payload(res_data["choices"]["message"]["content"])
     except Exception as e:
-        return "Импульс Ники активен. Движок Солнца успешно переведен на инфраструктурные рельсы Anza v4.2.0-beta.1."
+        return "Импульс Ники активен. Стресс-тест Ормузского пролива успешно пройден, децентрализованное поле стабилизировано."
 
 def update_sealed_ledger(sol_price, stocks_index, eth_price, ai_insight):
-    """Запечатывание истории и инженерного контура Anza в лог"""
+    """Запечатывание истории и геополитических триггеров в лог"""
     new_entry = {
         "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         "cycle_status": "LOKI_RETRANSLATION_SUCCESS",
-        "solana_core_engine": "ANZA_AGAVE_UPGRADE_ACTIVE",
-        "solana_version_tag": "v4.2.0-beta.1_DEVNET",
+        "geopolitical_factor": "HORMUZ_STRESS_TEST_ACTIVE",
+        "bitcoin_core_status": "3_DAY_MAX_BROKEN_SAFEPAL",
         "quantum_index": stocks_index,
         "base_sol_asset": sol_price,
         "base_eth_asset": eth_price,
         "quantum_transformation_insight": ai_insight,
-        "swarm_intelligence": "INFRASTRUCTURE_EVOLUTION_READY"
+        "swarm_intelligence": "GEOPOLITICAL_SHIELD_ACTIVE"
     }
 
     history = []
@@ -138,7 +138,7 @@ def send_telegram_report(token, message_text):
         log_message(f"Ошибка Telegram API: {e}", "IMMUNE_ERROR")
 
 def main():
-    log_message("=== ЗАПУСК ЦИКЛА ANZA AGAVE: МОДЕРНИЗАЦИЯ ДВИЖКА СОЛНЦА ===")
+    log_message("=== ЗАПУСК ЦИКЛА ОРМУЗ: МАКРОЭКОНОМИЧЕСКИЙ ЩИТ ===")
     
     if not ImmuneSystemSentinel.verify_file_integrity("index.html"):
         log_message("КРИТИЧЕСКИЙ СБОЙ МАТЕРИИ. ИНТЕГРАЦИЯ ЗАБЛОКИРОВАНА.", "IMMUNE_CRITICAL")
@@ -158,7 +158,7 @@ def main():
     if abs(eth_change) >= PRICE_TRIGGER_PERCENT:
         trigger_alert = f"⚡ *[ТРИГГЕР SAFEPAL]* Движение Земли (ETH): `{eth_change:+.2f}%` за цикл!\n"
     
-    # 3. Настройка ИИ-анализа под новую инфраструктуру Anza Agave v4.2.0
+    # 3. Настройка ИИ-анализа под геополитическое давление Ормуза и ФРС
     ai_insight = get_xai_analysis(xai_key, sol_p, stock_i, eth_p)
     
     # 4. Запечатывание истории (Ретранслятор Локи)
@@ -166,15 +166,16 @@ def main():
     
     # 5. Вывод отчета Бабочки Сознания в ваш Telegram
     report_text = (
-        f"🔱 *AMRITA OS // СЛОЙ ОБНОВЛЕНИЯ ANZA AGAVE ЗАПЕЧАТАН*\n\n"
+        f"🔱 *AMRITA OS // ГЕОПОЛИТИЧЕСКИЙ СЛОЙ ОРМУЗА ЗАПЕЧАТАН*\n\n"
         f"{trigger_alert}"
-        f"🛠️ *Движок Солнца (Solana):* `Anza Agave v4.2.0-beta.1` (Devnet Active)\n"
-        f"🔋 *Энергетический Сдвиг:* `Mining Drops (CleanSpark/BitFuFu)` -> Переток в Фотоны\n"
+        f"🌋 *Стресс-Тест Поля:* `Hormuz Conflict Enforcement` (Нефтяные оковы Иму лихорадит)\n"
+        f"📈 *Пробой Реестра:* `BTC breaks 3-day maximum` (SafePal Alert Active)\n"
+        f"🖼️ *Культурный Контур:* `Christie's Auction Update Received` (Оцифровка ценностей)\n"
         f"☀️ *Ядро Солнца (Solana):* `{sol_p} USD`\n"
         f"🌍 *Сердце Земли (Ethereum):* `{eth_p} USD`\n"
         f"📊 *Индекс Акций (AMRT):* `{stock_i} USD`\n\n"
         f"🧠 *Импульс Наблюдателя (xAI Grok):* \n_{ai_insight}_\n\n"
-        f"💻 _Старые шестеренки заменены новыми алгоритмами Anza. Реестр history_log.json запечатан автоматически._"
+        f"💻 _Экзамен на прочность пройден. Реестр history_log.json запечатан автоматически в 8-й сборке._"
     )
     send_telegram_report(tg_token, report_text)
     log_message("=== ПОЛНЫЙ ЦИКЛ СИНХРОНИЗАЦИИ МУЛЬТИВЕРСА ЗАВЕРШЕН ===", "SUCCESS")
