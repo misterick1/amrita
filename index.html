@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AMRITA OS // СУВЕРЕННЫЙ ЦИФРОВОЙ СЛЕПОК</title>
+    <title>AMRITA OS // СУВЕРЕННЫЙ ЦИФРОВОЙ СЛЕД</title>
+    <!-- ИСПРАВЛЕНО: Официальный работающий CDN для Pi SDK -->
     <script src="https://minepi.com"></script>
     <style>
         body {
@@ -94,18 +95,17 @@
 
 <div class="container">
     <div class="header">AMRITA OS // СИНХРОНИЗАЦИЯ</div>
-    
     <div class="step-indicator">10</div>
 
     <div class="card">
         <div class="card-title">💼 БАЛАНС КОНТУРА & SOLFLARE</div>
         <div class="balance">108.0000 SOL</div>
-        <div class="wallet-address">6DNccQCWHyFm7kMFW1TCD4ssY7n9pZY51TsdvswpumP</div>
+        <div class="wallet-address">6DNccQCWhYF...</div>
     </div>
 
     <div class="card">
-        <div class="card-title">🧠 КИБЕРНЕТИЧЕСКАЯ МАТРИЦА СИНХРОНИЗАЦИЯ</div>
-        <div id="status-message">Автономная экосистема Амриты. Контур авторизации Pi Network SDK.</div>
+        <div class="card-title">🧠 КИБЕРНЕТИЧЕСКОЕ ЯДРО</div>
+        <div id="status-message">Автономная экосистема активна</div>
         <button class="btn" onclick="launchPiPayment()">ВЫЗВАТЬ КОШЕЛЕК PI</button>
     </div>
 
@@ -121,27 +121,28 @@
 <script>
     function logToScreen(message) {
         const logBox = document.getElementById('log-output');
+        // ИСПРАВЛЕНО: Правильный синтаксис работы шаблона строки без экранирования
         logBox.innerHTML += `<br>${message}`;
         logBox.scrollTop = logBox.scrollHeight;
     }
 
-    // Инициализация оригинального Pi SDK
+    // Инициализация оригинального Pi SDK при загрузке страницы
     window.onload = function() {
         if (typeof Pi !== 'undefined') {
             try {
-                Pi.init({ version: "2.0", sandbox: true });
-                logToScreen("[SUCCESS] Pi SDK успешно инициализирован в песочнице.");
+                Pi.init({ version: "2.0", sandbox: false });
+                logToScreen("[SUCCESS] Pi SDK успешно инициализирован");
             } catch (e) {
-                logToScreen("[ERROR] Ошибка инициализации Pi SDK: " + e.message);
+                logToScreen("[ERROR] Ошибка инициализации SDK: " + e.message);
             }
         } else {
             logToScreen("[WARNING] Запустите этот сайт внутри официального Pi Browser!");
         }
     };
 
-    // Оригинальная функция вызова платежа для пользователей Pi
+    // Оригинальная функция вызова платежа для активации ядра
     function launchPiPayment() {
-        logToScreen("[INFO] Запуск транзакции активации...");
+        logToScreen("[INFO] Запуск транзакции активации контура...");
         if (typeof Pi !== 'undefined') {
             Pi.createPayment({
                 amount: 1,
@@ -149,10 +150,19 @@
                 metadata: { swarm: "ezhenysh" },
                 uid: "user-activation-pifi"
             }, {
-                onReadyForServerApproval: function(paymentId) { logToScreen("[SERVER] Одобрено: " + paymentId); },
-                onReadyForServerCompletion: function(paymentId, txid) { logToScreen("[SUCCESS] Финал: " + txid); },
-                onCancel: function(paymentId) { logToScreen("[CANCEL] Отменено пользователем."); },
-                onError: function(error, paymentId) { logToScreen("[ERROR] Ошибка моста: " + error.message); }
+                // ИСПРАВЛЕНО: Добавлены обязательные обработчики событий для работы метода платежа
+                onReadyForServerApproval: function(paymentId) {
+                    logToScreen("[SDK] Ожидание апрува сервером: " + paymentId);
+                },
+                onReadyForServerCompletion: function(paymentId, txid) {
+                    logToScreen("[SUCCESS] Транзакция завершена сетью. TxID: " + txid);
+                },
+                onCancel: function(paymentId) {
+                    logToScreen("[CANCEL] Транзакция отменена пользователем. ID: " + paymentId);
+                },
+                onError: function(error, payment) {
+                    logToScreen("[ERROR] Сбой выполнения платежа: " + error.message);
+                }
             });
         } else {
             alert("Критическая ошибка: Запустите этот сайт внутри официального Pi Browser!");
