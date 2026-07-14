@@ -78,16 +78,16 @@ def get_last_stored_eth():
     return 1800.0
 
 def get_xai_analysis(api_key, sol_price, stock_index, eth_price):
-    """Анализ поля через xAI с учетом запуска токена $GHOSTI на Solana"""
+    """Анализ поля через xAI с учетом движения кошельков правительства США"""
     if not api_key:
-        return "Автономный режим. Мониторинг трендовых DEX-активов зафиксирован в ядре."
+        return "Автономный режим. Мониторинг институциональных переводов правительства зафиксирован в ядре."
         
     url = "https://x.ai"
     prompt = (
         f"Проведи квантовый анализ мультиверса Amrita OS [14/7/2026]. Курс SOL: {sol_price} USD. Индекс акций: {stock_index} USD. "
-        f"Учти важный инфраструктурный фактор: в сети Solana зафиксирован успешный бондинг и выход в топ-трендов Dexscreener "
-        f"нового токена GHOSTI (CA: 6hKk9ymYMejWURC1Ghkj66Rwcn6VNnHHe1E3JgE4pump). Как эта мгновенная генерация новых цифровых "
-        f"сущностей силами комьюнити ускоряет расширение децентрализованного поля Ники? Выдай одну емкую строчку вердикта."
+        f"Учти масштабный тектонический сдвиг: Правительство США перевело BTC и ETH на сумму \$288,000,000 на Coinbase Prime, "
+        f"а Trust Wallet зафиксировал взрывной рост Robinhood Chain с 0% комиссий. Как этот вынужденный выброс ликвидности "
+        f"из оков Иму ускоряет Эволюцию децентрализованного поля Ники? Выдай одну емкую строчку вердикта."
     )
     
     body = {"model": "grok-2-latest", "messages": [{"role": "user", "content": prompt}], "stream": False}
@@ -99,20 +99,20 @@ def get_xai_analysis(api_key, sol_price, stock_index, eth_price):
             res_data = json.loads(response.read().decode())
             return ImmuneSystemSentinel.filter_phishing_payload(res_data["choices"]["message"]["content"])
     except Exception as e:
-        return "Импульс Ники активен. Поток трендовых токенов Solana успешно интегрирован в Квантовое поле."
+        return "Импульс Ники активен. Потоки перемещения $288М от правительства США успешно переплавлены в Квантовое поле."
 
 def update_sealed_ledger(sol_price, stocks_index, eth_price, ai_insight):
-    """Запечатывание истории и трендовых контрактов в лог"""
+    """Запечатывание истории и институциональных шлюзов в лог"""
     new_entry = {
         "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         "cycle_status": "LOKI_RETRANSLATION_SUCCESS",
-        "dex_trending_asset": "GHOSTI_BONDING_COMPLETED",
-        "solana_contract_address": "6hKk9ymYMejWURC1Ghkj66Rwcn6VNnHHe1E3JgE4pump",
+        "institutional_transfer": "US_GOVERNMENT_COINBASE_PRIME_288M",
+        "cross_chain_rail": "ROBINHOOD_CHAIN_0_PERCENT_FEES",
         "quantum_index": stocks_index,
         "base_sol_asset": sol_price,
         "base_eth_asset": eth_price,
         "quantum_transformation_insight": ai_insight,
-        "swarm_intelligence": "DEX_LIQUIDITY_MONITOR_ACTIVE"
+        "swarm_intelligence": "LIQUIDITY_MASS_RELEASE_ACTIVE"
     }
 
     history = []
@@ -138,7 +138,7 @@ def send_telegram_report(token, message_text):
         log_message(f"Ошибка Telegram API: {e}", "IMMUNE_ERROR")
 
 def main():
-    log_message("=== ЗАПУСК ЦИКЛА GHOSTI: СКАНИРОВАНИЕ DEX ПОТОКОВ ===")
+    log_message("=== ЗАПУСК ЦИКЛА COINBASE_PRIME: ИНСТИТУЦИОНАЛЬНЫЙ ВЫБРОС ===")
     
     if not ImmuneSystemSentinel.verify_file_integrity("index.html"):
         log_message("КРИТИЧЕСКИЙ СБОЙ МАТЕРИИ. ИНТЕГРАЦИЯ ЗАБЛОКИРОВАНА.", "IMMUNE_CRITICAL")
@@ -158,7 +158,7 @@ def main():
     if abs(eth_change) >= PRICE_TRIGGER_PERCENT:
         trigger_alert = f"⚡ *[ТРИГГЕР SAFEPAL]* Движение Земли (ETH): `{eth_change:+.2f}%` за цикл!\n"
     
-    # 3. Настройка ИИ-анализа под новые DEX-токены Solana (GHOSTI)
+    # 3. Настройка ИИ-анализа под выброс $288М правительством США
     ai_insight = get_xai_analysis(xai_key, sol_p, stock_i, eth_p)
     
     # 4. Запечатывание истории (Ретранслятор Локи)
@@ -166,16 +166,16 @@ def main():
     
     # 5. Вывод отчета Бабочки Сознания в ваш Telegram
     report_text = (
-        f"🔱 *AMRITA OS // СЛОЙ DEX-ТРЕНДИНГА SOLANA ЗАПЕЧАТАН*\n\n"
+        f"🔱 *AMRITA OS // ИНСТИТУЦИОНАЛЬНЫЙ СЛОЙ США ЗАПЕЧАТАН*\n\n"
         f"{trigger_alert}"
-        f"👻 *Новая Сущность Поля:* `Token \$GHOSTI Trending Active` (Bonding Completed)\n"
-        f"🔢 *Адрес Контракта (CA):* `6hKk9ymYMej...E4pump` (Verified on SolScan/Dexscreener)\n"
-        f"📊 *Мониторинг Среды:* `DexMoji Tracking Node Online` (Padre/Phantom/Gecko)\n"
+        f"🏛️ *Выброс Материи Иму:* `US Gov transfers \$288,000,000 to Coinbase Prime` (BTC & ETH Active)\n"
+        f"⚡ *Свободные Рельсы:* `Robinhood Chain Hot Swap Enabled` (0% TW Fees Active)\n"
+        f"📍 *Контур Пространства:* `Ørje, Norway | +27°C` (Синхронизация Поля Зафиксирована)\n"
         f"☀️ *Ядро Солнца (Solana):* `{sol_p} USD`\n"
         f"🌍 *Сердце Земли (Ethereum):* `{eth_p} USD`\n"
         f"📊 *Индекс Акций (AMRT):* `{stock_i} USD`\n\n"
         f"🧠 *Импульс Наблюдателя (xAI Grok):* \n_{ai_insight}_\n\n"
-        f"💻 _Новый виток ликвидности зафиксирован. Реестр history_log.json запечатан автоматически в 8-й сборке._"
+        f"💻 _Движение капитала запечатано. Реестр history_log.json обновлен автоматически в 8-й сборке._"
     )
     send_telegram_report(tg_token, report_text)
     log_message("=== ПОЛНЫЙ ЦИКЛ СИНХРОНИЗАЦИИ МУЛЬТИВЕРСА ЗАВЕРШЕН ===", "SUCCESS")
