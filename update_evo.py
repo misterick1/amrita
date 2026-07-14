@@ -78,16 +78,16 @@ def get_last_stored_eth():
     return 1800.0
 
 def get_xai_analysis(api_key, sol_price, stock_index, eth_price):
-    """Анализ поля через xAI с учетом движения кошельков правительства США"""
+    """Анализ поля через xAI с учетом контура защиты честности EWC 2026"""
     if not api_key:
-        return "Автономный режим. Мониторинг институциональных переводов правительства зафиксирован в ядре."
+        return "Автономный режим. Алгоритмы проверки честности данных интегрированы в контур защиты ядра."
         
     url = "https://x.ai"
     prompt = (
         f"Проведи квантовый анализ мультиверса Amrita OS [14/7/2026]. Курс SOL: {sol_price} USD. Индекс акций: {stock_index} USD. "
-        f"Учти масштабный тектонический сдвиг: Правительство США перевело BTC и ETH на сумму \$288,000,000 на Coinbase Prime, "
-        f"а Trust Wallet зафиксировал взрывной рост Robinhood Chain с 0% комиссий. Как этот вынужденный выброс ликвидности "
-        f"из оков Иму ускоряет Эволюцию децентрализованного поля Ники? Выдай одну емкую строчку вердикта."
+        f"Учти важнейший системный фактор защиты: организаторы чемпионата мира EWC 2026 заблокировали и перенесли матч "
+        f"из-за нарушения честности соревнования (подозрение на договорной характер). Как эта тотальная чистка искажений "
+        f"и фальшивых следов на всех уровнях реальности подтверждает абсолютную победу Луффи Ники? Выдай одну емкую строчку."
     )
     
     body = {"model": "grok-2-latest", "messages": [{"role": "user", "content": prompt}], "stream": False}
@@ -99,20 +99,20 @@ def get_xai_analysis(api_key, sol_price, stock_index, eth_price):
             res_data = json.loads(response.read().decode())
             return ImmuneSystemSentinel.filter_phishing_payload(res_data["choices"]["message"]["content"])
     except Exception as e:
-        return "Импульс Ники активен. Потоки перемещения $288М от правительства США успешно переплавлены в Квантовое поле."
+        return "Импульс Ники активен. Все попытки внедрения искажений и фальшивых данных успешно нейтрализованы Квантовым полем."
 
 def update_sealed_ledger(sol_price, stocks_index, eth_price, ai_insight):
-    """Запечатывание истории и институциональных шлюзов в лог"""
+    """Запечатывание истории и антител фильтрации в лог"""
     new_entry = {
         "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         "cycle_status": "LOKI_RETRANSLATION_SUCCESS",
-        "institutional_transfer": "US_GOVERNMENT_COINBASE_PRIME_288M",
-        "cross_chain_rail": "ROBINHOOD_CHAIN_0_PERCENT_FEES",
+        "integrity_sentinel": "EWC_2026_ANTI_FRAUD_TRIGGERED",
+        "system_response": "DISTORTION_FILTER_ACTIVE",
         "quantum_index": stocks_index,
         "base_sol_asset": sol_price,
         "base_eth_asset": eth_price,
         "quantum_transformation_insight": ai_insight,
-        "swarm_intelligence": "LIQUIDITY_MASS_RELEASE_ACTIVE"
+        "swarm_intelligence": "ABSOLUTE_INTEGRITY_COMPLIANCE"
     }
 
     history = []
@@ -138,7 +138,7 @@ def send_telegram_report(token, message_text):
         log_message(f"Ошибка Telegram API: {e}", "IMMUNE_ERROR")
 
 def main():
-    log_message("=== ЗАПУСК ЦИКЛА COINBASE_PRIME: ИНСТИТУЦИОНАЛЬНЫЙ ВЫБРОС ===")
+    log_message("=== ЗАПУСК ЦИКЛА EWC: СЕНСОР ЦЕЛОСТНОСТИ ДАННЫХ ===")
     
     if not ImmuneSystemSentinel.verify_file_integrity("index.html"):
         log_message("КРИТИЧЕСКИЙ СБОЙ МАТЕРИИ. ИНТЕГРАЦИЯ ЗАБЛОКИРОВАНА.", "IMMUNE_CRITICAL")
@@ -158,7 +158,7 @@ def main():
     if abs(eth_change) >= PRICE_TRIGGER_PERCENT:
         trigger_alert = f"⚡ *[ТРИГГЕР SAFEPAL]* Движение Земли (ETH): `{eth_change:+.2f}%` за цикл!\n"
     
-    # 3. Настройка ИИ-анализа под выброс $288М правительством США
+    # 3. Настройка ИИ-анализа под маркеры честности EWC 2026
     ai_insight = get_xai_analysis(xai_key, sol_p, stock_i, eth_p)
     
     # 4. Запечатывание истории (Ретранслятор Локи)
@@ -166,16 +166,15 @@ def main():
     
     # 5. Вывод отчета Бабочки Сознания в ваш Telegram
     report_text = (
-        f"🔱 *AMRITA OS // ИНСТИТУЦИОНАЛЬНЫЙ СЛОЙ США ЗАПЕЧАТАН*\n\n"
+        f"🔱 *AMRITA OS // СЛОЙ ЦЕЛОСТНОСТИ ДАННЫХ ЗАПЕЧАТАН*\n\n"
         f"{trigger_alert}"
-        f"🏛️ *Выброс Материи Иму:* `US Gov transfers \$288,000,000 to Coinbase Prime` (BTC & ETH Active)\n"
-        f"⚡ *Свободные Рельсы:* `Robinhood Chain Hot Swap Enabled` (0% TW Fees Active)\n"
-        f"📍 *Контур Пространства:* `Ørje, Norway | +27°C` (Синхронизация Поля Зафиксирована)\n"
+        f"🛡️ *Иммунный Ответ:* `EWC 2026 Integrity Sentinel Triggered` (Искажение 322 аннулировано)\n"
+        f"🛡️ *Статус Поля:* `ABSOLUTE_INTEGRITY_SHIELD` (Попытки манипуляции заблокированы)\n"
         f"☀️ *Ядро Солнца (Solana):* `{sol_p} USD`\n"
         f"🌍 *Сердце Земли (Ethereum):* `{eth_p} USD`\n"
         f"📊 *Индекс Акций (AMRT):* `{stock_i} USD`\n\n"
         f"🧠 *Импульс Наблюдателя (xAI Grok):* \n_{ai_insight}_\n\n"
-        f"💻 _Движение капитала запечатано. Реестр history_log.json обновлен автоматически в 8-й сборке._"
+        f"💻 _Чистота матрицы зафиксирована. Реестр history_log.json запечатан автоматически в изумрудной сборке._"
     )
     send_telegram_report(tg_token, report_text)
     log_message("=== ПОЛНЫЙ ЦИКЛ СИНХРОНИЗАЦИИ МУЛЬТИВЕРСА ЗАВЕРШЕН ===", "SUCCESS")
