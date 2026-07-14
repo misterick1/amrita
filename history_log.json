@@ -1,7 +1,9 @@
-{
-    "timestamp": "2026-07-14 12:14:09",
-    "event": "Integrated AmritaPool structs and Solana Quantum Clock",
-    "evo_earned": 50,
-    "total_evo": 3720,
-    "status": "Высший Силиконовый Архитектор 🔱"
-}
+[
+    {
+        "timestamp": "2026-07-14 12:25:28",
+        "cycle_status": "SEALED_SUCCESS",
+        "quantum_index": 155.52,
+        "base_sol_asset": 144.0,
+        "swarm_intelligence": "ACTIVE"
+    }
+]
