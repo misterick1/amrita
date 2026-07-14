@@ -5,5 +5,13 @@
         "quantum_index": 155.52,
         "base_sol_asset": 144.0,
         "swarm_intelligence": "ACTIVE"
+    },
+    {
+        "timestamp": "2026-07-14 12:33:59",
+        "cycle_status": "SEALED_SUCCESS",
+        "quantum_index": 155.52,
+        "base_sol_asset": 144.0,
+        "ai_insight": "Ошибка связи с ядром xAI. Контур стабилен.",
+        "swarm_intelligence": "ACTIVE_EVO"
     }
 ]
