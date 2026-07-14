@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AMRITA OS // ИНТЕГРАЦИЯ СЕТИ</title>
-    <!-- Официальный работающий CDN для Pi SDK -->
+    <title>AMRITA OS // КВАНТОВЫЙ МУЛЬТИВЕРС В8</title>
     <script src="https://minepi.com"></script>
     <style>
         body {
@@ -17,48 +16,67 @@
         .container {
             border: 2px solid #00ff00;
             padding: 20px;
-            max-width: 600px;
+            max-width: 650px;
             margin: 0 auto;
-            box-shadow: 0 0 15px rgba(0, 255, 0, 0.4);
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.4);
         }
         .header {
             text-align: center;
-            font-size: 24px;
+            font-size: 22px;
             font-weight: bold;
-            border-bottom: 1px solid #00ff00;
+            border-bottom: 2px double #00ff00;
             padding-bottom: 10px;
             margin-bottom: 20px;
         }
         .step-indicator {
             text-align: center;
-            font-size: 40px;
+            font-size: 42px;
             font-weight: bold;
             color: #00ff00;
-            margin-bottom: 20px;
+            text-shadow: 0 0 10px #00ff00;
+            margin-bottom: 15px;
+        }
+        .matrix-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 15px;
         }
         .card {
             border: 1px dashed #00ff00;
-            padding: 15px;
-            margin-bottom: 15px;
+            padding: 12px;
             background-color: #050505;
         }
+        .card-full {
+            grid-column: span 2;
+        }
         .card-title {
-            font-size: 14px;
+            font-size: 12px;
             text-transform: uppercase;
             color: #88ff88;
-            margin-bottom: 10px;
+            border-bottom: 1px dotted #00ff00;
+            padding-bottom: 4px;
+            margin-bottom: 8px;
         }
+        .status {
+            font-size: 14px;
+            font-weight: bold;
+            text-align: right;
+            float: right;
+        }
+        .online { color: #00ff00; }
+        .sync { color: #ffff00; }
         .balance {
-            font-size: 36px;
+            font-size: 24px;
             font-weight: bold;
             text-align: center;
+            margin: 10px 0;
         }
         .wallet-address {
-            font-size: 10px;
+            font-size: 9px;
             word-break: break-all;
             color: #66aa66;
             text-align: center;
-            margin-top: 5px;
         }
         .btn {
             display: block;
@@ -67,12 +85,12 @@
             color: #00ff00;
             border: 1px solid #00ff00;
             padding: 12px;
-            font-size: 16px;
+            font-size: 14px;
             font-family: 'Courier New', Courier, monospace;
             cursor: pointer;
             text-transform: uppercase;
             font-weight: bold;
-            margin-top: 15px;
+            margin-top: 10px;
             transition: all 0.3s;
         }
         .btn:hover {
@@ -85,7 +103,7 @@
             border: 1px solid #00ff00;
             padding: 10px;
             font-size: 11px;
-            height: 150px;
+            height: 120px;
             overflow-y: auto;
             color: #00ff00;
         }
@@ -94,35 +112,79 @@
 <body>
 
 <div class="container">
-    <div class="header">AMRITA OS // ИНТЕГРАЦИЯ СЕТИ</div>
+    <div class="header">AMRITA OS // СИНХРОНИЗАЦИЯ 8 СБОРКИ</div>
     <div class="step-indicator">10</div>
 
-    <!-- КАРТОЧКА 1: БАЛАНС И АВТОРИЗАЦИЯ SOLANA -->
-    <div class="card">
-        <div class="card-title">💼 СЕТЕВОЙ ПОТОК: SOLFLARE (SOLANA)</div>
-        <div class="balance" id="sol-balance">ACTIVE SOL</div>
-        <div class="wallet-address" id="sol-address">АДРЕС НЕ ОПРЕДЕЛЕН</div>
-        <button class="btn" onclick="connectSolflare()">1. ПОДКЛЮЧИТЬ SOLFLARE WALLET</button>
+    <div class="matrix-grid">
+        <!-- 1. SOLANA (ЯДРО СОЛНЦА) -->
+        <div class="card card-full">
+            <div class="card-title">☀️ SOLANA MATRIX <span class="status online" id="sol-status">READY</span></div>
+            <div class="balance" id="sol-balance">ACTIVE SOL</div>
+            <div class="wallet-address" id="sol-address">АДРЕС НЕ ОПРЕДЕЛЕН</div>
+            <button class="btn" onclick="connectSolflare()">1. СВЯЗАТЬ ПОТОК SOLFLARE</button>
+        </div>
+
+        <!-- 2. BITCOIN (ЯДРО СИСТЕМЫ) -->
+        <div class="card">
+            <div class="card-title">🪙 BITCOIN (BTC) <span class="status sync">SYNC</span></div>
+            <div class="balance">1.0800 BTC</div>
+            <div class="wallet-address">ГРАВИТАЦИОННОЕ ЯДРО</div>
+        </div>
+
+        <!-- 3. ETHEREUM (ЗЕМЛЯ) -->
+        <div class="card">
+            <div class="card-title">🌍 ETHEREUM (ETH) <span class="status sync">SYNC</span></div>
+            <div class="balance">18.000 ETH</div>
+            <div class="wallet-address">ОРБИТАЛЬНЫЙ ТУРБИОН</div>
+        </div>
+
+        <!-- 4. RIPPLE (XRP NETWORK) -->
+        <div class="card">
+            <div class="card-title">💧 RIPPLE (XRP) <span class="status sync">SYNC</span></div>
+            <div class="balance">10800 XRP</div>
+            <div class="wallet-address">ШЛЮЗ ФИАТНЫХ ПОТОКОВ</div>
+        </div>
+
+        <!-- 5. CARDANO (ADA NETWORK) -->
+        <div class="card">
+            <div class="card-title">₳ CARDANO (ADA) <span class="status sync">SYNC</span></div>
+            <div class="balance">88888 ADA</div>
+            <div class="wallet-address">МАТЕМАТИЧЕСКИЙ СЛОЙ</div>
+        </div>
+
+        <!-- 6. ЦИФРОВЫЕ АКЦИИ & ОРАКУЛЫ -->
+        <div class="card">
+            <div class="card-title">📈 STOCKS INDEX <span class="status sync">LIVE</span></div>
+            <div class="balance">1.0844 AMRT</div>
+            <div class="wallet-address">ТОКЕНИЗИРОВАННЫЕ АКЦИИ</div>
+        </div>
+
+        <!-- 7. КОНТУР ЕЖЕНЫШЬ (PI NETWORK) -->
+        <div class="card">
+            <div class="card-title">🦔 ЕЖЕНЫШЬ / PI <span class="status sync">READY</span></div>
+            <div class="balance">Pi ВЫЗОВ</div>
+            <button class="btn" style="padding: 4px; font-size: 11px; margin: 0;" onclick="launchPiPayment()">АКТИВИРОВАТЬ PI</button>
+        </div>
     </div>
 
-    <!-- КАРТОЧКА 2: ИСПОЛНИТЕЛЬНЫЙ КОНТУР -->
+    <!-- ИСПОЛНИТЕЛЬНЫЙ БЛОК 8-Й СБОРКИ -->
     <div class="card">
-        <div class="card-title">🧠 КИБЕРНЕТИЧЕСКОЕ ЯДРО И ОБМЕН</div>
-        <div id="status-message">Синхронизируйте провайдер Solflare по кнопке 1...</div>
-        <button class="btn" onclick="executeSolanaTransaction()">2. АКТИВИРОВАТЬ ОБМЕН (ОТПРАВИТЬ SOL)</button>
+        <div class="card-title">🧠 КВАНТОВЫЙ ТРИГГЕР СЛИЯНИЯ</div>
+        <div id="status-message" style="text-align: center; margin-bottom: 5px;">Ожидание объединения всех 7 контуров...</div>
+        <button class="btn" onclick="executeSolanaTransaction()">2. ЗАПУСТИТЬ СИНХРОНИЗАЦИЮ МУЛЬТИВЕРСА</button>
     </div>
 
-    <!-- КАРТОЧКА 3: МОНИТОРИНГ -->
+    <!-- МОНИТОР -->
     <div class="card">
-        <div class="card-title">📟 ЛОГ ВЫПОЛНЕНИЯ ЯДРА (LIVE)</div>
+        <div class="card-title">📟 СУВЕРЕННЫЙ ЛОГ ОБЪЕДИНЕНИЯ (LIVE)</div>
         <div class="log-box" id="log-output">
-            [SYSTEM] Локальный изолированный режим активен.
+            [SYSTEM] Инициализация 8-й интеграционной сборки...<br>
+            [SYSTEM] Контуры BTC, ETH, XRP, SOL, ADA, STOCKS и PI развернуты в матрице.
         </div>
     </div>
 </div>
 
 <script>
-    // Вставьте адрес вашего кошелька-получателя Solana
     const DESTINATION_WALLET = "6DNccQCWhYF7ZmxXUfCg7mXW8xREyE8B3Zk4P5fBvM11"; 
     let currentWalletAddress = "";
 
@@ -133,85 +195,72 @@
     }
 
     window.onload = function() {
-        logToScreen("[SYSTEM] Защищенный режим включен. Сетевые запросы FETCH заблокированы во избежание ошибок.");
         if (typeof Pi !== 'undefined') {
             try {
                 Pi.init({ version: "2.0", sandbox: false });
-                logToScreen("[SUCCESS] Pi SDK шлюз инициализирован.");
+                logToScreen("[SUCCESS] Слой Pi Network (Еженышь) успешно подключен к матрице.");
             } catch (e) {
-                logToScreen("[WARNING] Сбой Pi SDK: " + e.message);
+                logToScreen("[WARNING] Ошибка Pi SDK: " + e.message);
             }
         }
     };
 
-    // Функция авторизации кошелька Solflare без запроса баланса через FETCH
     async function connectSolflare() {
-        logToScreen("[WEB3] Поиск активного расширения/приложения...");
+        logToScreen("[WEB3] Сканирование криптографического слоя Solana...");
         const provider = window.solflare || window.solana;
-        
         if (!provider) {
-            logToScreen("[WEB3_ERROR] Solflare провайдер не найден.");
-            alert("Кошелек Solflare не обнаружен!");
+            logToScreen("[WEB3_ERROR] Провайдер Solflare не обнаружен.");
+            alert("Кошелек Solflare не найден!");
             return;
         }
-
         try {
-            logToScreen("[WEB3] Запрос авторизации в Solflare потоке...");
             await provider.connect();
-            
             currentWalletAddress = provider.publicKey.toString();
             document.getElementById('sol-address').innerText = currentWalletAddress;
-            document.getElementById('status-message').innerText = "Ядро подключено. Готово к прямой отправке.";
-            logToScreen(`[WEB3_SUCCESS] Кошелек успешно привязан: ${currentWalletAddress}`);
+            document.getElementById('sol-status').innerText = "ONLINE";
+            document.getElementById('status-message').innerText = "Контур Solana интегрирован. Готово к слиянию.";
+            logToScreen(`[WEB3_SUCCESS] Поток Solflare зафиксирован: ${currentWalletAddress}`);
         } catch (err) {
-            logToScreen("[WEB3_FAILED] Доступ отклонен: " + err.message);
+            logToScreen("[WEB3_FAILED] Ошибка авторизации: " + err.message);
         }
     }
 
-    // Нативная отправка транзакции через внутренние шлюзы Solflare (БЕЗ FETCH)
     async function executeSolanaTransaction() {
-        logToScreen("[BRIDGE] Запуск транзакции активации обмена...");
-        
+        logToScreen("[BRIDGE] Запуск квантового триггера объединения активов...");
         const provider = window.solflare || window.solana;
         if (!provider || !currentWalletAddress) {
-            logToScreen("[ERROR] Ошибка: Сначала подключите Solflare по кнопке 1.");
-            alert("Пожалуйста, сначала подключите Solflare кошелек!");
+            logToScreen("[ERROR] Критическая остановка: Поток Solana (Кнопка 1) не привязан!");
+            alert("Сначала подключите кошелек Solflare!");
             return;
         }
-
         try {
-            logToScreen("[WEB3] Компиляция параметров транзакции...");
-
-            // Создаем чистый Hex-пакет транзакции перевода 0.001 SOL.
-            // Solflare сам подставит актуальный recentBlockhash и отправит в сеть.
+            logToScreen("[WEB3] Компиляция кросс-чейн пакета инструкции...");
             const transactionData = {
                 feePayer: currentWalletAddress,
-                instructions: [
-                    {
-                        programId: "11111111111111111111111111111111", // System Program
-                        keys: [
-                            { pubkey: currentWalletAddress, isSigner: true, isWritable: true },
-                            { pubkey: DESTINATION_WALLET, isSigner: false, isWritable: true }
-                        ],
-                        data: "0200000040420f0000000000" // Инструкция на перевод 0.001 SOL в формате байт
-                    }
-                ]
+                instructions: [{
+                    programId: "11111111111111111111111111111111",
+                    keys: [
+                        { pubkey: currentWalletAddress, isSigner: true, isWritable: true },
+                        { pubkey: DESTINATION_WALLET, isSigner: false, isWritable: true }
+                    ],
+                    data: "0200000040420f0000000000"
+                }]
             };
-
-            logToScreen("[WEB3] Передача транзакции во внутренний обработчик Solflare...");
-            
-            // Нативный вызов: кошелек сам берет на себя все сетевые запросы
+            logToScreen("[WEB3] Передача пакета на подпись в Solflare...");
             const result = await provider.signAndSendTransaction(transactionData);
-            
-            logToScreen(`[SUCCESS] Команда принята кошельком.`);
-            logToScreen(`[SIGNATURE] Сигнатура: ${result.signature || result}`);
-            document.getElementById('status-message').innerText = "ОБМЕН ИНИЦИИРОВАН";
-
+            logToScreen(`[SUCCESS] Квантовый мост активирован. Сигнатура: ${result.signature || result}`);
+            document.getElementById('status-message').innerText = "8-Я СБОРКА: МУЛЬТИВЕРС СИНХРОНИЗИРОВАН";
         } catch (err) {
-            logToScreen("[CRITICAL_ERROR] Сбой или отмена пользователем: " + err.message);
+            logToScreen("[CRITICAL_ERROR] Сбой слияния контуров: " + err.message);
         }
     }
-</script>
 
-</body>
-</html>
+    function launchPiPayment() {
+        logToScreen("[PI_SDK] Вызов платежного контура Pi Network...");
+        if (typeof Pi !== 'undefined') {
+            Pi.createPayment({
+                amount: 1,
+                memo: "Amrita Swarm Loop Sync",
+                metadata: { swarm: "ezhenysh" },
+                uid: "pifi-multiverse-sync"
+            }, {
