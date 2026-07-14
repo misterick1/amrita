@@ -6,6 +6,8 @@
     <title>AMRITA OS // АВТОНОМНЫЙ МУЛЬТИВЕРС</title>
     <!-- Официальный работающий CDN для Pi SDK -->
     <script src="https://minepi.com"></script>
+    <!-- Добавлен официальный Web3 модуль для реальных транзакций в Solana -->
+    <script src="https://unpkg.com"></script>
     <style>
         body {
             background-color: #000;
@@ -60,15 +62,6 @@
             text-align: center;
             margin-top: 5px;
         }
-        .market-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-            font-size: 12px;
-            margin-top: 10px;
-            border-top: 1px dotted #00ff00;
-            padding-top: 10px;
-        }
         .btn {
             display: block;
             width: 100%;
@@ -89,11 +82,6 @@
             color: #000;
             box-shadow: 0 0 10px #00ff00;
         }
-        .btn-small {
-            padding: 6px;
-            font-size: 12px;
-            margin-top: 10px;
-        }
         .log-box {
             background-color: #000;
             border: 1px solid #00ff00;
@@ -108,47 +96,40 @@
 <body>
 
 <div class="container">
-    <div class="header">AMRITA OS // СИНХРОНИЗАЦИЯ ПОТОКОВ</div>
+    <div class="header">AMRITA OS // ИНТЕГРАЦИЯ СЕТИ</div>
     <div class="step-indicator">10</div>
 
-    <!-- КАРТОЧКА 1: БЛОКЧЕЙН И КРИПТОАКТИВЫ -->
+    <!-- КАРТОЧКА 1: БАЛАНС И АВТОРИЗАЦИЯ SOLANA -->
     <div class="card">
-        <div class="card-title">💼 МУЛЬТИ-БАЛАНС: SOLFLARE & ORACLE</div>
+        <div class="card-title">💼 СЕТЕВОЙ ПОТОК: SOLFLARE (SOLANA)</div>
         <div class="balance" id="sol-balance">0.0000 SOL</div>
-        <div class="wallet-address" id="sol-address">АВТОЗАПУСК СЕТИ ОЖИДАЕТ АВТОРИЗАЦИИ</div>
-        <button class="btn btn-small" onclick="connectSolflare()">ИНТЕГРИРОВАТЬ SOLFLARE ПОТОК</button>
-        
-        <!-- Сетка автоматических кросс-курсов акций и валют -->
-        <div class="market-grid">
-            <div>ФИАТ (USD): <span id="asset-usd">$0.00</span></div>
-            <div>ФИАТ (RUB): <span id="asset-rub">0.00 ₽</span></div>
-            <div>КРИПТО-АКЦИИ (INDEX): <span id="asset-stocks">0.00 AMRT</span></div>
-            <div>СИНХРОНИЗАЦИЯ: <span id="sync-status" style="color: #ff0000;">OFFLINE</span></div>
-        </div>
+        <div class="wallet-address" id="sol-address">АДРЕС НЕ ОПРЕДЕЛЕН</div>
+        <button class="btn" onclick="connectSolflare()">1. ПОДКЛЮЧИТЬ SOLFLARE WALLET</button>
     </div>
 
-    <!-- КАРТОЧКА 2: СИСТЕМА УПРАВЛЕНИЯ -->
+    <!-- КАРТОЧКА 2: ИСПОЛНИТЕЛЬНЫЙ КОНТУР -->
     <div class="card">
-        <div class="card-title">🧠 КИБЕРНЕТИЧЕСКИЙ ОРКЕСТРАТОР</div>
-        <div id="status-message">Ожидание инициализации квантовых шлюзов активов...</div>
-        <button class="btn" onclick="launchPiPayment()">ЗАПУСТИТЬ АВТОМАТИЧЕСКИЙ МОСТ PI</button>
+        <div class="card-title">🧠 КИБЕРНЕТИЧЕСКИЙ ТРИГГЕР</div>
+        <div id="status-message">Ожидайте синхронизации Web3 провайдера...</div>
+        <!-- Изменена функция: теперь кнопка запускает РЕАЛЬНУЮ транзакцию в Solana -->
+        <button class="btn" onclick="executeRealSolanaTransaction()">2. АКТИВИРОВАТЬ ОБМЕН (ОТПРАВИТЬ SOL)</button>
     </div>
 
     <!-- КАРТОЧКА 3: МОНИТОРИНГ -->
     <div class="card">
-        <div class="card-title">📟 АВТОМАТИЧЕСКИЙ МОНИТОР МУЛЬТИВЕРСА (LIVE)</div>
+        <div class="card-title">📟 ЛОГ ВЫПОЛНЕНИЯ ЯДРА (LIVE)</div>
         <div class="log-box" id="log-output">
-            [SYSTEM] Инициализация модулей суверенного следа...<br>
-            [SYSTEM] Модули Валют, Крипто-Акций и Блокчейнов загружены в буфер.
+            [SYSTEM] Ожидание подключения Solflare кошелька...
         </div>
     </div>
 </div>
 
 <script>
-    // Точка подключения внешнего бэкенда для автоматической обработки веб-хуков транзакций
-    const BACKEND_ORCHESTRATOR_URL = "https://amrita-mir.com"; 
-    let currentSolBalance = 0;
+    // Вставьте сюда адрес вашего кошелька-приемника в сети Solana, куда должны идти монеты
+    const DESTINATION_WALLET = "6DNccQCWhYF7ZmxXUfCg7mXW8xREyE8B3Zk4P5fBvM11"; 
+    
     let currentWalletAddress = "";
+    let solanaConnection = null;
 
     function logToScreen(message) {
         const logBox = document.getElementById('log-output');
@@ -156,99 +137,105 @@
         logBox.scrollTop = logBox.scrollHeight;
     }
 
-    // Инициализация среды Pi Browser при запуске
+    // Инициализация соединения с блокчейном Solana через публичный RPC узел Mainnet
     window.onload = function() {
-        if (typeof Pi !== 'undefined') {
-            try {
-                Pi.init({ version: "2.0", sandbox: false });
-                logToScreen("[SUCCESS] Pi SDK шлюз успешно развернут в системе.");
-                document.getElementById('status-message').innerText = "Ядро Pi SDK синхронизировано. Готово к приему потоков.";
-            } catch (e) {
-                logToScreen("[ERROR] Ошибка развертывания ядра SDK: " + e.message);
-            }
+        if (typeof solanaWeb3 !== 'undefined') {
+            // Подключаемся к официальному RPC узлу Solana Mainnet
+            solanaConnection = new solanaWeb3.Connection("https://solana.com", "confirmed");
+            logToScreen("[SUCCESS] Связь с блокчейн-реестром Solana RPC установлена.");
         } else {
-            logToScreen("[WARNING] Внимание: Среда Pi Browser не обнаружена. Запуск автоматических платежей Pi ограничен.");
+            logToScreen("[ERROR] Ошибка загрузки solanaWeb3 библиотеки.");
         }
-        // Запуск фонового мониторинга цен акций и валют
-        startMarketDataPolling();
     };
 
-    // Автоматический сбор рыночных данных валют и акций через публичные API
-    async function startMarketDataPolling() {
-        logToScreen("[ORACLE] Запуск циклического сбора котировок фиата и токенизированных акций...");
-        try {
-            // Запрос цены SOL к USD через публичный API CoinGecko
-            const response = await fetch('https://coingecko.com');
-            const data = await response.json();
-            
-            if (data.solana) {
-                const solToUsd = data.solana.usd;
-                const solToRub = data.solana.rub;
-                
-                logToScreen(`[ORACLE] Курсы обновлены. 1 SOL = $${solToUsd} | ${solToRub} RUB`);
-                
-                // Перерасчет, если кошелек уже подключен и баланс получен
-                if (currentSolBalance > 0) {
-                    updateCalculatedMetrics(solToUsd, solToRub);
-                }
-            }
-        } catch (err) {
-            logToScreen("[ORACLE_WARNING] Ошибка обновления котировок фиата (превышен лимит запросов API). Использование кэша.");
-        }
-    }
-
-    // Внутренний калькулятор перерасчета активов по оракулу
-    function updateCalculatedMetrics(usdPrice, rubPrice) {
-        const totalUsd = currentSolBalance * usdPrice;
-        const totalRub = currentSolBalance * rubPrice;
-        // Эмулируем индекс крипто-акций на основе баланса (квантовое соотношение)
-        const cryptoStocksIndex = (currentSolBalance * 1.08).toFixed(4);
-
-        document.getElementById('asset-usd').innerText = `$${totalUsd.toFixed(2)}`;
-        document.getElementById('asset-rub').innerText = `${totalRub.toFixed(2)} ₽`;
-        document.getElementById('asset-stocks').innerText = `${cryptoStocksIndex} AMRT`;
-        document.getElementById('sync-status').innerText = "ONLINE";
-        document.getElementById('sync-status').style.color = "#00ff00";
-        logToScreen("[AUTOMATION] Автоматический перерасчет Квантов Валют и Крипто-Акций завершен.");
-    }
-
-    // Подключение Solflare Web3 провайдера
+    // Функция авторизации кошелька Solflare
     async function connectSolflare() {
-        logToScreen("[WEB3] Поиск активного криптографического провайдера Solana...");
+        logToScreen("[WEB3] Сканирование расширений браузера...");
         const provider = window.solflare || window.solana;
         
         if (!provider) {
-            logToScreen("[WEB3_ERROR] Адаптер Solflare не найден. Установите приложение контура кошелька.");
-            alert("Кошелек Solflare не обнаружен!");
+            logToScreen("[WEB3_ERROR] Кошелек Solflare не найден. Откройте сайт внутри крипто-кошелька.");
+            alert("Установите расширение Solflare!");
             return;
         }
 
         try {
-            logToScreen("[WEB3] Вызов окна авторизации Solflare потока...");
+            logToScreen("[WEB3] Запрос авторизации кошелька...");
             await provider.connect();
             
             currentWalletAddress = provider.publicKey.toString();
-            logToScreen(`[WEB3_SUCCESS] Поток Solflare интегрирован. Ключ: ${currentWalletAddress}`);
             document.getElementById('sol-address').innerText = currentWalletAddress;
+            logToScreen(`[WEB3_SUCCESS] Кошелек подключен успешно: ${currentWalletAddress}`);
 
-            // Автоматический запрос баланса из RPC Solana Mainnet
-            logToScreen("[RPC] Запрос структуры баланса из Solana Mainnet Ledger...");
-            const response = await fetch('https://solana.com', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    jsonrpc: "2.0",
-                    id: 1,
-                    method: "getBalance",
-                    params: [currentWalletAddress]
-                })
-            });
-
-            const result = await response.json();
-            if (result.result && result.result.value !== undefined) {
-                currentSolBalance = result.result.value / 1000000000;
-                document.getElementById('sol-balance').innerText = `${currentSolBalance.toFixed(4)} SOL`;
-                logToScreen(`[RPC_SUCCESS] Текущий баланс реестра зафиксирован: ${currentSolBalance.toFixed(4)} SOL`);
+            // Автоматическое чтение реального баланса из блокчейна Solana
+            if (solanaConnection) {
+                const publicKeyObj = new solanaWeb3.PublicKey(currentWalletAddress);
+                const balanceLamports = await solanaConnection.getBalance(publicKeyObj);
+                const solAmount = balanceLamports / 1000000000;
                 
-                // Триггер немедленного перерасчета по котировкам оракула
-                startMarketDataPolling();
+                document.getElementById('sol-balance').innerText = `${solAmount.toFixed(4)} SOL`;
+                document.getElementById('status-message').innerText = "Провайдер успешно синхронизирован. Готов к обмену.";
+                logToScreen(`[RPC] Текущий баланс вашего кошелька: ${solAmount.toFixed(4)} SOL`);
+            }
+        } catch (err) {
+            logToScreen("[WEB3_FAILED] Ошибка подключения: " + err.message);
+        }
+    }
+
+    // НАСТОЯЩАЯ ТРАНЗАКЦИЯ SOLANA: функция срабатывания кнопки обмена
+    async function executeRealSolanaTransaction() {
+        logToScreen("[BRIDGE] Инициализация процесса отправки активов...");
+        
+        const provider = window.solflare || window.solana;
+        if (!provider || !currentWalletAddress) {
+            logToScreen("[ERROR] Сбой: Сначала необходимо подключить кошелек по кнопке 1!");
+            alert("Пожалуйста, сначала подключите Solflare кошелек!");
+            return;
+        }
+
+        try {
+            logToScreen("[RPC] Создание структуры транзакции Solana...");
+            const fromPubkey = new solanaWeb3.PublicKey(currentWalletAddress);
+            const toPubkey = new solanaWeb3.PublicKey(DESTINATION_WALLET);
+
+            // Получаем свежий хэш блока для подтверждения сети
+            const { blockhash } = await solanaConnection.getLatestBlockhash();
+
+            // Формируем блок транзакции перевода (например, 0.001 SOL для теста активации)
+            const transaction = new solanaWeb3.Transaction({
+                recentBlockhash: blockhash,
+                feePayer: fromPubkey
+            }).add(
+                solanaWeb3.SystemProgram.transfer({
+                    fromPubkey: fromPubkey,
+                    toPubkey: toPubkey,
+                    lamports: 0.001 * 1000000000 // 0.001 SOL в лампортах
+                })
+            );
+
+            logToScreen("[WEB3] Отправка транзакции в Solflare на подпись пользователю...");
+            
+            // Вызываем официальное всплывающее окно Solflare для подписи транзакции
+            const { signature } = await provider.signAndSendTransaction(transaction);
+            
+            logToScreen(`[PENDING] Транзакция подписана и отправлена в сеть. Ожидание блоков...`);
+            logToScreen(`[SIGNATURE] Хэш транзакции: ${signature}`);
+
+            // Ожидаем подтверждения транзакции валидаторами блокчейна
+            await solanaConnection.confirmTransaction(signature, "confirmed");
+            
+            logToScreen(`[SUCCESS] Транзакция успешно подтверждена блокчейном Solana!`);
+            document.getElementById('status-message').innerText = "ОБМЕН ЗАВЕРШЕН УСПЕШНО";
+
+            // Обновляем баланс после списания
+            const newBalance = await solanaConnection.getBalance(fromPubkey);
+            document.getElementById('sol-balance').innerText = `${(newBalance / 1000000000).toFixed(4)} SOL`;
+
+        } catch (err) {
+            logToScreen("[CRITICAL_ERROR] Транзакция отклонена или произошел сбой: " + err.message);
+        }
+    }
+</script>
+
+</body>
+</html>
