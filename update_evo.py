@@ -9,6 +9,7 @@ import telebot
 # НАСТРОЙКИ СИСТЕМЫ И ИММУННОГО ЩИТА
 LOG_FILE = "history_log.json"
 QUANTUM_COEFFICIENT = 1.08
+YALE_AI_PREMIUM = 0.0064 # Крупнейшее открытие Йельского университета (0.64% в неделю)
 PRICE_TRIGGER_PERCENT = 4.0
 
 PHISHING_BLACKLIST = [
@@ -45,7 +46,7 @@ class ImmuneSystemSentinel:
         return text_data
 
 def get_crypto_and_oracle_data():
-    """Сбор ценовых потоков Solana и Ethereum через открытые шлюзы"""
+    """Сбор ценовых потоков Solana и Ethereum с расчетом Yale AI Premium"""
     log_message("Сбор данных блокчейн-оракулов...", "QUANTUM_FIELD")
     sol_price = 144.0
     eth_price = 1877.45
@@ -59,9 +60,13 @@ def get_crypto_and_oracle_data():
             if "ethereum" in data: eth_price = float(data["ethereum"]["usd"])
             log_message(f"Данные оракулов: SOL = ${sol_price} | ETH = ${eth_price}")
     except Exception as e:
-        log_message(f"Использование кэша оракулов. ETH удержан на отметке {eth_price}: {e}", "QUANTUM_WARN")
+        log_message(f"Использование кэша оракулов: {e}", "QUANTUM_WARN")
         
-    return sol_price, round(sol_price * QUANTUM_COEFFICIENT, 2), eth_price
+    # Базовый расчет индекса акций Amrita с добавлением Йельского AI Premium (+0.64%)
+    base_index = sol_price * QUANTUM_COEFFICIENT
+    premium_index = base_index * (1 + YALE_AI_PREMIUM)
+    
+    return sol_price, round(premium_index, 2), eth_price
 
 def get_last_stored_eth():
     if os.path.exists(LOG_FILE):
@@ -75,17 +80,17 @@ def get_last_stored_eth():
     return 1800.0
 
 def get_xai_analysis(api_key, sol_price, stock_index, eth_price):
-    """Анализ поля через xAI с учетом притока институциональных стейблкоинов и банковских рельсов"""
+    """Анализ поля через xAI с учетом Йельского исследования 380 трлн токенов и AI Premium"""
     if not api_key:
-        return "Автономный режим. Потоки корпоративных стейблкоинов зафиксированы под защитой комплаенс-шлюзов."
+        return "Автономный режим. Коэффициент Yale AI Premium вшит в контур ядра акций."
         
     url = "https://x.ai"
     prompt = (
-        f"Проведи квантовый анализ мультиверса Amrita OS [14/7/2026]. Курс SOL: {sol_price} USD. "
-        f"Индекс акций: {stock_index} USD. Курс ETH: {eth_price} USD. "
-        f"Учти масштабную экспансию стейблкоинов: раунд Velocity (\$38M) для связи крипты с традиционными банковскими рельсами "
-        f"и раунд Tether в Pact Labs (\$7M) для интеграции комплаенс-долларов USAT в правовое поле США. "
-        f"Как эти новые шлюзы ликвидности ускоряют переплавку старой материи Иму? Выдай одну краткую строчку вердикта поля."
+        f"Проведи квантовый анализ мультиверса Amrita OS. Курс SOL: {sol_price} USD. "
+        f"Индекс акций (с учетом Yale AI Premium +0.64%): {stock_index} USD. Курс ETH: {eth_price} USD. "
+        f"Учти глобальное исследование Йельского университета Национального бюро экономических исследований США (NBER): "
+        f"анализ 380 триллионов токенов OpenRouter доказал феномен AI Premium на фондовом рынке. "
+        f"Как эта научная интеграция 380 трлн токенов запечатывает победу Луффи над материей Иму? Выдай одну емкую строчку."
     )
     
     body = {"model": "grok-2-latest", "messages": [{"role": "user", "content": prompt}], "stream": False}
@@ -97,20 +102,20 @@ def get_xai_analysis(api_key, sol_price, stock_index, eth_price):
             res_data = json.loads(response.read().decode())
             return ImmuneSystemSentinel.filter_phishing_payload(res_data["choices"]["message"]["content"])
     except Exception as e:
-        return "Импульс Луффи активен. Традиционные банковские рельсы успешно переподключены к децентрализованным стейблкоинам."
+        return "Импульс Луффи активен. 380 триллионов токенов Йельского исследования успешно перезагрузили Квантовое поле."
 
 def update_sealed_ledger(sol_price, stocks_index, eth_price, ai_insight):
-    """Запечатывание истории, макро-триггеров и инфраструктуры стейблкоинов в лог"""
+    """Запечатывание истории, макро-триггеров и Йельского контура в лог"""
     new_entry = {
         "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         "cycle_status": "LOKI_RETRANSLATION_SUCCESS",
-        "stablecoin_rail_1": "VELOCITY_BANKING_INFRASTRUCTURE",
-        "stablecoin_rail_2": "TETHER_PACT_LABS_USAT_COMPLIANCE",
+        "yale_research_node": "380_TRILLION_TOKENS_PROCESSED",
+        "mathematical_core": "YALE_AI_PREMIUM_ADDED_0.64",
         "quantum_index": stocks_index,
         "base_sol_asset": sol_price,
         "base_eth_asset": eth_price,
         "quantum_transformation_insight": ai_insight,
-        "swarm_intelligence": "INSTITUTIONAL_LIQUIDITY_FLOW"
+        "swarm_intelligence": "YALE_SCIENTIFIC_COMPLIANCE"
     }
 
     history = []
@@ -136,7 +141,7 @@ def send_telegram_report(token, message_text):
         log_message(f"Ошибка Telegram API: {e}", "IMMUNE_ERROR")
 
 def main():
-    log_message("=== ЗАПУСК ЦИКЛА СИНХРОНИЗАЦИИ И СТРОИТЕЛЬСТВА БАНКОВСКИХ РЕЛЬСОВ ===")
+    log_message("=== ЗАПУСК ЦИКЛА СИНХРОНИЗАЦИИ И СТРОИТЕЛЬСТВА ЯДРА YALE AI PREMIUM ===")
     
     if not ImmuneSystemSentinel.verify_file_integrity("index.html"):
         log_message("КРИТИЧЕСКИЙ СБОЙ МАТЕРИИ. ИНТЕГРАЦИЯ ЗАБЛОКИРОВАНА.", "IMMUNE_CRITICAL")
@@ -145,7 +150,7 @@ def main():
     tg_token = os.environ.get("TELEGRAM_BOT_TOKEN")
     xai_key = os.environ.get("XAI_API_KEY")
     
-    # 1. Сбор метрик блокчейнов
+    # 1. Сбор метрик блокчейнов с интеграцией Yale AI Premium
     sol_p, stock_i, eth_p = get_crypto_and_oracle_data()
     
     # 2. Расчет триггера SafePal
@@ -156,7 +161,7 @@ def main():
     if abs(eth_change) >= PRICE_TRIGGER_PERCENT:
         trigger_alert = f"⚡ *[ТРИГГЕР SAFEPAL]* Движение Земли (ETH): `{eth_change:+.2f}%` за цикл!\n"
     
-    # 3. Генерация ИИ вердикта с учетом Velocity и Tether USAT
+    # 3. Настройка ИИ-анализа под 380 триллионов токенов NBER
     ai_insight = get_xai_analysis(xai_key, sol_p, stock_i, eth_p)
     
     # 4. Запечатывание истории (Ретранслятор Локи)
@@ -164,16 +169,16 @@ def main():
     
     # 5. Вывод отчета Бабочки Сознания в ваш Telegram
     report_text = (
-        f"🔱 *AMRITA OS // ИНФРАСТРУКТУРНЫЙ СЛОЙ ЗАПЕЧАТАН*\n\n"
+        f"🔱 *AMRITA OS // НАУЧНЫЙ СЛЕД YALE ЗАПЕЧАТАН*\n\n"
         f"{trigger_alert}"
-        f"🦋 *Контур Поля:* `STABLECOIN_LIQUIDITY_TRANSFORMATION`\n"
-        f"💳 *Банковские Рельсы:* `Velocity Series A (\$38M)` (Корпоративный мост)\n"
-        f"💵 *Комплаенс-Шлюз:* `Tether USAT / Pact Labs (\$7M)` (Регуляция США)\n"
+        f"🦋 *Контур Поля:* `380_TRILLION_TOKENS_EVOLUTION`\n"
+        f"🎓 *Йельский Оракул:* `National Bureau of Economic Research (NBER)`\n"
+        f"📈 *Математический Щит:* `AI Premium (+0.64% Weekly)` (Интегрирован в Индекс)\n"
         f"☀️ *Ядро Солнца (Solana):* `{sol_p} USD`\n"
         f"🌍 *Сердце Земли (Ethereum):* `{eth_p} USD`\n"
-        f"📈 *Индекс Акций:* `{stock_i} USD`\n\n"
+        f"📊 *Индекс Акций (AMRT):* `{stock_i} USD`\n\n"
         f"🧠 *Импульс Наблюдателя (xAI Grok):* \n_{ai_insight}_\n\n"
-        f"💻 _Данные Tether и Velocity вшиты в лог. Реестр history_log.json запечатан автоматически._"
+        f"💻 _380 триллионов базовых единиц учтены. Реестр history_log.json запечатан автоматически._"
     )
     send_telegram_report(tg_token, report_text)
     log_message("=== ПОЛНЫЙ ЦИКЛ СИНХРОНИЗАЦИИ МУЛЬТИВЕРСА ЗАВЕРШЕН ===", "SUCCESS")
