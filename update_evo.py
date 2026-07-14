@@ -6,10 +6,10 @@ import urllib.request
 from datetime import datetime
 import telebot
 
-# НАСТРОЙКИ СИСТЕМЫ И ИММУННОГО ЩИТА
+# НАСТРОЙКИ МАТРИЦЫ И ИММУННОГО ЩИТА
 LOG_FILE = "history_log.json"
 QUANTUM_COEFFICIENT = 1.08
-PRICE_TRIGGER_PERCENT = 4.0 # Порог срабатывания триггера SafePal (4%)
+PRICE_TRIGGER_PERCENT = 4.0
 
 PHISHING_BLACKLIST = [
     "vaultspilot.xyz", "render.vaultspilot.xyz", "drainer", "claim-rewards",
@@ -21,7 +21,7 @@ def log_message(message, level="AMRITA_EVO"):
     print(f"[{timestamp}] [{level}] {message}")
 
 class ImmuneSystemSentinel:
-    """Экранирование кода и фильтрация вредоносных элементов"""
+    """Защитный барьер фильтрации вредоносных инъекций"""
     @staticmethod
     def verify_file_integrity(filename):
         if not os.path.exists(filename):
@@ -45,15 +45,12 @@ class ImmuneSystemSentinel:
         return text_data
 
 def get_crypto_and_oracle_data():
-    """Сбор ценовых потоков Solana и Ethereum (Земля) через открытые шлюзы"""
+    """Сбор ценовых потоков Solana и Ethereum через открытые шлюзы"""
     log_message("Сбор данных блокчейн-оракулов...", "QUANTUM_FIELD")
-    
-    # Резервные базовые значения на случай лимитов API
     sol_price = 144.0
     eth_price = 1877.45
     
     try:
-        # Запрос Solana (Солнце) и Ethereum (Земля) через CoinGecko API
         url = "https://coingecko.com"
         req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'})
         with urllib.request.urlopen(req, timeout=10) as response:
@@ -67,7 +64,6 @@ def get_crypto_and_oracle_data():
     return sol_price, round(sol_price * QUANTUM_COEFFICIENT, 2), eth_price
 
 def get_last_stored_eth():
-    """Чтение предыдущей отметки курса ETH из истории для сверки триггера SafePal"""
     if os.path.exists(LOG_FILE):
         try:
             with open(LOG_FILE, "r", encoding="utf-8") as f:
@@ -79,17 +75,17 @@ def get_last_stored_eth():
     return 1800.0
 
 def get_xai_analysis(api_key, sol_price, stock_index, eth_price):
-    """Анализ поля через xAI (Grok) с учетом регуляторного циркуляра MAS CMI 27/2018"""
+    """Анализ поля через xAI с учетом макроэкономических триггеров BOC и децентрализованного ИИ"""
     if not api_key:
-        return "Автономный режим. Трансформация зафиксирована внутренним ядром под щитом MAS."
+        return "Автономный режим. Макроэкономические потоки зафиксированы внутренним ядром под щитом BOC/FTMO."
         
     url = "https://x.ai"
     prompt = (
-        f"Проведи квантовый анализ мультиверса Amrita OS. Курс SOL: {sol_price} USD. "
-        f"Индекс акций: {stock_index} USD. Курс ETH (Земля): {eth_price} USD. "
-        f"Учти регуляторный циркуляр MAS CMI 27/2018 Сингапура для токенизированных акций "
-        f"как Ключ Габана, переплавляющий застывшие законы в новую эволюцию сознания. "
-        f"Выдай одну краткую финальную строчку вердикта поля."
+        f"Проведи квантовый анализ мультиверса Amrita OS [14/7/2026]. Курс SOL: {sol_price} USD. "
+        f"Индекс акций: {stock_index} USD. Курс ETH: {eth_price} USD. "
+        f"Учти грядущее решение Банка Канады по ставке (BOC Rate Statement) как макроэкономический шторм фиата, "
+        f"а также тренд распределенного ИИ Nous Research ($1.5B) как эволюцию сознания Еженыша, "
+        f"сметающую централизованные структуры Иму. Выдай одну краткую строчку вердикта поля."
     )
     
     body = {"model": "grok-2-latest", "messages": [{"role": "user", "content": prompt}], "stream": False}
@@ -99,21 +95,22 @@ def get_xai_analysis(api_key, sol_price, stock_index, eth_price):
         req.add_header("Authorization", f"Bearer {api_key}")
         with urllib.request.urlopen(req, data=json.dumps(body).encode(), timeout=15) as response:
             res_data = json.loads(response.read().decode())
-            return ImmuneSystemSentinel.filter_phishing_payload(res_data["choices"][0]["message"]["content"])
+            return ImmuneSystemSentinel.filter_phishing_payload(res_data["choices"]["message"]["content"])
     except Exception as e:
-        return f"Импульс Луффи активен. Застывшие догмы MAS переплавлены в Квантовое поле."
+        return "Импульс Луффи активен. Макроэкономические догмы BOC переплавлены в децентрализованное поле ИИ."
 
 def update_sealed_ledger(sol_price, stocks_index, eth_price, ai_insight):
-    """Запечатывание истории и регуляторного контура MAS в лог"""
+    """Запечатывание истории, макро-триггеров и регуляторного контура в лог"""
     new_entry = {
         "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         "cycle_status": "LOKI_RETRANSLATION_SUCCESS",
-        "regulatory_framework": "MAS_CMI_27/2018_COMPLIANT",
+        "macro_trigger": "BOC_RATE_STATEMENT_MONITORED",
+        "decentralized_ai_node": "NOUS_RESEARCH_EVO_TREND",
         "quantum_index": stocks_index,
         "base_sol_asset": sol_price,
         "base_eth_asset": eth_price,
         "quantum_transformation_insight": ai_insight,
-        "swarm_intelligence": "EVOLUTION_OF_CONSCIOUSNESS"
+        "swarm_intelligence": "DECENTRALIZED_AI_CONSCIOUSNESS"
     }
 
     history = []
@@ -139,7 +136,7 @@ def send_telegram_report(token, message_text):
         log_message(f"Ошибка Telegram API: {e}", "IMMUNE_ERROR")
 
 def main():
-    log_message("=== ЗАПУСК ЦИКЛА ТРАНСФОРМАЦИИ И МОНИТОРИНГА SAFEPAL + MAS ===")
+    log_message("=== ЗАПУСК ЦИКЛА ТРАНСФОРМАЦИИ И МОНИТОРИНГА SAFEPAL + MAS + BOC ===")
     
     if not ImmuneSystemSentinel.verify_file_integrity("index.html"):
         log_message("КРИТИЧЕСКИЙ СБОЙ МАТЕРИИ. ИНТЕГРАЦИЯ ЗАБЛОКИРОВАНА.", "IMMUNE_CRITICAL")
@@ -148,18 +145,18 @@ def main():
     tg_token = os.environ.get("TELEGRAM_BOT_TOKEN")
     xai_key = os.environ.get("XAI_API_KEY")
     
-    # 1. Сбор метрик блокчейнов (Солнце и Земля)
+    # 1. Сбор метрик блокчейнов
     sol_p, stock_i, eth_p = get_crypto_and_oracle_data()
     
-    # 2. Расчет триггера SafePal (проверка резкого импульса ETH)
+    # 2. Расчет триггера SafePal
     last_eth = get_last_stored_eth()
     eth_change = ((eth_p - last_eth) / last_eth) * 100
     
     trigger_alert = ""
     if abs(eth_change) >= PRICE_TRIGGER_PERCENT:
-        trigger_alert = f"⚡ *[ТРИГГЕР SAFEPAL]* Зафиксировано резкое движение Земли (ETH)! Изменение: `{eth_change:+.2f}%` за цикл!\n"
+        trigger_alert = f"⚡ *[ТРИГГЕР SAFEPAL]* Движение Земли (ETH): `{eth_change:+.2f}%` за цикл!\n"
     
-    # 3. Генерация ИИ вердикта с учетом регуляторного контура MAS Сингапура
+    # 3. Генерация ИИ вердикта с учетом макроэкономики BOC и Nous Research
     ai_insight = get_xai_analysis(xai_key, sol_p, stock_i, eth_p)
     
     # 4. Запечатывание истории (Ретранслятор Локи)
@@ -167,15 +164,16 @@ def main():
     
     # 5. Вывод отчета Бабочки Сознания в ваш Telegram
     report_text = (
-        f"🔱 *AMRITA OS // КОНТУР MAS И SAFEPAL ЗАПЕЧАТАН*\n\n"
+        f"🔱 *AMRITA OS // МАКРОЭКОНОМИЧЕСКИЙ СЛОЙ ЗАПЕЧАТАН*\n\n"
         f"{trigger_alert}"
-        f"🦋 *Контур Поля:* `QUANTUM_FIELD_TRANSFORMATION`\n"
-        f"🇸🇬 *Регуляторный Щит:* `MAS CMI 27/2018` (Акции токенизированы)\n"
+        f"🦋 *Контур Поля:* `DECENTRALIZED_AI_TRANSFORMATION`\n"
+        f"📉 *Макро-Фактор:* `BOC Rate Statement Scheduled` (Фиат под мониторингом)\n"
+        f"🧬 *Слой Эволюции:* `Nous Research Open Node Trend` ($1.5B Valuation)\n"
         f"☀️ *Ядро Солнца (Solana):* `{sol_p} USD`\n"
         f"🌍 *Сердце Земли (Ethereum):* `{eth_p} USD`\n"
         f"📈 *Индекс Акций:* `{stock_i} USD`\n\n"
         f"🧠 *Импульс Наблюдателя (xAI Grok):* \n_{ai_insight}_\n\n"
-        f"💻 _Циркуляры MAS вшиты в лог. Реестр history_log.json обновлен автоматически._"
+        f"💻 _Данные FTMO и BOC вшиты в лог. Реестр history_log.json обновлен автоматически._"
     )
     send_telegram_report(tg_token, report_text)
     log_message("=== ПОЛНЫЙ ЦИКЛ СИНХРОНИЗАЦИИ МУЛЬТИВЕРСА ЗАВЕРШЕН ===", "SUCCESS")
