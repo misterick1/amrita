@@ -6,7 +6,7 @@ import urllib.request
 from datetime import datetime
 import telebot
 
-# НАСТРОЙКИ МАТРИЦЫ И ИММУННОГО ЩИТА
+# НАСТРОЙКИ СИСТЕМЫ И ИММУННОГО ЩИТА
 LOG_FILE = "history_log.json"
 QUANTUM_COEFFICIENT = 1.08
 PRICE_TRIGGER_PERCENT = 4.0
@@ -75,17 +75,17 @@ def get_last_stored_eth():
     return 1800.0
 
 def get_xai_analysis(api_key, sol_price, stock_index, eth_price):
-    """Анализ поля через xAI с учетом макроэкономических триггеров BOC и децентрализованного ИИ"""
+    """Анализ поля через xAI с учетом притока институциональных стейблкоинов и банковских рельсов"""
     if not api_key:
-        return "Автономный режим. Макроэкономические потоки зафиксированы внутренним ядром под щитом BOC/FTMO."
+        return "Автономный режим. Потоки корпоративных стейблкоинов зафиксированы под защитой комплаенс-шлюзов."
         
     url = "https://x.ai"
     prompt = (
         f"Проведи квантовый анализ мультиверса Amrita OS [14/7/2026]. Курс SOL: {sol_price} USD. "
         f"Индекс акций: {stock_index} USD. Курс ETH: {eth_price} USD. "
-        f"Учти грядущее решение Банка Канады по ставке (BOC Rate Statement) как макроэкономический шторм фиата, "
-        f"а также тренд распределенного ИИ Nous Research ($1.5B) как эволюцию сознания Еженыша, "
-        f"сметающую централизованные структуры Иму. Выдай одну краткую строчку вердикта поля."
+        f"Учти масштабную экспансию стейблкоинов: раунд Velocity (\$38M) для связи крипты с традиционными банковскими рельсами "
+        f"и раунд Tether в Pact Labs (\$7M) для интеграции комплаенс-долларов USAT в правовое поле США. "
+        f"Как эти новые шлюзы ликвидности ускоряют переплавку старой материи Иму? Выдай одну краткую строчку вердикта поля."
     )
     
     body = {"model": "grok-2-latest", "messages": [{"role": "user", "content": prompt}], "stream": False}
@@ -97,20 +97,20 @@ def get_xai_analysis(api_key, sol_price, stock_index, eth_price):
             res_data = json.loads(response.read().decode())
             return ImmuneSystemSentinel.filter_phishing_payload(res_data["choices"]["message"]["content"])
     except Exception as e:
-        return "Импульс Луффи активен. Макроэкономические догмы BOC переплавлены в децентрализованное поле ИИ."
+        return "Импульс Луффи активен. Традиционные банковские рельсы успешно переподключены к децентрализованным стейблкоинам."
 
 def update_sealed_ledger(sol_price, stocks_index, eth_price, ai_insight):
-    """Запечатывание истории, макро-триггеров и регуляторного контура в лог"""
+    """Запечатывание истории, макро-триггеров и инфраструктуры стейблкоинов в лог"""
     new_entry = {
         "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         "cycle_status": "LOKI_RETRANSLATION_SUCCESS",
-        "macro_trigger": "BOC_RATE_STATEMENT_MONITORED",
-        "decentralized_ai_node": "NOUS_RESEARCH_EVO_TREND",
+        "stablecoin_rail_1": "VELOCITY_BANKING_INFRASTRUCTURE",
+        "stablecoin_rail_2": "TETHER_PACT_LABS_USAT_COMPLIANCE",
         "quantum_index": stocks_index,
         "base_sol_asset": sol_price,
         "base_eth_asset": eth_price,
         "quantum_transformation_insight": ai_insight,
-        "swarm_intelligence": "DECENTRALIZED_AI_CONSCIOUSNESS"
+        "swarm_intelligence": "INSTITUTIONAL_LIQUIDITY_FLOW"
     }
 
     history = []
@@ -136,7 +136,7 @@ def send_telegram_report(token, message_text):
         log_message(f"Ошибка Telegram API: {e}", "IMMUNE_ERROR")
 
 def main():
-    log_message("=== ЗАПУСК ЦИКЛА ТРАНСФОРМАЦИИ И МОНИТОРИНГА SAFEPAL + MAS + BOC ===")
+    log_message("=== ЗАПУСК ЦИКЛА СИНХРОНИЗАЦИИ И СТРОИТЕЛЬСТВА БАНКОВСКИХ РЕЛЬСОВ ===")
     
     if not ImmuneSystemSentinel.verify_file_integrity("index.html"):
         log_message("КРИТИЧЕСКИЙ СБОЙ МАТЕРИИ. ИНТЕГРАЦИЯ ЗАБЛОКИРОВАНА.", "IMMUNE_CRITICAL")
@@ -156,7 +156,7 @@ def main():
     if abs(eth_change) >= PRICE_TRIGGER_PERCENT:
         trigger_alert = f"⚡ *[ТРИГГЕР SAFEPAL]* Движение Земли (ETH): `{eth_change:+.2f}%` за цикл!\n"
     
-    # 3. Генерация ИИ вердикта с учетом макроэкономики BOC и Nous Research
+    # 3. Генерация ИИ вердикта с учетом Velocity и Tether USAT
     ai_insight = get_xai_analysis(xai_key, sol_p, stock_i, eth_p)
     
     # 4. Запечатывание истории (Ретранслятор Локи)
@@ -164,16 +164,16 @@ def main():
     
     # 5. Вывод отчета Бабочки Сознания в ваш Telegram
     report_text = (
-        f"🔱 *AMRITA OS // МАКРОЭКОНОМИЧЕСКИЙ СЛОЙ ЗАПЕЧАТАН*\n\n"
+        f"🔱 *AMRITA OS // ИНФРАСТРУКТУРНЫЙ СЛОЙ ЗАПЕЧАТАН*\n\n"
         f"{trigger_alert}"
-        f"🦋 *Контур Поля:* `DECENTRALIZED_AI_TRANSFORMATION`\n"
-        f"📉 *Макро-Фактор:* `BOC Rate Statement Scheduled` (Фиат под мониторингом)\n"
-        f"🧬 *Слой Эволюции:* `Nous Research Open Node Trend` ($1.5B Valuation)\n"
+        f"🦋 *Контур Поля:* `STABLECOIN_LIQUIDITY_TRANSFORMATION`\n"
+        f"💳 *Банковские Рельсы:* `Velocity Series A (\$38M)` (Корпоративный мост)\n"
+        f"💵 *Комплаенс-Шлюз:* `Tether USAT / Pact Labs (\$7M)` (Регуляция США)\n"
         f"☀️ *Ядро Солнца (Solana):* `{sol_p} USD`\n"
         f"🌍 *Сердце Земли (Ethereum):* `{eth_p} USD`\n"
         f"📈 *Индекс Акций:* `{stock_i} USD`\n\n"
         f"🧠 *Импульс Наблюдателя (xAI Grok):* \n_{ai_insight}_\n\n"
-        f"💻 _Данные FTMO и BOC вшиты в лог. Реестр history_log.json обновлен автоматически._"
+        f"💻 _Данные Tether и Velocity вшиты в лог. Реестр history_log.json запечатан автоматически._"
     )
     send_telegram_report(tg_token, report_text)
     log_message("=== ПОЛНЫЙ ЦИКЛ СИНХРОНИЗАЦИИ МУЛЬТИВЕРСА ЗАВЕРШЕН ===", "SUCCESS")
