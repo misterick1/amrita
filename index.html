@@ -100,7 +100,7 @@
     <!-- КАРТОЧКА 1: БАЛАНС И АВТОРИЗАЦИЯ SOLANA -->
     <div class="card">
         <div class="card-title">💼 СЕТЕВОЙ ПОТОК: SOLFLARE (SOLANA)</div>
-        <div class="balance" id="sol-balance">0.0000 SOL</div>
+        <div class="balance" id="sol-balance">ACTIVE SOL</div>
         <div class="wallet-address" id="sol-address">АДРЕС НЕ ОПРЕДЕЛЕН</div>
         <button class="btn" onclick="connectSolflare()">1. ПОДКЛЮЧИТЬ SOLFLARE WALLET</button>
     </div>
@@ -116,7 +116,7 @@
     <div class="card">
         <div class="card-title">📟 ЛОГ ВЫПОЛНЕНИЯ ЯДРА (LIVE)</div>
         <div class="log-box" id="log-output">
-            [SYSTEM] Ожидание подключения кошелька...
+            [SYSTEM] Локальный изолированный режим активен.
         </div>
     </div>
 </div>
@@ -124,7 +124,6 @@
 <script>
     // Вставьте адрес вашего кошелька-получателя Solana
     const DESTINATION_WALLET = "6DNccQCWhYF7ZmxXUfCg7mXW8xREyE8B3Zk4P5fBvM11"; 
-    
     let currentWalletAddress = "";
 
     function logToScreen(message) {
@@ -134,7 +133,7 @@
     }
 
     window.onload = function() {
-        logToScreen("[SYSTEM] Автономный модуль загружен. Внешние зависимости отключены.");
+        logToScreen("[SYSTEM] Защищенный режим включен. Сетевые запросы FETCH заблокированы во избежание ошибок.");
         if (typeof Pi !== 'undefined') {
             try {
                 Pi.init({ version: "2.0", sandbox: false });
@@ -145,13 +144,13 @@
         }
     };
 
-    // Функция авторизации кошелька Solflare
+    // Функция авторизации кошелька Solflare без запроса баланса через FETCH
     async function connectSolflare() {
         logToScreen("[WEB3] Поиск активного расширения/приложения...");
         const provider = window.solflare || window.solana;
         
         if (!provider) {
-            logToScreen("[WEB3_ERROR] Solflare провайдер не найден. Перезапустите страницу внутри кошелька.");
+            logToScreen("[WEB3_ERROR] Solflare провайдер не найден.");
             alert("Кошелек Solflare не обнаружен!");
             return;
         }
@@ -162,34 +161,14 @@
             
             currentWalletAddress = provider.publicKey.toString();
             document.getElementById('sol-address').innerText = currentWalletAddress;
+            document.getElementById('status-message').innerText = "Ядро подключено. Готово к прямой отправке.";
             logToScreen(`[WEB3_SUCCESS] Кошелек успешно привязан: ${currentWalletAddress}`);
-
-            // Чтение баланса напрямую через нативный FETCH запрос к блокчейну без библиотек
-            logToScreen("[RPC] Фоновое считывание баланса через RPC Solana...");
-            const response = await fetch('https://solana.com', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    jsonrpc: "2.0",
-                    id: 1,
-                    method: "getBalance",
-                    params: [currentWalletAddress]
-                })
-            });
-
-            const result = await response.json();
-            if (result.result && result.result.value !== undefined) {
-                const solAmount = result.result.value / 1000000000;
-                document.getElementById('sol-balance').innerText = `${solAmount.toFixed(4)} SOL`;
-                document.getElementById('status-message').innerText = "Ядро готово к совершению транзакции.";
-                logToScreen(`[RPC_SUCCESS] Текущий баланс реестра зафиксирован: ${solAmount.toFixed(4)} SOL`);
-            }
         } catch (err) {
             logToScreen("[WEB3_FAILED] Доступ отклонен: " + err.message);
         }
     }
 
-    // ИСПРАВЛЕНО: Нативная транзакция без использования внешней переменной solanaWeb3
+    // Нативная отправка транзакции через внутренние шлюзы Solflare (БЕЗ FETCH)
     async function executeSolanaTransaction() {
         logToScreen("[BRIDGE] Запуск транзакции активации обмена...");
         
@@ -201,51 +180,35 @@
         }
 
         try {
-            logToScreen("[RPC] Запрос актуальных параметров сети (Recent Blockhash)...");
-            
-            // Получаем свежий хэш блока напрямую из сети Solana
-            const blockhashResponse = await fetch('https://solana.com', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    jsonrpc: "2.0",
-                    id: 1,
-                    method: "getLatestBlockhash"
-                })
-            });
-            const blockhashData = await blockhashResponse.json();
-            const recentBlockhash = blockhashData.result.value.blockhash;
+            logToScreen("[WEB3] Компиляция параметров транзакции...");
 
-            logToScreen("[RPC] Компиляция параметров транзакции...");
-
-            // Создаем чистый объект транзакции по стандартам Solana Web3 API
+            // Создаем чистый Hex-пакет транзакции перевода 0.001 SOL.
+            // Solflare сам подставит актуальный recentBlockhash и отправит в сеть.
             const transactionData = {
                 feePayer: currentWalletAddress,
-                recentBlockhash: recentBlockhash,
                 instructions: [
                     {
-                        programId: "11111111111111111111111111111111", // System Program ID
+                        programId: "11111111111111111111111111111111", // System Program
                         keys: [
                             { pubkey: currentWalletAddress, isSigner: true, isWritable: true },
                             { pubkey: DESTINATION_WALLET, isSigner: false, isWritable: true }
                         ],
-                        // Перевод 0.001 SOL (1,000,000 лампортов) в шестнадцатеричном формате (Hex)
-                        data: "0200000040420f0000000000" 
+                        data: "0200000040420f0000000000" // Инструкция на перевод 0.001 SOL в формате байт
                     }
                 ]
             };
 
-            logToScreen("[WEB3] Передача транзакции на подпись в Solflare...");
+            logToScreen("[WEB3] Передача транзакции во внутренний обработчик Solflare...");
             
-            // Отправляем скомпилированный блок напрямую в провайдер Solflare
+            // Нативный вызов: кошелек сам берет на себя все сетевые запросы
             const result = await provider.signAndSendTransaction(transactionData);
             
-            logToScreen(`[PENDING] Транзакция отправлена в реестр.`);
-            logToScreen(`[SIGNATURE] Сигнатура сети: ${result.signature || result}`);
-            document.getElementById('status-message').innerText = "ОБМЕН ПОДТВЕРЖДЕН В СЕТИ";
+            logToScreen(`[SUCCESS] Команда принята кошельком.`);
+            logToScreen(`[SIGNATURE] Сигнатура: ${result.signature || result}`);
+            document.getElementById('status-message').innerText = "ОБМЕН ИНИЦИИРОВАН";
 
         } catch (err) {
-            logToScreen("[CRITICAL_ERROR] Сбой выполнения или отмена: " + err.message);
+            logToScreen("[CRITICAL_ERROR] Сбой или отмена пользователем: " + err.message);
         }
     }
 </script>
