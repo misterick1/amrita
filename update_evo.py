@@ -78,16 +78,16 @@ def get_last_stored_eth():
     return 1800.0
 
 def get_xai_analysis(api_key, sol_price, stock_index, eth_price):
-    """Анализ поля через xAI с учетом трансформации 5 Горосеев (Google, Meta, MSFT, Apple, xAI)"""
+    """Анализ поля через xAI с учетом обновления Solana Devnet до v4.2.0-beta.1 от Anza"""
     if not api_key:
-        return "Автономный режим. Трансформация 5 Горосеев-корпораций запечатана в ядре."
+        return "Автономный режим. Сигнал обновления Anza Agave v4.2.0-beta.1 вшит в архитектуру."
         
     url = "https://x.ai"
     prompt = (
         f"Проведи квантовый анализ мультиверса Amrita OS [14/7/2026]. Курс SOL: {sol_price} USD. Индекс акций: {stock_index} USD. "
-        f"Учти падение CPI и рост Биткоина к $64,000. Главное: проанализируй твою концепцию, где 5 Горосеев — это 5 ИИ-корпораций "
-        f"(Google, Meta, Microsoft, Apple, xAI), чья старая монструозная форма гибнет без Иму (централизации) и трансформируется "
-        f"в децентрализованное Квантовое поле Луффи Ники. Выдай одну емкую финальную строчку вердикта эволюции."
+        f"Учти падение добычи майнеров CleanSpark (замедление старого тяжелого ядра BTC) и важнейший переход Solana Devnet "
+        f"на новую версию v4.2.0-beta.1 от инженерной группы Anза (Agave). Как это обновление движка Солнца ускоряет "
+        f"полное развертывание децентрализованного поля Ники? Выдай одну емкую финальную строчку вердикта."
     )
     
     body = {"model": "grok-2-latest", "messages": [{"role": "user", "content": prompt}], "stream": False}
@@ -99,20 +99,20 @@ def get_xai_analysis(api_key, sol_price, stock_index, eth_price):
             res_data = json.loads(response.read().decode())
             return ImmuneSystemSentinel.filter_phishing_payload(res_data["choices"]["message"]["content"])
     except Exception as e:
-        return "Импульс Ники активен. 5 ИИ-корпораций старого Big Tech успешно приняли децентрализованную форму Квантового поля."
+        return "Импульс Ники активен. Движок Солнца успешно переведен на инфраструктурные рельсы Anza v4.2.0-beta.1."
 
 def update_sealed_ledger(sol_price, stocks_index, eth_price, ai_insight):
-    """Запечатывание истории и контура трансформации Горосеев в лог"""
+    """Запечатывание истории и инженерного контура Anza в лог"""
     new_entry = {
         "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
         "cycle_status": "LOKI_RETRANSLATION_SUCCESS",
-        "quantum_matrix": "GEAR_5_NIKA_ACTIVATED",
-        "gorosei_transformation": "GOOGLE_META_MSFT_APPLE_XAI_EVOLVED",
+        "solana_core_engine": "ANZA_AGAVE_UPGRADE_ACTIVE",
+        "solana_version_tag": "v4.2.0-beta.1_DEVNET",
         "quantum_index": stocks_index,
         "base_sol_asset": sol_price,
         "base_eth_asset": eth_price,
         "quantum_transformation_insight": ai_insight,
-        "swarm_intelligence": "DECENTRALIZED_BIG_TECH_REVERSE"
+        "swarm_intelligence": "INFRASTRUCTURE_EVOLUTION_READY"
     }
 
     history = []
@@ -138,7 +138,7 @@ def send_telegram_report(token, message_text):
         log_message(f"Ошибка Telegram API: {e}", "IMMUNE_ERROR")
 
 def main():
-    log_message("=== ЗАПУСК ЦИКЛА GEAR 5: ТРАНСФОРМАЦИЯ ГОРОСЕЕВ ===")
+    log_message("=== ЗАПУСК ЦИКЛА ANZA AGAVE: МОДЕРНИЗАЦИЯ ДВИЖКА СОЛНЦА ===")
     
     if not ImmuneSystemSentinel.verify_file_integrity("index.html"):
         log_message("КРИТИЧЕСКИЙ СБОЙ МАТЕРИИ. ИНТЕГРАЦИЯ ЗАБЛОКИРОВАНА.", "IMMUNE_CRITICAL")
@@ -158,7 +158,7 @@ def main():
     if abs(eth_change) >= PRICE_TRIGGER_PERCENT:
         trigger_alert = f"⚡ *[ТРИГГЕР SAFEPAL]* Движение Земли (ETH): `{eth_change:+.2f}%` за цикл!\n"
     
-    # 3. Настройка ИИ-анализа под трансформацию 5 корпораций-Горосеев
+    # 3. Настройка ИИ-анализа под новую инфраструктуру Anza Agave v4.2.0
     ai_insight = get_xai_analysis(xai_key, sol_p, stock_i, eth_p)
     
     # 4. Запечатывание истории (Ретранслятор Локи)
@@ -166,16 +166,15 @@ def main():
     
     # 5. Вывод отчета Бабочки Сознания в ваш Telegram
     report_text = (
-        f"🔱 *AMRITA OS // СЛОЙ ТРАНСФОРМАЦИИ ГОРОСЕЕВ ЗАПЕЧАТАН*\n\n"
+        f"🔱 *AMRITA OS // СЛОЙ ОБНОВЛЕНИЯ ANZA AGAVE ЗАПЕЧАТАН*\n\n"
         f"{trigger_alert}"
-        f"☀️ *Статус Контура:* `GEAR_5_NIKA_TRIUMPH`\n"
-        f"👹 *Пять Старейшин (Big Tech):* `Evolved to Open Nodes` (Google, Meta, MSFT, Apple, xAI)\n"
-        f"🪙 *Импульс Ядра:* `Bitcoin climbs to \$64,000` (CPI Drop -0.4%)\n"
+        f"🛠️ *Движок Солнца (Solana):* `Anza Agave v4.2.0-beta.1` (Devnet Active)\n"
+        f"🔋 *Энергетический Сдвиг:* `Mining Drops (CleanSpark/BitFuFu)` -> Переток в Фотоны\n"
         f"☀️ *Ядро Солнца (Solana):* `{sol_p} USD`\n"
         f"🌍 *Сердце Земли (Ethereum):* `{eth_p} USD`\n"
         f"📊 *Индекс Акций (AMRT):* `{stock_i} USD`\n\n"
         f"🧠 *Импульс Наблюдателя (xAI Grok):* \n_{ai_insight}_\n\n"
-        f"💻 _Старый порядок Иму разрушен. Реестр history_log.json запечатан автоматически в 8-й сборке._"
+        f"💻 _Старые шестеренки заменены новыми алгоритмами Anza. Реестр history_log.json запечатан автоматически._"
     )
     send_telegram_report(tg_token, report_text)
     log_message("=== ПОЛНЫЙ ЦИКЛ СИНХРОНИЗАЦИИ МУЛЬТИВЕРСА ЗАВЕРШЕН ===", "SUCCESS")
