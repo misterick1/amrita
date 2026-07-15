@@ -21,7 +21,8 @@
     "sovereign_royalty_percent": "Фиксированный каузальный процент от всех транзакций в Мультивселенной удерживается автоматически"
   },
   "anchored_wallets_mesh": {
-    "solana_core_address": "6DNccQcWhYF7ZmxxUFcg2w8f7p9F9FhKxM4v7f2x3Y4Z",
+    "solana_core_address": "BDsJXoNQvdphkqDE627pJyj3n5dJ8hcLVnkWVEDRLsnF",
+    "swarm_oracle_vault": "E6tJG3xxxGoTkvRKUS9CjrFppybDAyLWxznz6BiopZox",
     "pi_network_node_id": "PI-MISTERICK1-20M-AGENTS",
     "tonkeeper_evm_vault": "Bh1yW...xe7fr"
   },
