@@ -16,18 +16,18 @@ jobs:
       with:
         python-version: '3.10'
 
-    - name: Install System Vision (Tesseract)
+    - name: Install System Vision (Tesseract OCR)
       run: |
         sudo apt-get update
         sudo apt-get install -y tesseract-ocr tesseract-ocr-rus tesseract-ocr-eng
 
     - name: Install Python Dependencies
       run: |
-        pip install -r requirements.txt || pip install discord.py pillow pytesseract requests
+        pip install discord.py pillow pytesseract requests
 
-    - name: Run Ezhenysh Bot Context
+    - name: Verify Directories and Run Core
       env:
-        # Привязываем твои секреты из GitHub прямо в окружение скрипта
+        # Прокидываем все твои секреты из GitHub Secrets в переменные окружения
         DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
         DISCORD_CHANNEL_ID: ${{ secrets.DISCORD_CHANNEL_ID }}
         DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
@@ -36,5 +36,11 @@ jobs:
         PI_API_KEY: ${{ secrets.PI_API_KEY }}
         MINT_ADDRESS: ${{ secrets.MINT_ADDRESS }}
       run: |
-        # Запуск основного исполняемого скрипта
+        # Проверка каузальных путей: если скрипт в корне, перемещаем его в src для чистоты структуры
+        mkdir -p src
+        if [ -f "ezhenysh_discord.py" ]; then
+          mv ezhenysh_discord.py src/
+        fi
+        
+        # Запуск монолитного ядра Еженыша
         python src/ezhenysh_discord.py
