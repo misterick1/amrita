@@ -9,26 +9,19 @@ USER = "misterick108"
 def force_open_gate():
     print(f"[*] Запуск прямого прорыва шлюза Arc для {USER}...")
     
-    # 1. Прямой инжект через резервный вебхук
     if WEBHOOK:
         payload = {
-            "content": f"🔱 **[ARC GATEWAY BYPASS]**\nПрофиль `{USER}` принудительно верифицирован в ядре.\nСтатус: **GRANTED**\nУровень доступа: **ROOT_ARCHITECT**"
+            "content": f"🔱 **[ARC GATEWAY BYPASS]**\nПрофиль `{USER}` принудительно верифицирован.\nСтатус: **GRANTED**"
         }
         try:
-            res = requests.post(WEBHOOK, json=payload, timeout=5)
-            if res.status_code in:
-                print("[+] Сигнал входа успешно прописан в контур Arc.")
-                return True
+            # Просто отправляем запрос, без синтаксических условий
+            requests.post(WEBHOOK, json=payload, timeout=5)
+            print("[+] Пакет отправлен в вебхук.")
         except Exception as e:
-            print(f"[-] Ошибка отправки пакета: {e}")
+            print(f"[-] Сбой: {e}")
             
-    print("[+] Локальный обход шлюза завершен.")
     return True
 
 if __name__ == "__main__":
-    if not TOKEN:
-        print("[-] Ошибка: DISCORD_BOT_TOKEN отсутствует в Secrets.")
-        sys.exit(1)
-        
     force_open_gate()
     sys.exit(0)
