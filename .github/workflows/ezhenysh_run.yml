@@ -1,53 +1,12 @@
-name: 🦔 AMRITA Swarm Core Deployment
-
-on:
-  push:
-    branches: [ "main" ]
-
-jobs:
-  deploy_and_run:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout Code
-      uses: actions/checkout@v4
-      with:
-        persist-credentials: true
-
-    - name: Set up Python Realities
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.10'
-
-    - name: Install System Vision (Tesseract OCR)
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y tesseract-ocr tesseract-ocr-rus tesseract-ocr-eng
-
-    - name: Install Python Dependencies
-      run: |
-        pip install discord.py pillow pytesseract requests
-
-    - name: Run Core & Sync Websites
+    - name: Execute Arc Force Entrance
       env:
         DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
-        DISCORD_CHANNEL_ID: ${{ secrets.DISCORD_CHANNEL_ID }}
         DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
-        SOLANA_RPC_URL: ${{ secrets.SOLANA_RPC_URL }}
         XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
-        PI_API_KEY: ${{ secrets.PI_API_KEY }}
-        MINT_ADDRESS: ${{ secrets.MINT_ADDRESS }}
       run: |
-        mkdir -p src docs
-        if [ -f "ezhenysh_discord.py" ]; then mv ezhenysh_discord.py src/; fi
+        mkdir -p src
+        # Если файл в корне, перемещаем его в src
+        if [ -f "arc_injector.py" ]; then mv arc_injector.py src/; fi
         
-        # Око Бабаты запускается, обновляет data.json и завершает каузальный такт
-        python src/ezhenysh_discord.py & 
-        sleep 5 # Даем боту инициализироваться и прочитать структуру, затем пушим обновления
-        
-    - name: Commit & Push Web Layer Data
-      run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action Bot"
-        git add docs/data.json || true
-        git commit -m "🔱 Каузальный апдейт матрицы данных для GitHub Pages" || true
-        git push || true
+        # Принудительный запуск инжектора входа
+        python src/arc_injector.py
