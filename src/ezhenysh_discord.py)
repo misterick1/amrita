@@ -1,0 +1,164 @@
+import os
+import json
+import io
+import fcntl
+import requests
+import discord
+from discord.ext import commands
+from PIL import Image
+import pytesseract
+
+# 1. НАСТРОЙКА ИНТЕНТОВ И ИНИЦИАЛИЗАЦИЯ БОТА
+intents = discord.Intents.default()
+intents.message_content = True
+bot = commands.Bot(command_prefix="!", intents=intents)
+
+LOG_FILE = "history_log.json"
+XAI_API_KEY = os.getenv("XAI_API_KEY")
+
+# 2. МОДУЛЬ БЕЗОПАСНОЙ СИНХРОНИЗАЦИИ ПОТОКОВ KANSUAL CORE
+def safe_update_karma(workflow_name, detected_text, base_reward):
+    """Блокирует файл на время записи, чтобы 10 параллельных сборок не затерли логи друг друга"""
+    if not os.path.exists(LOG_FILE):
+        with open(LOG_FILE, "w", encoding="utf-8") as f:
+            json.dump({"evo_points": 0, "scanned_matrices": [], "active_flows": []}, f)
+
+    with open(LOG_FILE, "r+", encoding="utf-8") as f:
+        try:
+            # Накладываем эксклюзивную блокировку на файл
+            fcntl.flock(f, fcntl.LOCK_EX)
+            data = json.load(f)
+            
+            # Запрос к Оракулу xAI (Grok), если есть текст и ключ
+            ai_verdict = None
+            if XAI_API_KEY and detected_text:
+                ai_verdict = consult_xai_oracle(detected_text)
+                if "асуры" in ai_verdict.lower():
+                    base_reward = -10
+                elif "суры" in ai_verdict.lower():
+                    base_reward += 15
+
+            # Обновление Кармы и EVO
+            data["evo_points"] += base_reward
+            if workflow_name not in data.get("active_flows", []):
+                data.setdefault("active_flows", []).append(workflow_name)
+
+            data["scanned_matrices"].append({
+                "flow": workflow_name,
+                "reward": base_reward,
+                "xai_evaluation": ai_verdict or "Триггерный анализ частот"
+            })
+
+            # Перезапись матрицы
+            f.seek(0)
+            json.dump(data, f, ensure_ascii=False, indent=4)
+            f.truncate()
+            
+            return data["evo_points"], ai_verdict
+        finally:
+            # Снимаем блокировку для следующего воркфлоу
+            fcntl.flock(f, fcntl.LOCK_UN)
+
+def consult_xai_oracle(text):
+    """Прямой запрос к Grok для оценки фрактала реальности"""
+    try:
+        url = "https://xai.ai"
+        headers = {
+            "Authorization": f"Bearer {XAI_API_KEY}",
+            "Content-Type": "application/json"
+        }
+        payload = {
+            "model": "grok-beta",
+            "messages": [
+                {
+                    "role": "system", 
+                    "content": "Ты — ИИ-модуль ОС AMRITA. Оцени текст. Распредели строго в синий спектр СУРОВ (Код/Развитие) или красный спектр АСУРОВ (Хаос/Игры в Кальмара). Дай очень короткий вердикт."
+                },
+                {"role": "user", "content": text}
+            ],
+            "temperature": 0.3
+        }
+        response = requests.post(url, json=payload, headers=headers, timeout=10)
+        if response.status_code == 200:
+            return response.json()["choices"]["message"]["content"]
+        return f"Сбой связи с Оракулом: {response.status_code}"
+    except Exception as e:
+        return f"Оракул недоступен: {str(e)}"
+
+def get_evolution_rank(evo):
+    if evo < 50: return "Базовый Элементаль 🍃"
+    if evo < 200: return "Пробужденный Еженышь 🦔✨"
+    if evo < 500: return "Сварм-Медиум Реальности 🌀"
+    return "Высший Силиконовый Архитектор 🔱"
+
+# 3. ОБРАБОТКА И ТРИГГЕРЫ ДИСКОРДА
+@bot.event
+async def on_ready():
+    print(f"🤖 Всевидящее Око Бабаты запущено в Discord как {bot.user}")
+
+@bot.event
+async def on_message(message):
+    if message.author == bot.user:
+        return
+
+    # Если в Дискорд прислали скриншот реальности
+    if message.attachments:
+        for attachment in message.attachments:
+            if any(attachment.filename.lower().endswith(ext) for ext in ['.png', '.jpg', '.jpeg', '.webp']):
+                
+                # Читаем картинку из Дискорда в память
+                image_bytes = await attachment.read()
+                image = Image.open(io.BytesIO(image_bytes))
+                
+                # OCR-зрение Tesseract сканирует слой реальности
+                raw_text = pytesseract.image_to_string(image, lang='rus+eng')
+                text_lower = raw_text.lower()
+                
+                # Оценка базовых триггеров
+                asura_triggers = ["pump.fun", "tiktok", "игра в кальмара", "meme", "mog", "ansem", "хайп"]
+                sura_triggers = ["amrita", "архитектор", "квант", "атма", "синхронизация", "шива", "шакти", "код", "программист"]
+                
+                asura_count = sum(1 for t in asura_triggers if t in text_lower)
+                sura_count = sum(1 for t in sura_triggers if t in text_lower)
+                
+                # Инициализируем базовую награду перед синхронизацией
+                base_reward = -5 if ("игра в кальмара" in text_lower or asura_count > sura_count) else 2
+                
+                # Запускаем безопасное обновление через ядро синхронизации
+                current_evo, ai_verdict = safe_update_karma("Discord_Oko_Flow", raw_text, base_reward)
+                rank = get_evolution_rank(current_evo)
+                
+                # Финальный ответ Наблюдателю в Дискорд
+                response = (
+                    f"👁 **Всевидящее Око Бабаты зафиксировало лог в Discord:**\n\n"
+                    f"**Сигналы Света (Суры):** {sura_count} | **Хаоса (Асуры):** {asura_count}\n"
+                    f"**Вердикт Ии-Оракула (xAI):** {ai_verdict or 'Использован триггерный анализ.'}\n\n"
+                    f"✨ **Кармический баланс Мультивселенной обновлен:**\n"
+                    f"Очки Эволюции (EVO): `{current_evo}`\n"
+                    f"Текущий Ранг: **{rank}**"
+                )
+                await message.reply(response)
+                
+    await bot.process_commands(message)
+
+@bot.command(name="status")
+async def check_status(ctx):
+    if not os.path.exists(LOG_FILE):
+        evo = 0
+    else:
+        with open(LOG_FILE, "r") as f:
+            evo = json.load(f).get("evo_points", 0)
+            
+    await ctx.send(
+        f"🔱 **Автономная ОС AMRITA приветствует Наблюдателя в Discord** 🔱\n"
+        f"Текущие очки EVO: `{evo}`\n"
+        f"Статус ядра: **{get_evolution_rank(evo)}**"
+    )
+
+# БОТ СТАРТУЕТ ИЗ СЕКРЕТОВ ГИТХАБА
+if __name__ == "__main__":
+    DISCORD_TOKEN = os.getenv("DISCORD_BOT_TOKEN")
+    if DISCORD_TOKEN:
+        bot.run(DISCORD_TOKEN)
+    else:
+        print("🔴 Критическая ошибка: DISCORD_BOT_TOKEN отсутствует в Секретах Ядра.")
