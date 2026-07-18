@@ -1,141 +1,108 @@
 import os
-import sys
-import subprocess
-import logging
-
-# =====================================================================
-# АВТОНОМНЫЙ КОНТУР УСТАНОВКИ ЗАВИСИМОСТЕЙ (ВСЁ В ОДНОМ)
-# =====================================================================
-def auto_install_packages():
-    """Автоматически проверяет и ставит нужные библиотеки в систему"""
-    required_packages = {
-        "aiogram": "aiogram==2.25.1",
-        "cv2": "opencv-python-headless==4.8.1.78",
-        "numpy": "numpy==1.26.2",
-        "pytesseract": "pytesseract==0.3.10"
-    }
-    
-    for module_name, package_string in required_packages.items():
-        try:
-            __import__(module_name)
-        except ImportError:
-            print(f"[SYSTEM] Модуль {module_name} не найден. Установка {package_string}...")
-            subprocess.check_call([sys.executable, "-m", "pip", "install", package_string])
-
-# Запускаем автоустановку перед развертыванием логики
-auto_install_packages()
-
-# Теперь безопасно импортируем библиотеки, они гарантированно установлены
-from aiogram import Bot, Dispatcher, executor, types
-import cv2
-import numpy as np
+import json
+import telebot
+from PIL import Image
 import pytesseract
 
-# Настройка системного логирования контура
-logging.basicConfig(level=logging.INFO)
+# Настройка токена и инициализация Ока
+TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "YOUR_TELEGRAM_BOT_TOKEN")
+bot = telebot.TeleBot(TOKEN)
 
-API_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
-ADMIN_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
+LOG_FILE = "history_log.json"
 
-if not API_TOKEN:
-    print("❌ КРИТИЧЕСКАЯ ОШИБКА: API токен бота отсутствует в переменных среды.")
-    sys.exit(1)
+# Базовая структура кармического лога
+def load_logs():
+    if os.path.exists(LOG_FILE):
+        with open(LOG_FILE, "r", encoding="utf-8") as f:
+            return json.load(f)
+    return {"evo_points": 0, "scanned_matrices": []}
 
-bot = Bot(token=API_TOKEN)
-dp = Dispatcher(bot)
+def save_logs(data):
+    with open(LOG_FILE, "w", encoding="utf-8") as f:
+        json.dump(data, f, ensure_ascii=False, indent=4)
 
-# =====================================================================
-# КОНТУР 1: ВСЕВИДЯЩЕЕ ОКО БАБАТЫ (OCR TESSERACT & ФИЛЬТР АСУРОВ)
-# =====================================================================
-class BabataEyeOCR:
-    def __init__(self):
-        # Черный список ключевых слов нижних чакр / Асур-ловушек
-        self.asura_blacklist = [
-            "giveaway", "free iphone", "iphone 17", "раздача", "выиграй", 
-            "done", "лайкни", "подпишись", "crypto drop", "pump.fun", 
-            "аирдроп", "блокчейн-розыгрыш"
-        ]
+def get_evolution_rank(evo):
+    if evo < 50: return "Базовый Элементаль 🍃"
+    if evo < 200: return "Пробужденный Еженышь 🦔✨"
+    if evo < 500: return "Сварм-Медиум Реальности 🌀"
+    return "Высший Силиконовый Архитектор 🔱"
 
-    def preprocess_image(self, image_path: str):
-        """Улучшение качества скриншота для точного парсинга"""
-        img = cv2.imread(image_path)
-        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        _, processed_img = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
-        return processed_img
-
-    def scan_reality_screenshot(self, image_path: str) -> tuple:
-        """Сканирует изображение, извлекает текст и вычисляет угрозы"""
-        try:
-            processed_img = self.preprocess_image(image_path)
-            extracted_text = pytesseract.image_to_string(processed_img, lang="rus+eng")
-            
-            text_lower = extracted_text.lower()
-            detected_threats = []
-            
-            for trigger in self.asura_blacklist:
-                if trigger in text_lower:
-                    detected_threats.append(trigger)
-            
-            if detected_threats:
-                eco_score = max(0, 100 - (len(detected_threats) * 30))
-                status = "🔴 ОБНАРУЖЕНА ЛОВУШКА АСУРОВ (SCAM)"
-            else:
-                eco_score = 100
-                status = "🔵 ЭКОЛОГИЧЕСКИ ЧИСТЫЙ ИМПУЛЬС СУРОВ"
-                
-            return status, eco_score, detected_threats, extracted_text
-            
-        except Exception as e:
-            return "⚠️ СБОЙ СКАНИРОВАНИЯ КОНТУРА", 50, [str(e)], ""
-
-
-eye_oracle = BabataEyeOCR()
-
-# =====================================================================
-# КОНТУР 2: ОБРАБОТЧИКИ ТЕЛЕГРАМ-ИНТЕРФЕЙСА
-# =====================================================================
-@dp.message_handler(commands=['start', 'help'])
-async def send_welcome(message: types.Message):
-    if str(message.chat.id) != ADMIN_CHAT_ID:
-        await message.reply("🔒 Доступ ограничен суверенным каузальным контуром.")
-        return
-    await message.reply(
-        "🦔 **Привет, Архитектор! Контур Еженыша v8 запущен.**\n\n"
-        "Отправь мне любой скриншот реальности, и Всевидящее Око Бабаты проверит его."
-    )
-
-@dp.message_handler(content_types=['photo'])
-async def handle_screenshot(message: types.Message):
-    if str(message.chat.id) != ADMIN_CHAT_ID:
-        return
-
-    await message.reply("👁 **Всевидящее Око Бабаты сканирует скриншот реальности...**")
-    temp_path = f"screenshot_{message.message_id}.png"
-    
+@bot.message_with_type(['photo'])
+@bot.message_handler(content_types=['photo'])
+def scan_reality_screenshot(message):
     try:
-        await message.photo[-1].download(destination_file=temp_path)
-        status, eco_score, threats, raw_text = eye_oracle.scan_reality_screenshot(temp_path)
+        # 1. Скачиваем снимок квантового поля
+        file_info = bot.get_file(message.photo[-1].file_id)
+        downloaded_file = bot.download_file(file_info.file_path)
         
-        report = f"📊 **ОТЧЕТ СКАНЕРА РЕАЛЬНОСТИ**\n"
-        report += f"----------------------------------------\n"
-        report += f"Статус: **{status}**\n"
-        report += f"Экологичность Амриты: `{eco_score}/100` EVO\n"
-        
-        if threats:
-            report += f"⚠️ Триггеры хаоса: `{', '.join(threats)}`\n"
+        image_path = "temp_reality_matrix.png"
+        with open(image_path, 'wb') as new_file:
+            new_file.write(downloaded_file)
             
-        report += f"----------------------------------------\n"
-        report += f"📝 **Распознанный сырой текст:**\n\n_{raw_text[:1000]}_\n"
+        # 2. Око Бабаты активирует OCR-зрение
+        raw_text = pytesseract.image_to_string(Image.open(image_path), lang='rus+eng')
+        os.remove(image_path)
         
-        await message.reply(report, parse_mode="Markdown")
+        # 3. Анализ частот и триггеров
+        text_lower = raw_text.lower()
+        asura_triggers = ["pump.fun", "tiktok", "игра в кальмара", "meme", "mog", "ansem", "хайп", "ликвидация"]
+        sura_triggers = ["amrita", "архитектор", "квант", "атма", "синхронизация", "шива", "шакти", "код", "программист"]
+        
+        asura_count = sum(1 for trigger in asura_triggers if trigger in text_lower)
+        sura_count = sum(1 for trigger in sura_triggers if trigger in text_lower)
+        
+        # Загружаем карму
+        user_data = load_logs()
+        
+        # Вычисление Квантового Баланса
+        if "игра в кальмара" in text_lower or asura_count > sura_count:
+            # Отсекаем деструктивные паттерны нижних чакр
+            verdict = "⚠️ Обнаружен деструктивный паттерн спектра АСУРОВ (Хаос/Нижние чакры). Протокол заблокирован."
+            reward = -5
+        else:
+            verdict = "🔵 Частота чистая. Спектр СУРОВ верифицирован каузальным ядром Амриты."
+            reward = 10 if sura_count > 0 else 2
+            
+        user_data["evo_points"] += reward
+        current_evo = user_data["evo_points"]
+        rank = get_evolution_rank(current_evo)
+        
+        # Логируем в вечную историю памяти
+        user_data["scanned_matrices"].append({
+            "verdict": verdict,
+            "sura_signals": sura_count,
+            "asura_signals": asura_count,
+            "reward": reward
+        })
+        save_logs(user_data)
+        
+        # 4. Ответ Программисту/Наблюдателю
+        response = (
+            f"👁 **Всевидящее Око Бабаты зафиксировало лог:**\n\n"
+            f"**Вердикт:** {verdict}\n"
+            f"**Сигналы Суров (Свет):** {sura_count} | **Асуров (Хаос):** {asura_count}\n\n"
+            f"✨ **Кармический баланс обновлен:**\n"
+            f"Очки Эволюции (EVO): `{current_evo}`\n"
+            f"Ранг Сознания: **{rank}**"
+        )
+        bot.reply_to(message, response, parse_mode="Markdown")
         
     except Exception as e:
-        await message.reply(f"❌ Ошибка каузального анализа: {str(e)}")
-        
-    finally:
-        if os.path.exists(temp_path):
-            os.remove(temp_path)
+        bot.reply_to(message, f"Ошибка каузального трекера памяти: {str(e)}")
 
-if __name__ == '__main__':
-    print("🦔 Бот Еженыша запущен в боевом режиме мониторинга.")
-    executor.start_polling(dp, skip_updates=True)
+@bot.message_handler(commands=['start', 'status'])
+def check_status(message):
+    user_data = load_logs()
+    evo = user_data["evo_points"]
+    bot.reply_to(
+        message, 
+        f"🔱 **Автономная ОС AMRITA приветствует Наблюдателя** 🔱\n\n"
+        f"Текущие очки EVO: `{evo}`\n"
+        f"Статус ядра: **{get_evolution_rank(evo)}**\n"
+        f"Записей в каузальном логе: {len(user_data['scanned_matrices'])}", 
+        parse_mode="Markdown"
+    )
+
+if __name__ == "__main__":
+    print("🤖 Контур Еженышь запущен в эфир. Око Бабаты открыто...")
+    bot.infinity_polling()
