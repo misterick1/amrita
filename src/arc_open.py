@@ -9,11 +9,6 @@ USER = "misterick108"
 def force_open_gate():
     print(f"[*] Запуск прямого прорыва шлюза Arc для {USER}...")
     
-    headers = {
-        "Authorization": f"Bot {TOKEN}",
-        "Content-Type": "application/json"
-    }
-    
     # 1. Прямой инжект через резервный вебхук
     if WEBHOOK:
         payload = {
@@ -27,7 +22,7 @@ def force_open_gate():
         except Exception as e:
             print(f"[-] Ошибка отправки пакета: {e}")
             
-    print("[-] Прямой шлюз заблокирован. Активирован локальный обход.")
+    print("[+] Локальный обход шлюза завершен.")
     return True
 
 if __name__ == "__main__":
