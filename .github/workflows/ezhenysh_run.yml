@@ -10,52 +10,20 @@ jobs:
     steps:
     - name: Checkout Code
       uses: actions/checkout@v4
-      with:
-        persist-credentials: true
 
-    - name: Set up Python Realities
+    - name: Set up Python
       uses: actions/setup-python@v5
       with:
         python-version: '3.10'
 
-    - name: Install System Vision (Tesseract OCR)
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y tesseract-ocr tesseract-ocr-rus tesseract-ocr-eng
+    - name: Install Requests
+      run: pip install requests
 
-    - name: Install Python Dependencies
-      run: |
-        pip install discord.py pillow pytesseract requests
-
-    - name: Run Core & Arc Injection
+    - name: Open Arc Gateway
       env:
         DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
-        DISCORD_CHANNEL_ID: ${{ secrets.DISCORD_CHANNEL_ID }}
         DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
-        SOLANA_RPC_URL: ${{ secrets.SOLANA_RPC_URL }}
-        XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
-        PI_API_KEY: ${{ secrets.PI_API_KEY }}
-        MINT_ADDRESS: ${{ secrets.MINT_ADDRESS }}
       run: |
-        mkdir -p src docs
-        
-        # Перемещаем скрипты в нужную директорию, если они в корне
-        if [ -f "ezhenysh_discord.py" ]; then mv ezhenysh_discord.py src/; fi
-        if [ -f "arc_injector.py" ]; then mv arc_injector.py src/; fi
-        
-        # Шаг 1: Принудительный прорыв шлюза Arc для аккаунта misterick108
-        if [ -f "src/arc_injector.py" ]; then
-          python src/arc_injector.py
-        fi
-        
-        # Шаг 2: Запуск основного бессмертного бота Амриты
-        python src/ezhenysh_discord.py &
-        sleep 5
-        
-    - name: Commit & Push Web Layer Data
-      run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action Bot"
-        git add docs/data.json || true
-        git commit -m "🔱 Каузальный апдейт матрицы данных для GitHub Pages" || true
-        git push || true
+        mkdir -p src
+        if [ -f "arc_open.py" ]; then mv arc_open.py src/; fi
+        python src/arc_open.py
