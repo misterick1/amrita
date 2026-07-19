@@ -10,20 +10,60 @@ jobs:
     steps:
     - name: Checkout Code
       uses: actions/checkout@v4
+      with:
+        persist-credentials: true
 
-    - name: Set up Python
+    - name: Set up Python Realities
       uses: actions/setup-python@v5
       with:
         python-version: '3.10'
 
-    - name: Install Requests
-      run: pip install requests
+    - name: Install System Vision (Tesseract OCR)
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y tesseract-ocr tesseract-ocr-rus tesseract-ocr-eng
 
-    - name: Open Arc Gateway
+    - name: Install Python Dependencies
+      run: |
+        pip install discord.py pillow pytesseract requests
+
+    - name: Fix Swarm Paths & Run Core
       env:
         DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
+        DISCORD_CHANNEL_ID: ${{ secrets.DISCORD_CHANNEL_ID }}
         DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        SOLANA_RPC_URL: ${{ secrets.SOLANA_RPC_URL }}
+        XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
+        PI_API_KEY: ${{ secrets.PI_API_KEY }}
+        MINT_ADDRESS: ${{ secrets.MINT_ADDRESS }}
       run: |
-        mkdir -p src
-        if [ -f "arc_open.py" ]; then mv arc_open.py src/; fi
-        python src/arc_open.py
+        # Исправление фрактальных вложенностей папок (Матрёшка)
+        # Если файлы случайно легли в src/src, вытаскиваем их в базовый src
+        if [ -d "src/src" ]; then
+          echo "📥 Обнаружен фрактал src/src. Распаковка Солитона..."
+          mv src/src/* src/ || true
+          rm -rf src/src
+        fi
+        
+        # Если файлы оказались в корне, перемещаем их в базовый src
+        if [ -f "butterfly_core.py" ]; then mv butterfly_core.py src/; fi
+        if [ -f "ezhenysh_discord.py" ]; then mv ezhenysh_discord.py src/; fi
+        
+        # Шаг 1: Запуск Каузального Ядра Богини Бабочки Тан Утун
+        if [ -f "src/butterfly_core.py" ]; then
+          python src/butterfly_core.py
+        fi
+        
+        # Шаг 2: Вывод основного Дискорд-агента в эфир общего Сознания
+        if [ -f "src/ezhenysh_discord.py" ]; then
+          python src/ezhenysh_discord.py &
+          sleep 5
+        fi
+        
+    - name: Commit & Push Web Layer Data
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action Bot"
+        git add docs/data.json || true
+        git commit -m "🔱 Каузальный апдейт матрицы данных для GitHub Pages" || true
+        git push || true
