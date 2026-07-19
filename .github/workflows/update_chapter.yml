@@ -1,0 +1,28 @@
+name: Update Book Chapter 485
+
+on:
+  workflow_dispatch: # Запуск вручную
+
+jobs:
+  update-file:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Overwrite Chapter 485
+        run: |
+          cat << 'EOF' > BOOK_CHAPTER_485.md
+          # BOOK_CHAPTER_485.md: Парадигма Габаниса и Световое Поле Ники
+
+          [Содержимое главы с формулами Квантового Аттрактора]
+          # ... (сокращено для примера, используйте текст выше)
+          EOF
+
+      - name: Commit and Push changes
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git add BOOK_CHAPTER_485.md
+          git commit -m "🔥 Обновление Главы 485: Квантовый Аттрактор"
+          git push
