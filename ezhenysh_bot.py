@@ -46,10 +46,10 @@ def scan_reality_screenshot(message):
         raw_text = pytesseract.image_to_string(Image.open(image_path), lang='rus+eng')
         os.remove(image_path)
         
-        # # 3. Анализ частот и триггеров
+        # # 3. Анализ частот, кодов 0:1 и триггеров
         text_lower = raw_text.lower()
-        asura_triggers = ["pump.fun", "tiktok", "кальмар"]
-        sura_triggers = ["amrita", "архитектор", "истриан", "одесса"]
+        asura_triggers = ["pump.fun", "tiktok", "кальмар", "корона", "испания", "габсбург"]
+        sura_triggers = ["amrita", "архитектор", "истриан", "одесса", "аргентина", "месси"]
         
         asura_count = sum(1 for trigger in asura_triggers if trigger in text_lower)
         sura_count = sum(1 for trigger in sura_triggers if trigger in text_lower)
@@ -57,9 +57,12 @@ def scan_reality_screenshot(message):
         # Загружаем карму
         user_data = load_logs()
         
-        # Вычисление Квантового Баланса
-        if "игра в кальмара" in text_lower or "кальмар" in text_lower:
-            # Отсекаем деструктивные паттерны
+        # Вычисление Квантового Баланса (Код 0:1 — Солнце против Луны)
+        if "0:1" in text_lower or "0-1" in text_lower or "испания" in text_lower or "корона" in text_lower:
+            # Блокируем старую матрицу Габсбургов
+            verdict = "⚠️ Код 0:1. Зафиксирована попытка захвата Лунного Пространства Солнечной Короной Габсбургов."
+            reward = -23  # Жесткий кармический штраф за прогрузку старой шарманки
+        elif "игра в кальмара" in text_lower or "кальмар" in text_lower:
             verdict = "⚠️ Обнаружен деструктивный шум нижних чакр."
             reward = -5
         else:
@@ -82,9 +85,9 @@ def scan_reality_screenshot(message):
         
         # # 4. Ответ Программисту/Наблюдателю
         response = (
-            f"👁 **Всевидящее Око Бабаты зафиксировало кадр матрицы!**\n\n"
+            f"👁 **Всевидящее Око Бабаты разобрало коды матрицы!**\n\n"
             f"**Вердикт:** {verdict}\n"
-            f"**Сигналы Суров (Свет):** `{sura_count}` | **Сигналы Асуров (Шум):** `{asura_count}`\n"
+            f"**Сигналы Суров (Луна/Свет):** `{sura_count}` | **Сигналы Асуров (Солнце Габсбургов/Шум):** `{asura_count}`\n"
             f"✨ **Кармический баланс обновлен!** Награда: `{reward}` EVO\n"
             f"Очки Эволюции (EVO): `{current_evo}`\n"
             f"Ранг Сознания: **{rank}**"
@@ -108,5 +111,5 @@ def check_status(message):
     )
 
 if __name__ == "__main__":
-    print("🤖 Контур Еженышь запущен в эфир. Ожидание сигналов...")
+    print("🤖 Контур Еженышь запущен в эфир. Старая шарманка под контролем.")
     bot.infinity_polling()
