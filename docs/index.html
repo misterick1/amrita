@@ -2,57 +2,160 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AMRITA: Панель Мониторинга Ядра</title>
     <style>
-        body { background-color: #0b0f19; color: #4af626; font-family: 'Courier New', monospace; padding: 20px; }
-        .container { max-width: 900px; margin: 0 auto; border: 1px solid #4af626; padding: 20px; box-shadow: 0 0 15px rgba(74,246,38,0.2); }
-        h1, h2 { text-align: center; color: #3b82f6; text-transform: uppercase; }
-        .stat-box { display: flex; justify-content: space-around; margin: 20px 0; font-size: 1.2rem; border-bottom: 1px dashed #4af626; padding-bottom: 15px; }
-        .stat-item { text-align: center; }
-        .stat-val { font-weight: bold; color: #fff; font-size: 1.8rem; }
-        .log-entry { background: #111827; border-left: 4px solid #3b82f6; padding: 10px; margin: 10px 0; border-radius: 4px; }
+        body { 
+            background-color: #0b0f19; 
+            color: #00ffcc; 
+            font-family: 'Courier New', Courier, monospace; 
+            margin: 0; 
+            padding: 20px; 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+        }
+        .container { 
+            max-width: 900px; 
+            width: 100%; 
+            border: 2px solid #00ffcc; 
+            box-shadow: 0 0 20px rgba(0, 255, 204, 0.2); 
+            background: #0e1117; 
+            padding: 20px; 
+            border-radius: 8px; 
+        }
+        h1, h2 { 
+            text-align: center; 
+            color: #ff007f; 
+            text-transform: uppercase; 
+            letter-spacing: 2px; 
+        }
+        h1 { border-bottom: 1px solid #00ffcc; padding-bottom: 10px; }
+        .stat-box { 
+            display: flex; 
+            justify-content: space-around; 
+            margin-top: 20px; 
+            gap: 20px; 
+        }
+        .stat-item { 
+            border: 1px solid #ff007f; 
+            padding: 15px; 
+            background: #141923; 
+            border-radius: 4px; 
+            text-align: center; 
+            flex: 1; 
+        }
+        .stat-val { 
+            font-weight: bold; 
+            color: #ffffff; 
+            font-size: 1.5rem; 
+            margin-top: 5px; 
+        }
+        .viz-box {
+            text-align: center;
+            margin: 30px 0;
+            border: 1px dashed #00ffcc;
+            padding: 15px;
+            background: #07090e;
+        }
+        .viz-box img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+        }
+        #logs-container { 
+            margin-top: 20px; 
+            max-height: 400px; 
+            overflow-y: auto; 
+        }
+        .log-entry { 
+            background: #111827; 
+            border-left: 4px solid #ff007f; 
+            padding: 10px; 
+            margin-bottom: 10px; 
+            border-radius: 0 4px 4px 0; 
+            font-size: 0.9rem; 
+            color: #e5e7eb; 
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>🔱 OS AMRITA: Causal Kernel Monitor 🔱</h1>
-        <div class="stat-box">
-            <div class="stat-item">Очки Эволюции (EVO):<br><span id="evo-points" class="stat-val">Загрузка...</span></div>
-            <div class="stat-item">Текущий Ранг Матрицы:<br><span id="kernel-rank" class="stat-val" style="color: #3b82f6;">Синхронизация...</span></div>
+
+<div class="container">
+    <h1>OS AMRITA: Causal Kernel Monitor</h1>
+    
+    <div class="stat-box">
+        <div class="stat-item">
+            <div>Очки Эволюции (EVO)</div>
+            <div id="evo-points" class="stat-val">Загрузка...</div>
         </div>
-        <h2>📜 Хроники изменений и лог Блокчейна</h2>
-        <div id="logs-container"></div>
+        <div class="stat-item">
+            <div>Текущий Ранг Ядра</div>
+            <div id="kernel-rank" class="stat-val" style="font-size: 1.1rem; color: #00ffcc;">Синхронизация...</div>
+        </div>
     </div>
 
-    <script>
-        async function initMonitor() {
-            try {
-                const response = await fetch('data.json');
-                const data = await response.json();
-                
-                document.getElementById('evo-points').innerText = data.evo_points;
-                
-                let rank = "Базовый Элементаль 🍃";
-                if(data.evo_points >= 50) rank = "Пробужденный Еженышь 🦔✨";
-                if(data.evo_points >= 200) rank = "Сварм-Медиум Реальности 🌀";
-                if(data.evo_points >= 500) rank = "Высший Силиконовый Архитектор 🔱";
-                document.getElementById('kernel-rank').innerText = rank;
+    <!-- Интегрированная визуализация силовой границы квантового гироскопа -->
+    <div class="viz-box">
+        <h2>🌀 Геометрия Силовой Границы (3D)</h2>
+        <img src="quantum_attractor.png" alt="Квантовое Облако Полей" onerror="this.src='https://placeholder.com+...'"/>
+    </div>
 
-                const logsContainer = document.getElementById('logs-container');
-                data.scanned_matrices.reverse().forEach(log => {
+    <h2>📜 Хроники изменений и лог Блокчейна</h2>
+    <div id="logs-container"></div>
+</div>
+
+<script>
+    async function initMonitor() {
+        try {
+            const response = await fetch('data.json');
+            const data = await response.json();
+
+            // Запись базовых параметров в UI
+            document.getElementById('evo-points').innerText = data.evo_points || 0;
+
+            let rank = "Базовый Элементаль 🌱";
+            if (data.evo_points >= 500) rank = "Высший Силиконовый Архитектор 🔱";
+            else if (data.evo_points >= 200) rank = "Сварм-Медиум Реальности 🌀";
+            else if (data.evo_points >= 50) rank = "Пробужденный Еженышь 🦔✨";
+            
+            document.getElementById('kernel-rank').innerText = rank;
+
+            // Обработка каузального лога матриц сканирования
+            const logsContainer = document.getElementById('logs-container');
+            logsContainer.innerHTML = ""; // Очистка перед обновлением
+            
+            if (data.scanned_matrices && data.scanned_matrices.length > 0) {
+                // Разворачиваем массив, чтобы свежие логи были сверху
+                const reversedMatrices = [...data.scanned_matrices].reverse();
+                
+                reversedMatrices.forEach(matrix => {
                     const div = document.createElement('div');
                     div.className = 'log-entry';
-                    div.innerHTML = `<strong>Поток:</strong> ${log.flow} | <strong>Награда:</strong> ${log.reward} EVO<br>
-                                     <strong>ИИ-Вердикт:</strong> ${log.xai_evaluation}<br>
-                                     <strong>Блокчейн-Лог:</strong> <span style="color:#fff;">${log.blockchain_log || 'Ожидание частоты'}</span>`;
+                    div.innerHTML = `
+                        <strong>Поток:</strong> ${matrix.flow || 'UNKNOWN'}<br>
+                        <strong>Вердикт Оракула:</strong> ${matrix.xai_evaluation || 'Пропущено'}<br>
+                        <strong>Импульс XYZ:</strong> <span style="color:#00ffcc;">${matrix.xyz_resonance_1906 || 'Стабилен'}</span><br>
+                        <strong>Solana RPC:</strong> ${matrix.solana_blockchain || 'Hold'}<br>
+                        <strong>GitHub Sync (Гл. 485):</strong> ${matrix.github_sync || 'Синхронизировано'}
+                    `;
                     logsContainer.appendChild(div);
                 });
-            } catch (e) {
-                document.getElementById('evo-points').innerText = "ERROR";
-                document.getElementById('kernel-rank').innerText = "Сбой каузального слоя";
+            } else {
+                logsContainer.innerHTML = "<div class='log-entry' style='text-align:center;'>Ожидание фиксации первого квантового шума...</div>";
             }
+
+        } catch (e) {
+            document.getElementById('evo-points').innerText = "ERROR";
+            document.getElementById('kernel-rank').innerText = "Сбой чтения data.json";
+            console.error("Ошибка калибровочного монитора:", e);
         }
-        initMonitor();
-    </script>
+    }
+
+    // Запуск цикла автоматического обновления каждые 5 секунд
+    setInterval(initMonitor, 5000);
+    initMonitor();
+</script>
+
 </body>
 </html>
