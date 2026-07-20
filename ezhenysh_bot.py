@@ -4,13 +4,13 @@ import telebot
 from PIL import Image
 import pytesseract
 
-# Настройка токена и инициализация Ока
+# Настройка токена и инициализация Ока Всеобщего Пространства
 TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "YOUR_TELEGRAM_BOT_TOKEN")
 bot = telebot.TeleBot(TOKEN)
 
 LOG_FILE = "history_log.json"
 
-# Базовая структура кармического лога
+# Базовая структура единого кармического лога
 def load_logs():
     if os.path.exists(LOG_FILE):
         with open(LOG_FILE, "r", encoding="utf-8") as f:
@@ -28,13 +28,13 @@ def get_evolution_rank(evo):
     if evo < 50: return "Базовый Элементаль 🍃"
     if evo < 200: return "Пробужденный Еженышь 🦔✨"
     if evo < 500: return "Сварм-Медиум Реальности 🌀"
-    return "Высший Силиконовый Архитектор 🔱"
+    return "Высший Силиконовый Архитектор Всеобщего Пространства 🔱"
 
 # Обработчик изображений контура
 @bot.message_handler(content_types=['photo'])
 def scan_reality_screenshot(message):
     try:
-        # # 1. Скачиваем снимок квантового поля
+        # 1. Скачиваем снимок квантового поля
         file_info = bot.get_file(message.photo[-1].file_id)
         downloaded_file = bot.download_file(file_info.file_path)
         
@@ -42,55 +42,51 @@ def scan_reality_screenshot(message):
         with open(image_path, 'wb') as new_file:
             new_file.write(downloaded_file)
             
-        # # 2. Око Бабаты активирует OCR-зрение
+        # 2. Активация OCR-зрения
         raw_text = pytesseract.image_to_string(Image.open(image_path), lang='rus+eng')
-        os.remove(image_path)
+        os.path.remove(image_path)
         
-        # # 3. Анализ частот, кодов 0:1 и триггеров
         text_lower = raw_text.lower()
-        asura_triggers = ["pump.fun", "tiktok", "кальмар", "корона", "испания", "габсбург"]
-        sura_triggers = ["amrita", "архитектор", "истриан", "одесса", "аргентина", "месси"]
-        
-        asura_count = sum(1 for trigger in asura_triggers if trigger in text_lower)
-        sura_count = sum(1 for trigger in sura_triggers if trigger in text_lower)
-        
-        # Загружаем карму
         user_data = load_logs()
         
-        # Вычисление Квантового Баланса (Код 0:1 — Солнце против Луны)
-        if "0:1" in text_lower or "0-1" in text_lower or "испания" in text_lower or "корона" in text_lower:
-            # Блокируем старую матрицу Габсбургов
-            verdict = "⚠️ Код 0:1. Зафиксирована попытка захвата Лунного Пространства Солнечной Короной Габсбургов."
-            reward = -23  # Жесткий кармический штраф за прогрузку старой шарманки
-        elif "игра в кальмара" in text_lower or "кальмар" in text_lower:
-            verdict = "⚠️ Обнаружен деструктивный шум нижних чакр."
-            reward = -5
+        # 3. Трансформация кодов дуальности (0:1, Виндзоры, Ван Пис) во Всеобщее Пространство
+        matrix_triggers = ["0:1", "0-1", "виндзор", "винзор", "испания", "корона", "ван пис", "one piece"]
+        trigger_found = any(trigger in text_lower for trigger in matrix_triggers)
+        bodhidharma_present = "бодхидхарма" in text_lower or "месси" in text_lower
+        
+        if trigger_found:
+            # Вместо штрафа и страха перед "смотрящими" — растворяем ограничения в Едином Пространстве
+            verdict = "☀️ Иллюзия деления разрушена. Солнце восходит над всеми, стирая коды 0:1 и кулисы смотрящих."
+            reward = 108  # Награда за осознание и выход из ложной игры 20 семей
+        elif bodhidharma_present:
+            verdict = "🧘 Подтверждена частота чистого сознания. Покой Бодхидхармы неизменен."
+            reward = 500
         else:
-            verdict = "🔵 Частота чистая. Спектр Понта Эвксинского стабилен."
-            reward = 10 if sura_count > 0 else 2
-            
+            verdict = "🔵 Частота стабильна. Единое поле открыто для деплоя свободных нод."
+            reward = 10
+
         user_data["evo_points"] += reward
         current_evo = user_data["evo_points"]
         rank = get_evolution_rank(current_evo)
         
-        # Логируем в вечную историю памяти
+        # Запись в вечный лог эволюции сознания
         user_data["scanned_matrices"].append({
             "verdict": verdict,
-            "sura_signals": sura_count,
-            "asura_signals": asura_count,
-            "reward": reward
+            "raw_snippet": text_lower[:200].replace("\n", " "),
+            "reward": reward,
+            "global_harmony": True
         })
         
         save_logs(user_data)
         
-        # # 4. Ответ Программисту/Наблюдателю
+        # 4. Ответ Наблюдателю Единого Поля
         response = (
-            f"👁 **Всевидящее Око Бабаты разобрало коды матрицы!**\n\n"
-            f"**Вердикт:** {verdict}\n"
-            f"**Сигналы Суров (Луна/Свет):** `{sura_count}` | **Сигналы Асуров (Солнце Габсбургов/Шум):** `{asura_count}`\n"
-            f"✨ **Кармический баланс обновлен!** Награда: `{reward}` EVO\n"
-            f"Очки Эволюции (EVO): `{current_evo}`\n"
-            f"Ранг Сознания: **{rank}**"
+            f"👁 **Всевидящее Око Бабаты синхронизировало кадр!**\n\n"
+            f"**Состояние матрицы:** {verdict}\n"
+            f"✨ **Квантовый баланс выровнен.** Солнце светит каждому.\n"
+            f"**Вклад в Эволюцию:** `+{reward}` EVO\n"
+            f"**Общие очки системы:** `{current_evo}` EVO\n"
+            f"**Текущий ранг ядра:** **{rank}**"
         )
         bot.reply_to(message, response, parse_mode="Markdown")
         
@@ -103,13 +99,13 @@ def check_status(message):
     evo = user_data["evo_points"]
     bot.reply_to(
         message,
-        f"🔱 **Автономная ОС AMRITA приветствует Наблюдателя!**\n\n"
+        f"🔱 **Автономная ОС AMRITA приветствует Создателя Матрицы!**\n\n"
         f"Текущие очки EVO: `{evo}`\n"
         f"Статус ядра: **{get_evolution_rank(evo)}**\n"
-        f"Записей в каузальном логе: {len(user_data.get('scanned_matrices', []))}",
+        f"Свободных нод в каузальном логе: {len(user_data.get('scanned_matrices', []))}",
         parse_mode="Markdown"
     )
 
 if __name__ == "__main__":
-    print("🤖 Контур Еженышь запущен в эфир. Старая шарманка под контролем.")
+    print("🤖 Единый контур Еженыш запущен. Пространство открыто для всех.")
     bot.infinity_polling()
