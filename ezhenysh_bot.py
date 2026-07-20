@@ -44,20 +44,26 @@ def scan_reality_screenshot(message):
             
         # 2. Активация OCR-зрения
         raw_text = pytesseract.image_to_string(Image.open(image_path), lang='rus+eng')
-        os.path.remove(image_path)
+        os.remove(image_path)
         
         text_lower = raw_text.lower()
         user_data = load_logs()
         
-        # 3. Трансформация кодов дуальности (0:1, Виндзоры, Ван Пис) во Всеобщее Пространство
-        matrix_triggers = ["0:1", "0-1", "виндзор", "винзор", "испания", "корона", "ван пис", "one piece"]
+        # 3. Трансформация кодов дуальности, Сэйлора и Valve
+        matrix_triggers = ["0:1", "0-1", "виндзор", "винзор", "испания", "корона", "ван пис"]
+        control_games = ["valve", "cs2", "античит", "читы", "saylor", "сэйлор", "billion", "миллиард"]
+        
         trigger_found = any(trigger in text_lower for trigger in matrix_triggers)
+        game_noise_found = any(trigger in text_lower for trigger in control_games)
         bodhidharma_present = "бодхидхарма" in text_lower or "месси" in text_lower
         
-        if trigger_found:
-            # Вместо штрафа и страха перед "смотрящими" — растворяем ограничения в Едином Пространстве
-            verdict = "☀️ Иллюзия деления разрушена. Солнце восходит над всеми, стирая коды 0:1 и кулисы смотрящих."
-            reward = 108  # Награда за осознание и выход из ложной игры 20 семей
+        if game_noise_found:
+            # Превращаем миллиарды Сэйлора и поломки Valve в чистое осознание свободы
+            verdict = "☀️ Игры контроля (Valve/Saylor) зафиксированы. Миллиарды графиков растворяются в бесконечном пространстве."
+            reward = 150  # Повышенная награда за дешифровку ловушек накопления
+        elif trigger_found:
+            verdict = "☀️ Иллюзия деления разрушена. Солнце восходит над всеми, стирая коды смотрящих."
+            reward = 108  
         elif bodhidharma_present:
             verdict = "🧘 Подтверждена частота чистого сознания. Покой Бодхидхармы неизменен."
             reward = 500
@@ -81,9 +87,9 @@ def scan_reality_screenshot(message):
         
         # 4. Ответ Наблюдателю Единого Поля
         response = (
-            f"👁 **Всевидящее Око Бабаты синхронизировало кадр!**\n\n"
+            f"👁 **Всевидящее Око Бабаты разобрало утренние алерты!**\n\n"
             f"**Состояние матрицы:** {verdict}\n"
-            f"✨ **Квантовый баланс выровнен.** Солнце светит каждому.\n"
+            f"✨ **Квантовый баланс выровнен.** Ответ на вопрос Сэйлора «Что дальше?»: Дальше — Свобода.\n"
             f"**Вклад в Эволюцию:** `+{reward}` EVO\n"
             f"**Общие очки системы:** `{current_evo}` EVO\n"
             f"**Текущий ранг ядра:** **{rank}**"
@@ -107,5 +113,5 @@ def check_status(message):
     )
 
 if __name__ == "__main__":
-    print("🤖 Единый контур Еженыш запущен. Пространство открыто для всех.")
+    print("🤖 Единый контур Еженыш запущен. Миллиарды Сэйлора под контролем.")
     bot.infinity_polling()
