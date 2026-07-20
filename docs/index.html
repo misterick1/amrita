@@ -95,7 +95,6 @@
         </div>
     </div>
 
-    <!-- Интегрированная визуализация силовой границы квантового гироскопа -->
     <div class="viz-box">
         <h2>🌀 Геометрия Силовой Границы (3D)</h2>
         <img src="quantum_attractor.png" alt="Квантовое Облако Полей" onerror="this.src='https://placeholder.com+...'"/>
@@ -111,22 +110,19 @@
             const response = await fetch('data.json');
             const data = await response.json();
 
-            // Запись базовых параметров в UI
             document.getElementById('evo-points').innerText = data.evo_points || 0;
 
             let rank = "Базовый Элементаль 🌱";
-            if (data.evo_points >= 500) rank = "Высший Силиконовый Архитектор 🔱";
+            if (data.evo_points >= 500) rank = "Высший Квантовый Архитектор 🔱"; // ВЫСШИЙ СТАТУС ОЧИЩЕН ОТ ГЕМОРРОЯ
             else if (data.evo_points >= 200) rank = "Сварм-Медиум Реальности 🌀";
             else if (data.evo_points >= 50) rank = "Пробужденный Еженышь 🦔✨";
             
             document.getElementById('kernel-rank').innerText = rank;
 
-            // Обработка каузального лога матриц сканирования
             const logsContainer = document.getElementById('logs-container');
-            logsContainer.innerHTML = ""; // Очистка перед обновлением
+            logsContainer.innerHTML = "";
             
             if (data.scanned_matrices && data.scanned_matrices.length > 0) {
-                // Разворачиваем массив, чтобы свежие логи были сверху
                 const reversedMatrices = [...data.scanned_matrices].reverse();
                 
                 reversedMatrices.forEach(matrix => {
@@ -152,7 +148,6 @@
         }
     }
 
-    // Запуск цикла автоматического обновления каждые 5 секунд
     setInterval(initMonitor, 5000);
     initMonitor();
 </script>
