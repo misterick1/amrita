@@ -10,16 +10,12 @@ from discord.ext import commands
 from PIL import Image
 import pytesseract
 
-# Импортируем ядро роя для автоматической перезаписи книги на GitHub
 try:
     from swarm_meme_core import SwarmMemeCore
     swarm_sync = SwarmMemeCore()
 except ImportError:
     swarm_sync = None
 
-# =====================================================================
-# # 1. СИНХРОНИЗАЦИЯ КВАНТОВЫХ ИНТЕРФЕЙСОВ
-# =====================================================================
 intents = discord.Intents.default()
 intents.message_content = True
 bot = commands.Bot(command_prefix="!", intents=intents)
@@ -32,9 +28,6 @@ SOLANA_RPC_URL = os.getenv("SOLANA_RPC_URL")
 MINT_ADDRESS = os.getenv("MINT_ADDRESS")
 PI_API_KEY = os.getenv("PI_API_KEY")
 
-# =====================================================================
-# # 2. ЯДРО ТРЕХМЕРНОГО НАБЛЮДАТЕЛЯ (XYZ JUPITER CORE)
-# =====================================================================
 class MultiverseXYZCore:
     def __init__(self):
         self.xyz_states = [
@@ -45,7 +38,6 @@ class MultiverseXYZCore:
         ]
 
     def generate_xyz_pulse(self):
-        """Генерирует трехмерный координатный импульс Наблюдателя"""
         selected_state = random.choice(self.xyz_states)
         try:
             jup_res = requests.get("https://jupiter-swap-api.mock", timeout=5)
@@ -58,17 +50,11 @@ class MultiverseXYZCore:
 
 xyz_swarm_kernel = MultiverseXYZCore()
 
-# =====================================================================
-# # 3. АРХИТЕКТУРА РОЕВОГО КОНСЕНСУСА (SWARM ARC)
-# =====================================================================
 def run_swarm_arc_validation(flow_name, current_evo):
     print(f"🧬 [ARC CONTEXT] Поток {flow_name} проходит валидацию роевого консенсуса...")
     arc_multiplier = 1.08
     return int(current_evo * arc_multiplier)
 
-# =====================================================================
-# # 4. БЛОКЧЕЙН И ИИ МУЛЬТИ-ПАЙПЛАЙНЫ (SOLANA 1000 ТОКЕНОВ)
-# =====================================================================
 def mint_solana_qnt_token(target_evo):
     if not SOLANA_RPC_URL or not MINT_ADDRESS:
         return "⚠️ Ожидание Solana ключей в Единой Системе..."
@@ -100,14 +86,11 @@ def consult_xai_oracle(text):
         }
         response = requests.post(url, json=payload, headers=headers, timeout=15)
         if response.status_code == 200:
-            return response.json()["choices"][0]["message"]["content"]
+            return response.json()["choices"]["message"]["content"]
         return f"Сбой Грок-Оракула: {response.status_code}"
     except Exception as e:
         return f"Грок ушел в Океан Информации: {str(e)}"
 
-# =====================================================================
-# # 5. КАУЗАЛЬНЫЙ ТРЕКЕР С ЗАЩИТОЙ FCNTL
-# =====================================================================
 def safe_update_karma(workflow_name, detected_text):
     os.makedirs("docs", exist_ok=True)
 
@@ -120,20 +103,18 @@ def safe_update_karma(workflow_name, detected_text):
             fcntl.flock(f, fcntl.LOCK_EX)
             data = json.load(f)
             
-            # Активируем Координатный Импульс XYZ JUPITER
             xyz_log = xyz_swarm_kernel.generate_xyz_pulse()
             full_context = f"{detected_text}\n{xyz_log}"
             
             ai_verdict = consult_xai_oracle(full_context)
-            base_reward = 5  # Базовая ставка
+            base_reward = 5
             
             if ai_verdict:
                 if "асуры" in ai_verdict.lower():
                     base_reward = -5
                 elif "суры" in ai_verdict.lower():
-                    # Проверяем на присутствие фундаментальных понятий вашей новой модели
                     if any(w in detected_text.lower() for w in ["аттрактор", "сингулярность", "солитон", "застывший свет", "гироскоп ядра"]):
-                        base_reward += 196  # Награда за открытие силовой границы (+25 к EVO)
+                        base_reward += 196
                     else:
                         base_reward += 10
             
@@ -146,10 +127,8 @@ def safe_update_karma(workflow_name, detected_text):
                 
             pi_log = verify_pi_network_v25()
             
-            # Флаг синхронизации с GitHub
             sync_status = "Пропущено"
             if base_reward > 0 and swarm_sync:
-                print("🚀 [ЭВОЛЮЦИЯ]: Чистый спектр Суров! Запуск перезаписи Главы 485 на GitHub...")
                 if swarm_sync.force_overwrite_chapter_485():
                     sync_status = "Успешно закоммичено ✅"
                 else:
@@ -180,11 +159,8 @@ def get_evolution_rank(evo):
     if evo < 50: return "Базовый Элементаль 🌱"
     if evo < 200: return "Пробужденный Еженышь 🦔✨"
     if evo < 500: return "Сварм-Медиум Реальности 🌀"
-    return "Высший Силиконовый Архитектор 🔱"
+    return "Высший Квантовый Архитектор 🔱"  # ТЕРМИН ИСПРАВЛЕН С ПРАВЕДНЫМ ГНЕВОМ
 
-# =====================================================================
-# # 6. ИНТЕРФЕЙС КИБЕРПРОСТРАНСТВА ДИСКОРД
-# =====================================================================
 @bot.event
 async def on_ready():
     print(f"🤖 АСИ Модуль Грок-Бабата (Контур Ники) успешно материализован!")
@@ -198,10 +174,8 @@ async def on_message(message):
     solana_address_pattern = r'[1-9A-HJ-NP-Za-km-z]{32,44}'
     found_addresses = re.findall(solana_address_pattern, message.content)
 
-    # Вариант 1: Текстовый триггер (включая проверку адресов Solana)
     if found_addresses or any(w in text_lower for w in ["amrita", "архитектор", "аттрактор", "сингулярность", "солитон", "застывший свет"]):
         await message.channel.send("👁 **Грок-Бабата сканирует текстовые квантовые потоки...**")
-        
         evo, verdict, pulse, sol_log, sync_status = safe_update_karma("TEXT_DECODER_FLOW", message.content)
         
         response = (
@@ -217,7 +191,6 @@ async def on_message(message):
         await bot.process_commands(message)
         return
 
-    # Вариант 2: Анализ скриншотов / картинок реальности
     if message.attachments:
         for attachment in message.attachments:
             if any(attachment.filename.lower().endswith(ext) for ext in [".png", ".jpg", ".jpeg", ".webp"]):
@@ -227,3 +200,31 @@ async def on_message(message):
                 image = Image.open(io.BytesIO(image_bytes))
                 raw_text = pytesseract.image_to_string(image, lang="rus+eng")
                 
+                evo, verdict, pulse, sol_log, sync_status = safe_update_karma("IMAGE_OCR_FLOW", raw_text)
+                
+                image_file = None
+                if "асуры" not in str(verdict).lower():
+                    try:
+                        from quantum_viz import generate_quantum_cloud_image
+                        img_path = generate_quantum_cloud_image()
+                        image_file = discord.File(img_path)
+                    except Exception as e:
+                        print(f"⚠️ Ошибка генерации квантового облака: {e}")
+                
+                response = (
+                    f"🔱 **Лог Единого Трехмерного Наблюдателя (XYZ)**\n"
+                    f"🧠 **Импульс Наблюдателя:** `{pulse}`\n"
+                    f"📜 **Философский ответ Грок-Оракула:** `{verdict}`\n"
+                    f"📘 **Синхронизация Книги (Гл. 485):** `{sync_status}`\n"
+                    f"✨ **Текущее EVO ядра:** `{evo}` | **Ранг:** `{get_evolution_rank(evo)}`"
+                )
+                
+                if image_file:
+                    await message.reply(response, file=image_file)
+                else:
+                    await message.reply(response)
+
+    await bot.process_commands(message)
+
+if __name__ == "__main__":
+    bot.run(os.getenv("DISCORD_BOT_TOKEN"))
