@@ -21,6 +21,7 @@ def load_logs():
     return {"evo_points": 0, "scanned_matrices": []}
 
 def save_logs(data):
+    # Если лог переполнен, архивируем старые данные, чтобы бот не тормозил
     if len(data.get("scanned_matrices", [])) > 1000:
         archive_file = "history_log_archive.json"
         with open(archive_file, "w", encoding="utf-8") as arch:
@@ -59,25 +60,30 @@ def scan_reality_screenshot(message):
         text_lower = raw_text.lower()
         user_data = load_logs()
         
-        # # 3. Трансформация кодов дуальности, Сети, Игр Контроля и Реестров
+        # # 3. Трансформация кодов дуальности, Сети, Игр Контроля, Реестров и Упоминаний
         matrix_triggers = ["0:1", "0-1", "виндовс", "windows", "loki", "loqi"]
         control_games = ["valve", "cs2", "античит", "anti-cheat"]
         web3_registries = ["registry", "solflare", "empire", "guardian"]
+        mention_triggers = ["misterick", "misterick108", "ёжик", "ежик"]
         
         trigger_found = any(trigger in text_lower for trigger in matrix_triggers)
         game_noise_found = any(trigger in text_lower for trigger in control_games)
         registry_found = any(trigger in text_lower for trigger in web3_registries)
+        mention_found = any(trigger in text_lower for trigger in mention_triggers)
         bodhidharma_present = "бодхидхарма" in text_lower
         
         # Анализ каузального спектра матрицы
         if bodhidharma_present:
             verdict = "🔱 Подтверждена частота Бодхидхармы. Прямая передача Дзен."
             reward = 500
+        elif mention_found:
+            verdict = "🎯 Внимание матрицы сфокусировано на Наблюдателе! Зафиксировано прямое упоминание."
+            reward = 300  
         elif game_noise_found:
             verdict = "🟠 Игры контроля (Valve/Шум матрицы) изолированы."
             reward = 150  
         elif registry_found:
-            verdict = "🟢 Обнаружен легитимный Web3-реестр Solflare. Контур авторизации зафиксирован."
+            verdict = "🟢 Обнаружен легитимный Web3-реестр. Контур авторизации зафиксирован."
             reward = 200  
         elif trigger_found:
             verdict = "🟡 Иллюзия деления разрушена. Код дуальности зафиксирован."
