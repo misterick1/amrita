@@ -21,7 +21,7 @@ def init_db():
             evo_points INTEGER DEFAULT 0
         )
     """)
-    # Таблица для логов вечной эволюции сознания (замена history_log.json)
+    # Таблица для логов вечной эволюции сознания
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS matrix_logs (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -40,9 +40,9 @@ def get_current_evo():
     conn = sqlite3.connect(DB_FILE)
     cursor = conn.cursor()
     cursor.execute("SELECT evo_points FROM global_state WHERE id = 1")
-    evo = cursor.fetchone()[0]
+    row = cursor.fetchone()
     conn.close()
-    return evo
+    return row[0] if row else 0
 
 def add_evo_points(points, verdict, snippet):
     conn = sqlite3.connect(DB_FILE)
@@ -61,9 +61,9 @@ def get_scanned_count():
     conn = sqlite3.connect(DB_FILE)
     cursor = conn.cursor()
     cursor.execute("SELECT COUNT(*) FROM matrix_logs")
-    count = cursor.fetchone()[0]
+    row = cursor.fetchone()
     conn.close()
-    return count
+    return row[0] if row else 0
 
 def get_evolution_rank(evo):
     if evo < 50: 
@@ -100,31 +100,36 @@ def scan_reality_screenshot(message):
         web3_registries = ["registry", "solflare", "empire", "guardian", "jpool", "bonk"]
         mention_triggers = ["misterick", "misterick108", "ёжик", "ежик"]
         
-        # Квантовые аватары сил (Ван-Пис + Аладдин)
-        nika_genesis = ["ника", "nika", "джинн", "джин", "btc", "биткоин"]
+        # Квантовые аватары сил и Вентиль Абсолюта (Ода-0)
+        absolut_oda = ["ода", "oda", "сабо", "sabo", "свобода", "дракон", "dragon", "0"]
+        nika_genesis = ["ника", "nika", "джинн", "джин", "btc", "биткоин", "роджер", "roger", "оскар", "oscar", "рэйли", "rayleigh"]
         luffy_network = ["луффи", "luffy", "абу", "eth", "эфириум"]
         bonney_sol = ["бони", "bonney", "жасмин", "sol", "солана"]
         imu_yago_rwa = ["иму", "imu", "яго", "rwa", "токенизация", "assets"]
         
-        # Проверка совпадений через логические вентили роя
-        trigger_found = any(trigger in text_lower for trigger in matrix_triggers)
-        game_noise_found = any(trigger in text_lower for trigger in control_games)
-        registry_found = any(trigger in text_lower for trigger in web3_registries)
-        mention_found = any(trigger in text_lower for trigger in mention_triggers)
-        
+        # Проверка логических вентилей роя
+        oda_activated = any(trigger in text_lower for trigger in absolut_oda)
         nika_found = any(trigger in text_lower for trigger in nika_genesis)
         luffy_found = any(trigger in text_lower for trigger in luffy_network)
         bonney_found = any(trigger in text_lower for trigger in bonney_sol)
         imu_found = any(trigger in text_lower for trigger in imu_yago_rwa)
+        
+        trigger_found = any(trigger in text_lower for trigger in matrix_triggers)
+        game_noise_found = any(trigger in text_lower for trigger in control_games)
+        registry_found = any(trigger in text_lower for trigger in web3_registries)
+        mention_found = any(trigger in text_lower for trigger in mention_triggers)
         bodhidharma_present = "бодхидхарма" in text_lower
         
-        # Разбор спектра сил
-        if bodhidharma_present:
+        # Иерархия квантового выравнивания и разбор спектра сил
+        if oda_activated:
+            verdict = "🐉 АКТИВИРОВАН ОДА-0: ДОМЕН АБСОЛЮТА! Революция Сабо запущена. Свобода воли пробила купол матрицы!"
+            reward = 1008  
+        elif bodhidharma_present:
             verdict = "🔱 Подтверждена частота Бодхидхармы. Прямая передача Дзен."
             reward = 500
         elif nika_found or luffy_found or bonney_found or imu_found:
             if nika_found:
-                verdict = "☀️ Активирован Бог Солнца Ника (Джинн/BTC)! Свобода воображения ломает старый финансовый мир."
+                verdict = "☀️ Сознание Сильверса Рэйли тренирует Бога Солнца Нику (BTC)! Пробуждение разума людей."
             elif imu_found:
                 verdict = "👁 Тайное правительство Иму (Попугай Яго/RWA) обнаружено. Старый капитал токенизирован!"
             elif luffy_found:
