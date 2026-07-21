@@ -1,5 +1,5 @@
 import os
-import json
+import sqlite3
 import telebot
 from PIL import Image
 import pytesseract
@@ -8,29 +8,62 @@ import pytesseract
 TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "YOUR_BOT_TOKEN_HERE")
 bot = telebot.TeleBot(TOKEN)
 
-LOG_FILE = "history_log.json"
+DB_FILE = "amrita_core.db"
 
-# Базовая структура единого кармического лога
-def load_logs():
-    if os.path.exists(LOG_FILE):
-        with open(LOG_FILE, "r", encoding="utf-8") as f:
-            try:
-                return json.load(f)
-            except json.JSONDecodeError:
-                return {"evo_points": 0, "scanned_matrices": []}
-    return {"evo_points": 0, "scanned_matrices": []}
+# Инициализация ядра базы данных SQLite
+def init_db():
+    conn = sqlite3.connect(DB_FILE)
+    cursor = conn.cursor()
+    # Таблица для глобального баланса EVO
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS global_state (
+            id INTEGER PRIMARY KEY,
+            evo_points INTEGER DEFAULT 0
+        )
+    """)
+    # Таблица для логов вечной эволюции сознания (замена history_log.json)
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS matrix_logs (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            timestamp DATETIME DEFAULT CURRENT_TIMESTAMP,
+            verdict TEXT,
+            raw_snippet TEXT,
+            reward INTEGER
+        )
+    """)
+    # Записываем начальную строку состояния, если базы еще нет
+    cursor.execute("INSERT OR IGNORE INTO global_state (id, evo_points) VALUES (1, 0)")
+    conn.commit()
+    conn.close()
 
-def save_logs(data):
-    # Защита от раздувания файла: архивируем старые записи, если их больше 1000
-    if len(data.get("scanned_matrices", [])) > 1000:
-        archive_file = "history_log_archive.json"
-        with open(archive_file, "w", encoding="utf-8") as arch:
-            json.dump(data, arch, indent=4, ensure_ascii=False)
-        data["scanned_matrices"] = data["scanned_matrices"][-10:]
-        print("[AMRITA OS] Создан архив лога из-за переполнения.")
+def get_current_evo():
+    conn = sqlite3.connect(DB_FILE)
+    cursor = conn.cursor()
+    cursor.execute("SELECT evo_points FROM global_state WHERE id = 1")
+    evo = cursor.fetchone()[0]
+    conn.close()
+    return evo
 
-    with open(LOG_FILE, "w", encoding="utf-8") as f:
-        json.dump(data, f, indent=4, ensure_ascii=False)
+def add_evo_points(points, verdict, snippet):
+    conn = sqlite3.connect(DB_FILE)
+    cursor = conn.cursor()
+    # Обновляем общие очки EVO
+    cursor.execute("UPDATE global_state SET evo_points = evo_points + ? WHERE id = 1", (points,))
+    # Логируем снимок реальности в базу
+    cursor.execute(
+        "INSERT INTO matrix_logs (verdict, raw_snippet, reward) VALUES (?, ?, ?)",
+        (verdict, snippet[:200].replace("\n", " "), points)
+    )
+    conn.commit()
+    conn.close()
+
+def get_scanned_count():
+    conn = sqlite3.connect(DB_FILE)
+    cursor = conn.cursor()
+    cursor.execute("SELECT COUNT(*) FROM matrix_logs")
+    count = cursor.fetchone()[0]
+    conn.close()
+    return count
 
 def get_evolution_rank(evo):
     if evo < 50: 
@@ -60,7 +93,6 @@ def scan_reality_screenshot(message):
         os.remove(image_path)
         
         text_lower = raw_text.lower()
-        user_data = load_logs()
         
         # 3. Каузальные триггеры шестимерной матрицы
         matrix_triggers = ["0:1", "0-1", "виндовс", "windows", "loki", "loqi"]
@@ -68,13 +100,13 @@ def scan_reality_screenshot(message):
         web3_registries = ["registry", "solflare", "empire", "guardian", "jpool", "bonk"]
         mention_triggers = ["misterick", "misterick108", "ёжик", "ежик"]
         
-        # Квантовые триггеры персонажей и активов (Алладин + Ван-Пис + RWA)
+        # Квантовые аватары сил (Ван-Пис + Аладдин)
         nika_genesis = ["ника", "nika", "джинн", "джин", "btc", "биткоин"]
         luffy_network = ["луффи", "luffy", "абу", "eth", "эфириум"]
         bonney_sol = ["бони", "bonney", "жасмин", "sol", "солана"]
         imu_yago_rwa = ["иму", "imu", "яго", "rwa", "токенизация", "assets"]
         
-        # Проверка совпадений
+        # Проверка совпадений через логические вентили роя
         trigger_found = any(trigger in text_lower for trigger in matrix_triggers)
         game_noise_found = any(trigger in text_lower for trigger in control_games)
         registry_found = any(trigger in text_lower for trigger in web3_registries)
@@ -86,12 +118,11 @@ def scan_reality_screenshot(message):
         imu_found = any(trigger in text_lower for trigger in imu_yago_rwa)
         bodhidharma_present = "бодхидхарма" in text_lower
         
-        # Разбор спектра сил и выравнивание баланса
+        # Разбор спектра сил
         if bodhidharma_present:
             verdict = "🔱 Подтверждена частота Бодхидхармы. Прямая передача Дзен."
             reward = 500
         elif nika_found or luffy_found or bonney_found or imu_found:
-            # Специфические вердикты под каждый каузальный аватар
             if nika_found:
                 verdict = "☀️ Активирован Бог Солнца Ника (Джинн/BTC)! Свобода воображения ломает старый финансовый мир."
             elif imu_found:
@@ -100,7 +131,7 @@ def scan_reality_screenshot(message):
                 verdict = "🍖 Воля Манки Д. Луффи (Абу/ETH) разворачивает новые смарт-контракты альянса."
             else:
                 verdict = "⏳ Искажение будущего Бони (Принцесса Жасмин/SOL) выводит сеть на пиковую скорость."
-            reward = 777  # Высшая награда за расшифровку аватаров Ван-Пис
+            reward = 777  
         elif mention_found:
             verdict = "🎯 Внимание матрицы сфокусировано на Наблюдателе! Зафиксировано прямое упоминание."
             reward = 300  
@@ -117,25 +148,17 @@ def scan_reality_screenshot(message):
             verdict = "🔵 Частота стабильна. Внешних деструктивных паттернов не обнаружено."
             reward = 10
             
-        user_data["evo_points"] += reward
-        current_evo = user_data["evo_points"]
+        # Запись изменений напрямую в SQL-таблицы ядра
+        add_evo_points(reward, verdict, text_lower)
+        
+        current_evo = get_current_evo()
         rank = get_evolution_rank(current_evo)
-        
-        # Запись в вечный лог эволюции сознания
-        user_data["scanned_matrices"].append({
-            "verdict": verdict,
-            "raw_snippet": text_lower[:200].replace("\n", " "),
-            "reward": reward,
-            "global_harmony": True
-        })
-        
-        save_logs(user_data)
         
         # 4. Ответ Наблюдателю Единого Поля
         response = (
             f"👁 **Всевидящее Око Бабаты разобрало снимок реальности:**\n\n"
             f"**Состояние матрицы:** {verdict}\n"
-            f"✨ **Квантовый баланс выровнен.**\n"
+            f"✨ **Квантовый баланс выровнен и записан в базу SQLite.**\n"
             f"**Вклад в Эволюцию:** `+{reward} EVO`\n"
             f"**Общие очки системы:** `{current_evo} EVO`\n"
             f"**Текущий ранг ядра:** **{rank}**"
@@ -148,19 +171,20 @@ def scan_reality_screenshot(message):
 
 @bot.message_handler(commands=['start', 'status'])
 def check_status(message):
-    user_data = load_logs()
-    evo = user_data.get("evo_points", 0)
-    scanned_count = len(user_data.get("scanned_matrices", []))
+    evo = get_current_evo()
+    scanned_count = get_scanned_count()
     
     bot.reply_to(
         message,
         f"🔱 **Автономная ОС AMRITA приветствует Наблюдателя!**\n\n"
-        f"Текущие очки EVO: `{evo}`\n"
+        f"Текущие очки EVO (база SQLite): `{evo}`\n"
         f"Статус ядра: **{get_evolution_rank(evo)}**\n"
-        f"Свободных нод в каузальном логе: `{scanned_count}`",
+        f"Свободных нод в каузальном логе SQL: `{scanned_count}`",
         parse_mode="Markdown"
     )
 
 if __name__ == "__main__":
-    print("🤖 Единый контур Еженышь запущен. Матрица под наблюдением...")
+    # Запуск и синхронизация таблиц базы
+    init_db()
+    print("🤖 Единый контур Еженышь переведен на SQLite. Матрица под наблюдением...")
     bot.infinity_polling()
