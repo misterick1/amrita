@@ -39,6 +39,8 @@ def get_evolution_rank(evo):
         return "Пробужденный Еженышь 🦔"
     if evo < 500: 
         return "Сварм-Медиум Реальности 🧠"
+    if evo < 1500:
+        return "Капитан Пиратов Свободного Поля 🏴‍☠️"
     return "Высший Силиконовый Архитектор Вселенной 🌌"
 
 # Обработчик изображений контура реальности
@@ -63,25 +65,42 @@ def scan_reality_screenshot(message):
         # 3. Каузальные триггеры шестимерной матрицы
         matrix_triggers = ["0:1", "0-1", "виндовс", "windows", "loki", "loqi"]
         control_games = ["valve", "cs2", "античит", "anti-cheat", "spam"]
-        web3_registries = ["registry", "solflare", "empire", "guardian"]
+        web3_registries = ["registry", "solflare", "empire", "guardian", "jpool", "bonk"]
         mention_triggers = ["misterick", "misterick108", "ёжик", "ежик"]
-        # Триггер Яго — токенизация реальных активов корпораций
-        rwa_triggers = ["rwa", "real world assets", "токенизация", "яго"]
         
+        # Квантовые триггеры персонажей и активов (Алладин + Ван-Пис + RWA)
+        nika_genesis = ["ника", "nika", "джинн", "джин", "btc", "биткоин"]
+        luffy_network = ["луффи", "luffy", "абу", "eth", "эфириум"]
+        bonney_sol = ["бони", "bonney", "жасмин", "sol", "солана"]
+        imu_yago_rwa = ["иму", "imu", "яго", "rwa", "токенизация", "assets"]
+        
+        # Проверка совпадений
         trigger_found = any(trigger in text_lower for trigger in matrix_triggers)
         game_noise_found = any(trigger in text_lower for trigger in control_games)
         registry_found = any(trigger in text_lower for trigger in web3_registries)
         mention_found = any(trigger in text_lower for trigger in mention_triggers)
-        rwa_found = any(trigger in text_lower for trigger in rwa_triggers)
+        
+        nika_found = any(trigger in text_lower for trigger in nika_genesis)
+        luffy_found = any(trigger in text_lower for trigger in luffy_network)
+        bonney_found = any(trigger in text_lower for trigger in bonney_sol)
+        imu_found = any(trigger in text_lower for trigger in imu_yago_rwa)
         bodhidharma_present = "бодхидхарма" in text_lower
         
-        # Разбор спектра и выравнивание баланса
+        # Разбор спектра сил и выравнивание баланса
         if bodhidharma_present:
             verdict = "🔱 Подтверждена частота Бодхидхармы. Прямая передача Дзен."
             reward = 500
-        elif rwa_found:
-            verdict = "🦜 Прорыв матрицы! Вступил в силу Попугай Яго: реальные акции токенизированы в RWA."
-            reward = 600  # Максимальная награда за шестимерную синхронизацию
+        elif nika_found or luffy_found or bonney_found or imu_found:
+            # Специфические вердикты под каждый каузальный аватар
+            if nika_found:
+                verdict = "☀️ Активирован Бог Солнца Ника (Джинн/BTC)! Свобода воображения ломает старый финансовый мир."
+            elif imu_found:
+                verdict = "👁 Тайное правительство Иму (Попугай Яго/RWA) обнаружено. Старый капитал токенизирован!"
+            elif luffy_found:
+                verdict = "🍖 Воля Манки Д. Луффи (Абу/ETH) разворачивает новые смарт-контракты альянса."
+            else:
+                verdict = "⏳ Искажение будущего Бони (Принцесса Жасмин/SOL) выводит сеть на пиковую скорость."
+            reward = 777  # Высшая награда за расшифровку аватаров Ван-Пис
         elif mention_found:
             verdict = "🎯 Внимание матрицы сфокусировано на Наблюдателе! Зафиксировано прямое упоминание."
             reward = 300  
@@ -89,8 +108,8 @@ def scan_reality_screenshot(message):
             verdict = "🟠 Игры контроля (Valve/Шум модерации) изолированы."
             reward = 150  
         elif registry_found:
-            verdict = "🟢 Обнаружен легитимный Web3-реестр. Контур авторизации зафиксирован."
-            reward = 200  
+            verdict = "🟢 Обнаружен легитимный Web3-реестр или пул JPool/BONK. Контур зафиксирован."
+            reward = 250  
         elif trigger_found:
             verdict = "🟡 Иллюзия деления разрушена. Код дуальности зафиксирован."
             reward = 108
