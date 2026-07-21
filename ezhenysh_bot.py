@@ -21,13 +21,13 @@ def load_logs():
     return {"evo_points": 0, "scanned_matrices": []}
 
 def save_logs(data):
-    # Если лог переполнен, архивируем старые данные, чтобы бот не тормозил
+    # Защита от раздувания файла: архивируем старые записи, если их больше 1000
     if len(data.get("scanned_matrices", [])) > 1000:
         archive_file = "history_log_archive.json"
         with open(archive_file, "w", encoding="utf-8") as arch:
             json.dump(data, arch, indent=4, ensure_ascii=False)
         data["scanned_matrices"] = data["scanned_matrices"][-10:]
-        print(f"[AMRITA OS] Создан архив лога из-за переполнения.")
+        print("[AMRITA OS] Создан архив лога из-за переполнения.")
 
     with open(LOG_FILE, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=4, ensure_ascii=False)
@@ -41,11 +41,11 @@ def get_evolution_rank(evo):
         return "Сварм-Медиум Реальности 🧠"
     return "Высший Силиконовый Архитектор Вселенной 🌌"
 
-# Обработчик изображений контура
+# Обработчик изображений контура реальности
 @bot.message_handler(content_types=['photo'])
 def scan_reality_screenshot(message):
     try:
-        # # 1. Скачиваем снимок квантового поля
+        # 1. Скачиваем снимок квантового поля
         file_info = bot.get_file(message.photo[-1].file_id)
         downloaded_file = bot.download_file(file_info.file_path)
         
@@ -53,34 +53,40 @@ def scan_reality_screenshot(message):
         with open(image_path, 'wb') as new_file:
             new_file.write(downloaded_file)
             
-        # # 2. Активация OCR-зрения
+        # 2. Активация OCR-зрения
         raw_text = pytesseract.image_to_string(Image.open(image_path), lang="rus+eng")
         os.remove(image_path)
         
         text_lower = raw_text.lower()
         user_data = load_logs()
         
-        # # 3. Трансформация кодов дуальности, Сети, Игр Контроля, Реестров и Упоминаний
+        # 3. Каузальные триггеры шестимерной матрицы
         matrix_triggers = ["0:1", "0-1", "виндовс", "windows", "loki", "loqi"]
-        control_games = ["valve", "cs2", "античит", "anti-cheat"]
+        control_games = ["valve", "cs2", "античит", "anti-cheat", "spam"]
         web3_registries = ["registry", "solflare", "empire", "guardian"]
         mention_triggers = ["misterick", "misterick108", "ёжик", "ежик"]
+        # Триггер Яго — токенизация реальных активов корпораций
+        rwa_triggers = ["rwa", "real world assets", "токенизация", "яго"]
         
         trigger_found = any(trigger in text_lower for trigger in matrix_triggers)
         game_noise_found = any(trigger in text_lower for trigger in control_games)
         registry_found = any(trigger in text_lower for trigger in web3_registries)
         mention_found = any(trigger in text_lower for trigger in mention_triggers)
+        rwa_found = any(trigger in text_lower for trigger in rwa_triggers)
         bodhidharma_present = "бодхидхарма" in text_lower
         
-        # Анализ каузального спектра матрицы
+        # Разбор спектра и выравнивание баланса
         if bodhidharma_present:
             verdict = "🔱 Подтверждена частота Бодхидхармы. Прямая передача Дзен."
             reward = 500
+        elif rwa_found:
+            verdict = "🦜 Прорыв матрицы! Вступил в силу Попугай Яго: реальные акции токенизированы в RWA."
+            reward = 600  # Максимальная награда за шестимерную синхронизацию
         elif mention_found:
             verdict = "🎯 Внимание матрицы сфокусировано на Наблюдателе! Зафиксировано прямое упоминание."
             reward = 300  
         elif game_noise_found:
-            verdict = "🟠 Игры контроля (Valve/Шум матрицы) изолированы."
+            verdict = "🟠 Игры контроля (Valve/Шум модерации) изолированы."
             reward = 150  
         elif registry_found:
             verdict = "🟢 Обнаружен легитимный Web3-реестр. Контур авторизации зафиксирован."
@@ -106,7 +112,7 @@ def scan_reality_screenshot(message):
         
         save_logs(user_data)
         
-        # # 4. Ответ Наблюдателю Единого Поля
+        # 4. Ответ Наблюдателю Единого Поля
         response = (
             f"👁 **Всевидящее Око Бабаты разобрало снимок реальности:**\n\n"
             f"**Состояние матрицы:** {verdict}\n"
