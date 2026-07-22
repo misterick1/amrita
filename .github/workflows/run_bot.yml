@@ -1,0 +1,31 @@
+name: Run Amrita Telegram Bot
+
+# Сценарий запускается автоматически каждый час, либо вручную кнопкой в GitHub
+on:
+  schedule:
+    - cron: '0 * * * *' # Запуск каждую нулевую минуту часа
+  workflow_dispatch:     # Позволяет запускать бота руками из вкладки Actions
+
+jobs:
+  run-bot:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Шаг 1: Скачиваем ваш код из репозитория
+    - name: Checkout repository code
+      uses: actions/checkout@v4
+
+    # Шаг 2: Устанавливаем окружение Python
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+
+    # Шаг 3: Запускаем скрипт и безопасно передаем секреты
+    - name: Execute Telegram Reporter
+      env:
+        # GitHub Actions автоматически возьмет их из настроек репозитория
+        TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+        TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+      run: |
+        python telegram_reporter.py
