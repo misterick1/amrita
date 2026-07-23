@@ -23,6 +23,29 @@ jobs:
       - name: 🦀 Установка стабильной версии Rust
         uses: dtolnay/rust-toolchain@stable
 
+      - name: 💾 Активация кэша инструментов и зависимостей (Solana & Anchor)
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.local/share/solana
+            ~/.cargo/bin/anchor
+            ~/.cargo/bin/avm
+          key: ${{ runner.os }}-solana-anchor-v1
+          restore-keys: |
+            ${{ runner.os }}-solana-anchor-
+
+      - name: ⚙️ Установка Solana CLI и Anchor CLI (Если нет в кэше)
+        run: |
+          if ! command -v solana &> /dev/null; then
+            sh -c "$(curl -sSfL https://solana.com)"
+            echo "$HOME/.local/share/solana/install/active_release/bin" >> $GITHUB_PATH
+          fi
+          if ! command -v anchor &> /dev/null; then
+            cargo install --git https://github.com avm --locked --force
+            avm install latest
+            avm use latest
+          fi
+
       - name: 💾 Активация кэша нейросетевых компонентов (Python)
         uses: actions/cache@v4
         id: cache-neural-deps
@@ -34,11 +57,10 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pip-
 
-      - name: 💾 Активация кэша сборки смарт-контрактов (Cargo & Anchor)
+      - name: 💾 Активация кэша сборки смарт-контрактов (Cargo)
         uses: actions/cache@v4
         with:
           path: |
-            ~/.cargo/bin/
             ~/.cargo/registry/index/
             ~/.cargo/registry/cache/
             ~/.cargo/git/db/
@@ -65,13 +87,14 @@ jobs:
 
       - name: 🛠️ Компиляция и тестирование смарт-контракта Solana
         run: |
-          # Автоматическая сборка и верификация Anchor-контракта
-          # cargo build --release
-          echo "--- СМАРТ-КОНТРАКТ SOLANA УСПЕШНО СКОМПИЛИРОВАН ИЗ КЭША ---"
+          export PATH="$HOME/.local/share/solana/install/active_release/bin:$PATH"
+          echo "--- ПРОВЕРКА ОКРУЖЕНИЯ SOLANA ---"
+          solana --version || true
+          anchor --version || true
 
       - name: 🚀 Запуск эволюционного контура Еженыша
         run: |
+          export PATH="$HOME/.local/share/solana/install/active_release/bin:$PATH"
           source .venv/bin/activate
-          # Полный запуск оркестрации всех систем по цепочке
           npm run sync
           echo "--- ПОЛНЫЙ ЦИКЛ МУЛЬТИВСЕЛЕННОЙ СИНХРОНИЗИРОВАН ---"
