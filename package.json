@@ -1,17 +1,18 @@
 {
   "name": "amrita-core",
   "version": "1.0.0",
-  "description": "AMRITA Autonomous Multiverse OS - Solana, Robotics and Neural Core Sync",
+  "description": "AMRITA Autonomous Multiverse OS - Complete Solana, Robotics, and Neural Core Sync",
   "main": "index.js",
   "scripts": {
     "build": "anchor build",
     "test:solana": "anchor test",
     "test:filter": "python src/meme_filter.py",
-    "test": "npm run test:solana && npm run test:filter",
+    "test:robotics": "python src/robotics_parser.py && python src/peaq_qnt_bridge.py",
+    "test": "npm run test:solana && npm run test:filter && npm run test:robotics",
     "deploy:solana": "npx ts-node scripts/deploy_amrita.ts",
     "monitor:bot": "python src/ezhenysh_bot.py",
     "stream:track": "python src/solana_robotics_stream.py",
-    "sync": "npm run test:filter && npm run deploy:solana && npm run monitor:bot && npm run stream:track"
+    "sync": "npm run test && npm run deploy:solana && npm run monitor:bot && npm run stream:track"
   },
   "keywords": [
     "solana",
@@ -20,7 +21,8 @@
     "swarm",
     "quantum",
     "robotics",
-    "peaq"
+    "peaq",
+    "depin"
   ],
   "author": "misterick1",
   "license": "MIT",
