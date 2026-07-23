@@ -1,21 +1,24 @@
 {
   "name": "amrita-core",
   "version": "1.0.0",
-  "description": "AMRITA Autonomous Multiverse OS - Solana and Neural Core Sync",
+  "description": "AMRITA Autonomous Multiverse OS - Solana and Neural Core Sync with Faker Guard",
   "main": "index.js",
   "scripts": {
     "build": "anchor build",
-    "test": "anchor test",
+    "test:solana": "anchor test",
+    "test:filter": "python src/meme_filter.py",
+    "test": "npm run test:solana && npm run test:filter",
     "deploy:solana": "npx ts-node scripts/deploy_amrita.ts",
     "monitor:bot": "python src/ezhenysh_bot.py",
-    "sync": "npm run deploy:solana && npm run monitor:bot"
+    "sync": "npm run test:filter && npm run deploy:solana && npm run monitor:bot"
   },
   "keywords": [
     "solana",
     "anchor",
     "amrita",
     "swarm",
-    "quantum"
+    "quantum",
+    "faker-guard"
   ],
   "author": "misterick1",
   "license": "MIT",
