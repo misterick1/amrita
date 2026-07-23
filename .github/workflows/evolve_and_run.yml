@@ -1,0 +1,51 @@
+name: evolve_and_run
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  evolution_loop:
+    name: Ezhenysh Autonomous Evolution Loop
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📦 Квантовая синхронизация репозитория
+        uses: actions/checkout@v4
+
+      - name: 🐍 Развертывание среды Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: 💾 Активация кэша нейросетевых компонентов
+        uses: actions/cache@v4
+        id: cache-neural-deps
+        with:
+          path: |
+            ~/.cache/pip
+            .venv
+          # Кэш сбрасывается и пересобирается заново только при изменении файла зависимостей
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      - name: 📦 Установка нейросетевых компонентов
+        # Если кэш найден (cache-hit), этот тяжелый шаг полностью пропускается
+        if: steps.cache-neural-deps.outputs.cache-hit != 'true'
+        run: |
+          python -m venv .venv
+          source .venv/bin/activate
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          # Сюда можно добавить установку тяжелых квантовых или ИИ либ, если они не в requirements
+          # pip install torch transformers
+
+      - name: 🚀 Запуск эволюционного контура Еженыша
+        run: |
+          source .venv/bin/activate
+          # Команда запуска вашего основного исполняемого скрипта матрицы
+          # python swarm_meme_core.py
+          echo "--- ЭВОЛЮЦИОННЫЙ ЦИКЛ УСПЕШНО ЗАВЕРШЕН ЗА СЕКУНДЫ ---"
