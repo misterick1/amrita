@@ -1,0 +1,35 @@
+{
+  "name": "amrita-core",
+  "version": "1.0.0",
+  "description": "AMRITA Autonomous Multiverse OS - Solana and Neural Core Sync",
+  "main": "index.js",
+  "scripts": {
+    "build": "anchor build",
+    "test": "anchor test",
+    "deploy:solana": "npx ts-node scripts/deploy_amrita.ts",
+    "monitor:bot": "python src/ezhenysh_bot.py",
+    "sync": "npm run deploy:solana && npm run monitor:bot"
+  },
+  "keywords": [
+    "solana",
+    "anchor",
+    "amrita",
+    "swarm",
+    "quantum"
+  ],
+  "author": "misterick1",
+  "license": "MIT",
+  "dependencies": {
+    "@coral-xyz/anchor": "^0.30.1",
+    "@solana/web3.js": "^1.95.3"
+  },
+  "devDependencies": {
+    "@types/bn.js": "^5.1.5",
+    "@types/chai": "^4.3.11",
+    "@types/mocha": "^10.0.6",
+    "chai": "^4.3.10",
+    "mocha": "^10.2.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
+  }
+}
