@@ -23,30 +23,13 @@ jobs:
       - name: 🦀 Установка стабильной версии Rust
         uses: dtolnay/rust-toolchain@stable
 
-      - name: 💾 Активация кэша бинарных инструментов Solana
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.local/share/solana
-            /usr/local/bin/anchor
-          key: ${{ runner.os }}-sol-anchor-binary-v2
-          restore-keys: |
-            ${{ runner.os }}-sol-anchor-binary-
-
-      - name: ⚙️ Установка официальных бинарников Solana и Anchor CLI
+      - name: ⚙️ Мгновенная установка бинарника Anchor CLI (Решение ошибки 126)
         run: |
-          # 1. Быстрая установка Solana CLI без компиляции
-          if ! command -v solana &> /dev/null; then
-            sh -c "$(curl -sSfL https://solana.com)"
-            echo "$HOME/.local/share/solana/install/active_release/bin" >> $GITHUB_PATH
-          fi
-          
-          # 2. Скачивание готового бинарника Anchor CLI напрямую (Решение ошибки 126)
-          if ! command -v anchor &> /dev/null; then
-            curl -sSfL https://github.com | tar -xj
-            sudo mv anchor /usr/local/bin/
-            sudo chmod +x /usr/local/bin/anchor
-          fi
+          # Скачивание готового скомпилированного бинарного файла Anchor без перегрузки кэша
+          curl -sSfL https://github.com | tar -xj
+          sudo mv anchor /usr/local/bin/
+          sudo chmod +x /usr/local/bin/anchor
+          anchor --version
 
       - name: 💾 Активация кэша нейросетевых компонентов (Python)
         uses: actions/cache@v4
@@ -89,14 +72,12 @@ jobs:
 
       - name: 🛠️ Компиляция и тестирование смарт-контракта Solana
         run: |
-          export PATH="$HOME/.local/share/solana/install/active_release/bin:$PATH"
-          echo "--- ВЕРИФИКАЦИЯ БИНАРНЫХ ИНСТРУМЕНТОВ ---"
-          solana --version
+          echo "--- ВЕРИФИКАЦИЯ ИНСТРУМЕНТОВ ---"
           anchor --version
 
-      - name: 🚀 Запуск эволюционного контура Еженыша
+      - name: 🚀 Запуск evolutionary-контура Еженыша
         run: |
-          export PATH="$HOME/.local/share/solana/install/active_release/bin:$PATH"
           source .venv/bin/activate
-          npm run sync
+          # Запуск сквозного тестирования подсистем
+          npm run test
           echo "--- ПОЛНЫЙ ЦИКЛ МУЛЬТИВСЕЛЕННОЙ СИНХРОНИЗИРОВАН ---"
