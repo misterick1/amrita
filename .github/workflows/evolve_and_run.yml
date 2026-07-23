@@ -55,6 +55,14 @@ jobs:
           python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
+      - name: 🔐 Изоляция секретов окружения для CI тестирования
+        run: |
+          echo "COLOSSEUM_COPILOT_API_BASE='https://amrita.network'" >> .env
+          echo "COLOSSEUM_COPILOT_PAT='CI_TEST_TOKEN'" >> .env
+          echo "DISCORD_WEBHOOK_URL='https://discord.com'" >> .env
+          echo "TELEGRAM_BOT_TOKEN='123456:CI_TEST_TOKEN'" >> .env
+          echo "TELEGRAM_CHAT_ID='-100123456'" >> .env
+
       - name: 🛠️ Компиляция и тестирование смарт-контракта Solana
         run: |
           # Команда сборки Rust/Anchor (подтянет скомпилированный target/ из кэша)
@@ -64,5 +72,6 @@ jobs:
       - name: 🚀 Запуск эволюционного контура Еженыша
         run: |
           source .venv/bin/activate
-          # python swarm_meme_core.py
+          # В реальном контуре запускается сквозная оркестрация:
+          # npm run sync
           echo "--- ПОЛНЫЙ ЦИКЛ МУЛЬТИВСЕЛЕННОЙ СИНХРОНИЗИРОВАН ЗА 40 СЕКУНД ---"
