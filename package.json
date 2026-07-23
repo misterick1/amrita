@@ -1,7 +1,7 @@
 {
   "name": "amrita-core",
   "version": "1.0.0",
-  "description": "AMRITA Autonomous Multiverse OS - Complete Solana, Robotics, Vision and Multiverse Orchestration",
+  "description": "AMRITA Autonomous Multiverse OS - Complete Solana, Robotics, Vision, Discord and Multiverse Orchestration",
   "main": "index.js",
   "scripts": {
     "build": "anchor build",
@@ -10,7 +10,8 @@
     "test:robotics": "python src/robotics_parser.py && python src/peaq_qnt_bridge.py",
     "test:vision": "python src/puss_solana_sync.py",
     "test:manifest": "python src/atman_field_manifest.py",
-    "test": "npm run test:solana && npm run test:filter && npm run test:robotics && npm run test:vision && npm run test:manifest",
+    "test:discord": "python src/discord_webhook_sync.py",
+    "test": "npm run test:solana && npm run test:filter && npm run test:robotics && npm run test:vision && npm run test:manifest && npm run test:discord",
     "deploy:solana": "npx ts-node scripts/deploy_amrita.ts",
     "monitor:bot": "python src/ezhenysh_bot.py",
     "stream:track": "python src/solana_robotics_stream.py",
@@ -26,7 +27,10 @@
     "robotics",
     "peaq",
     "puss-in-boots",
-    "atman"
+    "atman",
+    "discord",
+    "evedex",
+    "pi-network"
   ],
   "author": "misterick1",
   "license": "MIT",
