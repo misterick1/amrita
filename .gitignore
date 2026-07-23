@@ -1,0 +1,33 @@
+# amrita / .gitignore
+# Защитный барьер от утечки секретов и мусора сборки
+
+# Блокировка файлов секретного окружения (КРИТИЧЕСКИ ВАЖНО)
+.env
+.env.local
+.env.*.local
+
+# Логи и файлы вечной памяти (пишутся локально на сервере)
+history_log.json
+target/deploy_info.json
+
+# Кэш и артефакты компиляции Rust / Cargo
+target/
+Cargo.lock
+**/*.rs.bk
+
+# Зависимости и логи Node.js / TypeScript
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Кэш виртуального окружения Python и компилятора
+.venv/
+venv/
+env/
+__pycache__/
+*.pyc
+*.pyo
+.pypy/
+.pytest_cache/
