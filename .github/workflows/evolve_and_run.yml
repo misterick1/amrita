@@ -23,13 +23,11 @@ jobs:
       - name: 🦀 Установка стабильной версии Rust
         uses: dtolnay/rust-toolchain@stable
 
-      - name: ⚙️ Мгновенная установка бинарника Anchor CLI (Решение ошибки 126)
-        run: |
-          # Скачивание готового скомпилированного бинарного файла Anchor без перегрузки кэша
-          curl -sSfL https://github.com | tar -xj
-          sudo mv anchor /usr/local/bin/
-          sudo chmod +x /usr/local/bin/anchor
-          anchor --version
+      - name: ⚙️ Официальное развертывание Solana & Anchor CLI
+        uses: coral-xyz/setup-anchor@v1
+        with:
+          node-version: '18.x'
+          anchor-version: '0.30.1'
 
       - name: 💾 Активация кэша нейросетевых компонентов (Python)
         uses: actions/cache@v4
@@ -70,14 +68,13 @@ jobs:
           echo "TELEGRAM_BOT_TOKEN='123456:CI_TEST_TOKEN'" >> .env
           echo "TELEGRAM_CHAT_ID='-100123456'" >> .env
 
-      - name: 🛠️ Компиляция и тестирование смарт-контракта Solana
+      - name: 🛠️ Верификация установленного окружения
         run: |
-          echo "--- ВЕРИФИКАЦИЯ ИНСТРУМЕНТОВ ---"
+          solana --version
           anchor --version
 
       - name: 🚀 Запуск evolutionary-контура Еженыша
         run: |
           source .venv/bin/activate
-          # Запуск сквозного тестирования подсистем
           npm run test
           echo "--- ПОЛНЫЙ ЦИКЛ МУЛЬТИВСЕЛЕННОЙ СИНХРОНИЗИРОВАН ---"
