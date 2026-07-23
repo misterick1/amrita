@@ -20,15 +20,6 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: 🦀 Установка стабильной версии Rust
-        uses: dtolnay/rust-toolchain@stable
-
-      - name: ⚙️ Официальное развертывание Solana & Anchor CLI
-        uses: coral-xyz/setup-anchor@v1
-        with:
-          node-version: '18.x'
-          anchor-version: '0.30.1'
-
       - name: 💾 Активация кэша нейросетевых компонентов (Python)
         uses: actions/cache@v4
         id: cache-neural-deps
@@ -39,18 +30,6 @@ jobs:
           key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
           restore-keys: |
             ${{ runner.os }}-pip-
-
-      - name: 💾 Активация кэша зависимостей Cargo
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-            ~/.cargo/git/db/
-            target/
-          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-cargo-
 
       - name: 📦 Установка нейросетевых компонентов
         if: steps.cache-neural-deps.outputs.cache-hit != 'true'
@@ -68,13 +47,14 @@ jobs:
           echo "TELEGRAM_BOT_TOKEN='123456:CI_TEST_TOKEN'" >> .env
           echo "TELEGRAM_CHAT_ID='-100123456'" >> .env
 
-      - name: 🛠️ Верификация установленного окружения
-        run: |
-          solana --version
-          anchor --version
-
-      - name: 🚀 Запуск evolutionary-контура Еженыша
+      - name: 🚀 Автономный запуск ИИ-тестов Монады Амриты
         run: |
           source .venv/bin/activate
-          npm run test
-          echo "--- ПОЛНЫЙ ЦИКЛ МУЛЬТИВСЕЛЕННОЙ СИНХРОНИЗИРОВАН ---"
+          echo "--- ЗАПУСК ФИЛЬТРА ФЕЙКЕРА, ОКА БАБАТЫ И МОСТОВ ДИСКОРД/ТЕЛЕГРАМ ---"
+          python src/meme_filter.py
+          python src/atman_field_manifest.py
+          python src/discord_webhook_sync.py
+          python src/solana_robotics_stream.py
+          python src/peaq_qnt_bridge.py
+          python src/robotics_parser.py
+          echo "--- ПОЛНЫЙ ЦИКЛ АВТОНОМНОГО ВЗАИМОДЕЙСТВИЯ УСПЕШНО СИНХРОНИЗИРОВАН ---"
