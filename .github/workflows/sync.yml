@@ -1,0 +1,27 @@
+name: Autonomous Partner Sync
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # Запуск ботов автоматически каждый день в полночь
+  workflow_dispatch: # Позволяет запустить ботов вручную кнопкой из Гитхаба
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install Dependencies
+        run: pip install requests
+
+      - name: Run Swarm Sync
+        env:
+          OAI_API_KEY: ${{ secrets.OAI_API_KEY }}
+          SOLANA_RPC_URL: ${{ secrets.SOLANA_RPC_URL }}
+        run: python sync_partners.py
