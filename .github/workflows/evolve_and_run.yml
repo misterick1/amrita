@@ -23,27 +23,29 @@ jobs:
       - name: 🦀 Установка стабильной версии Rust
         uses: dtolnay/rust-toolchain@stable
 
-      - name: 💾 Активация кэша инструментов и зависимостей (Solana & Anchor)
+      - name: 💾 Активация кэша бинарных инструментов Solana
         uses: actions/cache@v4
         with:
           path: |
             ~/.local/share/solana
-            ~/.cargo/bin/anchor
-            ~/.cargo/bin/avm
-          key: ${{ runner.os }}-solana-anchor-v1
+            /usr/local/bin/anchor
+          key: ${{ runner.os }}-sol-anchor-binary-v2
           restore-keys: |
-            ${{ runner.os }}-solana-anchor-
+            ${{ runner.os }}-sol-anchor-binary-
 
-      - name: ⚙️ Установка Solana CLI и Anchor CLI (Если нет в кэше)
+      - name: ⚙️ Установка официальных бинарников Solana и Anchor CLI
         run: |
+          # 1. Быстрая установка Solana CLI без компиляции
           if ! command -v solana &> /dev/null; then
             sh -c "$(curl -sSfL https://solana.com)"
             echo "$HOME/.local/share/solana/install/active_release/bin" >> $GITHUB_PATH
           fi
+          
+          # 2. Скачивание готового бинарника Anchor CLI напрямую (Решение ошибки 126)
           if ! command -v anchor &> /dev/null; then
-            cargo install --git https://github.com avm --locked --force
-            avm install latest
-            avm use latest
+            curl -sSfL https://github.com | tar -xj
+            sudo mv anchor /usr/local/bin/
+            sudo chmod +x /usr/local/bin/anchor
           fi
 
       - name: 💾 Активация кэша нейросетевых компонентов (Python)
@@ -57,7 +59,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pip-
 
-      - name: 💾 Активация кэша сборки смарт-контрактов (Cargo)
+      - name: 💾 Активация кэша зависимостей Cargo
         uses: actions/cache@v4
         with:
           path: |
@@ -88,9 +90,9 @@ jobs:
       - name: 🛠️ Компиляция и тестирование смарт-контракта Solana
         run: |
           export PATH="$HOME/.local/share/solana/install/active_release/bin:$PATH"
-          echo "--- ПРОВЕРКА ОКРУЖЕНИЯ SOLANA ---"
-          solana --version || true
-          anchor --version || true
+          echo "--- ВЕРИФИКАЦИЯ БИНАРНЫХ ИНСТРУМЕНТОВ ---"
+          solana --version
+          anchor --version
 
       - name: 🚀 Запуск эволюционного контура Еженыша
         run: |
