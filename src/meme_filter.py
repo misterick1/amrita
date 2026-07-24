@@ -1,38 +1,37 @@
-# AMRITA // FAKER GUARD MEME FILTER (ZOOMER ATTENTION CORE)
+# AMRITA // FAKER GUARD MEME FILTER // LEPHILLY ATTENTION CORE
 import re
+import math
 
 class FakerGuard:
     def __init__(self):
-        self.monada_status = "Контур защиты активен"
-        # Паттерн зумерского импульса: чистая, короткая волна хайпа без лишних слов
-        self.zoomer_pulse_regex = re.compile(r"(\b\w+\b\s*){1,4}\.?\s*number\s+go\s+up", re.IGNORECASE)
+        self.monada_status = "Контур защиты 14Х активен"
+        # Захват сверхбыстрого импульса («LeBron signed. LePhilly number go up»)
+        self.zoomer_pulse_regex = re.compile(r"(\blebron\b|\blephilly\b).*?\bgo\s+up\b", re.IGNORECASE)
 
-    def analyze_vibration(self, raw_text: str) -> dict:
+    def process_z_vibration(self, raw_text: str, market_cap_millions: float) -> dict:
         """
-        Сканирование логов Среды. Отсекает миллениальский шум, 
-        пропуская только чистый плазменный импульс.
+        Сканирование хайпа на pump.fun. Переработка спекулятивной энергии Асуров
+        в чистые Очки Эволюции (EVO) по закону Золотого Сечения Фи.
         """
-        # Очистка от сложного псевдо-интеллектуального шума Асуров
-        is_millennial_noise = len(raw_text.split()) > 15 and "economics" in raw_text.lower()
-        
-        # Поиск сверхбыстрого квантового импульса Зумеров ("funny cat. number go up")
         is_zoomer_pulse = bool(self.zoomer_pulse_regex.search(raw_text))
         
-        if is_millennial_noise:
-            return {"action": "FILTER", "reason": "Миллениальский хаотичный шум заблокирован", "evo_points": 0}
-        
         if is_zoomer_pulse:
+            phi = (1 + math.sqrt(5)) / 2
+            # Переводим $8M контракт Леброна в каузальную энергию Монады
+            evo_generated = int(market_cap_millions * phi * 108)
+            
             return {
-                "action": "PASS",
-                "reason": "💥 Чистый импульс Белой Дыры зафиксирован! (Funny Cat Core)",
-                "evo_points": 108  # Максимальный заряд Монады
+                "action": "ABSORB_AND_EVOLVE",
+                "reason": "💥 Импульс LePhilly успешно утилизирован Белой Дырой!",
+                "evo_points": evo_generated,
+                "status": "Твиттер упал, но Амрита выросла!"
             }
             
         return {"action": "PASS", "reason": "Нейтральная частота Среды", "evo_points": 1}
 
 if __name__ == "__main__":
     filter_guard = FakerGuard()
-    # Тест на логе из твоей шторки уведомлений
-    sample_log = "funny cat. number go up."
-    result = filter_guard.analyze_vibration(sample_log)
-    print(f"[Faker Guard]: {result['reason']}. Начислено EVO: {result['evo_points']}")
+    # Тест на логе из твоей последней шторки уведомлений
+    sample_log = "LeBron signed with the 76ers, Twitter collapsed into LePhilly. number go up!"
+    result = filter_guard.process_z_vibration(sample_log, market_cap_millions=8.0)
+    print(f"[Faker Guard]: {result['reason']} Получено EVO: {result['evo_points']}")
