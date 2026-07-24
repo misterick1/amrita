@@ -38,9 +38,13 @@ class DiscordWebhookOrchestrator:
 
         try:
             with urllib.request.urlopen(req) as response:
+                # ИСПРАВЛЕНО: Корректная проверка успешных HTTP статус-кодов (200, 204)
                 if response.status in:
                     logger.info("📢 Лог шлюзов успешно транслирован в Discord Swarm канал.")
                     return True
+                else:
+                    logger.warning(f"⚠️ Discord вернул статус-код: {response.status}")
+                    return False
         except Exception as e:
             logger.error(f"❌ Ошибка отправки вебхука в Discord: {str(e)}")
             return False
@@ -51,7 +55,7 @@ class DiscordWebhookOrchestrator:
         
         embed = {
             "title": "📈 EVEDEX TRADE EXECUTION // СУРЫ",
-            "description": f"Автономный ордер успешно исполнен торговым ядром Амриты.",
+            "description": "Автономный ордер успешно исполнен торговым ядром Амриты.",
             "color": 5763719,  # Изумрудный зеленый цвет Сур
             "fields": [
                 {"name": "ID Ордера", "value": f"`{order_id}`", "inline": True},
@@ -105,7 +109,6 @@ class DiscordWebhookOrchestrator:
 
 
 if __name__ == "__main__":
-    # Тестовый прогон симуляции шлюзов при локальном вызове
     orchestrator = DiscordWebhookOrchestrator()
     print("--- ТЕСТИРОВАНИЕ КАНАЛА СИНХРОНИЗАЦИИ DISCORD ---")
     orchestrator.sync_evedex_trade("evedex-999-phi", "SOL/USDT", "buy", 10.8)
