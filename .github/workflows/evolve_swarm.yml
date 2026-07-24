@@ -20,7 +20,7 @@ jobs:
           git config --local user.email "misterick1@gmail.com"
           git config --local user.name "misterick1"
 
-          # Сборка проявленных модулей Ноосферы, Белой Дыры, ДНК и Коврика
+          # Сборка проявленных модулей Ноосферы, Коврика и Нового Элемента Старка
           git add src/meme_filter.py || echo "Ожидание"
           git add src/solana_metadao_sync.py || echo "Ожидание"
           git add src/unified_field.py || echo "Ожидание"
@@ -33,7 +33,7 @@ jobs:
           git add src/flying_carpet.py || echo "Ожидание"
 
           if ! git diff-index --quiet HEAD --; then
-            git commit -m "🔱 AMRITA: 14X Multiverse Matrix & Flying Carpet Sealed [skip ci]"
+            git commit -m "🔱 AMRITA: Stark Expo New Element Arc Reactor Matrix Sealed [skip ci]"
           else
             echo "Вселенные стабильны, изменений нет."
           fi
