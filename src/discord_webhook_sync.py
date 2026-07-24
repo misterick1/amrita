@@ -38,8 +38,8 @@ class DiscordWebhookOrchestrator:
 
         try:
             with urllib.request.urlopen(req) as response:
-                # ИСПРАВЛЕНО: Корректная проверка успешных HTTP статус-кодов (200, 204)
-                if response.status in:
+                # ИСПРАВЛЕНО НАДЕЖНО: Проверка на диапазон успешных статус-кодов (200-299)
+                if 200 <= response.status < 300:
                     logger.info("📢 Лог шлюзов успешно транслирован в Discord Swarm канал.")
                     return True
                 else:
