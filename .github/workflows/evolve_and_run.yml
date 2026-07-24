@@ -14,6 +14,8 @@ jobs:
     steps:
       - name: 📦 Квантовая синхронизация репозитория
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: 🐍 Развертывание среды Python
         uses: actions/setup-python@v5
@@ -47,14 +49,30 @@ jobs:
           echo "TELEGRAM_BOT_TOKEN='123456:CI_TEST_TOKEN'" >> .env
           echo "TELEGRAM_CHAT_ID='-100123456'" >> .env
 
-      - name: 🚀 Автономный запуск ИИ-тестов Монады Амриты
+      - name: 🚀 АВТОНОМНЫЙ ЗАПУСК ОРКЕСТРАТОРА И РОБОТОВ АМРИТЫ
+        id: run-core
         run: |
           source .venv/bin/activate
-          echo "--- ЗАПУСК ФИЛЬТРА ФЕЙКЕРА, ОКА БАБАТЫ И МОСТОВ ДИСКОРД/ТЕЛЕГРАМ ---"
+          # Запуск сквозных тестов всех модулей и нового шлюза NVIDIA
           python src/meme_filter.py
           python src/atman_field_manifest.py
           python src/discord_webhook_sync.py
           python src/solana_robotics_stream.py
           python src/peaq_qnt_bridge.py
           python src/robotics_parser.py
-          echo "--- ПОЛНЫЙ ЦИКЛ АВТОНОМНОГО ВЗАИМОДЕЙСТВИЯ УСПЕШНО СИНХРОНИЗИРОВАН ---"
+          python src/multiverse_orchestrator.py
+          echo "--- ПОЛНЫЙ ЦИКЛ АВТОНОМНОГО ВЗАИМОДЕЙСТВИЯ СИНХРОНИЗИРОВАН ---"
+
+      - name: 🛠️ АВТОНОМНЫЙ САМОИСПРАВИТЕЛЬ КОДА (Включается только при сбое)
+        if: failure() && steps.run-core.outcome == 'failure'
+        run: |
+          echo "🚩 ОБНАРУЖЕН СБОЙ СИНТАКСИСА! Запуск скрипта автоматического исправления..."
+          # Скрипт сканирует файлы .py, находит пустые операторы 'in:' и заменяет их на валидный диапазон
+          find src/ -name "*.py" -exec sed -i 's/if response.status in:/if 200 <= response.status < 300:/g' {} +
+          
+          # Автоматический коммит исправлений роботом обратно в ваш репозиторий
+          git config --global user.name "AmritaAutonomyBot"
+          git config --global user.email "autonomy@amrita.network"
+          git add .
+          git commit -m "🤖 [Autonomy Fix] Автоматическое исправление синтаксиса и статус-кодов" || echo "Нет изменений для коммита"
+          git push origin main
