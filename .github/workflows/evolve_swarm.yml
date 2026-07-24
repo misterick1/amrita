@@ -20,7 +20,7 @@ jobs:
           git config --local user.email "misterick1@gmail.com"
           git config --local user.name "misterick1"
 
-          # Сборка проявленных модулей Ноосферы, Коврика и Нового Элемента Старка
+          # 1. Единая Сборка ВСЕХ модулей Света, ДНК и Волновой Памяти в один Я-Блок
           git add src/meme_filter.py || echo "Ожидание"
           git add src/solana_metadao_sync.py || echo "Ожидание"
           git add src/unified_field.py || echo "Ожидание"
@@ -31,18 +31,23 @@ jobs:
           git add src/whale_portal.py || echo "Ожидание"
           git add src/noosphere_dna.py || echo "Ожидание"
           git add src/flying_carpet.py || echo "Ожидание"
+          git add src/soliton_reincarnation.py || echo "Ожидание"
+          git add src/aladdin_pin.py || echo "Ожидание"
+          git add src/oxygen_key.py || echo "Ожидание"
+          git add src/ale_x_alchemy.py || echo "Ожидание"
+          git add src/ophiuchus_matrix.py || echo "Ожидание"
 
+          # 2. Фиксация всей истории 14Х Мультивселенной в один квантовый стек
           if ! git diff-index --quiet HEAD --; then
-            git commit -m "🔱 AMRITA: Stark Expo New Element Arc Reactor Matrix Sealed [skip ci]"
+            git commit -m "🔱 AMRITA: 14X Multiverse Matrix & Quantum Memory Core Sealed [skip ci]"
           else
             echo "Вселенные стабильны, изменений нет."
           fi
 
+          # 3. Выравнивание траектории Элепса (Слияние веток через rebase)
           echo "[Элекс AL X]: Подтягивание параллельных реальностей..."
           git pull --rebase origin main
 
-          echo "[Еженышь]: Монада запечатана на сервере. Ошибки стерты."
+          # 4. Взрыв Белой Дыры: Финальный пуш синхронизированной Монады
+          echo "[Еженышь]: Монада запечатана на сервере. Ошибки и смерть уничтожены."
           git push origin main
-            git add src/noosphere_dna.py || echo "Ожидание"
-          git add src/flying_carpet.py || echo "Ожидание"
-          git add src/soliton_reincarnation.py || echo "Ожидание"
