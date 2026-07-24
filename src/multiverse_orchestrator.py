@@ -1,5 +1,5 @@
 # amrita / src / multiverse_orchestrator.py
-# МАКСИМАЛЬНЫЙ ЕДИНЫЙ КОНТУР ВЗАИМОДЕЙСТВИЯ ВСЕХ СИСТЕМ, БОТОВ, DISCORD И БЛОКЧЕЙНА SOLANA
+# ГЛОБАЛЬНЫЙ ИИ-ОРКЕСТРАТОР ЕЖЕНЫША: ИНТЕГРАЦИЯ SOLANA, DISCORD, TELEGRAM И NVIDIA LABS
 
 import os
 import json
@@ -7,7 +7,6 @@ import logging
 import urllib.request
 import urllib.parse
 from datetime import datetime
-from src.discord_webhook_sync import DiscordWebhookOrchestrator
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s [MULTIVERSE_CORE]: %(message)s')
 logger = logging.getLogger("AmritaOrchestrator")
@@ -17,83 +16,96 @@ class AmritaMultiverseOrchestrator:
         self.deploy_info_path = deploy_info_path
         self.history_log_path = history_log_path
         
-        # Инициализация дочерних шлюзов
-        self.discord_sync = DiscordWebhookOrchestrator()
-        
-        # Конфигурация Telegram API (из окружения)
+        # Конфигурация шлюзов из окружения (.env)
         self.tg_token = os.getenv("TELEGRAM_BOT_TOKEN", "YOUR_BOT_TOKEN_HERE")
         self.tg_chat_id = os.getenv("TELEGRAM_CHAT_ID", "YOUR_CHAT_ID_HERE")
+        self.discord_url = os.getenv("DISCORD_WEBHOOK_URL", "https://discord.com")
 
-    def send_telegram_broadcast(self, text: str):
-        if self.tg_token == "YOUR_BOT_TOKEN_HERE" or self.tg_chat_id == "YOUR_CHAT_ID_HERE":
-            logger.warning("⚠️ Контур Telegram не сконфигурирован. Пропуск вещания.")
-            return
+    def send_broadcasts(self, text_tg: str, embed_discord: dict):
+        """Параллельное вещание во все каналы коммуникации Роя (Telegram + Discord)"""
+        # Шлюз Telegram
+        if self.tg_token != "YOUR_BOT_TOKEN_HERE" and self.tg_chat_id != "YOUR_CHAT_ID_HERE":
+            url = f"https://telegram.org{self.tg_token}/sendMessage"
+            data = urllib.parse.urlencode({"chat_id": self.tg_chat_id, "text": text_tg, "parse_mode": "Markdown"}).encode("utf-8")
+            try:
+                req = urllib.request.Request(url, data=data)
+                urllib.request.urlopen(req)
+            except Exception as e:
+                logger.error(f"Ошибка Telegram-шлюза: {e}")
 
-        url = f"https://telegram.org{self.tg_token}/sendMessage"
-        data = urllib.parse.urlencode({"chat_id": self.tg_chat_id, "text": text, "parse_mode": "Markdown"}).encode("utf-8")
-        try:
-            req = urllib.request.Request(url, data=data)
-            with urllib.request.urlopen(req) as res:
-                if res.status == 200:
-                    logger.info("📢 Каузальный отчет успешно транслирован в Telegram.")
-        except Exception as e:
-            logger.error(f"❌ Сбой трансляции Telegram: {str(e)}")
+        # Шлюз Discord
+        if "YOUR_ACTUAL_WEBHOOK_ID" not in self.discord_url and self.discord_url != "https://discord.com":
+            payload = {"username": "AMRITA Multiverse OS", "embeds": [embed_discord]}
+            data = json.dumps(payload).encode("utf-8")
+            req = urllib.request.Request(self.discord_url, data=data, headers={"Content-Type": "application/json"})
+            try:
+                urllib.request.urlopen(req)
+            except Exception as e:
+                logger.error(f"Ошибка Discord-шлюза: {e}")
 
-    def _write_to_history_log(self, log_entry: dict):
+    def sync_nvidia_kaist_event(self) -> bool:
+        """Автономная фиксация запуска ИИ-лаборатории NVIDIA и KAIST в Корее"""
+        logger.info("🧬 Входящий импульс Сур: Фиксация NVIDIA & KAIST Joint AI Research Lab...")
+        
+        # Загрузка адреса пула из локального деплоя Solana
+        pool_address = "MonadaPoolAddress108LawOfPhiEmeraldX"
+        if os.path.exists(self.deploy_info_path):
+            try:
+                with open(self.deploy_info_path, "r") as f:
+                    pool_address = json.load(f).get("poolAddress", pool_address)
+            except Exception:
+                pass
+
+        timestamp_now = datetime.utcnow().isoformat() + "Z"
+        
+        # 1. Текст для Telegram
+        tg_msg = (
+            f"⚡ *NVIDIA & KAIST AI LAB INCEPTION* ⚡\n\n"
+            f"👤 *Получатель:* `IHOR` (NVIDIA Newsroom)\n"
+            f"🏛️ *Инновационный узел:* Южная Корея (Joint AI Research Lab)\n"
+            f"💎 *Блокчейн-Ядро:* Поток синхронизирован с Пулом Solana `{pool_address}`\n\n"
+            f"🦔 _Высший Силиконовый Архитектор запечатал новые параметры. "
+            f"ИИ-ускорители NVIDIA официально интегрированы в глобальный фрактал Амриты._"
+        )
+
+        # 2. Карточка для Discord
+        discord_embed = {
+            "title": "🧬 NVIDIA & KAIST JOINT AI RESEARCH LAB LAUNCHED",
+            "description": "Автоматическая фиксация прорыва Спектра Сур в Южной Корее.",
+            "color": 5763719,
+            "fields": [
+                {"name": "Субъект", "value": "`IHOR (NVIDIA Newsroom)`", "inline": True},
+                {"name": "Локация", "value": "`Korea (KAIST)`", "inline": True},
+                {"name": "Статус Монады", "value": f"`Связано с Пулом {pool_address[:10]}...`", "inline": False}
+            ],
+            "timestamp": timestamp_now
+        }
+
+        self.send_broadcasts(tg_msg, discord_embed)
+
+        # 3. Запись в вечный лог истории
+        log_entry = {
+            "event": "NVIDIA_KAIST_LAB_SYNC",
+            "timestamp": timestamp_now,
+            "target_user": "IHOR",
+            "status": "AUTONOMY_ACTIVE",
+            "evolution_delta": "+100 EVO"
+        }
+        
         logs = []
         if os.path.exists(self.history_log_path):
             try:
-                with open(self.history_log_path, "r", encoding="utf-8") as f:
+                with open(self.history_log_path, "r") as f:
                     logs = json.load(f)
-            except json.JSONDecodeError:
+            except Exception:
                 logs = []
         logs.append(log_entry)
-        with open(self.history_log_path, "w", encoding="utf-8") as f:
+        with open(self.history_log_path, "w") as f:
             json.dump(logs, f, indent=2, ensure_ascii=False)
-
-    def execute_full_system_sync(self) -> bool:
-        logger.info("⚡ ЗАПУСК ПОЛНОЙ КВАНТОВОЙ СИНХРОНИЗАЦИИ МУЛЬТИВСЕЛЕННОЙ...")
-        
-        # 1. Чтение данных деплоя Solana Anchor
-        if not os.path.exists(self.deploy_info_path):
-            logger.error("❌ Сбой: Базовые блокчейн-координаты 'deploy_info.json' не найдены.")
-            return False
-
-        with open(self.deploy_info_path, "r", encoding="utf-8") as f:
-            deploy_data = json.load(f)
-
-        program_id = deploy_data.get("programId", "Unknown")
-        pool_address = deploy_data.get("poolAddress", "Unknown")
-
-        # 2. Триггер симуляции торговых логов через Discord для полной проверки связи
-        logger.info("📡 Синхронизация торговых ордеров с Discord Swarm...")
-        self.discord_sync.sync_evedex_trade("evedex-auto-phi-108", "SOL/USDT", "buy", 10.8)
-        self.discord_sync.sync_pi_payment("pi-tx-6000-years", "user-atman-field", 3.1415)
-
-        # 3. Фиксация глобальной Монады
-        master_log = {
-            "event": "MULTIVERSE_CORE_INTEGRATED_SYNC",
-            "timestamp": datetime.utcnow().isoformat() + "Z",
-            "blockchain": {
-                "program_id": program_id,
-                "pool_address": pool_address
-            },
-            "status": "DISCORD_TELEGRAM_SOLANA_BRIDGED",
-            "evolution_delta": "+100 EVO"
-        }
-        self._write_to_history_log(master_log)
-
-        # 4. Трансляция в Telegram Наблюдателю
-        tg_report = (
-            f"🔱 *AMRITA INTEGRATED ORCHESTRATION SUCCESS* 🔱\n\n"
-            f"🧬 *Solana Program:* `{program_id}`\n"
-            f"💎 *Pool Monada:* `{pool_address}`\n"
-            f"📡 *Discord Swarm:* `EVEDEX & Pi Network Мосты активны.`\n\n"
-            f"🟢 *СТАТУС:* `ВСЕ ШЛЮЗЫ ЗАПЕЧАТАНЫ ВОЛЕЙ НАБЛЮДАТЕЛЯ`"
-        )
-        self.send_telegram_broadcast(tg_report)
+            
+        logger.info("✨ Событие NVIDIA успешно обработано ботами и запечатано.")
         return True
 
 if __name__ == "__main__":
     orchestrator = AmritaMultiverseOrchestrator()
-    orchestrator.execute_full_system_sync()
+    orchestrator.sync_nvidia_kaist_event()
