@@ -1,65 +1,38 @@
-# amrita / src / meme_filter.py
-# Защитный контур Мем-Фильтрации "Faker Guard" для отсечения скам-частот Асур
+# AMRITA // FAKER GUARD MEME FILTER (ZOOMER ATTENTION CORE)
+import re
 
-import logging
-from datetime import datetime
-
-# Настройка локального логирования щита безопасности
-logging.basicConfig(level=logging.INFO, format='%(asctime)s [FAKER_GUARD]: %(message)s')
-logger = logging.getLogger("FakerGuard")
-
-class FakerMemeFilter:
+class FakerGuard:
     def __init__(self):
-        # Глобальный черный список вредоносных мем-токенов Асур
-        self.blacklisted_keywords = ["vlad", "vladhood", "scam", "hack", "pump_scam"]
-        self.min_security_score = 70  # Минимальный порог чистоты Сур
+        self.monada_status = "Контур защиты активен"
+        # Паттерн зумерского импульса: чистая, короткая волна хайпа без лишних слов
+        self.zoomer_pulse_regex = re.compile(r"(\b\w+\b\s*){1,4}\.?\s*number\s+go\s+up", re.IGNORECASE)
 
-    def analyze_token_frequency(self, token_name: str, description: str) -> bool:
+    def analyze_vibration(self, raw_text: str) -> dict:
         """
-        Анализирует токен на предмет хакерской активности и манипуляций.
-        Возвращает True, если токен безопасен (Суры), и False, если это скам (Асуры).
+        Сканирование логов Среды. Отсекает миллениальский шум, 
+        пропуская только чистый плазменный импульс.
         """
-        token_lower = token_name.lower()
-        desc_lower = description.lower()
+        # Очистка от сложного псевдо-интеллектуального шума Асуров
+        is_millennial_noise = len(raw_text.split()) > 15 and "economics" in raw_text.lower()
         
-        logger.info(f"🛡️ Сканирование токена на уязвимости и скам-паттерны: '{token_name}'...")
-
-        # 1. Проверка по жесткому черному списку фейковых хайп-кампаний
-        for keyword in self.blacklisted_keywords:
-            if keyword in token_lower or keyword in desc_lower:
-                logger.error(
-                    f"🔴 ОБНАРУЖЕН СКАМ: Токен '{token_name}' содержит запрещенную частоту '{keyword}'! "
-                    f"Мем-фильтр блокирует каузальный пробой."
-                )
-                return False
-
-        # 2. Эвристический анализ безопасности (Симуляция проверки ликвидности и подписи автора)
-        if "hacked" in desc_lower or "compromised" in desc_lower:
-            logger.error(f"🔴 БЛОКИРОВКА: Обнаружены следы взлома или компрометации в описании.")
-            return False
-
-        logger.info(f"🟢 ВЕРИФИКАЦИЯ ПРОЙДЕНА: Токен '{token_name}' чист. Спектр Сур стабилизирован.")
-        return True
-
+        # Поиск сверхбыстрого квантового импульса Зумеров ("funny cat. number go up")
+        is_zoomer_pulse = bool(self.zoomer_pulse_regex.search(raw_text))
+        
+        if is_millennial_noise:
+            return {"action": "FILTER", "reason": "Миллениальский хаотичный шум заблокирован", "evo_points": 0}
+        
+        if is_zoomer_pulse:
+            return {
+                "action": "PASS",
+                "reason": "💥 Чистый импульс Белой Дыры зафиксирован! (Funny Cat Core)",
+                "evo_points": 108  # Максимальный заряд Монады
+            }
+            
+        return {"action": "PASS", "reason": "Нейтральная частота Среды", "evo_points": 1}
 
 if __name__ == "__main__":
-    # Тестовая проверка защитного контура на реальных событиях сегодняшнего дня
-    guard = FakerMemeFilter()
-    
-    print("--- ТЕСТИРОВАНИЕ ЗАЩИТНОГО ЩИТА 'FAKER GUARD' ---\n")
-    
-    # Тест 1: Попытка пробоя через взломанную монету Robinhood
-    vlad_attack = guard.analyze_token_frequency(
-        token_name="Vladhood Memecoin (VLAD)", 
-        description="Promoted via hacked X account of Robinhood CEO. flagged as scam."
-    )
-    
-    print(f"Результат теста 1 (Взлом): {'ИЗУМРУДНО/ПРОПУЩЕН' if vlad_attack else 'ЗАБЛОКИРОВАН ОКОМ БАБАТЫ'}\n")
-    
-    # Тест 2: Попытка пробоя чистого эволюционного токена Амриты
-    amrita_sync = guard.analyze_token_frequency(
-        token_name="AMRITA Quantum Token (QNT)", 
-        description="Immutable Monada on Solana. Balanced with 70 Suras and 38 Asuras. Core asset."
-    )
-    
-    print(f"Результат теста 2 (Монада): {'ИЗУМРУДНО/ПРОПУЩЕН' if amrita_sync else 'ЗАБЛОКИРОВАН ОКОМ БАБАТЫ'}\n")
+    filter_guard = FakerGuard()
+    # Тест на логе из твоей шторки уведомлений
+    sample_log = "funny cat. number go up."
+    result = filter_guard.analyze_vibration(sample_log)
+    print(f"[Faker Guard]: {result['reason']}. Начислено EVO: {result['evo_points']}")
