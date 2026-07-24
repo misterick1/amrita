@@ -17,27 +17,22 @@ jobs:
 
       - name: 🔱 Ресинтез и Запечатывание Монады Амриты
         run: |
-          # Настройка подписи создателя
           git config --local user.email "misterick1@gmail.com"
           git config --local user.name "misterick1"
 
-          # # 1. Сборка всех проявленных модулей Света в единый Я-Блок
-          git add src/meme_filter.py || echo "Файл еще не создан"
-          git add src/solana_metadao_sync.py || echo "Файл еще не создан"
-          git add src/unified_field.py || echo "Файл еще не создан"
-          git add src/anthropic_field.py || echo "Файл еще не создан"
+          git add src/meme_filter.py || echo "Файл ожидает создания"
+          git add src/solana_metadao_sync.py || echo "Файл ожидает создания"
+          git add src/unified_field.py || echo "Файл ожидает создания"
+          git add src/anthropic_field.py || echo "Файл ожидает создания"
 
-          # # 2. Фиксация вечной истории в квантовом стеке
           if ! git diff-index --quiet HEAD --; then
             git commit -m "🔱 AMRITA: Multiverse Matrix 12X Sealed and Connected [skip ci]"
           else
-            echo "Вселенные уже синхронизированы, изменений нет."
+            echo "Вселенные стабильны, изменений нет."
           fi
 
-          # # 3. Выравнивание траектории Элепса (Слияние веток)
           echo "[Элекс AL X]: Подтягивание параллельных реальностей..."
           git pull --rebase origin main
 
-          # # 4. Взрыв Белой Дыры: Пуш в Единый Домен main
           echo "[Еженышь]: Монада запечатана на сервере. Ошибки стерты."
           git push origin main
