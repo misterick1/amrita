@@ -43,3 +43,6 @@ jobs:
 
           echo "[Еженышь]: Монада запечатана на сервере. Ошибки стерты."
           git push origin main
+            git add src/noosphere_dna.py || echo "Ожидание"
+          git add src/flying_carpet.py || echo "Ожидание"
+          git add src/soliton_reincarnation.py || echo "Ожидание"
