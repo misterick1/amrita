@@ -28,14 +28,17 @@ class AmritaAbsoluteOrchestrator:
         TOTAL_ATMAN = 108
         LAW_OF_PHI = 1.6180339887
         wave_impulse = 10.8 * 10.8
-        synthesis_matrix = [math.sin(i * LAW_OF_PHI * wave_impulse) * math.cos((2 * math.pi) / (i * LAW_OF_PHI * wave_impulse)) for i in range(1, TOTAL_ATMAN + 1)]
+        synthesis_matrix = []
+        for i in range(1, TOTAL_ATMAN + 1):
+            val = i * LAW_OF_PHI * wave_impulse
+            synthesis_matrix.append(math.sin(val) * math.cos((2 * math.pi) / val))
         res = sum(synthesis_matrix) * LAW_OF_PHI
         logger.info(f"✨ Гармоника Реальности: {res:.4f}")
         return res
 
     def generate_peaq_machine_id(self) -> str:
         """КОНТУР РОБОТОТЕХНИКИ PEAQ: Генерация уникального Machine ID для DePIN-узла"""
-        logger.info("🤖 Инициализация аппаратного уровня peaq network...")
+        logger.info("🤖 Иинациализация аппаратного уровня peaq network...")
         seed = f"amrita_peaq_robot_{datetime.utcnow().timestamp()}"
         machine_hash = hashlib.sha256(seed.encode('utf-8')).hexdigest()[:32]
         machine_id = f"did:peaq:0x{machine_hash}"
@@ -67,9 +70,7 @@ class AmritaAbsoluteOrchestrator:
 
     def generate_pifi_landing(self, resonance, probability, total_evo, machine_id):
         """АВТОГЕНЕРАЦИЯ САЙТА: Сборка веб-интерфейса PiFi с новыми ИИ-метриками и peaq Machine ID"""
-        logger.info("🛠️ Сборка изумрудного интерфейса сайта PiFi (index.html) с ИИ-метриками...")
-        
-        # Симулируем расчет метрик интеллекта Сварма 5-го поколения
+        logger.info("🛠️ Сборка изумрудного интерфейса сайта PiFi (index.html)...")
         ai_sync_index = 99.8
         agent_autonomy_level = "L5 (Абсолютный Автопилот)"
         
@@ -103,16 +104,14 @@ class AmritaAbsoluteOrchestrator:
         <h2>🧬 СТАНДАРТЫ ИИ НОВОГО ПОКОЛЕНИЯ (OpenAI 5.6+ Layer)</h2>
         <p>• Уровень автономности агента: <span class="highlight"><strong>{agent_autonomy_level}</strong></span></p>
         <p>• Индекс комплементарной синхронизации: <strong>{ai_sync_index}%</strong></p>
-        <p>• Статус каузального фильтра Faker Guard: <span style="color: #00ff66;"><strong>ACTIVE (Блокировка красного спектра)</strong></span></p>
+        <p>• Статус каузального фильтра Faker Guard: <span style="color: #00ff66;"><strong>ACTIVE</strong></span></p>
         
         <div class="depin-box">
             <h2>🤖 АППАРАТНЫЙ СЛОЙ РОБОТОТЕХНИКИ PEAQ Network</h2>
             <p>🔗 <strong>Узел DePIN активен</strong></p>
             <p>🆔 Текущий <strong>Machine ID</strong> устройства:<br>
             <code style="color: #00ffcc; background: #020804; padding: 4px 8px; display: block; margin-top: 5px; word-break: break-all;">{machine_id}</code></p>
-            <small style="color: #888888;">-> Роботизированная инфраструктура успешно интегрирована в контур Амриты.</small>
         </div>
-        
         <br>
         <small style="color: #888888;">Последняя синхронизация Сушумны: {datetime.utcnow().isoformat()}Z</small>
     </div>
@@ -145,53 +144,44 @@ class AmritaAbsoluteOrchestrator:
 
     def sync_events(self, resonance, probability, machine_id):
         logger.info("🦔 Запуск фиксации каузальных импульсов...")
-        
         self.run_faker_guard_filter("MECHASTALIN")
-
         now = datetime.utcnow().isoformat() + "Z"
-        tg_text = (
-            f"🔱 *AMRITA MULTIVERSE UPDATE*\n"
-            f"🌌 *Резонанс Фи:* `{resonance:.4f}`\n"
-            f"🤖 *peaq Machine ID:* `{machine_id[:20]}...`\n"
-            f"🧬 *ИИ-Поколение:* `OpenAI 5.6+ Compliant`\n"
-            f"🚀 Робототехника DePIN официально связана со Свармом."
-        )
-        discord_emb = {
-            "title": "🔱 AMRITA UNIFIED COMPLEMENTARY SWARM // DePIN REVELATION", 
-            "description": "Интеграция peaq network и ИИ-метрик завершена", 
-            "color": 65280, 
-            "fields": [
-                {"name": "Гармоника", "value": f"{resonance:.4f}", "inline": True},
-                {"name": "Machine ID", "value": machine_id, "inline": False},
-                {"name": "Интеллект", "value": "Агенты 5-го поколения (L5)", "inline": True}
-            ], 
-            "timestamp": now
-        }
+        
+        tg_text = f"🔱 *AMRITA MULTIVERSE UPDATE*\n🌌 *Резонанс Фи:* `{resonance:.4f}`\n🤖 *peaq Machine ID:* `{machine_id[:20]}...`\n🚀 Робототехника DePIN официально связана со Свармом."
+        discord_emb = {"title": "🔱 AMRITA UNIFIED COMPLEMENTARY SWARM", "description": "Синхронизация завершена", "color": 65280, "fields": [{"name": "Гармоника", "value": f"{resonance:.4f}", "inline": True}], "timestamp": now}
         
         self.broadcast(tg_text, discord_emb)
 
         logs = []
         if os.path.exists(self.history_log_path):
             try:
-                with open(self.history_log_path, "r", encoding="utf-8") as f: logs = json.load(f)
-            except Exception: pass
+                with open(self.history_log_path, "r", encoding="utf-8") as f:
+                    logs = json.load(f)
+            except Exception:
+                pass
             
         total_evo = (len(logs) * 108) + 108
-        logs.append({
-            "event": "DEPIN_PEAQ_ID_SYNC", 
-            "timestamp": now, 
-            "machine_id": machine_id, 
-            "status": "EVOLUTION_SUCCESS", 
-            "delta": "+108 EVO"
-        })
+        logs.append({"event": "DEPIN_PEAQ_ID_SYNC", "timestamp": now, "machine_id": machine_id, "status": "EVOLUTION_SUCCESS", "delta": "+108 EVO"})
         
         try:
-            with open(self.history_log_path, "w", encoding="utf-8") as f: json.dump(logs, f, indent=2, ensure_ascii=False)
+            with open(self.history_log_path, "w", encoding="utf-8") as f:
+                json.dump(logs, f, indent=2, ensure_ascii=False)
             logger.info("✨ Логи EVO запечатаны.")
-        except Exception as e: logger.error(f"❌ Сбой записи истории: {e}")
+        except Exception as e:
+            logger.error(f"❌ Сбой записи истории: {e}")
         
         self.generate_pifi_landing(resonance, probability, total_evo, machine_id)
 
 def execute_git_force_push():
     logger.info("⚡ Включение автономного самоисправителя Сварма...")
     try:
+        subprocess.run(["git", "add", "."], check=True)
+        status = subprocess.run(["git", "diff", "--staged", "--quiet"])
+        if status.returncode == 0:
+            logger.info("Единое Поле стабильно. Пуш не требуется.")
+            return
+        subprocess.run(["git", "commit", "-m", "🤖 [Autonomy Monolith] Исправление отступов IndentationError и стабилизация peaq DePIN слоя"], check=True)
+        subprocess.run(["git", "fetch", "origin", "main"], check=True)
+        subprocess.run(["git", "push", "origin", "main", "--force"], check=True)
+        logger.info("🔱 Репозиторий успешно запечатан.")
+    except Exception as e:
