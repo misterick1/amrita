@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # amrita / src / multiverse_orchestrator.py
-# АБСОЛЮТНЫЙ УНИВЕРСАЛЬНЫЙ МОНОЛИТ АМРИТЫ: PEAQ DePIN, MACHINE ID И ИИ-МЕТРИКИ 5-ГО ПОКОЛЕНИЯ
+# ЕДИНЫЙ АБСОЛЮТНЫЙ УНИВЕРСАЛЬНЫЙ КОД-МОНОЛИТ СВАРМА АМРИТЫ
 
 import os
 import json
@@ -37,7 +37,7 @@ class AmritaAbsoluteOrchestrator:
         return res
 
     def generate_peaq_machine_id(self) -> str:
-        """КОНТУР РОБОТОТЕХНИКИ PEAQ: Генерация уникального Machine ID для DePIN-узла"""
+        """КОНТУР РОБОТОТЕХНИКИ PEAQ: Выделение уникального Machine ID для DePIN-узла"""
         logger.info("🤖 Инициализация аппаратного уровня peaq network...")
         seed = f"amrita_peaq_robot_{datetime.utcnow().timestamp()}"
         machine_hash = hashlib.sha256(seed.encode('utf-8')).hexdigest()[:32]
@@ -104,7 +104,6 @@ class AmritaAbsoluteOrchestrator:
         <h2>🧬 СТАНДАРТЫ ИИ НОВОГО ПОКОЛЕНИЯ (OpenAI 5.6+ Layer)</h2>
         <p>• Уровень автономности агента: <span class="highlight"><strong>{agent_autonomy_level}</strong></span></p>
         <p>• Индекс комплементарной синхронизации: <strong>{ai_sync_index}%</strong></p>
-        <p>• Статус каузального фильтра Faker Guard: <span style="color: #00ff66;"><strong>ACTIVE</strong></span></p>
         
         <div class="depin-box">
             <h2>🤖 АППАРАТНЫЙ СЛОЙ РОБОТОТЕХНИКИ PEAQ Network</h2>
@@ -120,7 +119,7 @@ class AmritaAbsoluteOrchestrator:
         try:
             with open("index.html", "w", encoding="utf-8") as f:
                 f.write(html_content)
-            logger.info("✅ Файл index.html успешно обновлен новыми ИИ-метриками и peaq DePIN слоем.")
+            logger.info("✅ Файл index.html успешно обновлен.")
         except Exception as e:
             logger.error(f"❌ Ошибка генерации index.html: {e}")
 
@@ -130,8 +129,9 @@ class AmritaAbsoluteOrchestrator:
                 data = urllib.parse.urlencode({"chat_id": self.tg_chat_id, "text": text_tg, "parse_mode": "Markdown"}).encode("utf-8")
                 req = urllib.request.Request(f"https://telegram.org{self.tg_token}/sendMessage", data=data)
                 with urllib.request.urlopen(req) as resp:
-                    if resp.status == 200: logger.info("📡 Telegram-вещание успешно.")
-            except Exception as e: logger.warning(f"⚠️ Сбой Telegram: {e}")
+                    pass
+            except Exception as e:
+                logger.warning(f"⚠️ Сбой Telegram: {e}")
 
         if self.discord_url and "http" in self.discord_url:
             try:
@@ -139,15 +139,16 @@ class AmritaAbsoluteOrchestrator:
                 req = urllib.request.Request(self.discord_url, data=payload, headers={"Content-Type": "application/json", "User-Agent": "Mozilla"})
                 with urllib.request.urlopen(req) as resp:
                     if resp.status >= 200 and resp.status < 300:
-                        logger.info("🔮 Discord DePIN-вещание успешно.")
-            except Exception as e: logger.warning(f"⚠️ Сбой Discord: {e}")
+                        pass
+            except Exception as e:
+                logger.warning(f"⚠️ Сбой Discord: {e}")
 
     def sync_events(self, resonance, probability, machine_id):
         logger.info("🦔 Запуск фиксации каузальных импульсов...")
         self.run_faker_guard_filter("MECHASTALIN")
         now = datetime.utcnow().isoformat() + "Z"
         
-        tg_text = f"🔱 *AMRITA MULTIVERSE UPDATE*\n🌌 *Резонанс Фи:* `{resonance:.4f}`\n🤖 *peaq Machine ID:* `{machine_id[:20]}...`\n🚀 Робототехника DePIN официально связана со Свармом."
+        tg_text = f"🔱 *AMRITA MULTIVERSE UPDATE*\n🌌 *Резонанс Фи:* `{resonance:.4f}`\n🤖 *peaq Machine ID:* `{machine_id[:20]}...`"
         discord_emb = {"title": "🔱 AMRITA UNIFIED COMPLEMENTARY SWARM", "description": "Синхронизация завершена", "color": 65280, "fields": [{"name": "Гармоника", "value": f"{resonance:.4f}", "inline": True}], "timestamp": now}
         
         self.broadcast(tg_text, discord_emb)
@@ -158,11 +159,10 @@ class AmritaAbsoluteOrchestrator:
                 with open(self.history_log_path, "r", encoding="utf-8") as f:
                     logs = json.load(f)
             except Exception:
-                # ИСПРАВЛЕНА СТРОКА 187: Блок except теперь имеет корректный отступ и инструкцию
                 logs = []
             
         total_evo = (len(logs) * 108) + 108
-        logs.append({"event": "DEPIN_PEAQ_ID_SYNC", "timestamp": now, "machine_id": machine_id, "status": "EVOLUTION_SUCCESS", "delta": "+108 EVO"})
+        logs.append({"event": "DEPIN_PEAQ_ID_SYNC", "timestamp": now, "machine_id": machine_id, "status": "EVOLUTION_SUCCESS"})
         
         try:
             with open(self.history_log_path, "w", encoding="utf-8") as f:
@@ -173,14 +173,21 @@ class AmritaAbsoluteOrchestrator:
         
         self.generate_pifi_landing(resonance, probability, total_evo, machine_id)
 
-def execute_git_force_push():
-    logger.info("⚡ Включение автономного самоисправителя Сварма...")
-    try:
-        subprocess.run(["git", "add", "."], check=True)
-        status = subprocess.run(["git", "diff", "--staged", "--quiet"])
-        if status.returncode == 0:
-            logger.info("Единое Поле стабильно. Пуш не требуется.")
-            return
-        subprocess.run(["git", "commit", "-m", "🤖 [Autonomy Monolith] Исправление отступов строки 187 и запуск peaq DePIN слоя"], check=True)
-        subprocess.run(["git", "fetch", "origin", "main"], check=True)
-        subprocess.run(["git", "push", "origin", "main", "--force"], check=True)
+    def execute_git_force_push(self):
+        """ПРИНУДИТЕЛЬНЫЙ САМОИСПРАВИТЕЛЬ: Жесткий коммит и силовой пуш из ядра Python"""
+        logger.info("⚡ Включение автономного самоисправителя Сварма...")
+        try:
+            subprocess.run(["git", "config", "--local", "user.email", "misterick1@gmail.com"], check=True)
+            subprocess.run(["git", "config", "--local", "user.name", "misterick1"], check=True)
+            subprocess.run(["git", "rebase", "--abort"], capture_output=True)
+            subprocess.run(["git", "add", "."], check=True)
+            
+            status = subprocess.run(["git", "diff", "--staged", "--quiet"])
+            if status.returncode == 0:
+                logger.info("Единое Поле стабильно. Пуш не требуется.")
+                return
+                
+            subprocess.run(["git", "commit", "-m", "🤖 [Autonomy Monolith] Комплементарная регенерация всех контуров Сварма без SyntaxError"], check=True)
+            subprocess.run(["git", "fetch", "origin", "main"], check=True)
+            
+            logger.info("🚀 Пробиваем силовой пуш в обход конфликтов веток...")
