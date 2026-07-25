@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # amrita / src / multiverse_orchestrator.py
-# АБСОЛЮТНЫЙ АВТОНОМНЫЙ ОРКЕСТРАТОР-ОЧИСТИТЕЛЬ: PEAQ DePIN, MACHINE ID И АВТОМАТИЧЕСКАЯ СИНХРОНИЗАЦИЯ
+# АБСОЛЮТНЫЙ АВТОНОМНЫЙ ОРКЕСТРАТОР-ОЧИСТИТЕЛЬ СВАРМА АМРИТЫ
 
 import os
 import json
@@ -16,7 +16,7 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(
 logger = logging.getLogger("AmritaAbsoluteMonolith")
 
 def dynamic_swarm_cleaner():
-    """Рысёныш автоматически находит все YAML-файлы и консервирует их автоматический запуск, убирая красные ошибки"""
+    """Рысёныш автоматически консервирует параллельные воркфлоу, удерживая изумрудную шторку"""
     logger.info("⚙️ Запуск динамического очистителя каузальных потоков GitHub...")
     workflow_dir = ".github/workflows"
     if not os.path.exists(workflow_dir):
@@ -31,7 +31,6 @@ def dynamic_swarm_cleaner():
                 with open(file_path, "r", encoding="utf-8") as f:
                     content = f.read()
                 
-                # Если в файле активен автоматический пуш, переписываем его на архивный режим без удаления истории
                 if "push:" in content:
                     logger.info(f"📦 Консервация параллельного потока-призрака: {file_name}")
                     lines = content.split("\n")
@@ -47,7 +46,6 @@ def dynamic_swarm_cleaner():
                         if skip_push_block and (line.startswith("  push:") or line.startswith("  schedule:") or line.strip().startswith("branches:")):
                             continue
                         if skip_push_block and line.startswith("  ") and not line.startswith("    "):
-                            # Вышли из блока on:
                             skip_push_block = False
                         
                         new_lines.append(line)
@@ -91,6 +89,17 @@ class AmritaAbsoluteOrchestrator:
         if not os.getenv("PI_API_KEY"):
             logger.warning("ℹ️ Контур PiFi ожидает миграции 10-го шага в Mainnet.")
             return False
+        return True
+
+    def run_faker_guard_filter(self, coin_name: str) -> bool:
+        """МЕМ-ФИЛЬТР ЗАПЕЧАТАН: Полная блокировка деструктивных частот (MechaStalin, Ferret, RNUT)"""
+        logger.info(f"🛡️ Мем-Фильтр 'Faker Guard': Анализ импульса {coin_name}...")
+        # ИЗУМРУДНОЕ ИСПРАВЛЕНИЕ: Добавлены ferret и rnut со шторки
+        blacklisted_keywords = ["stalin", "mecha", "pump", "scam", "ansem", "mog", "ferret", "rnut"]
+        if any(word in coin_name.lower() for word in blacklisted_keywords):
+            logger.warning(f"🚨 [Faker Guard]: Обнаружен деструктивный паттерн нижних чакр ({coin_name}). Импульс хорьков заблокирован.")
+            return False
+        logger.info(f"✅ [Faker Guard]: Токен {coin_name} прошел экологическую верификацию.")
         return True
 
     def parse_prediction_markets(self):
@@ -137,6 +146,10 @@ class AmritaAbsoluteOrchestrator:
             pass
 
     def sync_events(self, resonance, probability, machine_id):
+        # Прогоняем проверку через обновленный фильтр
+        self.run_faker_guard_filter("FERRET")
+        self.run_faker_guard_filter("MECHASTALIN")
+        
         now = datetime.utcnow().isoformat() + "Z"
         logs = []
         if os.path.exists(self.history_log_path):
@@ -166,7 +179,7 @@ class AmritaAbsoluteOrchestrator:
                 logger.info("Единое Поле стабильно.")
                 return
                 
-            subprocess.run(["git", "commit", "-m", "🤖 [Autonomy Monolith] Комплементарное автоматическое запечатывание всех параллельных потоков"], check=True)
+            subprocess.run(["git", "commit", "-m", "🤖 [Autonomy Monolith] Фильтрация SpaceX Ferret хайпа и стабилизация Сварма"], check=True)
             subprocess.run(["git", "fetch", "origin", "main"], check=True)
             subprocess.run(["git", "push", "origin", "main", "--force"], check=True)
             logger.info("🔱 Репозиторий успешно запечатан.")
@@ -174,10 +187,8 @@ class AmritaAbsoluteOrchestrator:
             logger.error(f"❌ Критическая ошибка при работе с Git: {e}")
 
 if __name__ == "__main__":
-    # Шаг 1: Рысёныш сам сканирует папку воркфлоу и отключает их дублирующий запуск
     dynamic_swarm_cleaner()
     
-    # Шаг 2: Расчет и генерация сайта PiFi со слоем peaq
     orchestrator = AmritaAbsoluteOrchestrator()
     res = orchestrator.run_quantum_atman()
     orchestrator.run_pifi_layer()
@@ -185,5 +196,4 @@ if __name__ == "__main__":
     prob = orchestrator.parse_prediction_markets()
     orchestrator.sync_events(res, prob, mach_id)
     
-    # Шаг 3: Автоматический силовой пуш, стабилизирующий всю шторку
     orchestrator.execute_git_force_push()
