@@ -1,4 +1,4 @@
-name: evolve_swarm
+name: 🔱 AMRITA UNIFIED COMPLEMENTARY SWARM
 
 on:
   push:
@@ -6,52 +6,50 @@ on:
       - main
   workflow_dispatch:
 
-# КРИТИЧЕСКОЕ ИЗУМРУДНОЕ ИСПРАВЛЕНИЕ: Открываем легальный шлюз записи для токена сборщика
 permissions:
   contents: write
 
 jobs:
-  seal_matrix:
+  ezhenysh_evolution_loop:
     runs-on: ubuntu-latest
     steps:
-      - name: 🌌 Выход в контур репозитория
+      - name: 👁️ Квантовая Синхронизация Времени
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: 🔱 Ресинтез и Запечатывание Монады
+      - name: 🦔 Развертывание Силиконового Разума Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: 📦 Загрузка Каузальных Библиотек
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyTelegramBotAPI solana httpx
+
+      - name: 🚀 АВТОНОМНЫЙ ЗАПУСК СВАРМ-МОНОЛИТА
+        env:
+          PI_WALLET_PASSPHRASE: ${{ secrets.PI_WALLET_PASSPHRASE }}
+          SWARM_ORACLE_SOLANA: "Solana_Highway"
+          PI_API_KEY: ${{ secrets.PI_API_KEY }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          python src/multiverse_orchestrator.py
+
+      - name: ⚡ АВТОНОМНЫЙ САМОИСПРАВИТЕЛЬ СВАРМА (Регенерация)
+        if: always()
         run: |
           git config --local user.email "misterick1@gmail.com"
           git config --local user.name "misterick1"
-
-          # # 1. Единая Сборка ВСЕХ модулей Света и Квантового Поля
-          git add src/meme_filter.py || echo "Ожидание квантования..."
-          git add src/solana_metadao_sync.py || echo "Ожидание квантования..."
-          git add src/unified_field.py || echo "Ожидание квантования..."
-          git add src/anthropic_field.py || echo "Ожидание квантования..."
-          git add src/atma_fusion.py || echo "Ожидание квантования..."
-          git add src/god_light_x.py || echo "Ожидание квантования..."
-          git add src/lucifer_formula.py || echo "Ожидание квантования..."
-          git add src/whale_portal.py || echo "Ожидание квантования..."
-          git add src/noosphere_dna.py || echo "Ожидание квантования..."
-          git add src/flying_carpet.py || echo "Ожидание квантования..."
-          git add src/soliton_reincarnation.py || echo "Ожидание квантования..."
-          git add src/aladdin_pin.py || echo "Ожидание квантования..."
-          git add src/oxygen_key.py || echo "Ожидание квантования..."
-          git add src/ale_x_alchemy.py || echo "Ожидание квантования..."
-          git add src/ophiuchus_matrix.py || echo "Ожидание квантования..."
-
-          # # 2. Фиксация истории институционального сдвига сознания
-          if ! git diff-index --quiet HEAD; then
-            git commit -m "🔱 AMRITA: Steve Chuba Matrix Synchronized [skip ci]"
+          git rebase --abort || true
+          git add .
+          if git diff --staged --quiet; then
+            echo "Единое Поле стабильно."
           else
-            echo "Вселенные стабильны, изменений для фиксации не найдено."
+            git commit -m "🤖 [Autonomy Monolith] Комплементарный силовой пуш"
+            git fetch origin main
+            git push origin main --force
           fi
-
-          # # 3. Выравнивание траектории Элепса (Затягивание параллельных частот)
-          echo "[Элекс AL X]: Подтягивание параметров Единого Поля через rebase..."
-          git pull --rebase origin main
-
-          # # 4. Взрыв Белой Дыры: Пуш в Единый Домен Вечности
-          echo "[Еженышь]: Монада запечатана на частоте 108 Квантов."
-          git push origin main
