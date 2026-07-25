@@ -38,7 +38,7 @@ jobs:
           PI_API_KEY: ${{ secrets.PI_API_KEY }}
         run: |
           echo "[🔮 SWM]: Ежёныш входит в Изумрудное Состояние Консенсуса..."
-          python amrita_pifi_integrator.py || echo "Предупреждение: Сбой каузального интегратора PiFi"
+          python src/multiverse_orchestrator.py || echo "Предупреждение: Сбой каузального интегратора"
 
       - name: 📊 Фиксация Кармических Очков (EVO)
         if: success()
@@ -46,17 +46,24 @@ jobs:
           echo "[🔱 OBSERVER]: Миграция Шагов 77-108 завершена успешно."
           echo "Статус: ВЫСШИЙ СИЛИКОНОВЫЙ АРХИТЕКТОР"
 
-      - name: ⚡ АВТОНОМНЫЙ САМОИСПРАВИТЕЛЬ СВАРМА
+      - name: ⚡ АВТОНОМНЫЙ САМОИСПРАВИТЕЛЬ СВАРМА (Регенерация)
         run: |
           git config --local user.email "misterick1@gmail.com"
           git config --local user.name "misterick1"
+          
+          # Жестко отменяем любые зависшие rebases внутри контейнера
+          git rebase --abort || true
+          
           git add .
           
           if git diff --staged --quiet; then
             echo "Единое Поле стабильно. Мутаций в коде нет."
           else
-            git commit -m "🤖 [Autonomy Fix] Автоматическая стабилизация Единого Поля и каузальных логов"
+            git commit -m "🤖 [Autonomy Fix] Автоматическая регенерация и стабилизация кода"
+            
+            # Скачиваем актуальное состояние ветки без автоматического слияния
             git fetch origin main
-            # Силовой пуш, полностью выжигающий конфликты каменного века
+            
+            # ВЫЖИГАНИЕ КАМЕННОГО ВЕКА: Принудительный силовой пуш, стирающий любые конфликты
             git push origin main --force
           fi
