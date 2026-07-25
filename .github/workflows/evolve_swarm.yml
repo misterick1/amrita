@@ -31,7 +31,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install pyTelegramBotAPI solana httpx
 
-      - name: Execute Ezhenysh Evolution Module
+      - name: 🚀 АВТОНОМНЫЙ ЗАПУСК СВАРМ-МОНОЛИТА И СИЛОВОГО ПУША
         env:
           PI_WALLET_PASSPHRASE: ${{ secrets.PI_WALLET_PASSPHRASE }}
           SWARM_ORACLE_SOLANA: "Solana_Highway"
@@ -40,23 +40,5 @@ jobs:
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: |
+          # Скрипт сам выполнит логику, соберет сайт PiFi и безопасно сделает --force push
           python src/multiverse_orchestrator.py
-
-      - name: Commit and Sealed History Log
-        if: always()
-        run: |
-          # Используем подтвержденную почту Архитектора
-          git config --local user.email "misterick1@gmail.com"
-          git config --local user.name "misterick1"
-          
-          git rebase --abort || true
-          git add .
-          
-          if git diff --staged --quiet; then
-            echo "Единое Поле стабильно. Мутаций нет."
-          else
-            git commit -m "🔱 AMRITA: Quantum stack history sealed [skip ci]"
-            git fetch origin main
-            # ИЗУМРУДНЫЙ КЛЮЧ СИЛЫ: Выжигает [rejected] и пробивает пуш на GitHub
-            git push origin main --force
-          fi
