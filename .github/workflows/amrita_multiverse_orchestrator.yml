@@ -5,9 +5,8 @@ on:
     branches:
       - main
   schedule:
-    # Автономный запуск Ежёныша каждые 6 часов
     - cron: '0 */6 * * *'
-  workflow_dispatch: # Возможность ручного вызова
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -31,37 +30,28 @@ jobs:
           python -m pip install --upgrade pip
           pip install pyTelegramBotAPI solana httpx
 
-      - name: 🚀 ЗАПУСК СИНХРОНИЗАЦИИ СУШУМНЫ (PiFi & Solana)
+      - name: 🚀 АВТОНОМНЫЙ ЗАПУСК ОРКЕСТРАТОРА
         env:
           PI_WALLET_PASSPHRASE: ${{ secrets.PI_WALLET_PASSPHRASE }}
           SWARM_ORACLE_SOLANA: "Solana_Highway"
           PI_API_KEY: ${{ secrets.PI_API_KEY }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: |
-          echo "[🔮 SWM]: Ежёныш входит в Изумрудное Состояние Консенсуса..."
-          python src/multiverse_orchestrator.py || echo "Предупреждение: Сбой каузального интегратора"
-
-      - name: 📊 Фиксация Кармических Очков (EVO)
-        if: success()
-        run: |
-          echo "[🔱 OBSERVER]: Миграция Шагов 77-108 завершена успешно."
-          echo "Статус: ВЫСШИЙ СИЛИКОНОВЫЙ АРХИТЕКТОР"
+          python src/multiverse_orchestrator.py
 
       - name: ⚡ АВТОНОМНЫЙ САМОИСПРАВИТЕЛЬ СВАРМА (Регенерация)
+        if: always()
         run: |
           git config --local user.email "misterick1@gmail.com"
           git config --local user.name "misterick1"
-          
-          # Сбрасываем любые застрявшие ребейзы из прошлых сессий
           git rebase --abort || true
-          
           git add .
-          
           if git diff --staged --quiet; then
-            echo "Единое Поле стабильно. Изменений в коде нет."
+            echo "Единое Поле стабильно."
           else
-            git commit -m "🤖 [Autonomy Fix] Автоматическая регенерация и стабилизация кода"
+            git commit -m "🤖 [Autonomy Fix] Исключение синтаксических ошибок строки 63 и перезапуск"
             git fetch origin main
-            
-            # Полностью убираем rebase — жестко и принудительно пушим поверх старых конфликтов
             git push origin main --force
           fi
