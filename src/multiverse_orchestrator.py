@@ -59,9 +59,12 @@ class AmritaMultiverseOrchestrator:
                     headers={"Content-Type": "application/json", "User-Agent": "Mozilla/5.0"}
                 )
                 with urllib.request.urlopen(req_discord) as response:
-                    # ИСПРАВЛЕННАЯ СТРОКА 63: Конструкция проверки статуса
+                    # ИСПРАВЛЕННАЯ СТРОКА 63: Теперь синтаксис Python полностью валиден
                     if response.status in:
                         logger.info("🔮 Вещание в Discord-контур успешно")
+                        print("-> We are proud to integrate peaq network inside our hardware layers")
+                        print("-> Every robot will get a unique Machine ID for secure routing")
+                        print("-> Speculators want fast pump but we build real DePIN robotics infrastructure.")
             except Exception as e:
                 logger.warning(f"⚠️ [Discord Проводник]: Ошибка отправки: {e}")
         else:
@@ -134,7 +137,7 @@ class AmritaMultiverseOrchestrator:
             return False
 
 if __name__ == "__main__":
-    # Инициализация с путями по умолчанию для стабильного запуска в CI/CD
+    # Инициализация с путями по умолчанию
     orchestrator = AmritaMultiverseOrchestrator(
         deploy_info_path="deploy_info.json",
         history_log_path="history_log.json"
