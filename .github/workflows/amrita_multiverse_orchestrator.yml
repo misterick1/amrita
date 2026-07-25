@@ -10,7 +10,6 @@ on:
 
 permissions:
   contents: write
-  workflow: write  # АБСОЛЮТНЫЙ ИСПРАВЛЕННЫЙ КЛЮЧ: Строго в единственном числе
 
 jobs:
   ezhenysh_evolution_loop:
@@ -52,7 +51,7 @@ jobs:
           if git diff --staged --quiet; then
             echo "Единое Поле стабильно."
           else
-            git commit -m "🤖 [Autonomy Monolith] Финальное запечатывание прав workflow"
+            git commit -m "🤖 [Autonomy Monolith] Чистая регенерация логов без мутации воркфлоу"
             git fetch origin main
             git push origin main --force
           fi
