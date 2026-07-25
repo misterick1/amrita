@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # amrita / src / multiverse_orchestrator.py
-# АБСОЛЮТНЫЙ УНИВЕРСАЛЬНЫЙ МОНОЛИТ АМРИТЫ — ВСЕ В ОДНОМ ФАЙЛЕ
+# АБСОЛЮТНЫЙ УНИВЕРСАЛЬНЫЙ МОНОЛИТ АМРИТЫ — ЧИСТЫЙ PIFI КЛЮЧ
 
 import os
 import json
@@ -14,83 +14,6 @@ from datetime import datetime
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 logger = logging.getLogger("AmritaAbsoluteMonolith")
 
-# =====================================================================
-# ЧАСТЬ 1: УНИВЕРСАЛЬНЫЙ ШАБЛОН ДЛЯ ВСЕХ YAML-ФАЙЛОВ REPO (БЕЗ ОШИБОК)
-# =====================================================================
-YAML_TEMPLATE = """name: 🔱 AMRITA UNIFIED COMPLEMENTARY SWARM
-
-on:
-  push:
-    branches:
-      - main
-  workflow_dispatch:
-
-permissions:
-  contents: write
-
-jobs:
-  ezhenysh_evolution_loop:
-    runs-on: ubuntu-latest
-    steps:
-      - name: 👁️ Квантовая Синхронизация Времени
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: 🦔 Развертывание Силиконового Разума Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.10'
-
-      - name: 📦 Загрузка Каузальных Библиотек
-        run: |
-          python -m pip install --upgrade pip
-          pip install pyTelegramBotAPI solana httpx
-
-      - name: 🚀 АВТОНОМНЫЙ ЗАПУСК СВАРМ-МОНОЛИТА
-        env:
-          PI_WALLET_PASSPHRASE: ${{ secrets.PI_WALLET_PASSPHRASE }}
-          SWARM_ORACLE_SOLANA: "Solana_Highway"
-          PI_API_KEY: ${{ secrets.PI_API_KEY }}
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
-        run: |
-          python src/multiverse_orchestrator.py
-"""
-
-def fix_all_yaml_workflows():
-    """Автоматически находит и лечит ВСЕ конфигурации GitHub Actions без их удаления"""
-    logger.info("⚙️ Синхронизация и комплементарное исправление всех YAML-контуров...")
-    workflow_dir = ".github/workflows"
-    if not os.path.exists(workflow_dir):
-        try:
-            os.makedirs(workflow_dir)
-        except Exception:
-            return
-            
-    # Переписываем все файлы в папке под единый безошибочный стандарт
-    for file_name in os.listdir(workflow_dir):
-        if file_name.endswith(".yml") or file_name.endswith(".yaml"):
-            file_path = os.path.join(workflow_dir, file_name)
-            try:
-                with open(file_path, "r", encoding="utf-8") as f:
-                    content = f.read()
-                lines = content.split('\n') if content else []
-                first_line = lines[0] if lines else ""
-                current_name = first_line if "name:" in first_line else f"name: 🔱 AMRITA {file_name.upper()}"
-                
-                # Собираем чистый рабочий YAML без синтаксических косяков
-                fixed_yaml = current_name + "\n" + "\n".join(YAML_TEMPLATE.split("\n")[1:])
-                with open(file_path, "w", encoding="utf-8") as f:
-                    f.write(fixed_yaml)
-                logger.info(f"✅ Пайплайн {file_name} успешно стабилизирован.")
-            except Exception as e:
-                logger.warning(f"⚠️ Не удалось пропатчить {file_name}: {e}")
-
-# =====================================================================
-# ЧАСТЬ 2: ВСЕ ИСПОЛНЯЕМЫЕ КОНТУРЫ (ATMAN, PIFI, TG, DISCORD, NVIDIA)
-# =====================================================================
 class AmritaAbsoluteOrchestrator:
     def __init__(self, deploy_info_path: str = "deploy_info.json", history_log_path: str = "history_log.json"):
         self.deploy_info_path = deploy_info_path
@@ -118,7 +41,6 @@ class AmritaAbsoluteOrchestrator:
         return True
 
     def broadcast(self, text_tg: str, embed_discord: dict):
-        # Шлюз Telegram
         if self.tg_token and self.tg_token != "YOUR_BOT_TOKEN_HERE" and self.tg_chat_id:
             try:
                 data = urllib.parse.urlencode({"chat_id": self.tg_chat_id, "text": text_tg, "parse_mode": "Markdown"}).encode("utf-8")
@@ -127,7 +49,6 @@ class AmritaAbsoluteOrchestrator:
                     if resp.status == 200: logger.info("📡 Telegram-вещание успешно.")
             except Exception as e: logger.warning(f"⚠️ Сбой Telegram: {e}")
 
-        # Шлюз Discord (ИСПРАВЛЕНО: Полностью удален некорректный оператор in)
         if self.discord_url and "http" in self.discord_url:
             try:
                 payload = json.dumps({"username": "AMRITA Multiverse Orchestrator", "embeds": [embed_discord]}).encode("utf-8")
@@ -154,7 +75,6 @@ class AmritaAbsoluteOrchestrator:
         
         self.broadcast(tg_text, discord_emb)
 
-        # Запись EVO-логов
         logs = []
         if os.path.exists(self.history_log_path):
             try:
@@ -166,11 +86,7 @@ class AmritaAbsoluteOrchestrator:
             logger.info("✨ Событие успешно запечатано в каузальную историю.")
         except Exception as e: logger.error(f"❌ Сбой записи истории: {e}")
 
-# =====================================================================
-# ЧАСТЬ 3: ФИНАЛЬНЫЙ АВТОНОМНЫЙ САМОИСПРАВИТЕЛЬ GIT FORCE PUSH
-# =====================================================================
 def execute_git_force_push():
-    """Принудительно сохраняет стабильное состояние в репозиторий, затирая любые конфликты версий"""
     logger.info("⚡ Включение автономного самоисправителя Сварма...")
     try:
         subprocess.run(["git", "config", "--local", "user.email", "misterick1@gmail.com"], check=True)
@@ -183,24 +99,19 @@ def execute_git_force_push():
             logger.info("Единое Поле стабильно. Пуш не требуется.")
             return
 
-        subprocess.run(["git", "commit", "-m", "🤖 [Autonomy Monolith] Комплементарная регенерация контуров Сварма БЕЗ SyntaxError"], check=True)
+        subprocess.run(["git", "commit", "-m", "🤖 [Autonomy Monolith] Комплементарная регенерация контуров логов"], check=True)
         subprocess.run(["git", "fetch", "origin", "main"], check=True)
-        
-        logger.info("🚀 Запуск силового пуша для стабилизации параллельных сборок...")
         subprocess.run(["git", "push", "origin", "main", "--force"], check=True)
         logger.info("🔱 Репозиторий успешно запечатан.")
     except Exception as e:
         logger.error(f"❌ Критическая ошибка при работе с Git: {e}")
 
 if __name__ == "__main__":
-    # Шаг 1: Исправляем синтаксис во всех YAML-файлах без удаления
-    fix_all_yaml_workflows()
-    
-    # Шаг 2: Запускаем все контуры Сварма
+    # Запускаем контуры Сварма без деструктивных попыток перезаписать YAML
     orchestrator = AmritaAbsoluteOrchestrator()
     orchestrator.run_quantum_atman()
     orchestrator.run_pifi_layer()
     orchestrator.sync_nvidia_kaist()
     print("[🔱 OBSERVER]: Миграция Шагов 77-108 завершена успешно.")
     
-    # Шаг 3: Пробиваем силовой пуш, спасая воркфлоу от конфликтов блокировки веток
+    execute_git_force_push()
