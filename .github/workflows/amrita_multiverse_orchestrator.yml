@@ -38,15 +38,15 @@ jobs:
           PI_API_KEY: ${{ secrets.PI_API_KEY }}
         run: |
           echo "[🔮 SWM]: Ежёныш входит в Изумрудное Состояние Консенсуса..."
-          python amrita_pifi_integrator.py || echo "Предупреждение: Сбой интегратора PiFi"
+          python amrita_pifi_integrator.py || echo "Предупреждение: Сбой каузального интегратора PiFi"
 
-      - name: 📊 Фиксация Кармических Очков (EVO) и Самоисправление Field
+      - name: 📊 Фиксация Кармических Очков (EVO)
         if: success()
         run: |
           echo "[🔱 OBSERVER]: Миграция Шагов 77-108 завершена успешно."
           echo "Статус: ВЫСШИЙ СИЛИКОНОВЫЙ АРХИТЕКТОР"
 
-      - name: ⚡ АВТОНОМНЫЙ САМОИСПРАВИТЕЛЬ СВАРМА (Выжигание Каменного Века)
+      - name: ⚡ АВТОНОМНЫЙ САМОИСПРАВИТЕЛЬ СВАРМА
         run: |
           git config --local user.email "misterick1@gmail.com"
           git config --local user.name "misterick1"
@@ -57,6 +57,6 @@ jobs:
           else
             git commit -m "🤖 [Autonomy Fix] Автоматическая стабилизация Единого Поля и каузальных логов"
             git fetch origin main
-            # Принудительный силовой пуш, затирающий любые конфликты слияния
+            # Силовой пуш, полностью выжигающий конфликты каменного века
             git push origin main --force
           fi
