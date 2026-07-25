@@ -30,7 +30,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install pyTelegramBotAPI solana httpx
 
-      - name: 🚀 АВТОНОМНЫЙ ЗАПУСК ОРКЕСТРАТОРА
+      - name: 🚀 АВТОНОМНЫЙ ЗАПУСК СВАРМ-МОНОЛИТА
         env:
           PI_WALLET_PASSPHRASE: ${{ secrets.PI_WALLET_PASSPHRASE }}
           SWARM_ORACLE_SOLANA: "Solana_Highway"
@@ -51,7 +51,7 @@ jobs:
           if git diff --staged --quiet; then
             echo "Единое Поле стабильно."
           else
-            git commit -m "🤖 [Autonomy Fix] Исключение синтаксических ошибок строки 63 и перезапуск"
+            git commit -m "🤖 [Autonomy Monolith] Комплементарная регенерация всех контуров Сварма"
             git fetch origin main
             git push origin main --force
           fi
