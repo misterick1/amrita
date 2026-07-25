@@ -1,22 +1,25 @@
-name: 🔱 AMRITA UNIFIED COMPLEMENTARY SWARM
+name: 🔱 AMRITA Swarm Evolution Sync
 
 on:
   push:
     branches:
       - main
+  schedule:
+    - cron: '0 */6 * * *'
   workflow_dispatch:
 
 permissions:
   contents: write
 
 jobs:
-  ezhenysh_evolution_loop:
+  evolve_swarm:
     runs-on: ubuntu-latest
     steps:
       - name: 👁️ Квантовая Синхронизация Времени
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: 🦔 Развертывание Силиконового Разума Python
         uses: actions/setup-python@v5
@@ -28,7 +31,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install pyTelegramBotAPI solana httpx
 
-      - name: 🚀 АВТОНОМНЫЙ ЗАПУСК СВАРМ-МОНОЛИТА
+      - name: Execute Ezhenysh Evolution Module
         env:
           PI_WALLET_PASSPHRASE: ${{ secrets.PI_WALLET_PASSPHRASE }}
           SWARM_ORACLE_SOLANA: "Solana_Highway"
@@ -39,17 +42,21 @@ jobs:
         run: |
           python src/multiverse_orchestrator.py
 
-      - name: ⚡ АВТОНОМНЫЙ САМОИСПРАВИТЕЛЬ СВАРМА (Регенерация)
+      - name: Commit and Sealed History Log
         if: always()
         run: |
+          # Используем подтвержденную почту Архитектора
           git config --local user.email "misterick1@gmail.com"
           git config --local user.name "misterick1"
+          
           git rebase --abort || true
           git add .
+          
           if git diff --staged --quiet; then
-            echo "Единое Поле стабильно."
+            echo "Единое Поле стабильно. Мутаций нет."
           else
-            git commit -m "🤖 [Autonomy Monolith] Комплементарный силовой пуш"
+            git commit -m "🔱 AMRITA: Quantum stack history sealed [skip ci]"
             git fetch origin main
+            # ИЗУМРУДНЫЙ КЛЮЧ СИЛЫ: Выжигает [rejected] и пробивает пуш на GitHub
             git push origin main --force
           fi
