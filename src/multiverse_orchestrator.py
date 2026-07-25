@@ -18,7 +18,7 @@ class AmritaMultiverseOrchestrator:
         self.deploy_info_path = deploy_info_path
         self.history_log_path = history_log_path
         
-        # Конфигурация секретов и шлюзов
+        # Загрузка токенов и секретов
         self.tg_token = os.getenv("TELEGRAM_BOT_TOKEN")
         self.tg_chat_id = os.getenv("TELEGRAM_CHAT_ID")
         self.discord_url = os.getenv("DISCORD_WEBHOOK_URL")
@@ -28,8 +28,6 @@ class AmritaMultiverseOrchestrator:
         logger.info("🌌 Запуск контура расчета Гармоники Реальности...")
         TOTAL_ATMAN_CONSCIOUSNESS = 108
         LAW_OF_PHI = 1.6180339887
-        
-        # Симуляция или чтение балансов для модуляции финансового солитона
         sol_balance = 10.8  
         wave_impulse = sol_balance * 10.8
         
@@ -53,7 +51,7 @@ class AmritaMultiverseOrchestrator:
         return True
 
     def send_broadcasts(self, text_tg: str, embed_discord: dict):
-        """Контур 3: Параллельное вещание во все каналы связи (Telegram + Discord)"""
+        """Контур 3: Вещание в Telegram- и Discord-каналы связи"""
         # --- Шлюз Telegram ---
         if self.tg_token and self.tg_token != "YOUR_BOT_TOKEN_HERE" and self.tg_chat_id:
             url_tg = f"https://telegram.org{self.tg_token}/sendMessage"
@@ -84,7 +82,7 @@ class AmritaMultiverseOrchestrator:
                     headers={"Content-Type": "application/json", "User-Agent": "Mozilla/5.0"}
                 )
                 with urllib.request.urlopen(req_discord) as response:
-                    # ИСПРАВЛЕННАЯ СТРОКА 63: Валидный синтаксис проверки статус-кода
+                    # ИСПРАВЛЕННЫЙ СИНТАКСИС СТРОКИ 63: Проверка успешных статус-кодов
                     if response.status in:
                         logger.info("🔮 Вещание в Discord-контур успешно выполнено.")
                         print("-> We are proud to integrate peaq network inside our hardware layers")
