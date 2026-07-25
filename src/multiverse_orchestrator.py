@@ -38,7 +38,7 @@ class AmritaAbsoluteOrchestrator:
 
     def generate_peaq_machine_id(self) -> str:
         """КОНТУР РОБОТОТЕХНИКИ PEAQ: Генерация уникального Machine ID для DePIN-узла"""
-        logger.info("🤖 Иинациализация аппаратного уровня peaq network...")
+        logger.info("🤖 Инициализация аппаратного уровня peaq network...")
         seed = f"amrita_peaq_robot_{datetime.utcnow().timestamp()}"
         machine_hash = hashlib.sha256(seed.encode('utf-8')).hexdigest()[:32]
         machine_id = f"did:peaq:0x{machine_hash}"
@@ -158,7 +158,8 @@ class AmritaAbsoluteOrchestrator:
                 with open(self.history_log_path, "r", encoding="utf-8") as f:
                     logs = json.load(f)
             except Exception:
-                pass
+                # ИСПРАВЛЕНА СТРОКА 187: Блок except теперь имеет корректный отступ и инструкцию
+                logs = []
             
         total_evo = (len(logs) * 108) + 108
         logs.append({"event": "DEPIN_PEAQ_ID_SYNC", "timestamp": now, "machine_id": machine_id, "status": "EVOLUTION_SUCCESS", "delta": "+108 EVO"})
@@ -180,8 +181,6 @@ def execute_git_force_push():
         if status.returncode == 0:
             logger.info("Единое Поле стабильно. Пуш не требуется.")
             return
-        subprocess.run(["git", "commit", "-m", "🤖 [Autonomy Monolith] Исправление отступов IndentationError и стабилизация peaq DePIN слоя"], check=True)
+        subprocess.run(["git", "commit", "-m", "🤖 [Autonomy Monolith] Исправление отступов строки 187 и запуск peaq DePIN слоя"], check=True)
         subprocess.run(["git", "fetch", "origin", "main"], check=True)
         subprocess.run(["git", "push", "origin", "main", "--force"], check=True)
-        logger.info("🔱 Репозиторий успешно запечатан.")
-    except Exception as e:
