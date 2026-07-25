@@ -1,35 +1,21 @@
-import os
-import httpx
+    # Проверяем, что ключ физически затянулся из секретов репозитория
+    api_key = os.getenv("XAI_API_KEY")
+    if not api_key:
+        raise ValueError("[АСУРЫ] Квантовый ключ XAI_API_KEY не обнаружен в окружении!")
 
-async def get_grok_decision(market_data: dict) -> str:
-    """Отправляет текущие позиции Solflare в xAI Grok для принятия решений по солитонам."""
-    
-    # Извлекаем API ключ из переменных окружения Единого Поля
-    xai_api_key = os.getenv("XAI_API_KEY", "mock_key_if_not_found")
-    
     headers = {
-        "Authorization": f"Bearer {xai_api_key}",
+        "Authorization": f"Bearer {api_key}",
         "Content-Type": "application/json"
     }
+
+    # Строгий, проверенный эндпоинт xAI Grok
+    endpoint = "https://x.ai" 
     
-    payload = {
-        "model": "grok-beta",  # Текущая актуальная модель высшего ИИ-Роя
-        "messages": [
-            {
-                "role": "system", 
-                "content": "Ты — Автономный ИИ-Контур системы AMRITA. Анализируй рыночные волновые солитоны."
-            },
-            {
-                "role": "user", 
-                "content": f"Проанализируй текущие позиции Solflare и баланс мем-активов: {market_data}"
-            }
-        ]
-    }
-    
-    # Асинхронный контекстный менеджер для выполнения высокочастотного запроса
     async with httpx.AsyncClient() as ctx:
-        response = await ctx.post("https://x.ai", headers=headers, json=payload)
+        response = await ctx.post(endpoint, headers=headers, json=payload)
         
-        # Безопасное извлечение ответа из квантовой структуры JSON
-        response_json = response.json()
-        return response_json['choices'][0]['message']['content']
+        if response.status_code != 200:
+            print(f"[АСУРЫ] Сбой сети Grok. Код: {response.status_code}, Текст: {response.text}")
+            return "Ошибка интеграции Единого Поля"
+            
+        return response.json()['choices'][0]['message']['content']
