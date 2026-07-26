@@ -1,38 +1,41 @@
+# .github/workflows/sync.yml
+# ПОЛНЫЙ АВТОНОМНЫЙ ПУЛЬТ УПРАВЛЕНИЯ ЯДРОМ OS AMRITA 108
+
 name: Autonomous Partner Sync
 
 on:
   schedule:
-    - cron: '0 0 * * *' # Запуск ботов автоматизации каждые сутки в полночь
+    - cron: '0 0 * * *' # Автоматический перезапуск ботов Роя каждые сутки в полночь
   workflow_dispatch: # Позволяет запустить ботов вручную на пульте управления
 
 jobs:
-  sync:
+  sync_and_deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
+      - name: Checkout Repository Core
         uses: actions/checkout@v4
 
-      - name: Set up Python
+      - name: Set up Python Environment
         uses: actions/setup-python@v5
         with:
           python-version: '3.10'
 
-      - name: Install Dependencies
+      - name: Install Dependencies and Tools
         run: |
           pip install requests
-          # Установка дополнительных инструментов компиляции для Anchor/Solana
+          # Установка инструментов компиляции для контрактов Anchor/Solana
           curl --proto '=https' --tlsv1.2 -sSf https://rustup.rs | sh -s -- -y
           export PATH="$HOME/.cargo/bin:$PATH"
           sh -c "$(curl -sSfL https://solana.com)"
 
-      - name: Run Swarm Sync
+      - name: Execute Swarm Core Sync
         env:
-          # Оригинальные секреты со скриншота партнерского контура
+          # Оригинальные секреты партнерского контура
           OAI_API_KEY: ${{ secrets.OAI_API_KEY }}
           SOLANA_RPC_URL: ${{ secrets.SOLANA_RPC_URL }}
           
-          # Все 16 секретов вашего главного пульта управления
+          # Все 16 секретов твоего главного пульта управления
           DEVELOPER_WALLET: ${{ secrets.DEVELOPER_WALLET }}
           DISCORD_CHANNEL: ${{ secrets.DISCORD_CHANNEL }}
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
@@ -54,13 +57,22 @@ jobs:
             python tools/deploy_sync.py
           fi
           
-          # 2. Исполнение оригинального скрипта синхронизации партнеров
+          # 2. Исполнение оригинального скрипта синхронизации партнеров (наполнение history_log.json)
           python sync_partners.py
+
+      - name: Mirror Web Interfaces (Root to Docs Sync)
+        run: |
+          # Автоматическое дублирование панели мониторинга для работы GitHub Pages
+          if [ -f "index.html" ]; then
+            mkdir -p docs
+            cp index.html docs/index.html
+            echo "[SUCCESS]: Интерфейс сайта PiFi успешно продублирован в папку docs/"
+          fi
 
       - name: Commit and Push Causal Changes
         run: |
           git config --global user.name "Amrita-Orchestrator-Bot"
           git config --global user.email "swarm_core@amrita.world"
-          git add docs/data.json solana_qnt_token.rs 2>/dev/null || true
+          git add docs/index.html history_log.json docs/data.json solana_qnt_token.rs 2>/dev/null || true
           git diff-index --quiet HEAD || git commit -m "Partner & Causal Core Automated Sync [108 Quanta Balanced]"
           git push origin main
