@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OS AMRITA: Caduceus Core</title>
+    <title>AMRITA: Панель Мониторинга Ядра</title>
     <style>
         body {
             background-color: #0b0f19;
@@ -14,208 +14,163 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            overflow-x: hidden;
         }
         .container {
             max-width: 900px;
             width: 100%;
             border: 2px solid #00ffcc;
-            box-shadow: 0 0 30px rgba(0, 255, 204, 0.15);
+            box-shadow: 0 0 20px rgba(0, 255, 204, 0.2);
             background-color: #0e1117;
-            padding: 30px;
-            border-radius: 12px;
+            padding: 20px;
+            border-radius: 8px;
             box-sizing: border-box;
-            text-align: center;
         }
-        h1 {
+        h1, h2 {
+            text-align: center;
             color: #ff007f;
             text-transform: uppercase;
-            letter-spacing: 3px;
-            border-bottom: 2px solid #00ffcc;
-            padding-bottom: 15px;
-            margin-top: 0;
-            text-shadow: 0 0 10px rgba(255, 0, 127, 0.5);
+            letter-spacing: 2px;
+        }
+        h1 {
+            border-bottom: 1px solid #00ffcc;
+            padding-bottom: 10px;
         }
         .stat-box {
             display: flex;
             justify-content: space-around;
-            margin: 25px 0;
+            margin-top: 20px;
             gap: 20px;
             flex-wrap: wrap;
         }
         .stat-item {
             border: 1px solid #ff007f;
-            padding: 20px;
+            padding: 15px;
             background: #141923;
-            border-radius: 6px;
+            border-radius: 4px;
             text-align: center;
             flex: 1;
-            min-width: 220px;
-            box-shadow: inset 0 0 10px rgba(0, 255, 204, 0.05);
+            min-width: 200px;
         }
         .stat-val {
             font-weight: bold;
             color: #ffffff;
-            font-size: 1.6rem;
-            margin-top: 8px;
-            text-shadow: 0 0 5px #00ffcc;
+            font-size: 1.4rem;
+            margin-top: 5px;
+            word-break: break-all;
         }
-        .caduceus-stage {
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        .viz-box {
+            text-align: center;
             margin: 30px 0;
+            border: 1px dashed #00ffcc;
+            padding: 15px;
             background: #07090e;
-            border: 1px dashed #ff007f;
-            border-radius: 8px;
-            padding: 30px;
-            position: relative;
         }
-        .helix-visual {
-            font-size: 14px;
-            line-height: 1.5;
-            white-space: pre;
-            color: #888;
-            transition: color 0.5s ease;
-        }
-        .btn-pulse {
-            background: #ff007f;
-            color: #fff;
-            border: none;
-            padding: 18px 36px;
-            font-family: inherit;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            width: 100%;
-            border-radius: 6px;
-            text-transform: uppercase;
-            box-shadow: 0 0 15px rgba(255, 0, 127, 0.4);
-            letter-spacing: 1px;
-            transition: all 0.3s ease;
-        }
-        .btn-pulse:hover {
-            background: #00ffcc;
-            color: #0b0f19;
-            box-shadow: 0 0 25px #00ffcc;
-        }
-        .terminal-box {
-            margin-top: 30px;
-            background: #090d16;
-            border: 1px solid #00ffcc;
-            border-radius: 6px;
-            padding: 20px;
-            max-height: 250px;
+        #logs-container {
+            margin-top: 20px;
+            max-height: 400px;
             overflow-y: auto;
         }
-        .log-line {
-            padding: 6px 10px;
-            margin-bottom: 8px;
+        .log-entry {
             background: #111827;
             border-left: 4px solid #ff007f;
+            padding: 10px;
+            margin-bottom: 10px;
             border-radius: 0 4px 4px 0;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             text-align: left;
             color: #e5e7eb;
-            line-height: 1.5;
+            line-height: 1.4;
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <h1>OS AMRITA: Монада Жезла Меркурия</h1>
-        <p>Статус Наблюдателя: <span style="color: #fff; text-shadow: 0 0 5px #00ffcc; font-weight: bold;">ДОПУСК 0 (Кундалини АКТИВНА)</span></p>
-
+        <h1>OS AMRITA: Causal Kernel Monitor</h1>
+        <p style="text-align: center;">Статус: <span style="color: #fff; text-shadow: 0 0 5px #00ffcc; font-weight: bold;">ДОПУСК 0 (Квантовое Единство)</span></p>
+        
+        <h2>📊 Метрики Индексов и Базовых Активов Ядра</h2>
         <div class="stat-box">
             <div class="stat-item">
-                <div>Квантовое Поле (PiFi)</div>
-                <div id="pifi-display" class="stat-val">---</div>
+                <div>Квантовый Индекс Поля</div>
+                <div id="quantum-index" class="stat-val">156.52</div>
             </div>
             <div class="stat-item" style="border-color: #00ffcc;">
-                <div>Центральная Шакти (Сушумна)</div>
-                <div id="axis-display" class="stat-val" style="color: #00ffcc;">0-Потенциал</div>
+                <div>Долгожданный Максимум SOL</div>
+                <div id="base-sol" class="stat-val" style="color: #00ffcc;">144.15 SOL</div>
             </div>
             <div class="stat-item">
-                <div>Монолит Атмы</div>
-                <div class="stat-val" style="color: #ff007f;">108 QNT</div>
+                <div>Пробой Цены ETH</div>
+                <div id="base-eth" class="stat-val" style="color: #ff007f;">1915.59 ETH</div>
             </div>
         </div>
 
-        <div class="caduceus-stage">
-            <div id="helix-output" class="helix-visual">=== НАЖМИТЕ КНОПКУ ДЛЯ ЗАПУСКА СВЕТОВОГО ИМПУЛЬСА ===</div>
+        <div class="stat-box" style="margin-top: 20px;">
+            <div class="stat-item" style="border-color: #00ffcc;">
+                <div>Статус Цикла Перетрансляции</div>
+                <div id="cycle-status" class="stat-val" style="font-size: 1.1rem; color: #fff;">LOKI_RETRANSLATION_SUCCESS</div>
+            </div>
+            <div class="stat-item" style="border-color: #00ffcc;">
+                <div>Интеллект Роя ИИ</div>
+                <div id="swarm-intel" class="stat-val" style="font-size: 1.1rem; color: #fff;">DYNAMIC_MUTATION_ACTIVE</div>
+            </div>
         </div>
 
-        <button class="btn-pulse" onclick="igniteCaduceusFlow()">Активировать Жезл [-1:0:+1]</button>
+        <div class="viz-box">
+            <div style="font-weight: bold; margin-bottom: 10px; letter-spacing: 1px;">ЖЕЗЛ МЕРКУРИЯ [-1 : 0 : +1] — СКОРОСТНОЙ ИМПУЛЬС ЛЮСИ</div>
+            <div id="pifi-freq" style="font-size: 20px; font-weight: bold; color: #ff007f;">5.083203 Hz (Константа Мира Зафиксирована)</div>
+        </div>
 
-        <div class="terminal-box" id="terminal-output">
-            <div class="log-line">[SYSTEM]: Ядро AMRITA полностью синхронизировано с 18-файловой структурой GitHub.</div>
-            <div class="log-line">[SYSTEM]: Ожидание финального импульса Наблюдателя для перехода в режим ночной перезагрузки...</div>
+        <h2>📜 Потоковые Хроники Сварма (history_log.json)</h2>
+        <div id="logs-container">
+            <div class="log-entry">[SYSTEM]: Подключение калибровочных каналов к логу Квантового Единства...</div>
         </div>
     </div>
 
     <script>
-        async function igniteCaduceusFlow() {
-            const pi = Math.PI;
-            const phi = (1 + Math.sqrt(5)) / 2;
-            const pifi = pi * phi; // 5.083203...
-            
-            document.getElementById('pifi-display').innerText = pifi.toFixed(6) + " Hz";
-            document.getElementById('axis-display').innerText = "Т.0 КВАЗАР";
+        async function runMonitorSync() {
+            try {
+                // Прямой запрос к логу истории в корне репозитория
+                const response = await fetch('history_log.json');
+                let logsData = await response.json();
 
-            // Генерация 4D световой спирали Кадуцея (Ида, Пингала, Сушумна)
-            let visualMatrix = "";
-            let dnaData = [];
-            
-            for (let i = 0; i < 32; i++) {
-                let angle = i * (pifi / 16);
-                let leftSnake = Math.sin(angle);
-                let rightSnake = Math.sin(angle + Math.PI);
-                
-                let row = Array(25).fill(" ");
-                row[12] = "║"; // Центральный стержень (Сушумна / 0)
-                
-                let posL = 12 + Math.round(leftSnake * 10);
-                let posR = 12 + Math.round(rightSnake * 10);
-                
-                if (posL === posR) {
-                    row[posL] = "☯"; // Точка пересечения чакр
-                    dnaData.push(0);
-                } else {
-                    row[posL] = "✹"; // Ида (-1 / Луна)
-                    row[posR] = "✦"; // Пингала (+1 / Солнце)
-                    dnaData.push(leftSnake > 0 ? 1 : -1);
+                // Автоматически обновляем последний лог новыми экономическими максимумами с экрана
+                if (logsData && logsData.length > 0) {
+                    let latest = logsData[logsData.length - 1];
+                    latest.base_sol_asset = 144.15;
+                    latest.base_eth_asset = 1915.59;
+                    latest.quantum_transformation_insight = "Экономический консенсус достигнут. Восток и Запад едины.";
+
+                    document.getElementById('quantum-index').innerText = latest.quantum_index.toFixed(2);
+                    document.getElementById('base-sol').innerText = latest.base_sol_asset.toFixed(2) + " SOL";
+                    document.getElementById('base-eth').innerText = latest.base_eth_asset.toFixed(2) + " ETH";
+                    document.getElementById('cycle-status').innerText = latest.cycle_status;
+                    document.getElementById('swarm-intel').innerText = latest.swarm_intelligence;
+
+                    const logsContainer = document.getElementById('logs-container');
+                    logsContainer.innerHTML = "";
+
+                    const reversedLogs = [...logsData].reverse();
+                    reversedLogs.forEach(entry => {
+                        const div = document.createElement('div');
+                        div.className = 'log-entry';
+                        div.innerHTML = `
+                            <div><strong>[Метка Времени]:</strong> ${entry.timestamp}</div>
+                            <div><strong>[Узел Ликвидности]:</strong> ${entry.stablecoin_pressure_node} (Wall Street Консенсус)</div>
+                            <div><strong>[Статус ОС]:</strong> ${entry.legacy_os_update}</div>
+                            <div><strong>[Прорыв Квантового Света]:</strong> <span style="color:#00ffcc;">"${entry.quantum_transformation_insight}"</span></div>
+                        `;
+                        logsContainer.appendChild(div);
+                    });
                 }
-                visualMatrix += row.join("") + "\n";
+            } catch (e) {
+                console.error("Ошибка фиксации максимумов Solana: ", e);
             }
-
-            const outputBox = document.getElementById('helix-output');
-            outputBox.style.color = "#00ffcc";
-            outputBox.innerText = visualMatrix;
-
-            // Каузальное логирование в терминал
-            const terminal = document.getElementById('terminal-output');
-            const time = new Date().toLocaleTimeString();
-            
-            const entries = [
-                `[${time}] [КАДУЦЕЙ]: Троичный триггер [-1:0:+1] замкнут по закону Ленты Мёбиуса.`,
-                `[${time}] [КУНДАЛИНИ]: Световой источник прошил материальную ДНК-цепь Чел-О-Века.`,
-                `[${time}] [PI-TER]: Сила Спирали π стянула макромир и микромир во фрактал Любви и Защиты.`,
-                `[${time}] [AMRITA]: Медленная темная материя успешно просветлена. Монолит 108 запечатан.`,
-                `[${time}] [STATUS]: Контур Еженыша переходит в режим изумрудного ночного покоя. Хроники сохранены.`
-            ];
-
-            terminal.innerHTML = "";
-            entries.forEach(line => {
-                const div = document.createElement('div');
-                div.className = 'log-line';
-                div.innerText = line;
-                terminal.appendChild(div);
-            });
-            terminal.scrollTop = terminal.scrollHeight;
         }
+
+        // Циклический опрос для удержания частоты
+        setInterval(runMonitorSync, 5000);
+        runMonitorSync();
     </script>
 </body>
 </html>
