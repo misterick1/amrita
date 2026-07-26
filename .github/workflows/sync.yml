@@ -2,12 +2,13 @@ name: Autonomous Partner Sync
 
 on:
   schedule:
-    - cron: '0 0 * * *' # Запуск ботов автоматически каждый день в полночь
-  workflow_dispatch: # Позволяет запустить ботов вручную кнопкой из Гитхаба
+    - cron: '0 0 * * *' # Запуск ботов автоматизации каждые сутки в полночь
+  workflow_dispatch: # Позволяет запустить ботов вручную на пульте управления
 
 jobs:
   sync:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -18,10 +19,48 @@ jobs:
           python-version: '3.10'
 
       - name: Install Dependencies
-        run: pip install requests
+        run: |
+          pip install requests
+          # Установка дополнительных инструментов компиляции для Anchor/Solana
+          curl --proto '=https' --tlsv1.2 -sSf https://rustup.rs | sh -s -- -y
+          export PATH="$HOME/.cargo/bin:$PATH"
+          sh -c "$(curl -sSfL https://solana.com)"
 
       - name: Run Swarm Sync
         env:
+          # Оригинальные секреты со скриншота партнерского контура
           OAI_API_KEY: ${{ secrets.OAI_API_KEY }}
           SOLANA_RPC_URL: ${{ secrets.SOLANA_RPC_URL }}
-        run: python sync_partners.py
+          
+          # Все 16 секретов вашего главного пульта управления
+          DEVELOPER_WALLET: ${{ secrets.DEVELOPER_WALLET }}
+          DISCORD_CHANNEL: ${{ secrets.DISCORD_CHANNEL }}
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          MINT_ADDRESS: ${{ secrets.MINT_ADDRESS }}
+          PI_API_KEY: ${{ secrets.PI_API_KEY }}
+          PI_WALLET_PRIVATE_KEY: ${{ secrets.PI_WALLET_PRIVATE_KEY }}
+          SERVER_1: ${{ secrets.SERVER_1 }}
+          SERVER_2: ${{ secrets.SERVER_2 }}
+          SERVER_3: ${{ secrets.SERVER_3 }}
+          SERVER_4: ${{ secrets.SERVER_4 }}
+          SERVER_PASSWORD: ${{ secrets.SERVER_PASSWORD }}
+          SWARM_ORACLE_KEY: ${{ secrets.SWARM_ORACLE_KEY }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHANNELS: ${{ secrets.TELEGRAM_CHANNELS }}
+          XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
+        run: |
+          # 1. Запуск калибровочного скрипта для вшивания MINT_ADDRESS в declare_id!
+          if [ -f "tools/deploy_sync.py" ]; then
+            python tools/deploy_sync.py
+          fi
+          
+          # 2. Исполнение оригинального скрипта синхронизации партнеров
+          python sync_partners.py
+
+      - name: Commit and Push Causal Changes
+        run: |
+          git config --global user.name "Amrita-Orchestrator-Bot"
+          git config --global user.email "swarm_core@amrita.world"
+          git add docs/data.json solana_qnt_token.rs 2>/dev/null || true
+          git diff-index --quiet HEAD || git commit -m "Partner & Causal Core Automated Sync [108 Quanta Balanced]"
+          git push origin main
