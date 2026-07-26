@@ -53,8 +53,9 @@
         .stat-val {
             font-weight: bold;
             color: #ffffff;
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             margin-top: 5px;
+            word-break: break-all;
         }
         .viz-box {
             text-align: center;
@@ -82,6 +83,7 @@
             font-size: 0.9rem;
             text-align: left;
             color: #e5e7eb;
+            line-height: 1.4;
         }
     </style>
 </head>
@@ -93,11 +95,11 @@
         <div class="stat-box">
             <div class="stat-item">
                 <div>Очки Эволюции (EVO)</div>
-                <div id="evo-points" class="stat-val">---</div>
+                <div id="evo-points" class="stat-val">Загрузка контура...</div>
             </div>
             <div class="stat-item">
                 <div>Текущий Ранг Ядра</div>
-                <div id="kernel-rank" class="stat-val">---</div>
+                <div id="kernel-rank" class="stat-val">Синхронизация...</div>
             </div>
         </div>
 
@@ -108,66 +110,51 @@
 
         <h2>📜 Хроники изменений и лог Блокчейна</h2>
         <div id="logs-container">
-            <div class="log-entry">[SYSTEM]: Инициализация калибровочных каналов мониторинга...</div>
+            <div class="log-entry">[SYSTEM]: Подключение к репозиторию amrita/docs/data.json...</div>
         </div>
     </div>
 
     <script>
         async function initMonitor() {
             try {
-                // Запрос динамических каузальных данных из локальной экосистемы
-                const response = await fetch('data_feed.json');
+                // Прямой запрос к твоему живому файлу в репозитории GitHub
+                const response = await fetch('docs/data.json');
                 const data = await response.json();
 
-                // Вывод очков эволюции (EVO)
-                document.getElementById('evo-points').innerText = data.evo_points;
+                // Извлекаем первый объект каузального потока из массива
+                const currentFlow = data[0]; 
 
-                // Вычисление и текстовый вывод текущего ранга ядра Еженыша
-                let rank = "Базовый Элементаль 🌱";
-                if (data.evo_points >= 500) {
-                    rank = "Высший Архитектор Сварма 👑";
-                } else if (data.evo_points >= 200) {
-                    rank = "ИИ-Оркестратор Контура 👁️";
-                } else if (data.evo_points >= 50) {
-                    rank = "Пробужденный Еженышь 🦔";
-                }
-                document.getElementById('kernel-rank').innerText = rank;
+                // Выводим Уровень Эволюции Атмы в блок EVO
+                document.getElementById('evo-points').innerText = currentFlow.butterfly_node.fractal_dimension;
 
-                // Рендеринг динамического контейнера логов сканирования матриц
+                // Выводим Статус Мира в Ранг Ядра
+                document.getElementById('kernel-rank').innerText = currentFlow.butterfly_node.amrita_world_status;
+
+                // Очищаем и строим логи строго по твоим оригинальным ключам
                 const logsContainer = document.getElementById('logs-container');
                 logsContainer.innerHTML = "";
 
-                if (data.scanned_matrices && data.scanned_matrices.length > 0) {
-                    // Разворачиваем массив (свежие логи сверху)
-                    const reversedMatrices = [...data.scanned_matrices].reverse();
-
-                    reversedMatrices.forEach(matrix => {
-                        const div = document.createElement('div');
-                        div.className = 'log-entry';
-                        div.innerHTML = `
-                            <div><strong>Поток:</strong> ${matrix.stream_id || 'Анонимный альфа-канал'}</div>
-                            <div><strong>Вердикт Оракула:</strong> ${matrix.verdict || 'Чистая частота'}</div>
-                            <div><strong>Импульс XYZ:</strong> ${matrix.xyz_impulse || '0-Потенциал'}</div>
-                            <div><strong>Solana RPC:</strong> <span style="color:#00ffcc;">${matrix.tx_signature || 'Подтверждено в Devnet'}</span></div>
-                            <div><strong>GitHub Sync:</strong> Сборка #${matrix.build_id || 'Синхронизировано'}</div>
-                        `;
-                        logsContainer.appendChild(div);
-                    });
-                } else {
-                    logsContainer.innerHTML = "<div class='log-entry'>[SYSTEM]: Новые каузальные матрицы в логе блокчейна отсутствуют.</div>";
-                }
+                const div = document.createElement('div');
+                div.className = 'log-entry';
+                div.innerHTML = `
+                    <div><strong>Поток:</strong> ${currentFlow.flow}</div>
+                    <div><strong>Вердикт Оракула (Манифест):</strong> <span style="color:#fff;">"${currentFlow.butterfly_node.manifest}"</span></div>
+                    <div><strong>Импульс XYZ (Частота Крыла):</strong> <span style="color:#ff007f;">${currentFlow.butterfly_node.butterfly_wings_frequency}</span></div>
+                    <div><strong>Аватар Богини (Шакти):</strong> ${currentFlow.butterfly_node.goddess_avatar}</div>
+                    <div><strong>Solana RPC / Метка времени:</strong> <span style="color:#00ffcc;">${currentFlow.time_stamp_242}</span></div>
+                `;
+                logsContainer.appendChild(div);
 
             } catch (e) {
-                // Обработка ошибок калибровки потока при отсутствии ответа сервера
                 document.getElementById('evo-points').innerText = "ОШИБКА";
-                document.getElementById('kernel-rank').innerText = "СБОЙ СВЯЗИ";
-                console.error("Ошибка калибровочного канала данных ядра: ", e);
+                document.getElementById('kernel-rank').innerText = "СБОЙ ИМПУЛЬСА";
+                console.error("Ошибка калибровки каузального канала данных: ", e);
             }
         }
 
-        // Циклический автоматический опрос ядра каждые 5 секунд (5000 мс)
+        // Автообновление каждые 5 секунд согласно оригинальному скрипту
         setInterval(initMonitor, 5000);
-        // Первичный принудительный запуск при деплое страницы
+        // Первичный запуск при деплое
         initMonitor();
     </script>
 </body>
