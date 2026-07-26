@@ -1,36 +1,51 @@
-async function initMonitor() {
-    try {
-        // Запрос реального файла данных из вашего репозитория docs/data.json
-        const response = await fetch('docs/data.json');
-        const data = await response.json();
+# amrita / tools / deploy_sync.py
+# Автоматическая калибровка ядра AMRITA перед деплоем в GitHub Actions
 
-        // Извлекаем первый объект из массива (индекс 0, строки 4-14 на скрине)
-        const currentFlow = data[0]; 
+import os
+import re
+import json
 
-        // Вывод Фрактальной мерности Атмы в поле EVO
-        document.getElementById('evo-points').innerText = currentFlow.butterfly_node.fractal_dimension;
+def sync_github_secrets_to_code():
+    print("[AMRITA SYNC]: Старт калибровки пульта управления...")
+    
+    # 1. Извлечение адреса контракта из секретов GitHub
+    mint_address = os.getenv("MINT_ADDRESS")
+    if not mint_address:
+        print("[WARNING]: Секрет MINT_ADDRESS не найден. Используется тестовый адрес.")
+        mint_address = "AmritaSolana108QuantMonadaXxxxxxxx11111111"
 
-        // Вывод Ранга Ядра на основе статуса Мира Амриты
-        document.getElementById('kernel-rank').innerText = currentFlow.butterfly_node.amrita_world_status;
+    # 2. Автоматическая прошивка declare_id в контракт Rust
+    contract_path = "solana_qnt_token.rs"
+    if os.path.exists(contract_path):
+        with open(contract_path, "r", encoding="utf-8") as f:
+            code = f.read()
+            
+        # Заменяем старый declare_id на актуальный из MINT_ADDRESS
+        updated_code = re.sub(
+            r'declare_id!\([^)]+\);', 
+            f'declare_id!("{mint_address}");', 
+            code
+        )
+        
+        with open(contract_path, "w", encoding="utf-8") as f:
+            f.write(updated_code)
+        print(f"[SUCCESS]: Контракт успешно привязан к MINT_ADDRESS: {mint_address}")
+    else:
+        print("[ERROR]: Файл смарт-контракта solana_qnt_token.rs не найден!")
 
-        // Рендеринг контейнера логов строго по вашей структуре
-        const logsContainer = document.getElementById('logs-container');
-        logsContainer.innerHTML = "";
+    # 3. Обновление каузального лога docs/data.json
+    data_json_path = "docs/data.json"
+    if os.path.exists(data_json_path):
+        with open(data_json_path, "r", encoding="utf-8") as f:
+            data = json.load(f)
+            
+        # Записываем в манифест статус успешной проверки через GitHub
+        data["butterfly_node"]["amrita_world_status"] = "SYNCHRONIZED_VIA_GITHUB_ACTIONS"
+        data["butterfly_node"]["butterfly_wings_frequency"] = "0x_ACTIVE_MINT_" + mint_address[:8].upper()
+        
+        with open(data_json_path, "w", encoding="utf-8") as f:
+            json.dump(data, f, ensure_ascii=False, indent=2)
+        print("[SUCCESS]: Каузальный лог docs/data.json синхронизирован с пультом.")
 
-        const div = document.createElement('div');
-        div.className = 'log-entry';
-        div.innerHTML = `
-            <div><strong>Поток (Flow):</strong> ${currentFlow.flow}</div>
-            <div><strong>Аватар Богини:</strong> ${currentFlow.butterfly_node.goddess_avatar}</div>
-            <div><strong>Частота Крыла (Frequency):</strong> <span style="color:#00ffcc;">${currentFlow.butterfly_node.butterfly_wings_frequency}</span></div>
-            <div><strong>Манифест Наблюдателя:</strong> ${currentFlow.butterfly_node.manifest}</div>
-            <div><strong>Метка времени (Time Stamp):</strong> ${currentFlow.time_stamp_242}</div>
-        `;
-        logsContainer.appendChild(div);
-
-    } catch (e) {
-        document.getElementById('evo-points').innerText = "ОШИБКА JSON";
-        document.getElementById('kernel-rank').innerText = "СБОЙ СИНХРОНИЗАЦИИ";
-        console.error("Ошибка чтения оригинального data.json: ", e);
-    }
-}
+if __name__ == "__main__":
+    sync_github_secrets_to_code()
