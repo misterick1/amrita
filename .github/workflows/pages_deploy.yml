@@ -1,28 +1,11 @@
-name: Deploy AMRITA Dashboard to Pages
+    - name: Inject NoJekyll Trigger
+      run: touch docs/.nojekyll
 
-on:
-  push:
-    branches:
-      - main
-    paths:
-      - 'docs/**'
-  workflow_dispatch:
+    - name: Create Pi Network Validation File
+      run: echo "${{ secrets.PI_DOMAIN_VALIDATION_KEY }}" > docs/validation-key.txt
 
-permissions:
-  contents: write
-
-jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-
-      - name: Inject NoJekyll Trigger
-        run: touch docs/.nojekyll
-
-      - name: Deploy to GitHub Pages Branch
-        uses: JamesIves/github-pages-deploy-action@v4
-        with:
-          folder: docs
-          branch: gh-pages
+    - name: Deploy to GitHub Pages Branch
+      uses: JamesIves/github-pages-deploy-action@v4
+      with:
+        folder: docs
+        branch: gh-pages
