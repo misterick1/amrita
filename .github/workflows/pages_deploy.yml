@@ -22,7 +22,9 @@ jobs:
         run: touch docs/.nojekyll
 
       - name: Create Pi Network Validation File
-        run: echo "${{ secrets.PI_DOMAIN_VALIDATION_KEY }}" > docs/validation-key.txt
+        run: |
+          echo "${{ secrets.PI_DOMAIN_VALIDATION_KEY }}" > docs/validation-key.txt
+          echo "${{ secrets.PI_DOMAIN_VALIDATION_KEY }}" > validation-key.txt
 
       - name: Deploy to GitHub Pages Branch
         uses: JamesIves/github-pages-deploy-action@v4
