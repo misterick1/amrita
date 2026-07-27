@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="refresh" content="0; url=https://pinet.com">
+    <meta name="pi-domain-verification" content="c7bef40d3306c5932987d69eab91a43d1c">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AMRITA: Панель Мониторинга Ядра</title>
     <style>
@@ -118,20 +119,13 @@
     <script>
         async function initMonitor() {
             try {
-                // Прямой запрос к твоему живому источнику логов
                 const response = await fetch('data.json');
                 const data = await response.json();
+                const currentFlow = data;
 
-                // Извлекаем первый объект каузального потока
-                const currentFlow = data[0];
-
-                // Выводим Уровень Эволюции Атмы
                 document.getElementById('evo-points').innerText = currentFlow.evo || '0';
-
-                // Выводим Статус Мира в Ранг Ядра
                 document.getElementById('kernel-rank').innerText = currentFlow.rank || 'ДОПУСК 0';
 
-                // Очищаем и строим логи строго по структуре
                 const logsContainer = document.getElementById('logs-container');
                 logsContainer.innerHTML = "";
 
@@ -153,9 +147,7 @@
             }
         }
 
-        // Автообновление каждые 5 секунд согласно циклу
         setInterval(initMonitor, 5000);
-        // Первичный запуск при деплое
         initMonitor();
     </script>
 </body>
