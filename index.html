@@ -2,6 +2,7 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="refresh" content="0; url=https://pinet.com">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AMRITA: Панель Мониторинга Ядра</title>
     <style>
@@ -95,64 +96,64 @@
         <div class="stat-box">
             <div class="stat-item">
                 <div>Очки Эволюции (EVO)</div>
-                <div id="evo-points" class="stat-val">Загрузка контура...</div>
+                <div id="evo-points" class="stat-val">...</div>
             </div>
             <div class="stat-item">
                 <div>Текущий Ранг Ядра</div>
-                <div id="kernel-rank" class="stat-val">Синхронизация...</div>
+                <div id="kernel-rank" class="stat-val">...</div>
             </div>
         </div>
 
         <div class="viz-box">
-            <h2>🌀 Геометрия Силовой Границы (3D)</h2>
-            <img src="quantum_attractor.png" alt="Квантовый Аттрактор Поля">
+            <h2>🌀 Геометрия Силовой Границы (3D Карта)</h2>
+            <img src="quantum-attractor.png" alt="Quantum Attractor Viz">
         </div>
 
         <h2>📜 Хроники изменений и лог Блокчейна</h2>
         <div id="logs-container">
-            <div class="log-entry">[SYSTEM]: Подключение к репозиторию amrita/docs/data.json...</div>
+            <div class="log-entry">[SYSTEM]: Подготовка к калибровке...</div>
         </div>
     </div>
 
     <script>
         async function initMonitor() {
             try {
-                // Прямой запрос к твоему живому файлу в репозитории GitHub
-                const response = await fetch('docs/data.json');
+                // Прямой запрос к твоему живому источнику логов
+                const response = await fetch('data.json');
                 const data = await response.json();
 
-                // Извлекаем первый объект каузального потока из массива
-                const currentFlow = data[0]; 
+                // Извлекаем первый объект каузального потока
+                const currentFlow = data[0];
 
-                // Выводим Уровень Эволюции Атмы в блок EVO
-                document.getElementById('evo-points').innerText = currentFlow.butterfly_node.fractal_dimension;
+                // Выводим Уровень Эволюции Атмы
+                document.getElementById('evo-points').innerText = currentFlow.evo || '0';
 
                 // Выводим Статус Мира в Ранг Ядра
-                document.getElementById('kernel-rank').innerText = currentFlow.butterfly_node.amrita_world_status;
+                document.getElementById('kernel-rank').innerText = currentFlow.rank || 'ДОПУСК 0';
 
-                // Очищаем и строим логи строго по твоим оригинальным ключам
+                // Очищаем и строим логи строго по структуре
                 const logsContainer = document.getElementById('logs-container');
                 logsContainer.innerHTML = "";
 
                 const div = document.createElement('div');
                 div.className = 'log-entry';
                 div.innerHTML = `
-                    <div><strong>Поток:</strong> ${currentFlow.flow}</div>
-                    <div><strong>Вердикт Оракула (Манифест):</strong> <span style="color:#fff;">"${currentFlow.butterfly_node.manifest}"</span></div>
-                    <div><strong>Импульс XYZ (Частота Крыла):</strong> <span style="color:#ff007f;">${currentFlow.butterfly_node.butterfly_wings_frequency}</span></div>
-                    <div><strong>Аватар Богини (Шакти):</strong> ${currentFlow.butterfly_node.goddess_avatar}</div>
-                    <div><strong>Solana RPC / Метка времени:</strong> <span style="color:#00ffcc;">${currentFlow.time_stamp_242}</span></div>
+                    <div><strong>Поток:</strong> ${currentFlow.stream || 'Синхронизирован'}</div>
+                    <div><strong>Вердикт Оракула:</strong> ${currentFlow.verdict || 'Успешно'}</div>
+                    <div><strong>Импульс XYZ (Частота):</strong> ${currentFlow.hz || 'Стабильная'}</div>
+                    <div><strong>Аватар Богини (Статус):</strong> ${currentFlow.avatar || 'Активен'}</div>
+                    <div><strong>Solana RPC / Метрики:</strong> ${currentFlow.sol || '144.15'}</div>
                 `;
                 logsContainer.appendChild(div);
 
             } catch (e) {
-                document.getElementById('evo-points').innerText = "ОШИБКА";
-                document.getElementById('kernel-rank').innerText = "СБОЙ ИМПУЛЬСА";
-                console.error("Ошибка калибровки каузального канала данных: ", e);
+                document.getElementById('evo-points').innerText = 'Ошибка';
+                document.getElementById('kernel-rank').innerText = 'Ошибка';
+                console.error("Ошибка калибровки интерфейса:", e);
             }
         }
 
-        // Автообновление каждые 5 секунд согласно оригинальному скрипту
+        // Автообновление каждые 5 секунд согласно циклу
         setInterval(initMonitor, 5000);
         // Первичный запуск при деплое
         initMonitor();
