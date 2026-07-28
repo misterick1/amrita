@@ -60,7 +60,7 @@ async def scan_pump_fun_incubator() -> dict:
             response = await client.get(url, headers=headers, timeout=10.0)
             if response.status_code == 200:
                 coins_data = response.json()
-                latest_coin = coins_data[0] if isinstance(coins_data, list) and len(coins_data) > 0 else {}
+                latest_coin = coins_data if isinstance(coins_data, list) and len(coins_data) > 0 else {}
                 print(f"🐛 [PUMP INKUBATOR] Найдена живая гусеница: {latest_coin.get('name', 'Papoi')}")
                 return {
                     "status": "Active_Chaos",
