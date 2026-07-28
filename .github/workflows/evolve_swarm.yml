@@ -43,38 +43,47 @@ jobs:
           XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
           OAI_API_KEY: ${{ secrets.OAI_API_KEY }}
         run: |
-          # Запуск оркестратора, который выполняет всю логику вещания
           python src/multiverse_orchestrator.py
 
       - name: 🛡️ Фиксация Истории Через API-Контур
+        shell: python
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Если скрипт сгенерировал новый лог истории, мы пушим его напрямую через API bypass,
-          # минуя стандартную команду 'git push', которая вызывала ошибку блокировки.
-          if [ -f "history_log.json" ]; then
-            python -c "
-            import requests, base64, os
-            token = os.getenv('GITHUB_TOKEN')
-            repo = 'misterick1/amrita'
-            path = 'history_log.json'
-            url = f'https://github.com{repo}/contents/{path}'
-            headers = {'Authorization': f'token {token}', 'Accept': 'application/vnd.github.v3+json'}
-            
-            # Получаем SHA текущего файла истории
-            res = requests.get(url, headers=headers)
-            sha = res.json().get('sha') if res.status_code == 200 else None
-            
-            # Считываем обновленный в процессе работы лог
-            with open(path, 'r', encoding='utf-8') as f:
-                content = f.read()
-            encoded = base64.b64encode(content.encode('utf-8')).decode('utf-8')
-            
-            payload = {'message': '🔱 AMRITA: History log sealed via API Bypass [skip ci]', 'content': encoded, 'branch': 'main'}
-            if sha: payload['sha'] = sha
-            
-            put_res = requests.put(url, headers=headers, json=payload)
-            print(f'API Push Status: {put_res.status_code}')
-            "
+          import requests
+          import base64
+          import os
+
+          token = os.getenv('GITHUB_TOKEN')
+          repo = 'misterick1/amrita'
+          path = 'history_log.json'
+          url = f'https://github.com{repo}/contents/{path}'
+          headers = {
+              'Authorization': f'token {token}',
+              'Accept': 'application/vnd.github.v3+json'
+          }
+
+          if os.path.exists(path):
+              # Получаем текущий SHA-хэш лога из репозитория
+              res = requests.get(url, headers=headers)
+              sha = res.json().get('sha') if res.status_code == 200 else None
+
+              # Читаем локально обновленный лог
+              with open(path, 'r', encoding='utf-8') as f:
+                  content = f.read()
+              
+              encoded = base64.b64encode(content.encode('utf-8')).decode('utf-8')
+
+              payload = {
+                  'message': '🔱 AMRITA: History log sealed via API Bypass [skip ci]',
+                  'content': encoded,
+                  'branch': 'main'
+              }
+              if sha:
+                  payload['sha'] = sha
+
+              # Силовой пуш логов напрямую через API-интерфейс
+              put_res = requests.put(url, headers=headers, json=payload)
+              print(f'API Push Status: {put_res.status_code}')
           else:
-            echo "Лог истории не изменился, API синхронизация не требуется."
+              print('Лог истории не изменился, API синхронизация не требуется.')
