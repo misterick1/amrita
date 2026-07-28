@@ -1,0 +1,37 @@
+# amrita / Anchor.toml
+# Конфигурация Квантовой Экосистемы Anchor для AMRITA OS
+
+[toolchain]
+# Версия компилятора Rust для стабильной сборки ядра
+rust_version = "1.75.0"
+
+[features]
+seeds = false
+skip-lint = false
+
+[programs.mainnet]
+# Привязка программного ID для основной сети Solana
+amrita_soliton_core = "Amr1taSo11tonCore11111111111111111111111111"
+
+[programs.devnet]
+# Привязка программного ID для тестовой сети Devnet
+amrita_soliton_core = "Amr1taSo11tonCore11111111111111111111111111"
+
+[registry]
+url = "https://github.com"
+
+[provider]
+# Использование кастомного локального или удаленного RPC-эндпоинта Solana
+cluster = "devnet"
+wallet = "~/.config/solana/id.json"
+
+[scripts]
+# Привязка нашего TypeScript-скрипта деплоя к CLI-команде `anchor run deploy`
+deploy-swarm = "npx ts-node scripts/deploy_amrita.ts"
+
+[test]
+# Конфигурация для локального валидатора при тестах
+startup_wait = 20000
+
+[test.validator]
+url = "https://solana.com"
