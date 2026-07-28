@@ -7,7 +7,6 @@ on:
     - cron: '0 */3 * * *'
   workflow_dispatch:
 
-# РЕШЕНИЕ: Оставлен только стандартный, поддерживаемый гитхабом ключ доступа
 permissions:
   contents: write
 
@@ -50,17 +49,21 @@ jobs:
           git config --local user.email "misterick108@gmail.com"
           git config --local user.name "misterick1"
           
-          # Жестко забираем изменения из веб-интерфейса телефона, перезаписывая локальный шум
+          # КРИТИЧЕСКОЕ РЕШЕНИЕ: Сбрасываем любые изменения в папке воркфлоу,
+          # которые нагенерировал Python-скрипт. Это убирает триггер ошибки GitHub!
+          git checkout HEAD -- .github/workflows/
+          
+          # Подтягиваем актуальное состояние репозитория
           git fetch origin main
           git reset --soft origin/main
           
-          # Индексируем только файл истории, не трогая защищенную папку воркфлоу
+          # Добавляем в коммит исключительно логи истории
           if [ -f "history_log.json" ]; then
             git add history_log.json
           fi
           
-          # Закрываем трансляцию коммитом
+          # Фиксируем коммит только для логов
           git commit -m "🔱 AMRITA: Core history log sealed [skip ci]" -a || echo "No changes to commit"
           
-          # Пушим лог в ветку main
+          # Пушим. Теперь в транзакции нет изменений воркфлоу, и сервер примет пуш!
           git push origin main
