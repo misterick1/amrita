@@ -21,7 +21,7 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: 🦔 Развертывание Силиконового Разума Python
+      - name: 📦 Развертывание Силиконового Разума Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.10'
@@ -29,9 +29,9 @@ jobs:
       - name: 📦 Загрузка Каузальных Библиотек
         run: |
           python -m pip install --upgrade pip
-          pip install pyTelegramBotAPI solana httpx
+          pip install pyTelegramBotAPI solana httpx requests
 
-      - name: 🚀 АВТОНОМНЫЙ ЗАПУСК СВАРМ-МОНОЛИТА И СИЛОВОГО ПУША
+      - name: 🚀 АВТОНОМНЫЙ ЗАПУСК СВАРМ-МОНОЛИТА И СИЛОВОГО КОНТУРА
         env:
           PI_WALLET_PASSPHRASE: ${{ secrets.PI_WALLET_PASSPHRASE }}
           SWARM_ORACLE_SOLANA: "Solana_Highway"
@@ -39,6 +39,28 @@ jobs:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          SOLANA_RPC_URL: ${{ secrets.SOLANA_RPC_URL }}
+          XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
+          OAI_API_KEY: ${{ secrets.OAI_API_KEY }}
         run: |
-          # Скрипт сам выполнит логику, соберет сайт PiFi и безопасно сделает --force push
+          # Выполнение корневой логики оркестрации
           python src/multiverse_orchestrator.py
+
+      - name: 🛡️ Фиксация Истории и Силовой Пуш Еженыша
+        run: |
+          git config --local user.email "misterick108@gmail.com"
+          git config --local user.name "misterick1"
+          
+          # Мгновенно подтягиваем изменения из веб-интерфейса, предотвращая commit lock
+          git pull origin main --rebase-merges -X theirs || true
+          
+          # Индексируем файлы логов, если они были обновлены оркестратором
+          if [ -f "history_log.json" ]; then
+            git add history_log.json
+          fi
+          
+          # Автоматический коммит с флагом пропуска повторного запуска [skip ci]
+          git commit -m "🔱 AMRITA: Quantum stack history sealed [skip ci]" -a || echo "No changes to commit"
+          
+          # Принудительный силовой пробой ветки для бесперебойной работы с телефона
+          git push origin main --force
