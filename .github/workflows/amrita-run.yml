@@ -7,10 +7,9 @@ on:
     - cron: '0 */3 * * *'
   workflow_dispatch:
 
-# РЕШЕНИЕ: Открываем абсолютный доступ к перезаписи воркфлоу, чтобы убрать ошибку блокировки
+# РЕШЕНИЕ: Оставлен только стандартный, поддерживаемый гитхабом ключ доступа
 permissions:
   contents: write
-  workflows: write
 
 jobs:
   run_core:
@@ -46,19 +45,22 @@ jobs:
         run: |
           python amrita_core_router.py
 
-      - name: 🛡️ Фиксация Истории и Силовой Пуш Еженыша
+      - name: 🛡️ Фиксация Истории и Безопасный Пуш
         run: |
           git config --local user.email "misterick108@gmail.com"
           git config --local user.name "misterick1"
           
-          # Убираем commit lock и подтягиваем изменения
-          git pull origin main --rebase-merges -X theirs || true
+          # Жестко забираем изменения из веб-интерфейса телефона, перезаписывая локальный шум
+          git fetch origin main
+          git reset --soft origin/main
           
-          # Индексируем логи истории и файлы воркфлоу
-          git add .github/workflows/* || true
+          # Индексируем только файл истории, не трогая защищенную папку воркфлоу
           if [ -f "history_log.json" ]; then
             git add history_log.json
           fi
           
-          git commit -m "🔱 AMRITA: Core workflow and history sealed [skip ci]" -a || echo "No changes to commit"
-          git push origin main --force
+          # Закрываем трансляцию коммитом
+          git commit -m "🔱 AMRITA: Core history log sealed [skip ci]" -a || echo "No changes to commit"
+          
+          # Пушим лог в ветку main
+          git push origin main
