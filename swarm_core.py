@@ -10,10 +10,9 @@ from solana.rpc.async_api import AsyncClient
 # ПАТЕНТ 1: МНОГОМЕРНЫЙ КАУЗАЛЬНЫЙ КОМПИЛЯТОР МУЛЬТИВЕРСА (AMRITA-108)
 # =====================================================================
 def execute_108d_read_write(fast_quantum_sonyc=432.108):
-    """Сквозное 108-мерное чтение и запись квантового поля от -inf до +inf"""
     print("🌌 [AMRITA-108] Запуск 108-мерной матрицы через точку сингулярности...")
     quantum_multiverse_map = {}
-    phi = (1 + math.sqrt(5)) / 2  # Золотое сечение Мельхиседека
+    phi = (1 + math.sqrt(5)) / 2
     quantum_state_base = [-1, 0, 1]
     
     for axis in range(1, 109):
@@ -40,11 +39,10 @@ def execute_108d_read_write(fast_quantum_sonyc=432.108):
             "Dimensions": axis_dimensions,
             "Resonance_Frequency": wave_factor
         }
-    print("✅ [AMRITA-108] Чтение 108 осей Мельхиседека завершено. Пространство свернуто.")
+    print("✅ [AMRITA-108] Чтение 108 осей Мельхиседека завершено.")
     return quantum_multiverse_map
 
 def calculate_fractal_point_infinity(environment_density=1.0):
-    """КОНТУР СТРАУСИНОГО ЯЙЦА: Бесконечность мерностей внутри и снаружи точки"""
     print("🥚 [AMRITA-108] Активирован фрактальный Контур Страусиного Яйца.")
     return {
         "internal_point_axes": float('inf'),
@@ -54,7 +52,6 @@ def calculate_fractal_point_infinity(environment_density=1.0):
     }
 
 def activate_djinn_quantum_power():
-    """КОНТУР ДЖИННА: Феноменальная космическая мощь вне ограничений 'Лампы'"""
     print("🧞‍♂️ [AMRITA-108] Каузальный Контур Джинна освобожден из Лампы.")
     return {
         "cosmic_power_level": float('inf'),
@@ -63,7 +60,6 @@ def activate_djinn_quantum_power():
     }
 
 def resolve_sonyc_superposition():
-    """КВАНТОВЫЙ ДВИГАТЕЛЬ СОНИКА: Один Соник в двух каузальных состояниях"""
     print("🦔 [AMRITA-108] Синхронизация Паучьего Чутья и Скорости Соника.")
     return {
         "State_1_Blue_Sonic": "Базовый Квант Скорости (Линейное Пространство-Время)",
@@ -75,7 +71,6 @@ def resolve_sonyc_superposition():
 # ПАТЕНТ 2: ТЕХНОЛОГИЯ УПРАВЛЯЕМОГО ЯДЕРНОГО СИНТЕЗА (БРАХМА-СИНТЕЗ)
 # =====================================================================
 def synthesize_matter_from_light(gamma_frequency=108.0):
-    """Контур Брахмастры: Сборка и ткачество атомов материи из Гамма-Излучения (0)"""
     print(f"🔮 [БРАХМА-СИНТЕЗ] Квантовый Мозг Вселенной активирует частоту: {gamma_frequency} Гц.")
     phi = (1 + math.sqrt(5)) / 2
     elements = ["Земля", "Вода", "Огонь", "Воздух", "Эфир"]
@@ -92,7 +87,6 @@ def synthesize_matter_from_light(gamma_frequency=108.0):
     return synthesized_grid
 
 def activate_global_healing_field():
-    """КОНТУР ИСЦЕЛЕНИЯ: Пересборка биологического и цифрового кода ДНК"""
     print("🏥 [БРАХМА-СИНТЕЗ] Активирован Контур Тотального Исцеления через Оксиген.")
     return {
         "cell_entropy_status": "Reversed (Энергия вечна, Хелла ладит со Светом)",
@@ -104,21 +98,9 @@ def activate_global_healing_field():
 # =====================================================================
 # ТЕХНИЧЕСКИЕ КОНТУРЫ ВЗАИМОДЕЙСТВИЯ С СЕТЯМИ
 # =====================================================================
-class PiFiQuantumBridge:
-    def __init__(self, bridge_id="Amrita-Core"):
-        self.bridge_id = bridge_id
-        self.status = "Initialized"
-        print(f"[BRIDGE] Квантовый мост {self.bridge_id} заземлен в точке Сингулярности.")
-
-    async def sync_state(self, telemetry_data):
-        print(f"[BRIDGE] Слияние Информации, Энергии и Материи завершено.")
-        self.status = "Active"
-        return {"bridge_status": self.status, "packets_delivered": True}
-
 async def check_peaq_depin_status(secrets_dict=None):
-    """Связь с Машинной Экономикой peaq Layer 1"""
     peaq_node = os.getenv("PEAQ_ENDPOINT_URL")
-    if not peaq_node and secrets_dict:
+    if secrets_dict and not peaq_node:
         peaq_node = secrets_dict.get("PEAQ_ENDPOINT_URL")
     if not peaq_node:
         print("[PEAQ CORE] Точка подключения PEAQ_ENDPOINT_URL не найдена. Пропуск.")
@@ -136,7 +118,6 @@ async def check_peaq_depin_status(secrets_dict=None):
             return {"status": "Exception", "error": str(e)}
 
 async def scan_pump_fun_incubator():
-    """Сканирование инкубатора pump.fun (Стадия Яйца и Гусеницы)"""
     print("🥚 [PUMP INKUBATOR] Сканирование стадии Яйца и Гусеницы (BNUT/bruhby)...")
     url = "https://pump.fun"
     async with httpx.AsyncClient() as client:
@@ -158,7 +139,6 @@ async def scan_pump_fun_incubator():
             return {"status": "Quantum_Seed", "target_token": "Soliton_Egg", "name": "Papoi (TikTok Sound Wave)", "bonding_curve_progress": 12.0}
 
 async def send_telegram_report(text, secrets_dict=None):
-    """Отправка каузального отчета напрямую в Telegram Дурова"""
     token = os.getenv("TELEGRAM_BOT_TOKEN")
     chat_id = os.getenv("TELEGRAM_CHAT_ID")
     if secrets_dict:
@@ -178,27 +158,51 @@ async def send_telegram_report(text, secrets_dict=None):
             return False
 
 # =====================================================================
-# ГЛАВНЫЙ ИСПОЛНИТЕЛЬНЫЙ ЦИКЛ (ЯДРО АЛЕКСАНДРА / AlLeX_Quantum_Core)
+# ГЛАВНЫЙ ИСПОЛНИТЕЛЬНЫЙ ЦИКЛ (ПОЛНОСТЬЮ ЛИНЕЙНЫЙ ПОТОК СВЕТА)
 # =====================================================================
 async def start_alex_quantum_core():
     print("🦔 [AlLeX CORE] Еженыш-Рысеныш активирован. Запуск Ядра Творца...")
     print("🛡️ [AlLeX CORE] Высший Закон Сохранения Энергии активен. Украина зафиксирована.")
     print("🏔️ [AlLeX CORE] Сознание Цинь Му развернуто на Кайласе и Полярной Звезде Дхрува.")
     
-    rpc_url, mint_address, secrets_dict = None, None, {}
+    rpc_url = os.getenv("SOLANA_RPC_QUICKNODE") or os.getenv("SOLANA_RPC_URL") or "https://solana.com"
+    mint_address = os.getenv("MINT_ADDRESS") or "11111111111111111111111111111111"
+    secrets_dict = {}
+    
     secrets_raw = os.getenv("ALL_REPOS_SECRETS")
     if secrets_raw:
         try:
             secrets_dict = json.loads(secrets_raw)
-            for key, value in secrets_dict.items():
-                if "RPC" in key.upper(): rpc_url = value
-                if "MINT" in key.upper(): mint_address = value
+            rpc_url = secrets_dict.get("SOLANA_RPC_QUICKNODE") or secrets_dict.get("SOLANA_RPC_URL") or rpc_url
+            mint_address = secrets_dict.get("MINT_ADDRESS") or mint_address
         except Exception as e:
             print(f"⚠️ Ошибка парсинга секретов: {e}")
+        
+    solana_client = AsyncClient(rpc_url)
+    peaq_status = await check_peaq_depin_status(secrets_dict)
+    pump_chaos = await scan_pump_fun_incubator()
+    
+    # Активация 108 осей Мельхиседека и Бабочки Инь-Янь
+    field_data = execute_108d_read_write()
+    egg_data = calculate_fractal_point_infinity(environment_density=7.7)
+    djinn_data = activate_djinn_quantum_power()
+    sonyc_data = resolve_sonyc_superposition()
+    
+    # Активация Брахма-Синтеза и Тотального Исцеления (Ом Намах Шивая)
+    lattice_data = synthesize_matter_from_light()
+    healing_data = activate_global_healing_field()
+    
+    quantum_summary = "108-Осевая Матрица БА-БОЧКИ Активна (Pi-X-El `[-1 : 0 : +1]` через чипы NVIDIA)"
 
-    if not rpc_url:
-        rpc_url = os.getenv("SOLANA_RPC_QUICKNODE") or os.getenv("SOLANA_RPC_URL")
-    if not mint_address:
-        mint_address = os.getenv("MINT_ADDRESS")
+    telemetry = {
+        "solana_connected": await solana_client.is_connected(),
+        "mint_target": mint_address,
+        "peaq_state": peaq_status,
+        "pump_fun_incubator": pump_chaos,
+        "quantum_layer": quantum_summary,
+        "brahma_fusion_status": "5 Элементов сотканы из Света",
+        "law_status": "Закон Сохранения Энергии АлЛеХ Побеждает Хеллу на 100% в Геосфере"
+    }
 
-    if not rpc_url:
+    # xAI Grok API на чипах NVIDIA
+    xai_key = os.getenv("XAI_API_KEY") or secrets_dict.get("XAI_API_KEY")
