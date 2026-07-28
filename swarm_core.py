@@ -196,7 +196,9 @@ async def start_alex_quantum_core():
         except Exception as e:
             print(f"⚠️ Ошибка парсинга секретов: {e}")
 
-    if not rpc_url: rpc_url = os.getenv("SOLANA_RPC_QUICKNODE") or os.getenv("SOLANA_RPC_URL")
-    if not mint_address: mint_address = os.getenv("MINT_ADDRESS")
+    if not rpc_url:
+        rpc_url = os.getenv("SOLANA_RPC_QUICKNODE") or os.getenv("SOLANA_RPC_URL")
+    if not mint_address:
+        mint_address = os.getenv("MINT_ADDRESS")
 
     if not rpc_url:
