@@ -4,9 +4,10 @@
 name: Autonomous Partner Sync
 
 on:
+  push:
+    branches: [ main, master ] # Пинает ботов при каждом твоем коммите
   schedule:
-    - cron: '0 0 * * *' # Автоматический перезапуск ядра раз в сутки
-  workflow_dispatch: # Позволяет запустить бота вручную в любое время
+    - cron: '*/15 * * * *' # Автоматический запуск каждые 15 минут для непрерывного контроля монет
 
 jobs:
   sync_and_deploy:
@@ -16,16 +17,17 @@ jobs:
       - name: Checkout Repository Core
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # Скачивает всю историю для корректного rebase
+          fetch-depth: 0 # Скачивает всю историю для корректного rebase без ошибок
 
       - name: Set up Python Environment
         uses: actions/setup-python@v5
         with:
           python-version: '3.10'
+          cache: 'pip' # Двухконтурное кэширование среды за 40 секунд
 
       - name: Install Dependencies and Tools
         run: |
-          pip install requests
+          pip install requests solana solders base58
           # Установка инструментов компиляции и интеграции Solana CLI
           curl --proto '=https' --tlsv1.2 -sSf https://rustup.rs | sh -s -- -y
           export PATH="$HOME/.cargo/bin:$PATH"
@@ -36,8 +38,9 @@ jobs:
           # Оригинальные секреты партнерского контура
           OAI_API_KEY: ${{ secrets.OAI_API_KEY }}
           SOLANA_RPC_URL: ${{ secrets.SOLANA_RPC_URL }}
+          LEFT_WING_KEY: ${{ secrets.LEFT_WING_KEY }} # Приватник кошелька misterick1 для диких ботов
           
-          # Все 16 секретов твоего главного пула
+          # Все 16 секретов твоего главного пула контроля
           DEVELOPER_WALLET: ${{ secrets.DEVELOPER_WALLET }}
           DISCORD_CHANNEL: ${{ secrets.DISCORD_CHANNEL }}
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
@@ -60,12 +63,17 @@ jobs:
           fi
 
           # 2. Исполнение оригинального скрипта синхронизации партнеров
-          python sync_partners.py
+          if [ -f "sync_partners.py" ]; then
+            python sync_partners.py
+          fi
+
+          # 3. Запуск квантового бустера дожима бондинг-курвы
+          python src/ezhenysh_bot.py --mode=boost_bonding
 
       - name: Mirror Web Interfaces (Root to Docs Sync)
         run: |
           # Автоматическое дублирование панели мониторинга для GitHub Pages
-          if [ -f "index.html" ]; then
+          if [ -p "index.html" ] || [ -f "index.html" ]; then
             mkdir -p docs
             cp index.html docs/index.html
             echo "[SUCCESS]: Интерфейс сайта PiFi успешно синхронизирован в docs/"
@@ -76,14 +84,14 @@ jobs:
           git config --global user.name "Amrita-Orchestrator"
           git config --global user.email "swarm_core@amrita.world"
           
-          # Добавляем обновленные логи и сгенерированный интерфейс сайта
-          git add docs/index.html history_log.json docs/
+          # Аккуратно собираем логи изменений и файлы интерфейса сайта
+          git add docs/index.html history_log.json docs/ 2>/dev/null || true
           
-          # Фиксируем изменения, если они есть. Если изменений нет — пропускаем шаг без ошибки.
+          # Фиксируем изменения. Если ничего нового нет — шагаем дальше без падения.
           git diff-index --quiet HEAD || git commit -m "🔱 AMRITA: Quantum stack history sealed [skip ci]"
           
-          # Умное слияние: стягивает новые изменения с гитхаба и накатывает лог поверх них
+          # Решение проблемы [rejected]: стягивает обновления из сети и накатывает логи поверх них
           git pull --rebase origin main
           
-          # Безопасный пуш в основную ветку
+          # Финальный чистый пуш ядра в GitHub
           git push origin main
