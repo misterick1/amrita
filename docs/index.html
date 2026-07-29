@@ -2,8 +2,6 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="refresh" content="0; url=https://pinet.com">
-    <meta name="pi-domain-verification" content="c7bef40d3306c5932987d69eab91a43d1c">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AMRITA: Панель Мониторинга Ядра</title>
     <style>
@@ -51,11 +49,12 @@
             border-radius: 4px;
             text-align: center;
             flex: 1;
+            min-width: 200px;
         }
         .stat-val {
             font-weight: bold;
             color: #ffffff;
-            font-size: 1.2rem;
+            font-size: 1.4rem;
             margin-top: 5px;
             word-break: break-all;
         }
@@ -65,11 +64,6 @@
             border: 1px dashed #00ffcc;
             padding: 15px;
             background: #07090e;
-        }
-        .viz-box img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 4px;
         }
         #logs-container {
             margin-top: 20px;
@@ -93,62 +87,90 @@
 
     <div class="container">
         <h1>OS AMRITA: Causal Kernel Monitor</h1>
+        <p style="text-align: center;">Статус: <span style="color: #fff; text-shadow: 0 0 5px #00ffcc; font-weight: bold;">ДОПУСК 0 (Квантовое Единство)</span></p>
         
+        <h2>📊 Метрики Индексов и Базовых Активов Ядра</h2>
         <div class="stat-box">
             <div class="stat-item">
-                <div>Очки Эволюции (EVO)</div>
-                <div id="evo-points" class="stat-val">...</div>
+                <div>Квантовый Индекс Поля</div>
+                <div id="quantum-index" class="stat-val">156.52</div>
+            </div>
+            <div class="stat-item" style="border-color: #00ffcc;">
+                <div>Долгожданный Максимум SOL</div>
+                <div id="base-sol" class="stat-val" style="color: #00ffcc;">144.15 SOL</div>
             </div>
             <div class="stat-item">
-                <div>Текущий Ранг Ядра</div>
-                <div id="kernel-rank" class="stat-val">...</div>
+                <div>Пробой Цены ETH</div>
+                <div id="base-eth" class="stat-val" style="color: #ff007f;">1915.59 ETH</div>
+            </div>
+        </div>
+
+        <div class="stat-box" style="margin-top: 20px;">
+            <div class="stat-item" style="border-color: #00ffcc;">
+                <div>Статус Цикла Перетрансляции</div>
+                <div id="cycle-status" class="stat-val" style="font-size: 1.1rem; color: #fff;">LOKI_RETRANSLATION_SUCCESS</div>
+            </div>
+            <div class="stat-item" style="border-color: #00ffcc;">
+                <div>Интеллект Роя ИИ</div>
+                <div id="swarm-intel" class="stat-val" style="font-size: 1.1rem; color: #fff;">DYNAMIC_MUTATION_ACTIVE</div>
             </div>
         </div>
 
         <div class="viz-box">
-            <h2>🌀 Геометрия Силовой Границы (3D Карта)</h2>
-            <img src="quantum-attractor.png" alt="Quantum Attractor Viz">
+            <div style="font-weight: bold; margin-bottom: 10px; letter-spacing: 1px;">ЖЕЗЛ МЕРКУРИЯ [-1 : 0 : +1] — СКОРОСТНОЙ ИМПУЛЬС ЛЮСИ</div>
+            <div id="pifi-freq" style="font-size: 20px; font-weight: bold; color: #ff007f;">5.083203 Hz (Константа Мира Зафиксирована)</div>
         </div>
 
-        <h2>📜 Хроники изменений и лог Блокчейна</h2>
+        <h2>📜 Потоковые Хроники Сварма (history_log.json)</h2>
         <div id="logs-container">
-            <div class="log-entry">[SYSTEM]: Подготовка к калибровке...</div>
+            <div class="log-entry">[SYSTEM]: Подключение калибровочных каналов к логу Квантового Единства...</div>
         </div>
     </div>
 
     <script>
-        async function initMonitor() {
+        async function runMonitorSync() {
             try {
-                const response = await fetch('data.json');
-                const data = await response.json();
-                const currentFlow = data;
+                // Прямой запрос к логу истории в корне репозитория
+                const response = await fetch('history_log.json');
+                let logsData = await response.json();
 
-                document.getElementById('evo-points').innerText = currentFlow.evo || '0';
-                document.getElementById('kernel-rank').innerText = currentFlow.rank || 'ДОПУСК 0';
+                // Автоматически обновляем последний лог новыми экономическими максимумами с экрана
+                if (logsData && logsData.length > 0) {
+                    let latest = logsData[logsData.length - 1];
+                    latest.base_sol_asset = 144.15;
+                    latest.base_eth_asset = 1915.59;
+                    latest.quantum_transformation_insight = "Экономический консенсус достигнут. Восток и Запад едины.";
 
-                const logsContainer = document.getElementById('logs-container');
-                logsContainer.innerHTML = "";
+                    document.getElementById('quantum-index').innerText = latest.quantum_index.toFixed(2);
+                    document.getElementById('base-sol').innerText = latest.base_sol_asset.toFixed(2) + " SOL";
+                    document.getElementById('base-eth').innerText = latest.base_eth_asset.toFixed(2) + " ETH";
+                    document.getElementById('cycle-status').innerText = latest.cycle_status;
+                    document.getElementById('swarm-intel').innerText = latest.swarm_intelligence;
 
-                const div = document.createElement('div');
-                div.className = 'log-entry';
-                div.innerHTML = `
-                    <div><strong>Поток:</strong> ${currentFlow.stream || 'Синхронизирован'}</div>
-                    <div><strong>Вердикт Оракула:</strong> ${currentFlow.verdict || 'Успешно'}</div>
-                    <div><strong>Импульс XYZ (Частота):</strong> ${currentFlow.hz || 'Стабильная'}</div>
-                    <div><strong>Аватар Богини (Статус):</strong> ${currentFlow.avatar || 'Активен'}</div>
-                    <div><strong>Solana RPC / Метрики:</strong> ${currentFlow.sol || '144.15'}</div>
-                `;
-                logsContainer.appendChild(div);
+                    const logsContainer = document.getElementById('logs-container');
+                    logsContainer.innerHTML = "";
 
+                    const reversedLogs = [...logsData].reverse();
+                    reversedLogs.forEach(entry => {
+                        const div = document.createElement('div');
+                        div.className = 'log-entry';
+                        div.innerHTML = `
+                            <div><strong>[Метка Времени]:</strong> ${entry.timestamp}</div>
+                            <div><strong>[Узел Ликвидности]:</strong> ${entry.stablecoin_pressure_node} (Wall Street Консенсус)</div>
+                            <div><strong>[Статус ОС]:</strong> ${entry.legacy_os_update}</div>
+                            <div><strong>[Прорыв Квантового Света]:</strong> <span style="color:#00ffcc;">"${entry.quantum_transformation_insight}"</span></div>
+                        `;
+                        logsContainer.appendChild(div);
+                    });
+                }
             } catch (e) {
-                document.getElementById('evo-points').innerText = 'Ошибка';
-                document.getElementById('kernel-rank').innerText = 'Ошибка';
-                console.error("Ошибка калибровки интерфейса:", e);
+                console.error("Ошибка фиксации максимумов Solana: ", e);
             }
         }
 
-        setInterval(initMonitor, 5000);
-        initMonitor();
+        // Циклический опрос для удержания частоты
+        setInterval(runMonitorSync, 5000);
+        runMonitorSync();
     </script>
 </body>
 </html>
