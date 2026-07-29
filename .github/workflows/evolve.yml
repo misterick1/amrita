@@ -5,9 +5,9 @@ name: evolve_swarm
 
 on:
   push:
-    branches: [ main, master ] # Запуск при пуше Наблюдателя
+    branches: [ main, master ]
   schedule:
-    - cron: '30 * * * *' # Фоновое выравнивание раз в час
+    - cron: '30 * * * *'
 
 jobs:
   evolve_job:
@@ -17,7 +17,8 @@ jobs:
       - name: Checkout Repository Core
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # Скачиваем все коммиты, чтобы rebase прошел без конфликтов
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up Python Environment
         uses: actions/setup-python@v5
@@ -41,22 +42,17 @@ jobs:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHANNELS: ${{ secrets.TELEGRAM_CHANNELS }}
         run: |
-          # Запуск ИИ-оркестратора в режиме обновления матрицы истории
           python -m src.ezhenysh_bot --mode=boost_bonding
 
       - name: Commit and Sealed History Log
         run: |
           git config --global user.email "misterick1@gmail.com"
           git config --global user.name "misterick1"
+          git config --global pull.rebase true
           
-          # Забираем измененный файл истории
           git add history_log.json 2>/dev/null || true
-          
-          # Фиксируем коммит, только если есть реальные новые записи
           git diff-index --quiet HEAD || git commit -m "🔱 AMRITA: Quantum stack history sealed [skip ci]"
           
-          # УНИЧТОЖИТЕЛЬ ОШИБКИ REJECTED: Стягиваем коммиты из сети и накатываем лог сверху
-          git pull --rebase origin main
-          
-          # Безопасный и чистый пуш в облако GitHub
+          # ЖЕСТКИЙ СНОС КОНФЛИКТОВ СЛИЯНИЯ
+          git pull origin main --allow-unrelated-histories --no-edit || true
           git push origin main
