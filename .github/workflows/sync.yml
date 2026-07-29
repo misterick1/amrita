@@ -28,14 +28,6 @@ jobs:
       - name: Install Dependencies and Tools
         run: |
           pip install requests solana solders base58
-          
-          # Установка Rust без интерактивных конфликтов синтаксиса bash
-          curl --proto '=https' --tlsv1.2 -sSf https://rustup.rs | sh -s -- -y
-          echo "$HOME/.cargo/bin" >> $GITHUB_PATH
-          
-          # Установка Solana CLI чистой изолированной строкой
-          sh -c "$(curl -sSfL https://solana.com)"
-          echo "$HOME/.local/share/solana/install/active_release/bin" >> $GITHUB_PATH
 
       - name: Execute Swarm Core Sync
         env:
