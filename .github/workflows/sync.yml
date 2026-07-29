@@ -85,8 +85,8 @@ jobs:
           # Настраиваем автоматическое слияние веток по умолчанию
           git config --global pull.rebase true
           
-          # ЧИСТЫЙ BASH URL БЕЗ СИНТАКСИЧЕСКИХ КОНФЛИКТОВ СКОБОК
-          git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@://github.com{GITHUB_REPOSITORY}.git"
+          # ЖЕСТКИЙ ПРЯМОЙ ПУТЬ БЕЗ ПЕРЕМЕННЫХ И СКОБОК - ДЛЯ ЛЮБОЙ СРЕДЫ
+          git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@://github.com"
           
           # Забираем измененный файл истории
           git add history_log.json 2>/dev/null || true
