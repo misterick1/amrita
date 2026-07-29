@@ -1,16 +1,62 @@
+# .github/workflows/evolve.yml
+# КОНТУР АВТОНОМНОЙ ЗАПЕЧАТКИ ЛОГОВ ИСТОРИИ AM_SWARM
+
+name: evolve_swarm
+
+on:
+  push:
+    branches: [ main, master ] # Запуск при пуше Наблюдателя
+  schedule:
+    - cron: '30 * * * *' # Фоновое выравнивание раз в час
+
+jobs:
+  evolve_job:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository Core
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Скачиваем все коммиты, чтобы rebase прошел без конфликтов
+
+      - name: Set up Python Environment
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+          cache: 'pip'
+
+      - name: Install Dependencies
+        run: |
+          pip install requests solana solders base58
+
+      - name: Execute Swarm Core Process
+        env:
+          OAI_API_KEY: ${{ secrets.OAI_API_KEY }}
+          SOLANA_RPC_URL: ${{ secrets.SOLANA_RPC_URL }}
+          LEFT_WING_KEY: ${{ secrets.LEFT_WING_KEY }}
+          DEVELOPER_WALLET: ${{ secrets.DEVELOPER_WALLET }}
+          DISCORD_CHANNEL: ${{ secrets.DISCORD_CHANNEL }}
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          MINT_ADDRESS: ${{ secrets.MINT_ADDRESS }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHANNELS: ${{ secrets.TELEGRAM_CHANNELS }}
+        run: |
+          # Запуск ИИ-оркестратора в режиме обновления матрицы истории
+          python -m src.ezhenysh_bot --mode=boost_bonding
+
       - name: Commit and Sealed History Log
         run: |
-          git config --local user.email "misterick1@gmail.com"
-          git config --local user.name "misterick1"
+          git config --global user.email "misterick1@gmail.com"
+          git config --global user.name "misterick1"
           
-          # Добавляем лог истории, если он был изменен
+          # Забираем измененный файл истории
           git add history_log.json 2>/dev/null || true
           
-          # Коммитим только при наличии реальных изменений, чтобы избежать пустых ошибок
+          # Фиксируем коммит, только если есть реальные новые записи
           git diff-index --quiet HEAD || git commit -m "🔱 AMRITA: Quantum stack history sealed [skip ci]"
           
-          # Жестко стягиваем изменения из GitHub и накатываем наш коммит поверх них
+          # УНИЧТОЖИТЕЛЬ ОШИБКИ REJECTED: Стягиваем коммиты из сети и накатываем лог сверху
           git pull --rebase origin main
           
-          # Безопасный и чистый пуш в облако
+          # Безопасный и чистый пуш в облако GitHub
           git push origin main
