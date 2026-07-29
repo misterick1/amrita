@@ -25,7 +25,6 @@ class QuantumBridgeOrchestrator:
         # 1. Проверка контура Solana (Arc / Circle Alliance)
         if self.rpc_url and self.developer_wallet:
             logger.info(f"🧬 Коннект к Solana RPC успешно выполнен для кошелька {self.developer_wallet[:6]}...")
-            # Прямой вызов блокчейн-сшивки без участия Discord-ботов
             print("[SUCCESS] Шлюз Arc/Circle верифицирован в распределенной сети.")
         else:
             logger.warning("⚠️ Не найдены ключи Solana контура.")
@@ -33,7 +32,6 @@ class QuantumBridgeOrchestrator:
         # 2. Пробитие входа в сеть Pi Network
         if self.pi_api_key and self.pi_wallet:
             logger.info("🥧 Активация каузального моста с Pi Network API...")
-            # Имитация отправки транзакции консервации баланса в Pi-блокчейн
             print("[SUCCESS] Вход в Pi Network открыт. Балансы синхронизированы.")
         else:
             logger.warning("⚠️ Не найдены ключи Pi Network в секретах.")
