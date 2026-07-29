@@ -1,0 +1,16 @@
+      - name: Commit and Sealed History Log
+        run: |
+          git config --local user.email "misterick1@gmail.com"
+          git config --local user.name "misterick1"
+          
+          # Добавляем лог истории, если он был изменен
+          git add history_log.json 2>/dev/null || true
+          
+          # Коммитим только при наличии реальных изменений, чтобы избежать пустых ошибок
+          git diff-index --quiet HEAD || git commit -m "🔱 AMRITA: Quantum stack history sealed [skip ci]"
+          
+          # Жестко стягиваем изменения из GitHub и накатываем наш коммит поверх них
+          git pull --rebase origin main
+          
+          # Безопасный и чистый пуш в облако
+          git push origin main
