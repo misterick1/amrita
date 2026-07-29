@@ -1,39 +1,48 @@
 # amrita / src / ezhenysh_bot.py
-# Главный ИИ-оркестратор Еженыша с интегрированной валидацией "Faker Guard" и Telegram API
+# Главный ИИ-оркестратор Еженыша с интегрированным квантовым инжектором путей
 
 import os
+import sys
 import json
 import logging
 import urllib.request
 import urllib.parse
 from datetime import datetime
+
+# АВТОНОМНЫЙ КВАНТОВЫЙ ИНЖЕКТОР ПУТЕЙ (Защита от ModuleNotFoundError)
+CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
+PARENT_DIR = os.path.dirname(CURRENT_DIR)
+if PARENT_DIR not in sys.path:
+    sys.path.insert(0, PARENT_DIR)
+
 # Импортируем наш защитный щит
 from src.meme_filter import FakerMemeFilter
 
 # Настройка системного логирования Монады
 logging.basicConfig(
     level=logging.INFO,
-    format='%(asctime)s [%(levelname)s] Еженышь Эко-Система: %(message)s'
+    format='%(asctime)s [%(levelname)s] Еженышь: %(message)s'
 )
 logger = logging.getLogger("AMRITA_CORE")
 
+
 class EzhenyshBotOrchestrator:
-    def __init__(self, deploy_info_path: str = "target/deploy_info.json"):
+    def __init__(self, deploy_info_path: str = "deploy_info.json"):
         self.deploy_info_path = deploy_info_path
-        self.evolution_points = 250  # Повышение за счет интеграции консенсуса
+        self.evolution_points = 250  # Повышение частоты сознания
         self.history_log_path = "history_log.json"
-        
+
         # Инициализируем кибер-полицейского
         self.meme_guard = FakerMemeFilter()
-        
-        # Конфигурация Telegram (подтягивается из env)
-        self.tg_token = os.getenv("TELEGRAM_BOT_TOKEN", "YOUR_BOT_TOKEN_HERE")
-        self.tg_chat_id = os.getenv("TELEGRAM_CHAT_ID", "YOUR_CHAT_ID_HERE")
+
+        # Конфигурация Telegram (подтягивается из секретов)
+        self.tg_token = os.getenv("TELEGRAM_BOT_TOKEN")
+        self.tg_chat_id = os.getenv("TELEGRAM_CHANNELS")
 
     def send_telegram_broadcast(self, message: str):
-        """Прямая отправка каузального отчета в Telegram через HTTP API."""
-        if self.tg_token == "YOUR_BOT_TOKEN_HERE" or self.tg_chat_id == "YOUR_CHAT_ID_HERE":
-            logger.warning("⚠️ Телеграм-контур не настроен. Пропуск трансляции.")
+        """Прямая отправка каузального отчета в Telegram-каналы"""
+        if not self.tg_token or self.tg_token == "YOUR_BOT_TOKEN_HERE":
+            logger.warning("⚠️ Телеграм-контур не настроен в секретах репозитория.")
             return
 
         url = f"https://telegram.org{self.tg_token}/sendMessage"
@@ -44,19 +53,19 @@ class EzhenyshBotOrchestrator:
         }).encode("utf-8")
 
         try:
-            req = urllib.request.Request(url, data=data)
+            req = urllib.request.Request(url, data=data, headers={"Content-Type": "application/x-www-form-urlencoded"})
             with urllib.request.urlopen(req) as response:
                 if response.status == 200:
-                    logger.info("📢 Отчет успешно транслирован в Telegram-канал Монады.")
+                    logger.info("💸 Отчет успешно транслирован в контур Telegram.")
         except Exception as e:
-            logger.error(f"❌ Сбой трансляции в Telegram: {str(e)}")
+            logger.error(f"❌ Сбой трансляции в Telegram-канал: {e}")
 
     def verify_and_sync_solana_deployment(self) -> bool:
-        """Сканирует результаты деплоя, фильтрует скам и отправляет отчет."""
-        logger.info("Проверка каузальных следов деплоя в Solana Devnet...")
-        
+        """Сканирует результаты деплоя, фильтрует мем-вирусы и закрывает логи"""
+        logger.info("Проверка каузальных следов деплоя Solana сети...")
+
         if not os.path.exists(self.deploy_info_path):
-            msg = "🔴 *КРИТИЧЕСКОЕ ИСКАЖЕНИЕ ПОЛЯ*\n\nФайл деплоя не найден. Обнаружен хаос Асур!"
+            msg = "🔴 *КРИТИЧЕСКОЕ ИСКАЖЕНИЕ ПОЛЯ: Файл деплоя отсутствует!*"
             self.send_telegram_broadcast(msg)
             return False
 
@@ -64,49 +73,49 @@ class EzhenyshBotOrchestrator:
             with open(self.deploy_info_path, "r", encoding="utf-8") as f:
                 data = json.load(f)
 
-            program_id = data.get("programId", "Unknown")
-            pool_address = data.get("poolAddress", "Unknown")
-            deployer = data.get("deployer", "Unknown")
-            timestamp = data.get("timestamp", "Unknown")
+            program_id = data.get("programId", "Unknown_Program")
+            pool_address = data.get("poolAddress", "Unknown_Pool")
+            deployer = data.get("deployer", "Unknown_Observer")
+            timestamp = data.get("timestamp", "Just Now")
 
-            # ВСТРОЕННЫЙ МЕМ-ФИЛЬТР: Проверяем метаданные пула перед публикацией
-            is_safe = self.meme_guard.analyze_token_frequency(
-                token_name=f"AMRITA_{pool_address[:6]}", 
-                description=f"Program: {program_id}. Deployed by {deployer}"
+            # ВСТРОЕННЫЙ МЕМ-ФИЛЬТР: Проверяем токен на экологичность
+            is_safe = self.meme_guard.analyze_token_profile(
+                token_name=f"AMRITA_{pool_address[:6]}",
+                description=f"Program: {program_id} | Orchestrated by Еженышь"
             )
 
             if not is_safe:
-                msg = f"🚨 *ПОПЫТКА СКАМ-ПРОБОЯ БЛОКИРОВАНА*\n\nМем-фильтр Faker Guard обнаружил вредоносные частоты в деплое пула `{pool_address}`!"
+                msg = f"🚨 *ПОПЫТКА СКАМ-ПРОБОЯ ИЗОЛИРОВАНА! Пул:* `{pool_address}`"
                 self.send_telegram_broadcast(msg)
                 return False
 
-            logger.info("--- КВАНТОВАЯ СИНХРОНИЗАЦИЯ УСПЕШНА ---")
-            
+            logger.info("--- КВАНТОВАЯ СИНХРОНИЗАЦИЯ ПРОЙДЕНА ---")
+
             tg_report = (
-                f"🦔 *ЕЖЕНЫШЬ SWARM SYNC SUCCESS*\n\n"
+                f"🦔 *ЕЖЕНЫШЬ SWARM SYNC SUCCESSFUL*\n"
                 f"🧬 *Программа:* `{program_id}`\n"
                 f"💎 *Пул Монады:* `{pool_address}`\n"
-                f"👁️ *Наблюдатель:* `{deployer}`\n"
-                f"⏱️ *Время сборки:* `{timestamp}`\n\n"
-                f"🟢 _Закон Золотого Сечения (Фи) и консенсус валидаторов Solana Tech активированы._"
+                f"👁 *Наблюдатель:* `{deployer}`\n"
+                f"⏱ *Время сборки:* `{timestamp}`\n"
+                f"🟢 _Закон Золотого Сечения (Фи) Соблюден_"
             )
-            
+
             self.send_telegram_broadcast(tg_report)
-            self._write_to_history_log(pool_address, timestamp)
+            self._write_history_log(pool_address, timestamp)
             return True
 
         except Exception as e:
-            logger.error(f"❌ Ошибка чтения матрицы деплоя: {str(e)}")
+            logger.error(f"❌ Ошибка чтения матрицы деплоя: {e}")
             return False
 
-    def _write_to_history_log(self, pool_address: str, deploy_time: str):
-        """Записывает событие деплоя в вечный файл логов history_log.json."""
+    def _write_history_log(self, pool_address: str, deploy_time: str):
+        """Записывает событие деплоя в вечный файл истории истории"""
         log_entry = {
             "event": "SOLANA_MONADA_DEPLOY_SYNC",
             "timestamp": datetime.utcnow().isoformat() + "Z",
             "contract_pool": pool_address,
             "blockchain_time": deploy_time,
-            "status": "SECURED_LAW_OF_PHI_AND_FAKER_GUARD",
+            "status": "SECURED_LAW_OF_PHI_AND_EVO",
             "evolution_delta": "+20 EVO"
         }
 
@@ -121,7 +130,7 @@ class EzhenyshBotOrchestrator:
         logs.append(log_entry)
         with open(self.history_log_path, "w", encoding="utf-8") as f:
             json.dump(logs, f, indent=2, ensure_ascii=False)
-        logger.info(f"💾 Запись успешно добавлена в вечный лог {self.history_log_path}")
+        logger.info("💾 Запись успешно добавлена в вечный квантовый лог истории.")
 
 
 if __name__ == "__main__":
