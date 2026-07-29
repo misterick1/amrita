@@ -85,8 +85,8 @@ jobs:
           # Настраиваем автоматическое слияние веток по умолчанию
           git config --global pull.rebase true
           
-          # Перенастраиваем удаленный репозиторий на использование системного токена
-          git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@://github.com{{ github.repository }}.git"
+          # ЧИСТЫЙ BASH URL БЕЗ СИНТАКСИЧЕСКИХ КОНФЛИКТОВ СКОБОК
+          git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@://github.com{GITHUB_REPOSITORY}.git"
           
           # Забираем измененный файл истории
           git add history_log.json 2>/dev/null || true
