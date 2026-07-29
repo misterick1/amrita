@@ -22,18 +22,15 @@
           TELEGRAM_CHANNELS: ${{ secrets.TELEGRAM_CHANNELS }}
           XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
         run: |
-          # Указываем Python корень репозитория как базовую директорию для импортов
-          export PYTHONPATH=.
-
           # 1. Запуск калибровочного скрипта вшивания СА монет контроля
           if [ -f "tools/deploy_sync.py" ]; then
-            python tools/deploy_sync.py
+            PYTHONPATH=. python tools/deploy_sync.py
           fi
 
           # 2. Исполнение оригинального скрипта синхронизации партнеров
           if [ -f "sync_partners.py" ]; then
-            python sync_partners.py
+            PYTHONPATH=. python sync_partners.py
           fi
 
-          # 3. Активация ИИ-бустера дожима бондинг-курвы
-          python src/ezhenysh_bot.py --mode=boost_bonding
+          # 3. Активация ИИ-бустера через модуль -m (неубиваемый импорт src)
+          python -m src.ezhenysh_bot --mode=boost_bonding
