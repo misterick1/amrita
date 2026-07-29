@@ -18,6 +18,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0 # Скачивает полную историю для стопроцентного слияния
+          token: ${{ secrets.GITHUB_TOKEN }} # Жестко вшиваем токен на уровне скачивания
 
       - name: Set up Python Environment
         uses: actions/setup-python@v5
@@ -76,8 +77,6 @@ jobs:
           fi
 
       - name: Commit and Sealed History Log
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config --global user.email "misterick1@gmail.com"
           git config --global user.name "misterick1"
@@ -85,17 +84,14 @@ jobs:
           # Настраиваем автоматическое слияние веток по умолчанию
           git config --global pull.rebase true
           
-          # ЖЕСТКИЙ ПРЯМОЙ ПУТЬ БЕЗ ПЕРЕМЕННЫХ И СКОБОК - ДЛЯ ЛЮБОЙ СРЕДЫ
-          git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@://github.com"
-          
           # Забираем измененный файл истории
           git add history_log.json 2>/dev/null || true
           
           # Фиксируем коммит, только если есть реальные новые записи
           git diff-index --quiet HEAD || git commit -m "🔱 AMRITA: Quantum stack history sealed [skip ci]"
           
-          # ПРИНУДИТЕЛЬНОЕ СЛИЯНИЕ С СЕРВЕРОМ (Сносит любой rejected на своем пути)
+          # ЧИСТОЕ СЛИЯНИЕ С СЕРВЕРОМ БЕЗ СМЕНЫ ССЫЛОК
           git pull origin main --no-edit
           
-          # Финальный изумрудный пуш через авторизованный шлюз
+          # Чистый пуш через стандартный авторизованный контур
           git push origin main
