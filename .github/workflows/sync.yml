@@ -5,9 +5,9 @@ name: Autonomous Partner Sync
 
 on:
   push:
-    branches: [ main, master ] # Пинает ботов при каждом твоем коммите
+    branches: [ main, master ] # Моментальный пинок ботов при твоих коммитах
   schedule:
-    - cron: '*/15 * * * *' # Автоматический запуск каждые 15 минут для непрерывного контроля монет
+    - cron: '*/15 * * * *' # Квантовый контроль каждые 15 минут для 66/4/38 монет
 
 jobs:
   sync_and_deploy:
@@ -17,7 +17,7 @@ jobs:
       - name: Checkout Repository Core
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # Скачивает всю историю для корректного rebase без ошибок
+          fetch-depth: 0 # Скачивает полную историю для стопроцентного rebase
 
       - name: Set up Python Environment
         uses: actions/setup-python@v5
@@ -28,19 +28,23 @@ jobs:
       - name: Install Dependencies and Tools
         run: |
           pip install requests solana solders base58
-          # Установка инструментов компиляции и интеграции Solana CLI
+          
+          # Установка Rust без интерактивных конфликтов синтаксиса bash
           curl --proto '=https' --tlsv1.2 -sSf https://rustup.rs | sh -s -- -y
-          export PATH="$HOME/.cargo/bin:$PATH"
+          echo "$HOME/.cargo/bin" >> $GITHUB_PATH
+          
+          # Установка Solana CLI чистой изолированной строкой
           sh -c "$(curl -sSfL https://solana.com)"
+          echo "$HOME/.local/share/solana/install/active_release/bin" >> $GITHUB_PATH
 
       - name: Execute Swarm Core Sync
         env:
-          # Оригинальные секреты партнерского контура
+          # Главные ключи и RPC нейроквантовой сети
           OAI_API_KEY: ${{ secrets.OAI_API_KEY }}
           SOLANA_RPC_URL: ${{ secrets.SOLANA_RPC_URL }}
-          LEFT_WING_KEY: ${{ secrets.LEFT_WING_KEY }} # Приватник кошелька misterick1 для диких ботов
+          LEFT_WING_KEY: ${{ secrets.LEFT_WING_KEY }} # Приватник кошелька misterick1
           
-          # Все 16 секретов твоего главного пула контроля
+          # Все 16 секретов твоего целостного пула контроля внешних систем
           DEVELOPER_WALLET: ${{ secrets.DEVELOPER_WALLET }}
           DISCORD_CHANNEL: ${{ secrets.DISCORD_CHANNEL }}
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
@@ -57,7 +61,7 @@ jobs:
           TELEGRAM_CHANNELS: ${{ secrets.TELEGRAM_CHANNELS }}
           XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
         run: |
-          # 1. Запуск калибровочного скрипта для вшивания СА и квантовых лимитов монет
+          # 1. Запуск калибровочного скрипта вшивания СА монет контроля
           if [ -f "tools/deploy_sync.py" ]; then
             python tools/deploy_sync.py
           fi
@@ -67,16 +71,16 @@ jobs:
             python sync_partners.py
           fi
 
-          # 3. Запуск квантового бустера дожима бондинг-курвы
+          # 3. Активация ИИ-бустера дожима бондинг-курвы
           python src/ezhenysh_bot.py --mode=boost_bonding
 
       - name: Mirror Web Interfaces (Root to Docs Sync)
         run: |
-          # Автоматическое дублирование панели мониторинга для GitHub Pages
-          if [ -p "index.html" ] || [ -f "index.html" ]; then
+          # Автоматическое дублирование панели для GitHub Pages (PiFi Мониторинг)
+          if [ -f "index.html" ]; then
             mkdir -p docs
             cp index.html docs/index.html
-            echo "[SUCCESS]: Интерфейс сайта PiFi успешно синхронизирован в docs/"
+            echo "[SUCCESS]: Интерфейс сайта успешно перенесен в docs/"
           fi
 
       - name: Commit and Push Causal Changes
@@ -84,14 +88,14 @@ jobs:
           git config --global user.name "Amrita-Orchestrator"
           git config --global user.email "swarm_core@amrita.world"
           
-          # Аккуратно собираем логи изменений и файлы интерфейса сайта
+          # Аккуратно собираем запечатанные логи истории и веб-интерфейсы
           git add docs/index.html history_log.json docs/ 2>/dev/null || true
           
-          # Фиксируем изменения. Если ничего нового нет — шагаем дальше без падения.
+          # Фиксация изменений (если они есть), исключая ложные падения
           git diff-index --quiet HEAD || git commit -m "🔱 AMRITA: Quantum stack history sealed [skip ci]"
           
-          # Решение проблемы [rejected]: стягивает обновления из сети и накатывает логи поверх них
+          # Синхронизация с сервером гитхаба перед пушем для уничтожения конфликтов
           git pull --rebase origin main
           
-          # Финальный чистый пуш ядра в GitHub
+          # Финальный изумрудный пуш
           git push origin main
