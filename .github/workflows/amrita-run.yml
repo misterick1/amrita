@@ -42,28 +42,50 @@ jobs:
           XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
           OAI_API_KEY: ${{ secrets.OAI_API_KEY }}
         run: |
-          python amrita_core_router.py
-
-      - name: 🛡️ Фиксация Истории и Безопасный Пуш
-        run: |
-          git config --local user.email "misterick108@gmail.com"
-          git config --local user.name "misterick1"
-          
-          # КРИТИЧЕСКОЕ РЕШЕНИЕ: Сбрасываем любые изменения в папке воркфлоу,
-          # которые нагенерировал Python-скрипт. Это убирает триггер ошибки GitHub!
-          git checkout HEAD -- .github/workflows/
-          
-          # Подтягиваем актуальное состояние репозитория
-          git fetch origin main
-          git reset --soft origin/main
-          
-          # Добавляем в коммит исключительно логи истории
-          if [ -f "history_log.json" ]; then
-            git add history_log.json
+          # Проверяем наличие роутера и запускаем его
+          if [ -f "amrita_core_router.py" ]; then
+            python amrita_core_router.py
           fi
+
+      - name: 🛡️ Фиксация Истории Через API-Контур
+        shell: python
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          import requests
+          import base64
+          import os
+
+          token = os.getenv('GITHUB_TOKEN')
+          path = 'history_log.json'
+          url = 'https://github.com'
           
-          # Фиксируем коммит только для логов
-          git commit -m "🔱 AMRITA: Core history log sealed [skip ci]" -a || echo "No changes to commit"
-          
-          # Пушим. Теперь в транзакции нет изменений воркфлоу, и сервер примет пуш!
-          git push origin main
+          headers = {
+              'Authorization': f'token {token}',
+              'Accept': 'application/vnd.github.v3+json'
+          }
+
+          if os.path.exists(path):
+              # Безопасно запрашиваем текущий SHA-хэш из облака гитхаба
+              res = requests.get(url, headers=headers)
+              sha = res.json().get('sha') if res.status_code == 200 else None
+
+              # Считываем обновленный в ходе вещания лог
+              with open(path, 'r', encoding='utf-8') as f:
+                  content = f.read()
+              
+              encoded = base64.b64encode(content.encode('utf-8')).decode('utf-8')
+
+              payload = {
+                  'message': '🔱 AMRITA: Core history log sealed via API Bypass [skip ci]',
+                  'content': encoded,
+                  'branch': 'main'
+              }
+              if sha:
+                  payload['sha'] = sha
+
+              # Изолированная прямая запись файла без использования git push
+              put_res = requests.put(url, headers=headers, json=payload)
+              print(f'API Push Status: {put_res.status_code}')
+          else:
+              print('Лог истории не изменился, API синхронизация не требуется.')
