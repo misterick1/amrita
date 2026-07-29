@@ -50,8 +50,8 @@ class QuantumBridgeOrchestrator:
         )
         try:
             with urllib.request.urlopen(req) as response:
-                if response.status in:
-                    logger.info("💸 Прямой каузальный след отправлен в Discord-канал.")
+                response.read()
+                logger.info("💸 Прямой каузальный след отправлен в Discord-канал.")
         except Exception as e:
             logger.error(f"Ошибка вебхука: {e}")
 
