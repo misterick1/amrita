@@ -16,8 +16,8 @@ pub mod amrita_soliton {
         msg!("Синхронизация контура Еженышь. Время Наблюдателя: {}", clock.unix_timestamp);
 
         // Расчет жестких квантовых спектров Амриты
-        let suras_expansion = 70;   // Спектр Расширения и Технологий
-        let asuras_limitation = 38; // Спектр Ограничения и Хаоса
+        let suras_expansion = 70;   // Спектр Расширения, Света и Эволюции
+        let asuras_limitation = 38; // Спектр Ограничения, Тьмы и Спекулятивного Хаоса
         let total_atman = suras_expansion + asuras_limitation;
 
         // Защита от искажения поля (AmritaError)
@@ -34,7 +34,7 @@ pub mod amrita_soliton {
         let cpi_program = ctx.accounts.token_program.to_account_info();
         let cpi_ctx = Context::new(cpi_program, cpi_accounts);
         
-        // 108 монет с учетом 9 знаков деления (квантовые сатоши Solflare)
+        // 108 монет с учетом 9 знаков деления (квантовые сатоши)
         let total_amount = (108 as u64) * 1_000_000_000;
         token::mint_to(cpi_ctx, total_amount)?;
 
