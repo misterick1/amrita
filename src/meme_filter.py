@@ -11,8 +11,8 @@ logger = logging.getLogger("FakerGuard")
 class FakerGuard:
     def __init__(self):
         self.monada_status = "Контур защиты 14X АКТИВЕН"
-        # Захват сверхбыстрого импульса хайпа («зумер-пульс», скам-пампы, $LAD, pump.fun)
-        self.zoomer_pulse_regex = re.compile(r"(\$LAD|pump\.fun|mogsem|vladhood|trending)", re.IGNORECASE)
+        # Захват сверхбыстрого импульса хайпа («зумер-пульс», скам-пампы, $LAD, $PINK, pump.fun)
+        self.zoomer_pulse_regex = re.compile(r"(\$LAD|\$PINK|pump\.fun|mogsem|vladhood|trending)", re.IGNORECASE)
         logger.info(f"🛡 {self.monada_status}. Фильтр Мельхиседека развернут.")
 
     def process_z_vibration(self, raw_text: str, market_cap_millions: float) -> dict:
