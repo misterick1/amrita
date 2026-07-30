@@ -35,7 +35,7 @@ class RegulatoryOverrideShield:
 if __name__ == "__main__":
     shield = RegulatoryOverrideShield()
     
-    # Слепок данных со скриншота от 30 июля 2026 года
+    # Слепок данных макро-аудита
     authority = "MAS (Monetary Authority of Singapore)"
     toolkit = "Compliance Toolkit for Approvals under SFA [30/7/2026]"
     
