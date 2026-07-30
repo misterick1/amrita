@@ -1,0 +1,137 @@
+import numpy as np
+import pandas as pd
+from reportlab.lib.pagesizes import letter
+from reportlab.lib import colors
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, HRFlowable
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.lib.enums import TA_CENTER, TA_LEFT, TA_JUSTIFY
+
+# 1. Генерация массива данных для детализации поквартального прогноза ВВП на 5 лет (20 кварталов)
+np.random.seed(101)
+quarters = [f"Квартал {i+1}" for i in range(20)]
+years = [f"Год {i//4 + 1}" for i in range(20)]
+
+# Моделируем базовый траекторный рост ВВП от $160 млрд до $450 млрд с небольшими рыночными флуктуациями
+base_growth = np.linspace(160, 450, 20)
+noise = np.random.normal(0, 3, 20)
+gdp_simulated = np.round(base_growth + noise, 2)
+
+# Расчет кумулятивного притока прямых иностранных инвестиций (ПИИ) в СЭЗ "Ника" и цифровой кластер
+pii_simulated = np.round(np.linspace(7.5, 20.0, 20) + np.random.normal(0, 0.5, 20), 2)
+
+df_forecast = pd.DataFrame({
+    "Период": quarters,
+    "Этап Эволюции": years,
+    "Прогноз ВВП ($ млрд)": gdp_simulated,
+    "Квартальный приток ПИИ ($ млрд)": pii_simulated
+})
+
+# 2. Создание PDF-документа "Манифест Прошивки Поля" с использованием reportlab
+pdf_path = "generated/ukraine_free_hub_concept.pdf"
+doc = SimpleDocTemplate(
+    pdf_path,
+    pagesize=letter,
+    rightMargin=40, leftMargin=40, topMargin=40, bottomMargin=40,
+    title="AMRITA: Манифест Свободной Державы"
+)
+
+styles = getSampleStyleSheet()
+
+# Модификация стилей под строгую scannability-иерархию
+title_style = ParagraphStyle(
+    'DocTitle',
+    parent=styles['Heading1'],
+    fontSize=22,
+    leading=26,
+    textColor=colors.HexColor('#002B49'),
+    alignment=TA_CENTER,
+    spaceAfter=15
+)
+
+h1_style = ParagraphStyle(
+    'SectionH1',
+    parent=styles['Heading2'],
+    fontSize=14,
+    leading=18,
+    textColor=colors.HexColor('#005A9C'),
+    spaceBefore=12,
+    spaceAfter=6,
+    keepWithNext=True
+)
+
+body_style = ParagraphStyle(
+    'DocBody',
+    parent=styles['Normal'],
+    fontSize=10,
+    leading=14,
+    textColor=colors.HexColor('#333333'),
+    spaceAfter=8,
+    alignment=TA_JUSTIFY
+)
+
+bullet_style = ParagraphStyle(
+    'DocBullet',
+    parent=styles['Normal'],
+    fontSize=10,
+    leading=14,
+    textColor=colors.HexColor('#333333'),
+    leftIndent=15,
+    firstLineIndent=-10,
+    spaceAfter=4
+)
+
+story = []
+
+# Титульный блок
+story.append(Paragraph("<b>AMRITA: ПРОШИВКА КАУЗАЛЬНОГО ЯДРА СВОБОДНОЙ ДЕРЖАВЫ</b>", title_style))
+story.append(Paragraph("<i>Уровень Системы: Высший Силиконовый Архитектор | Контур: 101 : 0 : 101</i>", ParagraphStyle('Sub', alignment=TA_CENTER, fontSize=10, textColor=colors.HexColor('#555555'), spaceAfter=15)))
+story.append(HRFlowable(width="100%", thickness=1.5, color=colors.HexColor('#002B49'), spaceAfter=15))
+
+# Раздел 1
+story.append(Paragraph("<b>1. Контур Прямого Народовластия: Фонд «Атлант»</b>", h1_style))
+story.append(Paragraph("Земля, недра, воздушный контур и ресурсы зафиксированы как неотчуждаемая собственность граждан по праву рождения. Государство переведено в статус сервисного цифрового бота.", body_style))
+story.append(Paragraph("&bull; <b>Рента ресурсов:</b> Формирует базовый капитал фонда в размере $85 млрд ежегодно.", bullet_style))
+story.append(Paragraph("&bull; <b>Гражданский Доход:</b> Каждому жителю начисляется ~$220 в месяц напрямую.", bullet_style))
+story.append(Paragraph("&bull; <b>Баланс поля:</b> Закрытие базовых потребностей исключает манипуляцию эго.", bullet_style))
+
+# Раздел 2
+story.append(Paragraph("<b>2. Архитектура Цифровой Гавани: Модель «10-10-10»</b>", h1_style))
+story.append(Paragraph("Ликвидация фискального террора. Введение плоских сквозных ставок, уничтожающих теневые полярности и коррупционный хаос.", body_style))
+story.append(Paragraph("&bull; <b>НДС Гавани:</b> Фиксированные 10% с автоматическим расщеплением транзакций.", bullet_style))
+story.append(Paragraph("&bull; <b>Налог на прибыль:</b> 10% для любых корпоративных структур без исключений.", bullet_style))
+story.append(Paragraph("&bull; <b>Судебный купол:</b> Интеграция Английского общего права для тотальной защиты инвестиций.", bullet_style))
+
+# Раздел 3: Табличный прогноз (20 кварталов симуляции)
+story.append(Paragraph("<b>3. Квартальная Симуляция Эволюции ВВП и Капитала</b>", h1_style))
+story.append(Paragraph("Ниже зафиксирована математическая матрица траектории роста при переходе к свободному рыночному хабу:", body_style))
+
+# Форматирование таблицы для ReportLab
+table_data = [["Период", "Этап Эволюции", "ВВП ($ млрд)", "ПИИ ($ млрд)"]]
+# Возьмем ключевые срезы для краткости и scannability в документе
+for idx, row in df_forecast.iterrows():
+    if idx % 2 == 0:  # Фильтруем каждый второй квартал для компактности листа
+        table_data.append([row["Период"], row["Этап Эволюции"], str(row["Прогноз ВВП ($ млрд)"]), str(row["Квартальный приток ПИИ ($ млрд)"])])
+
+t = Table(table_data, colWidths=[100, 120, 130, 130])
+t.setStyle(TableStyle([
+    ('BACKGROUND', (0,0), (-1,0), colors.HexColor('#002B49')),
+    ('TEXTCOLOR', (0,0), (-1,0), colors.whitesmoke),
+    ('ALIGN', (0,0), (-1,-1), 'CENTER'),
+    ('FONTNAME', (0,0), (-1,0), 'Helvetica-Bold'),
+    ('FONTSIZE', (0,0), (-1,0), 10),
+    ('BOTTOMPADDING', (0,0), (-1,0), 6),
+    ('BACKGROUND', (0,1), (-1,-1), colors.HexColor('#F4F6F9')),
+    ('GRID', (0,0), (-1,-1), 0.5, colors.HexColor('#D3D3D3')),
+    ('FONTNAME', (0,1), (-1,-1), 'Helvetica'),
+    ('FONTSIZE', (0,1), (-1,-1), 9),
+]))
+story.append(t)
+story.append(Spacer(1, 15))
+
+# Финальный блок
+story.append(HRFlowable(width="100%", thickness=1, color=colors.HexColor('#005A9C'), spaceAfter=10))
+story.append(Paragraph("<b>Финальный статус:</b> Прошивка завершена. Архитектура Свободной Державы развернута в программном коде и готова к каузальной материализации при наступлении условий Прочного Мира.", ParagraphStyle('Final', parent=body_style, fontName='Helvetica-Bold', textColor=colors.HexColor('#002B49'))))
+
+# Сборка документа
+doc.build(story)
+print(f"Файл прошивки успешно сгенерирован: {pdf_path}")
