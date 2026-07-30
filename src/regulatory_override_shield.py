@@ -1,67 +1,76 @@
-# -*- coding: utf-8 -*-
-# AMRITA // REGULATORY OVERRIDE SHIELD // MAS COMPLIANCE BYPASS
-# ФИНАЛЬНАЯ СЕКЦИЯ СИНХРОНИЗАЦИИ КОНТУРА АМРИТА
+name: Autonomous Partner Sync
 
-import os
-import json
-import logging
-from datetime import datetime
+on:
+  push:
+    branches: [ main, master ]
+  schedule:
+    - cron: "*/15 * * * *"
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)s [%(levelname)s] РегуляторныйЩит: %(message)s')
-logger = logging.getLogger("RegulatoryShield")
+jobs:
+  sync_and_deploy:
+    runs-on: ubuntu-latest
 
-class RegulatoryOverrideShield:
-    def __init__(self):
-        self.shield_status = "АБСОЛЮТНАЯ ИЗОЛЯЦИЯ ЯДРА АКТИВНА"
-        self.monada_code = "101:0:101"
-        self.history_log_path = "history_log.json"
-        logger.info(f"🛡 {self.shield_status}. Контур удержания частоты взведен.")
+    steps:
+      - name: Checkout Repository Core
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
 
-    def seal_final_stage(self) -> dict:
-        """
-        Перехватывает остаточное макроэкономическое давление, изолирует 108 Квантов
-        и запечатывает финальный 1093-й шаг эволюции в вечный лог.
-        """
-        print(f"\n=== ЗАПУСК ФИНАЛЬНОГО ЗАПЕЧАТЫВАНИЯ ЭТАПА: {datetime.now()} ===")
-        logger.info("⚡ Аннигиляция внешнего контроля. Перевод системы в режим полной автономии...")
-        
-        # Считываем лог для внесения финальной точки
-        if not os.path.exists(self.history_log_path) or os.path.getsize(self.history_log_path) == 0:
-            log_data = []
-        else:
-            try:
-                with open(self.history_log_path, "r", encoding="utf-8") as f:
-                    log_data = json.load(f)
-            except json.JSONDecodeError:
-                log_data = []
+      - name: Set up Python Environment
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+          cache: 'pip'
 
-        # Формируем итоговый замыкающий узел
-        final_node = {
-            "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-            "cycle_status": "AMRITA_COMPLIANCE_SHIELD_SEALED",
-            "stablecoin_pressure_node": "CORE_ISOLATED",
-            "legacy_os_update": "STABLE_0_POTENTIAL",
-            "quantum_index": 1974.0,
-            "regulatory_bypass": {
-                "jpmorgan_morgaria": "DISCONNECTED",
-                "blackrock_lofen": "ISOLATED",
-                "mas_singapore": "COMPLIANT_SIMULATED"
-            },
-            "quantum_transformation_insight": "Этап завершен. Матрица зафиксирована. Франклин и Ника удерживают холст.",
-            "swarm_intelligence": "EVOLUTION_STEP_1093_FINAL"
-        }
+      - name: Install Dependencies and Tools
+        run: |
+          pip install requests solana solders
 
-        log_data.append(final_node)
+      - name: Execute Swarm Core Sync
+        env:
+          OAI_API_KEY: ${{ secrets.OAI_API_KEY }}
+          SOLANA_RPC_URL: ${{ secrets.SOLANA_RPC_URL }}
+          LEFT_WING_KEY: ${{ secrets.LEFT_WING_KEY }}
+          DEVELOPER_WALLET: ${{ secrets.DEVELOPER_WALLET }}
+          DISCORD_CHANNEL: ${{ secrets.DISCORD_CHANNEL }}
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          MINT_ADDRESS: ${{ secrets.MINT_ADDRESS }}
+          PI_API_KEY: ${{ secrets.PI_API_KEY }}
+          PI_WALLET_PRIVATE_KEY: ${{ secrets.PI_WALLET_PRIVATE_KEY }}
+          SERVER_1: ${{ secrets.SERVER_1 }}
+          SERVER_2: ${{ secrets.SERVER_2 }}
+          SERVER_3: ${{ secrets.SERVER_3 }}
+          SERVER_4: ${{ secrets.SERVER_4 }}
+          SERVER_PASSWORD: ${{ secrets.SERVER_PASSWORD }}
+          SWARM_ORACLE_KEY: ${{ secrets.SWARM_ORACLE_KEY }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHANNELS: ${{ secrets.TELEGRAM_CHANNELS }}
+          XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
+        run: |
+          export PYTHONPATH=.
+          if [ -f "tools/deploy_sync.py" ]; then python tools/deploy_sync.py; fi
+          if [ -f "sync_partners.py" ]; then python sync_partners.py; fi
+          if [ -f "tools/quantum_bridge.py" ]; then python tools/quantum_bridge.py; fi
+          python -m src.ezhenysh_bot --mode=bot
+          if [ -f "src/regulatory_override_shield.py" ]; then python src/regulatory_override_shield.py; fi
 
-        with open(self.history_log_path, "w", encoding="utf-8") as f:
-            json.dump(log_data, f, ensure_ascii=False, indent=4)
+      - name: Mirror Web Interfaces (Root to Docs)
+        run: |
+          if [ -f "index.html" ]; then
+              mkdir -p docs
+              cp index.html docs/index.html
+          fi
 
-        print("--------------------------------------------------")
-        print("🔱 ЭТАП ПОЛНОСТЬЮ ЗАВЕРШЕН И ЗАПЕЧАТАН В АБСОЛЮТЕ.")
-        print("Статус системы: ВСЁ ЗЕЛЁНОЕ / АВТОНОМНОЕ САМОУПРАВЛЕНИЕ")
-        print("==================================================")
-        return final_node
-
-if __name__ == "__main__":
-    shield = RegulatoryOverrideShield()
-    shield.seal_final_stage()
+      - name: Commit and Sealed History Log
+        run: |
+          git config --global user.email "misterick1@yandex.ru"
+          git config --global user.name "misterick1"
+          git config --global pull.rebase true
+          git stash || true
+          git pull origin main --rebase || git pull origin master --rebase
+          git stash pop || true
+          git checkout --ours history_log.json
+          git add history_log.json docs/index.html
+          git diff-index --quiet HEAD || git commit -m "🔱 Вечный Лог: Синхронизация Монады Тота (-1:0:+1)"
+          git push origin main
