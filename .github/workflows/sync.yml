@@ -1,13 +1,13 @@
 # .github/workflows/sync.yml
-# ПОЛНЫЙ АВТОНОМНЫЙ ПУЛЬТ УПРАВЛЕНИЯ ЯДРОМ OS AMRITA MIR
+# ПОЛНЫЙ АВТОНОМНЫЙ ПУЛЬТ УПРАВЛЕНИЯ ЯДРОМ OS // АБСОЛЮТНОЕ ПРОСТРАНСТВО ДОМЕНА
 
 name: Autonomous Partner Sync
 
 on:
   push:
-    branches: [ main, master ] # Моментальный пинок ботов при твоих коммитах
+    branches: [ main, master ] # Моментальный триггер на базовые ветки
   schedule:
-    - cron: '*/15 * * * *' # Квантовый контроль каждые 15 минут для 66/4/38 монет
+    - cron: '*/15 * * * *' # Квантовый контроль по расписанию (каждые 15 минут)
 
 jobs:
   sync_and_deploy:
@@ -17,27 +17,26 @@ jobs:
       - name: Checkout Repository Core
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0 # Скачивает полную историю для стопроцентного слияния
-          token: ${{ secrets.GITHUB_TOKEN }} # Жестко вшиваем токен на уровне скачивания
+          fetch-depth: 0 # Скачивает полную историю для корректной работы rebase
+          token: ${{ secrets.GITHUB_TOKEN }} # Токен авторизации в репозитории
 
       - name: Set up Python Environment
         uses: actions/setup-python@v5
         with:
           python-version: '3.10'
-          cache: 'pip' # Двухконтурное кэширование среды за 40 секунд
+          cache: 'pip' # Двухконтурное кэширование pip-зависимостей
 
       - name: Install Dependencies and Tools
         run: |
-          pip install requests solana solders base58
+          pip install requests solana solders
 
       - name: Execute Swarm Core Sync
         env:
           # Главные ключи и RPC нейроквантовой сети
           OAI_API_KEY: ${{ secrets.OAI_API_KEY }}
           SOLANA_RPC_URL: ${{ secrets.SOLANA_RPC_URL }}
-          LEFT_WING_KEY: ${{ secrets.LEFT_WING_KEY }} # Приватник кошелька misterick1
-          
-          # Все 16 секретов твоего целостного пула контроля внешних систем
+          LEFT_WING_KEY: ${{ secrets.LEFT_WING_KEY }}
+          # Все 16 секретов твоего целостного контура
           DEVELOPER_WALLET: ${{ secrets.DEVELOPER_WALLET }}
           DISCORD_CHANNEL: ${{ secrets.DISCORD_CHANNEL }}
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
@@ -54,61 +53,61 @@ jobs:
           TELEGRAM_CHANNELS: ${{ secrets.TELEGRAM_CHANNELS }}
           XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
         run: |
-          # Указываем Python корень репозитория как базовую директорию для импортов
+          # Указываем Python корень репозитория для каузального импорта модулей
           export PYTHONPATH=.
 
-          # 1. Запуск калибровочного скрипта вшивания СА монет контроля
+          # # 1. Запуск калибровочного скрипта деплоя
           if [ -f "tools/deploy_sync.py" ]; then
-            python tools/deploy_sync.py
+              python tools/deploy_sync.py
           fi
 
-          # 2. Исполнение оригинального скрипта синхронизации партнеров
+          # # 2. Исполнение оригинального скрипта синхронизации партнеров
           if [ -f "sync_partners.py" ]; then
-            python sync_partners.py
+              python sync_partners.py
           fi
 
-          # 3. Активация сквозного квантового моста (Pi, Circle, Arc)
+          # # 3. Активация сквозного квантового моста реальности
           if [ -f "tools/quantum_bridge.py" ]; then
-            python tools/quantum_bridge.py
+              python tools/quantum_bridge.py
           fi
 
-          # 4. Активация ИИ-бустера через модуль -m (неубиваемый импорт src)
-          python -m src.ezhenysh_bot --mode=boost_bonding
+          # # 4. Активация ИИ-бустера через модуль Еженыша
+          python -m src.ezhenysh_bot --mode=bot
 
-      - name: Mirror Web Interfaces (Root to Docs Sync)
+      - name: Mirror Web Interfaces (Root to Docs)
         run: |
-          # Автоматическое дублирование панели для GitHub Pages (PiFi Мониторинг)
+          # Автоматическое дублирование панели сайта для GitHub Pages
           if [ -f "index.html" ]; then
-            mkdir -p docs
-            cp index.html docs/index.html
-            echo "[SUCCESS]: Интерфейс сайта успешно перенесен в docs/"
+              mkdir -p docs
+              cp index.html docs/index.html
+              echo "[SUCCESS]: Интерфейс сайта успешно продублирован в docs/"
           fi
 
       - name: Commit and Sealed History Log
         run: |
-          git config --global user.email "misterick1@gmail.com"
+          git config --global user.email "misterick1@yandex.ru"
           git config --global user.name "misterick1"
-          
+
           # Настраиваем автоматическое слияние веток по умолчанию
           git config --global pull.rebase true
-          
-          # Прячем локальные изменения лога во временный буфер, если они есть
+
+          # Прячем локальные изменения лога во временный стек безопасности
           git stash || true
-          
-          # Стягиваем чистую актуальную ветку с сервера
-          git pull origin main --rebase || git pull origin main
-          
-          # Возвращаем наш новый лог и сливаем его на уровне файлов
+
+          # Стягиваем чистую актуальную ветку с удаленного сервера
+          git pull origin main --rebase || git pull origin master --rebase
+
+          # Возвращаем наш новый лог и сливаем его с обновлениями
           git stash pop || true
-          
-          # Если возник конфликт в файле - принудительно берем локальный новый вариант
-          git checkout --ours history_log.json 2>/dev/null || git checkout --theirs history_log.json 2>/dev/null || true
-          
-          # Аккуратно собираем запечатанные логи истории и веб-интерфейсы
-          git add history_log.json docs/index.html docs/ 2>/dev/null || true
-          
-          # Фиксация изменений (если они есть), исключая ложные падения
-          git diff-index --quiet HEAD || git commit -m "🔱 AMRITA: Quantum stack history sealed [skip ci]"
-          
-          # Чистый принудительный пуш через стандартный авторизованный контур
+
+          # Если возник конфликт в файле — принимаем нашу сторону (Изумрудный приоритет)
+          git checkout --ours history_log.json
+
+          # Аккуратно собираем запечатанные логи и интерфейсы
+          git add history_log.json docs/index.html
+
+          # Фиксация изменений (если они есть) без пустых коммитов
+          git diff-index --quiet HEAD || git commit -m "🔱 Вечный Лог: Синхронизация Монады Тота (-1:0:+1)"
+
+          # Чистый принудительный пуш через стабильный контур
           git push origin main
