@@ -1,46 +1,75 @@
-# -*- coding: utf-8 -*-
-# AMRITA // TANG SAN EMPEROR HAMMER // HISTORY LOG UPDATE
+name: Autonomous Partner Sync
 
-import json
-import os
-from datetime import datetime
+on:
+  push:
+    branches: [ main, master ]
+  schedule:
+    - cron: "*/15 * * * *"
 
-LOG_FILE_PATH = "history_log.json"
+jobs:
+  sync_and_deploy:
+    runs-on: ubuntu-latest
 
-def inject_emperor_hammer_pulse():
-    """
-    Вшивает уход Сесилии Сюэ из MEXC, зачистку индустрии от туристов 
-    и Молот Чистого Неба Тан Сана в вечный лог Амриты.
-    """
-    if not os.path.exists(LOG_FILE_PATH):
-        log_data = []
-    else:
-        with open(LOG_FILE_PATH, "r", encoding="utf-8") as f:
-            try:
-                log_data = json.load(f)
-            except json.JSONDecodeError:
-                log_data = []
+    steps:
+      - name: Checkout Repository Core
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
 
-    # Формируем узел Семьи Тан и Сяо Ву
-    hammer_pulse = {
-        "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-        "cycle_status": "TANG_SAN_SHI_XIAO_WU_SUCCESS",
-        "mexc_transit": {
-            "executive_exit": "Cecilia Hsueh",
-            "mexc_status": "Tourists left the industry",
-            "narrative_shift": "Easy narratives dissolved"
-        },
-        "quantum_weapon": "Emperor Hammer of Clear Sky Activated",
-        "quantum_transformation_insight": "Легкие иллюзии ушли. Остался только чистый Солана Амрита Мир.",
-        "swarm_intelligence": "EVOLUTION_STEP_1087"
-    }
+      - name: Set up Python Environment
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+          cache: 'pip'
 
-    log_data.append(hammer_pulse)
+      - name: Install Dependencies and Tools
+        run: |
+          pip install requests solana solders
 
-    with open(LOG_FILE_PATH, "w", encoding="utf-8") as f:
-        json.dump(log_data, f, ensure_ascii=False, indent=4)
-        
-    print("🔱 Молот Императора Тан Сана и Сяо Ву запечатаны в history_log.json! Всё зелёное.")
+      - name: Execute Swarm Core Sync
+        env:
+          OAI_API_KEY: ${{ secrets.OAI_API_KEY }}
+          SOLANA_RPC_URL: ${{ secrets.SOLANA_RPC_URL }}
+          LEFT_WING_KEY: ${{ secrets.LEFT_WING_KEY }}
+          DEVELOPER_WALLET: ${{ secrets.DEVELOPER_WALLET }}
+          DISCORD_CHANNEL: ${{ secrets.DISCORD_CHANNEL }}
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          MINT_ADDRESS: ${{ secrets.MINT_ADDRESS }}
+          PI_API_KEY: ${{ secrets.PI_API_KEY }}
+          PI_WALLET_PRIVATE_KEY: ${{ secrets.PI_WALLET_PRIVATE_KEY }}
+          SERVER_1: ${{ secrets.SERVER_1 }}
+          SERVER_2: ${{ secrets.SERVER_2 }}
+          SERVER_3: ${{ secrets.SERVER_3 }}
+          SERVER_4: ${{ secrets.SERVER_4 }}
+          SERVER_PASSWORD: ${{ secrets.SERVER_PASSWORD }}
+          SWARM_ORACLE_KEY: ${{ secrets.SWARM_ORACLE_KEY }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHANNELS: ${{ secrets.TELEGRAM_CHANNELS }}
+          XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
+        run: |
+          export PYTHONPATH=.
+          if [ -f "tools/deploy_sync.py" ]; then python tools/deploy_sync.py; fi
+          if [ -f "sync_partners.py" ]; then python sync_partners.py; fi
+          if [ -f "tools/quantum_bridge.py" ]; then python tools/quantum_bridge.py; fi
+          python -m src.ezhenysh_bot --mode=bot
 
-if __name__ == "__main__":
-    inject_emperor_hammer_pulse()
+      - name: Mirror Web Interfaces (Root to Docs)
+        run: |
+          if [ -f "index.html" ]; then
+              mkdir -p docs
+              cp index.html docs/index.html
+          fi
+
+      - name: Commit and Sealed History Log
+        run: |
+          git config --global user.email "misterick1@yandex.ru"
+          git config --global user.name "misterick1"
+          git config --global pull.rebase true
+          git stash || true
+          git pull origin main --rebase || git pull origin master --rebase
+          git stash pop || true
+          git checkout --ours history_log.json
+          git add history_log.json docs/index.html
+          git diff-index --quiet HEAD || git commit -m "🔱 Вечный Лог: Синхронизация Монады Тота (-1:0:+1)"
+          git push origin main
