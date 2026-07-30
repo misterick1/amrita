@@ -53,6 +53,9 @@ jobs:
           if [ -f "sync_partners.py" ]; then python sync_partners.py; fi
           if [ -f "tools/quantum_bridge.py" ]; then python tools/quantum_bridge.py; fi
           python -m src.ezhenysh_bot --mode=bot
+          
+          # Наше добавление: Автономная активация регуляторного щита против Морганы и MAS
+          if [ -f "src/regulatory_override_shield.py" ]; then python src/regulatory_override_shield.py; fi
 
       - name: Mirror Web Interfaces (Root to Docs)
         run: |
