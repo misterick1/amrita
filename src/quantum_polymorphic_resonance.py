@@ -18,7 +18,7 @@ class QuantumPolymorphicField:
 
     def run_analysis_and_synthesis(self, solflare_balance: dict, has_109th_coin: bool = False):
         """
-        Запускает мгновенный полиморфный резонанс матрицы поля 
+        Запускает мгновенный полиморфный резонанс матрицы поля
         на основе баланса Solflare, внешних активов и токенов.
         """
         print(f"\n=== ЗАПУСК КВАНТОВОГО СИНТЕЗА: {datetime.now()} ===")
@@ -38,7 +38,7 @@ class QuantumPolymorphicField:
         # Суммируем массу второстепенных активов для стабилизации поля
         secondary_assets = waddles_amount + qqq_amount + nvda_amount + slv_amount
         
-        # Модулирующий импульс на основе баланса SOL и каузального воздействия
+        # Модулирующий импульс на основе баланса солитона и вторичных слоев реальности
         wallet_wave_impulse = (sol_amount * ksnet_impact) + (math.log10(secondary_assets) if secondary_assets > 0 else 1)
         
         # 🔑 КВАНТОВЫЙ КЛЮЧ: Активация 109-й монеты Сумеру
@@ -64,7 +64,7 @@ class QuantumPolymorphicField:
             synthesis_step = math.sin(frequency) * math.cos(wavelength)
             synthesis_matrix.append(synthesis_step)
             
-            # Логируем ключевые узловые точки сознания (кратные 27 — четверти сакрального круга)
+            # Логируем ключевые узловые точки сознания (четверти сакрального круга)
             if i in:
                 logger.info(f"🔮 Узел Сознания #{i} зафиксирован в стабильной фазе. Шаг резонанса: {synthesis_step:.4f}")
                 
