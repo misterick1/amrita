@@ -216,14 +216,14 @@ class AmritaAbsoluteOrchestrator:
         self.generate_pifi_landing(resonance, probability, machine_id)
 
     def execute_git_force_push(self):
-        """Контур силовой синхронизации Git. Исключает конфликты rebase и merge."""
+        """Контур силовой синхронизации Git. Полностью очищен от try/except конфликтов."""
         logger.info("⚡ Включение автономного контура синхронизации GitHub Git...")
         
-        # Шаг 1: Превентивно и жестко убиваем любые зависшие конфликты rebase на сервере
-        subprocess.run(["git", "rebase", "--abort"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        # Снос блокировок выполняется атомарно, без блоков try
+        subprocess.run("git rebase --abort || true", shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        subprocess.run("git merge --abort || true", shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
         
         try:
-            # Настройка локального окружения авторизации
             subprocess.run(["git", "config", "--local", "user.name", "misterick1"], check=True)
             subprocess.run(["git", "config", "--local", "user.email", "misterick1@gmail.com"], check=True)
             
