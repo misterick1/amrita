@@ -25,8 +25,6 @@ def dynamic_swarm_cleaner():
     if not os.path.exists(workflow_dir):
         return
 
-    main_monolith_file = "amrita_multiverse_orchestrator.py"
-
     for file_name in os.listdir(workflow_dir):
         if file_name.endswith(".yml") or file_name.endswith(".yaml"):
             file_path = os.path.join(workflow_dir, file_name)
@@ -66,7 +64,7 @@ class AmritaAbsoluteOrchestrator:
         self.tg_chat_id = os.getenv("TELEGRAM_CHAT_ID")
         self.discord_url = os.getenv("DISCORD_WEBHOOK_URL")
         
-        # [СИНТЕЗ] Интеграция Тотального Казначейства и Бессмертных Героев
+        # Интеграция Тотального Казначейства и Бессмертных Героев Мультивселенной
         self.immortal_heroes = ["Ло Фен", "Тан Сан", "Сяо Ву", "Ника (Луффи)", "Гол Д. Роджер", "Человек-Паук", "Еженышь"]
         self.treasury = {
             "BTC": 8000.0, "ETH": 10399.0, "ADA": 108.0,
@@ -76,7 +74,7 @@ class AmritaAbsoluteOrchestrator:
 
     def run_quantum_atman(self):
         """Расчет Полиморфного Резонанса по 108 Сознаниям Атмана."""
-        logger.info("🌌 Расчет Полиморфного Резонанса Матрицы Атмана...")
+        logger.info("🌌 Расчет ...")
         TOTAL_ATMAN = 108
         LAW_OF_PHI = 1.6180339887
         wave_impulse = 10.8 * 10.8
@@ -127,14 +125,12 @@ class AmritaAbsoluteOrchestrator:
         """Автогенерация интерактивного веб-интерфейса посадочной страницы PiFi."""
         logger.info("🖥️ Автогенерация интерфейса index.html по законам Фи...")
         
-        # [СИНТЕЗ] Формируем строки казначейства для вывода на веб-страницу
         treasury_html = (
             f"<li><b>Bitcoin:</b> {self.treasury['BTC']} BTC 🪙</li>"
             f"<li><b>Ethereum:</b> {self.treasury['ETH']} ETH</li>"
             f"<li><b>Solana:</b> {self.treasury['SOL']} SOL | <b>Ripple:</b> {self.treasury['XRP']} XRP</li>"
             f"<li><b>Акции NVIDIA:</b> {self.treasury['NVDAon']} NVDAon | <b>QQQ ETF:</b> {self.treasury['QQQon']} QQQon</li>"
         )
-        
         heroes_html = "".join([f"<span>🔹 {hero} </span>" for hero in self.immortal_heroes])
 
         html_content = f"""<!DOCTYPE html>
@@ -159,7 +155,7 @@ class AmritaAbsoluteOrchestrator:
         <p>🦔 Контур Сварма: <strong>Ежёныш-Рысёныш Квант</strong></p>
         <hr style="border-color: #00ff66;">
         <h2>📊 КВАНТОВЫЕ МЕТРИКИ ФИ // PIFI MATRIX</h2>
-        <p>• Полиморфный Резонанс Фи: <strong>{resonance:.6f}</strong></p>
+        <p>• : <strong>{resonance:.6f}</strong></p>
         <p>• Прогноз Консенсуса Mainnet (Kalshi): <strong>{probability}%</strong></p>
         
         <h3>🪙 СТАТУС ТОТАЛЬНОГО КАЗНАЧЕЙСТВА</h3>
@@ -185,7 +181,6 @@ class AmritaAbsoluteOrchestrator:
 
     def sync_events(self, resonance, probability, machine_id):
         """Сквозной пайплайн валидации и событийного логирования."""
-        # Прогоняем проверку через обновленный мем-фильтр
         self.run_faker_guard_filter("FERRET")
         self.run_faker_guard_filter("MECHASTALIN")
 
@@ -201,7 +196,6 @@ class AmritaAbsoluteOrchestrator:
 
         total_evo = (len(logs) * 108) + 108
         
-        # Фиксируем блок в историю
         logs.append({
             "event": "DEPIN_PEAQ_ID_SYNC",
             "timestamp": now,
@@ -222,9 +216,15 @@ class AmritaAbsoluteOrchestrator:
         self.generate_pifi_landing(resonance, probability, machine_id)
 
     def execute_git_force_push(self):
-        """Включение автономного самоисцеления и пуша вечного следа в репозиторий."""
+        """Безопасный контур синхронизации Git с защитой от SyntaxError и конфликтов ветки."""
         logger.info("⚡ Включение автономного контура синхронизации GitHub Git...")
+        
+        # Сначала превентивно сбрасываем любые зависшие ребейзы вне блока try
+        subprocess.run(["git", "rebase", "--abort"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        
         try:
             subprocess.run(["git", "config", "--local", "user.name", "misterick1"], check=True)
             subprocess.run(["git", "config", "--local", "user.email", "misterick1@gmail.com"], check=True)
-            subprocess.run(["git", "rebase", "--abort"], stderr=subprocess.DEVNULL)
+            subprocess.run(["git", "add", "."], check=True)
+
+            status = subprocess.run(["git", "diff", "--cached", "--exit-code"], stdout=subprocess.DEVNULL)
