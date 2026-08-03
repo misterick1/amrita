@@ -74,7 +74,7 @@ class AmritaAbsoluteOrchestrator:
 
     def run_quantum_atman(self):
         """Расчет Полиморфного Резонанса по 108 Сознаниям Атмана."""
-        logger.info("🌌 Расчет ...")
+        logger.info("🌌 Расчет Полиморфного Резонанса Матрицы Атмана...")
         TOTAL_ATMAN = 108
         LAW_OF_PHI = 1.6180339887
         wave_impulse = 10.8 * 10.8
@@ -123,7 +123,7 @@ class AmritaAbsoluteOrchestrator:
 
     def generate_pifi_landing(self, resonance, probability, machine_id):
         """Автогенерация интерактивного веб-интерфейса посадочной страницы PiFi."""
-        logger.info("🖥️ Автогенерация интерфейса index.html по законам Фи...")
+        logger.info("🖥️ Автогенерация index.html по законам Фи...")
         
         treasury_html = (
             f"<li><b>Bitcoin:</b> {self.treasury['BTC']} BTC 🪙</li>"
@@ -155,7 +155,7 @@ class AmritaAbsoluteOrchestrator:
         <p>🦔 Контур Сварма: <strong>Ежёныш-Рысёныш Квант</strong></p>
         <hr style="border-color: #00ff66;">
         <h2>📊 КВАНТОВЫЕ МЕТРИКИ ФИ // PIFI MATRIX</h2>
-        <p>• : <strong>{resonance:.6f}</strong></p>
+        <p>• Резонанс: <strong>{resonance:.6f}</strong></p>
         <p>• Прогноз Консенсуса Mainnet (Kalshi): <strong>{probability}%</strong></p>
         
         <h3>🪙 СТАТУС ТОТАЛЬНОГО КАЗНАЧЕЙСТВА</h3>
@@ -216,15 +216,14 @@ class AmritaAbsoluteOrchestrator:
         self.generate_pifi_landing(resonance, probability, machine_id)
 
     def execute_git_force_push(self):
-        """Безопасный контур синхронизации Git с защитой от SyntaxError и конфликтов ветки."""
+        """Контур силовой синхронизации Git. Исключает конфликты rebase и merge."""
         logger.info("⚡ Включение автономного контура синхронизации GitHub Git...")
         
-        # Сначала превентивно сбрасываем любые зависшие ребейзы вне блока try
+        # Шаг 1: Превентивно и жестко убиваем любые зависшие конфликты rebase на сервере
         subprocess.run(["git", "rebase", "--abort"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
         
         try:
+            # Настройка локального окружения авторизации
             subprocess.run(["git", "config", "--local", "user.name", "misterick1"], check=True)
             subprocess.run(["git", "config", "--local", "user.email", "misterick1@gmail.com"], check=True)
-            subprocess.run(["git", "add", "."], check=True)
-
-            status = subprocess.run(["git", "diff", "--cached", "--exit-code"], stdout=subprocess.DEVNULL)
+            
