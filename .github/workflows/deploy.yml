@@ -1,0 +1,44 @@
+name: pages build and deployment
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  workflow_dispatch: # Добавляет кнопку ручной перезагрузки сайта
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# ГЛАВНЫЙ РАЗБЛОКИРОВЩИК КЛИНА: Автоматически убивает старые зависшие сессии деплоя
+concurrency:
+  group: "github-pages-core"
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository Code
+        uses: actions/checkout@v4
+
+      - name: Compile Environment Data
+        run: |
+          # Собираем данные PiFi и Amrita перед публикацией
+          if [ -f "src/pifi_bridge.py" ]; then python src/pifi_bridge.py; fi
+
+      - name: Upload Static Web Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.' # Публикуем корень репозитория (или укажи 'docs', если сайт там)
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to GitHub Pages Runtime
+        id: deployment
+        uses: actions/deploy-pages@v4
