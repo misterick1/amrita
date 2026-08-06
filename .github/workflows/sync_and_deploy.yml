@@ -2,13 +2,20 @@ name: Autonomous Partner Sync
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [ "main", "master" ]
   schedule:
-    - cron: "*/15 * * * *"
+    - cron: "0 */3 * * *" # Сбалансированный запуск каждые 3 часа (чтобы не перегружать токены)
+  workflow_dispatch: # Кнопка для ручного запуска в интерфейсе
+
+# Ограничитель очередей: если запущен новый процесс, старый мгновенно и безопасно отменяется
+concurrency:
+  group: "swarm-sync-group"
+  cancel-in-progress: true
 
 jobs:
   sync_and_deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 7 # Жесткий предохранитель от бесконечных зависаний
 
     steps:
       - name: Checkout Repository Core
@@ -25,6 +32,7 @@ jobs:
 
       - name: Install Dependencies and Tools
         run: |
+          python -m pip install --upgrade pip
           pip install requests solana solders
 
       - name: Execute Swarm Core Sync
@@ -67,10 +75,16 @@ jobs:
           git config --global user.email "misterick1@yandex.ru"
           git config --global user.name "misterick1"
           git config --global pull.rebase true
+          
           git stash || true
           git pull origin main --rebase || git pull origin master --rebase
           git stash pop || true
+          
           git checkout --ours history_log.json || true
           git add history_log.json docs/index.html || true
-          git diff-index --quiet HEAD || git commit -m "chore: sync and seal history log [swarm]"
-          git push origin main
+          
+          # ИСПРАВЛЕНИЕ: Добавлен тег [skip ci], чтобы пуш не вызывал бесконечный перезапуск воркфлоу
+          if ! git diff-index --quiet HEAD; then
+            git commit -m "chore: sealed history log and mirror [skip ci]"
+            git push origin main
+          fi
