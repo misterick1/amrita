@@ -11,13 +11,12 @@ class GitHubWorkflowRepairman:
     def __init__(self, repo_owner="misterick1", repo_name="amrita"):
         self.repo_owner = repo_owner
         self.repo_name = repo_name
-        # Используем встроенный токен GitHub Actions или твой локальный персональный токен
         self.token = os.getenv("GITHUB_TOKEN")
         self.base_url = f"https://github.com{repo_owner}/{repo_name}/actions/runs"
 
     def _send_request(self, url, method="GET"):
         if not self.token:
-            logger.error("❌ [REPAIRMAN] Критическая ошибка: Переменная GITHUB_TOKEN не найдена в окружении!")
+            logger.error("❌ [REPAIRMAN] Критическая ошибка: Переменная GITHUB_TOKEN не найдена!")
             return None
         
         req = urllib.request.Request(url, method=method)
@@ -35,10 +34,9 @@ class GitHubWorkflowRepairman:
             return None
 
     def cancel_stuck_workflows(self):
-        """ Находит все зависшие сборки в очереди и принудительно их отменяет """
         logger.info("🌌 [AMRITA OS] Запуск программы-ремонтника... Сканирование заторов полей...")
         
-        # Запрашиваем только те сборки, которые стоят в очереди
+        # Запрашиваем зависшие в очереди процессы
         url = f"{self.base_url}?status=queued"
         data = self._send_request(url)
         
@@ -54,18 +52,20 @@ class GitHubWorkflowRepairman:
             run_number = run["run_number"]
             display_name = run.get("name", "Unknown Workflow")
             
+            # Пропускаем текущую запущенную сборку, чтобы она сама себя не убила
+            if os.getenv("GITHUB_RUN_ID") == str(run_id):
+                continue
+                
             logger.info(f"💥 Схлопывание заклинившей волны #{run_number} (ID: {run_id}) [{display_name}]...")
             
-            # Шлем команду отмены для конкретной сборки
             cancel_url = f"{self.base_url}/{run_id}/cancel"
             status = self._send_request(cancel_url, method="POST")
             
             if status in:
                 logger.info(f"✅ Сборка #{run_number} успешно аннигилирована из очереди!")
             else:
-                logger.warning(f"❌ Не удалось отменить сборку #{run_number}.")
+                logger.warning(f"❌ Не удалось отменить сборку #{run_number}. Статус API: {status}")
 
 if __name__ == "__main__":
-    # Запуск программы ремонта
     repairman = GitHubWorkflowRepairman()
     repairman.cancel_stuck_workflows()
