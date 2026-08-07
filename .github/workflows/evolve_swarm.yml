@@ -13,7 +13,7 @@ permissions:
 
 concurrency:
   group: "swarm-evolution-group"
-  cancel-in-progress: false # Изменено, чтобы экшены не гасили друг друга на пуше
+  cancel-in-progress: false
 
 jobs:
   evolve_swarm:
@@ -37,20 +37,31 @@ jobs:
           python -m pip install --upgrade pip
           pip install pyTelegramBotAPI solana solders requests
 
-      - name: 🛡 Фиксация Истории Нативным Git
+      - name: Commit and Sealed History Log
         run: |
           git config --local user.email "misterick1@gmail.com"
           git config --local user.name "misterick1"
           
+          # Скачиваем самые свежие изменения из удаленного репозитория
+          git fetch origin main
+          
+          # Смещаем указатель на актуальный коммит, сохраняя новые файлы логов невредимыми
+          git reset --mixed origin/main
+          
+          # Проверяем наличие файла, добавляем и пушим без конфликтов слияния
           if [ -f "history_log.json" ]; then
             git add history_log.json
-            git diff-index --quiet HEAD || git commit -m "🔱 AMRITA: History log sealed [skip ci]"
+            git commit -m "🔱 AMRITA: Quantum stack history sealed [skip ci]" || echo "Нет изменений для коммита"
             
-            # Цикл до победного пуша, если ветка заблокирована параллельным процессом
+            # Пробуем отправить, в случае редкой секундной блокировки refs делаем повтор
             for i in {1..5}; do
-              git pull origin main --rebase && git push origin main && exit 0
-              echo "Ветка заблокирована, повтор через 5 секунд..."
-              sleep 5
+              git push origin main && exit 0
+              echo "Репозиторий временно занят, повторная попытка пуша..."
+              sleep 3
+              git fetch origin main
+              git reset --mixed origin/main
+              git add history_log.json
+              git commit -m "🔱 AMRITA: Quantum stack history sealed [skip ci]" || true
             done
             exit 1
           else
