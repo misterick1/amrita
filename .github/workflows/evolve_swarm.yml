@@ -52,61 +52,30 @@ jobs:
         run: |
           if [ -f "src/multiverse_orchestrator.py" ]; then python src/multiverse_orchestrator.py; fi
 
-      - name: 🛡️ Фиксация Истории Через API-Контейнер
-        shell: python
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_REPOSITORY: ${{ github.repository }}
+      # ПОЛНОСТЬЮ ИСПРАВЛЕННЫЙ НЕУБИВАЕМЫЙ ШАГ СИНХРОНИЗАЦИИ ИСТОРИИ С ТЕЛЕФОНОМ
+      - name: Commit and Sealed History Log
         run: |
-          import requests
-          import base64
-          import os
-          import json
+          git config --local user.email "misterick1@gmail.com"
+          git config --local user.name "misterick1"
+          git config --global pull.rebase true
 
-          token = os.getenv('GITHUB_TOKEN')
-          repo = os.getenv('GITHUB_REPOSITORY')
-          path = 'history_log.json'
-          
-          # КРИТИЧЕСКОЕ ИСПРАВЛЕНИЕ: Использование правильного REST API эндпоинта
-          url = f'https://github.com{repo}/contents/{path}'
-          
-          headers = {
-              'Authorization': f'Bearer {token}',
-              'Accept': 'application/vnd.github+json',
-              'X-GitHub-Api-Version': '2022-11-28'
-          }
-
-          if os.path.exists(path):
-              # 1. Читаем обновленный локальный лог
-              with open(path, 'r', encoding='utf-8') as f:
-                  content = f.read()
-              
-              # 2. Переводим контент в обязательный для API формат Base64
-              encoded_content = base64.b64encode(content.encode('utf-8')).decode('utf-8')
-              
-              # 3. Запрашиваем актуальный SHA-хэш файла с сервера для предотвращения конфликта
-              sha = None
-              res = requests.get(url, headers=headers)
-              if res.status_code == 200:
-                  sha = res.json().get('sha')
-              
-              # 4. Формируем тело квантового запроса на обновление структуры
-              payload = {
-                  "message": "🔱 AMRITA: History log sealed via API [skip ci]",
-                  "content": encoded_content,
-                  "branch": "main"
-              }
-              if sha:
-                  payload["sha"] = sha
-
-              # 5. Изолированный пуш обновлений напрямую
-              put_res = requests.put(url, headers=headers, json=payload)
-              print(f"API Push Status: {put_res.status_code}")
-              
-              # Исправленная строка логирования успешного прохождения фазы
-              if put_res.status_code in:
-                  print("✅ Квантовый лог успешно стабилизирован и запечатан в API!")
-              else:
-                  print(f"❌ Ошибка фиксации API: {put_res.status_code} - {put_res.text}")
-          else:
-              print("Лог истории не изменился, API синхронизация пропущена.")
+          # Проверяем наличие локальных логов от оркестратора
+          if [ -n "$(git status --porcelain)" ]; then
+            git add -A
+            
+            # Автоматически принимаем локальную структуру логов, если возник конфликт
+            if [ -f "history_log.json" ]; then
+              git checkout --ours history_log.json || true
+            fi
+            
+            # Локальная фиксация ДО стягивания, чтобы Git знал ветку интеграции
+            git commit -m "[main bdf4a87] 🔱 AMRITA: Quantum stack history sealed [skip ci]"
+            
+            # Стягиваем твои коммиты с телефона и ставим лог поверх них без затирания
+            git pull origin main --rebase -X ours || git pull origin master --rebase -X ours
+            
+            # Финальный чистый толчок в сеть
+            git push origin main || git push origin master
+          else
+            echo "🔱 Поле стабильно. Изменений эволюции роя не обнаружено."
+          fi
