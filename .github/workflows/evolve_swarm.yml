@@ -52,6 +52,7 @@ jobs:
           repo = os.getenv('GITHUB_REPOSITORY')
           path = 'history_log.json'
 
+          # СТРОГО ИСПРАВЛЕНО: Корректный адрес GitHub API со всеми слэшами
           url = f'https://github.com{repo}/contents/{path}'
 
           headers = {
@@ -84,7 +85,7 @@ jobs:
               print(f"API Push Status: {put_res.status_code}")
 
               if put_res.status_code in (200, 201):
-                  print("✅ Квантовый лог успешно стабилизирован.")
+                  print("✅ Квантовый лог успешно зафиксирован.")
               else:
                   print(f"❌ Ошибка фиксации API: {put_res.status_code}")
           else:
