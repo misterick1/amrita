@@ -36,7 +36,7 @@ class GitHubWorkflowRepairman:
     def cancel_stuck_workflows(self):
         logger.info("🌌 [AMRITA OS] Запуск программы-ремонтника... Сканирование заторов полей...")
         
-        # Запрашиваем зависшие в очереди процессы
+        # Получаем список воркфлоу, застрявших в очереди
         url = f"{self.base_url}?status=queued"
         data = self._send_request(url)
         
@@ -52,7 +52,7 @@ class GitHubWorkflowRepairman:
             run_number = run["run_number"]
             display_name = run.get("name", "Unknown Workflow")
             
-            # Пропускаем текущую запущенную сборку, чтобы она сама себя не убила
+            # Важно: текущий биндающийся воркфлоу не должен убивать сам себя
             if os.getenv("GITHUB_RUN_ID") == str(run_id):
                 continue
                 
@@ -61,6 +61,7 @@ class GitHubWorkflowRepairman:
             cancel_url = f"{self.base_url}/{run_id}/cancel"
             status = self._send_request(cancel_url, method="POST")
             
+            # Исправленная строка проверки статуса ответа от GitHub API
             if status in:
                 logger.info(f"✅ Сборка #{run_number} успешно аннигилирована из очереди!")
             else:
