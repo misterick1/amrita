@@ -3,8 +3,7 @@ import math
 import logging
 from datetime import datetime
 
-# --- КОД ДЛЯ src/pifi_bridge.py ---
-# Исправлен `ensure_ascii=False`, добавлена физика материализации Радия.
+# Настройка изумрудного логирования AMRITA OS
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("AMRITA_Core_Bridge")
 
@@ -22,7 +21,7 @@ def compile_static_pifi_data():
         "timestamp": str(datetime.now())
     }
     
-    # Расчет материализации (упрощенная модель)
+    # Расчет материализации (упрощенная модель солитона полей)
     wave_superposition = (10.8 * 4.0) + (LAW_OF_PHI * 0.0005)
     materialized_radium_mass = abs(wave_superposition * math.sin(metrics["SOL"])) * RADIUM_ATOMIC_MASS * 0.001
     
@@ -32,7 +31,7 @@ def compile_static_pifi_data():
         "field_status": "STABILIZED"
     }
     
-    # Запись в файл (исправлено ensure_ascii)
+    # Запись в файл (строка 36-37 полностью восстановлена без ensure_all_ascii)
     with open("pifi_metrics.json", "w", encoding="utf-8") as f:
         json.dump(metrics, f, indent=4, ensure_ascii=False)
         
