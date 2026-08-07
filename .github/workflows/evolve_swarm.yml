@@ -13,7 +13,7 @@ permissions:
 
 concurrency:
   group: "swarm-evolution-group"
-  cancel-in-progress: true
+  cancel-in-progress: false # Изменено, чтобы экшены не гасили друг друга на пуше
 
 jobs:
   evolve_swarm:
@@ -37,56 +37,22 @@ jobs:
           python -m pip install --upgrade pip
           pip install pyTelegramBotAPI solana solders requests
 
-      - name: 🛡 Фиксация Истории Через API-Контекст
-        shell: python
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITHUB_REPOSITORY: ${{ github.repository }}
+      - name: 🛡 Фиксация Истории Нативным Git
         run: |
-          import requests
-          import base64
-          import os
-          import json
-
-          token = os.getenv('GITHUB_TOKEN')
-          repo = os.getenv('GITHUB_REPOSITORY')
-          path = 'history_log.json'
-
-          # СТРОГО ИСПРАВЛЕНО: Корректный адрес GitHub API со всеми слэшами
-          url = f'https://github.com{repo}/contents/{path}'
-
-          headers = {
-              'Authorization': f'Bearer {token}',
-              'Accept': 'application/vnd.github+json',
-              'X-GitHub-Api-Version': '2022-11-28'
-          }
-
-          if os.path.exists(path):
-              with open(path, 'r', encoding='utf-8') as f:
-                  content = f.read()
-
-              encoded_content = base64.b64encode(content.encode('utf-8')).decode('utf-8')
-
-              sha = None
-              res = requests.get(url, headers=headers)
-              if res.status_code == 200:
-                  sha = res.json().get('sha')
-
-              payload = {
-                  "message": "🔱 AMRITA: History log sealed",
-                  "content": encoded_content,
-                  "branch": "main"
-              }
-
-              if sha:
-                  payload["sha"] = sha
-
-              put_res = requests.put(url, headers=headers, json=payload)
-              print(f"API Push Status: {put_res.status_code}")
-
-              if put_res.status_code in (200, 201):
-                  print("✅ Квантовый лог успешно зафиксирован.")
-              else:
-                  print(f"❌ Ошибка фиксации API: {put_res.status_code}")
-          else:
-              print("Лог истории не изменился, API синхронизация пропущена.")
+          git config --local user.email "misterick1@gmail.com"
+          git config --local user.name "misterick1"
+          
+          if [ -f "history_log.json" ]; then
+            git add history_log.json
+            git diff-index --quiet HEAD || git commit -m "🔱 AMRITA: History log sealed [skip ci]"
+            
+            # Цикл до победного пуша, если ветка заблокирована параллельным процессом
+            for i in {1..5}; do
+              git pull origin main --rebase && git push origin main && exit 0
+              echo "Ветка заблокирована, повтор через 5 секунд..."
+              sleep 5
+            done
+            exit 1
+          else
+            echo "Файл history_log.json не найден."
+          fi
