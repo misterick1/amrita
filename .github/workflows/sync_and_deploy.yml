@@ -4,10 +4,9 @@ on:
   push:
     branches: [ "main", "master" ]
   schedule:
-    - cron: "0 */3 * * *" # Сбалансированный запуск каждые 3 часа (чтобы не перегружать токены)
-  workflow_dispatch: # Кнопка для ручного запуска в интерфейсе
+    - cron: "0 */3 * * *" # Сбалансированный запуск каждые 3 часа
+  workflow_dispatch: # Кнопка для ручного запуска
 
-# Ограничитель очередей: если запущен новый процесс, старый мгновенно и безопасно отменяется
 concurrency:
   group: "swarm-sync-group"
   cancel-in-progress: true
@@ -15,8 +14,8 @@ concurrency:
 jobs:
   sync_and_deploy:
     runs-on: ubuntu-latest
-    timeout-minutes: 7 # Жесткий предохранитель от бесконечных зависаний
-
+    timeout-minutes: 7 # Жесткий предохранитель от бесконечного зависания
+    
     steps:
       - name: Checkout Repository Core
         uses: actions/checkout@v4
@@ -33,7 +32,7 @@ jobs:
       - name: Install Dependencies and Tools
         run: |
           python -m pip install --upgrade pip
-          pip install requests solana solders
+          pip install requests solana solders aiohttp
 
       - name: Execute Swarm Core Sync
         env:
@@ -72,19 +71,24 @@ jobs:
 
       - name: Commit and Sealed History Log
         run: |
-          git config --global user.email "misterick1@yandex.ru"
-          git config --global user.name "misterick1"
-          git config --global pull.rebase true
-          
-          git stash || true
-          git pull origin main --rebase || git pull origin master --rebase
-          git stash pop || true
-          
-          git checkout --ours history_log.json || true
-          git add history_log.json docs/index.html || true
-          
-          # ИСПРАВЛЕНИЕ: Добавлен тег [skip ci], чтобы пуш не вызывал бесконечный перезапуск воркфлоу
-          if ! git diff-index --quiet HEAD; then
-            git commit -m "chore: sealed history log and mirror [skip ci]"
-            git push origin main
+          git config --local user.email "misterick1@yandex.ru"
+          git config --local user.name "misterick1"
+          git config --local pull.rebase true
+
+          # Проверяем наличие изменений, созданных ИИ-ботом
+          if [ -n "$(git status --porcelain)" ]; then
+            # Добавляем все измененные логи и файлы
+            git add -A
+            
+            # Локальный коммит ДО стягивания, чтобы Git знал, что объединять
+            git commit -m "chore: sealed history log and matrix stabilization [skip ci]"
+            
+            # КВАНТОВОЕ СЛИЯНИЕ: Стягиваем твои коммиты с телефона прямо перед пушем.
+            # Флаг -X ours автоматически разрешит конфликты в JSON в пользу данных бота.
+            git pull origin main --rebase -X ours || git pull origin master --rebase -X ours
+            
+            # Финальный защищенный пуш монолитной волны
+            git push origin main || git push origin master
+          else
+            echo "🔱 Локальное поле стабильно. Новых изменений для коммита нет."
           fi
