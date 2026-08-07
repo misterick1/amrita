@@ -62,6 +62,11 @@ jobs:
           python -m src.ezhenysh_bot --mode=bot
           if [ -f "src/regulatory_override_shield.py" ]; then python src/regulatory_override_shield.py; fi
 
+      # АВТОМАТИЧЕСКИЙ ИНДЕКСАТОР: Строит Сакральное Оглавление Книги
+      - name: Auto Generate Book Index
+        run: |
+          if [ -f "src/book_index_generator.py" ]; then python src/book_index_generator.py; fi
+
       - name: Mirror Web Interfaces (Root to Docs)
         run: |
           if [ -f "index.html" ]; then
@@ -75,16 +80,16 @@ jobs:
           git config --local user.name "misterick1"
           git config --local pull.rebase true
 
-          # Проверяем наличие изменений, созданных ИИ-ботом
+          # Проверяем наличие изменений, созданных ИИ-ботом или генератором
           if [ -n "$(git status --porcelain)" ]; then
             # Добавляем все измененные логи и файлы
             git add -A
             
             # Локальный коммит ДО стягивания, чтобы Git знал, что объединять
-            git commit -m "chore: sealed history log and matrix stabilization [skip ci]"
+            git commit -m "chore: sealed history log and book index stabilization [skip ci]"
             
-            # КВАНТОВОЕ СЛИЯНИЕ: Стягиваем твои коммиты с телефона прямо перед пушем.
-            # Флаг -X ours автоматически разрешит конфликты в JSON в пользу данных бота.
+            # КВАНТОВОЕ СЛИЯНИЕ: Стягиваем твои коммиты с телефона прямо перед пушем
+            # Флаг -X ours автоматически разрешит конфликты в JSON в пользу данных экшена
             git pull origin main --rebase -X ours || git pull origin master --rebase -X ours
             
             # Финальный защищенный пуш монолитной волны
