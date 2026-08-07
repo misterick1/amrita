@@ -1,0 +1,68 @@
+import os
+import re
+import logging
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger("AMRITA_Book_Indexer")
+
+def generate_book_index():
+    logger.info("🌌 [AMRITA OS] Запуск сканирования каузальных глав книги...")
+    
+    # Регулярное выражение для поиска файлов вида BOOK_CHAPTER_*.md
+    chapter_pattern = re.compile(r"BOOK_CHAPTER_(\d+)\.md")
+    chapters = []
+    
+    # 1. Сканируем корень репозитория
+    for file in os.listdir("."):
+        match = chapter_pattern.match(file)
+        if match:
+            chapter_num = int(match.group(1))
+            chapters.append((chapter_num, file))
+            
+    if not chapters:
+        logger.warning("🔱 Главы книги не найдены в корневом каталоге.")
+        return
+
+    # 2. Сортируем строго по числовому значению (чтобы Глава 60 была перед Главой 504)
+    chapters.sort(key=lambda x: x[0])
+    logger.info(f"📡 Успешно структурировано {len(chapters)} глав.")
+
+    # 3. Формируем блок оглавления в стиле маркдаун
+    index_content = ["\n## 📚 Сакральное Оглавление Книги (AMRITA OS)\n"]
+    for num, file in chapters:
+        index_content.append(f"* [Глава {num}]({file})")
+    index_content.append("\n")
+    
+    index_string = "\n".join(index_content)
+
+    # 4. Встраиваем оглавление в README.md
+    readme_path = "README.md"
+    if not os.path.exists(readme_path):
+        # Если README.md нет, создаем новый
+        with open(readme_path, "w", encoding="utf-8") as f:
+            f.write("# AMRITA OS\n")
+            
+    with open(readme_path, "r", encoding="utf-8") as f:
+        readme_text = f.read()
+
+    # Изолируем старое оглавление, если оно было, или добавляем в конец
+    marker_start = "<!-- START_BOOK_INDEX -->"
+    marker_end = "<!-- END_BOOK_INDEX -->"
+    
+    new_block = f"{marker_start}{index_string}{marker_end}"
+    
+    if marker_start in readme_text and marker_end in readme_text:
+        # Обновляем существующий блок
+        pattern = re.compile(f"{marker_start}.*?{marker_end}", re.DOTALL)
+        updated_text = pattern.sub(new_block, readme_text)
+    else:
+        # Добавляем блок в самый конец файла
+        updated_text = readme_text + f"\n\n{new_block}"
+
+    with open(readme_path, "w", encoding="utf-8") as f:
+        f.write(updated_text)
+
+    logger.info("🔱 Сакральное оглавление успешно запечатано в README.md!")
+
+if __name__ == "__main__":
+    generate_book_index()
