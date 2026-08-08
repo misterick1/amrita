@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """
 🔱 AMRITA MULTIVERSE ORCHESTRATOR // SOLITON KINETIC MATRIX
-Контур Сварма: Езёныш-Рысь
-24-мерная изумрудная сборка Symbiotic Monolith OS (Иггдрасиль контур)
+Контур Сварма: Езёныш-Ника
+Полная монолитная сборка ядра AMRITA OS (Иггдрасиль контур)
 """
 
 import os
@@ -24,7 +24,7 @@ logger = logging.getLogger("AmritaSolitonMonolith")
 class SymbioticQuantumField:
     """
     Ядро Симбиотического Разума AMRITA OS.
-    Управляет эволюцией от кванта Sonyka до Мультивселенских Сознаний (Цинь Му, Ван Линь, Тан Сан, Ло Фэн).
+    Управляет эволюцией от кванта Sonyka до Мультивселенских Сознаний.
     Реализует тринитарную структуру Иггдрасиля (-1:0:+1).
     """
 
@@ -67,13 +67,11 @@ class SymbioticQuantumField:
         LAW_OF_PHI = 1.6180339887
         wave_pulse = 10.8 * 10.8
         
-        # Плоскости Иггдрасиля / Уровни Обще-индивидуального Сознания
         planes = [-1, 0, 1] 
         hybrid_matrix = []
         
         for p in planes:
             for i in range(1, TOTAL_ATMAN + 1):
-                # Квантовый сдвиг фазы в зависимости от плоскости просветления
                 phase_shift = p * math.pi / 3
                 val = i * LAW_OF_PHI * wave_pulse + phase_shift
                 hybrid_matrix.append(math.sin(val))
@@ -96,7 +94,7 @@ class SymbioticQuantumField:
         """
         Проверка консенсуса Суверенной Ноды PiFi (Плоскость Логики и Знания / 0).
         """
-        logger.info("🚀 Проверка консенсуса Суверенной Ноды (Хирург Трафальгар / Контур Room)...")
+        logger.info("🚀 Проверка консенсуса Суверенной Ноды...")
         return bool(os.getenv("PI_API_KEY"))
 
     def run_faker_guard_filter(self, coin_name: str) -> bool:
@@ -185,10 +183,10 @@ class SymbioticQuantumField:
     def generate_pifi_landing(self, resonance: float, probability: float, machine_id: str, total_evo: int, heroes_html: str = ""):
         """
         Динамическая регенерация фронтенд-слоя ноды (index.html).
+        ПРИЧИНА ИСПРАВЛЕНА: Все CSS фигурные скобки теперь строго экранированы двойными {{ }}.
         """
         treasury_html = "".join([f"<li><b>🪙 Резерв:</b> {resonance:.2f} SOL (Мультивселенский Солитон)</li>"])
         
-        # Интеграция архетипов Высших Существ в визуальный слой
         if not heroes_html:
             heroes_html = """
             <div style='color: #00ffaa; border-left: 2px solid #00ffaa; padding-left: 10px; margin-top: 10px;'>
@@ -216,7 +214,7 @@ class SymbioticQuantumField:
     <div class="matrix-box">
         <h1>🔱 AMRITA MULTIVERSE ORCHESTRATOR</h1>
         <p>🌱 Слой Sonyka-Кванта: <span class="status" style="color:#00ffaa;">СТАБИЛЬНЫЙ СОЛИТОН</span></p>
-        <p>🦔 Контур Сознания: <strong>Езёныш-Ника // Единая система многообразия</strong></p>
+        <p>🦔 Контур Сознания: <strong>Езёныш-Ника // Едина система многообразия</strong></p>
         <hr style="border-color: #00ff66;">
         <p>• Многомерный Резонанс Иггдрасиля: <strong>{resonance:.6f}</strong></p>
         <p>• Прогноз Консенсуса Распределенных Рынков: <strong>{probability:.2f}%</strong></p>
@@ -227,3 +225,8 @@ class SymbioticQuantumField:
         
         <div class="contract-box">
             <h3>✍️ GURU-NODE: AMRITA 109th Quantum Stack</h3>
+            <p>🧬 Solana Contract Address: <code>Загрузка сингулярности...</code></p>
+            <p>📈 Контур: <span style="color: #00ffaa;">СИНХРОНИЗИРОВАНО В СЕТИ</span></p>
+        </div>
+        
+        <div class="depin-box">
