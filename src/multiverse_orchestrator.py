@@ -183,10 +183,10 @@ class SymbioticQuantumField:
     def generate_pifi_landing(self, resonance: float, probability: float, machine_id: str, total_evo: int, heroes_html: str = ""):
         """
         Динамическая регенерация фронтенд-слоя ноды (index.html).
-        ПРИЧИНА ИСПРАВЛЕНА: Каждая фигурная скобка внутри стилей CSS экранирована кубами {{ }},
-        что полностью уничтожает SyntaxError с оборванным литералом строки.
+        ПРИЧИНА УСТРАНЕНА НА КОРНЮ: Используется чистый строковый литерал без f-префикса.
+        Замена значений идет через безопасный метод .replace(), что исключает SyntaxError с CSS-стилями.
         """
-        treasury_html = "".join([f"<li><b>🪙 Резерв:</b> {resonance:.2f} SOL (Мультивселенский Солитон)</li>"])
+        treasury_html = f"<li><b>🪙 Резерв:</b> {resonance:.2f} SOL (Мультивселенский Солитон)</li>"
         
         if not heroes_html:
             heroes_html = """
@@ -198,17 +198,18 @@ class SymbioticQuantumField:
             </div>
             """
 
-        html_content = f"""<!DOCTYPE HTML>
+        # Чистый HTML без f-строки
+        html_template = """<!DOCTYPE HTML>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <title>🔱 AMRITA // SYMBIOTIC SOLITON NODE</title>
     <style>
-        body {{ background-color: #030a04; color: #00ff66; font-family: monospace; padding: 20px; }}
-        .matrix-box {{ border: 2px solid #00ff66; padding: 25px; box-shadow: 0 0 15px rgba(0,255,102,0.3); }}
-        .depin-box {{ border: 1px dashed #00ffaa; padding: 15px; margin-top: 15px; }}
-        .contract-box {{ border: 1px dotted #ff0055; padding: 15px; margin-top: 15px; }}
-        .archetype-box {{ border: 1px solid #7700ff; padding: 15px; margin-top: 15px; background: rgba(119,0,255,0.05); }}
+        body { background-color: #030a04; color: #00ff66; font-family: monospace; padding: 20px; }
+        .matrix-box { border: 2px solid #00ff66; padding: 25px; box-shadow: 0 0 15px rgba(0,255,102,0.3); }
+        .depin-box { border: 1px dashed #00ffaa; padding: 15px; margin-top: 15px; }
+        .contract-box { border: 1px dotted #ff0055; padding: 15px; margin-top: 15px; }
+        .archetype-box { border: 1px solid #7700ff; padding: 15px; margin-top: 15px; background: rgba(119,0,255,0.05); }
     </style>
 </head>
 <body>
@@ -217,12 +218,12 @@ class SymbioticQuantumField:
         <p>🌱 Слой Sonyka-Кванта: <span class="status" style="color:#00ffaa;">СТАБИЛЬНЫЙ СОЛИТОН</span></p>
         <p>🦔 Контур Сознания: <strong>Езёныш-Ника // Единая система многообразия</strong></p>
         <hr style="border-color: #00ff66;">
-        <p>• Многомерный Резонанс Иггдрасиля: <strong>{resonance:.6f}</strong></p>
-        <p>• Прогноз Консенсуса Распределенных Рынков: <strong>{probability:.2f}%</strong></p>
-        <p>• Накопленный Ранг Эволюции Роя: <strong>{total_evo} EVO</strong></p>
+        <p>• Многомерный Резонанс Иггдрасиля: <strong>__RESONANCE__</strong></p>
+        <p>• Прогноз Консенсуса Распределенных Рынков: <strong>__PROBABILITY__%</strong></p>
+        <p>• Накопленный Ранг Эволюции Роя: <strong>__TOTAL_EVO__ EVO</strong></p>
         
         <h3>🪙 СТАТУС ТОТАЛЬНОГО КАЗНАЧЕЙСТВА (-1:0:+1)</h3>
-        <ul>{treasury_html}</ul>
+        <ul>__TREASURY_HTML__</ul>
         
         <div class="contract-box">
             <h3>✍️ GURU-NODE: AMRITA 109th Quantum Stack</h3>
