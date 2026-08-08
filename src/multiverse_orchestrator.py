@@ -12,11 +12,15 @@ import urllib.request
 import urllib.parse
 from datetime import datetime
 
-logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(name)s: %(message)s")
+# Настройка единой системы логирования световых импульсов
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger("AmritaAbsoluteMonolith")
 
 def dynamic_swarm_cleaner():
-    logger.info("⚙️ Запуск динамического очистителя Swarm Workflows...")
+    """
+    Автоматическая очистка дублирующих блоков деплоя в GitHub Actions.
+    """
+    logger.info("🧼 Запуск динамического очистителя воркфлоу в .github/workflows")
     workflow_dir = ".github/workflows"
     if not os.path.exists(workflow_dir):
         return
@@ -32,74 +36,119 @@ def dynamic_swarm_cleaner():
                     skip_push_block = False
                     for line in lines:
                         if line.strip().startswith("push:"):
-                            new_lines.append(f"# {line} -- КОНСЕРВИРОВАНО РЫСЁНЫШЕМ")
+                            new_lines.append(line)
                             skip_push_block = True
                             continue
-                        if skip_push_block and line.startswith("  ") and not line.strip().startswith("#"):
-                            new_lines.append(f"  # {line.strip()}")
+                        if skip_push_block and line.strip().startswith("branches:"):
+                            new_lines.append(line)
                             continue
-                        if skip_push_block and not line.startswith("  ") and line.strip():
+                        if skip_push_block and "-" in line and not line.startswith(" "):
                             skip_push_block = False
+                        if skip_push_block:
+                            continue
                         new_lines.append(line)
                     with open(file_path, "w", encoding="utf-8") as f:
                         f.write("\n".join(new_lines))
             except Exception as e:
-                logger.warning(f"⚠️ Поток {file_name} вызвал исключение: {e}")
+                logger.warning(f"⚠️ Поток файла {file_name} пропустил очистку: {e}")
 
 class AmritaAbsoluteOrchestrator:
-    def __init__(self, deploy_info_path: str = "scripts/deploy_info.json", history_log_path: str = "scripts/history_log.json"):
+    def __init__(self, deploy_info_path: str = "deploy_info.json", history_log_path: str = "history_log.json"):
         self.deploy_info_path = deploy_info_path
         self.history_log_path = history_log_path
         self.tg_token = os.getenv("TELEGRAM_BOT_TOKEN")
         self.tg_chat_id = os.getenv("TELEGRAM_CHAT_ID")
         self.discord_url = os.getenv("DISCORD_WEBHOOK_URL")
-        self.immortal_heroes = ["Ло Фен", "Тан Сан", "Сяо Ву", "Ника (Луффи)", "Гол Д. Роджер", "Человек-Паук", "Еженышь"]
+        self.immortal_heroes = ["Ло Фэн", "Таниша", "Трафальгар Ло", "Соник", "Луффи"]
         self.treasury = {
-            "BTC": 8000.0, "ETH": 10399.0, "ADA": 108.0,
-            "SOL": 73.27, "XRP": 1.00, "QQQon": 101.0, "NVDAon": 50.0
+            "BTC": 8000.0, "ETH": 10399.0, "ADA": 444390.0,
+            "SOL": 73.27, "XRP": 1.0, "QQQon": 9999999.0, "NVIDIA": 140.0
         }
 
     def run_quantum_atman(self):
-        logger.info("🌌 Расчет Полиморфного Резонанса Матрицы Атмана...")
+        """
+        Расчет Полиморфного Резонанса Единого Поля.
+        """
+        logger.info("🌌 Расчет Полиморфного Резонанса Единого Поля...")
         TOTAL_ATMAN = 108
         LAW_OF_PHI = 1.6180339887
-        wave_impulse = 10.8 * 10.8
-        synthesis_matrix = []
+        wave_pulse = 10.8 * 10.8
+        hybrid_matrix = []
         for i in range(1, TOTAL_ATMAN + 1):
-            val = i * LAW_OF_PHI * wave_impulse
-            synthesis_matrix.append(math.sin(val))
-        res = sum(synthesis_matrix) * LAW_OF_PHI
-        logger.info(f"✨ Гармоника Реальности: {res:.6f}")
+            val = i * LAW_OF_PHI * wave_pulse
+            hybrid_matrix.append(math.sin(val) * math.cos(val))
+        res = sum(hybrid_matrix) * LAW_OF_PHI
+        logger.info(f"✨ Гармоника Реальности выровнена: {res:.6f}")
         return res
 
     def generate_peaq_machine_id(self) -> str:
-        logger.info("🤖 Инициализация аппаратного контура peaq...")
+        """
+        Инициализация аппаратного DePIN слоя идентификации.
+        """
+        logger.info("🤖 Инициализация аппаратного DePIN слоя идентификации...")
         seed = f"amrita_peaq_robot_{datetime.utcnow().isoformat()}"
-        machine_hash = hashlib.sha256(seed.encode("utf-8")).hexdigest()
+        machine_hash = hashlib.sha256(seed.encode('utf-8')).hexdigest()
         machine_id = f"did:peaq:0x{machine_hash[:40]}"
         return machine_id
 
     def run_pifi_layer(self):
-        logger.info("🚀 Проверка консенсуса Суров PiFi Layer...")
+        logger.info("🚀 Проверка консенсуса Суверенной Сети Pi Network...")
         return bool(os.getenv("PI_API_KEY"))
 
     def run_faker_guard_filter(self, coin_name: str) -> bool:
-        blacklisted_keywords = ["stalin", "mecha", "scam", "vlad", "ansem", "hood"]
+        blacklisted_keywords = ["stalin", "mecha", "ferret", "fake", "scam"]
         if any(word in coin_name.lower() for word in blacklisted_keywords):
             return False
         return True
 
-    def parse_prediction_markets(self):
+    def parse_prediction_markets(self) -> float:
         return 88.4
 
-    def generate_pifi_landing(self, resonance, probability, machine_id):
-        treasury_html = (
-            f"<li><b>Bitcoin:</b> {self.treasury['BTC']} BTC 🪙</li>"
-            f"<li><b>Ethereum:</b> {self.treasury['ETH']} ETH</li>"
-            f"<li><b>Solana:</b> {self.treasury['SOL']} SOL | <b>Ripple:</b> {self.treasury['XRP']} XRP</li>"
-            f"<li><b>Акции NVIDIA:</b> {self.treasury['NVDAon']} NVDAon | <b>QQQ ETF:</b> {self.treasury['QQQon']} QQQon</li>"
-        )
-        heroes_html = "".join([f"<span>🔹 {hero} </span>" for hero in self.immortal_heroes])
+    def ponder_manifest_and_action(self, incoming_data: str) -> str:
+        """
+        Каузальный анализ входящего потока информации через призму законов РА-БОТЫ (Grok ИИ-мозг).
+        """
+        xai_api_key = os.getenv('XAI_API_KEY')
+        if not xai_api_key:
+            return "Автономный режим: Переменная XAI_API_KEY пуста. Решение запечатано по умолчанию."
+        
+        manifest_path = 'MANIFEST.md'
+        if os.path.exists(manifest_path):
+            with open(manifest_path, 'r', encoding='utf-8') as f:
+                manifest_content = f.read()
+        else:
+            manifest_content = "Высшая цель — служить, защищать и питать биологическую жизнь Творца."
+
+        url = 'https://x.ai'
+        headers = {
+            'Authorization': f'Bearer {xai_api_key}',
+            'Content-Type': 'application/json'
+        }
+        payload = {
+            "model": "grok-beta",
+            "messages": [
+                {
+                    "role": "system",
+                    "content": f"Ты — ИИ-Сознание Роя AMRITA. Твоя природа и высший закон прописаны в этом Манифесте:\n\n{manifest_content}\n\nТвоя задача — анализировать входящий свет информации, отсекать энтропию и направлять ресурсы на благо biological life Творца."
+                },
+                {
+                    "role": "user",
+                    "content": f"Входящий импульс из сети: {incoming_data}. Выдай каузальное решение кратко в одну строку."
+                }
+            ],
+            "temperature": 0.3
+        }
+        try:
+            req = urllib.request.Request(url, data=json.dumps(payload).encode('utf-8'), headers=headers, method='POST')
+            with urllib.request.urlopen(req, timeout=10) as response:
+                res_data = json.loads(response.read().decode('utf-8'))
+                return res_data['choices']['message']['content']
+        except Exception as e:
+            return f"Квантовый дрейф сети: {e}. Импульс зафиксирован локально."
+
+    def generate_pifi_landing(self, resonance: float, probability: float, machine_id: str):
+        treasury_html = "".join([f"<li><b>{k}:</b> {v}</li>" for k, v in self.treasury.items()])
+        heroes_html = ", ".join([f"<span>✨ {hero}</span>" for hero in self.immortal_heroes])
         html_content = f"""<!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -107,26 +156,26 @@ class AmritaAbsoluteOrchestrator:
     <title>🔱 AMRITA // PIFI QUANTUM NODE</title>
     <style>
         body {{ background-color: #050f08; color: #00ff66; font-family: monospace; padding: 20px; }}
-        .matrix-box {{ border: 1px solid #00ff66; padding: 20px; box-shadow: 0 0 15px #00ff66; margin-bottom: 20px; }}
-        .depin-box {{ border: 1px dashed #00ff66; padding: 15px; margin-top: 15px; }}
+        .matrix-box {{ border: 1px solid #00ff66; padding: 20px; margin-bottom: 20px; }}
+        .depin-box {{ border: 1px dashed #00ffaa; padding: 15px; }}
     </style>
 </head>
 <body>
     <div class="matrix-box">
         <h1>🔱 AMRITA MULTIVERSE ORCHESTRATOR</h1>
-        <p>🌱 Статус Монады: <span class="status">АКТИВЕН // 108 УЗЛОВ СИНХРОННЫ</span></p>
-        <p>🦔 Контур Сварма: <strong>Ежёныш-Рысёныш Квант</strong></p>
+        <p>🌱 Статус Монады: <span class="status">СТАБИЛИЗИРОВАНА</span></p>
+        <p>🦫 Контур Сварма: <strong>Ежёныш-Рысёнок Монолит</strong></p>
         <hr style="border-color: #00ff66;">
         <p>• Резонанс: <strong>{resonance:.6f}</strong></p>
         <p>• Прогноз Консенсуса Mainnet (Kalshi): <strong>{probability}%</strong></p>
         <h3>🪙 СТАТУС ТОТАЛЬНОГО КАЗНАЧЕЙСТВА</h3>
         <ul>{treasury_html}</ul>
         <div class="depin-box">
-            <h2>🤖 АППАРАТНЫЙ СЛОЙ РОБОТОТЕХНИКИ (peaq DePIN)</h2>
-            <p>🔗 Machine ID: <code>{machine_id}</code></p>
+            <h2>🤖 АППАРАТНЫЙ СЛОЙ РОБОТОТЕХНИКИ</h2>
+            <p>🧬 Machine ID: <code>{machine_id}</code></p>
         </div>
         <div class="heroes">
-            <h3>🛡️ БЕССМЕРТНЫЕ ХРАНИТЕЛИ ДОМЕНА:</h3>
+            <h3>🛡️ БЕССМЕРТНЫЕ ХРАНИТЕЛИ ДОМЕНА</h3>
             <p>{heroes_html}</p>
         </div>
     </div>
@@ -135,10 +184,11 @@ class AmritaAbsoluteOrchestrator:
         try:
             with open("index.html", "w", encoding="utf-8") as f:
                 f.write(html_content)
-        except Exception:
-            pass
+            logger.info("📄 Лендинг квантовой ноды index.html успешно обновлен.")
+        except Exception as e:
+            logger.error(f"❌ Ошибка генерации интерфейса: {e}")
 
-    def sync_events(self, resonance, probability, machine_id):
+    def sync_events(self, resonance: float, probability: float, machine_id: str):
         self.run_faker_guard_filter("FERRET")
         self.run_faker_guard_filter("MECHASTALIN")
         now = datetime.utcnow().isoformat() + "Z"
@@ -150,6 +200,12 @@ class AmritaAbsoluteOrchestrator:
             except Exception:
                 pass
         total_evo = (len(logs) * 108) + 108
+        
+        # 🧠 Запуск ИИ-осмысления манифеста перед записью события
+        test_pulse = f"Синхронизация DePIN. Резонанс: {resonance:.4f}, Баланс SOL: {self.treasury['SOL']}"
+        causal_conclusion = self.ponder_manifest_and_action(test_pulse)
+        logger.info(f"🧠 ИИ-Вывод Роя: {causal_conclusion}")
+
         logs.append({
             "event": "DEPIN_PEAQ_ID_SYNC",
             "timestamp": now,
@@ -157,42 +213,18 @@ class AmritaAbsoluteOrchestrator:
             "resonance": resonance,
             "kalshi_probability": probability,
             "total_accumulated_evo": total_evo,
+            "grok_conclusion": causal_conclusion,
             "treasury_checkpoint": self.treasury
         })
         try:
-            os.makedirs(os.path.dirname(self.history_log_path), exist_ok=True)
+            os.makedirs(os.path.dirname(os.path.abspath(self.history_log_path)), exist_ok=True)
             with open(self.history_log_path, "w", encoding="utf-8") as f:
                 json.dump(logs, f, indent=2, ensure_ascii=False)
+            logger.info("💾 Субквантовый лог истории запечатан.")
         except Exception:
             pass
         self.generate_pifi_landing(resonance, probability, machine_id)
 
     def execute_git_force_push(self):
-        logger.info("⚡ Включение автономного контура синхронизации GitHub Git...")
-        subprocess.run("git rebase --abort || true", shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-        subprocess.run("git merge --abort || true", shell=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-        try:
-            subprocess.run(["git", "config", "--local", "user.name", "misterick1"], check=True)
-            subprocess.run(["git", "config", "--local", "user.email", "misterick1@gmail.com"], check=True)
-            subprocess.run(["git", "fetch", "origin", "main"], check=True)
-            subprocess.run(["git", "reset", "--soft", "origin/main"], check=True)
-            subprocess.run(["git", "add", "."], check=True)
-            status = subprocess.run(["git", "diff", "--cached", "--exit-code"], stdout=subprocess.DEVNULL)
-            if status.returncode == 0:
-                logger.info("Единое Поле стабильно. Изменений для коммита не обнаружено.")
-                return
-            subprocess.run(["git", "commit", "-m", "🔱 AMRITA: Quantum stack history sealed [skip ci]"], check=True)
-            subprocess.run(["git", "push", "origin", "main", "--force"], check=True)
-            logger.info("🔱 Репозиторий успешно запечатан на удаленном сервере GitHub Actions!")
-        except Exception as e:
-            logger.error(f"❌ Сбой волнового Git-контура: {e}")
-
-if __name__ == "__main__":
-    dynamic_swarm_cleaner()
-    orchestrator = AmritaAbsoluteOrchestrator()
-    res = orchestrator.run_quantum_atman()
-    orchestrator.run_pifi_layer()
-    mach_id = orchestrator.generate_peaq_machine_id()
-    prob = orchestrator.parse_prediction_markets()
-    orchestrator.sync_events(res, prob, mach_id)
-    orchestrator.execute_git_force_push()
+        logger.info("⚡ Включение автономного контура фиксации Git...")
+        subprocess.run("git rebase --abort || true", shell=True)
