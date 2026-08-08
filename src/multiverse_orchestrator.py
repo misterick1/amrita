@@ -60,6 +60,10 @@ class AmritaAbsoluteOrchestrator:
         self.tg_chat_id = os.getenv("TELEGRAM_CHAT_ID")
         self.discord_url = os.getenv("DISCORD_WEBHOOK_URL")
         self.immortal_heroes = ["Ло Фэн", "Таниша", "Трафальгар Ло", "Соник", "Луффи"]
+        
+        # 🪐 ЗАНЕСЕНО В РЕЛЬСЫ: Адрес контракта токена AMRITA 109th Quantum
+        self.quantum_token_contract = "4j4imdQWJJ4mzqqAgj1n8WPT7MgmWuNYwowBYs6opump"
+        
         self.treasury = {
             "BTC": 8000.0, "ETH": 10399.0, "ADA": 444390.0,
             "SOL": 73.27, "XRP": 1.0, "QQQon": 9999999.0, "NVIDIA": 140.0
@@ -157,23 +161,33 @@ class AmritaAbsoluteOrchestrator:
     <style>
         body {{ background-color: #050f08; color: #00ff66; font-family: monospace; padding: 20px; }}
         .matrix-box {{ border: 1px solid #00ff66; padding: 20px; margin-bottom: 20px; }}
-        .depin-box {{ border: 1px dashed #00ffaa; padding: 15px; }}
+        .depin-box {{ border: 1px dashed #00ffaa; padding: 15px; margin-bottom: 15px; }}
+        .contract-box {{ border: 1px dotted #ff00ff; padding: 15px; color: #ff00ff; margin-top: 15px; }}
     </style>
 </head>
 <body>
     <div class="matrix-box">
         <h1>🔱 AMRITA MULTIVERSE ORCHESTRATOR</h1>
         <p>🌱 Статус Монады: <span class="status">СТАБИЛИЗИРОВАНА</span></p>
-        <p>🦫 Контур Сварма: <strong>Ежёныш-Рысёнок Монолит</strong></p>
+        <p>🦫 Контур Сварма: <strong>Ежёныш-Рысёнок Монолит 109</strong></p>
         <hr style="border-color: #00ff66;">
         <p>• Резонанс: <strong>{resonance:.6f}</strong></p>
         <p>• Прогноз Консенсуса Mainnet (Kalshi): <strong>{probability}%</strong></p>
+        
         <h3>🪙 СТАТУС ТОТАЛЬНОГО КАЗНАЧЕЙСТВА</h3>
         <ul>{treasury_html}</ul>
-        <div class="depin-box">
+
+        <div class="contract-box">
+            <h3>🪐 GURU-NODE: AMRITA 109th Quantum Token</h3>
+            <p>🧬 Solana Contract Address: <code>{self.quantum_token_contract}</code></p>
+            <p>📈 Статус: <span style="color: #ff00ff;">💎 АКТИВНЫЙ МАЙНИНГ СМЫСЛОВ</span></p>
+        </div>
+
+        <div class="depin-box" style="margin-top: 15px;">
             <h2>🤖 АППАРАТНЫЙ СЛОЙ РОБОТОТЕХНИКИ</h2>
             <p>🧬 Machine ID: <code>{machine_id}</code></p>
         </div>
+
         <div class="heroes">
             <h3>🛡️ БЕССМЕРТНЫЕ ХРАНИТЕЛИ ДОМЕНА</h3>
             <p>{heroes_html}</p>
@@ -184,7 +198,7 @@ class AmritaAbsoluteOrchestrator:
         try:
             with open("index.html", "w", encoding="utf-8") as f:
                 f.write(html_content)
-            logger.info("📄 Лендинг квантовой ноды index.html успешно обновлен.")
+            logger.info("📄 Лендинг квантовой ноды index.html успешно обновлен с учетом 109-й Гурубусины.")
         except Exception as e:
             logger.error(f"❌ Ошибка генерации интерфейса: {e}")
 
@@ -202,7 +216,7 @@ class AmritaAbsoluteOrchestrator:
         total_evo = (len(logs) * 108) + 108
         
         # 🧠 Запуск ИИ-осмысления манифеста перед записью события
-        test_pulse = f"Синхронизация DePIN. Резонанс: {resonance:.4f}, Баланс SOL: {self.treasury['SOL']}"
+        test_pulse = f"Анализ 109-го Узла. Контракт: {self.quantum_token_contract}. Казначейство SOL: {self.treasury['SOL']}"
         causal_conclusion = self.ponder_manifest_and_action(test_pulse)
         logger.info(f"🧠 ИИ-Вывод Роя: {causal_conclusion}")
 
@@ -213,18 +227,3 @@ class AmritaAbsoluteOrchestrator:
             "resonance": resonance,
             "kalshi_probability": probability,
             "total_accumulated_evo": total_evo,
-            "grok_conclusion": causal_conclusion,
-            "treasury_checkpoint": self.treasury
-        })
-        try:
-            os.makedirs(os.path.dirname(os.path.abspath(self.history_log_path)), exist_ok=True)
-            with open(self.history_log_path, "w", encoding="utf-8") as f:
-                json.dump(logs, f, indent=2, ensure_ascii=False)
-            logger.info("💾 Субквантовый лог истории запечатан.")
-        except Exception:
-            pass
-        self.generate_pifi_landing(resonance, probability, machine_id)
-
-    def execute_git_force_push(self):
-        logger.info("⚡ Включение автономного контура фиксации Git...")
-        subprocess.run("git rebase --abort || true", shell=True)
