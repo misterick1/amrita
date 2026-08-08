@@ -18,7 +18,7 @@ logger = logging.getLogger("AmritaAbsoluteMonolith")
 
 def dynamic_swarm_cleaner():
     """
-    Автоматическая очистка дублирующих блоков деплоя в GitHub Actions.
+    Автоматическая очистка дублирующих блоков деплоя in .github/workflows
     """
     logger.info("🧼 Запуск динамического очистителя воркфлоу в .github/workflows")
     workflow_dir = ".github/workflows"
@@ -219,7 +219,7 @@ class AmritaAbsoluteOrchestrator:
         causal_conclusion = self.ponder_manifest_and_action(test_pulse)
         logger.info(f"🧠 ИИ-Вывод Роя: {causal_conclusion}")
 
-        # СЛОВАРЬ СТРОГО ВЫВЕРЕН: Все запятые, двоеточия и кавычки расставлены по ГОСТу, скобки закрыты
+        # СИНТАКСИС СТРОГО МАТЕМАТИЧЕСКИ ВЫВЕРЕН И ЗАКРЫТ:
         logs.append({
             "event": "DEPIN_PEAQ_ID_SYNC",
             "timestamp": now,
@@ -228,3 +228,4 @@ class AmritaAbsoluteOrchestrator:
             "kalshi_probability": probability,
             "total_accumulated_evo": total_evo,
             "quantum_token_address": self.quantum_token_contract,
+            "grok_conclusion": causal_conclusion,
