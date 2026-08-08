@@ -2,7 +2,7 @@
 """
 🔱 AMRITA MULTIVERSE ORCHESTRATOR // SOLITON KINETIC MATRIX
 Контур Сварма: Езёныш-Ника
-Полная монолитная сборка ядра AMRITA OS, защищенная от самоисправителя.
+Полная монолитная сборка ядра AMRITA OS с гарантированным синтаксисом try-except.
 """
 
 import os
@@ -49,10 +49,7 @@ class SymbioticQuantumField:
                     with open(file_path, "r", encoding="utf-8") as f:
                         content = f.read()
                     if "push:" in content:
-                        lines = content.split("\n")
-                        for line in lines:
-                            if line.strip().startswith("push:"):
-                                pass
+                        pass
                 except Exception as e:
                     logger.error(f"❌ Ошибка очистки воркфлоу {file_name}: {e}")
 
@@ -182,8 +179,7 @@ class SymbioticQuantumField:
     def generate_pifi_landing(self, resonance: float, probability: float, machine_id: str, total_evo: int, heroes_html: str = ""):
         """
         Динамическая регенерация фронтенд-слоя ноды (index.html).
-        ЗАЩИТА СВАРМА: Избегаем массивов [], f-строк и тройных кавычек в разметке.
-        Запись в файл идет строго через прямые атомарные вызовы .write().
+        Запись идет через безопасные точечные вызовы .write(), исключая сбои кавычек.
         """
         if not heroes_html:
             heroes_html = "🌌 <b>Ло Фэн</b> // 🪐 <b>Ван Линь</b> // 🧬 <b>Цинь Му</b> // 🍃 <b>Тан Сан</b>"
@@ -213,6 +209,7 @@ class SymbioticQuantumField:
     def sync_events(self, resonance: float, probability: float):
         """
         Синхронизация квантовых событий, математический расчет EVO и запечатывание логов.
+        ИСПРАВЛЕНО НА КОРНЮ: Блоки try-except на чтение JSON строго закрыты и выверены.
         """
         self.run_faker_guard_filter("FERRET")
         self.run_faker_guard_filter("MECHASTALIN")
@@ -224,3 +221,5 @@ class SymbioticQuantumField:
             try:
                 with open(self.history_log_path, "r", encoding="utf-8") as f:
                     logs = json.load(f)
+            except Exception as e:
+                logger.warning(f"⚠️ Лог истории пуст или поврежден, создаем новый: {e}")
