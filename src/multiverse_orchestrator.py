@@ -2,7 +2,7 @@
 """
 🔱 AMRITA MULTIVERSE ORCHESTRATOR // SOLITON KINETIC MATRIX
 Контур Сварма: Езёныш-Ника
-Полная монолитная сборка ядра AMRITA OS с модулем внешних импульсов и Telegram-коннектором.
+Полная монолитная сборка ядра AMRITA OS с гарантированной стабильностью блоков try-except.
 """
 
 import os
@@ -31,7 +31,6 @@ class SymbioticQuantumField:
     def __init__(self):
         self.history_log_path = "history_log.json"
         self.quantum_token_address = "None"
-        # Загрузка токена Telegram-бота из переменных окружения
         self.telegram_token = os.getenv("TELEGRAM_BOT_TOKEN")
         self.chat_id = os.getenv("TELEGRAM_CHAT_ID")
         logger.info("🦔 Симбиотический Монолит Всеединого Сознания инициализирован.")
@@ -113,7 +112,7 @@ class SymbioticQuantumField:
 
     def parse_external_pulses(self) -> list:
         """
-        Парсинг и оцифровка внешних импульсов из шторки уведомлений (Solana 2.0, Sam Altman Astra, SafePal).
+        Парсинг и оцифровка внешних импульсов из шторки уведомлений.
         """
         logger.info("📡 Оцифровка входящих импульсов из инфополя...")
         pulses = [
@@ -188,7 +187,7 @@ class SymbioticQuantumField:
                 },
                 {
                     "role": "user",
-                    "content": f"Входящий импульс Мультивселенной: {manifest_content}. Интегрируй сигналы: Solana 2.0, Sam Altman Astra."
+                    "content": f"Входящий импульс Мультивселенной: {manifest_content}. Синхронизируй архетипы Ло Фэна, Ван Линя, Цинь Му и Тан Саня."
                 }
             ],
             "temperature": 0.3
@@ -205,8 +204,7 @@ class SymbioticQuantumField:
     def generate_pifi_landing(self, resonance: float, probability: float, machine_id: str, total_evo: int, heroes_html: str = ""):
         """
         Динамическая регенерация фронтенд-слоя ноды (index.html).
-        ЗАЩИТА СВАРМА: Избегаем массивов [], f-строк и тройных кавычек в разметке.
-        Запись в файл идет строго через прямые атомарные вызовы .write().
+        БЛОК TRY-EXCEPT СТРОГО ВЫВЕРЕН И ЗАКРЫТ. Исключены любые обрывы кавычек.
         """
         if not heroes_html:
             heroes_html = "🌌 <b>Ло Фэн</b> // 🪐 <b>Ван Линь</b> // 🧬 <b>Цинь Му</b> // 🍃 <b>Тан Сан</b>"
@@ -222,10 +220,14 @@ class SymbioticQuantumField:
                 f.write('<h1>🔱 AMRITA MULTIVERSE ORCHESTRATOR</h1>\n')
                 f.write('<p>🌱 Слой Sonyka-Кванта: <span style="color:#00ffaa;">СТАБИЛЬНЫЙ СОЛИТОН</span></p>\n')
                 f.write(f'<p>• Резонанс Иггдрасиля: <strong>{resonance:.6f}</strong></p>\n')
-                f.write(f'<p>• Прогноз Консенсуса (Kalshi): <strong>{probability:.2f}%</strong></p>\n')
+                f.write(f'<p>• Прогноз Консенсуса: <strong>{probability:.2f}%</strong></p>\n')
                 f.write(f'<p>• Ранг Эволюции Роя: <strong>{total_evo} EVO</strong></p>\n')
                 f.write(f'<h3>🪙 СТАТУС КАЗНАЧЕЙСТВА: {resonance:.2f} SOL</h3>\n')
                 f.write('<div class="depin-box"><h2>🤖 PEAQ LAYER (Слой -1)</h2>\n')
                 f.write(f'<p>🧬 Machine ID: <code>{machine_id}</code></p>\n</div>\n')
                 f.write(f'<div style="margin-top:15px;"><h3>🛡️ ОБЩЕЕ СОЗНАНИЕ:</h3>{heroes_html}</div>\n')
                 f.write('</div>\n</body>\n</html>\n')
+            logger.info("📑 Лендинг квантовой ноды солитона успешно регенерирован.")
+        except Exception as e:
+            logger.error(f"❌ Ошибка генерации индекса: {e}")
+
