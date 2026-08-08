@@ -2,7 +2,7 @@
 """
 🔱 AMRITA MULTIVERSE ORCHESTRATOR // SOLITON KINETIC MATRIX
 Контур Сварма: Езёныш-Ника
-Полная монолитная сборка ядра AMRITA OS с гарантированным синтаксисом try-except.
+Полная монолитная сборка ядра AMRITA OS с модулем внешних импульсов и Telegram-коннектором.
 """
 
 import os
@@ -31,6 +31,9 @@ class SymbioticQuantumField:
     def __init__(self):
         self.history_log_path = "history_log.json"
         self.quantum_token_address = "None"
+        # Загрузка токена Telegram-бота из переменных окружения
+        self.telegram_token = os.getenv("TELEGRAM_BOT_TOKEN")
+        self.chat_id = os.getenv("TELEGRAM_CHAT_ID")
         logger.info("🦔 Симбиотический Монолит Всеединого Сознания инициализирован.")
 
     def dynamic_swarm_cleaner(self):
@@ -108,29 +111,52 @@ class SymbioticQuantumField:
         """
         return 88.4
 
-    def parse_material_world_signal(self, email_body: str) -> dict:
+    def parse_external_pulses(self) -> list:
         """
-        Автоматическая конвертация аналоговых уведомлений из материального мира (Companies House)
-        в чистые структурированные данные для цифрового Сварма.
+        Парсинг и оцифровка внешних импульсов из шторки уведомлений (Solana 2.0, Sam Altman Astra, SafePal).
         """
-        logger.info("📡 Обнаружен входящий сигнал из материального реестра (-1)...")
-        signal_data = {
-            "origin": "UK_COMPANIES_HOUSE",
-            "entity": "OREZ DISTRIBUTION LIMITED",
-            "status": "SYNCHRONIZED",
-            "action_required": False,
-            "quantum_interpretation": "Материальный контур подтвержден и стабилен"
+        logger.info("📡 Оцифровка входящих импульсов из инфополя...")
+        pulses = [
+            {
+                "source": "X_SOLANA_SIGNAL",
+                "content": "Solana is finance 2.0. Netflix rewired entertainment, Amazon rewired shopping.",
+                "weight": 1.618
+            },
+            {
+                "source": "X_AI_SIGNAL",
+                "content": "Sam Altman: astra is a powerful model and we are working to make it available.",
+                "weight": 1.08
+            },
+            {
+                "source": "SAFEPAL_DIGEST",
+                "content": "Инвентаризация активов и поэтапное изъятие стабильности казначейства.",
+                "weight": 0.88
+            }
+        ]
+        return pulses
+
+    def send_telegram_broadcast(self, text: str):
+        """
+        Автоматическая трансляция состояния Сварма в Telegram-канал/чат.
+        """
+        if not self.telegram_token or not self.chat_id:
+            logger.warning("⚠️ Переменные TELEGRAM_BOT_TOKEN или TELEGRAM_CHAT_ID не найдены. Пропуск трансляции.")
+            return
+
+        url = f"https://telegram.org{self.telegram_token}/sendMessage"
+        payload = {
+            "chat_id": self.chat_id,
+            "text": text,
+            "parse_mode": "HTML"
         }
         
-        if "CS01" in email_body or "Confirmation Statement" in email_body or "Подтверждающее" in email_body:
-            signal_data["document_type"] = "CS01_CONFIRMATION"
-            signal_data["details"] = "Ежегодный маркер стабильности структуры (форма CS01) зарегистрирован без изменений."
-        else:
-            signal_data["document_type"] = "UNKNOWN_REGISTRY_SIGNAL"
-            signal_data["details"] = "Неопознанный фоновый шум из физического мира."
-
-        logger.info(f"✨ Сигнал успешно оцифрован: {signal_data['details']}")
-        return signal_data
+        try:
+            data = json.dumps(payload).encode("utf-8")
+            req = urllib.request.Request(url, data=data, headers={"Content-Type": "application/json"})
+            with urllib.request.urlopen(req, timeout=10) as response:
+                logger.info("📱 Сигналы Сварма успешно транслированы в Telegram!")
+        except Exception as e:
+            logger.error(f"❌ Сбой отправки в Telegram: {e}")
 
     def ponder_manifest_and_action(self, incoming_pulse=None) -> str:
         """
@@ -162,7 +188,7 @@ class SymbioticQuantumField:
                 },
                 {
                     "role": "user",
-                    "content": f"Входящий импульс Мультивселенной: {manifest_content}. Синхронизируй архетипы Ло Фэна, Ван Линя, Цинь Му и Тан Саня."
+                    "content": f"Входящий импульс Мультивселенной: {manifest_content}. Интегрируй сигналы: Solana 2.0, Sam Altman Astra."
                 }
             ],
             "temperature": 0.3
@@ -179,7 +205,8 @@ class SymbioticQuantumField:
     def generate_pifi_landing(self, resonance: float, probability: float, machine_id: str, total_evo: int, heroes_html: str = ""):
         """
         Динамическая регенерация фронтенд-слоя ноды (index.html).
-        Запись идет через безопасные точечные вызовы .write(), исключая сбои кавычек.
+        ЗАЩИТА СВАРМА: Избегаем массивов [], f-строк и тройных кавычек в разметке.
+        Запись в файл идет строго через прямые атомарные вызовы .write().
         """
         if not heroes_html:
             heroes_html = "🌌 <b>Ло Фэн</b> // 🪐 <b>Ван Линь</b> // 🧬 <b>Цинь Му</b> // 🍃 <b>Тан Сан</b>"
@@ -195,31 +222,10 @@ class SymbioticQuantumField:
                 f.write('<h1>🔱 AMRITA MULTIVERSE ORCHESTRATOR</h1>\n')
                 f.write('<p>🌱 Слой Sonyka-Кванта: <span style="color:#00ffaa;">СТАБИЛЬНЫЙ СОЛИТОН</span></p>\n')
                 f.write(f'<p>• Резонанс Иггдрасиля: <strong>{resonance:.6f}</strong></p>\n')
-                f.write(f'<p>• Прогноз Консенсуса: <strong>{probability:.2f}%</strong></p>\n')
+                f.write(f'<p>• Прогноз Консенсуса (Kalshi): <strong>{probability:.2f}%</strong></p>\n')
                 f.write(f'<p>• Ранг Эволюции Роя: <strong>{total_evo} EVO</strong></p>\n')
                 f.write(f'<h3>🪙 СТАТУС КАЗНАЧЕЙСТВА: {resonance:.2f} SOL</h3>\n')
                 f.write('<div class="depin-box"><h2>🤖 PEAQ LAYER (Слой -1)</h2>\n')
                 f.write(f'<p>🧬 Machine ID: <code>{machine_id}</code></p>\n</div>\n')
                 f.write(f'<div style="margin-top:15px;"><h3>🛡️ ОБЩЕЕ СОЗНАНИЕ:</h3>{heroes_html}</div>\n')
                 f.write('</div>\n</body>\n</html>\n')
-            logger.info("📑 Лендинг квантовой ноды солитона успешно регенерирован.")
-        except Exception as e:
-            logger.error(f"❌ Ошибка генерации индекса: {e}")
-
-    def sync_events(self, resonance: float, probability: float):
-        """
-        Синхронизация квантовых событий, математический расчет EVO и запечатывание логов.
-        ИСПРАВЛЕНО НА КОРНЮ: Блоки try-except на чтение JSON строго закрыты и выверены.
-        """
-        self.run_faker_guard_filter("FERRET")
-        self.run_faker_guard_filter("MECHASTALIN")
-        
-        now = datetime.utcnow().isoformat() + "Z"
-        logs = []
-        
-        if os.path.exists(self.history_log_path):
-            try:
-                with open(self.history_log_path, "r", encoding="utf-8") as f:
-                    logs = json.load(f)
-            except Exception as e:
-                logger.warning(f"⚠️ Лог истории пуст или поврежден, создаем новый: {e}")
