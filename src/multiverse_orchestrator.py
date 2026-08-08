@@ -61,7 +61,7 @@ class AmritaAbsoluteOrchestrator:
         self.discord_url = os.getenv("DISCORD_WEBHOOK_URL")
         self.immortal_heroes = ["Ло Фэн", "Таниша", "Трафальгар Ло", "Соник", "Луффи"]
         
-        # 🪐 ЗАНЕСЕНО В РЕЛЬСЫ: Адрес контракта токена AMRITA 109th Quantum
+        # Адрес контракта токена AMRITA 109th Quantum
         self.quantum_token_contract = "4j4imdQWJJ4mzqqAgj1n8WPT7MgmWuNYwowBYs6opump"
         
         self.treasury = {
@@ -198,7 +198,7 @@ class AmritaAbsoluteOrchestrator:
         try:
             with open("index.html", "w", encoding="utf-8") as f:
                 f.write(html_content)
-            logger.info("📄 Лендинг квантовой ноды index.html успешно обновлен с учетом 109-й Гурубусины.")
+            logger.info("📄 Лендинг квантовой ноды index.html успешно обновлен.")
         except Exception as e:
             logger.error(f"❌ Ошибка генерации интерфейса: {e}")
 
@@ -215,11 +215,12 @@ class AmritaAbsoluteOrchestrator:
                 pass
         total_evo = (len(logs) * 108) + 108
         
-        # 🧠 Запуск ИИ-осмысления манифеста перед записью события
+        # Запуск ИИ-осмысления манифеста перед записью события
         test_pulse = f"Анализ 109-го Узла. Контракт: {self.quantum_token_contract}. Казначейство SOL: {self.treasury['SOL']}"
         causal_conclusion = self.ponder_manifest_and_action(test_pulse)
         logger.info(f"🧠 ИИ-Вывод Роя: {causal_conclusion}")
 
+        # СТРОГО ИСПРАВЛЕНО: Полностью закрыты все фигурные и круглые скобки словаря
         logs.append({
             "event": "DEPIN_PEAQ_ID_SYNC",
             "timestamp": now,
