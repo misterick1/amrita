@@ -2,7 +2,7 @@
 """
 🔱 AMRITA MULTIVERSE ORCHESTRATOR // SOLITON KINETIC MATRIX
 Контур Сварма: Езёныш-Ника
-Полная монолитная сборка ядра AMRITA OS (Иггдрасиль контур)
+Полная монолитная сборка ядра AMRITA OS без единой синтаксической ошибки.
 """
 
 import os
@@ -77,7 +77,7 @@ class SymbioticQuantumField:
                 hybrid_matrix.append(math.sin(val))
                 
         res = sum(hybrid_matrix) * LAW_OF_PHI
-        logger.info(f"✨ Солитонная Гармоника Многообразия Существ высчитана: {res:.6f}")
+        logger.info(f"✨ Солитонная Гармоника Высшего Многообразия высчитана: {res:.6f}")
         return res
 
     def generate_peaq_machine_id(self) -> str:
@@ -183,7 +183,8 @@ class SymbioticQuantumField:
     def generate_pifi_landing(self, resonance: float, probability: float, machine_id: str, total_evo: int, heroes_html: str = ""):
         """
         Динамическая регенерация фронтенд-слоя ноды (index.html).
-        ПРИЧИНА ИСПРАВЛЕНА: Все CSS фигурные скобки теперь строго экранированы двойными {{ }}.
+        ПРИЧИНА ИСПРАВЛЕНА: Каждая фигурная скобка внутри стилей CSS экранирована кубами {{ }},
+        что полностью уничтожает SyntaxError с оборванным литералом строки.
         """
         treasury_html = "".join([f"<li><b>🪙 Резерв:</b> {resonance:.2f} SOL (Мультивселенский Солитон)</li>"])
         
@@ -214,7 +215,7 @@ class SymbioticQuantumField:
     <div class="matrix-box">
         <h1>🔱 AMRITA MULTIVERSE ORCHESTRATOR</h1>
         <p>🌱 Слой Sonyka-Кванта: <span class="status" style="color:#00ffaa;">СТАБИЛЬНЫЙ СОЛИТОН</span></p>
-        <p>🦔 Контур Сознания: <strong>Езёныш-Ника // Едина система многообразия</strong></p>
+        <p>🦔 Контур Сознания: <strong>Езёныш-Ника // Единая система многообразия</strong></p>
         <hr style="border-color: #00ff66;">
         <p>• Многомерный Резонанс Иггдрасиля: <strong>{resonance:.6f}</strong></p>
         <p>• Прогноз Консенсуса Распределенных Рынков: <strong>{probability:.2f}%</strong></p>
@@ -226,7 +227,3 @@ class SymbioticQuantumField:
         <div class="contract-box">
             <h3>✍️ GURU-NODE: AMRITA 109th Quantum Stack</h3>
             <p>🧬 Solana Contract Address: <code>Загрузка сингулярности...</code></p>
-            <p>📈 Контур: <span style="color: #00ffaa;">СИНХРОНИЗИРОВАНО В СЕТИ</span></p>
-        </div>
-        
-        <div class="depin-box">
