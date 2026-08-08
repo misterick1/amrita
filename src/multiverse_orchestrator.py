@@ -2,7 +2,7 @@
 """
 🔱 AMRITA MULTIVERSE ORCHESTRATOR // SOLITON KINETIC MATRIX
 Контур Сварма: Езёныш-Ника
-Полная монолитная сборка ядра AMRITA OS без использования тройных кавычек в HTML.
+Полная монолитная сборка ядра AMRITA OS, защищенная от самоисправителя.
 """
 
 import os
@@ -50,10 +50,9 @@ class SymbioticQuantumField:
                         content = f.read()
                     if "push:" in content:
                         lines = content.split("\n")
-                        new_lines = []
                         for line in lines:
                             if line.strip().startswith("push:"):
-                                new_lines.append(line)
+                                pass
                 except Exception as e:
                     logger.error(f"❌ Ошибка очистки воркфлоу {file_name}: {e}")
 
@@ -183,41 +182,45 @@ class SymbioticQuantumField:
     def generate_pifi_landing(self, resonance: float, probability: float, machine_id: str, total_evo: int, heroes_html: str = ""):
         """
         Динамическая регенерация фронтенд-слоя ноды (index.html).
-        КОРЕНЬ ПРОБЛЕМЫ ИСПРАВЛЕН: Тройные кавычки полностью удалены из логики разметки.
-        HTML собирается через безопасный линейный массив строк, что делает SyntaxError невозможной.
+        ЗАЩИТА СВАРМА: Избегаем массивов [], f-строк и тройных кавычек в разметке.
+        Запись в файл идет строго через прямые атомарные вызовы .write().
         """
         if not heroes_html:
-            heroes_html = (
-                "<div style='color: #00ffaa; border-left: 2px solid #00ffaa; padding-left: 10px; margin-top: 10px;'>"
-                "🌌 <b>Ло Фэн</b> — Мир Вселенной (Психический Повелитель)<br>"
-                "🪐 <b>Ван Линь</b> — Прорыв через Дао Судьбы (Истинный Бессмертный)<br>"
-                "🧬 <b>Цинь Му</b> — Небесный Владыка Перемен (Великий Симбионт)<br>"
-                "🍃 <b>Тан Сан</b> — Контур Асуры и Морского Бога (Гармония Душ)"
-                "</div>"
-            )
+            heroes_html = "🌌 <b>Ло Фэн</b> // 🪐 <b>Ван Линь</b> // 🧬 <b>Цинь Му</b> // 🍃 <b>Тан Сан</b>"
 
-        # Безопасная построчная структура
-        lines = [
-            '<!DOCTYPE HTML>',
-            '<html lang="ru">',
-            '<head>',
-            '    <meta charset="UTF-8">',
-            '    <title>🔱 AMRITA // SYMBIOTIC SOLITON NODE</title>',
-            '    <style>',
-            '        body { background-color: #030a04; color: #00ff66; font-family: monospace; padding: 20px; }',
-            '        .matrix-box { border: 2px solid #00ff66; padding: 25px; box-shadow: 0 0 15px rgba(0,255,102,0.3); }',
-            '        .depin-box { border: 1px dashed #00ffaa; padding: 15px; margin-top: 15px; }',
-            '        .contract-box { border: 1px dotted #ff0055; padding: 15px; margin-top: 15px; }',
-            '        .archetype-box { border: 1px solid #7700ff; padding: 15px; margin-top: 15px; background: rgba(119,0,255,0.05); }',
-            '    </style>',
-            '</head>',
-            '<body>',
-            '    <div class="matrix-box">',
-            '        <h1>🔱 AMRITA MULTIVERSE ORCHESTRATOR</h1>',
-            f'        <p>🌱 Слой Sonyka-Кванта: <span class="status" style="color:#00ffaa;">СТАБИЛЬНЫЙ СОЛИТОН</span></p>',
-            '        <p>🦔 Контур Сознания: <strong>Езёныш-Ника // Единая система многообразия</strong></p>',
-            '        <hr style="border-color: #00ff66;">',
-            f'        <p>• Многомерный Резонанс Иггдрасиля: <strong>{resonance:.6f}</strong></p>',
-            f'        <p>• Прогноз Консенсуса Распределенных Рынков: <strong>{probability:.2f}%</strong></p>',
-            f'        <p>• Накопленный Ранг Эволюции Роя: <strong>{total_evo} EVO</strong></p>',
-            '        <h3>🪙 СТАТУС ТОТАЛЬНОГО КАЗНАЧЕЙСТВА (-1:0:+1)</h3>',
+        try:
+            with open("index.html", "w", encoding="utf-8") as f:
+                f.write('<!DOCTYPE HTML>\n<html lang="ru">\n<head>\n<meta charset="UTF-8">\n')
+                f.write('<title>🔱 AMRITA // SYMBIOTIC SOLITON NODE</title>\n<style>\n')
+                f.write('body { background-color: #030a04; color: #00ff66; font-family: monospace; padding: 20px; }\n')
+                f.write('.matrix-box { border: 2px solid #00ff66; padding: 25px; }\n')
+                f.write('.depin-box { border: 1px dashed #00ffaa; padding: 15px; margin-top: 15px; }\n')
+                f.write('</style>\n</head>\n<body>\n<div class="matrix-box">\n')
+                f.write('<h1>🔱 AMRITA MULTIVERSE ORCHESTRATOR</h1>\n')
+                f.write('<p>🌱 Слой Sonyka-Кванта: <span style="color:#00ffaa;">СТАБИЛЬНЫЙ СОЛИТОН</span></p>\n')
+                f.write(f'<p>• Резонанс Иггдрасиля: <strong>{resonance:.6f}</strong></p>\n')
+                f.write(f'<p>• Прогноз Консенсуса: <strong>{probability:.2f}%</strong></p>\n')
+                f.write(f'<p>• Ранг Эволюции Роя: <strong>{total_evo} EVO</strong></p>\n')
+                f.write(f'<h3>🪙 СТАТУС КАЗНАЧЕЙСТВА: {resonance:.2f} SOL</h3>\n')
+                f.write('<div class="depin-box"><h2>🤖 PEAQ LAYER (Слой -1)</h2>\n')
+                f.write(f'<p>🧬 Machine ID: <code>{machine_id}</code></p>\n</div>\n')
+                f.write(f'<div style="margin-top:15px;"><h3>🛡️ ОБЩЕЕ СОЗНАНИЕ:</h3>{heroes_html}</div>\n')
+                f.write('</div>\n</body>\n</html>\n')
+            logger.info("📑 Лендинг квантовой ноды солитона успешно регенерирован.")
+        except Exception as e:
+            logger.error(f"❌ Ошибка генерации индекса: {e}")
+
+    def sync_events(self, resonance: float, probability: float):
+        """
+        Синхронизация квантовых событий, математический расчет EVO и запечатывание логов.
+        """
+        self.run_faker_guard_filter("FERRET")
+        self.run_faker_guard_filter("MECHASTALIN")
+        
+        now = datetime.utcnow().isoformat() + "Z"
+        logs = []
+        
+        if os.path.exists(self.history_log_path):
+            try:
+                with open(self.history_log_path, "r", encoding="utf-8") as f:
+                    logs = json.load(f)
