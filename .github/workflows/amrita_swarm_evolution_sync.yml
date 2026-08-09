@@ -5,13 +5,12 @@ on:
     branches:
       - main
   schedule:
-    - cron: '0 */6 * * *' # Запуск каждые 6 часов
+    - cron: '0 */6 * * *'
   workflow_dispatch:
 
 permissions:
   contents: write
 
-# АБСОЛЮТНЫЙ ЗАМОК: Запрещает параллельным сборкам этого типа биться друг с другом
 concurrency:
   group: "swarm-evolution-group"
   cancel-in-progress: false
@@ -47,16 +46,23 @@ jobs:
           git config --local user.email "misterick1@gmail.com"
           git config --local user.name "misterick1"
           
-          # Проверяем, изменились ли index.html или history_log.json
+          # 1. Сварм сохраняет результаты вычислений в изолированную память
+          cp index.html /tmp/index.html_backup || true
+          cp history_log.json /tmp/history_log_backup || true
+          
+          # 2. Полное стирание аппаратных тупиков и рассинхронизации Git
+          git fetch origin main
+          git reset --hard origin/main
+          
+          # 3. Возврат Кристалла Бытия на обновленную ветку
+          cp /tmp/index.html_backup index.html || true
+          cp /tmp/history_log_backup history_log.json || true
+          
+          # 4. Чистый атомарный пуш без клинчей и divergent branches
           if git diff --quiet index.html history_log.json; then
             echo "✨ Изменений в экосистеме нет. Пропуск пуша."
           else
             git add index.html history_log.json
             git commit -m "🔱 AMRITA: Quantum stack history sealed [skip ci]"
-            
-            # Разрешаем гонку потоков: подтягиваем изменения, автоматически одобряя свои файлы
-            git pull origin main -X ours --no-edit
-            
-            # Чистый, мгновенный пуш без разрушительных циклов loop
             git push origin main
           fi
