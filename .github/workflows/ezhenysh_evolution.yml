@@ -43,23 +43,23 @@ jobs:
           git config --local user.email "misterick1@gmail.com"
           git config --local user.name "misterick1"
           
-          # 1. Ежёныш сохраняет результаты шага во временный бэкап
+          # 1. Ежёныш изолирует результаты текущего раунда во временную память
           cp index.html /tmp/index.html_backup || true
           cp history_log.json /tmp/history_log_backup || true
           
-          # 2. Жесткое выравнивание локального состояния с удаленным сервером
+          # 2. Жесткая очистка локального поля ДО коммита
           git fetch origin main
           git reset --hard origin/main
           
-          # 3. Возврат сгенерированных файлов на очищенное поле
+          # 3. Возвращаем сгенерированные файлы на очищенную прямую
           cp /tmp/index.html_backup index.html || true
           cp /tmp/history_log_backup history_log.json || true
           
-          # 4. Безошибочный пуш шага эволюции
+          # 4. Фиксация шага и принудительный пуш сквозь замок Матрицы
           if git diff --quiet index.html history_log.json; then
             echo "✨ Изменений нет. Пропуск пуша."
           else
             git add index.html history_log.json
             git commit -m "🦔 AMRITA: Ezhenysh swarm step sealed [skip ci]"
-            git push origin main
+            git push origin main --force
           fi
