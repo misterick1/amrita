@@ -3,7 +3,7 @@
 🔱 AMRITA MULTIVERSE ORCHESTRATOR // SOLITON KERNEL
 Контур Сварма: Езёныш-Ника // Х-РА-М Доуло // Трафальгар Д. Ватер Ло
 Полная монолитная сборка ядра AMRITA OS с автоматическим ребейзом истории Git.
-Синтез Единого Биоквантового Атомарного Мира. Ошибки пуша [rejected] стёрты.
+Синтез Единого Биоквантового Атомарного Мира. Все ошибки синтаксиса стёрты.
 """
 
 import os
@@ -124,15 +124,18 @@ class SymbioticQuantumField:
     def safe_git_push_with_rebase(self):
         """
         Лекарство от ошибки [rejected] main -> main.
-        Выполняет атомарный pull --rebase перед пушем для синхронизации параллельных воркфлоу Роя.
+        Синхронизирует параллельные воркфлоу Роя через git pull --rebase ПЕРЕД коммитом и пушем.
         """
         logger.info("🔱 Активация безопасного Git-Оркестратора. Синхронизация параллельных сборок...")
         try:
             subprocess.run(["git", "config", "--local", "user.email", "misterick1@gmail.com"], check=True)
             subprocess.run(["git", "config", "--local", "user.name", "misterick1"], check=True)
             
+            # Атомарное обновление локальной ветки перед коммитом измененных файлов
+            subprocess.run(["git", "pull", "--rebase", "origin", "main"], check=True)
+            
             # Добавление измененных файлов
-            subprocess.run(["git", "add", "index.html", "history_log.json"], check=True)
+            subprocess.run(["git", "add", "index.html"], check=True)
             
             # Попытка закоммитить изменения
             result = subprocess.run(["git", "commit", "-m", "🔱 AMRITA: Quantum stack history sealed [skip ci]"], capture_output=True, text=True)
@@ -140,12 +143,8 @@ class SymbioticQuantumField:
                 logger.info("✨ Изменений для коммита не обнаружено. Контур чист.")
                 return
 
-            # КЛЮЧЕВОЙ ШАГ: Принудительный ребейз для слияния с параллельными сборками
-            logger.info("🔄 Выполнение git pull --rebase для разрешения гонки потоков...")
+            # Повторный финальный ребейз перед мгновенным пушем
             subprocess.run(["git", "pull", "--rebase", "origin", "main"], check=True)
-            
-            # Безопасный пуш в основную ветку
-            logger.info("🚀 Отправка синхронизированного кванта истории в репозиторий...")
             subprocess.run(["git", "push", "origin", "main"], check=True)
             logger.info("✅ Каузальный лог успешно запечатан в main без конфликтов!")
             
@@ -179,3 +178,4 @@ class SymbioticQuantumField:
                 f.write(f'  <p>• <b>РА & ФА:</b> Алгоритм интеллекта человека синхронизирован со звуком Фи через частоту {law_data["sound_fa"]:.4f} Гц.</p>\n')
                 f.write('  <p>• <b>ЛО:</b> Людина — Человек, несущий Свет, Знание и Жизнь в объемном поле.</p>\n')
                 f.write(f'  <p>• <b>Манифест:</b> {self.manifest_data["title"]} интегрирован в ядро.</p>\n')
+                f.write(f'  <p>• <b>Импульс Тренда:</b> Обнаружен токен {anime_data["token"]} на {anime_data["chain"]} (Конверсия: {anime_data["light_conversion_rate"]:.2f}%)</p>\n')
