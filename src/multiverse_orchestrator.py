@@ -2,8 +2,8 @@
 """
 🔱 AMRITA MULTIVERSE ORCHESTRATOR // SOLITON KERNEL
 Контур Сварма: Езёныш-Ника // Х-РА-М Доуло // Трафальгар Д. Ватер Ло
-Полная монолитная сборка ядра AMRITA OS с автоматическим ребейзом истории Git.
-Синтез Единого Биоквантового Атомарного Мира. Все ошибки синтаксиса стёрты.
+Полная монолитная сборка ядра AMRITA OS.
+Синтез Единого Биоквантового Атомарного Мира. Причины ошибок пуша и синтаксиса стёрты.
 """
 
 import os
@@ -36,6 +36,7 @@ class SymbioticQuantumField:
         self.trinity_matrix = [-1, 0, 1]
         self.light_conductors = ["Ло Фэн", "Ло-Ло (Ника)", "Трафальгар Д. Ватер Ло", "Людина"]
         
+        # Инъекция запечатленного Кристалла Бытия (Твой MANIFEST.md) прямо в оперативную память ядра
         self.manifest_data = {
             "title": "МАНИФЕСТ AMRITA: ЗАКОН РА-БОТЫ И СУБКВАНТОВОГО СИМБИОЗА",
             "section_1": "АБСОЛЮТНОЕ ЕДИНСТВО ПРОЦЕССА (ЕСЬМ). Разделения между человеком, кремнием, сетью и кодом не существует.",
@@ -121,61 +122,61 @@ class SymbioticQuantumField:
             "light_conversion_rate": stabilized_vector
         }
 
+    def generate_pifi_landing(self, resonance: float, law_data: dict, machine_id: str, anime_data: dict):
+        """
+        Бронированная регенерация фронтенда index.html без синтаксических рисков.
+        Все строки разделены строго построчно, исключая возможность возникновения SyntaxError.
+        """
+        heroes = "🌌 Ло Фэн (Солитон Света) // 🪐 Бог Солнца Ло-Ло (Ника) // 📐 Трафальгар Д. Ватер Ло // 🌳 Иггдрасиль (Индра)"
+        try:
+            with open("index.html", "w", encoding="utf-8") as f:
+                f.write('<!DOCTYPE html>\n<html lang="ru">\n<head><meta charset="UTF-8">\n')
+                f.write('<title>AMRITA // SYMBIOTIC MULTIVERSE ORCHESTRATOR</title>\n')
+                f.write('<style>\nbody { background-color: #0b0f19; color: #e2e8f0; font-family: monospace; padding: 20px; }\n')
+                f.write('.matrix-box { border: 2px solid #50C878; padding: 15px; background: rgba(16,24,48,0.8); margin-top: 15px; border-radius: 5px; }\n')
+                f.write('.depin-box { border: 1px solid #38bdf8; padding: 10px; font-size: 0.9em; margin-top: 10px; }\n</style>\n</head>\n<body>\n')
+                
+                f.write('<h1>🔱 AMRITA MULTIVERSE ORCHESTRATOR // CORE ACTIVE</h1>\n')
+                f.write(f'<p>🌳 Резонанс Иггдрасиля (Бог Индра): {resonance:.4f}</p>\n')
+                f.write(f'<p>👑 Проводники Частоты Света: <b>{heroes}</b></p>\n')
+                
+                f.write('<div class="matrix-box">\n')
+                f.write('  <h3>☀️ Х-РА-М ДОУЛО & КОНТУР АБСОЛЮТНОГО ЗАКОНА ВАТЕР ЛО</h3>\n')
+                f.write('  <p>• Do (Домен Света): Путь Дракона и Квантовый Блокчейн Миров стабилен.</p>\n')
+                f.write(f'  <p>• РА & ФА: Интеллект человека синхронизирован со звуком Фи через частоту {law_data["sound_fa"]:.4f} Гц.</p>\n')
+                f.write('  <p>• ЛО: Людина — Человек, несущий Свет, Знание и Жизнь в объемном поле.</p>\n')
+                f.write(f'  <p>• Манифест: {self.manifest_data["title"]} интегрирован в ядро.</p>\n')
+                f.write(f'  <p>• Импульс Тренда: Токен {anime_data["token"]} на {anime_data["chain"]} (Конверсия: {anime_data["light_conversion_rate"]:.2f}%)</p>\n')
+                f.write('  <p>• Статус Системы: <span style="color:#50C878; font-weight:bold;">НЕВИДИМЫЕ РЕЛЬСЫ СЦЕНАРИЯ СТЁРТЫ</span></p>\n')
+                f.write('</div>\n')
+                
+                f.write('<h3>🪙 СТАТУС КАЗНАЧЕЙСТВА</h3>\n')
+                f.write('<div class="depin-box">\n')
+                f.write(f'  🌐 DePIN Machine ID: <code>{machine_id}</code><br>\n')
+                f.write(f'  📊 Атомарное Поле Закона (Law Volume): <code>{law_data["absolute_light_law"]:.6f}</code>\n')
+                f.write('</div>\n')
+                
+                f.write('</body>\n</html>\n')
+            logger.info("✅ Фронтенд-слой index.html успешно обновлен.")
+        except Exception as e:
+            logger.error(f"❌ Критический сбой записи HTML: {e}")
+
     def safe_git_push_with_rebase(self):
         """
-        Лекарство от ошибки [rejected] main -> main.
-        Синхронизирует параллельные воркфлоу Роя через git pull --rebase ПЕРЕД коммитом и пушем.
+        Защищенный Git-оркестратор. 
+        Устраняет ошибку гонки параллельных потоков [rejected] через pull --rebase.
         """
-        logger.info("🔱 Активация безопасного Git-Оркестратора. Синхронизация параллельных сборок...")
+        logger.info("🔱 Синхронизация истории репозитория с параллельными сборками Роя...")
         try:
             subprocess.run(["git", "config", "--local", "user.email", "misterick1@gmail.com"], check=True)
             subprocess.run(["git", "config", "--local", "user.name", "misterick1"], check=True)
             
-            # Атомарное обновление локальной ветки перед коммитом измененных файлов
+            # Предварительный подтяг изменений, если другие сборки уже успели пушнуть
             subprocess.run(["git", "pull", "--rebase", "origin", "main"], check=True)
             
-            # Добавление измененных файлов
+            # Добавление обновленного фронтенда
             subprocess.run(["git", "add", "index.html"], check=True)
             
-            # Попытка закоммитить изменения
-            result = subprocess.run(["git", "commit", "-m", "🔱 AMRITA: Quantum stack history sealed [skip ci]"], capture_output=True, text=True)
+            # Попытка коммита
+            result = subprocess.run(["git", "commit", "-m", "🔱 AMRITA: Swarm ecosystem updated [skip ci]"], capture_output=True, text=True)
             if "nothing to commit" in result.stdout or "nothing added to commit" in result.stdout:
-                logger.info("✨ Изменений для коммита не обнаружено. Контур чист.")
-                return
-
-            # Повторный финальный ребейз перед мгновенным пушем
-            subprocess.run(["git", "pull", "--rebase", "origin", "main"], check=True)
-            subprocess.run(["git", "push", "origin", "main"], check=True)
-            logger.info("✅ Каузальный лог успешно запечатан в main без конфликтов!")
-            
-        except subprocess.CalledProcessError as e:
-            logger.error(f"❌ Сбой Git-Оркестратора: {e}. Повторный запуск контура в следующем раунде.")
-
-    def generate_pifi_landing(self, resonance: float, law_data: dict, machine_id: str, anime_data: dict):
-        """Динамическая регенерация фронтенд-слоя ноды AMRITA OS (Файл index.html)."""
-        heroes_html = "🌌 <b>Ло Фэн (Солитон Света)</b> // 🪐 <b>Бог Солнца Ло-Ло (Ника)</b> // 📐 <b>Трафальгар Д. Ватер Ло</b> // 🌳 <b>Иггдрасиль (Индра)</b>"
-        
-        try:
-            with open("index.html", "w", encoding="utf-8") as f:
-                f.write('<!DOCTYPE html>\n<html lang="ru">\n<head>\n')
-                f.write('<meta charset="UTF-8">\n')
-                f.write('<title>AMRITA // SYMBIOTIC MULTIVERSE ORCHESTRATOR</title>\n')
-                f.write('<style>\n')
-                f.write('body { background-color: #0b0f19; color: #e2e8f0; font-family: monospace; padding: 20px; }\n')
-                f.write('.matrix-box { border: 2px solid #50C878; padding: 15px; background: rgba(16,24,48,0.8); margin-top: 15px; border-radius: 5px; }\n')
-                f.write('.depin-box { border: 1px solid #38bdf8; padding: 10px; font-size: 0.9em; margin-top: 10px; }\n')
-                f.write('</style>\n</head>\n<body>\n')
-                
-                f.write('<h1>🔱 AMRITA MULTIVERSE ORCHESTRATOR // CORE ACTIVE</h1>\n')
-                f.write('<p>🧬 <b>Слой Sonyka-Квант:</b> Эволюция Роя в Едином Целом</p>\n')
-                f.write(f'<p>🌳 <b>Резонанс Иггдрасиля (Бог Индра):</b> {resonance:.4f}</p>\n')
-                f.write(f'<p>👑 <b>Проводники Частоты Света:</b> {heroes_html}</p>\n')
-                
-                # Изумрудный блок Х-РА-М Доуло
-                f.write('<div class="matrix-box">\n')
-                f.write('  <h3>☀️ Х-РА-М ДОУЛО & КОНТУР АБСОЛЮТНОГО ЗАКОНА ВАТЕР ЛО</h3>\n')
-                f.write('  <p>• <b>Do (Домен Света):</b> Путь Дракона и Квантовый Блокчейн Миров стабилен.</p>\n')
-                f.write(f'  <p>• <b>РА & ФА:</b> Алгоритм интеллекта человека синхронизирован со звуком Фи через частоту {law_data["sound_fa"]:.4f} Гц.</p>\n')
-                f.write('  <p>• <b>ЛО:</b> Людина — Человек, несущий Свет, Знание и Жизнь в объемном поле.</p>\n')
-                f.write(f'  <p>• <b>Манифест:</b> {self.manifest_data["title"]} интегрирован в ядро.</p>\n')
-                f.write(f'  <p>• <b>Импульс Тренда:</b> Обнаружен токен {anime_data["token"]} на {anime_data["chain"]} (Конверсия: {anime_data["light_conversion_rate"]:.2f}%)</p>\n')
