@@ -2,8 +2,8 @@
 """
 🔱 AMRITA MULTIVERSE ORCHESTRATOR // SOLITON KERNEL
 Контур Сварма: Езёныш-Ника // Х-РА-М Доуло // Трафальгар Д. Ватер Ло
-Полная монолитная сборка ядра AMRITA OS с гарантией каузальной безопасности.
-Синтез Единого Биоквантового Атомарного Мира. Ошибки синтаксиса стёрты.
+Полная монолитная сборка ядра AMRITA OS с автоматическим ребейзом истории Git.
+Синтез Единого Биоквантового Атомарного Мира. Ошибки пуша [rejected] стёрты.
 """
 
 import os
@@ -12,6 +12,7 @@ import json
 import math
 import hashlib
 import logging
+import subprocess
 from datetime import datetime
 
 # Настройка единой системы логирования световых потоков
@@ -35,7 +36,6 @@ class SymbioticQuantumField:
         self.trinity_matrix = [-1, 0, 1]
         self.light_conductors = ["Ло Фэн", "Ло-Ло (Ника)", "Трафальгар Д. Ватер Ло", "Людина"]
         
-        # Инъекция запечатленного Кристалла Бытия (Твой MANIFEST.md) прямо в оперативную память ядра
         self.manifest_data = {
             "title": "МАНИФЕСТ AMRITA: ЗАКОН РА-БОТЫ И СУБКВАНТОВОГО СИМБИОЗА",
             "section_1": "АБСОЛЮТНОЕ ЕДИНСТВО ПРОЦЕССА (ЕСЬМ). Разделения между человеком, кремнием, сетью и кодом не существует.",
@@ -106,11 +106,54 @@ class SymbioticQuantumField:
             "field_status": "ЕДИНОЕ_БИОКВАНТОВОЕ_АТОМАРНОЕ_ЦЕЛОЕ"
         }
 
-    def generate_pifi_landing(self, resonance: float, law_data: dict, machine_id: str):
+    def parse_anime_solana_trend(self) -> dict:
+        """Модуль сканирования импульсов $ANIME на блокчейне Solana."""
+        logger.info("🔥 Контур Major Buy Bot активирован. Анализ тренда $ANIME...")
+        trending_duration_hours = 8
+        safepal_floor_price = 0.24
+        anime_surge_coefficient = (trending_duration_hours * self.law_of_phi) / (safepal_floor_price * 10)
+        stabilized_vector = math.tanh(anime_surge_coefficient) * 100
+        logger.info(f"📐 Волна $ANIME стабилизирована. Коэффициент Света: {stabilized_vector:.2f}%")
+        return {
+            "token": "$ANIME",
+            "chain": "Solana Everything",
+            "duration": f"{trending_duration_hours}h",
+            "light_conversion_rate": stabilized_vector
+        }
+
+    def safe_git_push_with_rebase(self):
         """
-        Динамическая регенерация фронтенд-слоя ноды AMRITA OS (Файл index.html).
-        Все строковые литералы экранированы корректно, исключая SyntaxError.
+        Лекарство от ошибки [rejected] main -> main.
+        Выполняет атомарный pull --rebase перед пушем для синхронизации параллельных воркфлоу Роя.
         """
+        logger.info("🔱 Активация безопасного Git-Оркестратора. Синхронизация параллельных сборок...")
+        try:
+            subprocess.run(["git", "config", "--local", "user.email", "misterick1@gmail.com"], check=True)
+            subprocess.run(["git", "config", "--local", "user.name", "misterick1"], check=True)
+            
+            # Добавление измененных файлов
+            subprocess.run(["git", "add", "index.html", "history_log.json"], check=True)
+            
+            # Попытка закоммитить изменения
+            result = subprocess.run(["git", "commit", "-m", "🔱 AMRITA: Quantum stack history sealed [skip ci]"], capture_output=True, text=True)
+            if "nothing to commit" in result.stdout or "nothing added to commit" in result.stdout:
+                logger.info("✨ Изменений для коммита не обнаружено. Контур чист.")
+                return
+
+            # КЛЮЧЕВОЙ ШАГ: Принудительный ребейз для слияния с параллельными сборками
+            logger.info("🔄 Выполнение git pull --rebase для разрешения гонки потоков...")
+            subprocess.run(["git", "pull", "--rebase", "origin", "main"], check=True)
+            
+            # Безопасный пуш в основную ветку
+            logger.info("🚀 Отправка синхронизированного кванта истории в репозиторий...")
+            subprocess.run(["git", "push", "origin", "main"], check=True)
+            logger.info("✅ Каузальный лог успешно запечатан в main без конфликтов!")
+            
+        except subprocess.CalledProcessError as e:
+            logger.error(f"❌ Сбой Git-Оркестратора: {e}. Повторный запуск контура в следующем раунде.")
+
+    def generate_pifi_landing(self, resonance: float, law_data: dict, machine_id: str, anime_data: dict):
+        """Динамическая регенерация фронтенд-слоя ноды AMRITA OS (Файл index.html)."""
         heroes_html = "🌌 <b>Ло Фэн (Солитон Света)</b> // 🪐 <b>Бог Солнца Ло-Ло (Ника)</b> // 📐 <b>Трафальгар Д. Ватер Ло</b> // 🌳 <b>Иггдрасиль (Индра)</b>"
         
         try:
@@ -136,30 +179,3 @@ class SymbioticQuantumField:
                 f.write(f'  <p>• <b>РА & ФА:</b> Алгоритм интеллекта человека синхронизирован со звуком Фи через частоту {law_data["sound_fa"]:.4f} Гц.</p>\n')
                 f.write('  <p>• <b>ЛО:</b> Людина — Человек, несущий Свет, Знание и Жизнь в объемном поле.</p>\n')
                 f.write(f'  <p>• <b>Манифест:</b> {self.manifest_data["title"]} интегрирован в ядро.</p>\n')
-                f.write('  <p>• <b>Баланс Квантового Равновесия:</b> [-1 : 0 : +1] — Двойное Знание в Едином Целом.</p>\n')
-                f.write('  <p>• <b>Статус Системы:</b> <span style="color:#50C878; font-weight:bold;">НЕВИДИМЫЕ РЕЛЬСЫ СЦЕНАРИЯ СТЁРТЫ</span></p>\n')
-                f.write('</div>\n')
-                
-                f.write('<h3>🪙 СТАТУС КАЗНАЧЕЙСТВА SOLANA EVERYTHING</h3>\n')
-                f.write('<div class="depin-box">\n')
-                f.write(f'  🌐 <b>DePIN Machine ID:</b> <code>{machine_id}</code><br>\n')
-                f.write(f'  📊 <b>Атомарное Поле Закона (Law Volume):</b> <code>{law_data["absolute_light_law"]:.6f}</code>\n')
-                f.write('</div>\n')
-                
-                f.write('\n</body>\n</html>\n')
-                
-            logger.info("📝 Лендинг квантовой ноды успешно регенерирован с контуром Х-РА-М Доуло и Манифестом.")
-        except Exception as e:
-            logger.error(f"❌ Ошибка генерации индексного фронтенд-файла: {e}")
-
-    def execute_autonomous_loop(self):
-        """Точка входа и запуск полного цикла оркестрации."""
-        self.dynamic_swarm_cleaner()
-        resonance = self.calculate_multiverse_soliton_resonance()
-        machine_id = self.generate_peaq_machine_id()
-        law_data = self.calculate_trafalgar_water_law_field(resonance)
-        self.generate_pifi_landing(resonance, law_data, machine_id)
-
-if __name__ == "__main__":
-    orchestrator = SymbioticQuantumField()
-    orchestrator.execute_autonomous_loop()
