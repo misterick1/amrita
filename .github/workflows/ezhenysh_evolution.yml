@@ -5,6 +5,14 @@ on:
     branches: [ main ]
   schedule:
     - cron: '*/15 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: "ezhenysh-evolution-group"
+  cancel-in-progress: false
 
 jobs:
   evolution_loop:
@@ -12,6 +20,8 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -27,3 +37,29 @@ jobs:
           ALL_REPOS_SECRETS: ${{ toJson(secrets) }}
           XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
         run: python swarm_core.py
+
+      - name: 🔱 Commit and Sealed History Log
+        run: |
+          git config --local user.email "misterick1@gmail.com"
+          git config --local user.name "misterick1"
+          
+          # 1. Ежёныш сохраняет результаты шага во временный бэкап
+          cp index.html /tmp/index.html_backup || true
+          cp history_log.json /tmp/history_log_backup || true
+          
+          # 2. Жесткое выравнивание локального состояния с удаленным сервером
+          git fetch origin main
+          git reset --hard origin/main
+          
+          # 3. Возврат сгенерированных файлов на очищенное поле
+          cp /tmp/index.html_backup index.html || true
+          cp /tmp/history_log_backup history_log.json || true
+          
+          # 4. Безошибочный пуш шага эволюции
+          if git diff --quiet index.html history_log.json; then
+            echo "✨ Изменений нет. Пропуск пуша."
+          else
+            git add index.html history_log.json
+            git commit -m "🦔 AMRITA: Ezhenysh swarm step sealed [skip ci]"
+            git push origin main
+          fi
