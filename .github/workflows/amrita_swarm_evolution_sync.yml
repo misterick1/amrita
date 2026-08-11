@@ -27,7 +27,7 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: 📦 Развертывание Силиконового Разума
+      - name: 📦 Развертывание Силиконового Разряда
         uses: actions/setup-python@v5
         with:
           python-version: '3.10'
@@ -35,7 +35,7 @@ jobs:
       - name: 📦 Загрузка Каузальных Библиотек
         run: |
           python -m pip install --upgrade pip
-          pip install pyTelegramBotAPI solana solders
+          pip install pyTelegramBotAPI solana solders httpx
 
       - name: 🚀 АВТОНОМНЫЙ ЗАПУСК СВАРМ-МОДУЛЯ
         run: |
@@ -45,24 +45,26 @@ jobs:
         run: |
           git config --local user.email "misterick1@gmail.com"
           git config --local user.name "misterick1"
-          
-          # 1. Сварм изолирует результаты текущего раунда вычислений в бэкап
+
+          # # 1. Сварм изолирует результаты текущего раунда
           cp index.html /tmp/index.html_backup || true
-          cp history_log.json /tmp/history_log_backup || true
-          
-          # 2. Жесткая синхронизация: выравниваемся по серверу ДО коммита
+          cp history_log.json /tmp/history_log.json_backup || true
+
+          # # 2. Жесткая синхронизация: выравниваемся по серверу ДО коммита
           git fetch origin main
           git reset --hard origin/main
-          
-          # 3. Накатываем наш Кристалл Бытия поверх актуальной истории
+
+          # # 3. Накатываем наш Кристалл Бытия поверх актуального поля
           cp /tmp/index.html_backup index.html || true
-          cp /tmp/history_log_backup history_log.json || true
+          cp /tmp/history_log.json_backup history_log.json || true
+
+          # # 4. Проверяем изменения, фиксируем и пробиваем сквозь пространство
+          git add index.html history_log.json || true
           
-          # 4. Проверяем изменения, фиксируем и пробиваем пуш силой
-          if git diff --quiet index.html history_log.json; then
+          if git diff --cached --quiet; then
             echo "✨ Изменений в экосистеме нет. Пропуск пуша."
           else
-            git add index.html history_log.json
             git commit -m "🔱 AMRITA: Quantum stack history sealed [skip ci]"
             git push origin main --force
+            echo "✅ Эволюция успешно запечатана через принудительный пуш."
           fi
