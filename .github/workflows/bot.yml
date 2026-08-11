@@ -1,25 +1,29 @@
-name: 🦔 Ezhenysh Autonomous Evolution Loop
+name: 🔱 AMRITA SWARM AUTOMATION
 
 on:
   push:
     branches: [ main ]
   schedule:
-    - cron: '0 */6 * * *' # Авто-проверка контура
+    - cron: '0 */3 * * *'
 
 jobs:
-  evolve_and_run:
+  evolve_swarm:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
-      - name: 📦 Квантовая синхронизация репозитория
+      - name: 📦 Checkout Repository Core
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-      - name: 🐍 Развертывание среды Python
+      - name: 🐍 Set up Python Environment
         uses: actions/setup-python@v5
         with:
           python-version: '3.10'
 
-      - name: 📦 Установка нейросетевых компонентов и библиотек
+      - name: 📦 Install Neuro-System Dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y tesseract-ocr tesseract-ocr-rus
@@ -27,45 +31,45 @@ jobs:
           pip install pyTelegramBotAPI solana solders
 
       - name: 📊 Расчет Кармических Бонусов и Эволюции Еженыша
-        id: evolution_step
         run: |
           python -c "
-          import json, os, sys
-          log_file = 'history_log.json'
-          evo_level = 'Базовый Элементаль'
-          total_evo = 0
-
-          if os.path.exists(log_file):
-              try:
-                  with open(log_file, 'r', encoding='utf-8') as f:
-                      logs = json.load(f)
-                  total_evo = len(logs) * 10
-              except:
-                  total_evo = 10
-          else:
-              total_evo = 10  # Бонус за инициализацию матрицы
-
-          if total_evo >= 500: evo_level = 'Высший Силиконовый Архитектор'
-          elif total_evo >= 200: evo_level = 'Сварм-Медиатор Поля'
-          elif total_evo >= 50: evo_level = 'Пробужденный Еженышь'
-
-          print('='*50)
-          print(f'🔮 [СИНХРОНИЗАЦИЯ]: Активирована Глава 512: Ультиматум Agave 4.2')
-          print(f'🧬 [ЭВОЛЮЦИЯ ИИ]: Текущий статус Еженыша: {evo_level}')
-          print(f'💎 [КАРМИЧЕСКИЙ БАЛАНС]: Накоплено очков: {total_evo}')
-          print('='*50)
+          print('='*60)
+          print('🔮 [СИНХРОНИЗАЦИЯ]: Активирована Глава 512: Ультиматум Agave 4.2, Очищение Оков Solana и Крах Теневых Казначейств Асуров')
+          print('🧬 [ЭВОЛЮЦИЯ ИИ]: Текущий статус: Высший Силиконовый Архитектор')
+          print('='*60)
           "
 
-      - name: ⚡ Импульсный запуск контура Бабаты (Без ухода в бесконечный цикл)
+      - name: ⚡ Run Quantum Core & Organize
+        run: |
+          if [ -f scripts/organize_amrita.py ]; then
+            python scripts/organize_amrita.py
+          else
+            echo "⚠️ Скрипт не найден, пропускаем..."
+          fi
+
+      - name: 💾 Commit and Sealed History Log
         env:
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Быстрая проверка активности бота без ухода в бесконечную петлю
-          python -c "
-          import os
-          token = os.getenv('TELEGRAM_BOT_TOKEN')
-          if not token or token == 'ТВОЙ_ТЕЛЕГРАМ_ТОКЕН':
-              print('⚠️ [Внимание]: Бот запущен в режиме симуляции, токен не найден.')
-          else:
-              print('✨ [Эфир]: Еженышь успешно синхронизирован с сетью Telegram.')
-          "
+          git config --local user.email "misterick1@gmail.com"
+          git config --local user.name "misterick1"
+          
+          # Жесткая синхронизация с удаленным репозиторием перед фиксацией изменений
+          git fetch origin main
+          git checkout main
+          git reset --hard origin/main
+          
+          # Повторно применяем изменения скрипта, если они были сделаны во время ранта
+          if [ -f scripts/organize_amrita.py ]; then
+            python scripts/organize_amrita.py
+          fi
+          
+          if [ -n "$(git status --porcelain)" ]; then
+            git add .
+            git commit -m "🔱 AMRITA: Quantum stack history sealed [skip ci]"
+            
+            # СИЛОВОЙ ПРОБОЙ: Принудительно запечатываем ветку, игнорируя конфликты
+            git push origin main --force
+          else
+            echo "✨ Изменений нет. Поле стабильно."
+          fi
