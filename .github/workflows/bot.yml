@@ -15,8 +15,6 @@ jobs:
     steps:
       - name: 📦 Checkout Repository Core
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: 🐍 Set up Python Environment
         uses: actions/setup-python@v5
@@ -44,32 +42,13 @@ jobs:
           if [ -f scripts/organize_amrita.py ]; then
             python scripts/organize_amrita.py
           else
-            echo "⚠️ Скрипт очистки не найден, пропускаем..."
+            echo "⚠️ Скрипт очистки не найден."
           fi
 
-      - name: 💾 Commit and Sealed History Log
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          git config --local user.email "misterick1@gmail.com"
-          git config --local user.name "misterick1"
-          
-          # Силовая синхронизация: сбрасываем локальное состояние до серверного, уничтожая зависшие конфликты
-          git fetch origin main
-          git checkout main
-          git reset --hard origin/main
-          
-          # Запускаем скрипт повторно, чтобы зафиксировать изменения на чистой копии
-          if [ -f scripts/organize_amrita.py ]; then
-            python scripts/organize_amrita.py
-          fi
-          
-          if [ -n "$(git status --porcelain)" ]; then
-            git add .
-            git commit -m "🔱 AMRITA: Chapter 514 and ENS Endowment sealed [skip ci]"
-            
-            # СИЛОВОЙ ПРОБОЙ: Принудительно заталкиваем коммит в GitHub, выжигая ошибку [rejected]
-            git push origin main --force
-          else
-            echo "✨ Изменений нет. Поле стабильно."
-          fi
+      # УЛЬТРА-ФИКС: Этот официальный робот берёт на себя коммит и пуш, полностью исключая ошибку [rejected]
+      - name: 💾 Автоматическое запечатывание логов на сервере
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "🔱 AMRITA: Chapter 514 and ENS Endowment sealed [skip ci]"
+          branch: main
+          push_options: '--force'
