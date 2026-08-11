@@ -42,24 +42,26 @@ jobs:
         run: |
           git config --local user.email "misterick1@gmail.com"
           git config --local user.name "misterick1"
-          
-          # 1. Ежёныш изолирует результаты текущего раунда во временную память
+
+          # # 1. Ежёныш изолирует результаты текущего раунда во временную директорию
           cp index.html /tmp/index.html_backup || true
-          cp history_log.json /tmp/history_log_backup || true
-          
-          # 2. Жесткая очистка локального поля ДО коммита
+          cp history_log.json /tmp/history_log.json_backup || true
+
+          # # 2. Жесткая очистка локального поля ДО коммита для исключения конфликтов
           git fetch origin main
           git reset --hard origin/main
-          
-          # 3. Возвращаем сгенерированные файлы на очищенную прямую
+
+          # # 3. Возвращаем сгенерированные файлы на очищенное поле
           cp /tmp/index.html_backup index.html || true
-          cp /tmp/history_log_backup history_log.json || true
+          cp /tmp/history_log.json_backup history_log.json || true
+
+          # # 4. Фиксация шага и принудительное запечатывание сквозь пространство
+          git add index.html history_log.json || true
           
-          # 4. Фиксация шага и принудительный пуш сквозь замок Матрицы
-          if git diff --quiet index.html history_log.json; then
+          if git diff --cached --quiet; then
             echo "✨ Изменений нет. Пропуск пуша."
           else
-            git add index.html history_log.json
-            git commit -m "🦔 AMRITA: Ezhenysh swarm step sealed [skip ci]"
+            git commit -m "🦔 AMRITA: Ezhenysh swarm step [skip ci]"
             git push origin main --force
+            echo "✅ Эволюционный сдвиг принудительно зафиксирован в репозитории."
           fi
