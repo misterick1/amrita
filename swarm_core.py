@@ -21,7 +21,7 @@ def execute_108d_read_write(fast_quantum_sonyc=True):
             "Dim_Minus_1": {
                 "state": quantum_state_base,
                 "vector": wave_factor * float('-1.0'),
-                "property": "Хаос / Сжатие / Пассивная Darkness"
+                "property": "Хаос / Сжатие / Пассивная Темнота"
             },
             "Dim_Zero": {
                 "state": quantum_state_base,
@@ -31,7 +31,7 @@ def execute_108d_read_write(fast_quantum_sonyc=True):
             "Dim_Plus_1": {
                 "state": quantum_state_base,
                 "vector": wave_factor * float('1.0'),
-                "property": "Эволюция / Расширение / Active Light"
+                "property": "Эволюция / Расширение / Активный Свет"
             }
         }
         quantum_multiverse_map[f"Axis_{axis:03d}"] = {
@@ -105,7 +105,7 @@ async def check_peaq_depin_status(secrets_dict=None):
         peaq_node = secrets_dict.get("PEAQ_ENDPOINT_URL")
         
     if not peaq_node:
-        print("[PEAQ CORE] Точка подключения PEAQ отсутствует. Автономный режим.")
+        print("[PEAQ CORE] Точка подключения PEAQ отсутствует. Переход в автономный режим.")
         return {"status": "Disconnected", "info": "No endpoint found"}
 
     async with httpx.AsyncClient() as client:
@@ -162,7 +162,7 @@ async def send_telegram_report(text, secrets_dict=None):
             return False
 
 # ==============================================================================
-# ГЛАВНЫЙ ИСПОЛНИТЕЛЬНЫЙ ЦИКЛ РОЯ (ИСПРАВЛЕННЫЙ)
+# ГЛАВНЫЙ ИСПОЛНИТЕЛЬНЫЙ ЦИКЛ РОЯ (ИСПРАВЛЕННЫЙ И СБАЛАНСИРОВАННЫЙ)
 # ==============================================================================
 async def start_alex_quantum_core():
     print("🔮 [AlLeX CORE] Ежёныш-Рысёныш активирован в каузальном поле.")
@@ -180,7 +180,7 @@ async def start_alex_quantum_core():
             rpc_url = secrets_dict.get("SOLANA_RPC_QUICKNODE", rpc_url)
             mint_address = secrets_dict.get("MINT_ADDRESS", mint_address)
         except Exception as e:
-            print(f"⚠️ [AlLeX CORE] Ошибка секретов: {e}. Координаты по умолчанию.")
+            print(f"⚠️ [AlLeX CORE] Ошибка парсинга секретов: {e}. Координаты по умолчанию.")
 
     print("⚡ [AlLeX CORE] Синхронизация внешних децентрализованных сетей...")
     try:
@@ -189,7 +189,7 @@ async def start_alex_quantum_core():
             scan_pump_fun_incubator()
         )
     except Exception as e:
-        print(f"💥 [AlLeX CORE] Сбой сканирования сетей: {e}")
+        print(f"💥 [AlLeX CORE] Критический сбой параллельного сканирования сетей: {e}")
         peaq_status, pump_chaos = {"status": "Error"}, {"status": "Simulated_Chaos"}
 
     field_data = execute_108d_read_write()
@@ -215,13 +215,11 @@ async def start_alex_quantum_core():
     try:
         async with AsyncClient(rpc_url) as solana_client:
             telemetry["solana_connected"] = await solana_client.is_connected()
-            print(f"🌐 [SOLANA RPC] Статус подключения: {telemetry['solana_connected']}")
+            print(f"🌐 [SOLANA RPC] Статус подключения к мейннету: {telemetry['solana_connected']}")
     except Exception as e:
-        print(f"❌ [SOLANA RPC] Ошибка соединения: {e}")
+        print(f"❌ [SOLANA RPC] Не удалось подключиться к ноде: {e}")
         telemetry["solana_connected"] = False
 
     xai_key = os.getenv("XAI_API_KEY") or secrets_dict.get("XAI_API_KEY")
-    print(f"🧠 [xAI Grok] Нейросетевой чип NVIDIA: {'АКТИВЕН' if xai_key else 'АВТОНОМНЫЙ РЕЖИМ'}")
+    print(f"🧠 [xAI Grok] Нейросетевой контур на чипах NVIDIA: {'АКТИВЕН' if xai_key else 'АВТОНОМНЫЙ РЕЖИМ'}")
     
-    # Фиксация многострочного отчета (Все скобки гарантированно закрыты)
-    final_report = (
