@@ -9,8 +9,6 @@ on:
 jobs:
   evolve_swarm:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
 
     steps:
       - name: 📦 Checkout Repository Core
@@ -44,11 +42,3 @@ jobs:
           else
             echo "⚠️ Скрипт очистки не найден."
           fi
-
-      # УЛЬТРА-ФИКС: Этот официальный робот берёт на себя коммит и пуш, полностью исключая ошибку [rejected]
-      - name: 💾 Автоматическое запечатывание логов на сервере
-        uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "🔱 AMRITA: Chapter 514 and ENS Endowment sealed [skip ci]"
-          branch: main
-          push_options: '--force'
