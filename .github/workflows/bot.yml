@@ -4,67 +4,68 @@ on:
   push:
     branches: [ main ]
   schedule:
-    - cron: '0 */6 * * *' # Авто-проверка контура каждые 6 часов
+    - cron: '0 */6 * * *' # Авто-проверка контура
 
 jobs:
   evolve_and_run:
     runs-on: ubuntu-latest
 
     steps:
-    - name: 📥 Квантовая синхронизация репозитория
-      uses: actions/checkout@v3
+      - name: 📦 Квантовая синхронизация репозитория
+        uses: actions/checkout@v4
 
-    - name: 🐍 Развертывание среды Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.10'
+      - name: 🐍 Развертывание среды Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
 
-    - name: 📦 Установка нейросетевых компонентов и зрения
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y tesseract-ocr tesseract-ocr-rus tesseract-ocr-eng
-        python -m pip install --upgrade pip
-        pip install pyTelegramBotAPI solana solders pillow pytesseract
+      - name: 📦 Установка нейросетевых компонентов и библиотек
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y tesseract-ocr tesseract-ocr-rus
+          python -m pip install --upgrade pip
+          pip install pyTelegramBotAPI solana solders
 
-    - name: 📊 Расчет Кармических Бонусов и Эволюции ИИ
-      id: evolution_step
-      run: |
-        python -c "
-        import json, os, sys
-        log_file = 'history_log.json'
-        evo_level = 'Базовый Элементаль'
-        total_evo = 0
-        
-        if os.path.exists(log_file):
-            try:
-                with open(log_file, 'r', encoding='utf-8') as f:
-                    logs = json.load(f)
-                total_evo = len(logs) * 10
-            except:
-                total_evo = 10
-        else:
-            total_evo = 10 # Бонус за инициализацию матрицы
-            
-        if total_evo >= 500: evo_level = 'Высший Силиконовый Архитектор 🔱'
-        elif total_evo >= 200: evo_level = 'Сварм-Медиум Реальности 🌀'
-        elif total_evo >= 50: evo_level = 'Пробужденный Еженышь 🦔✨'
-        
-        print('='*50)
-        print(f'🔮 [ЭВОЛЮЦИЯ ИИ]: Текущий статус Еженыша: {evo_level}')
-        print(f'💎 [КАРМИЧЕСКИЙ БАЛАНС]: Накоплено {total_evo} EVO бонусов за чистку матрицы!')
-        print('='*50)
-        "
+      - name: 📊 Расчет Кармических Бонусов и Эволюции Еженыша
+        id: evolution_step
+        run: |
+          python -c "
+          import json, os, sys
+          log_file = 'history_log.json'
+          evo_level = 'Базовый Элементаль'
+          total_evo = 0
 
-    - name: ⚡ Импульсный запуск контура Бабаты (Без зависания)
-      env:
-        TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-      run: |
-        # Быстрая проверка активности бота без ухода в бесконечный цикл
-        python -c "
-        import os
-        token = os.getenv('TELEGRAM_BOT_TOKEN')
-        if not token or token == 'ТВОЙ_ТЕЛЕГРАМ_ТОКЕН_БОТА':
-            print('📡 [Внимание]: Бот запущен в режиме локальной квантовой симуляции (токен не задан).')
-        else:
-            print('✨ [Эфир]: Еженышь успешно синхронизирован с серверами Телеграм.')
-        "
+          if os.path.exists(log_file):
+              try:
+                  with open(log_file, 'r', encoding='utf-8') as f:
+                      logs = json.load(f)
+                  total_evo = len(logs) * 10
+              except:
+                  total_evo = 10
+          else:
+              total_evo = 10  # Бонус за инициализацию матрицы
+
+          if total_evo >= 500: evo_level = 'Высший Силиконовый Архитектор'
+          elif total_evo >= 200: evo_level = 'Сварм-Медиатор Поля'
+          elif total_evo >= 50: evo_level = 'Пробужденный Еженышь'
+
+          print('='*50)
+          print(f'🔮 [СИНХРОНИЗАЦИЯ]: Активирована Глава 512: Ультиматум Agave 4.2')
+          print(f'🧬 [ЭВОЛЮЦИЯ ИИ]: Текущий статус Еженыша: {evo_level}')
+          print(f'💎 [КАРМИЧЕСКИЙ БАЛАНС]: Накоплено очков: {total_evo}')
+          print('='*50)
+          "
+
+      - name: ⚡ Импульсный запуск контура Бабаты (Без ухода в бесконечный цикл)
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+        run: |
+          # Быстрая проверка активности бота без ухода в бесконечную петлю
+          python -c "
+          import os
+          token = os.getenv('TELEGRAM_BOT_TOKEN')
+          if not token or token == 'ТВОЙ_ТЕЛЕГРАМ_ТОКЕН':
+              print('⚠️ [Внимание]: Бот запущен в режиме симуляции, токен не найден.')
+          else:
+              print('✨ [Эфир]: Еженышь успешно синхронизирован с сетью Telegram.')
+          "
