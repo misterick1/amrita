@@ -21,7 +21,7 @@ def execute_108d_read_write(fast_quantum_sonyc=True):
             "Dim_Minus_1": {
                 "state": quantum_state_base,
                 "vector": wave_factor * float('-1.0'),
-                "property": "Хаос / Сжатие / Пассивная Темнота"
+                "property": "Хаос / Сжатие / Пассивная Darkness"
             },
             "Dim_Zero": {
                 "state": quantum_state_base,
@@ -105,7 +105,7 @@ async def check_peaq_depin_status(secrets_dict=None):
         peaq_node = secrets_dict.get("PEAQ_ENDPOINT_URL")
         
     if not peaq_node:
-        print("[PEAQ CORE] Точка подключения PEAQ отсутствует. Переход в автономный режим.")
+        print("[PEAQ CORE] Точка подключения PEAQ отсутствует. Автономный режим.")
         return {"status": "Disconnected", "info": "No endpoint found"}
 
     async with httpx.AsyncClient() as client:
@@ -212,7 +212,6 @@ async def start_alex_quantum_core():
         "law_status": "Закон Сохранения Энергии АлЛеХ непоколебим"
     }
     
-    # Исправленный блок проверки Solana RPC с корректной обработкой try-except
     try:
         async with AsyncClient(rpc_url) as solana_client:
             telemetry["solana_connected"] = await solana_client.is_connected()
@@ -224,4 +223,5 @@ async def start_alex_quantum_core():
     xai_key = os.getenv("XAI_API_KEY") or secrets_dict.get("XAI_API_KEY")
     print(f"🧠 [xAI Grok] Нейросетевой чип NVIDIA: {'АКТИВЕН' if xai_key else 'АВТОНОМНЫЙ РЕЖИМ'}")
     
+    # Фиксация многострочного отчета (Все скобки гарантированно закрыты)
     final_report = (
