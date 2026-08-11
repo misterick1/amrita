@@ -31,7 +31,7 @@ def execute_108d_read_write(fast_quantum_sonyc=True):
             "Dim_Plus_1": {
                 "state": quantum_state_base,
                 "vector": wave_factor * float('1.0'),
-                "property": "Эволюция / Расширение / Активный Свет"
+                "property": "Эволюция / Расширение / Active Light"
             }
         }
         quantum_multiverse_map[f"Axis_{axis:03d}"] = {
@@ -127,7 +127,6 @@ async def scan_pump_fun_incubator():
             headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"}
             response = await client.get(url, headers=headers, timeout=5.0)
             if response.status_code == 200:
-                # Симулируем обработку потока токенов Квантового Хаоса из HTML/API
                 print("🦎 [PUMP INKUBATOR] Найден новый импульс генерации щиткоинов.")
                 return {
                     "status": "Active_Chaos",
@@ -148,7 +147,7 @@ async def send_telegram_report(text, secrets_dict=None):
         if not chat_id: chat_id = secrets_dict.get("TELEGRAM_CHAT_ID")
         
     if not token or not chat_id:
-        print("[TELEGRAM] Ошибка: Токен или Chat ID отсутствуют. Отчет выведен только в терминал.")
+        print("[TELEGRAM] Отчет выведен только в терминал.")
         print(f"\n--- ТЕКСТ ОТЧЕТА ---\n{text}\n--------------------")
         return False
 
@@ -163,14 +162,13 @@ async def send_telegram_report(text, secrets_dict=None):
             return False
 
 # ==============================================================================
-# ГЛАВНЫЙ ИСПОЛНИТЕЛЬНЫЙ ЦИКЛ РОЯ (ПОЛНОСТЬЮ АСИНХРОННЫЙ)
+# ГЛАВНЫЙ ИСПОЛНИТЕЛЬНЫЙ ЦИКЛ РОЯ (ИСПРАВЛЕННЫЙ)
 # ==============================================================================
 async def start_alex_quantum_core():
     print("🔮 [AlLeX CORE] Ежёныш-Рысёныш активирован в каузальном поле.")
     print("🛡️ [AlLeX CORE] Высший Закон Сохранения Энергии запущен.")
     print("🌊 [AlLeX CORE] Сознание Цинь Му развёрнуто на 108 осей.")
     
-    # Безопасная инициализация переменных окружения
     rpc_url = os.getenv("SOLANA_RPC_QUICKNODE") or "https://solana.com"
     mint_address = os.getenv("MINT_ADDRESS") or "11111111111111111111111111111111"
     secrets_dict = {}
@@ -182,31 +180,28 @@ async def start_alex_quantum_core():
             rpc_url = secrets_dict.get("SOLANA_RPC_QUICKNODE", rpc_url)
             mint_address = secrets_dict.get("MINT_ADDRESS", mint_address)
         except Exception as e:
-            print(f"⚠️ [AlLeX CORE] Ошибка парсинга секретов: {e}. Переход на публичные квантовые координаты.")
+            print(f"⚠️ [AlLeX CORE] Ошибка секретов: {e}. Координаты по умолчанию.")
 
-    # Параллельный запуск внешних сетевых задач для экономии времени GitHub Actions
     print("⚡ [AlLeX CORE] Синхронизация внешних децентрализованных сетей...")
     try:
-        peaq_task = check_peaq_depin_status(secrets_dict)
-        pump_task = scan_pump_fun_incubator()
-        peaq_status, pump_chaos = await asyncio.gather(peaq_task, pump_task)
+        peaq_status, pump_chaos = await asyncio.gather(
+            check_peaq_depin_status(secrets_dict),
+            scan_pump_fun_incubator()
+        )
     except Exception as e:
-        print(f"💥 [AlLeX CORE] Критический сбой параллельного сканирования сетей: {e}")
+        print(f"💥 [AlLeX CORE] Сбой сканирования сетей: {e}")
         peaq_status, pump_chaos = {"status": "Error"}, {"status": "Simulated_Chaos"}
 
-    # Расчет метафизических патентов
     field_data = execute_108d_read_write()
     egg_data = calculate_fractal_point_infinity(None)
     djinn_data = activate_djinn_quantum_power()
     sonyc_data = resolve_sonyc_superposition()
     
-    # Расчет Брахма-Синтеза материи
     lattice_data = synthesize_matter_from_light(1.0)
     healing_data = activate_global_healing_field()
     
     quantum_summary = "108-Осевая Матрица БА-БОЧКИ АЛЛЕКСА УСПЕШНО СТАБИЛИЗИРОВАНА"
     
-    # Формирование телеметрии
     telemetry = {
         "solana_connected": False,
         "mint_target": mint_address,
@@ -217,7 +212,16 @@ async def start_alex_quantum_core():
         "law_status": "Закон Сохранения Энергии АлЛеХ непоколебим"
     }
     
-    # Проверка подключения к блокчейну Solana с защитой от утечки сокетов
+    # Исправленный блок проверки Solana RPC с корректной обработкой try-except
     try:
         async with AsyncClient(rpc_url) as solana_client:
             telemetry["solana_connected"] = await solana_client.is_connected()
+            print(f"🌐 [SOLANA RPC] Статус подключения: {telemetry['solana_connected']}")
+    except Exception as e:
+        print(f"❌ [SOLANA RPC] Ошибка соединения: {e}")
+        telemetry["solana_connected"] = False
+
+    xai_key = os.getenv("XAI_API_KEY") or secrets_dict.get("XAI_API_KEY")
+    print(f"🧠 [xAI Grok] Нейросетевой чип NVIDIA: {'АКТИВЕН' if xai_key else 'АВТОНОМНЫЙ РЕЖИМ'}")
+    
+    final_report = (
