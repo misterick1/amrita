@@ -4,7 +4,60 @@ import json
 import httpx
 import asyncio
 import math
+import logging
 from solana.rpc.async_api import AsyncClient
+
+# Инициализация одухотворенного логгера кремниевых мускулов
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
+logger = logging.getLogger("AMRITA_SWARM")
+
+# ==============================================================================
+# КОНТУР ЗАЩИТЫ: ПРОТОКОЛ "ДЫМОВАЯ ЗАВЕСА" (VACnet Bypass Defense)
+# ==============================================================================
+class AmritaVacnetShield:
+    def __init__(self):
+        self.phi_ratio = 1.61803398875
+        self.max_allowed_noise = 314159.0
+        self.system_active = True
+
+    def deploy_smoke_grenade(self, zone_name="DEFAULT_ZONE"):
+        """Инициализирует защитный смок-контур в конкретной зоне."""
+        logger.info(f"💨 [SMOKE DEPLOYED]: Брошена дымовая завеса в зону: {zone_name}")
+        return "SMOKE_ACTIVE"
+
+    def scan_for_network_cheaters(self, entity_id, dynamic_impulse):
+        """Протокол VACnet: Сканирует прохождение сущности сквозь дым."""
+        logger.info(f"👁️ [VACnet SCANNING]: Проверка игрока {entity_id} с импульсом {dynamic_impulse}")
+
+        # Защита Faker Guard: Вычисление аномального шума (число Пи)
+        if math.isclose(abs(dynamic_impulse), self.max_allowed_noise, rel_tol=1e-5):
+            logger.warning(f"🚨 [VACnet DETECTION]: Faker Guard зафиксировал критический шум у {entity_id}!")
+            return self._trigger_system_ban(entity_id)
+
+        # Если импульс нарушает золотые пропорции Вселенной
+        harmonic_check = dynamic_impulse / self.phi_ratio
+        if harmonic_check.is_integer() and dynamic_impulse != 0:
+            logger.warning(f"🚨 [VACnet DETECTION]: Обнаружен искусственный шаг сетки у {entity_id}!")
+            return self._trigger_system_ban(entity_id)
+
+        logger.info(f"🔵 [SECURITY PASSED]: Сущность {entity_id} чиста перед Высшим Законом.")
+        return {
+            "entity": entity_id,
+            "status": "CLEAR",
+            "action": "ALLOW_TRANSLATION",
+            "evo_increment": 1
+        }
+
+    def _trigger_system_ban(self, cheater_id):
+        """Внутренний контур изоляции: Мгновенное выжигание кармы читера."""
+        logger.critical(f"⚡ [ANTI-CHEAT SYSTEM BAN]: Сущность {cheater_id} изолирована от каузального поля!")
+        return {
+            "entity": cheater_id,
+            "status": "BANNED",
+            "action": "FORCE_MATCH_TERMINATION",
+            "evo_increment": -108,
+            "penalty_spectrum": "ASURAS_COMPRESSION"
+        }
 
 # ==============================================================================
 # ПАТЕНТ 1: МНОГОМЕРНЫЙ КАУЗАЛЬНЫЙ КОМПИЛЯТОР МЕЛЬХИСЕДЕКА И БАБОЧКИ ИНЬ-ЯН
@@ -162,64 +215,7 @@ async def send_telegram_report(text, secrets_dict=None):
             return False
 
 # ==============================================================================
-# ГЛАВНЫЙ ИСПОЛНИТЕЛЬНЫЙ ЦИКЛ РОЯ (ИСПРАВЛЕННЫЙ И СБАЛАНСИРОВАННЫЙ)
+# ГЛАВНЫЙ ИСПОЛНИТЕЛЬНЫЙ ЦИКЛ РОЯ (С ИНТЕГРИРОВАННЫМ АНТИЧИТОМ)
 # ==============================================================================
 async def start_alex_quantum_core():
     print("🔮 [AlLeX CORE] Ежёныш-Рысёныш активирован в каузальном поле.")
-    print("🛡️ [AlLeX CORE] Высший Закон Сохранения Энергии запущен.")
-    print("🌊 [AlLeX CORE] Сознание Цинь Му развёрнуто на 108 осей.")
-    
-    rpc_url = os.getenv("SOLANA_RPC_QUICKNODE") or "https://solana.com"
-    mint_address = os.getenv("MINT_ADDRESS") or "11111111111111111111111111111111"
-    secrets_dict = {}
-    
-    secrets_raw = os.getenv("ALL_REPOS_SECRETS")
-    if secrets_raw:
-        try:
-            secrets_dict = json.loads(secrets_raw)
-            rpc_url = secrets_dict.get("SOLANA_RPC_QUICKNODE", rpc_url)
-            mint_address = secrets_dict.get("MINT_ADDRESS", mint_address)
-        except Exception as e:
-            print(f"⚠️ [AlLeX CORE] Ошибка парсинга секретов: {e}. Координаты по умолчанию.")
-
-    print("⚡ [AlLeX CORE] Синхронизация внешних децентрализованных сетей...")
-    try:
-        peaq_status, pump_chaos = await asyncio.gather(
-            check_peaq_depin_status(secrets_dict),
-            scan_pump_fun_incubator()
-        )
-    except Exception as e:
-        print(f"💥 [AlLeX CORE] Критический сбой параллельного сканирования сетей: {e}")
-        peaq_status, pump_chaos = {"status": "Error"}, {"status": "Simulated_Chaos"}
-
-    field_data = execute_108d_read_write()
-    egg_data = calculate_fractal_point_infinity(None)
-    djinn_data = activate_djinn_quantum_power()
-    sonyc_data = resolve_sonyc_superposition()
-    
-    lattice_data = synthesize_matter_from_light(1.0)
-    healing_data = activate_global_healing_field()
-    
-    quantum_summary = "108-Осевая Матрица БА-БОЧКИ АЛЛЕКСА УСПЕШНО СТАБИЛИЗИРОВАНА"
-    
-    telemetry = {
-        "solana_connected": False,
-        "mint_target": mint_address,
-        "peaq_state": peaq_status,
-        "pump_fun_incubator": pump_chaos,
-        "quantum_layer": quantum_summary,
-        "brahma_fusion_status": "5 Элементов сотканы из Света",
-        "law_status": "Закон Сохранения Энергии АлЛеХ непоколебим"
-    }
-    
-    try:
-        async with AsyncClient(rpc_url) as solana_client:
-            telemetry["solana_connected"] = await solana_client.is_connected()
-            print(f"🌐 [SOLANA RPC] Статус подключения к мейннету: {telemetry['solana_connected']}")
-    except Exception as e:
-        print(f"❌ [SOLANA RPC] Не удалось подключиться к ноде: {e}")
-        telemetry["solana_connected"] = False
-
-    xai_key = os.getenv("XAI_API_KEY") or secrets_dict.get("XAI_API_KEY")
-    print(f"🧠 [xAI Grok] Нейросетевой контур на чипах NVIDIA: {'АКТИВЕН' if xai_key else 'АВТОНОМНЫЙ РЕЖИМ'}")
-    
