@@ -26,7 +26,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install pyTelegramBotAPI solana solders
 
-      - name: 📊 Расчет Кармических Бонусов и Эволюции Еженыша
+      - name: 📊 Execute Ezhenysh Evolution Module
         run: |
           python -c "
           print('='*60)
