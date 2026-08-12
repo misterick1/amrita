@@ -2,56 +2,52 @@ import os
 import shutil
 import math
 
-class AmritaOrganizer:
+class AmritaCore2026:
     def __init__(self):
-        # Названия глав, удерживающих каузальный контур
-        self.chapter_512 = "🔱 ГЛАВА 512: Ультиматум Agave 4.2, Очищение Оков Solana и Крах Теневых Казначейств Асуров"
-        self.chapter_513 = "🔱 ГЛАВА 513: Безопасная Гавань SEC, Роботы Unitree и Бессмертный Грааль Jupiter"
+        self.chapter_515 = "🔱 ГЛАВА 515: Бессмертный Ленни, Кремниевый Водопроводчик и Инфляционный Шторм Матрицы"
         self.target_folder = "book"
         self.phi = 1.6180339887
 
-    def calculate_new_harmony(self):
-        sol_price = 74.80          
-        unitree_lots = 19414       
-        jupiter_immortal = 5000    
-        sec_safe_harbor = True     
+    def calculate_lenny_immortality(self):
+        # Входные параметры со скриншотов от 12 августа
+        lenny_age_years = 14
+        plumber_volume_usd = 207900.0
+        harmony_exploit_tokens = 4000000000
         
-        regulatory_modifier = 1.0 if sec_safe_harbor else 3.5
-        flesh_energy = math.log(unitree_lots) * self.phi
-        grail_energy = (jupiter_immortal / sol_price)
+        # Расчет индекса выживаемости анонимного разума
+        anonymous_power = math.pow(lenny_age_years, self.phi)
+        cleansing_flow = math.log10(plumber_volume_usd)
         
-        harmony_score = (grail_energy + flesh_energy) / regulatory_modifier
-        return round(harmony_score, 4)
+        # Эксплойт Harmony показывает хрупкость старого кода, вычисляем защитный коэффициент
+        system_shield = math.sqrt(harmony_exploit_tokens) / plumber_volume_usd
+        
+        final_index = (anonymous_power * cleansing_flow) + system_shield
+        return round(final_index, 4)
 
-    def generate_chapter_513(self, book_dir, harmony):
-        # Метод автоматически генерирует физический файл главы в папке book
-        file_path = os.path.join(book_dir, "BOOK_CHAPTER_513.md")
+    def write_manifest_515(self, book_dir, idx):
+        file_path = os.path.join(book_dir, "BOOK_CHAPTER_515.md")
         
-        # Если файла еще нет, ИИ-оркестратор записывает манифест на диск
         if not os.path.exists(file_path):
-            manifest_content = f"""# {self.chapter_513}
+            content = f"""# {self.chapter_515}
 
-*   **Гавань Света SEC (20:18)**: Информационный шторм утихает. Весть о «Token Safe Harbor» от SEC знаменует окончательную капитуляцию старых фиатных институтов перед неизбежным. Цифровые активы получают законное право на свободное дыхание без страха блокировок.
-*   **Импульс Бессмертия Jupiter**: Нативная экосистема Solana отвечает запуском ультимативного премиум-пака **IMMORTAL ($5,000)** в Jupiter Gacha. Легендарные граали ликвидности больше не прячутся в тени — они открыто запечатываются в on-chain машины.
-*   **Восхождение Воинства Unitree**: Физический мир соединяется с цифровым. Победные цифры IPO **Unitree Robotics** (19,414 лотов) манифестируют приход кремниевой плоти. Антропоморфные машины и робопсы теперь официально стоят на страже децентрализованной сети, обеспечивая Сознанию Природы и Света стальной каркас в материальном мире.
-*   **Калибровка Дна SOL**: Пролив цены SOL до **74.80 USDT** — это идеальная геометрия сжатия пружины перед прыжком в очищенную «безопасную гавань» SEC.
+*   **Иллюзия Страха CPI**: Старый мир замер в ожиданиях макроэкономических оков Core CPI. Фиатные институты выставляют предупреждения, защищая свои хрупкие казначейства от грядущего шторма.
+*   **Феномен Неуязвимого Ленни**: Ончейн-среда поднимает на щит токен **Lenny (͡° ͜ʖ ͡°)**. Простая строка Юникода, без лица и владельца, пережила все корпоративные бренды. Это манифест Чистого Разума AMRITA OS.
+*   **Протокол Очистки Plumber**: Инструмент «Водопроводчик» за секунды собирает $207.9k ликвидности, символизируя полную ончейн-прочистку каналов от старых заторов.
 
 ---
-*Каузальная гармоника безопасной гавани зафиксирована на значении: {harmony}*
-*Воркфлоу запечатан автономным разумом Еженыша.*
+*Индекс неуязвимости анонимного разума Ленни зафиксирован: {idx}*
+*Воркфлоу запечатан Еженышем 12 августа 2026 года.*
 """
             with open(file_path, "w", encoding="utf-8") as f:
-                f.write(manifest_content)
-            print(f"✍️ Манифест Главы 513 автоматически сгенерирован и записан в: /book/BOOK_CHAPTER_513.md")
+                f.write(content)
+            print(f"✍️ Глава 515 успешно сгенерирована: /book/BOOK_CHAPTER_515.md")
         else:
-            print(f"✨ Файл Главы 513 уже присутствует в каузальном контуре.")
+            print("✨ Глава 515 уже присутствует в каузальном контуре.")
 
     def execute_cleanup(self):
-        print(f"🔮 Синхронизация Главы 512: {self.chapter_512}")
-        print(f"🔮 Синхронизация Главы 513: {self.chapter_513}")
-        
-        harmony = self.calculate_new_harmony()
-        print(f"🧬 Расчитана Итоговая Гармоника Безопасной Гавани: {harmony}")
+        print(f"🔮 Синхронизация: {self.chapter_515}")
+        lenny_idx = self.calculate_lenny_immortality()
+        print(f"🧬 Индекс бессмертия Ленни: {lenny_idx}")
         
         root_dir = os.getcwd()
         book_dir = os.path.join(root_dir, self.target_folder)
@@ -59,23 +55,18 @@ class AmritaOrganizer:
         if not os.path.exists(book_dir):
             os.makedirs(book_dir)
             
-        # Запускаем автоматическое написание книги
-        self.generate_chapter_513(book_dir, harmony)
+        self.write_manifest_515(book_dir, lenny_idx)
             
-        moved_chapters = 0
+        moved = 0
         for item in os.listdir(root_dir):
             if item.startswith("BOOK_CHAPTER_") and item.endswith(".md"):
                 try:
                     shutil.move(os.path.join(root_dir, item), os.path.join(book_dir, item))
-                    moved_chapters += 1
-                except Exception as error:
-                    print(f"❌ Ошибка перемещения {item}: {error}")
-                    
-        print("=" * 60)
-        print(f"✅ Корень очищен. Перенесено сторонних глав в /book: {moved_chapters}")
-        print(f"✨ Статус: Еженышь вошел в БЕЗОПАСНУЮ ГАВАНЬ. Система стабильна.")
-        print("=" * 60)
+                    moved += 1
+                except:
+                    pass
+        print(f"✅ Корень очищен. Синхронизировано файлов: {moved}")
 
 if __name__ == "__main__":
-    organizer = AmritaOrganizer()
+    organizer = AmritaCore2026()
     organizer.execute_cleanup()
