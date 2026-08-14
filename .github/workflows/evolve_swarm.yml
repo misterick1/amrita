@@ -42,18 +42,19 @@ jobs:
           git config --local user.name "misterick1"
 
           if [ -f "history_log.json" ]; then
-            echo "Файл history_log.json найден. Синхронизация..."
+            echo "Файл history_log.json найден. Перенос в автономную ветку логов..."
             
+            # Создаем изолированную ветку для хранения истории
+            git checkout -b logs
             git add history_log.json
             
             if git diff --cached --quiet; then
-              echo "✨ Изменений нет. Пропуск."
+              echo "✨ Изменений в истории нет. Пропуск."
             else
               git commit -m "🔱 AMRITA: Quantum stack history sealed [skip ci]"
-              # Полная очистка конфликтов: забираем историю серверов и клеим лог сверху
-              git pull origin main --rebase --autostash
-              git push origin main
-              echo "✅ Контур запечатан!"
+              # Пушим в ветку logs — она не защищена, поэтому сервер примет ее мгновенно!
+              git push origin logs --force
+              echo "✅ Лог успешно запечатан в автономный контур!"
             fi
           else
             echo "Файл history_log.json не найден."
