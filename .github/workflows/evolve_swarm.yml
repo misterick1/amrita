@@ -42,7 +42,7 @@ jobs:
           git config --local user.name "misterick1"
 
           if [ -f "history_log.json" ]; then
-            echo "Файл history_log.json найден. Синхронизация через Pull-Rebase..."
+            echo "Файл history_log.json найден. Синхронизация..."
             
             git add history_log.json
             
@@ -50,10 +50,10 @@ jobs:
               echo "✨ Изменений нет. Пропуск."
             else
               git commit -m "🔱 AMRITA: Quantum stack history sealed [skip ci]"
-              # Забираем изменения серверов и плавно склеиваем историю в один поток
+              # Полная очистка конфликтов: забираем историю серверов и клеим лог сверху
               git pull origin main --rebase --autostash
               git push origin main
-              echo "✅ Контур успешно синхронизирован!"
+              echo "✅ Контур запечатан!"
             fi
           else
             echo "Файл history_log.json не найден."
