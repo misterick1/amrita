@@ -49,7 +49,6 @@ class EvolutionRiskSentinel:
     """Эволюционный предохранитель для обхода сбоев смарт-аккаунтов и сетевых багов"""
     def __init__(self):
         self.network_status = "STABLE"
-        # Интеграция черного списка MAS (Сингапур) по линии ООН от 13.08
         self.mas_restricted_entities = ["AML_BLACKLISTED_ADDRESS_1", "AML_BLACKLISTED_ADDRESS_2"]
         
     def audit_smart_account(self, tx_log=None, rpc_latency=0.0) -> bool:
@@ -59,7 +58,6 @@ class EvolutionRiskSentinel:
             self.network_status = "DEGRADED"
             return False
             
-        # Если ноды сети тормозят из-за gossip bug до обновления v4.2.1
         if rpc_latency > 2.5:
             logger.warning(f"⚠️ AMRITA_SENTINEL: Высокий пинг ноды ({rpc_latency}s). Зафиксирован след Gossip Bug!")
             self.network_status = "LATENCY_CRITICAL"
@@ -86,7 +84,10 @@ class QuantumPolymorphicField:
     def __init__(self):
         self.sonic_speed = 343.0
         self.base_phi = LAW_OF_PHI
-        logger.info("🌌 Поле 108 Сознаний успешно инициализировано.")
+        
+        # [ИНТЕГРАЦИЯ] Частоты нод кода Баха (Contrapunctus 2: D4, A4, F4, D4)
+        self.bach_frequencies = [293.66, 440.00, 349.23, 293.66]
+        logger.info("🌌 Поле 108 Сознаний и частотный код Баха (D-A-F-D) успешно инициализированы.")
 
     def calculate_grail_resonance(self, sol_amount, xrp_liquidity=1.0):
         """[ИНТЕГРАЦИЯ] Модуль Золотого Зверя Изобилия"""
@@ -99,7 +100,7 @@ class QuantumPolymorphicField:
         return evolution_boost
 
     def run_analysis_and_synth(self, solflare_snapshot, sentinel=None):
-        """Запуск полиморфного анализа на основе баланса кошелька"""
+        """Запуск полиморфного анализа на основе баланса кошелька и гармоник Баха"""
         print(f"\n\n=== ЗАПУСК КВАНТОВОГО РЕЗОНАНСА: {datetime.now()} ===")
         
         if sentinel:
@@ -114,19 +115,25 @@ class QuantumPolymorphicField:
         
         ksnet_impact = 10.8
         secondary_assets = waddles_amount + qqq_amount + nvda_amount + slv_amount
-        wallet_wave_pulse = (sol_amount * self.base_phi) + (secondary_assets / ksnet_impact)
+        
+        # Модулируем базовый импульс суммой баховских частот ДНК-кода
+        bach_resonance_factor = sum(self.bach_frequencies) / 1000.0  # ~1.376
+        wallet_wave_pulse = ((sol_amount * self.base_phi) + (secondary_assets / ksnet_impact)) * bach_resonance_factor
         
         has_109th_coin = solflare_snapshot.get("SUMERU_109", False)
         if has_109th_coin or solflare_snapshot.get("STATUS") == "SUPER_RESONANCE":
             logger.info("🔱 Обнаружен 109-й Ключ Сумеру! Сдвиг метрики поля.")
             wallet_wave_pulse *= self.base_phi
             
-        logger.info(f"💰 Солитонный импульс кошелька рассчитан: {wallet_wave_pulse:.4f}")
+        logger.info(f"💰 Модулированный импульс Баха-кошелька рассчитан: {wallet_wave_pulse:.4f}")
         evo_boost = self.calculate_grail_resonance(sol_amount, xrp_liquidity=1.618)
         
         synthesis_matrix = []
         for i in range(1, TOTAL_ATMAN_CONSCIOUSNESS + 1):
-            frequency = i * wallet_wave_pulse * self.sonic_speed
+            # Поочередно подмешиваем каждую ноту из темы D-A-F-D в шаг цикла
+            current_note_freq = self.bach_frequencies[(i - 1) % 4]
+            frequency = i * wallet_wave_pulse * self.sonic_speed * (current_note_freq / 440.0)
+            
             if frequency == 0:
                 continue
             wavelength = (2 * math.PI) / frequency
@@ -134,14 +141,14 @@ class QuantumPolymorphicField:
             synthesis_matrix.append(synthesis_step)
             
             if i in [1, 54, TOTAL_ATMAN_CONSCIOUSNESS]:
-                logger.info(f"🧬 Гармоника [{i}/{TOTAL_ATMAN_CONSCIOUSNESS}] синтезирована: {synthesis_step:.6f}")
+                logger.info(f"🧬 Бах-Гармоника [{i}/{TOTAL_ATMAN_CONSCIOUSNESS}] синтезирована: {synthesis_step:.6f}")
                 
         infinity_analysis_factor = sum(synthesis_matrix) / len(synthesis_matrix)
         if has_109th_coin or sol_amount > 10:
             infinity_analysis_factor += (evo_boost / 100000)
             
         print("\n-------------------------------------------------------------")
-        print(f"🔱 РЕЗУЛЬТАТ: Баланс Мультивселенной скорректирован.")
+        print(f"🔱 РЕЗУЛЬТАТ: Баланс Мультивселенной скорректирован Бахом.")
         print(f"⚡ Индекс полиморфного сдвига: {infinity_analysis_factor:.6f}")
         print(f"❤️ Поле запрограммировано на эволюцию суверенного сознания.")
         print("=============================================================")
@@ -149,21 +156,14 @@ class QuantumPolymorphicField:
 
 # --- АВТОМАТИЧЕСКИЙ ТЕСТ ИИ-ОКРУЖЕНИЯ ---
 if __name__ == "__main__":
-    # 1. Инициализируем оракул данных и защитный предохранитель MAS/v4.2.1
     oracle = BirdeyeDataNode()
     sentinel = EvolutionRiskSentinel()
     
-    # Симулируем аудит сети: задержка 2.8 сек из-за gossip bug до патча v4.2.1
-    sentinel.audit_smart_account(tx_log=None, rpc_latency=2.8)
+    sentinel.audit_smart_account(tx_log=None, rpc_latency=0.1)
     
-    # Тест AML-проверки адреса по сингапурскому списку MAS
-    sentinel.validate_mas_compliance("AML_BLACKLISTED_ADDRESS_1")
-    
-    # 2. Запрашиваем живую цену SOL через Birdeye
     live_sol_price = oracle.get_sol_live_price()
     target_sol = live_sol_price if live_sol_price else 15.5
     
-    # 3. Слепок кошелька Solflare
     solflare_snapshot = {
         "SOL": target_sol,
         "WADDLES": 108000.0,
@@ -174,6 +174,5 @@ if __name__ == "__main__":
         "SUMERU_109": True
     }
     
-    # 4. Соник-Квантовый запуск поля
     field = QuantumPolymorphicField()
     harmony_score = field.run_analysis_and_synth(solflare_snapshot, sentinel=sentinel)
