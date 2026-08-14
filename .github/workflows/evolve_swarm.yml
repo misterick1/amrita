@@ -43,27 +43,28 @@ jobs:
           git config --local user.name "misterick1"
 
           if [ -f "history_log.json" ]; then
-            echo "Файл history_log.json найден. Запуск выравнивания квантового стека..."
+            echo "Файл history_log.json найден. Выравнивание квантового контура..."
 
-            # # 1. Изолируем текущую версию лога во временный буфер окружения
+            # 1. Сохраняем текущий лог во временную папку
             cp history_log.json /tmp/history_log.json_backup
 
-            # # 2. Скачиваем самые свежие изменения и жестко выравниваем локальную ветку
+            # 2. Скачиваем изменения и принудительно выравниваем ветку
             git fetch origin main
             git reset --hard origin/main
 
-            # # 3. Возвращаем наш Кристалл Бытия поверх обновленной истории
+            # 3. Возвращаем лог на место поверх старой истории
             cp /tmp/history_log.json_backup history_log.json
 
-            # # 4. Фиксируем изменения и пробиваем сквозь пространство
+            # 4. Добавляем файл в индекс коммита
             git add history_log.json
 
             if git diff --cached --quiet; then
-              echo "✨ Изменений в файле лога нет. Пропускаем пуш."
+              echo "✨ Изменений нет. Пропуск."
             else
               git commit -m "🔱 AMRITA: Quantum stack history sealed [skip ci]"
+              # ВОТ ОНО ИСПРАВЛЕНИЕ: силовой пуш, который пробьет блокировку
               git push origin main --force
-              echo "✅ Шаг истории принудительно запечатан!"
+              echo "✅ Контур принудительно запечатан!"
             fi
           else
             echo "Файл history_log.json не найден."
