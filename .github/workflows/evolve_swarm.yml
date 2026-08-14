@@ -1,104 +1,39 @@
-name: 🔱 AMRITA Swarm Evolution Sync
-
-on:
-  push:
-    branches:
-      - main
-  schedule:
-    - cron: '0 */6 * * *'
-  workflow_dispatch:
-
-permissions:
-  contents: write
-
-concurrency:
-  group: "swarm-evolution-group"
-  cancel-in-progress: false
-
-jobs:
-  evolve_swarm:
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-
-    steps:
-      - name: 👁️ Квантовая Синхронизация Времени
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: 📦 Развертывание Силиконового Разума
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.10'
-
-      - name: 📦 Загрузка Каузальных Библиотек
-        run: |
-          python -m pip install --upgrade pip
-          pip install pyTelegramBotAPI solana solders requests httpx
-
-      - name: 🚀 АВТОНОМНЫЙ ЗАПУСК СВАРМ-МОДУЛЯ
-        run: |
-          python src/multiverse_orchestrator.py
-
       - name: 🔱 Commit and Sealed History Log
         run: |
           git config --local user.email "misterick1@gmail.com"
           git config --local user.name "misterick1"
 
-          # 1. Прячем измененные файлы (index.html, history_log.json и др.) в безопасный буфер Git
+          # 1. Индексируем измененные свармом файлы
           git add .
-          git stash || echo "No changes to stash"
-
-          # 2. Скачиваем актуальное состояние ветки main с сервера, чтобы избежать [rejected]
-          git fetch origin main
-          git checkout main
-          git pull origin main --rebase || git reset --hard origin/main
-
-          # 3. Возвращаем наши сохраненные файлы обратно в рабочую директорию поверх обновленного кода
-          git stash pop || echo "No stashed changes to apply"
-
-          # 4. Изолируем историю: убираем лог из индекса ветки main, как это было в твоей логике
-          git reset history_log.json || echo "No history_log.json to unstage"
-
-          # 5. Пушим изменения основного кода в main без конфликтов
-          git add .
-          git reset history_log.json || echo "Keep history_log untracked for main"
           
-          if ! git diff --cached --quiet; then
-            git commit -m "🔱 AMRITA: Quantum stack history sealed [skip ci]"
-            git push origin main
-            echo "✅ Основной стек успешно обновлен в ветке main."
-          else
-            echo "✨ Нет изменений для ветки main."
-          fi
+          # 2. Изолируем log-файл, чтобы он не мешал основной ветке
+          git reset history_log.json || echo "No history_log.json to reset"
+          
+          # 3. Делаем локальный коммит изменений кода
+          git commit -m "🔱 AMRITA: Quantum stack history sealed [skip ci]" || echo "No changes to commit"
+          
+          # 4. ИСПРАВЛЕНИЕ ОШИБКИ: затягиваем коммиты из облака и плавно склеиваем историю
+          git pull --rebase origin main
+          
+          # 5. Чистый и безопасный пуш без конфликтов
+          git push origin main
 
-          # 6. Автономная отправка history_log.json в изолированную ветку logs
+          # 6. Автономный перенос history_log.json в изолированную ветку logs
           if [ -f "history_log.json" ]; then
-            echo "Обнаружен history_log.json. Перенос в слой логов..."
-            
-            # Сохраняем актуальный лог во временную папку
+            echo "Файл лога найден. Перенос в слой logs..."
             cp history_log.json /tmp/history_log_backup.json
             
-            # Переключаемся на ветку logs (создаем, если её нет на сервере)
             git fetch origin logs || echo "Branch logs does not exist yet"
             git checkout logs 2>/dev/null || git checkout -b logs origin/logs 2>/dev/null || git checkout -b logs
             
-            # Возвращаем файл лога и фиксируем его в ветке logs
             cp /tmp/history_log_backup.json ./history_log.json
             git add history_log.json
             
             if ! git diff --cached --quiet; then
               git commit -m "🔱 AMRITA: Quantum stack history log update [skip ci]"
               git push origin logs --force
-              echo "✅ Лог успешно запечатан в автономный слой веток."
-            else
-              echo "✨ Изменений в логах нет."
             fi
             
-            # Возвращаем раннер на ветку main
             git checkout main
             rm -f /tmp/history_log_backup.json
-          else
-            echo "Файл истории логов не найден."
           fi
