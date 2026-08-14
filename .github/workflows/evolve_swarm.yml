@@ -25,7 +25,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: 📦 Развертывание Силиконового Разума
         uses: actions/setup-python@v5
@@ -43,28 +42,22 @@ jobs:
           git config --local user.name "misterick1"
 
           if [ -f "history_log.json" ]; then
-            echo "Файл history_log.json найден. Выравнивание квантового контура..."
+            echo "Файл history_log.json найден. Интеграция изменений..."
 
-            # 1. Сохраняем текущий лог во временную папку
-            cp history_log.json /tmp/history_log.json_backup
-
-            # 2. Скачиваем изменения и принудительно выравниваем ветку
-            git fetch origin main
-            git reset --hard origin/main
-
-            # 3. Возвращаем лог на место поверх старой истории
-            cp /tmp/history_log.json_backup history_log.json
-
-            # 4. Добавляем файл в индекс коммита
+            # 1. Добавляем файл в индекс коммита
             git add history_log.json
 
             if git diff --cached --quiet; then
               echo "✨ Изменений нет. Пропуск."
             else
               git commit -m "🔱 AMRITA: Quantum stack history sealed [skip ci]"
-              # ВОТ ОНО ИСПРАВЛЕНИЕ: силовой пуш, который пробьет блокировку
-              git push origin main --force
-              echo "✅ Контур принудительно запечатан!"
+              
+              # ИСПРАВЛЕНИЕ: Скачиваем новые коммиты от серверов и аккуратно склеиваем историю сверху
+              git pull origin main --rebase
+              
+              # Отправляем чистую, склеенную историю без силового взлома ветки
+              git push origin main
+              echo "✅ Контур успешно синхронизирован и запечатан!"
             fi
           else
             echo "Файл history_log.json не найден."
