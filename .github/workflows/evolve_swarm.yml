@@ -37,63 +37,60 @@ jobs:
           python -m pip install --upgrade pip
           pip install pyTelegramBotAPI solana solders requests httpx
 
-      - name: 🛠️ Предотвращение конфликтов Git (Блокировка [rejected])
-        run: |
-          git config --local user.email "misterick1@gmail.com"
-          git config --local user.name "misterick1"
-          
-          # Затягиваем все обновления, которые появились на сервере, ДО запуска скрипта
-          git fetch origin main
-          git checkout main
-          git pull origin main --no-edit || echo "Конфликтов нет, ветка чистая"
-
-      - name: 🚀 АВТОНОМНЫЙ ЗАПУСК СВАРМ-МОДУЛЯ
+      - name: 🚀 Execute Ezhenysh Evolution Module
         run: |
           python src/multiverse_orchestrator.py
 
       - name: 🔱 Commit and Sealed History Log
         run: |
-          # 1. Индексируем новые файлы, созданные Свармом
-          git add .
+          git config --local user.email "misterick1@gmail.com"
+          git config --local user.name "misterick1"
 
-          # 2. Изолируем log-файл от основной ветки main
-          git reset history_log.json || echo "No history_log.json to unstage"
+          # 1. Спасаем результаты работы модуля во временную папку раннера
+          mkdir -p /tmp/amrita_outbound_buffer
+          cp index.html /tmp/amrita_outbound_buffer/ 2>/dev/null || true
+          cp history_log.json /tmp/amrita_outbound_buffer/ 2>/dev/null || true
 
-          # 3. Фиксируем и отправляем измененный index.html и код в main
+          # 2. Стираем любые локальные конфликты и жестко выравниваем локальный гит по серверу
+          git reset --hard HEAD
+          git clean -fd
+          git fetch origin main
+          git checkout main
+          git reset --hard origin/main
+
+          # 3. Возвращаем index.html из буфера в чистую рабочую директорию ветки main
+          cp /tmp/amrita_outbound_buffer/index.html ./ 2>/dev/null || true
+          git add index.html 2>/dev/null || true
+
+          # 4. Безопасный пуш кода в main — теперь он гарантированно пройдет без [rejected]
           if ! git diff --cached --quiet; then
             git commit -m "🔱 AMRITA: Quantum stack history sealed [skip ci]"
             git push origin main
-            echo "✅ Основная ветка main успешно обновлена."
+            echo "✅ Основная ветка main успешно синхронизирована с сервером."
           else
-            echo "✨ Изменений для ветки main нет."
+            echo "✨ Изменений в index.html для ветки main нет."
           fi
 
-          # 4. Автономный перенос history_log.json в изолированную ветку logs
-          if [ -f "history_log.json" ]; then
-            echo "Обнаружен history_log.json. Перенос в слой логов..."
+          # 5. Перенос и изолированная фиксация файла истории в ветку logs
+          if [ -f "/tmp/amrita_outbound_buffer/history_log.json" ]; then
+            echo "Перенос history_log.json в автономный слой веток..."
             
-            # Сохраняем свежий лог во временную папку раннера
-            cp history_log.json /tmp/history_log_backup.json
-            
-            # Переключаемся на ветку logs (создаем, если ее еще нет)
-            git fetch origin logs || echo "Ветки logs еще нет на удаленном сервере"
+            git fetch origin logs || echo "Ветка logs еще не создана на GitHub"
             git checkout logs 2>/dev/null || git checkout -b logs origin/logs 2>/dev/null || git checkout -b logs
             
-            # Возвращаем файл лога и пушим его отдельно
-            cp /tmp/history_log_backup.json ./history_log.json
+            cp /tmp/amrita_outbound_buffer/history_log.json ./history_log.json
             git add history_log.json
             
             if ! git diff --cached --quiet; then
               git commit -m "🔱 AMRITA: Quantum stack history log update [skip ci]"
               git push origin logs --force
-              echo "✅ Автономный лог успешно запечатан."
+              echo "✅ Автономный лог запечатан в ветку logs."
             else
-              echo "✨ Изменений в истории логов нет."
+              echo "✨ В истории логов нет новых изменений."
             fi
             
-            # Возвращаем указатель раннера на main
             git checkout main
-            rm -f /tmp/history_log_backup.json
-          else
-            echo "Файл истории логов не найден."
           fi
+
+          # 6. Полная очистка временных буферов на раннере
+          rm -rf /tmp/amrita_outbound_buffer
