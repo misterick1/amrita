@@ -27,7 +27,7 @@ jobs:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: 📦 Развертывание Силиконового Разряда
+      - name: 📦 Развертывание Силиконового Разума
         uses: actions/setup-python@v5
         with:
           python-version: '3.10'
@@ -43,27 +43,27 @@ jobs:
           git config --local user.name "misterick1"
 
           if [ -f "history_log.json" ]; then
-            echo "Файл history_log.json найден. Запуск протокола запечатывания..."
-            
-            # 1. Изолируем текущую версию лога во временную папку
+            echo "Файл history_log.json найден. Запуск выравнивания квантового стека..."
+
+            # # 1. Изолируем текущую версию лога во временный буфер окружения
             cp history_log.json /tmp/history_log.json_backup
 
-            # 2. Скачиваем самые свежие изменения и жестко выравниваем указатель
+            # # 2. Скачиваем самые свежие изменения и жестко выравниваем локальную ветку
             git fetch origin main
             git reset --hard origin/main
 
-            # 3. Возвращаем наш Кристалл Бытия поверх актуального коммита
+            # # 3. Возвращаем наш Кристалл Бытия поверх обновленной истории
             cp /tmp/history_log.json_backup history_log.json
 
-            # 4. Фиксируем изменения и пробиваем сквозь пространство через --force
+            # # 4. Фиксируем изменения и пробиваем сквозь пространство
             git add history_log.json
-            
+
             if git diff --cached --quiet; then
-              echo "✨ Изменений в файле лога нет. Пропуск пуша."
+              echo "✨ Изменений в файле лога нет. Пропускаем пуш."
             else
               git commit -m "🔱 AMRITA: Quantum stack history sealed [skip ci]"
               git push origin main --force
-              echo "✅ Шаг истории принудительно запечатан в репозиторий."
+              echo "✅ Шаг истории принудительно запечатан!"
             fi
           else
             echo "Файл history_log.json не найден."
