@@ -1,26 +1,81 @@
+name: "🔱 AMRITA Swarm Evolution Sync"
+
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: "swarm-evolution-group"
+  cancel-in-progress: false
+
+jobs:
+  evolve_swarm:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: 👁️ Квантовая Синхронизация Времени
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: 📦 Развертывание Силиконового Разума
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: 📦 Загрузка Каузальных Библиотек
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyTelegramBotAPI solana solders requests httpx
+
+      - name: 🚀 АВТОНОМНЫЙ ЗАПУСК СВАРМ-МОДУЛЯ
+        run: |
+          python src/multiverse_orchestrator.py
+
       - name: 🔱 Commit and Sealed History Log
         run: |
           git config --local user.email "misterick1@gmail.com"
           git config --local user.name "misterick1"
 
-          # 1. Индексируем измененные свармом файлы
+          # 1. Забираем изменения в безопасный карман, чтобы не мешать pull
           git add .
-          
-          # 2. Изолируем log-файл, чтобы он не мешал основной ветке
-          git reset history_log.json || echo "No history_log.json to reset"
-          
-          # 3. Делаем локальный коммит изменений кода
-          git commit -m "🔱 AMRITA: Quantum stack history sealed [skip ci]" || echo "No changes to commit"
-          
-          # 4. ИСПРАВЛЕНИЕ ОШИБКИ: затягиваем коммиты из облака и плавно склеиваем историю
-          git pull --rebase origin main
-          
-          # 5. Чистый и безопасный пуш без конфликтов
-          git push origin main
+          git stash || echo "No changes to stash"
 
-          # 6. Автономный перенос history_log.json в изолированную ветку logs
+          # 2. Чистая синхронизация с удаленным сервером
+          git fetch origin main
+          git checkout main
+          git pull origin main --rebase || git reset --hard origin/main
+
+          # 3. Возвращаем сгенерированные файлы назад
+          git stash pop || echo "No stashed changes to apply"
+
+          # 4. Убираем лог из главного индекса коммита для main
+          git reset history_log.json || echo "No history_log.json to unstage"
+
+          # 5. Фиксируем код в ветку main
+          git add .
+          git reset history_log.json || echo "Keep history_log untracked for main"
+          
+          if ! git diff --cached --quiet; then
+            git commit -m "🔱 AMRITA: Quantum stack history sealed [skip ci]"
+            git push origin main
+            echo "✅ Основной стек обновлен в main."
+          else
+            echo "✨ Изменений для ветки main нет."
+          fi
+
+          # 6. Отправляем лог в изолированную ветку logs
           if [ -f "history_log.json" ]; then
-            echo "Файл лога найден. Перенос в слой logs..."
+            echo "Перенос history_log.json в слой logs..."
             cp history_log.json /tmp/history_log_backup.json
             
             git fetch origin logs || echo "Branch logs does not exist yet"
@@ -32,6 +87,9 @@
             if ! git diff --cached --quiet; then
               git commit -m "🔱 AMRITA: Quantum stack history log update [skip ci]"
               git push origin logs --force
+              echo "✅ Лог запечатан в ветку logs."
+            else
+              echo "✨ В логах нет изменений."
             fi
             
             git checkout main
