@@ -25,6 +25,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: 📦 Развертывание Силиконового Разума
         uses: actions/setup-python@v5
@@ -34,44 +35,66 @@ jobs:
       - name: 📦 Загрузка Каузальных Библиотек
         run: |
           python -m pip install --upgrade pip
-          pip install pyTelegramBotAPI solana solders requests
+          pip install pyTelegramBotAPI solana solders requests httpx
+
+      - name: 🚀 АВТОНОМНЫЙ ЗАПУСК СВАРМ-МОДУЛЯ
+        run: |
+          python src/multiverse_orchestrator.py
 
       - name: 🔱 Commit and Sealed History Log
         run: |
           git config --local user.email "misterick1@gmail.com"
           git config --local user.name "misterick1"
 
-          # Сначала добавляем и пушим все основные изменения в ветку main (включая python-код)
-          git add .
-          
-          # Исключаем history_log.json из главного коммита main, чтобы он ушел в свою ветку
-          git reset history_log.json || echo "Файла логов еще нет в общем индексе"
-          
-          git commit -m "🔱 AMRITA: Quantum stack history sealed [skip ci]" || echo "Нет изменений для main"
-          
-          # Защита от race condition: подтягиваем свежие коммиты и накатываем поверх
-          git pull --rebase origin main
-          git push origin main
+          # 1. Сохраняем сгенерированные файлы во временный буфер раннера
+          mkdir -p /tmp/swarm_outbound
+          cp index.html /tmp/swarm_outbound/ 2>/dev/null || true
+          cp history_log.json /tmp/swarm_outbound/ 2>/dev/null || true
 
-          # Логика изолированной фиксации файла history_log.json
-          if [ -f "history_log.json" ]; then
-            echo "Файл history_log.json найден. Перенос в автономную ветку..."
+          # 2. Очищаем рабочую директорию, чтобы вернуться к чистому состоянию main
+          git reset --hard HEAD
+          git clean -fd
+
+          # 3. Обработка изоляции лога (history_log.json) в выделенный слой logs
+          if [ -f "/tmp/swarm_outbound/history_log.json" ]; then
+            echo "Фиксация истории логов..."
+            # Переключаемся на ветку logs (создаем, если её нет)
+            git checkout logs 2>/dev/null || git checkout -b logs
             
-            # Переключаемся на изолированную ветку для логов
-            git checkout -b logs || git checkout logs
+            # Возвращаем файл лога из буфера
+            cp /tmp/swarm_outbound/history_log.json ./
             git add history_log.json
             
-            if git diff --cached --quiet; then
-              echo "✨ Изменений в истории нет. Пропуск."
-            else
+            if ! git diff --cached --quiet; then
               git commit -m "🔱 AMRITA: Quantum stack history log update [skip ci]"
-              # Принудительно пушим логи
+              # Ветку логов можно пушить принудительно, на ней нет защиты
               git push origin logs --force
-              echo "✅ Лог успешно запечатан в автономный слой."
             fi
-            
-            # Возвращаем runner в исходную ветку main на всякий случай
-            git checkout main
-          else
-            echo "Файл history_log.json не найден."
           fi
+
+          # 4. Обработка index.html через мягкую синхронизацию с main
+          if [ -f "/tmp/swarm_outbound/index.html" ]; then
+            echo "Фиксация артефактов раунда сварма в ветку main..."
+            
+            # Возвращаемся на main и затягиваем самые свежие изменения, которые могли прийти на сервер
+            git checkout main
+            git fetch origin main
+            git reset --hard origin/main
+            
+            # Накатываем сгенерированный index.html поверх актуального main
+            cp /tmp/swarm_outbound/index.html ./
+            git add index.html
+            
+            if ! git diff --cached --quiet; then
+              git commit -m "🔱 AMRITA: Quantum stack history sealed [skip ci]"
+              
+              # Попытка обычного пуша. Если на сервере появились новые коммиты,
+              # делаем быструю склейку (pull) и отправляем, чтобы обойти блокировку [rejected]
+              git pull origin main --no-edit || git reset --hard origin/main
+              git push origin main
+              echo "✅ Срез раунда успешно запечатан в main."
+            fi
+          fi
+
+          # Очистка буфера
+          rm -rf /tmp/swarm_outbound
