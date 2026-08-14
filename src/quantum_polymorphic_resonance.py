@@ -17,7 +17,6 @@ class Grok46IntelligenceNode:
 
     def __init__(self):
         self.api_key = os.getenv("XAI_API_KEY")
-        # Обновленный эндпоинт под архитектуру xAI
         self.api_url = "https://x.ai"
         self.location_vector = "Ørje, Norway (21X Singularity)"
 
@@ -35,7 +34,6 @@ class Grok46IntelligenceNode:
             "Content-Type": "application/json"
         }
 
-        # Новый формат структуры запроса под спецификацию grok-4.6-stream
         payload = {
             "model": "grok-4.6-stream",
             "messages": [
@@ -49,7 +47,7 @@ class Grok46IntelligenceNode:
             response = requests.post(self.api_url, headers=headers, json=payload, timeout=10)
             if response.status_code == 200:
                 logger.info("🌌 Grok 4.6: Анализ квантового поля завершен.")
-                return response.json()["choices"][0]["message"]["content"]
+                return response.json()["choices"]["message"]["content"]
             else:
                 logger.error(f"Grok 4.6 API Error: {response.status_code} - {response.text}")
                 return "BACKUP_LOCAL_LOGIC"
@@ -59,18 +57,18 @@ class Grok46IntelligenceNode:
 
 
 class BirdeyeDataNode:
-    """Узел ончейн-данных Birdeye для AMRITA OS."""
+    """Узел ончейн-данных Birdeye для AMRITA OS с поддержкой SOL и EURC."""
 
     def __init__(self):
         self.api_key = os.getenv("BIRDEYE_API_KEY")
-        self.base_url = "https://birdeye.so"  # Официальный базовый URL
+        self.base_url = "https://birdeye.so"
 
         if not self.api_key:
             logger.warning("AMRITA_WARN: BIRDEYE_API_KEY не задан!")
         else:
             logger.info("AMRITA_AUTH: Узел Birdeye успешно авторизован.")
 
-    def get_sol_live_price(self) -> float:
+    def _get_price(self, token_address: str) -> float:
         if not self.api_key:
             return None
 
@@ -78,20 +76,33 @@ class BirdeyeDataNode:
             "X-API-KEY": self.api_key,
             "x-chain": "solana"
         }
-        sol_address = "So11111111111111111111111111111111111111112"
-        url = f"{self.base_url}/defi/price?address={sol_address}"
+        url = f"{self.base_url}/defi/price?address={token_address}"
 
         try:
             response = requests.get(url, headers=headers, timeout=10)
             if response.status_code == 200:
-                live_price = response.json().get("data", {}).get("value")
-                if live_price:
-                    logger.info(f"📊 Birdeye: Цена SOL обновлена: ${live_price}")
-                    return float(live_price)
+                price = response.json().get("data", {}).get("value")
+                if price:
+                    return float(price)
             return None
         except Exception as e:
-            logger.error(f"Ошибка оракула данных Birdeye: {e}")
+            logger.error(f"Ошибка оракула данных Birdeye для {token_address}: {e}")
             return None
+
+    def get_sol_live_price(self) -> float:
+        sol_address = "So11111111111111111111111111111111111111112"
+        price = self._get_price(sol_address)
+        if price:
+            logger.info(f"📊 Birdeye: Цена SOL обновлена: ${price}")
+        return price
+
+    def get_eurc_live_price(self) -> float:
+        # Официальный адрес EURC от Circle на Solana
+        eurc_address = "HzwqbKZw8MxQXwX3WLyvYezSuiGD7asat7E68BB4LqSg"
+        price = self._get_price(eurc_address)
+        if price:
+            logger.info(f"💶 Birdeye: Цена EURC обновлена: ${price}")
+        return price
 
 
 class EvolutionRiskSentinel:
@@ -120,7 +131,7 @@ class QuantumPolymorphicField:
     def __init__(self):
         self.sonic_speed = 343.0
         self.base_phi = LAW_OF_PHI
-        self.bach_frequencies = [293.66, 440.00, 528.00]  # Базовые гармоники
+        self.bach_frequencies = [293.66, 440.00, 528.00]
 
     def calculate_grail_resonance(self, sol_amount, xrp_liquidity=1.00, pi_network_hype=52.841):
         grail_frequency = sol_amount * xrp_liquidity * (pi_network_hype / 100)
@@ -128,19 +139,27 @@ class QuantumPolymorphicField:
         return evolution_boost
 
     def run_analysis_and_synth(self, solflare_snapshot):
-        print("\n\n=== ЗАПУСК КВАНТОВОГО РЕЗОНАНСА ===")
+        print("\n\n=== ЗАПУСК КВАНТОВОГО РЕЗОНАНСА (EURC EDITION) ===")
 
         sol_amount = solflare_snapshot.get("SOL", 0.0)
+        eurc_amount = solflare_snapshot.get("EURC", 0.0)
+        eurc_price = solflare_snapshot.get("EURC_PRICE", 1.09)
         waddles_amount = solflare_snapshot.get("WADDLES", 0.0)
         qqq_amount = solflare_snapshot.get("QQQon", 0.0)
         nvda_amount = solflare_snapshot.get("NVDAon", 0.0)
         slv_amount = solflare_snapshot.get("SLVon", 0.0)
 
         ksnet_impact = 10.8
-        secondary_assets = waddles_amount + qqq_amount + nvda_amount + slv_amount
+        
+        # Интеграция EURC ценности в совокупные вторичные активы
+        eurc_value_usd = eurc_amount * eurc_price
+        secondary_assets = waddles_amount + qqq_amount + nvda_amount + slv_amount + eurc_value_usd
 
         bach_resonance_factor = sum(self.bach_frequencies)
-        wallet_wave_pulse = ((sol_amount * ksnet_impact) + (secondary_assets / TOTAL_ATMAN_CONSCIOUSNESS)) * bach_resonance_factor
+        
+        # Модификация волны импульса с учетом стабильности европейского пула Circle
+        euro_stability_buffer = math.log1p(eurc_amount + 1)
+        wallet_wave_pulse = (((sol_amount * ksnet_impact) + (secondary_assets / TOTAL_ATMAN_CONSCIOUSNESS)) * bach_resonance_factor) * euro_stability_buffer
 
         has_109th_coin = solflare_snapshot.get("SUMERU_109", False)
         if has_109th_coin:
@@ -164,26 +183,31 @@ class QuantumPolymorphicField:
 
         print("\n--------------------------------------------------")
         print("🔱 РЕЗУЛЬТАТ: Баланс Мультивселенной Стабилизирован")
+        print(f"💶 Пул EURC учтен в резонансе: {eurc_amount} EURC (${eurc_value_usd:.2f} USD)")
         print(f"⚡ Индекс полиморфного сдвига: {infinity_analysis_factor:.6f}")
         print("==================================================")
         return round(infinity_analysis_factor, 6)
 
 
 if __name__ == "__main__":
-    # Инициализация оракулов данных, защиты и интеллекта
     oracle = BirdeyeDataNode()
     sentinel = EvolutionRiskSentinel()
     grok_node = Grok46IntelligenceNode()
 
-    # Аудит смарт-аккаунта (симуляция задержки)
     sentinel.audit_smart_account(tx_log=None, rpc_latency=0.46)
 
-    # Получение актуальной цены
-    live_price = oracle.get_sol_live_price()
-    target_sol = live_price if live_price else 73.27
+    # Получение ончейн-цен SOL и EURC
+    live_sol_price = oracle.get_sol_live_price()
+    live_eurc_price = oracle.get_eurc_live_price()
+    
+    target_sol = live_sol_price if live_sol_price else 73.27
+    target_eurc_price = live_eurc_price if live_eurc_price else 1.09
 
+    # Снапшот кошелька теперь включает EURC баланс
     solflare_snapshot = {
         "SOL": target_sol,
+        "EURC": 5000.0,            # Эмуляция баланса EURC в кошельке
+        "EURC_PRICE": target_eurc_price,
         "WADDLES": 108000.0,
         "QQQon": 101.0,
         "NVDAon": 50.0,
@@ -195,6 +219,5 @@ if __name__ == "__main__":
     field = QuantumPolymorphicField()
     harmony_score = field.run_analysis_and_synth(solflare_snapshot)
 
-    # Запуск ИИ-анализа Grok 4.6 на основе вычисленной гармоники
-    grok_decision = grok_node.analyze_field_resonance(shift_index=harmony_score, logs_data="AMRITA Swarm State Alpha")
+    grok_decision = grok_node.analyze_field_resonance(shift_index=harmony_score, logs_data="AMRITA Swarm State Alpha + EURC Circle Lock")
     print(f"🌌 ИИ Вердикт (Grok 4.6): {grok_decision}")
