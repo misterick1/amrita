@@ -41,21 +41,37 @@ jobs:
           git config --local user.email "misterick1@gmail.com"
           git config --local user.name "misterick1"
 
+          # Сначала добавляем и пушим все основные изменения в ветку main (включая python-код)
+          git add .
+          
+          # Исключаем history_log.json из главного коммита main, чтобы он ушел в свою ветку
+          git reset history_log.json || echo "Файла логов еще нет в общем индексе"
+          
+          git commit -m "🔱 AMRITA: Quantum stack history sealed [skip ci]" || echo "Нет изменений для main"
+          
+          # Защита от race condition: подтягиваем свежие коммиты и накатываем поверх
+          git pull --rebase origin main
+          git push origin main
+
+          # Логика изолированной фиксации файла history_log.json
           if [ -f "history_log.json" ]; then
-            echo "Файл history_log.json найден. Перенос в автономную ветку логов..."
+            echo "Файл history_log.json найден. Перенос в автономную ветку..."
             
-            # Создаем изолированную ветку для хранения истории
-            git checkout -b logs
+            # Переключаемся на изолированную ветку для логов
+            git checkout -b logs || git checkout logs
             git add history_log.json
             
             if git diff --cached --quiet; then
               echo "✨ Изменений в истории нет. Пропуск."
             else
-              git commit -m "🔱 AMRITA: Quantum stack history sealed [skip ci]"
-              # Пушим в ветку logs — она не защищена, поэтому сервер примет ее мгновенно!
+              git commit -m "🔱 AMRITA: Quantum stack history log update [skip ci]"
+              # Принудительно пушим логи
               git push origin logs --force
-              echo "✅ Лог успешно запечатан в автономный контур!"
+              echo "✅ Лог успешно запечатан в автономный слой."
             fi
+            
+            # Возвращаем runner в исходную ветку main на всякий случай
+            git checkout main
           else
             echo "Файл history_log.json не найден."
           fi
