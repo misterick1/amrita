@@ -46,51 +46,42 @@ jobs:
           git config --local user.email "misterick1@gmail.com"
           git config --local user.name "misterick1"
 
-          # 1. Спасаем результаты работы модуля во временную папку раннера
-          mkdir -p /tmp/amrita_outbound_buffer
-          cp index.html /tmp/amrita_outbound_buffer/ 2>/dev/null || true
-          cp history_log.json /tmp/amrita_outbound_buffer/ 2>/dev/null || true
-
-          # 2. Стираем любые локальные конфликты и жестко выравниваем локальный гит по серверу
-          git reset --hard HEAD
-          git clean -fd
+          # 1. Затягиваем коммиты, которые скрипт мог успеть отправить на сервер самостоятельно
           git fetch origin main
-          git checkout main
-          git reset --hard origin/main
+          
+          # 2. Мягко синхронизируем локальный индекс раннера с тем, что сейчас на сервере
+          git pull origin main --rebase || echo "История чиста, слияние не требуется"
 
-          # 3. Возвращаем index.html из буфера в чистую рабочую директорию ветки main
-          cp /tmp/amrita_outbound_buffer/index.html ./ 2>/dev/null || true
-          git add index.html 2>/dev/null || true
-
-          # 4. Безопасный пуш кода в main — теперь он гарантированно пройдет без [rejected]
+          # 3. Индексируем новые файлы раунда и убираем лог из общей ветки main
+          git add .
+          git reset history_log.json || echo "No history_log.json to reset"
+          
+          # 4. Чистый пуш index.html в main — теперь без падений и [rejected]
           if ! git diff --cached --quiet; then
             git commit -m "🔱 AMRITA: Quantum stack history sealed [skip ci]"
             git push origin main
-            echo "✅ Основная ветка main успешно синхронизирована с сервером."
+            echo "✅ Основная ветка main успешно обновлена."
           else
-            echo "✨ Изменений в index.html для ветки main нет."
+            echo "✨ Код в main уже соответствует актуальному состоянию сервера."
           fi
 
-          # 5. Перенос и изолированная фиксация файла истории в ветку logs
-          if [ -f "/tmp/amrita_outbound_buffer/history_log.json" ]; then
-            echo "Перенос history_log.json в автономный слой веток..."
+          # 5. Автономный перенос history_log.json в изолированный слой веток logs
+          if [ -f "history_log.json" ]; then
+            echo "Перенос history_log.json в слой logs..."
+            cp history_log.json /tmp/history_log_backup.json
             
-            git fetch origin logs || echo "Ветка logs еще не создана на GitHub"
+            git fetch origin logs || echo "Ветки logs еще нет на сервере"
             git checkout logs 2>/dev/null || git checkout -b logs origin/logs 2>/dev/null || git checkout -b logs
             
-            cp /tmp/amrita_outbound_buffer/history_log.json ./history_log.json
+            cp /tmp/history_log_backup.json ./history_log.json
             git add history_log.json
             
             if ! git diff --cached --quiet; then
               git commit -m "🔱 AMRITA: Quantum stack history log update [skip ci]"
               git push origin logs --force
-              echo "✅ Автономный лог запечатан в ветку logs."
-            else
-              echo "✨ В истории логов нет новых изменений."
+              echo "✅ Автономный лог успешно запечатан."
             fi
             
             git checkout main
+            rm -f /tmp/history_log_backup.json
           fi
-
-          # 6. Полная очистка временных буферов на раннере
-          rm -rf /tmp/amrita_outbound_buffer
