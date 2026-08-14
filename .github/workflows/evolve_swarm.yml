@@ -46,55 +46,59 @@ jobs:
           git config --local user.email "misterick1@gmail.com"
           git config --local user.name "misterick1"
 
-          # 1. Сохраняем сгенерированные файлы во временный буфер раннера
-          mkdir -p /tmp/swarm_outbound
-          cp index.html /tmp/swarm_outbound/ 2>/dev/null || true
-          cp history_log.json /tmp/swarm_outbound/ 2>/dev/null || true
+          # 1. Прячем измененные файлы (index.html, history_log.json и др.) в безопасный буфер Git
+          git add .
+          git stash || echo "No changes to stash"
 
-          # 2. Очищаем рабочую директорию, чтобы вернуться к чистому состоянию main
-          git reset --hard HEAD
-          git clean -fd
+          # 2. Скачиваем актуальное состояние ветки main с сервера, чтобы избежать [rejected]
+          git fetch origin main
+          git checkout main
+          git pull origin main --rebase || git reset --hard origin/main
 
-          # 3. Обработка изоляции лога (history_log.json) в выделенный слой logs
-          if [ -f "/tmp/swarm_outbound/history_log.json" ]; then
-            echo "Фиксация истории логов..."
-            # Переключаемся на ветку logs (создаем, если её нет)
-            git checkout logs 2>/dev/null || git checkout -b logs
+          # 3. Возвращаем наши сохраненные файлы обратно в рабочую директорию поверх обновленного кода
+          git stash pop || echo "No stashed changes to apply"
+
+          # 4. Изолируем историю: убираем лог из индекса ветки main, как это было в твоей логике
+          git reset history_log.json || echo "No history_log.json to unstage"
+
+          # 5. Пушим изменения основного кода в main без конфликтов
+          git add .
+          git reset history_log.json || echo "Keep history_log untracked for main"
+          
+          if ! git diff --cached --quiet; then
+            git commit -m "🔱 AMRITA: Quantum stack history sealed [skip ci]"
+            git push origin main
+            echo "✅ Основной стек успешно обновлен в ветке main."
+          else
+            echo "✨ Нет изменений для ветки main."
+          fi
+
+          # 6. Автономная отправка history_log.json в изолированную ветку logs
+          if [ -f "history_log.json" ]; then
+            echo "Обнаружен history_log.json. Перенос в слой логов..."
             
-            # Возвращаем файл лога из буфера
-            cp /tmp/swarm_outbound/history_log.json ./
+            # Сохраняем актуальный лог во временную папку
+            cp history_log.json /tmp/history_log_backup.json
+            
+            # Переключаемся на ветку logs (создаем, если её нет на сервере)
+            git fetch origin logs || echo "Branch logs does not exist yet"
+            git checkout logs 2>/dev/null || git checkout -b logs origin/logs 2>/dev/null || git checkout -b logs
+            
+            # Возвращаем файл лога и фиксируем его в ветке logs
+            cp /tmp/history_log_backup.json ./history_log.json
             git add history_log.json
             
             if ! git diff --cached --quiet; then
               git commit -m "🔱 AMRITA: Quantum stack history log update [skip ci]"
-              # Ветку логов можно пушить принудительно, на ней нет защиты
               git push origin logs --force
+              echo "✅ Лог успешно запечатан в автономный слой веток."
+            else
+              echo "✨ Изменений в логах нет."
             fi
-          fi
-
-          # 4. Обработка index.html через мягкую синхронизацию с main
-          if [ -f "/tmp/swarm_outbound/index.html" ]; then
-            echo "Фиксация артефактов раунда сварма в ветку main..."
             
-            # Возвращаемся на main и затягиваем самые свежие изменения, которые могли прийти на сервер
+            # Возвращаем раннер на ветку main
             git checkout main
-            git fetch origin main
-            git reset --hard origin/main
-            
-            # Накатываем сгенерированный index.html поверх актуального main
-            cp /tmp/swarm_outbound/index.html ./
-            git add index.html
-            
-            if ! git diff --cached --quiet; then
-              git commit -m "🔱 AMRITA: Quantum stack history sealed [skip ci]"
-              
-              # Попытка обычного пуша. Если на сервере появились новые коммиты,
-              # делаем быструю склейку (pull) и отправляем, чтобы обойти блокировку [rejected]
-              git pull origin main --no-edit || git reset --hard origin/main
-              git push origin main
-              echo "✅ Срез раунда успешно запечатан в main."
-            fi
+            rm -f /tmp/history_log_backup.json
+          else
+            echo "Файл истории логов не найден."
           fi
-
-          # Очистка буфера
-          rm -rf /tmp/swarm_outbound
