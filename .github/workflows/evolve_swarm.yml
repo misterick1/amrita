@@ -37,58 +37,63 @@ jobs:
           python -m pip install --upgrade pip
           pip install pyTelegramBotAPI solana solders requests httpx
 
+      - name: 🛠️ Предотвращение конфликтов Git (Блокировка [rejected])
+        run: |
+          git config --local user.email "misterick1@gmail.com"
+          git config --local user.name "misterick1"
+          
+          # Затягиваем все обновления, которые появились на сервере, ДО запуска скрипта
+          git fetch origin main
+          git checkout main
+          git pull origin main --no-edit || echo "Конфликтов нет, ветка чистая"
+
       - name: 🚀 АВТОНОМНЫЙ ЗАПУСК СВАРМ-МОДУЛЯ
         run: |
           python src/multiverse_orchestrator.py
 
       - name: 🔱 Commit and Sealed History Log
         run: |
-          git config --local user.email "misterick1@gmail.com"
-          git config --local user.name "misterick1"
+          # 1. Индексируем новые файлы, созданные Свармом
+          git add .
 
-          # 1. Снимаем любые аварийные блокировки индекса Git в раннере
-          rm -f .git/index.lock || true
+          # 2. Изолируем log-файл от основной ветки main
+          git reset history_log.json || echo "No history_log.json to unstage"
 
-          # 2. Прячем сгенерированные файлы во временный буфер вне Git
-          mkdir -p /tmp/swarm_safe_buffer
-          cp index.html /tmp/swarm_safe_buffer/ 2>/dev/null || true
-          cp history_log.json /tmp/swarm_safe_buffer/ 2>/dev/null || true
-
-          # 3. Полностью очищаем локальное дерево и жестко выравниваемся по серверу
-          git reset --hard HEAD
-          git clean -fd
-          git fetch origin main
-          git checkout main
-          git reset --hard origin/main
-
-          # 4. Возвращаем index.html из буфера обратно для main
-          cp /tmp/swarm_safe_buffer/index.html ./ 2>/dev/null || true
-          git add index.html 2>/dev/null || true
-          
-          # Пушим index.html в main (если он изменился) без конфликтов с историей
+          # 3. Фиксируем и отправляем измененный index.html и код в main
           if ! git diff --cached --quiet; then
             git commit -m "🔱 AMRITA: Quantum stack history sealed [skip ci]"
             git push origin main
-            echo "✅ Основная ветка main разблокирована и обновлена."
+            echo "✅ Основная ветка main успешно обновлена."
           else
-            echo "✨ Код в main совпадает с сервером."
+            echo "✨ Изменений для ветки main нет."
           fi
 
-          # 5. Изолированно отправляем лог в ветку logs, чтобы он не пересекался с основным кодом
-          if [ -f "/tmp/swarm_safe_buffer/history_log.json" ]; then
-            echo "Отправка логов в автономную ветку..."
-            git fetch origin logs || echo "Ветки logs еще нет"
+          # 4. Автономный перенос history_log.json в изолированную ветку logs
+          if [ -f "history_log.json" ]; then
+            echo "Обнаружен history_log.json. Перенос в слой логов..."
+            
+            # Сохраняем свежий лог во временную папку раннера
+            cp history_log.json /tmp/history_log_backup.json
+            
+            # Переключаемся на ветку logs (создаем, если ее еще нет)
+            git fetch origin logs || echo "Ветки logs еще нет на удаленном сервере"
             git checkout logs 2>/dev/null || git checkout -b logs origin/logs 2>/dev/null || git checkout -b logs
             
-            cp /tmp/swarm_safe_buffer/history_log.json ./history_log.json
+            # Возвращаем файл лога и пушим его отдельно
+            cp /tmp/history_log_backup.json ./history_log.json
             git add history_log.json
             
             if ! git diff --cached --quiet; then
               git commit -m "🔱 AMRITA: Quantum stack history log update [skip ci]"
               git push origin logs --force
-              echo "✅ Автономный лог запечатан."
+              echo "✅ Автономный лог успешно запечатан."
+            else
+              echo "✨ Изменений в истории логов нет."
             fi
+            
+            # Возвращаем указатель раннера на main
+            git checkout main
+            rm -f /tmp/history_log_backup.json
+          else
+            echo "Файл истории логов не найден."
           fi
-
-          # Очищаем временный буфер
-          rm -rf /tmp/swarm_safe_buffer
