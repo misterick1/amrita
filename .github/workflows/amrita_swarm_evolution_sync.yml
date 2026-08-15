@@ -1,4 +1,4 @@
-name: 🔱 AMRITA Swarm Evolution Sync
+name: "🔱 AMRITA Swarm Evolution Sync"
 
 on:
   push:
@@ -13,7 +13,7 @@ permissions:
 
 concurrency:
   group: "swarm-evolution-group"
-  cancel-in-progress: false
+  cancel-in-progress: true
 
 jobs:
   evolve_swarm:
@@ -35,7 +35,7 @@ jobs:
       - name: 📦 Загрузка Каузальных Библиотек
         run: |
           python -m pip install --upgrade pip
-          pip install pyTelegramBotAPI solana solders requests httpx
+          pip install pyTelegramBotAPI solana solders
 
       - name: 🚀 АВТОНОМНЫЙ ЗАПУСК СВАРМ-МОДУЛЯ
         run: |
@@ -46,33 +46,42 @@ jobs:
           git config --local user.email "misterick1@gmail.com"
           git config --local user.name "misterick1"
 
-          # 1. Изолируем результаты текущего раунда во временную директорию раннера
+          # # 1. Изолируем результаты текущего раунда во временном буфере
           mkdir -p /tmp/amrita_backup
-          cp index.html /tmp/amrita_backup/index.html 2>/dev/null || true
-          cp history_log.json /tmp/amrita_backup/history_log.json 2>/dev/null || true
+          cp index.html /tmp/amrita_backup/ 2>/dev/null || true
+          cp history_log.json /tmp/amrita_backup/ 2>/dev/null || true
           
-          # Если скрипт изменил исходный код (например, файлы в src/), сохраняем и их
+          # Если скрипт изменил код в src/, бэкапим эти файлы
           git diff --name-only src/ | xargs -I {} cp --parents {} /tmp/amrita_backup/ 2>/dev/null || true
 
-          # 2. Жесткая синхронизация: выравниваем локальный гит-указатель по серверу
+          # # 2. Жесткая синхронизация: выравниваем локальный репозиторий с облаком
           git fetch origin main
           git checkout -f main
           git reset --hard origin/main
 
-          # 3. Накатываем результаты работы Сварма обратно поверх актуального дерева кода
+          # # 3. Накатываем результаты работы Сварма обратно в рабочую зону
           if [ -d "/tmp/amrita_backup" ]; then
             cp -r /tmp/amrita_backup/* ./ 2>/dev/null || true
           fi
 
-          # 4. Проверяем изменения, фиксируем их в индекс и пробиваем удаленный сервер через --force
-          git add .
-          
+          # # 4. Проверяем изменения, фиксируем их в индексе
+          git add index.html 2>/dev/null || true
+          git add history_log.json 2>/dev/null || true
+          if [ -d "./src" ]; then
+            git add src/ 2>/dev/null || true
+          fi
+
+          # # 5. КЛЮЧ ЗАПУСКА: Безопасный пуш или чистый выход
           if git diff --cached --quiet; then
             echo "✨ Изменений в экосистеме нет. Пропуск коммита."
+            rm -rf /tmp/amrita_backup
+            exit 0
           else
+            # Флаг [skip ci] уберет бесконечный цикл самозапуска воркфлоу
             git commit -m "🔱 AMRITA: Quantum stack history sealed [skip ci]"
+            git pull origin main --rebase
             git push origin main --force
-            echo "✅ Эволюция успешно запечатана через принудительный квантовый толчок."
+            echo "✅ Эволюция успешно запечатана через принудительный пуш."
           fi
 
           # Очистка временного буфера логов
