@@ -48,7 +48,7 @@ class AmritaPartnersSynchronizer:
                 return True
                 
             with urllib.request.urlopen(req) as response:
-                # КЛЮЧ ЗАПУСКА: Исправлен пустой оператор 'in' -> проверяем успешные коды 200-299
+                # КЛЮЧ ЗАПУСКА: Исправлен оператор 'in' -> проверяем успешные HTTP коды 200-299
                 if 200 <= response.status < 300:
                     logger.info(f"🟢 Узел '{node_name}' успешно синхронизирован с вебхуком.")
                     self._write_history_node(node_name, status)
