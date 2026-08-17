@@ -35,34 +35,32 @@ jobs:
       - name: 📦 Загрузка Каузальных Библиотек
         run: |
           python -m pip install --upgrade pip
-          pip install pyTelegramBotAPI solana solders
+          pip install pyTelegramBotAPI solana requests
 
       - name: 🚀 АВТОНОМНЫЙ ЗАПУСК ОРКЕСТРАТОРА
         id: run_core
         continue-on-error: true
         run: |
-          python src/multiverse_orchestrator.py
+          if [ -f "src/multiverse_orchestrator.py" ]; then
+            python src/multiverse_orchestrator.py
+          fi
           python sync_partners.py
 
       - name: 🛠️ АВТОНОМНЫЙ САМОИСПРАВИТЕЛЬ СИНТАКСИСА
         if: steps.run_core.outcome == 'failure'
         run: |
-          echo "🚨 ОБНАРУЖЕН СБОЙ СИНТАКСИСА! Запуск автокоррекции..."
+          echo "🚨 ОБНАРУЖЕН СБОЙ СИНТАКСИСА! Запуск протокола исправления..."
           git config --local user.email "misterick1@gmail.com"
           git config --local user.name "misterick1"
-          
-          # КЛЮЧ ЗАПУСКА: проверяем, есть ли реальные изменения в репозитории
-          if [[ -n "$(git status --porcelain)" ]]; then
+
+          if [ -n "$(git status --porcelain)" ]; then
             git add .
-            git commit -m "🔱 AMRITA: Swarm auto-correction applied [skip ci]"
-            
-            # Сбрасываем незавершенные ребейзы, если они застряли в памяти раннера
+            git commit -m "🔱 AMRITA: Swarm auto-healing syntax repair"
             git rebase --abort 2>/dev/null || true
-            
             git pull origin main --rebase
             git push origin main --force
           else
-            echo "✨ Рабочая зона чиста (working tree clean). Нечего коммитить. Чистый выход."
+            echo "✨ Рабочая зона чиста (working tree clean). Выход."
             exit 0
           fi
 
@@ -72,33 +70,36 @@ jobs:
           git config --local user.email "misterick1@gmail.com"
           git config --local user.name "misterick1"
 
+          # Создаем бэкап сгенерированных логов во временную директорию
           mkdir -p /tmp/amrita_backup
           cp index.html /tmp/amrita_backup/ 2>/dev/null || true
           cp history_log.json /tmp/amrita_backup/ 2>/dev/null || true
-          git diff --name-only src/ | xargs -I {} cp --parents {} /tmp/amrita_backup/ 2>/dev/null || true
 
+          # Сбрасываем и жестко синхронизируем локальный репозиторий со свежим main на сервере
           git rebase --abort 2>/dev/null || true
-          git reset --hard HEAD
-          git clean -fd
           git fetch origin main
           git checkout -f main
           git reset --hard origin/main
 
+          # Возвращаем файлы логов из бэкапа обратно в рабочую директорию
           if [ -d "/tmp/amrita_backup" ]; then
             cp -r /tmp/amrita_backup/* ./ 2>/dev/null || true
           fi
 
+          # Индексируем обновленные файлы
           git add index.html 2>/dev/null || true
           git add history_log.json 2>/dev/null || true
 
+          # Проверяем, изменилось ли что-то в логах по сравнению с сервером
           if git diff --cached --quiet; then
             echo "✨ Изменений в экосистеме нет. Пропуск коммита."
             rm -rf /tmp/amrita_backup
             exit 0
           else
-            git commit -m "🔱 AMRITA: Quantum stack history sealed [skip ci]"
-            git pull origin main --rebase
+            # Делаем чистый коммит логов и форсированно отправляем в main
+            git commit -m "🔱 AMRITA: Quantum stack history logs sealed [Autonomous]"
             git push origin main --force
-            echo "✅ Эволюция успешно запечатана через принудительный пуш."
+            echo "✅ Эволюция успешно запечатана через принудительный квантовый апстрим."
           fi
+          
           rm -rf /tmp/amrita_backup
