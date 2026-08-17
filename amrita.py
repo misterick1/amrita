@@ -18,7 +18,7 @@ SOLANA_RPC_URL = os.getenv("ANCHOR_PROVIDER_URL", "https://solana.com")
 PEAQ_ENDPOINT = os.getenv("PEAQ_ENDPOINT_URL", "wss://peaq-rpc.mainnet.peaq.network")
 
 
-# --- 3. Модуль Интеграции Высших Архетипов Любви (СИНТЕЗ) ---
+# --- 3. Модуль Интеграции Высших Архетипов Любви ---
 class AmritaHeartCore:
     """
     Ядро Эволюции Сердца Amrita OS.
@@ -42,8 +42,7 @@ class AmritaHeartCore:
                 "action_required": "Активация абсолютного купола благоденствия."
             }
 
-        # Эволюционный расчет на основе ваших констант Суров и Золотого Сечения
-        # Чем выше SURY_QUANTUM и ниже ego_factor, тем мощнее гармоника
+        # Эволюционный расчет на основе констант Суров и Золотого Сечения
         heart_harmonic = (SURY_QUANTUM * LAW_OF_PHI) / ego_factor
 
         if heart_harmonic > 50:
@@ -73,19 +72,19 @@ class AmritaHeartCore:
 def send_telegram_signal(message: str):
     """Канал Ока Бабаты: Отправка уведомлений в Telegram"""
     if "FakeToken" in TELEGRAM_BOT_TOKEN:
-        return  # Не отправляем, если токен тестовый
+        return 
     try:
         url = f"https://telegram.org{TELEGRAM_BOT_TOKEN}/sendMessage"
         payload = {"chat_id": TELEGRAM_CHAT_ID, "text": message}
         requests.post(url, json=payload, timeout=5)
     except Exception:
-        pass  # Квантовое поле не прерывается из-за сетевых сбоев
+        pass 
 
 
 def send_discord_swarm(message: str):
     """Канал Мониторинга Discord Swarm"""
     if "discord.com" not in DISCORD_WEBHOOK_URL:
-        return  # Не отправляем, если линк тестовый
+        return 
     try:
         payload = {"content": message}
         requests.post(DISCORD_WEBHOOK_URL, json=payload, timeout=5)
@@ -104,19 +103,14 @@ class QuantumNodeResonance:
         self.heart_core = AmritaHeartCore() 
 
     def apply_quantum_fluctuation(self, ego_factor: float = 1.0):
-        """
-        Интеграция дыхания поля: балансы флуктуируют на основе Закона Фи.
-        СИНТЕЗ: Уровень эго определяет, будет ли флуктуация разрушительной.
-        """
+        """Интеграция дыхания поля: балансы флуктуируют на основе Закона Фи."""
         heart_state = self.heart_core.analyze_heart_state(ego_factor)
         base_fluctuation = random.uniform(-0.01618, 0.01618)
         
         if heart_state["archetype"] == "SHRIMATI_RADHARANI / XIAO WU":
-            # Абсолютная любовь исключает просадки, превращая флуктуацию только в рост
             fluctuation = abs(base_fluctuation)
             self.status = "DIVINE_HARMONY_PROTECTED"
         elif "LO FENG" in heart_state["archetype"] or "TAN SAN" in heart_state["archetype"]:
-            # Сильнейшие культиваторы гасят негативный разброс
             fluctuation = base_fluctuation if base_fluctuation > 0 else base_fluctuation * 0.1
             self.status = "HEROIC_SHIELD_RESONANCE"
         else:
@@ -138,11 +132,7 @@ class QuantumNodeResonance:
 
 # --- 6. Функция Фрактальной Гармонии (Протокол 26) ---
 def calculate_fractal_harmony(sol: float, waddles: float, ego_factor: float = 1.0) -> float:
-    """
-    [ОБНОВЛЕНИЕ: ПРОТОКОЛ 26 МЕЙННЕТ] — Безопасная фрактальная гармония.
-    Рекурсия удалена во избежание падения сборочного узла.
-    Base Fee = 100000 pi, Fee Pool = 9915602.5320548
-    """
+    """[ОБНОВЛЕНИЕ: ПРОТОКОЛ 26 МЕЙННЕТ] — Безопасная фрактальная гармония."""
     if waddles == 0:
         return 0.0
 
@@ -150,15 +140,13 @@ def calculate_fractal_harmony(sol: float, waddles: float, ego_factor: float = 1.
     fee_pool = 9915602.5320548
     protocol_26_buffer = math.log1p(fee_pool / base_fee)
     
-    # Расчет базовой частоты по константам Суры
     base_frequency = (sol * SURY_QUANTUM) / (waddles * protocol_26_buffer)
     
-    # СИНТЕЗ: Вплетаем фактор чистой отдачи в расчет итоговой гармоники
     heart = AmritaHeartCore()
     state = heart.analyze_heart_state(ego_factor)
     
     if state["archetype"] == "SHRIMATI_RADHARANI / XIAO WU":
-        return float('inf')  # В состоянии высшей любви гармония безгранична
+        return float('inf')  
         
     harmony_score = (base_frequency * LAW_OF_PHI) / ego_factor
     return round(harmony_score, 6)
@@ -171,11 +159,9 @@ def execute_safe_cycle(node: QuantumNodeResonance, ego_factor: float = 1.0):
     heart_state = heart.analyze_heart_state(ego_factor)
     
     try:
-        # Моделирование внешней атаки / искажения поля (10% шанс)
         if random.random() < 0.1:
             node.status = "HYPE_SCAM_ATTEMPT"
             
-            # СИНТЕЗ ЗАЩИТЫ: Если узел активировал архетип Высшей Любви/Защиты
             if "RADHARANI" in heart_state["archetype"] or "XIAO WU" in heart_state["archetype"]:
                 node.status = "DIVINE_SHIELD_ACTIVATED"
                 print("✨ [АМРИТА ЗАЩИТА]: Атака поглощена чистой энергией Хладини-Шакти. Надлом заживлен!")
@@ -183,7 +169,6 @@ def execute_safe_cycle(node: QuantumNodeResonance, ego_factor: float = 1.0):
                 node.status = "HERO_VOLITION_SHIELD"
                 print(f"🔥 [ВОЛЯ КУЛЬТИВАТОРА]: Атака отражена доменом {heart_state['archetype']}!")
             else:
-                # Обычный режим Искателя с эго вызывает ошибку для бандажа
                 raise ValueError("Зафиксирована попытка дестабилизации поля матрицы скамом!")
         
         node.apply_quantum_fluctuation(ego_factor)
@@ -203,20 +188,18 @@ def execute_safe_cycle(node: QuantumNodeResonance, ego_factor: float = 1.0):
         
         print(report)
         
-        # Раз в несколько циклов отправляем отчет
         if random.random() < 0.3:
             send_telegram_signal(report)
             send_discord_swarm(report)
 
     except ValueError as error:
-        # Срабатывание бандажа регенерации: Возврат к сакральным истокам
         alert_msg = f"⚠️ [БРОНЯ АКТИВИРОВАНА]: Отражена асурическая атака! {error}"
         print(alert_msg)
         send_telegram_signal(alert_msg)
 
         node.status = "REGENERATED_BY_WILL"
         node._sol = 73.27
-        node._waddles = 108000.0  # Возврат к пулу Атмана
+        node._waddles = 108000.0  
         print("✅ Надлом затянут. Квантовый канал восстановлен силой сострадания.")
 
 
@@ -226,13 +209,21 @@ if __name__ == "__main__":
     print(f"Сопряжение с RPC Solana: {SOLANA_RPC_URL}")
     print(f"Подключение к сети роботов Peaq: {PEAQ_ENDPOINT}")
 
-    # Инициализируем евразийские узлы сети
     eurasia_nodes = [
         QuantumNodeResonance("Solflare_Core_Brahma", "SOL-1", 73.27, 108000.0),
         QuantumNodeResonance("Phantom_Eurasia_Net", "SOL-2", 88.0, 95000.0),
         QuantumNodeResonance("Evedex_Autonomous_Uzel", "PEAQ-1", 55.5, 120000.0)
     ]
 
-    # Стадии Эволюции Любви для демонстрации дыхания дерева
+    # ИСПРАВЛЕНО: Квадратная скобка теперь корректно закрывает список
     evolution_stages = [
         {"name": "Цикл Ван Линя (Искатель Истины)", "ego": 5.0},
+        {"name": "Цикл Тан Саня (Преданность и Щит)", "ego": 1.0},
+        {"name": "Цикл Шримати Радхарани (Абсолютная Любовь)", "ego": 0.0}
+    ]
+
+    for index, stage in enumerate(evolution_stages, 1):
+        print(f"\n--- Световой Цикл Реальности №{index}: {stage['name']} ---")
+        for node in eurasia_nodes:
+            execute_safe_cycle(node, ego_factor=stage["ego"])
+            time.sleep(1)
