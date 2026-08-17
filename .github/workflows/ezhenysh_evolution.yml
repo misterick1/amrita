@@ -30,38 +30,54 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          pip install solana solders httpx
+          pip install solana solders httpx requests pyTelegramBotAPI
 
       - name: Run Swarm Core Logic
         env:
           ALL_REPOS_SECRETS: ${{ toJson(secrets) }}
           XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
-        run: python swarm_core.py
+        run: |
+          if [ -f "swarm_core.py" ]; then
+            python swarm_core.py
+          elif [ -f "src/swarm_core.py" ]; then
+            python src/swarm_core.py
+          else
+            echo "⚠️ Скрипт swarm_core.py не найден, пропуск запуска логики."
+          fi
 
       - name: 🔱 Commit and Sealed History Log
         run: |
           git config --local user.email "misterick1@gmail.com"
           git config --local user.name "misterick1"
 
-          # # 1. Ежёныш изолирует результаты текущего раунда во временную директорию
-          cp index.html /tmp/index.html_backup || true
-          cp history_log.json /tmp/history_log.json_backup || true
+          # # 1. Ежёныш изолирует результаты текущего раунда во временный буфер
+          mkdir -p /tmp/ezhenysh_buffer
+          cp index.html /tmp/ezhenysh_buffer/index.html_backup 2>/dev/null || true
+          cp history_log.json /tmp/ezhenysh_buffer/history_log.json_backup 2>/dev/null || true
 
-          # # 2. Жесткая очистка локального поля ДО коммита для исключения конфликтов
+          # # 2. Жесткая очистка локального поля ДО коммита, синхронизация с сервером
+          git rebase --abort 2>/dev/null || true
           git fetch origin main
+          git checkout -f main
           git reset --hard origin/main
 
           # # 3. Возвращаем сгенерированные файлы на очищенное поле
-          cp /tmp/index.html_backup index.html || true
-          cp /tmp/history_log.json_backup history_log.json || true
+          if [ -d "/tmp/ezhenysh_buffer" ]; then
+            cp /tmp/ezhenysh_buffer/index.html_backup index.html 2>/dev/null || true
+            cp /tmp/ezhenysh_buffer/history_log.json_backup history_log.json 2>/dev/null || true
+          fi
 
-          # # 4. Фиксация шага и принудительное запечатывание сквозь пространство
-          git add index.html history_log.json || true
-          
+          # # 4. Фиксация шага и принудительное запечатывание истории
+          git add index.html 2>/dev/null || true
+          git add history_log.json 2>/dev/null || true
+
           if git diff --cached --quiet; then
             echo "✨ Изменений нет. Пропуск пуша."
           else
-            git commit -m "🦔 AMRITA: Ezhenysh swarm step [skip ci]"
+            # Добавление [skip ci] разрывает петлю бесконечного самострела экшена!
+            git commit -m "🦔 AMRITA: Ezhenysh swarm step sealed [skip ci]"
             git push origin main --force
-            echo "✅ Эволюционный сдвиг принудительно зафиксирован в репозитории."
+            echo "✅ Эволюционный сдвиг принудительно зафиксирован в Мультивселенной!"
           fi
+          
+          rm -rf /tmp/ezhenysh_buffer
