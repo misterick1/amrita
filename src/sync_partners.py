@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-amrita / sync_partners.py
+amrita / src / sync_partners.py
 Полная сборка контура синхронизации Роя ИИ и внешних узлов.
 Синтаксис исправлен на строке 52, структура логов стабилизирована.
 """
@@ -17,7 +17,7 @@ logger = logging.getLogger("PartnersSync")
 
 class AmritaPartnersSynchronizer:
     def __init__(self):
-        self.history_log_path = "history_log.js"
+        self.history_log_path = "history_log.json"
         self.partner_webhook = os.getenv("DISCORD_WEBHOOK_URL")
 
     def sync_external_nodes(self, node_name: str, status: str = "STABLE") -> bool:
