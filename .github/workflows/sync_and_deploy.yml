@@ -33,37 +33,41 @@ jobs:
       - name: Install Dependencies and Tools
         run: |
           python -m pip install --upgrade pip
-          pip install requests pyTelegramBotAPI solana
+          pip install requests pyTelegramBotAPI
 
       - name: Execute Swarm Core Sync
         id: run_core
         continue-on-error: true
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: |
-          # Запуск мультиверс-оркестратора
-          if [ -f "src/multiverse_orchestrator.py" ]; then
-            python src/multiverse_orchestrator.py
-          elif [ -f "multiverse_orchestrator.py" ]; then
-            python multiverse_orchestrator.py
-          fi
+          export PYTHONPATH=.
           
-          # Запуск скрипта партнеров
-          if [ -f "amrita/sync_partners.py" ]; then
-            python amrita/sync_partners.py
-          elif [ -f "sync_partners.py" ]; then
-            python sync_partners.py
+          # Запуск мультиверс-оркестратора
+          if [ -f "amrita/src/multiverse_orchestrator.py" ]; then
+              python amrita/src/multiverse_orchestrator.py
+          elif [ -f "src/multiverse_orchestrator.py" ]; then
+              python src/multiverse_orchestrator.py
+          fi
+
+          # Запуск скрипта партнеров с учетом топографии src/
+          if [ -f "amrita/src/sync_partners.py" ]; then
+              python amrita/src/sync_partners.py
+          elif [ -f "src/sync_partners.py" ]; then
+              python src/sync_partners.py
           fi
 
       - name: Commit and Sealed History Log
         run: |
-          git config --local user.email "misterick1@gmail.com"
+          git config --local user.email "misterick1@://github.com"
           git config --local user.name "misterick1"
 
           # Бэкап свежих файлов индексов и логов
           mkdir -p /tmp/amrita_backup
-          cp index.html /tmp/amrita_backup/ 2>/dev/null || true
-          cp history_log.json /tmp/amrita_backup/ 2>/dev/null || true
+          [ -f index.html ] && cp index.html /tmp/amrita_backup/ || true
+          [ -f history_log.json ] && cp history_log.json /tmp/amrita_backup/ || true
 
-          # Сброс локального состояния до сервера, чтобы избежать конфликтов
+          # Сброс локального состояния до сервера
           git rebase --abort 2>/dev/null || true
           git fetch origin main
           git checkout -f main
@@ -71,7 +75,7 @@ jobs:
 
           # Возврат актуальных логов из бэкапа
           if [ -d "/tmp/amrita_backup" ]; then
-            cp -r /tmp/amrita_backup/* ./ 2>/dev/null || true
+              cp -r /tmp/amrita_backup/* ./ 2>/dev/null || true
           fi
 
           # Проверяем файлы индексов или логов, которые изменились
@@ -79,28 +83,31 @@ jobs:
           git add history_log.json 2>/dev/null || true
 
           if git diff --cached --quiet; then
-            echo "✨ Изменений в истории логов нет. Пропуск коммита."
-            rm -rf /tmp/amrita_backup
-            exit 0
+              echo "✨ Изменений в истории логов нет. Пропускаем коммит."
+              rm -rf /tmp/amrita_backup
+              exit 0
           fi
 
-          # Метка [skip ci] разрывает бесконечную петлю самозапуска экшенов
-          git commit -m "🔱 AMRITA: Quantum stack history logs sealed [skip ci]"
+          # Метка [skip ci] разрывает бесконечную петлю самовызова
+          git commit -m "🔱 AMRITA: Quantum stack history lock [skip ci]"
 
-          # Ваш цикл пробития блокировки refs/heads/main
+          # Цикл пробития блокировки refs/heads/main
           success=false
           for i in {1..5}; do
-            echo "Попытка пробития блокировки репозитория #$i..."
-            git pull origin main --rebase -X theirs && git push origin main && { success=true; break; }
-            echo "Конфликт блокировки репозитория. Повтор через 5 секунд..."
-            sleep 5
+              echo "Попытка пробития блокировки репозитория #$i"
+              if git pull origin main --rebase -X theirs && git push origin main; then
+                  echo "Успешная фиксация в main."
+                  success=true
+                  break
+              fi
+              echo "Конфликт блокировки репозитория. Повтор через 5 секунд..."
+              sleep 5
           done
 
           rm -rf /tmp/amrita_backup
 
-          # Если пуш не удался после 5 попыток — завершаем с ошибкой, если удался — выходим чисто (0)
           if [ "$success" = false ]; then
-            echo "❌ Не удалось пробить блокировку репозитория."
-            exit 1
+              echo "❌ Не удалось пробить блокировку репозитория."
+              exit 1
           fi
-          echo "🟢 Эволюция успешно запечатана в репозиторий!"
+          echo "🟢 Эволюция успешно запечатана в репозитории."
