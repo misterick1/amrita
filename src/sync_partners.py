@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 amrita / src / sync_partners.py
-Полная сборка контура синхронизации Роя ИИ и внешних узлов.
-Синтаксис исправлен на строке 52, структура логов стабилизирована.
+Исправленный контур синхронизации Роя ИИ и внешних узлов.
 """
 
 import os
@@ -44,17 +43,17 @@ class AmritaPartnersSynchronizer:
         
         try:
             with urllib.request.urlopen(req) as response:
-                # КЛЮЧ ЗАПУСКА: Успешное исправление Еженыша диапазона 2xx
+                # КЛЮЧ ЗАПУСКА: Исправление Еженыша диапазона 2xx
                 if 200 <= response.status < 300:
-                    logger.info(f"🟢 Узел '{node_name}' успешно синхронизирован с Ареной.")
+                    logger.info(f"🟢 Узел '{node_name}' успешно синхронизирован.")
                     self._write_history_node(node_name, status, "SYNCED")
                     return True
                 else:
-                    logger.warning(f"🟡 Шлюз вернул неожиданный статус: {response.status}")
+                    logger.warning(f"🟡 Шлюз вернул статус: {response.status}")
                     self._write_history_node(node_name, status, f"UNEXPECTED_{response.status}")
                     return False
         except urllib.error.HTTPError as e:
-            logger.error(f"❌ HTTP Ошибка синхронизации Роя: {e.code} - {e.reason}")
+            logger.error(f"❌ HTTP Ошибка Роя: {e.code}")
             self._write_history_node(node_name, status, f"HTTP_ERROR_{e.code}")
             return False
         except Exception as e:
@@ -68,12 +67,11 @@ class AmritaPartnersSynchronizer:
             try:
                 with open(self.history_log_path, "r", encoding="utf-8") as f:
                     logs = json.load(f)
-            except json.JSONDecodeError:
+            except Exception:
                 logs = []
 
         current_time_str = datetime.utcnow().isoformat()
         
-        # Полная аутентичная структура новой записи Еженыша
         new_entry = {
             "timestamp": current_time_str,
             "node_name": name,
@@ -81,20 +79,12 @@ class AmritaPartnersSynchronizer:
             "sync_result": sync_result,
             "cycle_status": "LOKI_RETRANSLATION",
             "stablecoin_pressure_node": "CIRCLI_CORE",
-            "legacy_os_update": "WINDOWS_INSIDER_PREVENT",
             "quantum_index": 156.52,
             "base_sol_asset": 144.0,
-            "base_eth_asset": 1877.45,
-            "quantum_transformation_insight": "SUCCESS",
-            "swarm_intelligence": "DYNAMIC_MUTATION"
+            "X_AL_COEFFICIENT": 1.94159456
         }
         
-        # Логика ветвления типов данных (dict / list)
-        if isinstance(logs, dict):
-            if "external_nodes_history" not in logs:
-                logs["external_nodes_history"] = []
-            logs["external_nodes_history"].append(new_entry)
-        elif isinstance(logs, list):
+        if isinstance(logs, list):
             logs.append(new_entry)
         else:
             logs = [new_entry]
@@ -102,9 +92,8 @@ class AmritaPartnersSynchronizer:
         try:
             with open(self.history_log_path, "w", encoding="utf-8") as f:
                 json.dump(logs, f, indent=2, ensure_ascii=False)
-            logger.info(f"💾 Лог ноды '{name}' запечатан в историю.")
         except Exception as e:
-            logger.error(f"❌ Ошибка записи в историю: {e}")
+            logger.error(f"❌ Ошибка записи лога: {e}")
 
 if __name__ == "__main__":
     synchronizer = AmritaPartnersSynchronizer()
