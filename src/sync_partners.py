@@ -43,17 +43,17 @@ class AmritaPartnersSynchronizer:
         
         try:
             with urllib.request.urlopen(req) as response:
-                # КЛЮЧ ЗАПУСКА: Исправление Еженыша диапазона 2xx
-                if 200 <= response.status < 300:
-                    logger.info(f"🟢 Узел '{node_name}' успешно синхронизирован.")
+                # ИСПРАВЛЕННЫЙ ОПЕРАТОР: Проверка вхождения в успешные статусы
+                if response.status in (200, 201, 202):
+                    logger.info(f"🟢 Узел '{node_name}' успешно синхронизирован с Ареной.")
                     self._write_history_node(node_name, status, "SYNCED")
                     return True
                 else:
-                    logger.warning(f"🟡 Шлюз вернул статус: {response.status}")
+                    logger.warning(f"🟡 Шлюз вернул неожиданный статус: {response.status}")
                     self._write_history_node(node_name, status, f"UNEXPECTED_{response.status}")
                     return False
         except urllib.error.HTTPError as e:
-            logger.error(f"❌ HTTP Ошибка Роя: {e.code}")
+            logger.error(f"❌ HTTP Ошибка синхронизации Роя: {e.code} - {e.reason}")
             self._write_history_node(node_name, status, f"HTTP_ERROR_{e.code}")
             return False
         except Exception as e:
@@ -81,6 +81,7 @@ class AmritaPartnersSynchronizer:
             "stablecoin_pressure_node": "CIRCLI_CORE",
             "quantum_index": 156.52,
             "base_sol_asset": 144.0,
+            "base_eth_asset": 1877.45,
             "X_AL_COEFFICIENT": 1.94159456
         }
         
@@ -92,8 +93,9 @@ class AmritaPartnersSynchronizer:
         try:
             with open(self.history_log_path, "w", encoding="utf-8") as f:
                 json.dump(logs, f, indent=2, ensure_ascii=False)
+            logger.info(f"💾 Лог ноды '{name}' запечатан в историю.")
         except Exception as e:
-            logger.error(f"❌ Ошибка записи лога: {e}")
+            logger.error(f"❌ Ошибка записи в историю: {e}")
 
 if __name__ == "__main__":
     synchronizer = AmritaPartnersSynchronizer()
