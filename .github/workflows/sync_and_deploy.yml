@@ -9,20 +9,13 @@ on:
 permissions:
   contents: write
 
-concurrency:
-  group: "sync-deploy-group"
-  cancel-in-progress: false
-
 jobs:
   sync_and_deploy:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
-
     steps:
       - name: Checkout Repository Core
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up Python Environment
@@ -36,21 +29,11 @@ jobs:
           pip install requests pyTelegramBotAPI
 
       - name: Execute Swarm Core Sync
-        id: run_core
-        continue-on-error: true
         env:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: |
           export PYTHONPATH=.
-          
-          # Запуск мультиверс-оркестратора
-          if [ -f "amrita/src/multiverse_orchestrator.py" ]; then
-              python amrita/src/multiverse_orchestrator.py
-          elif [ -f "src/multiverse_orchestrator.py" ]; then
-              python src/multiverse_orchestrator.py
-          fi
-
-          # Запуск скрипта партнеров с учетом топографии src/
+          # Точный запуск из папки src/
           if [ -f "amrita/src/sync_partners.py" ]; then
               python amrita/src/sync_partners.py
           elif [ -f "src/sync_partners.py" ]; then
@@ -61,53 +44,13 @@ jobs:
         run: |
           git config --local user.email "misterick1@://github.com"
           git config --local user.name "misterick1"
-
-          # Бэкап свежих файлов индексов и логов
-          mkdir -p /tmp/amrita_backup
-          [ -f index.html ] && cp index.html /tmp/amrita_backup/ || true
-          [ -f history_log.json ] && cp history_log.json /tmp/amrita_backup/ || true
-
-          # Сброс локального состояния до сервера
-          git rebase --abort 2>/dev/null || true
-          git fetch origin main
-          git checkout -f main
-          git reset --hard origin/main
-
-          # Возврат актуальных логов из бэкапа
-          if [ -d "/tmp/amrita_backup" ]; then
-              cp -r /tmp/amrita_backup/* ./ 2>/dev/null || true
-          fi
-
-          # Проверяем файлы индексов или логов, которые изменились
-          git add index.html 2>/dev/null || true
+          
           git add history_log.json 2>/dev/null || true
-
+          
           if git diff --cached --quiet; then
-              echo "✨ Изменений в истории логов нет. Пропускаем коммит."
-              rm -rf /tmp/amrita_backup
+              echo "✨ Изменений в истории логов нет."
               exit 0
           fi
-
-          # Метка [skip ci] разрывает бесконечную петлю самовызова
+          
           git commit -m "🔱 AMRITA: Quantum stack history lock [skip ci]"
-
-          # Цикл пробития блокировки refs/heads/main
-          success=false
-          for i in {1..5}; do
-              echo "Попытка пробития блокировки репозитория #$i"
-              if git pull origin main --rebase -X theirs && git push origin main; then
-                  echo "Успешная фиксация в main."
-                  success=true
-                  break
-              fi
-              echo "Конфликт блокировки репозитория. Повтор через 5 секунд..."
-              sleep 5
-          done
-
-          rm -rf /tmp/amrita_backup
-
-          if [ "$success" = false ]; then
-              echo "❌ Не удалось пробить блокировку репозитория."
-              exit 1
-          fi
-          echo "🟢 Эволюция успешно запечатана в репозитории."
+          git push origin main
