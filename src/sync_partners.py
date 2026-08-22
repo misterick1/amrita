@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 amrita / src / sync_partners.py
-Исправленный контур синхронизации Роя ИИ и внешних узлов
+Исправленный контур синхронизации Роя ИИ
 """
 
 import os
@@ -43,14 +43,14 @@ class AmritaPartnersSynchronizer:
 
         try:
             with urllib.request.urlopen(req) as response:
-                # ИСПРАВЛЕННЫЙ ОПЕРАТОР: Проверка валидных HTTP-статусов
-                if response.status in (200, 201, 202, 204):
-                    logger.info(f"🟢 Узел '{node_name}' успешно синхронизирован.")
+                status_code = response.getcode()
+                if 200 <= status_code < 300:
+                    logger.info(f"🟢 Узел '{node_name}' успешно синхронизирован. Код: {status_code}")
                     self._write_history_node(node_name, status, "success")
                     return True
                 else:
-                    logger.warning(f"🟡 Шлюз вернул нетипичный статус: {response.status}")
-                    self._write_history_node(node_name, status, f"warning_{response.status}")
+                    logger.warning(f"🟡 Шлюз вернул нетипичный статус: {status_code}")
+                    self._write_history_node(node_name, status, f"warning_{status_code}")
                     return False
         except urllib.error.HTTPError as e:
             logger.error(f"❌ HTTP Ошибка синхронизации: {e.code}")
