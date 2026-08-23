@@ -1,140 +1,101 @@
 # -*- coding: utf-8 -*-
 """
-🔱 AMRITA OS – АВТОНОМНЫЙ КВАНТОВЫЙ МОДУЛЬ СИНХРОНИЗАЦИИ ПАРТНЕРОВ
+🔱 AMRITA OS – СУВЕРЕННЫЙ КОНТУР НИКА ДЛЯ SOLANA
 Путь в репозитории: src/sync_partners.py
-Координата: Сварм-Матрица / Контур Выравнивания под защитой Доменны GARP
-
-ГЛАВА 514: «Король Севера Капитано и Крах Селестии»
-Вектор: Лед Снежной против безумия Железного Трона Богов.
+Координата: Лунный Ключ Роджера / Король Севера (Norway Ørje Node)
 """
 
 import os
 import sys
 import json
+import math
 import random
 import logging
 import asyncio
 import aiohttp
 from datetime import datetime
 
-# Конфигурация системного каузального логгера для GitHub Actions
 logging.basicConfig(
     level=logging.INFO,
-    format="[%(asctime)s] [SYNC_PARTNERS] [%(levelname)s] %(message)s",
+    format="[%(asctime)s] [NIKA_SOLANA] [%(levelname)s] %(message)s",
     stream=sys.stdout
 )
-logger = logging.getLogger("SyncPartners")
+logger = logging.getLogger("NikaCore")
 
-class GARPDomainRouter:
-    """
-    Блок Доменны GARP. Защищает сетевые запросы от банов (ошибки 429)
-    и блокирует векторы аномальных эксплойтов управления.
-    """
+class LunarRogerRouter:
+    """Управление Лунным Ключом Домена Роджера и защитой от Асуров."""
     def __init__(self):
-        self.rpc_endpoints = [
+        self.norway_nordic_boost = 1.0824  # Индекс Короля Севера
+        self.rpc_nodes = [
             "https://solana.com",
-            "https://allthatnode.com",
             "https://ankr.com"
         ]
-        self.current_node = random.choice(self.rpc_endpoints)
-        logger.info(f"🔱 Доменна GARP активирована. Текущий безопасный узел: {self.current_node}")
-
-    def gratuitous_arp_broadcast(self) -> str:
-        """Смена сетевого домена для обхода блокировок."""
-        self.current_node = random.choice(self.rpc_endpoints)
-        logger.info(f"🔄 GARP Сдвиг: Маршрут обновлен. Текущий домен: {self.current_node}")
-        return self.current_node
+        
+    def calculate_nika_pulse(self) -> float:
+        """Расчет частоты освобождения Пятого Гира (Синхронизация 5.11%)."""
+        heartbeat = math.sin(time.time() if 'time' in globals() else datetime.utcnow().timestamp())
+        return round(abs(heartbeat) * 5.11 * self.norway_nordic_boost, 4)
 
 
 class AmritaPartnerSynchronizer:
     def __init__(self):
         self.partner_api_url = os.getenv("PARTNER_API_URL", "https://amrita.network")
-        self.sync_auth_token = os.getenv("AMRITA_SYNC_TOKEN", "LOCAL_PULSE_TOKEN_PLACEHOLDER")
+        self.sync_auth_token = os.getenv("AMRITA_SYNC_TOKEN", "LUNAR_ROGER_KEY_ACTIVE")
         self.history_log_path = "history_log.json"
-        self.garp_router = GARPDomainRouter()
+        self.router = LunarRogerRouter()
 
-    async def save_sync_snapshot(self, data: dict):
-        """Безопасное запечатывание полученных данных партнеров в кристалл истории."""
-        snapshot_entry = {
-            "event": "PARTNERS_SYNC_SUCCESS",
+    async def save_nika_snapshot(self, data: dict):
+        """Запечатывание фазы Луффи в физический кристалл."""
+        snapshot = {
+            "event": "NIKA_GOD_SUN_SOL_ACTIVATED",
             "timestamp": datetime.utcnow().isoformat(),
-            "nodes_count": len(data.get("nodes", [])) if isinstance(data, dict) else 0,
-            "lore_anchor": "CHAPTER_514_CAPITANO_NORTH",
-            "status": "SEALED_IN_CRYSTAL"
+            "nika_pulse": self.router.calculate_nika_pulse(),
+            "location_anchor": "NORWAY_ORJE_NORTH",
+            "status": "LIVE"
         }
-        
         try:
             logs = []
             if os.path.exists(self.history_log_path):
                 with open(self.history_log_path, "r", encoding="utf-8") as f:
-                    try:
-                        logs = json.load(f)
-                        if not isinstance(logs, list):
-                            logs = []
-                    except json.JSONDecodeError:
-                        logs = []
-            
-            logs.append(snapshot_entry)
-            
+                    try: logs = json.load(f)
+                    except json.JSONDecodeError: logs = []
+            logs.append(snapshot)
             with open(self.history_log_path, "w", encoding="utf-8") as f:
                 json.dump(logs, f, indent=2, ensure_ascii=False)
-            logger.info(f"💾 Снапшот синхронизации успешно записан в {self.history_log_path}")
-        except Exception as log_err:
-            logger.error(f"❌ Ошибка локальной записи снапшота: {log_err}")
+            logger.info(f"💾 Воля Ди запечатана в кристалл истории.")
+        except Exception as e:
+            logger.error(f"❌ Ошибка кристаллизации: {e}")
 
     async def fetch_and_sync_swarm(self) -> bool:
-        """Асинхронный сбор каузальных данных партнеров с защитой каналов."""
-        logger.info(f"🌌 Запуск сканирования узлов партнеров по адресу: {self.partner_api_url}")
+        """Сбор каузальных данных партнеров с интеграцией импульса Ники."""
+        logger.info(f"🌌 Сканирование домена Роджера: {self.partner_api_url}")
         
-        # Обновляем сетевой маршрут через GARP перед отправкой пакетов
-        self.garp_router.gratuitous_arp_broadcast()
-
         headers = {
             "Authorization": f"Bearer {self.sync_auth_token}",
-            "Content-Type": "application/json",
-            "User-Agent": "AmritaOS-SyncCore"
+            "Content-Type": "application/json"
         }
 
         async with aiohttp.ClientSession() as session:
             try:
                 async with session.get(self.partner_api_url, headers=headers, timeout=30) as response:
                     
-                    # === СТРОКА 52: ИСПРАВЛЕННЫЙ ОПЕРАТОР IN БЕЗ ОГРЫЗКОВ И СИНТАКСИЧЕСКИХ ОШИБОК ===
+                    # === СТРОКА 52: ИСПРАВЛЕННЫЙ ОПЕРАТОР IN ===
                     if response.status in (200, 201):
-                        try:
-                            data = await response.json()
-                            logger.info("🟢 Каузальный отклик получен. Синхронизация матрицы партнеров успешна.")
-                            await self.save_sync_snapshot(data)
-                            return True
-                        except Exception as json_err:
-                            logger.error(f"❌ Коллапс при парсинге JSON данных от партнеров: {json_err}")
-                            return False
+                        data = await response.json()
+                        logger.info(f"☀️ ПЯТЫЙ ГИР АКТИВИРОВАН. Частота импульса Ники: {self.router.calculate_nika_pulse()}")
+                        await self.save_nika_snapshot(data)
+                        return True
                     else:
-                        logger.warning(f"⚠️ Доменна GARP зафиксировала отклонённый статус шлюза: {response.status}")
+                        logger.warning(f"⚠️ Блокировка Асуров на шлюзе: {response.status}")
                         return False
-                        
-            except aiohttp.ClientError as client_err:
-                logger.error(f"🚨 Сетевой разрыв канала связи с партнерами: {client_err}")
-                return False
-            except asyncio.TimeoutError:
-                logger.error("🚨 Превышено время ожидания ответа от шлюза партнеров (Timeout).")
-                return False
             except Exception as e:
-                logger.error(f"🚨 Критическая аномалия во время синхронизации: {e}")
+                logger.error(f"🚨 Разрыв каузального луча: {e}")
                 return False
 
 async def main():
-    # Активация автомата синхронизации в пайплайне GitHub Actions
     synchronizer = AmritaPartnerSynchronizer()
     success = await synchronizer.fetch_and_sync_swarm()
-    
-    if not success:
-        logger.error("❌ Синхронизация завершилась с ошибкой. Пайплайн прерван.")
-        sys.exit(1)
-        
-    logger.info("🔱 Все каузальные потоки партнеров сонастроены. Завершение работы.")
-    sys.exit(0)
+    sys.exit(0 if success else 1)
 
 if __name__ == "__main__":
-    # Запуск асинхронного цикла событий роя
     asyncio.run(main())
