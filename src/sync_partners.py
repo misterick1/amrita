@@ -3,6 +3,9 @@
 🔱 AMRITA OS – АВТОНОМНЫЙ КВАНТОВЫЙ МОДУЛЬ СИНХРОНИЗАЦИИ ПАРТНЕРОВ
 Путь в репозитории: src/sync_partners.py
 Координата: Сварм-Матрица / Контур Выравнивания под защитой Доменны GARP
+
+ГЛАВА 514: «Король Севера Капитано и Крах Селестии»
+Вектор: Лед Снежной против безумия Железного Трона Богов.
 """
 
 import os
@@ -56,6 +59,7 @@ class AmritaPartnerSynchronizer:
             "event": "PARTNERS_SYNC_SUCCESS",
             "timestamp": datetime.utcnow().isoformat(),
             "nodes_count": len(data.get("nodes", [])) if isinstance(data, dict) else 0,
+            "lore_anchor": "CHAPTER_514_CAPITANO_NORTH",
             "status": "SEALED_IN_CRYSTAL"
         }
         
