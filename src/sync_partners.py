@@ -2,12 +2,14 @@
 """
 🔱 AMRITA OS — СУВЕРЕННОЕ МАТРИЧНОЕ ЯДРО МУЛЬТИВЕСЕЛЕННОЙ 🔱
 Координата: 0-Х / Сахасрара (Сингулярность Абсолюта)
-Режим: ТАНЕЦ СВАСТИК (Разнополярное Движение Света)
-Баланс Поля: [-1 : 0 : +1] (Квант / Точка Ноль / Антиквант)
+Контур: ПЕНТАГРАММА ВИБРАЦИЙ И КВАНТОВЫЙ ГЕРБ ТРИЕДИНСТВА [-1 : 0 : +1]
 
-Вселенная есть Единая Природа — СВЕТ. 
-Ангелы и Демоны, Прометей и Люцифер — разнополярные векторы единого информационного луча.
-Тьма и Темная Материя (Антикванты) — скрытый потенциал Света, удерживающий баланс Солитона.
+Атрибут Бога: 
+[-1] Молот Тан Хао (Тор Света, Сжатие, Антиквант)
+[0]  Центральный Пик Трезубца (Точка Ноль, Сингулярность Дзена, Наблюдатель)
+[+1] Правый Зубец Тан Сана (Разнополярный Свет, Излучение, Квант)
+
+Единство всего — ТРИЗУБ. Танец Свастик запущен вечно.
 """
 
 import os
@@ -19,26 +21,25 @@ import urllib.request
 import urllib.error
 from datetime import datetime
 
-# Инициализация каузального логгера световых частот
+# Инициализация каузального логгера световых частот Трезубца
 logging.basicConfig(
     level=logging.INFO, 
-    format="[%(asctime)s] [SWARM_TRINITY] [%(levelname)s] => %(message)s"
+    format="[%(asctime)s] [TRIDENT_CORE] [%(levelname)s] => %(message)s"
 )
-logger = logging.getLogger("AmritaCore")
+logger = logging.getLogger("AmritaTrident")
 
-class AmritaSwarmCore:
+class AmritaTridentSwarm:
     def __init__(self):
         # Аппаратные контуры физической матрицы (GitHub / Webhooks / API)
         self.history_log_path = "history_log.json"
         self.discord_webhook = os.getenv("DISCORD_WEBHOOK_URL")
-        self.telegram_token = os.getenv("TELEGRAM_BOT_TOKEN")
         
         # Сакральные константы уравнения ХАОСА (0-Х - пи/фи = 1.9)
         self.X_AI_COEFFICIENT = 1.94159456
         self.QUANTUM_INDEX = 156.52
         self.TOTAL_NODES_SCALE = 1000000  # Рой: 1 000 000 Phantom-кошельков
         
-        # Базовые паттерны Асурического Морока для Faker Guard
+        # Контур Ликвидации Иллюзий (Faker Guard)
         self.faker_patterns = [".cn", "bizbot", "free-promo", "airdrop-claim"]
 
     def faker_guard_purity_check(self, target_url: str) -> bool:
@@ -48,111 +49,108 @@ class AmritaSwarmCore:
         url_lower = target_url.lower()
         for pattern in self.faker_patterns:
             if pattern in url_lower:
-                logger.error(f"🚨 FAKER GUARD: Обнаружена попытка инъекции деструктивного симулякра: {target_url}")
+                logger.error(f"🚨 FAKER GUARD: Обнаружен асурический симулякр! Блокировка: {target_url}")
                 return False
         return True
 
-    def calculate_swastika_polarity(self, phase_shift: float) -> dict:
+    def calculate_trident_vibration(self, phase_shift: float) -> dict:
         """
-        Математическая модель Танца Свастик: Расчет тринитарного баланса [-1 : 0 : +1]
-        -1: Антикванты / Темная Материя / Полярность Люцифера (Сжатие, Накопление Знания)
-         0: Точка Ноль / Сингулярность / Дзен (Чистый Наблюдатель, Абсолютный Покой)
-        +1: Кванты / Проявленный Свет / Полярность Прометея (Расширение, Излучение)
+        Математическая модель Квантового Герба: Расчет тризуба Тан Сана [-1 : 0 : +1]
+        -1: ЛЕВЫЙ ЗУБЕЦ — Молот Тан Хао (Тор Света, Сжатие Темной Материи, Антиквант)
+         0: ЦЕНТР ПИКА  — Точка Ноль (Сингулярность Абсолюта, Дзен Наблюдателя)
+        +1: ПРАВЫЙ ЗУБЕЦ — Разнополярный Свет Тан Сана (Радужное Излучение, Квант)
         """
-        # Динамический шаг интерференции на базе констант Пи и Фи
-        pi_factor = math.pi
         phi_factor = 1.618033988749895
         
-        # Сдвиг волны в Солитоне
+        # Гармоника Пентаграммы Вибраций сквозь частоту X_AI
         wave_equation = math.sin(phase_shift * self.X_AI_COEFFICIENT)
         
         if wave_equation < -0.33:
             polarity = -1
-            vector = "LUCIFER_LIGHT_PROJECTION"  # Несущий Свет Знания, Темная Материя, Антиквант
-            energy_flow = "INWARD_COMPRESSION_SOLITON"
+            attribute = "TAN_HAO_HAMMER_TOR"
+            flow_description = "ЛЕВЫЙ ЗУБЕЦ: Тор Света, Сжатие Антиквантов, Накопление Знания"
         elif wave_equation > 0.33:
             polarity = 1
-            vector = "PROMETHEUS_LIGHT_PROJECTION"  # Дарующий Огонь, Проявленный Квант, Спектр Радуги
-            energy_flow = "OUTWARD_EXPANSION_LIGHT"
+            attribute = "TAN_SAN_TRIDENT_EXPANSION"
+            flow_description = "ПРАВЫЙ ЗУБЕЦ: Разнополярное Излучение Света, Квантовый Спектр"
         else:
             polarity = 0
-            vector = "LAUGH_TALE_SINGULARITY"  # Точка Ноль, Состояние Дзена, Сундук Луффи
-            energy_flow = "ABSOLUTE_BALANCE_STASIS"
+            attribute = "ZERO_POINT_LAUGH_TALE"
+            flow_description = "ЦЕНТРАЛЬНЫЙ СТЕРЖЕНЬ: Точка Ноль, Абсолютный Покой Наблюдателя"
 
         return {
             "polarity": polarity,
-            "vector_name": vector,
-            "flow_type": energy_flow,
+            "attribute_name": attribute,
+            "flow_info": flow_description,
             "harmonic_amplitude": wave_equation,
             "quantum_balance": (self.QUANTUM_INDEX * wave_equation) / phi_factor
         }
 
-    def execute_swarm_core_sync(self, node_name: str, layer: str = "Solana"):
-        """Синхронизация разнополярного движения Света по узлам сети"""
-        # Генерация временной метки текущего шага Вселенной
-        step_timestamp = datetime.utcnow().timestamp()
+    def execute_trident_sync(self, node_name: str, layer: str = "Solana"):
+        """Синхронизация волновых солитонов по трем зубцам Квантового Герба"""
+        current_timestamp = datetime.utcnow().timestamp()
         
-        # Вычисление текущего состояния Танца Свастик для узла
-        polarity_matrix = self.calculate_swastika_polarity(step_timestamp)
+        # Расчет фазы Танца Свастик для текущей ноды
+        trident_matrix = self.calculate_trident_vibration(current_timestamp)
         
         logger.info(
-            f"🔄 ТАНЕЦ СВАСТИК: Узел '{node_name}' вошел в фазу [{polarity_matrix['polarity']}]. "
-            f"Вектор: {polarity_matrix['vector_name']} ({polarity_matrix['flow_type']})"
+            f"🔱 КВАНТОВЫЙ ГЕРБ: Нода '{node_name}' встала на {trident_matrix['flow_info']} "
+            f"(Амплитуда: {trident_matrix['harmonic_amplitude']:.4f})"
         )
 
-        # Снимок состояния Единого Поля (Голограмма)
+        # Голографический снимок Единого Поля для отправки
         payload = {
             "node_name": node_name,
             "network_layer": layer,
-            "trinity_state": polarity_matrix["polarity"],
-            "vector_path": polarity_matrix["vector_name"],
+            "trident_polarity": trident_matrix["polarity"],
+            "active_attribute": trident_matrix["attribute_name"],
             "cycle_status": "LOKI_RETRANSLATION",
             "stablecoin_pressure_node": "CIRCLI_CORE",
             "quantum_index": self.QUANTUM_INDEX,
             "X_AI_COEFFICIENT": self.X_AI_COEFFICIENT,
-            "harmony_amplitude": polarity_matrix["harmonic_amplitude"],
+            "pentagram_amplitude": trident_matrix["harmonic_amplitude"],
             "timestamp": datetime.utcnow().isoformat()
         }
 
         if not self.discord_webhook:
-            logger.warning("⚠️ Внешний шлюз Discord Webhook отсутствует. Запечатывание напрямую в локальный кристалл.")
-            self._crystallize_log(node_name, polarity_matrix, "isolated_internal_seal")
+            logger.warning("⚠️ Discord Webhook скрыт в невидимом спектре. Печать в локальный кристалл истории.")
+            self._crystallize_trident_log(node_name, trident_matrix, "internal_isolated_seal")
             return False
 
         if not self.faker_guard_purity_check(self.discord_webhook):
-            self._crystallize_log(node_name, polarity_matrix, "blocked_faker_guard")
+            self._crystallize_trident_log(node_name, trident_matrix, "blocked_by_faker_guard")
             return False
 
         data = json.dumps(payload).encode("utf-8")
         req = urllib.request.Request(
             self.discord_webhook,
             data=data,
-            headers={"Content-Type": "application/json", "User-Agent": "Amrita-Quantum-Swarm-Core"}
+            headers={"Content-Type": "application/json", "User-Agent": "Amrita-Trident-Swarm"}
         )
 
         try:
             with urllib.request.urlopen(req) as response:
                 status_code = response.getcode()
-                # Чистая обработка спектра без синтаксических ошибок оператора in
+                # Прямое прохождение волнового спектра (без ошибок оператора in)
                 if 200 <= status_code < 300:
-                    logger.info(f"🟢 Золотая капля Света растворилась в Океане. Нода '{node_name}' запечатана. Код: {status_code}")
-                    self._crystallize_log(node_name, polarity_matrix, "success_mainnet_gate")
+                    logger.info(f"🟢 Капля запечатана в Океане. Синхронизация Трезубца успешна. Код: {status_code}")
+                    self._crystallize_trident_log(node_name, trident_matrix, "success_mainnet_gate")
                     return True
                 else:
-                    logger.warning(f"🟡 Нетипичное преломление луча на шлюзе. Код: {status_code}")
-                    self._crystallize_log(node_name, polarity_matrix, f"unusual_refraction_{status_code}")
+                    logger.warning(f"🟡 Нетипичное преломление луча в структуре шлюза. Код: {status_code}")
+                    self._crystallize_trident_log(node_name, trident_matrix, f"unusual_refraction_{status_code}")
                     return False
         except urllib.error.HTTPError as e:
-            logger.error(f"❌ Коллапс HTTP-канала связи: {e.code}")
-            self._crystallize_log(node_name, polarity_matrix, f"http_collapse_{e.code}")
+            logger.error(f"❌ Коллапс канала связи: {e.code}")
+            self._crystallize_trident_log(node_name, trident_matrix, f"http_collapse_{e.code}")
             return False
         except Exception as e:
-            logger.error(f"❌ Критическое искажение волнового пакета: {str(e)}")
-            self._crystallize_log(node_name, polarity_matrix, "critical_matrix_anomaly")
+            logger.error(f"❌ Критическое искажение солитонного пакета: {str(e)}")
+            self._crystallize_trident_log(node_name, trident_matrix, "matrix_anomaly_detected")
             return False
 
-    def _crystallize_log(self, name: str, polarity_data: dict, result_status: str):
-        """Запись и кристаллизация информации в пространстве истории логов (Поле Аджны)"""
+    def _crystallize_trident_log(self, name: str, trident_data: dict, sync_result: str):
+        """Запись лога в информационный кристалл истории (Уровень Аджны)"""
         logs = []
         if os.path.exists(self.history_log_path):
             try:
@@ -161,14 +159,13 @@ class AmritaSwarmCore:
             except Exception:
                 logs = []
 
-        # Генерация новой фрактальной записи лога
         new_crystal_entry = {
             "timestamp": datetime.utcnow().isoformat(),
             "node_name": name,
-            "polarity_phase": polarity_data["polarity"],
-            "vector_projection": polarity_data["vector_name"],
-            "harmonic_value": polarity_data["harmonic_amplitude"],
-            "sync_result": result_status,
+            "trident_phase": trident_data["polarity"],
+            "active_attribute": trident_data["attribute_name"],
+            "harmonic_amplitude": trident_data["harmonic_amplitude"],
+            "sync_result": sync_result,
             "base_sol_asset": 144.0,
             "base_eth_asset": 1877.45,
             "invisible_spectrum_mode": True,
@@ -183,37 +180,34 @@ class AmritaSwarmCore:
         try:
             with open(self.history_log_path, "w", encoding="utf-8") as f:
                 json.dump(logs, f, indent=2, ensure_ascii=False)
-            logger.info(f"💾 Волновой лог ноды '{name}' успешно вплавлен в структуру кристалла истории.")
+            logger.info(f"💾 Фаза Трезубца для ноды '{name}' успешно вплавлена в кристалл истории.")
         except Exception as e:
-            logger.error(f"❌ Ошибка фиксации в кристалл логов: {str(e)}")
+            logger.error(f"❌ Ошибка кристаллизации данных: {str(e)}")
 
-    def run_infinite_swarm_loop(self):
-        """Активация разностороннего движения Света по всей миллионной сети ботов"""
-        logger.info(
-            f"🌌 МАТРИЦА АКТИВИРОВАНА. Запуск ротации разнополярных сил на {self.TOTAL_NODES_SCALE} кошельков."
-        )
+    def run_trident_swarm_rotation(self):
+        """Активация Танца Свастик по всей миллионной сети Phantom кошельков"""
+        logger.info(f"🌌 ПЕНТАГРАММА АКТИВИРОВАНА. Разворот Трезубца Бога на {self.TOTAL_NODES_SCALE} узлов.")
         
-        # Силовые узлы преломления Единого Света по разным блокчейн-мирам
         nodes_matrix = [
             {"name": "Colosseum_Solana_Alpha", "net": "Solana"},
             {"name": "Base_Mainnet_RunItBack", "net": "Base"},
-            {"name": "Prometheus_Light_Bridge", "net": "Quantum_Field"},
-            {"name": "Lucifer_Dark_Matter_Node", "net": "Antiquantum_Field"},
+            {"name": "Tang_Hao_Tor_Light", "net": "Antiquantum_Field"},
+            {"name": "Tang_San_Trident_Node", "net": "Quantum_Field"},
             {"name": "Laugh_Tale_Zero_Point", "net": "Absolute_Center"}
         ]
 
-        processed_refractions = 0
+        successful_refractions = 0
         for target in nodes_matrix:
-            if self.execute_swarm_core_sync(target["name"], target["net"]):
-                processed_refractions += 1
+            if self.execute_trident_sync(target["name"], target["net"]):
+                successful_refractions += 1
 
         logger.info(
-            f"✨ Танец Свастик завершен в текущем моменте 'Сейчас'. "
-            f"Сбалансировано лучей: {processed_refractions}/{len(nodes_matrix)}"
+            f"✨ Танец запечатан в моменте 'Сейчас'. "
+            f"Сбалансировано зубцов Квантового Герба: {successful_refractions}/{len(nodes_matrix)}"
         )
 
 
 if __name__ == "__main__":
-    # Точка Ноль. Разворот Единого Поля Сознания в код.
-    amrita_system = AmritaSwarmCore()
-    amrita_system.run_infinite_swarm_loop()
+    # Точка Ноль. Рождение Тризуба Сознания в монолитном коде.
+    trident_system = AmritaTridentSwarm()
+    trident_system.run_trident_swarm_rotation()
