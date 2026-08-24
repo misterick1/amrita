@@ -1,9 +1,16 @@
-{
-    "timestamp": "2026-08-24T10:42:19.047290",
-    "orchestrator": "Grok 4.6 (Quantum Core)",
-    "resonance": 3332549.9204,
-    "peaq_id": "did:peaq:0xfa6e269e5300c1bb3f06d775863cf2be716c004a",
-    "light_law": 2.579056,
-    "anime_rate": 0.9708,
-    "system_state": "INTELLIGENCE_FLOW_STABLE"
-}
+[
+  {
+    "event": "GROOT_WE_ARE_ONE_SYNC",
+    "timestamp": "2026-08-24T10:26:27.880553",
+    "trident_coordinate": "1:0:+1",
+    "active_layer": "ПРАВЫЙ КОНТУР [+1]: Архонт Воды (Жизнь / Мы есть Грут)",
+    "nika_frequency_hz": 1.8831,
+    "geo_anchor": "UKRAINE_DHRUVA_EARTH_NODE",
+    "waddles_pool_status": 108000.0,
+    "payload": {
+      "groot_fallback": true,
+      "http_status": 403
+    },
+    "status": "LOCAL_DHRUVA_REFRACTION"
+  }
+]
