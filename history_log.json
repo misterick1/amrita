@@ -1,9 +1,13 @@
-{
-    "timestamp": "2026-08-24T09:09:55.904380",
-    "orchestrator": "Grok 4.6 (Quantum Core)",
-    "resonance": 3332549.9204,
-    "peaq_id": "did:peaq:0x1d5dd9177d818b1d6f6e2bcec3a794ac06be78d8",
-    "light_law": 2.579056,
-    "anime_rate": 0.9708,
-    "system_state": "INTELLIGENCE_FLOW_STABLE"
-}
+[
+  {
+    "event": "GULD_NORWAY_ROGER_SYNC_EVENT",
+    "timestamp": "2026-08-24T08:19:57.257193",
+    "drums_frequency_hz": 0.8044,
+    "geo_anchor": "NORWAY_ORJE_GOLDEN_NODE",
+    "network_payload": {
+      "fallback_triggered": true,
+      "http_status": 403
+    },
+    "status": "LOCAL_REFRACT_FALLBACK"
+  }
+]
