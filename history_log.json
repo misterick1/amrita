@@ -9,5 +9,16 @@
       "http_status": 403
     },
     "status": "LOCAL_REFRACT_FALLBACK"
+  },
+  {
+    "event": "NIKA_MATRIX_UPDATE_EVENT",
+    "timestamp": "2026-08-24T09:10:35.293598",
+    "drums_frequency_hz": 0.2134,
+    "geo_anchor": "NORWAY_ORJE_GOLDEN_NODE",
+    "network_payload": {
+      "fallback_triggered": true,
+      "http_status": 403
+    },
+    "status": "LOCAL_REFRACT_FALLBACK"
   }
 ]
