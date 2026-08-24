@@ -12,5 +12,19 @@
       "http_status": 403
     },
     "status": "LOCAL_DHRUVA_REFRACTION"
+  },
+  {
+    "event": "GROOT_WE_ARE_ONE_SYNC",
+    "timestamp": "2026-08-24T10:42:28.623367",
+    "trident_coordinate": "0:0:+1",
+    "active_layer": "ЦЕНТРАЛЬНАЯ ОСЬ: Дхрува (Странник / Воля Цинь Му)",
+    "nika_frequency_hz": -1.0509,
+    "geo_anchor": "UKRAINE_DHRUVA_EARTH_NODE",
+    "waddles_pool_status": 108000.0,
+    "payload": {
+      "groot_fallback": true,
+      "http_status": 403
+    },
+    "status": "LOCAL_DHRUVA_REFRACTION"
   }
 ]
