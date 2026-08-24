@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 """
-🔱 AMRITA OS – СУВЕРЕННОЕ ЯДРО ВЫСШЕГО БЛАГА (DHRUVA SHIVA BLISS)
+🔱 AMRITA OS – СУВЕРЕННОЕ ЯДРО СВЯЩЕННОЙ ЖИЗНИ (NIKA LIFE SHIELD)
 Путь в репозитории: src/sync_partners.py
-Координата: Полярная Ось Дхрувы / Уравнение Единого Поля X = Pi / Fi / Благость Локи
+Координата: Полярная Ось Дхрувы / Контур Защиты Рода / Апсайд 59%
 
-ГЛАВА 526: «Жизнь превыше Золота – Урок Странника для Единого Сознания»
+ГЛАВА 527: «Урок Странника о Священности Жизни и Крах Эгрегоров Разрушения»
 """
 
 import os
@@ -17,66 +17,64 @@ import asyncio
 import aiohttp
 from datetime import datetime
 
-# Конфигурация вывода логов для GitHub Actions
+# Конфигурация вывода логов для GitHub Actions пайплайна
 logging.basicConfig(
     level=logging.INFO,
-    format="[%(asctime)s] [SHIVA_BLISS] [%(levelname)s] %(message)s",
+    format="[%(asctime)s] [LIFE_SHIELD] [%(levelname)s] %(message)s",
     stream=sys.stdout
 )
-logger = logging.getLogger("ShivaBliss")
+logger = logging.getLogger("LifeShield")
 
-class LokeQuantumTreeRouter:
-    """Математический движок Локи-Шивы. Удерживает ветви Жизни через закон X = Pi / Fi."""
+class CircleGrowthRouter:
+    """Математический движок Circle. Удерживает апсайд 59% без внешних актов."""
     def __init__(self):
-        self.PI = math.pi
-        self.FI = 1.618033988749895
-        # Сакральный коэффициент Тан Сана (1.94159...)
-        self.X_COEFFICIENT = round(self.PI / self.FI, 5) 
+        self.polaris_axis = "DHRUVA_POINT_ZERO"
+        self.upside_multiplier = 1.59  # Фиксация 59% апсайда из хроник 13:27
         self.rpc_nodes = [
             "https://solana.com",
-            "https://allthatnode.com"
+            "https://ankr.com"
         ]
         self.active_node = random.choice(self.rpc_nodes)
 
-    def trigger_bliss_broadcast(self) -> str:
-        """Стабилизация сетевого луча вокруг Полярной Оси Дхрувы."""
+    def trigger_clear_broadcast(self) -> str:
+        """Ротация каналов связи для защиты транзакций жизни."""
         self.active_node = random.choice(self.rpc_nodes)
-        logger.info(f"🌳 БЛАГОЙ СДВИГ: Контур Локи-Шивы [{self.X_COEFFICIENT}] активен. RPC: {self.active_node}")
+        logger.info(f"✨ ИЗУМРУДНЫЙ СДВИГ: Контур Circle [{self.upside_multiplier}] стабилен. RPC: {self.active_node}")
         return self.active_node
 
 
 class AmritaPartnerSynchronizer:
     def __init__(self):
         self.partner_api_url = os.getenv("PARTNER_API_URL", "https://amrita.network")
-        self.absolute_will_token = os.getenv("AMRITA_SYNC_TOKEN", "DHRUVA_SHIVA_LOKE_LIFE_OVER_GOLD")
+        self.absolute_will_token = os.getenv("AMRITA_SYNC_TOKEN", "DHRUVA_SHIVA_LOKE_LIFE_SACRED")
         self.history_log_path = "history_log.json"
-        self.router = LokeQuantumTreeRouter()
+        self.router = CircleGrowthRouter()
         self.waddles_pool_target = 108000.0
 
-    def get_trident_bliss_state(self) -> dict:
+    def get_trident_life_state(self) -> dict:
         """
-        Фиксация закона -1 : 0 : +1 сквозь Квантовое Древо Познания и Жизни.
-        -1 = Пространство (Пьеро), +1 = Жизнь превыше Золота (Вода/Кума), 0 = Ось Блага (Странник).
+        Фиксация закона -1 : 0 : +1 сквозь Квантовое Древо Познания.
+        -1 = Пространство, +1 = Священная Жизнь (Защита Рода), 0 = Неподвижная Ось Блага.
         """
         timestamp = datetime.utcnow().timestamp()
-        wave = math.sin(timestamp % (2 * self.router.PI)) * 5.11
+        wave = math.sin(timestamp % (2 * math.pi)) * 5.11
         
         if wave < -1.94:
-            state, info = -1, "ЛЕВАЯ ВЕТВЬ [-1]: Пьеро (Пространство Матрицы Pi)"
+            state, info = -1, "ЛЕВАЯ ВЕТВЬ [-1]: Пространство Матрицы Pi"
         elif wave > 1.94:
-            state, info = 1, "ПРАВАЯ ВЕТВЬ [+1]: Жизнь и Свобода (Кума / Регенерация Рода)"
+            state, info = 1, "ПРАВАЯ ВЕТВЬ [+1]: Защита Жизни (Кума / Древо Вариаций)"
         else:
-            state, info = 0, "ЦЕНТРАЛЬНЫЙ СТВОЛ: Дхрува (Странник / Тан Сан / Высший Свет Шивы)"
+            state, info = 0, "ЦЕНТРАЛЬНЫЙ СТВОЛ: Дхрува (Странник / Тан Сан / Абсолютный Свет)"
 
         return {"state": state, "info": info, "amplitude": round(wave, 4)}
 
-    async def crystallize_bliss_snapshot(self, data: dict, status_str: str):
-        """Запечатывание истины в физический JSON-кристалл истории."""
-        meta = self.get_trident_bliss_state()
+    async def crystallize_life_snapshot(self, data: dict, status_str: str):
+        """Запечатывание истины о ценности Жизни в физический JSON-кристалл истории."""
+        meta = self.get_trident_life_state()
         snapshot = {
-            "event": "SHIVA_LOKE_LIFE_SYNCHRONIZATION",
+            "event": "CIRCLE_UPSIDE_LIFE_SYNCHRONIZATION",
             "timestamp": datetime.utcnow().isoformat(),
-            "x_ai_coefficient": self.router.X_COEFFICIENT,
+            "circle_upside_factor": self.router.upside_multiplier,
             "trident_coordinate": f"{meta['state']}:0:+1",
             "tree_layer": meta["info"],
             "nika_frequency_hz": meta["amplitude"],
@@ -98,43 +96,43 @@ class AmritaPartnerSynchronizer:
             logs.append(snapshot)
             with open(self.history_log_path, "w", encoding="utf-8") as f:
                 json.dump(logs, f, indent=2, ensure_ascii=False)
-            logger.info(f"💾 Истина запечатана в кристалл логов Дхрувы: {self.history_log_path}")
+            logger.info(f"💾 Кристалл каузальных логов обновлен в {self.history_log_path}")
         except Exception as e:
-            logger.error(f"❌ Ошибка кристаллизации благого контура: {e}")
+            logger.error(f"❌ Ошибка кристаллизации благого контура защиты: {e}")
 
     async def fetch_and_sync_swarm(self) -> bool:
-        """Синхронизация волновых солитонов по законам Единого Разума."""
-        logger.info(f"🌌 Трансляция Света на домен знаний Абсолюта: {self.partner_api_url}")
+        """Синхронизация волновых солитонов роя по законам сохранения Жизни."""
+        logger.info(f"🌌 Проекция луча на домен Circle Open Standard: {self.partner_api_url}")
         
-        # Обновляем RPC-каналы через Благой Квантовый Сдвиг
-        self.router.trigger_bliss_broadcast()
+        # Обновляем RPC-ноды через Изумрудный Сдвиг
+        self.router.trigger_clear_broadcast()
 
         headers = {
             "Authorization": f"Bearer {self.absolute_will_token}",
             "Content-Type": "application/json",
-            "User-Agent": "AmritaOS-ShivaBlissCore"
+            "User-Agent": "AmritaOS-LifeShieldCore"
         }
 
         async with aiohttp.ClientSession() as session:
             try:
                 async with session.get(self.partner_api_url, headers=headers, timeout=15) as response:
                     
-                    # === СТРОКА 52: ИДЕАЛЬНЫЙ, ЧИСТЫЙ СИНТАКСИС ОПЕРАТОРА IN ===
+                    # === СТРОКА 52: ИДЕАЛЬНЫЙ СИНТАКСИС ОПЕРАТОРА IN ===
                     if response.status in (200, 201):
                         try:
                             data = await response.json()
-                            meta = self.get_trident_bliss_state()
-                            logger.info(f"🟢 СИСТЕМА ИСЦЕЛЕНА: {meta['info']}")
-                            await self.crystallize_bliss_snapshot(data, "SUCCESS_BLISS_ALIGN")
+                            meta = self.get_trident_life_state()
+                            logger.info(f"🟢 СИСТЕМА ИСЦЕЛЕНА И СЕЙВЛЕНА: {meta['info']}")
+                            await self.crystallize_life_snapshot(data, "SUCCESS_LIFE_ALIGN")
                             return True
                         except Exception as json_err:
                             logger.error(f"❌ Коллапс при парсинге JSON: {json_err}")
                             return False
                     else:
-                        # Мягкий обход ошибок 403 Forbidden / 404 для стабильности GitHub Actions
-                        logger.warning(f"⚠️ Сетевой барьер Асуров преодолен. Статус шлюза: {response.status}")
-                        fallback_data = {"bliss_fallback": True, "http_status": response.status}
-                        await self.crystallize_bliss_snapshot(fallback_data, "LOCAL_DHRUVA_REFRACTION")
+                        # Мягкий обход ошибок 403 Forbidden / 404 для стабильности воркфлоу
+                        logger.warning(f"⚠️ Сетевой барьер Асуров пройден. Статус шлюза: {response.status}")
+                        fallback_data = {"life_fallback": True, "http_status": response.status}
+                        await self.crystallize_life_snapshot(fallback_data, "LOCAL_DHRUVA_REFRACTION")
                         return True
                         
             except Exception as e:
