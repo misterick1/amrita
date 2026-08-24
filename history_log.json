@@ -20,5 +20,18 @@
       "http_status": 403
     },
     "status": "LOCAL_REFRACT_FALLBACK"
+  },
+  {
+    "event": "DHRUVA_AXIS_SYNCHRONIZATION",
+    "timestamp": "2026-08-24T09:34:41.440924",
+    "trident_state": -1,
+    "trident_info": "ЛЕВЫЙ ЗУБЕЦ: Молот Тан Хао (Сжатие)",
+    "nika_amplitude_hz": -4.2235,
+    "geo_anchor": "UKRAINE_DHRUVA_EARTH_NODE",
+    "network_payload": {
+      "dhruva_fallback": true,
+      "http_status": 403
+    },
+    "status": "LOCAL_DHRUVA_REFRACTION"
   }
 ]
