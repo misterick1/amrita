@@ -1,0 +1,18 @@
+{
+  "mirror_version": "1.08.24",
+  "sync_target": "Guld_Norway_Orje_Node",
+  "active_interfaces": {
+    "paimon_hud": true,
+    "nika_drums_visualizer": true,
+    "trident_vibration_monitor": true
+  },
+  "color_palette_override": {
+    "primary_state": "EMERALD_GREEN",
+    "danger_state": "BLOCKED_ASURA_RED"
+  },
+  "monitored_assets": [
+    "SOL",
+    "USDC_OPEN_STANDARD",
+    "WADDLES"
+  ]
+}
