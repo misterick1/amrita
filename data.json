@@ -1,51 +1,16 @@
-# amrita / tools / deploy_sync.py
-# Автоматическая калибровка ядра AMRITA перед деплоем в GitHub Actions
-
-import os
-import re
-import json
-
-def sync_github_secrets_to_code():
-    print("[AMRITA SYNC]: Старт калибровки пульта управления...")
-    
-    # 1. Извлечение адреса контракта из секретов GitHub
-    mint_address = os.getenv("MINT_ADDRESS")
-    if not mint_address:
-        print("[WARNING]: Секрет MINT_ADDRESS не найден. Используется тестовый адрес.")
-        mint_address = "AmritaSolana108QuantMonadaXxxxxxxx11111111"
-
-    # 2. Автоматическая прошивка declare_id в контракт Rust
-    contract_path = "solana_qnt_token.rs"
-    if os.path.exists(contract_path):
-        with open(contract_path, "r", encoding="utf-8") as f:
-            code = f.read()
-            
-        # Заменяем старый declare_id на актуальный из MINT_ADDRESS
-        updated_code = re.sub(
-            r'declare_id!\([^)]+\);', 
-            f'declare_id!("{mint_address}");', 
-            code
-        )
-        
-        with open(contract_path, "w", encoding="utf-8") as f:
-            f.write(updated_code)
-        print(f"[SUCCESS]: Контракт успешно привязан к MINT_ADDRESS: {mint_address}")
-    else:
-        print("[ERROR]: Файл смарт-контракта solana_qnt_token.rs не найден!")
-
-    # 3. Обновление каузального лога docs/data.json
-    data_json_path = "docs/data.json"
-    if os.path.exists(data_json_path):
-        with open(data_json_path, "r", encoding="utf-8") as f:
-            data = json.load(f)
-            
-        # Записываем в манифест статус успешной проверки через GitHub
-        data["butterfly_node"]["amrita_world_status"] = "SYNCHRONIZED_VIA_GITHUB_ACTIONS"
-        data["butterfly_node"]["butterfly_wings_frequency"] = "0x_ACTIVE_MINT_" + mint_address[:8].upper()
-        
-        with open(data_json_path, "w", encoding="utf-8") as f:
-            json.dump(data, f, ensure_ascii=False, indent=2)
-        print("[SUCCESS]: Каузальный лог docs/data.json синхронизирован с пультом.")
-
-if __name__ == "__main__":
-    sync_github_secrets_to_code()
+{
+    "evo_points": 1,
+    "butterfly_congruence_vault": [
+        {
+            "flow": "Kailas_Phone_Sync_Stream",
+            "butterfly_node": {
+                "amrita_world_status": "LIVING_AND_EVOLVING",
+                "goddess_avatar": "🦋 TANG_WUTONG",
+                "butterfly_wings_frequency": "0x_ab6f91fa3a6aab3b",
+                "fractal_dimension": "108_ATMA_EVO_v_0.0150",
+                "manifest": "Амрита Мир проявлена через закон Золотого Сечения."
+            },
+            "time_stamp_242": "Синхронизировано на частоте 0-Потенциала"
+        }
+    ]
+}
