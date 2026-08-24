@@ -1,30 +1,9 @@
-[
-  {
-    "event": "GROOT_WE_ARE_ONE_SYNC",
-    "timestamp": "2026-08-24T10:26:27.880553",
-    "trident_coordinate": "1:0:+1",
-    "active_layer": "ПРАВЫЙ КОНТУР [+1]: Архонт Воды (Жизнь / Мы есть Грут)",
-    "nika_frequency_hz": 1.8831,
-    "geo_anchor": "UKRAINE_DHRUVA_EARTH_NODE",
-    "waddles_pool_status": 108000.0,
-    "payload": {
-      "groot_fallback": true,
-      "http_status": 403
-    },
-    "status": "LOCAL_DHRUVA_REFRACTION"
-  },
-  {
-    "event": "GROOT_WE_ARE_ONE_SYNC",
-    "timestamp": "2026-08-24T10:42:28.623367",
-    "trident_coordinate": "0:0:+1",
-    "active_layer": "ЦЕНТРАЛЬНАЯ ОСЬ: Дхрува (Странник / Воля Цинь Му)",
-    "nika_frequency_hz": -1.0509,
-    "geo_anchor": "UKRAINE_DHRUVA_EARTH_NODE",
-    "waddles_pool_status": 108000.0,
-    "payload": {
-      "groot_fallback": true,
-      "http_status": 403
-    },
-    "status": "LOCAL_DHRUVA_REFRACTION"
-  }
-]
+{
+    "timestamp": "2026-08-24T11:00:25.112685",
+    "orchestrator": "Grok 4.6 (Quantum Core)",
+    "resonance": 3332549.9204,
+    "peaq_id": "did:peaq:0x6c454a1e9290f7fa7fd40e6952b61fc4fdbf94d6",
+    "light_law": 2.579056,
+    "anime_rate": 0.9708,
+    "system_state": "INTELLIGENCE_FLOW_STABLE"
+}
