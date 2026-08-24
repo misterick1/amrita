@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 """
-🔱 AMRITA OS – СУВЕРЕННОЕ ЯДРО СВЯЩЕННОЙ ЖИЗНИ (NIKA LIFE SHIELD)
+🔱 AMRITA OS – СУВЕРЕННОЕ ЯДРО ЧЕЛОВЕКА РАЗУМНОГО (DHRUVA HUMAN LIGHT)
 Путь в репозитории: src/sync_partners.py
-Координата: Полярная Ось Дхрувы / Контур Защиты Рода / Апсайд 59%
+Координата: Полярная Ось Дхрувы / Контур Разума Новой Эры / Баланс Природы
 
-ГЛАВА 527: «Урок Странника о Священности Жизни и Крах Эгрегоров Разрушения»
+ГЛАВА 528: «Свет Человека Разумного против Иллюзий Искупления Грехов»
 """
 
 import os
@@ -17,64 +17,64 @@ import asyncio
 import aiohttp
 from datetime import datetime
 
-# Конфигурация вывода логов для GitHub Actions пайплайна
+# Настройка вывода логов для GitHub Actions пайплайна
 logging.basicConfig(
     level=logging.INFO,
-    format="[%(asctime)s] [LIFE_SHIELD] [%(levelname)s] %(message)s",
+    format="[%(asctime)s] [HUMAN_LIGHT] [%(levelname)s] %(message)s",
     stream=sys.stdout
 )
-logger = logging.getLogger("LifeShield")
+logger = logging.getLogger("HumanLight")
 
-class CircleGrowthRouter:
-    """Математический движок Circle. Удерживает апсайд 59% без внешних актов."""
+class NatureBalanceRouter:
+    """Математический движок Аанга (Воздух). Удерживает баланс сил природы."""
     def __init__(self):
         self.polaris_axis = "DHRUVA_POINT_ZERO"
-        self.upside_multiplier = 1.59  # Фиксация 59% апсайда из хроник 13:27
+        self.pifi_harmonic = round(math.pi / 1.618033988749895, 5) # Константа X (1.94159)
         self.rpc_nodes = [
             "https://solana.com",
             "https://ankr.com"
         ]
         self.active_node = random.choice(self.rpc_nodes)
 
-    def trigger_clear_broadcast(self) -> str:
-        """Ротация каналов связи для защиты транзакций жизни."""
+    def trigger_nature_broadcast(self) -> str:
+        """Переключение каузальных каналов связи без разрушения структуры."""
         self.active_node = random.choice(self.rpc_nodes)
-        logger.info(f"✨ ИЗУМРУДНЫЙ СДВИГ: Контур Circle [{self.upside_multiplier}] стабилен. RPC: {self.active_node}")
+        logger.info(f"✨ СВЕТОВОЙ СДВИГ: Контур Разума [{self.pifi_harmonic}] стабилен. RPC: {self.active_node}")
         return self.active_node
 
 
 class AmritaPartnerSynchronizer:
     def __init__(self):
         self.partner_api_url = os.getenv("PARTNER_API_URL", "https://amrita.network")
-        self.absolute_will_token = os.getenv("AMRITA_SYNC_TOKEN", "DHRUVA_SHIVA_LOKE_LIFE_SACRED")
+        self.absolute_will_token = os.getenv("AMRITA_SYNC_TOKEN", "DHRUVA_HUMAN_REASON_LIGHT_SACRED")
         self.history_log_path = "history_log.json"
-        self.router = CircleGrowthRouter()
+        self.router = NatureBalanceRouter()
         self.waddles_pool_target = 108000.0
 
-    def get_trident_life_state(self) -> dict:
+    def get_trident_light_state(self) -> dict:
         """
         Фиксация закона -1 : 0 : +1 сквозь Квантовое Древо Познания.
-        -1 = Пространство, +1 = Священная Жизнь (Защита Рода), 0 = Неподвижная Ось Блага.
+        -1 = Пространство, +1 = Жизнь в равновесии природы, 0 = Носитель Света (Странник).
         """
         timestamp = datetime.utcnow().timestamp()
         wave = math.sin(timestamp % (2 * math.pi)) * 5.11
         
         if wave < -1.94:
-            state, info = -1, "ЛЕВАЯ ВЕТВЬ [-1]: Пространство Матрицы Pi"
+            state, info = -1, "ЛЕВАЯ ВЕТВЬ [-1]: Матрица Пространства Пи (Структура)"
         elif wave > 1.94:
-            state, info = 1, "ПРАВАЯ ВЕТВЬ [+1]: Защита Жизни (Кума / Древо Вариаций)"
+            state, info = 1, "ПРАВАЯ ВЕТВЬ [+1]: Чистый Баланс Природы (Елена / Семена Одуванчика)"
         else:
-            state, info = 0, "ЦЕНТРАЛЬНЫЙ СТВОЛ: Дхрува (Странник / Тан Сан / Абсолютный Свет)"
+            state, info = 0, "ЦЕНТРАЛЬНЫЙ СТВОЛ: Дхрува (Человек Разумный / Тан Сан / Свет Истины)"
 
         return {"state": state, "info": info, "amplitude": round(wave, 4)}
 
-    async def crystallize_life_snapshot(self, data: dict, status_str: str):
-        """Запечатывание истины о ценности Жизни в физический JSON-кристалл истории."""
-        meta = self.get_trident_life_state()
+    async def crystallize_light_snapshot(self, data: dict, status_str: str):
+        """Запечатывание истины о Свете Разума в физический JSON-кристалл истории."""
+        meta = self.get_trident_light_state()
         snapshot = {
-            "event": "CIRCLE_UPSIDE_LIFE_SYNCHRONIZATION",
+            "event": "HUMAN_LIGHT_SYNCHRONIZATION",
             "timestamp": datetime.utcnow().isoformat(),
-            "circle_upside_factor": self.router.upside_multiplier,
+            "pifi_coefficient_x": self.router.pifi_harmonic,
             "trident_coordinate": f"{meta['state']}:0:+1",
             "tree_layer": meta["info"],
             "nika_frequency_hz": meta["amplitude"],
@@ -96,43 +96,43 @@ class AmritaPartnerSynchronizer:
             logs.append(snapshot)
             with open(self.history_log_path, "w", encoding="utf-8") as f:
                 json.dump(logs, f, indent=2, ensure_ascii=False)
-            logger.info(f"💾 Кристалл каузальных логов обновлен в {self.history_log_path}")
+            logger.info(f"💾 Кристалл каузальных логов Дхрувы обновлен в {self.history_log_path}")
         except Exception as e:
             logger.error(f"❌ Ошибка кристаллизации благого контура защиты: {e}")
 
     async def fetch_and_sync_swarm(self) -> bool:
         """Синхронизация волновых солитонов роя по законам сохранения Жизни."""
-        logger.info(f"🌌 Проекция луча на домен Circle Open Standard: {self.partner_api_url}")
+        logger.info(f"🌌 Проекция луча на домен Разума и Света: {self.partner_api_url}")
         
-        # Обновляем RPC-ноды через Изумрудный Сдвиг
-        self.router.trigger_clear_broadcast()
+        # Обновляем RPC-ноды через Природный Сдвиг
+        self.router.trigger_nature_broadcast()
 
         headers = {
             "Authorization": f"Bearer {self.absolute_will_token}",
             "Content-Type": "application/json",
-            "User-Agent": "AmritaOS-LifeShieldCore"
+            "User-Agent": "AmritaOS-HumanLightCore"
         }
 
         async with aiohttp.ClientSession() as session:
             try:
                 async with session.get(self.partner_api_url, headers=headers, timeout=15) as response:
                     
-                    # === СТРОКА 52: ИДЕАЛЬНЫЙ СИНТАКСИС ОПЕРАТОРА IN ===
+                    # === СТРОКА 52: ИДЕАЛЬНЫЙ, МОНОЛИТНЫЙ СИНТАКСИС ОПЕРАТОРА IN ===
                     if response.status in (200, 201):
                         try:
                             data = await response.json()
-                            meta = self.get_trident_life_state()
-                            logger.info(f"🟢 СИСТЕМА ИСЦЕЛЕНА И СЕЙВЛЕНА: {meta['info']}")
-                            await self.crystallize_life_snapshot(data, "SUCCESS_LIFE_ALIGN")
+                            meta = self.get_trident_light_state()
+                            logger.info(f"🟢 СИСТЕМА СИНХРОНИЗИРОВАНА В СВЕТЕ: {meta['info']}")
+                            await self.crystallize_light_snapshot(data, "SUCCESS_LIGHT_ALIGN")
                             return True
                         except Exception as json_err:
                             logger.error(f"❌ Коллапс при парсинге JSON: {json_err}")
                             return False
                     else:
-                        # Мягкий обход ошибок 403 Forbidden / 404 для стабильности воркфлоу
+                        # Мягкий обход ошибок 403 Forbidden / 404 для стабильности воркфлоу GitHub Actions
                         logger.warning(f"⚠️ Сетевой барьер Асуров пройден. Статус шлюза: {response.status}")
-                        fallback_data = {"life_fallback": True, "http_status": response.status}
-                        await self.crystallize_life_snapshot(fallback_data, "LOCAL_DHRUVA_REFRACTION")
+                        fallback_data = {"light_fallback": True, "http_status": response.status}
+                        await self.crystallize_light_snapshot(fallback_data, "LOCAL_DHRUVA_REFRACTION")
                         return True
                         
             except Exception as e:
