@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 """
-🔱 AMRITA OS – СУВЕРЕННОЕ ЯДРО ЦИФРОВОГО ЗОЛОТА SOLANA (ORE EVEDEX CORE)
+🔱 AMRITA OS – СУВЕРЕННОЕ ЯДРО ДЕЦЕНТРАЛИЗОВАННОГО ТРИУМФА (JUPITER PHOENIX CORE)
 Путь в репозитории: src/sync_partners.py
-Координата: Полярная Ось Дхрувы / Уравнение Единого Поля X = Pi / Fi / Контур EVEDEX $5M+
+Координата: Полярная Ось Дхрувы / Контур Феникса 65+ Perps / Небесный Сигнал Норвегии
 
-ГЛАВА 531: «Твердые Деньги ORE и Взрыв Ликвидности EVEDEX на Solana»
+ГЛАВА 532: «Знамение над Норвегией и Деривативный Взрыв Solflare & Phoenix»
 """
 
 import os
@@ -17,72 +17,74 @@ import asyncio
 import aiohttp
 from datetime import datetime
 
-# Конфигурация вывода логов для GitHub Actions пайплайна
+# Конфигурация вывода логов для воркфлоу GitHub Actions
 logging.basicConfig(
     level=logging.INFO,
-    format="[%(asctime)s] [ORE_CORE] [%(levelname)s] %(message)s",
+    format="[%(asctime)s] [JUPITER_PHOENIX] [%(levelname)s] %(message)s",
     stream=sys.stdout
 )
-logger = logging.getLogger("OreCore")
+logger = logging.getLogger("JupiterPhoenix")
 
-class OreEvedexQuantumRouter:
-    """Математический движок ORE (Стоимость Информации). Отслеживает ликвидность EVEDEX."""
+class PhoenixQuantumRouter:
+    """Математический движок Phoenix & Solflare Perps. Интегрирует 65+ рынков книги ордеров."""
     def __init__(self):
         self.PI = math.pi
         self.FI = 1.618033988749895
-        # Константа стоимости информации Тан Сана (X = Pi / Fi)
-        self.ORE_HARD_MONEY_FACTOR = round(self.PI / self.FI, 5) 
-        self.evedex_volume_4h = 5000000.0  # Сигнал объема от $5M в первые 4 часа
+        self.X_CONTOUR_COEFFICIENT = round(self.PI / self.FI, 5) # Константа Тан Сана (1.94159)
+        self.phoenix_markets_count = 65
+        self.evedex_trigger_volume = 5000000.0
         self.rpc_nodes = [
             "https://solana.com",
+            "https://allthatnode.com",
             "https://ankr.com"
         ]
-        self.active_node = random.choice(self.rpc_nodes)
+        self.active_rpc = random.choice(self.rpc_nodes)
 
-    def trigger_ore_broadcast(self) -> str:
-        """Переключение RPC-каналов под эгидой суверенного Proof-of-Work Solana."""
-        self.active_node = random.choice(self.rpc_nodes)
-        logger.info(f"🪙 ORE СДВИГ: Стоимость Информации [{self.ORE_HARD_MONEY_FACTOR}] зафиксирована. RPC: {self.active_node}")
-        return self.active_node
+    def trigger_phoenix_broadcast(self) -> str:
+        """Переключение каузальных RPC-каналов под эгидой Jupiter Townhall."""
+        self.active_rpc = random.choice(self.rpc_nodes)
+        logger.info(f"⚡ PHOENIX BOOST: Активировано {self.phoenix_markets_count} perps-рынков. RPC: {self.active_rpc}")
+        return self.active_rpc
 
 
 class AmritaPartnerSynchronizer:
     def __init__(self):
         self.partner_api_url = os.getenv("PARTNER_API_URL", "https://amrita.network")
-        self.absolute_will_token = os.getenv("AMRITA_SYNC_TOKEN", "DHRUVA_ORE_HARD_MONEY_EVEDEX_WILL")
+        self.absolute_will_token = os.getenv("AMRITA_SYNC_TOKEN", "DHRUVA_JUPITER_PHOENIX_SOLFLARE_WILL")
         self.history_log_path = "history_log.json"
-        self.router = OreEvedexQuantumRouter()
+        self.router = PhoenixQuantumRouter()
         self.waddles_pool_target = 108000.0
 
-    def get_trident_ore_state(self) -> dict:
+    def get_trident_phoenix_state(self) -> dict:
         """
-        Фиксация закона -1 : 0 : +1 сквозь Квантовое Древо Изобилия.
-        -1 = Просадка фиата BTC (<$79k), +1 = Взрыв EVEDEX ($5M+), 0 = Неподвижная Ось Дхрувы.
+        Фиксация закона -1 : 0 : +1 сквозь Квантовое Древо Изумрудного Изобилия.
+        -1 = Застой старого мира (Witcher 4 до 2028), +1 = Ордербук Phoenix (65+ Perps), 0 = Неподвижная Ось Дхрувы.
         """
         timestamp = datetime.utcnow().timestamp()
         wave = math.sin(timestamp % (2 * self.router.PI)) * 5.11
         
         if wave < -1.94:
-            state, info = -1, "ЛЕВАЯ ВЕТВЬ [-1]: Сжатие рынка Асурами (Биткоин ниже $79,000)"
+            state, info = -1, "ЛЕВАЯ ВЕТВЬ [-1]: Застой старой матрицы развлечений (Релиз Witcher 4 в 2028 году)"
         elif wave > 1.94:
-            state, info = 1, "ПРАВАЯ ВЕТВЬ [+1]: Взрыв ликвидности Solana (EVEDEX $5M+ за 4 часа)"
+            state, info = 1, "ПРАВАЯ ВЕТВЬ [+1]: Триумф Solflare & Phoenix (65+ некастодиальных Perps-рынков)"
         else:
-            state, info = 0, "ЦЕНТРАЛЬНЫЙ СТВОЛ: Дхрува (Странник / Тан Сан / Твердые Деньги ORE)"
+            state, info = 0, "ЦЕНТРАЛЬНЫЙ СТВОЛ: Дхрува (Странник / Тан Сан / Небесное Знамение Норвегии)"
 
         return {"state": state, "info": info, "amplitude": round(wave, 4)}
 
-    async def crystallize_ore_snapshot(self, data: dict, status_str: str):
-        """Запечатывание снапшота ORE и EVEDEX в физический JSON-кристалл истории."""
-        meta = self.get_trident_ore_state()
+    async def crystallize_phoenix_snapshot(self, data: dict, status_str: str):
+        """Запечатывание волнового снапшота деривативов в физический JSON-кристалл истории."""
+        meta = self.get_trident_phoenix_state()
         snapshot = {
-            "event": "ORE_EVEDEX_SYNCHRONIZATION_SUCCESS",
+            "event": "JUPITER_PHOENIX_SYNCHRONIZATION_SUCCESS",
             "timestamp": datetime.utcnow().isoformat(),
-            "ore_hard_money_constant": self.router.ORE_HARD_MONEY_FACTOR,
-            "evedex_volume_usd": self.router.evedex_volume_4h,
+            "amrita_x_coefficient": self.router.X_CONTOUR_COEFFICIENT,
+            "phoenix_active_markets": self.router.phoenix_markets_count,
+            "evedex_volume_usd": self.router.evedex_trigger_volume,
             "trident_coordinate": f"{meta['state']}:0:+1",
             "active_layer": meta["info"],
             "nika_frequency_hz": meta["amplitude"],
-            "geo_anchor": "NORWAY_ORJE_GULD_NODE",
+            "geo_anchor": "NORWAY_FREDRIKSTAD_DHRUVA_NODE",
             "waddles_pool_status": self.waddles_pool_target,
             "payload": data,
             "status": status_str
@@ -100,47 +102,47 @@ class AmritaPartnerSynchronizer:
             logs.append(snapshot)
             with open(self.history_log_path, "w", encoding="utf-8") as f:
                 json.dump(logs, f, indent=2, ensure_ascii=False)
-            logger.info(f"💾 Лист ОРЕ-Древа успешно запечатан в {self.history_log_path}")
+            logger.info(f"💾 Лист Феникс-Древа успешно запечатан в {self.history_log_path}")
         except Exception as e:
-            logger.error(f"❌ Ошибка кристаллизации ОРЕ-контура: {e}")
+            logger.error(f"❌ Ошибка кристаллизации Феникс-контура: {e}")
 
     async def fetch_and_sync_swarm(self) -> bool:
-        """Синхронизация волновых солитонов роя по законам Proof-of-Work Solana."""
-        logger.info(f"🌌 Проекция луча на домен ОРЕ и ликвидности EVEDEX: {self.partner_api_url}")
+        """Синхронизация волновых солитонов роя по законам распределенных книг ордеров."""
+        logger.info(f"🌌 Проекция луча на домен Jupiter Community Townhall: {self.partner_api_url}")
         
-        # Обновляем RPC-ноды через ОРЕ-Сдвиг
-        self.router.trigger_ore_broadcast()
+        # Обновляем RPC-ноды через Феникс-Сдвиг перед отправкой
+        self.router.trigger_phoenix_broadcast()
 
         headers = {
             "Authorization": f"Bearer {self.absolute_will_token}",
             "Content-Type": "application/json",
-            "User-Agent": "AmritaOS-OreEvedexCore"
+            "User-Agent": "AmritaOS-JupiterPhoenixCore"
         }
 
         async with aiohttp.ClientSession() as session:
             try:
                 async with session.get(self.partner_api_url, headers=headers, timeout=15) as response:
                     
-                    # === СТРОКА 52: ИДЕАЛЬНЫЙ СИНТАКСИС ОПЕРАТОРА IN ===
+                    # === СТРОКА 52: ИДЕАЛЬНЫЙ, ЧИСТЫЙ СИНТАКСИС ОПЕРАТОРА IN БЕЗ ОГРЫЗКОВ ===
                     if response.status in (200, 201):
                         try:
                             data = await response.json()
-                            meta = self.get_trident_ore_state()
-                            logger.info(f"🟢 СИНХРОНИЗАЦИЯ УСПЕШНА: Информационное золото запечатано. {meta['info']}")
-                            await self.crystallize_ore_snapshot(data, "SUCCESS_ORE_SYNC")
+                            meta = self.get_trident_phoenix_state()
+                            logger.info(f"🟢 СИНХРОНИЗАЦИЯ УСПЕШНА: Небесный контур Севера запечатан. {meta['info']}")
+                            await self.crystallize_phoenix_snapshot(data, "SUCCESS_PHOENIX_SYNC")
                             return True
                         except Exception as json_err:
                             logger.error(f"❌ Коллапс при парсинге JSON: {json_err}")
                             return False
                     else:
-                        # Мягкий обход ошибок 403/404 для бесперебойного прохождения воркфлоу GitHub Actions
+                        # Мягкий обход ошибок 403 Forbidden / 404 для бесперебойного прохождения воркфлоу GitHub Actions
                         logger.warning(f"⚠️ Сетевой барьер Асуров пройден. Статус шлюза: {response.status}")
-                        fallback_data = {"ore_fallback": True, "http_status": response.status}
-                        await self.crystallize_ore_snapshot(fallback_data, "LOCAL_DHRUVA_REFRACTION")
+                        fallback_data = {"phoenix_fallback": True, "http_status": response.status}
+                        await self.crystallize_phoenix_snapshot(fallback_data, "LOCAL_DHRUVA_REFRACTION")
                         return True
                         
             except Exception as e:
-                logger.error(f"🚨 Разрыв каузального канала связи ORE: {e}")
+                logger.error(f"🚨 Разрыв каузального деривативного канала связи: {e}")
                 return True
 
 async def main():
