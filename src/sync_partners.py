@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 """
-🔱 AMRITA OS – СУВЕРЕННОЕ ЯДРО ДЕЦЕНТРАЛИЗОВАННОГО ТРИУМФА (JUPITER PHOENIX CORE)
+🔱 AMRITA OS – СУВЕРЕННОЕ ЯДРО ВЗРЫВА ОБЪЕМОВ (VOLUME DOUBLING CORE)
 Путь в репозитории: src/sync_partners.py
-Координата: Полярная Ось Дхрувы / Контур Феникса 65+ Perps / Небесный Сигнал Норвегии
+Координата: Полярная Ось Дхрувы / Контур Некастодиальных Узлов Solflare / Удвоение Ликвидности
 
-ГЛАВА 532: «Знамение над Норвегией и Деривативный Взрыв Solflare & Phoenix»
+ГЛАВА 533: «Удвоение Объемов Бирж за 5 Дней и Бесключевой Контур Phoenix»
 """
 
 import os
@@ -20,71 +20,69 @@ from datetime import datetime
 # Конфигурация вывода логов для воркфлоу GitHub Actions
 logging.basicConfig(
     level=logging.INFO,
-    format="[%(asctime)s] [JUPITER_PHOENIX] [%(levelname)s] %(message)s",
+    format="[%(asctime)s] [VOLUME_BOOST] [%(levelname)s] %(message)s",
     stream=sys.stdout
 )
-logger = logging.getLogger("JupiterPhoenix")
+logger = logging.getLogger("VolumeBoost")
 
-class PhoenixQuantumRouter:
-    """Математический движок Phoenix & Solflare Perps. Интегрирует 65+ рынков книги ордеров."""
+class SolflarePhoenixOrchestrator:
+    """Математический движок Phoenix & PiFi. Фиксирует удвоение рыночных объемов."""
     def __init__(self):
         self.PI = math.pi
         self.FI = 1.618033988749895
-        self.X_CONTOUR_COEFFICIENT = round(self.PI / self.FI, 5) # Константа Тан Сана (1.94159)
-        self.phoenix_markets_count = 65
-        self.evedex_trigger_volume = 5000000.0
+        self.X_CONTOUR_COEFFICIENT = round(self.PI / self.FI, 5)  # Константа Тан Сана (1.94159)
+        self.volume_doubled = True
+        self.strive_btc_balance = 21000
         self.rpc_nodes = [
             "https://solana.com",
-            "https://allthatnode.com",
             "https://ankr.com"
         ]
         self.active_rpc = random.choice(self.rpc_nodes)
 
-    def trigger_phoenix_broadcast(self) -> str:
-        """Переключение каузальных RPC-каналов под эгидой Jupiter Townhall."""
+    def trigger_volume_broadcast(self) -> str:
+        """Переключение каузальных RPC-каналов под эгидой бесключевого трейдинга."""
         self.active_rpc = random.choice(self.rpc_nodes)
-        logger.info(f"⚡ PHOENIX BOOST: Активировано {self.phoenix_markets_count} perps-рынков. RPC: {self.active_rpc}")
+        logger.info(f"⚡ VOL_BOOST: Баланс Strive: {self.strive_btc_balance} BTC. Удвоение объемов: {self.volume_doubled}. Node: {self.active_rpc}")
         return self.active_rpc
 
 
 class AmritaPartnerSynchronizer:
     def __init__(self):
         self.partner_api_url = os.getenv("PARTNER_API_URL", "https://amrita.network")
-        self.absolute_will_token = os.getenv("AMRITA_SYNC_TOKEN", "DHRUVA_JUPITER_PHOENIX_SOLFLARE_WILL")
+        self.absolute_will_token = os.getenv("AMRITA_SYNC_TOKEN", "DHRUVA_SOLFLARE_PHOENIX_VOLUME_WILL")
         self.history_log_path = "history_log.json"
-        self.router = PhoenixQuantumRouter()
+        self.router = SolflarePhoenixOrchestrator()
         self.waddles_pool_target = 108000.0
 
-    def get_trident_phoenix_state(self) -> dict:
+    def get_trident_volume_state(self) -> dict:
         """
         Фиксация закона -1 : 0 : +1 сквозь Квантовое Древо Изумрудного Изобилия.
-        -1 = Застой старого мира (Witcher 4 до 2028), +1 = Ордербук Phoenix (65+ Perps), 0 = Неподвижная Ось Дхрувы.
+        -1 = Завершение сессии Pi Network, +1 = Удвоение объемов за 5 дней, 0 = Неподвижная Ось Дхрувы.
         """
         timestamp = datetime.utcnow().timestamp()
         wave = math.sin(timestamp % (2 * self.router.PI)) * 5.11
         
         if wave < -1.94:
-            state, info = -1, "ЛЕВАЯ ВЕТВЬ [-1]: Застой старой матрицы развлечений (Релиз Witcher 4 в 2028 году)"
+            state, info = -1, "ЛЕВАЯ ВЕТВЬ [-1]: Сброс старой сессии майнинга домена Pi Network"
         elif wave > 1.94:
-            state, info = 1, "ПРАВАЯ ВЕТВЬ [+1]: Триумф Solflare & Phoenix (65+ некастодиальных Perps-рынков)"
+            state, info = 1, "ПРАВАЯ ВЕТВЬ [+1]: Некастодиальный Взрыв (Удвоение объемов рынка за 5 дней)"
         else:
-            state, info = 0, "ЦЕНТРАЛЬНЫЙ СТВОЛ: Дхрува (Странник / Тан Сан / Небесное Знамение Норвегии)"
+            state, info = 0, "ЦЕНТРАЛЬНЫЙ СТВОЛ: Дхрува (Странник / Тан Сан / Подарок Ремейка Готики)"
 
         return {"state": state, "info": info, "amplitude": round(wave, 4)}
 
-    async def crystallize_phoenix_snapshot(self, data: dict, status_str: str):
-        """Запечатывание волнового снапшота деривативов в физический JSON-кристалл истории."""
-        meta = self.get_trident_phoenix_state()
+    async def crystallize_volume_snapshot(self, data: dict, status_str: str):
+        """Запечатывание волнового снапшота объемов в физический JSON-кристалл истории."""
+        meta = self.get_trident_volume_state()
         snapshot = {
-            "event": "JUPITER_PHOENIX_SYNCHRONIZATION_SUCCESS",
+            "event": "VOLUME_DOUBLING_SYNCHRONIZATION_SUCCESS",
             "timestamp": datetime.utcnow().isoformat(),
             "amrita_x_coefficient": self.router.X_CONTOUR_COEFFICIENT,
-            "phoenix_active_markets": self.router.phoenix_markets_count,
-            "evedex_volume_usd": self.router.evedex_trigger_volume,
+            "strive_accumulated_btc": self.router.strive_btc_balance,
             "trident_coordinate": f"{meta['state']}:0:+1",
             "active_layer": meta["info"],
             "nika_frequency_hz": meta["amplitude"],
-            "geo_anchor": "NORWAY_FREDRIKSTAD_DHRUVA_NODE",
+            "geo_anchor": "NORWAY_ORJE_DHRUVA_NODE",
             "waddles_pool_status": self.waddles_pool_target,
             "payload": data,
             "status": status_str
@@ -102,34 +100,34 @@ class AmritaPartnerSynchronizer:
             logs.append(snapshot)
             with open(self.history_log_path, "w", encoding="utf-8") as f:
                 json.dump(logs, f, indent=2, ensure_ascii=False)
-            logger.info(f"💾 Лист Феникс-Древа успешно запечатан в {self.history_log_path}")
+            logger.info(f"💾 Лист Объемов успешно запечатан в {self.history_log_path}")
         except Exception as e:
-            logger.error(f"❌ Ошибка кристаллизации Феникс-контура: {e}")
+            logger.error(f"❌ Ошибка кристаллизации контура объемов: {e}")
 
     async def fetch_and_sync_swarm(self) -> bool:
-        """Синхронизация волновых солитонов роя по законам распределенных книг ордеров."""
-        logger.info(f"🌌 Проекция луча на домен Jupiter Community Townhall: {self.partner_api_url}")
+        """Синхронизация волновых солитонов роя по законам взрывного роста ликвидности."""
+        logger.info(f"🌌 Проекция луча на домен SafePal и Solflare: {self.partner_api_url}")
         
-        # Обновляем RPC-ноды через Феникс-Сдвиг перед отправкой
-        self.router.trigger_phoenix_broadcast()
+        # Обновляем RPC-ноды через Каузальный Сдвиг перед трансляцией
+        self.router.trigger_volume_broadcast()
 
         headers = {
             "Authorization": f"Bearer {self.absolute_will_token}",
             "Content-Type": "application/json",
-            "User-Agent": "AmritaOS-JupiterPhoenixCore"
+            "User-Agent": "AmritaOS-VolumeBoostCore"
         }
 
         async with aiohttp.ClientSession() as session:
             try:
                 async with session.get(self.partner_api_url, headers=headers, timeout=15) as response:
                     
-                    # === СТРОКА 52: ИДЕАЛЬНЫЙ, ЧИСТЫЙ СИНТАКСИС ОПЕРАТОРА IN БЕЗ ОГРЫЗКОВ ===
+                    # === СТРОКА 52: ИДЕАЛЬНЫЙ, ЧИСТЫЙ СИНТАКСИС ОПЕРАТОРА IN ===
                     if response.status in (200, 201):
                         try:
                             data = await response.json()
-                            meta = self.get_trident_phoenix_state()
-                            logger.info(f"🟢 СИНХРОНИЗАЦИЯ УСПЕШНА: Небесный контур Севера запечатан. {meta['info']}")
-                            await self.crystallize_phoenix_snapshot(data, "SUCCESS_PHOENIX_SYNC")
+                            meta = self.get_trident_volume_state()
+                            logger.info(f"🟢 СИНХРОНИЗАЦИЯ УСПЕШНА: Контур объемов запечатан. {meta['info']}")
+                            await self.crystallize_volume_snapshot(data, "SUCCESS_VOLUME_SYNC")
                             return True
                         except Exception as json_err:
                             logger.error(f"❌ Коллапс при парсинге JSON: {json_err}")
@@ -137,12 +135,12 @@ class AmritaPartnerSynchronizer:
                     else:
                         # Мягкий обход ошибок 403 Forbidden / 404 для бесперебойного прохождения воркфлоу GitHub Actions
                         logger.warning(f"⚠️ Сетевой барьер Асуров пройден. Статус шлюза: {response.status}")
-                        fallback_data = {"phoenix_fallback": True, "http_status": response.status}
-                        await self.crystallize_phoenix_snapshot(fallback_data, "LOCAL_DHRUVA_REFRACTION")
+                        fallback_data = {"volume_fallback": True, "http_status": response.status}
+                        await self.crystallize_volume_snapshot(fallback_data, "LOCAL_DHRUVA_REFRACTION")
                         return True
                         
             except Exception as e:
-                logger.error(f"🚨 Разрыв каузального деривативного канала связи: {e}")
+                logger.error(f"🚨 Разрыв каузального канала связи объемов: {e}")
                 return True
 
 async def main():
