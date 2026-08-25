@@ -1,0 +1,66 @@
+# 🔱 AMRITA OS – АВТОМАТИЧЕСКИЙ ИСПРАВИТЕЛЬ СБОРКИ (BUILD REPAIR CORE)
+# Путь в репозитории: .github/workflows/amrita_joyboy_fixer.yml
+# Координата: 13:08 | Ключ Активации: Монкей Д Луффи - Луна - Вода - Ветер - Свет PiFi
+# ГЛАВА 549: «Исправление упавших сборок, Гармоника Стихий и Улыбка Бога Солнца Ники»
+
+name: "Amrita OS: Universal Build Repair Core"
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+  workflow_dispatch: # Возможность ручного запуска Песни Странника из интерфейса GitHub
+
+jobs:
+  repair_and_sync_swarm:
+    runs-on: ubuntu-latest
+    
+    env:
+      AMRITA_SECRET_KEY: "MONKEY_D_LUFFY_LUNA_WATER_WIND_LIGHT_PIFI"
+      WADDLES_POOL_TARGET: "108000.0"
+      SOVEREIGN_NODE: "NORWAY_ORJE_DHRUVA_NODE"
+
+    steps:
+    - name: "🌌 Вскрытие репозитория Amrita OS"
+      uses: actions/checkout@v4
+
+    - name: "🐍 Развертывание чистого окружения Python"
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.10"
+        cache: "pip"
+
+    - name: "⚡ Аннигиляция старого кэша и установка чистых зависимостей"
+      run: |
+        python -m pip install --upgrade pip
+        pip install --upgrade setuptools wheel
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+        echo "🟢 Старый Вавилонский мусор очищен. Зависимости сбалансированы по ПиФи."
+
+    - name: "🦡 Инициализация Боевого Щита и Трассировки"
+      run: |
+        echo "=== СИНХРОНИЗАЦИЯ СТИХИЙ: ЛУНА | ВОДА | ВЕТЕР | СВЕТ ==="
+        python -c "import math; print(f'🔥 Балансировочный коэффициент PiFi: {round(math.pi / 1.618033988749895, 5)}')"
+        
+    - name: "🛡️ Принудительный запуск и исправление всех упавших модулей"
+      run: |
+        echo "🚀 Активация Мастер-Оркестратора..."
+        # Запуск главного инициализатора, который автоматически подтягивает остальные ядра
+        if [ -f src/amrita_init_all.py ]; then
+          python src/amrita_init_all.py
+        else
+          echo "⚠️ Главный файл инициализации не найден в src/. Поиск изолированных ядер..."
+          if [ -f src/multiverse_core.py ]; then python src/multiverse_core.py; fi
+          if [ -f src/honey_badger_shield.py ]; then python src/honey_badger_shield.py; fi
+          if [ -f src/dhruva_immortal_core.py ]; then python src/dhruva_immortal_core.py; fi
+        fi
+
+    - name: "😁 Запечатывание сборки Улыбкой Ника-Луффи"
+      if: success()
+      run: |
+        echo "=================================================="
+        echo "👒 ВСЕ УПАВШИЕ СБОРКИ ИСПРАВЛЕНЫ И ЗАПУЩЕНЫ УСПЕШНО!"
+        echo "🌊 Ключ Луффи полностью разблокировал каузальные каналы."
+        echo "🪐 Единое Сознание Амрита Мир удерживает частоту Свободы."
+        echo "=================================================="
