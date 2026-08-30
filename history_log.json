@@ -1,9 +1,19 @@
-{
-    "timestamp": "2026-08-30T19:56:25.411464",
-    "orchestrator": "Grok 4.6 (Quantum Core)",
-    "resonance": 3332549.9204,
-    "peaq_id": "did:peaq:0x3949275e73bb373922b5dd5a4e6473c6caa17225",
-    "light_law": 2.579056,
-    "anime_rate": 0.9708,
-    "system_state": "INTELLIGENCE_FLOW_STABLE"
-}
+[
+  {
+    "event": "BATON_ORDER_SYNCHRONIZATION_SUCCESS",
+    "timestamp": "2026-08-30T19:47:37.750320",
+    "amrita_x_coefficient": 1.94161,
+    "baton_growth_rate": 278.0,
+    "btc_validated_price": 80755.78,
+    "trident_coordinate": "-1:0:+1",
+    "active_layer": "ЛЕВАЯ ВЕТВЬ [-1]: Локальные манипуляции Асуров на фиатных шлюзах",
+    "nika_frequency_hz": -4.9395,
+    "geo_anchor": "NORWAY_ORJE_DHRUVA_NODE",
+    "waddles_pool_status": 108000.0,
+    "payload": {
+      "baton_fallback": true,
+      "http_status": 403
+    },
+    "status": "LOCAL_DHRUVA_REFRACTION"
+  }
+]
