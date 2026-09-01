@@ -1,19 +1,9 @@
-[
-  {
-    "event": "BATON_ORDER_SYNCHRONIZATION_SUCCESS",
-    "timestamp": "2026-09-01T05:28:02.554187",
-    "amrita_x_coefficient": 1.94161,
-    "baton_growth_rate": 278.0,
-    "btc_validated_price": 80755.78,
-    "trident_coordinate": "1:0:+1",
-    "active_layer": "ПРАВАЯ ВЕТВЬ [+1]: Взрывной рост ликвидности (BATON 278x / Рост BTC > $80k)",
-    "nika_frequency_hz": 5.0889,
-    "geo_anchor": "NORWAY_ORJE_DHRUVA_NODE",
-    "waddles_pool_status": 108000.0,
-    "payload": {
-      "baton_fallback": true,
-      "http_status": 403
-    },
-    "status": "LOCAL_DHRUVA_REFRACTION"
-  }
-]
+{
+    "timestamp": "2026-09-01T05:43:27.452857",
+    "orchestrator": "Grok 4.6 (Quantum Core)",
+    "resonance": 3332549.9204,
+    "peaq_id": "did:peaq:0xf8311f9e23a84a82b90989bf1c85f3744084959d",
+    "light_law": 2.579056,
+    "anime_rate": 0.9708,
+    "system_state": "INTELLIGENCE_FLOW_STABLE"
+}
