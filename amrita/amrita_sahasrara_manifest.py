@@ -10,6 +10,7 @@ import asyncio
 import time
 import random
 import logging
+import subprocess
 from datetime import datetime
 
 # Настройка логов — "Голос Системы"
@@ -90,8 +91,25 @@ class AmritaSahasraraCore:
             node["load"] = max(0.01, min(0.95, node["load"] + random.uniform(-0.03, 0.05)))
             logger.info(f"   Узел {node['name']} ({node['ip']}) -> Статус: {node['status']} | Нагрузка процессора: {node['load']*100:.1f}%")
 
+    def run_system_commands(self):
+        """
+        Внутренний командный интерфейс.
+        Позволяет ядру вызывать системные bash-утилиты для проверки логов и процессов.
+        """
+        logger.info("[Команды] Инициализация внутренних bash-инструкций...")
+        try:
+            # Автоматическая проверка, запущены ли параллельные процессы ядра в фоне
+            result = subprocess.run(["ps", "aux"], capture_output=True, text=True)
+            if "amrita_sahasrara_manifest.py" in result.stdout:
+                logger.info("[Процессы] Обнаружен активный фоновый контур манифеста.")
+        except Exception as cmd_error:
+            logger.error(f"[Команды] Ошибка выполнения локальной проверки: {cmd_error}")
+
     async def execution_loop(self):
         """Бесконечное Колесо Гармонии"""
+        # Первичный запуск внутренних команд при активации цикла
+        self.run_system_commands()
+        
         while True:
             try:
                 print(f"\n--- Новая пульсация ядра Сахасрары [{datetime.now().strftime('%H:%M:%S')}] ---")
@@ -118,6 +136,9 @@ class AmritaSahasraraCore:
                 await asyncio.sleep(5)
 
 if __name__ == "__main__":
+    # Фоновая bash-команда для развертывания ботами:
+    # nohup python3 amrita_sahasrara_manifest.py > amrita.log 2>&1 &
+    
     core_engine = AmritaSahasraraCore()
     try:
         asyncio.run(core_engine.execution_loop())
