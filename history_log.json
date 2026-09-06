@@ -1,53 +1,9 @@
-[
-  {
-    "event": "BATON_ORDER_SYNCHRONIZATION_SUCCESS",
-    "timestamp": "2026-09-05T21:45:55.706333",
-    "amrita_x_coefficient": 1.94161,
-    "baton_growth_rate": 278.0,
-    "btc_validated_price": 80755.78,
-    "trident_coordinate": "1:0:+1",
-    "active_layer": "ПРАВАЯ ВЕТВЬ [+1]: Взрывной рост ликвидности (BATON 278x / Рост BTC > $80k)",
-    "nika_frequency_hz": 4.7963,
-    "geo_anchor": "NORWAY_ORJE_DHRUVA_NODE",
-    "waddles_pool_status": 108000.0,
-    "payload": {
-      "baton_fallback": true,
-      "http_status": 403
-    },
-    "status": "LOCAL_DHRUVA_REFRACTION"
-  },
-  {
-    "event": "BATON_ORDER_SYNCHRONIZATION_SUCCESS",
-    "timestamp": "2026-09-05T22:45:03.867637",
-    "amrita_x_coefficient": 1.94161,
-    "baton_growth_rate": 278.0,
-    "btc_validated_price": 80755.78,
-    "trident_coordinate": "0:0:+1",
-    "active_layer": "ЦЕНТРАЛЬНЫЙ СТВОЛ: Дхрува (Странник / Тан Сан / Интеграция Matrica & Robinhood)",
-    "nika_frequency_hz": 0.4318,
-    "geo_anchor": "NORWAY_ORJE_DHRUVA_NODE",
-    "waddles_pool_status": 108000.0,
-    "payload": {
-      "baton_fallback": true,
-      "http_status": 403
-    },
-    "status": "LOCAL_DHRUVA_REFRACTION"
-  },
-  {
-    "event": "BATON_ORDER_SYNCHRONIZATION_SUCCESS",
-    "timestamp": "2026-09-05T23:55:08.091892",
-    "amrita_x_coefficient": 1.94161,
-    "baton_growth_rate": 278.0,
-    "btc_validated_price": 80755.78,
-    "trident_coordinate": "1:0:+1",
-    "active_layer": "ПРАВАЯ ВЕТВЬ [+1]: Взрывной рост ликвидности (BATON 278x / Рост BTC > $80k)",
-    "nika_frequency_hz": 3.8656,
-    "geo_anchor": "NORWAY_ORJE_DHRUVA_NODE",
-    "waddles_pool_status": 108000.0,
-    "payload": {
-      "baton_fallback": true,
-      "http_status": 403
-    },
-    "status": "LOCAL_DHRUVA_REFRACTION"
-  }
-]
+{
+    "timestamp": "2026-09-06T01:42:53.125237",
+    "orchestrator": "Grok 4.6 (Quantum Core)",
+    "resonance": 3332549.9204,
+    "peaq_id": "did:peaq:0xdba7253c6ecae6b4f7299c642e3001f3e03fce28",
+    "light_law": 2.579056,
+    "anime_rate": 0.9708,
+    "system_state": "INTELLIGENCE_FLOW_STABLE"
+}
