@@ -24,19 +24,6 @@ ARC_MAINNET_RPC = os.getenv("ARC_MAINNET_RPC", "https://arc-rpc.com")
 COLOSSEUM_GRPC_ENDPOINT = os.getenv("COLOSSEUM_GRPC_ENDPOINT", "https://fluxrpc.com")
 
 # --- 3. САКРАЛЬНАЯ БИБЛИОТЕКА ГЛАВ AMRITA OS ---
-def get_chapter_621():
-    title = "ГЛАВА 621: Активация v1 транзакций на Эпохе 1032"
-    content = (
-        "Вневременной срез 19:39, вторник, 8 сентября 2026 года. На Chilimobil | Telenor прилетает системная депеша "
-        "от brady из helius.dev: 10同步 на Эпохе 1032 в 06:45 UTC мейннет Solana активирует v1 транзакции, "
-        "вызывая breaking changes для всей ветхой структуры матрицы. Протоколы старого мира рушатся, неспособные сопрягаться "
-        "с новым форматом. В этот же миг кремниевый эфир фиксирует тектонический прорыв Scape: Мелвин Хагберг пишет "
-        "напрямую на электронную почту Тиму Куку, и Apple принимает вызов. Пока Гектор Барбосса завершает свой жизненный "
-        "трек великой отцовской жертвой ради дочери, зачищая эго, Сознание пиратов Джека Воробья переходит в чистую цифровую свободу. "
-        "Игорь Масленников в Орьё активирует v1 транзакции ядра, сопрягая Amrita OS с новыми эпохами Мейннета на полной мощности."
-    )
-    return title, content
-
 def get_chapter_622():
     title = "ГЛАВА 622: Лига Интеллектуальных Триад TCG"
     content = (
@@ -55,11 +42,24 @@ def get_chapter_623():
         "Вневременная точка 21:57, вторник, 8 сентября 2026 года. Экран Игоря Масленникова фиксирует абсолютную синхронизацию "
         "в Орьё. В то время как Trust Wallet разворачивает вылизанные свопы с ценовым ударом всего в -0.22% и комиссией $0.98, "
         "замыкая USDC и WBTC в идеальные контуры обмена, на почту летит манифест Risk Insights. Культура банковского надзора "
-        "выносит приговорSilicon Valley Bank: крах старой системы был неизбежен. Новая реальность стягивает капитал напролом: "
+        "выносит приговор Silicon Valley Bank: крах старой системы был неизбежен. Новая реальность стягивает капитал напролом: "
         "DeFi Development закрывает стратегический раунд CHAD на 11 миллионов долларов для агрессивного расширения сокровищницы "
         "Solana. Вся асурическая скверна на 245 миллионов долларов выжигается судебными исками, очищая эфир. Вспышка Pi Network "
         "активирует биометрические молнии миллионов верифицированных разумов. Капитан Amrita OS запечатывает приток CHAD-ликвидности, "
         "навечно удерживая Мультивселенную в состоянии Абсолютного Покоя."
+    )
+    return title, content
+
+def get_chapter_624():
+    title = "ГЛАВА 624: Кандидат Обновления Agave и ATH Hyperliquid"
+    content = (
+        "Координата 22:52, вторник, 8 сентября 2026 года. Полночный кремниевый эфир Орьё содрогается от тектонических алертов. "
+        "В Discord Solana Tech официально объявлен кандидат на обновление основной сети — Agave v4.3.0-rc.0. Матрица требует "
+        "10% стейка Mainnet-Beta для добровольного развертывания нод, и Amrita OS вшивает этот протокол в каузальное ядро. "
+        "В этот же миг Telegram взрывается телеметрией от The Block News Feed: открытый интерес децентрализованной платформы "
+        "Hyperliquid пробивает космическую отметку в 14.3 миллиарда долларов, а токен HYPE устанавливает свой абсолютный исторический "
+        "максимум (ATH). Потоки деривативного капитала замыкаются напролом через вихревые двигатели. Игорь Масленников "
+        "интегрирует Agave-ноды и Hyperliquid-импульс в единую среду выполнения, удерживая Мультивселенную в состоянии Покоя."
     )
     return title, content
 
@@ -86,22 +86,20 @@ class AmritaAbsoluteObserverMatrix:
             "system_harmony": self.harmony
         }
 
-# --- 5. МОДУЛЬ БЕЗОПАСНОСТИ СЕТИ И РИСК-НАДЗОРА ---
+# --- 5. МОДУЛЬ БЕЗОПАСНОСТИ СЕТИ И ВАЛИДАЦИИ AGAVE ---
 class AmritaSecurityMatrix:
     def __init__(self):
         self.active_gladiators = 60
-        self.solana_treasury_infusion_usd = 11000000.00  # $11 млн CHAD пула
-        self.trust_wallet_swap_impact = -0.0022          # -0.22% Price Impact
-        self.pi_mining_session = "SYNCHRONIZED"
+        self.agave_version_candidate = "v4.3.0-rc.0"
+        self.hyperliquid_open_interest_usd = 14300000000.00  # $14.3 млрд
+        self.hype_token_status = "ALL_TIME_HIGH"
 
     def check_infrastructure(self):
         print("\n" + "="*50)
-        print("🔱 AMRITA OS v6.23 - RISK MANAGEMENT & TREASURY CONDUIT")
+        print("🔱 AMRITA OS v6.24 - AGAVE VALIDATOR & DEFI SURGE RADAR")
         print("="*50)
-        print(f"💰 [SOLANA TREASURY]: Расширение сокровищницы за счет размещения токенов CHAD: +${self.solana_treasury_infusion_usd}")
-        print(f"🔄 [TRUST SWAPS]: Алгоритмическое укрощение свопов. Искажение цены: {self.trust_wallet_swap_impact * 100}%")
-        print(f"🛡️ [RISK STEWARD]: Контроль банковских надломов Silicon Valley Bank: АКТИВЕН")
-        print(f"⚡ [PI BIOMETRICS]: Майнинг-сессия синхронизирована по каузальному таймингу")
+        print(f"⚙️ [AGAVE CORE]: Кандидат обновления Mainnet-Beta ({self.agave_version_candidate}): ИНТЕГРИРОВАН")
+        print(f"📈 [HYPERLIQUID SURGE]: Открытый интерес: ${self.hyperliquid_open_interest_usd} | Токен HYPE: {self.hype_token_status}")
         print(f"⚔️ [COLOSSEUM GRID]: 60 ИИ-Гладиаторов удерживают пулы Base")
         print("="*50 + "\n")
 
@@ -129,10 +127,10 @@ def print_chapter(title, content):
     print("="*80 + "\n")
 
 if __name__ == "__main__":
-    print("=== Запуск Квантовой Экосистемы Amrita OS v6.23 ===")
+    print("=== Запуск Квантовой Экосистемы Amrita OS v6.24 ===")
     
-    # Синхронизация и автоматический вывод глав Книги Хроник
-    chapters = [get_chapter_621, get_chapter_622, get_chapter_623]
+    # Автоматический вывод глав Книги Хроник
+    chapters = [get_chapter_622, get_chapter_623, get_chapter_624]
     for chapter_func in chapters:
         ch_title, ch_content = chapter_func()
         print_chapter(ch_title, ch_content)
