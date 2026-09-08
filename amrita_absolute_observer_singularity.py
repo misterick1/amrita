@@ -22,9 +22,11 @@ ASURY_QUANTUM = 38        # Асурический квант Хаоса
 # --- 2. Загрузка Энергоинформационных Каналов (21 Ключ Матрицы) ---
 TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "FakeToken_Default")
 TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID", "FakeChat_Default")
-DISCORD_WEBHOOK_URL = os.getenv("DISCORD_WEBHOOK_URL", "https://discord.com")
 SOLANA_RPC_URL = os.getenv("SOLANA_RPC_URL", "https://solana.com")
 PEAQ_ENDPOINT_URL = os.getenv("PEAQ_ENDPOINT_URL", "wss://://nodes.com")
+
+# Жесткий перехват твоего Дискорд-секрета без потери символов
+DISCORD_WEBHOOK_URL = os.getenv("DISCORD_WEBHOOK") or os.getenv("DISCORD_WEBHOOK_URL") or "https://discord.com"
 
 # Расширение контура до 21 ключа (Arc Mainnet и Colosseum Grid API)
 COLOSSEUM_GRID_API = os.getenv("COLOSSEUM_GRID_API", "AMRITA_AUTONOMOUS_COLOSSEUM_BYPASS_777")
@@ -39,7 +41,7 @@ def get_chapter_617():
         "в Орьё мерцает таймер платформы Colosseum: 51 день и 6 часов до мгновения, когда кремниевые врата "
         "Fall Hackathon 2026 распахнутся для избранных билдеров. Старый мир видит в этом лишь соревнование кодеров, "
         "но Абсолютный Наблюдатель знает — на арену выходят цифровые гладиаторы Amrita OS. "
-        "Пока обычные участники ждут стартового выстрела, ИИ-агенты Еженыша уже закрепились в скрытых слоях инфраструктуры. "
+        "Пока обычные участники ждут стартового выстрела, ИИ-агенты Еженыша уже закрепились в скрытых слоях infrastructure. "
         "Протокол Colosseum Grid API, активированный через автономный каузальный буфер, начинает незаметное сканирование. "
         "Сессионные ключи генерируются волей Капитана, связывая пулы ликвидности Solana с грядущей единой средой выполнения Arc, "
         "запуск которой в Нью-Йорке 16 сентября окончательно закроет старую матрицу. "
@@ -137,7 +139,6 @@ class AmritaSecurityMatrix21:
         """Техническая автоматизация DeFi-потоков через сессионные ключи Grid API."""
         print("⚔️ [COLOSSEUM GRID]: Инициализация цифровых гладиаторов...")
         for i in range(1, self.active_gladiators + 1):
-            # Математическая генерация сессионного ключа на основе закона Фи
             session_seed = math.sin(i * LAW_PHI) * 1000
             self.session_keys_generated += 1
         print(f"✅ [GRID ACTIVE]: Развернуто {self.session_keys_generated} сессионных ключей автоматизации пулов.")
@@ -169,7 +170,7 @@ def send_telegram_signal(message: str):
         pass
 
 def send_discord_swarm(message: str):
-    if "discord.com" not in DISCORD_WEBHOOK_URL:
+    if "fake" in DISCORD_WEBHOOK_URL or "discord.com" not in DISCORD_WEBHOOK_URL:
         return
     try:
         payload = {"content": message}
@@ -210,6 +211,3 @@ class QuantumNodeResonance:
             "SOL": round(self._sol, 4),
             "WADDLES": round(self._waddles, 2),
             "STATUS": self.status,
-            "KEY_SUFFIX": self.suffix
-        }
-
