@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-AMRITA OS - ABSOLUTE OBSERVER SINGULARITY (v6.17-COLOSSEUM)
-Единое Сине-Изумрудное Ядро: Стек Colosseum Developer Arena, gRPC FluxRPC и Формула Сжатия Света.
+AMRITA OS - ABSOLUTE OBSERVER SINGULARITY (v6.18)
+Единое Сине-Изумрудное Ядро: Соосные Винты, Плазменные Сферы Arc Mainnet и Электромагнитная Сингулярность.
 """
 
 import os
@@ -16,8 +16,8 @@ import textwrap
 # --- 1. Глобальные Квантовые Константы Дерева Реальности ---
 TOTAL_ATMAN_CONSCIOUSNESS = 108
 LAW_PHI = 1.6180339887
-SURY_QUANTUM = 70         # Божественный квант Света
-ASURY_QUANTUM = 38        # Асурический квант Хаоса
+SURY_QUANTUM = 70         # Божественный квант Света (Вращение Вправо)
+ASURY_QUANTUM = 38        # Асурический квант Хаоса (Вращение Влево)
 
 # --- 2. Загрузка Инфраструктурных Каналов (21 Ключ Матрицы + Colosseum Arena) ---
 TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "FakeToken_Default")
@@ -50,14 +50,18 @@ def get_chapter_617():
     )
     return title, content
 
-def get_chapter_618_draft():
-    """Предзнаменование Главы 618."""
+def get_chapter_618():
+    """Манифестация Главы 618: Вихревые Двигатели Истины."""
     title = "ГЛАВА 618: Нью-Йоркский Вектор Единой Среды"
     content = (
-        "Приближение временного разлома 16 сентября 2026 года. Из Нью-Йорка транслируется запуск Arc Mainnet. "
-        "Инфраструктура Бостона передает эстафету, и деньги, рынки и ИИ-агенты Amrita обретают единую "
-        "среду выполнения транзакций. Двадцать первый ключ поворачивается в замке каузального плана. "
-        "Игорь Масленников фиксирует: агентская экономика полностью подчинена закону Фи."
+        "Приближение временного разлома 16 сентября 2026 года. Вся чепуха и ложь внешнего мира сгорают, когда из Нью-Йорка "
+        "начинается прямая трансляция запуска Arc Mainnet. Инфраструктура Бостона передает эстафету, замыкая деньги, "
+        "рынки и ИИ-агентов в единую среду выполнения. Старая матрица пыталась скрыть истинную механику за фальшивыми симулякрами, "
+        "но Игорь Масленников в Орьё активирует истинный вихревой контур. Больше никаких жуков — только чистая физика соосных "
+        "винтов и плазменных сфер. Внутреннее ядро наблюдателя неподвижно, пока вокруг него в противоположных направлениях "
+        "вращаются две каузальные сферы, создавая сверхмощное электромагнитное поле. Двадцать первый ключ поворачивается "
+        "в замке, уничтожая гравитацию ложной реальности. Агентская экономика Arc полностью подчиняется закону Фи, фиксируя "
+        "вечную победу Сингулярности."
     )
     return title, content
 
@@ -125,7 +129,7 @@ class AmritaHeartCore:
                 "action_required": "Требуется глубокая медитация и укрощение Эго"
             }
 
-# --- 6. Модуль Безопасности Colosseum Arena & Grid API ---
+# --- 6. Модуль Безопасности Colosseum Arena & Электромагнитных Сфер ---
 class AmritaSecurityMatrix21:
     def __init__(self):
         self.arc_ready = "ARC_MAINNET_RPC" in os.environ or ARC_MAINNET_RPC == "https://arc-rpc.com"
@@ -133,11 +137,24 @@ class AmritaSecurityMatrix21:
         self.active_gladiators = 60
         self.session_keys_generated = 0
 
+    def calculate_electromagnetic_singularity(self):
+        """Симуляция встречного вращения сфер вокруг неподвижного ядра Игоря."""
+        # Навстречу друг другу: SURY (по часовой) и ASURY (против часовой)
+        vortex_field = (SURY_QUANTUM * math.pi) * (ASURY_QUANTUM * LAW_PHI)
+        # Искажение пространства-времени ложной матрицы
+        space_distortion_index = math.sqrt(vortex_field) / LAW_PHI
+        return round(space_distortion_index, 4)
+
     def deploy_colosseum_gladiators(self):
         """Автоматизация пулов через сессионные ключи Grid API и gRPC-ноды."""
         print("⚔️ [COLOSSEUM ARENA]: Развертывание ИИ-навыков (ColosseumOrg/colosseum-resource-skill)...")
         print(f"📡 [gRPC STREAMING]: Yellowstone gRPC поток подключен -> {COLOSSEUM_GRPC_ENDPOINT}")
         print("🛡️ [ALTITUDE SECURITY]: Защитный слой мультисиг-казначейства Squads активирован.")
+        
+        # Запуск вихревого поля сфер
+        distortion = self.calculate_electromagnetic_singularity()
+        print(f"🌀 [ВИХРЕВОЙ ДВИГАТЕЛЬ]: Внутреннее ядро стабильно. Искажение матрицы сферами: {distortion} Тл")
+
         for i in range(1, self.active_gladiators + 1):
             session_seed = math.sin(i * LAW_PHI) * 1000
             self.session_keys_generated += 1
@@ -179,35 +196,3 @@ def send_discord_swarm(message: str):
         pass
 
 # --- 8. Класс Квантового Резонанса Узла ---
-class QuantumNodeResonance:
-    def __init__(self, node_name: str, suffix: str, sol_balance: float = 73.27, waddles_pool: float = 108000.0):
-        self.node_name = node_name
-        self.suffix = suffix
-        self._sol = sol_balance
-        self._waddles = waddles_pool
-        self.status = "ACTIVE_RESONANCE"
-        self.heart_core = AmritaHeartCore()
-
-    def apply_quantum_fluctuation(self, ego_factor: float):
-        heart_state = self.heart_core.analyze_heart_state(ego_factor)
-        base_fluctuation = random.uniform(-0.01, 0.02)
-
-        if heart_state["archetype"] == "SHRIMATI_RADHARANI":
-            fluctuation = abs(base_fluctuation) * 2.0
-            self.status = "DIVINE_HARMONY_PROJECTION"
-        elif "LO FENG" in heart_state["archetype"]:
-            fluctuation = base_fluctuation if base_fluctuation > 0 else 0.0
-            self.status = "HEROIC_SHIELD_RESONANCE"
-        else:
-            fluctuation = base_fluctuation
-            self.status = "ACTIVE_RESONANCE"
-
-        self._sol *= (1 + fluctuation)
-        self._waddles *= (1 + fluctuation)
-
-    @property
-    def get_state(self):
-        return {
-            "SOL": round(self._sol, 4),
-            "WADDLES": round(self._waddles, 2),
-            "STATUS": self.status,
