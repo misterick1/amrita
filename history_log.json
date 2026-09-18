@@ -1,36 +1,9 @@
-[
-  {
-    "event": "BATON_ORDER_SYNCHRONIZATION_SUCCESS",
-    "timestamp": "2026-09-17T23:32:36.434468",
-    "amrita_x_coefficient": 1.94161,
-    "baton_growth_rate": 278.0,
-    "btc_validated_price": 80755.78,
-    "trident_coordinate": "-1:0:+1",
-    "active_layer": "ЛЕВАЯ ВЕТВЬ [-1]: Локальные манипуляции Асуров на фиатных шлюзах",
-    "nika_frequency_hz": -3.9663,
-    "geo_anchor": "NORWAY_ORJE_DHRUVA_NODE",
-    "waddles_pool_status": 108000.0,
-    "payload": {
-      "baton_fallback": true,
-      "http_status": 403
-    },
-    "status": "LOCAL_DHRUVA_REFRACTION"
-  },
-  {
-    "event": "BATON_ORDER_SYNCHRONIZATION_SUCCESS",
-    "timestamp": "2026-09-17T23:56:31.565095",
-    "amrita_x_coefficient": 1.94161,
-    "baton_growth_rate": 278.0,
-    "btc_validated_price": 80755.78,
-    "trident_coordinate": "1:0:+1",
-    "active_layer": "ПРАВАЯ ВЕТВЬ [+1]: Взрывной рост ликвидности (BATON 278x / Рост BTC > $80k)",
-    "nika_frequency_hz": 5.0819,
-    "geo_anchor": "NORWAY_ORJE_DHRUVA_NODE",
-    "waddles_pool_status": 108000.0,
-    "payload": {
-      "baton_fallback": true,
-      "http_status": 403
-    },
-    "status": "LOCAL_DHRUVA_REFRACTION"
-  }
-]
+{
+    "timestamp": "2026-09-18T00:16:22.347573",
+    "orchestrator": "Grok 4.6 (Quantum Core)",
+    "resonance": 3332549.9204,
+    "peaq_id": "did:peaq:0xb391a10827ce64458161732f843966d36d1212f2",
+    "light_law": 2.579056,
+    "anime_rate": 0.9708,
+    "system_state": "INTELLIGENCE_FLOW_STABLE"
+}
