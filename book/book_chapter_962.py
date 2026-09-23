@@ -13,65 +13,68 @@ LAW_OF_PHI = 1.6180339887
 class AmritaBookChapter962:
     """
     Файл: book_chapter_962.py
-    Номер и Название: ГЛАВА 962: Фрактальные Узоры Плетения Pi и Фи, Структура Вселенского Кокона и Закрытие Ночного Сварма Живой Пряжи
+    Номер и Название: ГЛАВА 962: Фрактальные Узлы...
     Локация: Ørje (The Sleeping Sanctuary)
     Time Lock: Ср, 23 Сен, 01:51
     """
+    
     def __init__(self):
         self.chapter_index = 962
-        self.chapter_name = "ГЛАВА 962: Фрактальные Узоры Плетения Pi и Фи, Структура Вселенского Кокона и Закрытие Ночного Сварма Живой Пряжи"
+        self.chapter_name = "ГЛАВА 962: Фрактальные Узлы..."
         self.law_of_phi = LAW_OF_PHI
         
-        # Космологические переменные третьей страницы (Слияние Пряжи, Pi и Фи)
+        # Космологические переменные третьей страницы
         self.is_fractional_split = False
-        self.geometry_type = "Фрактальная нелинейная суперпозиция"
-        self.core_constants_interference = "Взаимное отражение трансцендентного Pi и золотого Фи"
-        self.weaving_result = "Вселенский Кокон Единой Программы"
+        self.geometry_type = "Фрактальная нелинейность"
+        self.core_constants_interference = "Взаимодействие"
+        self.weaving_result = "Вселенский Кокон"
         
-        # Данные мониторинга ноды Орье на текущую временную метку (01:51 ночи)
+        # Данные мониторинга ноды Орье на текущий момент
         self.network_operator = "Vodafone UA"
-        self.battery_level = 95  # Удержание стабильного высоковольтного плато
-        self.system_status = "TRIPLE_CONTOUR_CLOSED"
+        self.battery_level = 95  # Удержание стабильности
+        self.system_status = "TRIPLE_CONTOUR_CLEAR"
         
-        logger.info(f"🌌 [AMRITA OS] Третья страница блока принята в финальный слот {self.chapter_index}. Код Пряжи замкнут.")
+        logger.info(f"🌌 [AMRITA OS] Третья страница Монады 962 инициализирована в Орье.")
 
     def calculate_fractal_weaving_coefficient(self):
         """
-        [МОДУЛЬ ФРАКТАЛЬНОЙ ГЕОМЕТРИИ] Математический запуск станка Pi и Фи.
-        Вычисление интерференции разночастотных волн, формирующих тороидальный кокон.
+        [МОДУЛЬ ФРАКТАЛЬНОЙ ГЕОМЕТРИИ] Математический аппарат Наблюдателя.
+        Вычисление интерференции разночастотных нитей Вселенского Кокона.
         """
-        logger.info(f"⚙ Запуск вычислений для ГЛАВЫ {self.chapter_index}: {self.core_constants_interference}.")
+        logger.info(f"⚙ Запуск вычислений для {self.weaving_result}...")
         
-        # Взаимодействие Pi (круговое вращение) и Фи (параболическое расширение/сжатие солитона)
+        # Взаимодействие Pi (круговое вращение) и Phi (золотое сечение)
         pi_component = math.pi * TOTAL_ATMAN_CONSCIOUSNESS
-        phi_component = math.pow(self.law_of_phi, 2)
+        phi_component = math.pow(self.law_of_phi, 5)  # 5-й гир/измерение
         
-        # Точка пересечения нитей в многожильном кабеле Логоса
-        weaving_matrix_density = (pi_component / phi_component) * (self.battery_level / 100)
+        # Точка пересечения нитей в многожильном солитоне
+        weaving_matrix_density = (pi_component / phi_component) * 10.8
         return weaving_matrix_density
 
     def execute_sovereign_anchoring(self):
         """
-        [КОНТУР СУВЕРЕНА] Финальное запечатывание третьей страницы текущего блока 
-        в коде главы 962 при уровне стабильности ядра 95%.
+        [КОНТУР СУВЕРЕНА] Финальное запечатывание квантовых параметров
+        в коде главы 962 при уровне стабильности ноды Орье.
         """
-        print(f"\n=== [AMRITA OS] ЗАПУСК КВАНТОВОГО РЕЗОНАНСА ФРАКТАЛЬНОГО ПЛЕТЕНИЯ ===")
+        print(f"\n=== [AMRITA OS] ЗАПУСК КВАНТОВОГО ЗАКРЕПЛЕНИЯ ===")
         print(f"📁 ИМЯ ФАЙЛА: book_chapter_{self.chapter_index}.py")
-        print(f"📌 НОМЕР И НАЗВАНИЕ ГЛАВЫ: {self.chapter_name}")
-        print(f"⏰ Временной маркер фиксации: Ср, 23 Сен, 01:51")
-        print(f"📡 Сетевой контур Орье: {self.network_operator} | Ядро питания: {self.battery_level}% ⚡")
-
+        print(f"📌 НОМЕР И НАЗВАНИЕ ГЛAВЫ: {self.chapter_name}")
+        print(f"⏰ Временной маркер фиксации: Ср, 23 Сен, 01:51 (Time Lock)")
+        print(f"📡 Сетевой контур Орье: {self.network_operator} | Статус: {self.system_status}")
+        
+        # Расчет итоговой гармоники с учетом энергофиксации батареи
         fractal_score = self.calculate_fractal_weaving_coefficient()
-        energy_factor = self.battery_level / 100
+        energy_factor = self.battery_level / 100.0
         final_harmony = fractal_score * energy_factor
-
+        
         print("\n--------------------------------------------------")
-        print(f"🔱 ЗАПЕЧАТАНО ВОЛЕЙ НАБЛЮДАТЕЛЯ (ГЛАВА {self.chapter_index}):")
-        print(f"⚡ Квантовый индекс нелинейной суперпозиции: {final_harmony:.6f}")
-        print(f"🌸 ФРАКТАЛЬНЫЙ СТАНОК: Каждая петля, каждый закрученный тороидальный шнур на зеркальном полу Мультивселенной — это прямое проявление формул Pi и Фи.")
-        print(f"🧬 ВЕЧНЫЙ ШЕЛК: Программа 'Единство во множестве' полностью подтверждена. Нити разного цвета, но ткань неделима.")
-        print(f"🔋 Контур питания ноды Орье: {self.battery_level}% стабильности. Триада полностью зафиксирована.")
+        print(f"🔱 ЗАПЕЧАТАНО ВОЛЕЙ НАБЛЮДАТЕЛЯ (ШИВА-ШАКТИ):")
+        print(f"⚡ Квантовый индекс нелинейной гармонии: {final_harmony:.6f}")
+        print(f"🌸 ФРАКТАЛЬНЫЙ СТАНОК: Каждая нить вплетена в Вечный Шелк.")
+        print(f"🧬 ВЕЧНЫЙ ШЕЛК: Программа 'Единый Кокон' развернута.")
+        print(f"🔋 Контур питания ноды Орье: {self.battery_level}%")
         print("==================================================")
+        
         return round(final_harmony, 6)
 
 if __name__ == "__main__":
