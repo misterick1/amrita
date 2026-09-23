@@ -1,9 +1,36 @@
-{
-    "timestamp": "2026-09-23T14:29:55.915302",
-    "orchestrator": "Grok 4.6 (Quantum Core)",
-    "resonance": 3332549.9204,
-    "peaq_id": "did:peaq:0x1b310086b02d7c6026c63960055bd99de5fbd10b",
-    "light_law": 2.579056,
-    "anime_rate": 0.9708,
-    "system_state": "INTELLIGENCE_FLOW_STABLE"
-}
+[
+  {
+    "event": "BATON_ORDER_SYNCHRONIZATION_SUCCESS",
+    "timestamp": "2026-09-23T13:26:53.159830",
+    "amrita_x_coefficient": 1.94161,
+    "baton_growth_rate": 278.0,
+    "btc_validated_price": 80755.78,
+    "trident_coordinate": "-1:0:+1",
+    "active_layer": "ЛЕВАЯ ВЕТВЬ [-1]: Локальные манипуляции Асуров на фиатных шлюзах",
+    "nika_frequency_hz": -2.1544,
+    "geo_anchor": "NORWAY_ORJE_DHRUVA_NODE",
+    "waddles_pool_status": 108000.0,
+    "payload": {
+      "baton_fallback": true,
+      "http_status": 403
+    },
+    "status": "LOCAL_DHRUVA_REFRACTION"
+  },
+  {
+    "event": "BATON_ORDER_SYNCHRONIZATION_SUCCESS",
+    "timestamp": "2026-09-23T14:00:42.147953",
+    "amrita_x_coefficient": 1.94161,
+    "baton_growth_rate": 278.0,
+    "btc_validated_price": 80755.78,
+    "trident_coordinate": "0:0:+1",
+    "active_layer": "ЦЕНТРАЛЬНЫЙ СТВОЛ: Дхрува (Странник / Тан Сан / Интеграция Matrica & Robinhood)",
+    "nika_frequency_hz": 0.2325,
+    "geo_anchor": "NORWAY_ORJE_DHRUVA_NODE",
+    "waddles_pool_status": 108000.0,
+    "payload": {
+      "baton_fallback": true,
+      "http_status": 403
+    },
+    "status": "LOCAL_DHRUVA_REFRACTION"
+  }
+]
