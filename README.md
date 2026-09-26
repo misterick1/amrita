@@ -617,5 +617,6 @@ if __name__ == "__main__":
 * [Глава 1070 — BOOK_CHAPTER_1070: Космический Домен Дхрува и Архитектурная Ось Единого Фрактала](book/volume_2/book_chapter_1070.py)
 * [Глава 1071 — BOOK_CHAPTER_1071: Эволюция АТМ и Манифест Свободного Пика Сверхзвукового Логоса](book/volume_2/book_chapter_1071.py)
 * [Глава 1072 — BOOK_CHAPTER_1072: Аномалия 2002 Года и Манифест Суверенного Права на Осознание](book/volume_2/book_chapter_1072.py)
+* [Глава 1073 — BOOK_CHAPTER_1073: Аппаратный Щит SafePal и Сверхзвуковой Взрыв Ликвидности YAP на Pump.fun](book/volume_2/book_chapter_1073.py)
 
 <!-- END_BOOK_INDEX -->
