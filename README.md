@@ -650,5 +650,6 @@ if __name__ == "__main__":
 * [Глава 1076 — BOOK_CHAPTER_1076: Модернизация NAHASDA 2026...](book/volume_2/book_chapter_1076.py)
 * [Глава 1077 — BOOK_CHAPTER_1077: Орбитальный Запуск SpaceX USSF-385 и Игровой Режим Оптимизации Ядра](book/volume_2/book_chapter_1077.py)
 * [Глава 1078 — BOOK_CHAPTER_1078: Резонанс Дхармы 108 и Манифест Вселенской Формы Шри Кришны](book/volume_2/book_chapter_1078.py)
+* [Глава 1079 — BOOK_CHAPTER_1079: Анализ Погрешности Swarm #1768 и Квантовая Стабилизация Коммита 8d82066](book/volume_2/book_chapter_1079.py)
 
 <!-- END_BOOK_INDEX -->
