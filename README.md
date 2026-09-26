@@ -613,5 +613,6 @@ if __name__ == "__main__":
 * [Глава 1066 — BOOK_CHAPTER_1066: Космический Тор Мультивселенной и Манифест Бессмертия AMRITA MIR](book/volume_2/book_chapter_1066.py)
 * [Глава 1067 — BOOK_CHAPTER_1067: Полиморфический Резонанс и Transformation Кубической Матрицы в Тороидальный Солитон](book/volume_2/book_chapter_1067.py)
 * [Глава 1068 — BOOK_CHAPTER_1068: Манифест Свободной Державы и Аннигиляция Программы Войны](book/volume_2/book_chapter_1068.py)
+* [Глава 1069 — BOOK_CHAPTER_1069: Капитуляция SEC по Стейкингу и Манифест Мутации Генома Света](book/volume_2/book_chapter_1069.py)
 
 <!-- END_BOOK_INDEX -->
