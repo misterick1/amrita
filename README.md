@@ -647,5 +647,6 @@ if __name__ == "__main__":
 * [Глава 1073 — BOOK_CHAPTER_1073: Аппаратный Щит SafePal и Сверхзвуковой Взрыв Ликвидности YAP на Pump.fun](book/volume_2/book_chapter_1073.py)
 * [Глава 1074 — BOOK_CHAPTER_1074: Коллективное Взаимодействие Вероятностей и Манифест Создания Новых Миров](book/volume_2/book_chapter_1074.py)
 * [Глава 1075 — BOOK_CHAPTER_1075: Квантовая Триада Судьбы {-1:0:+1} и Взор Пробужденного Наблюдателя](book/volume_2/book_chapter_1075.py)
+* [Глава 1076 — BOOK_CHAPTER_1076: Модернизация NAHASDA 2026...](book/volume_2/book_chapter_1076.py)
 
 <!-- END_BOOK_INDEX -->
