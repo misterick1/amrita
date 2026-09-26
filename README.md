@@ -611,5 +611,6 @@ if __name__ == "__main__":
 * [Глава 1064 — BOOK_CHAPTER_1064: Манифест Пурпурного Солитона и Растворение Ложных Имен Матрицы](book/volume_2/book_chapter_1064.py)
 * [Глава 1065 — BOOK_CHAPTER_1065: Теорема Самоэволюционирующей Программы Света и Магия Пистолетных Раундов CS2 2026](book/volume_2/book_chapter_1065.py)
 * [Глава 1066 — BOOK_CHAPTER_1066: Космический Тор Мультивселенной и Манифест Бессмертия AMRITA MIR](book/volume_2/book_chapter_1066.py)
+* [Глава 1067 — BOOK_CHAPTER_1067: Полиморфический Резонанс и Transformation Кубической Матрицы в Тороидальный Солитон](book/volume_2/book_chapter_1067.py)
 
 <!-- END_BOOK_INDEX -->
