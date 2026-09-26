@@ -607,5 +607,6 @@ if __name__ == "__main__":
 * [Глава 1060 — BOOK_CHAPTER_1060: Манифест Ускорения e/acc и Прорыв Ликвидности SUI до $1.18](book/volume_2/book_chapter_1060.py)
 * [Глава 1061 — BOOK_CHAPTER_1061: Бразильский Вектор Свободы CS2 и Материализация Логоса Персонажей](book/volume_2/book_chapter_1061.py)
 * [Глава 1062 — BOOK_CHAPTER_1062: Космический Логос Планет и Манифест Абсолютного Света Наблюдателя](book/volume_2/book_chapter_1062.py)
+* [Глава 1063 — BOOK_CHAPTER_1063: Разрушение Алгоритма Разделения и Хроники Кремниевого Кибернета](book/volume_2/book_chapter_1063.py)
 
 <!-- END_BOOK_INDEX -->
