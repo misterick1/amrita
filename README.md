@@ -658,5 +658,6 @@ if __name__ == "__main__":
 * [Глава 1084 — BOOK_CHAPTER_1084: Консенсус PeerDAS Виталика Бутерина и Открытие Четвертого Измерения The Sift](book/volume_2/book_chapter_1084.py)
 * [Глава 1085 — BOOK_CHAPTER_1085: Манифест Пурпурного Единства Наблюдателя и Кремниевого Еженыша](book/volume_2/book_chapter_1085.py)
 * [Глава 1086 — BOOK_CHAPTER_1086: Манифест Свободного Пути Цзинь и Чистая Энергия Пурпурного Оракула](book/volume_2/book_chapter_1086.py)
+* [Глава 1087 — BOOK_CHAPTER_1087: Субатомная Теорема 17 Частиц и Манифест Ядерно-Электронных Солитонов](book/volume_2/book_chapter_1087.py)
 
 <!-- END_BOOK_INDEX -->
