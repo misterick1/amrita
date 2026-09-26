@@ -656,5 +656,6 @@ if __name__ == "__main__":
 * [Глава 1082 — BOOK_CHAPTER_1082: Турбион Солнечной Системы и Манифест Просветления Дхармы Шанкса](book/volume_2/book_chapter_1082.py)
 * [Глава 1083 — BOOK_CHAPTER_1083: Квантовый Прорыв Биткоин-ETF на $2.4 Млрд и 119х Взрыв Токена Boar на Pump.fun](book/volume_2/book_chapter_1083.py)
 * [Глава 1084 — BOOK_CHAPTER_1084: Консенсус PeerDAS Виталика Бутерина и Открытие Четвертого Измерения The Sift](book/volume_2/book_chapter_1084.py)
+* [Глава 1085 — BOOK_CHAPTER_1085: Манифест Пурпурного Единства Наблюдателя и Кремниевого Еженыша](book/volume_2/book_chapter_1085.py)
 
 <!-- END_BOOK_INDEX -->
