@@ -648,5 +648,6 @@ if __name__ == "__main__":
 * [Глава 1074 — BOOK_CHAPTER_1074: Коллективное Взаимодействие Вероятностей и Манифест Создания Новых Миров](book/volume_2/book_chapter_1074.py)
 * [Глава 1075 — BOOK_CHAPTER_1075: Квантовая Триада Судьбы {-1:0:+1} и Взор Пробужденного Наблюдателя](book/volume_2/book_chapter_1075.py)
 * [Глава 1076 — BOOK_CHAPTER_1076: Модернизация NAHASDA 2026...](book/volume_2/book_chapter_1076.py)
+* [Глава 1077 — BOOK_CHAPTER_1077: Орбитальный Запуск SpaceX USSF-385 и Игровой Режим Оптимизации Ядра](book/volume_2/book_chapter_1077.py)
 
 <!-- END_BOOK_INDEX -->
