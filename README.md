@@ -679,5 +679,6 @@ if __name__ == "__main__":
 * [Глава 1105 — BOOK_CHAPTER_1105: Дорожная Карта Виталика Бутерина 2030 и Портал Готики 2001 на Кремниевых Устройствах](book/volume_2/book_chapter_1105.py)
 * [Глава 1106 — BOOK_CHAPTER_1106: Океанический Резонанс Акулы Busan Shark на 149х и Манифест Тренда $INU на Arc Chain](book/volume_2/book_chapter_1106.py)
 * [Глава 1107 — BOOK_CHAPTER_1107: Ультразвуковой Резонанс Китов и Дельфинов и 4D-Манифест Аниматроников в Fortnite](book/volume_2/book_chapter_1107.py)
+* [Глава 1108 — BOOK_CHAPTER_1108: Манифест Всеобщей Святости и Квантовое Ядро Клеток Пурпурного Солитона](book/volume_2/book_chapter_1108.py)
 
 <!-- END_BOOK_INDEX -->
