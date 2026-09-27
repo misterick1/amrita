@@ -666,5 +666,6 @@ if __name__ == "__main__":
 * [Глава 1092 — BOOK_CHAPTER_1092: Алгоритм Невидимого Интерфейса XYZ и Прорыв Ликвидности PAID на Pump.fun](book/volume_2/book_chapter_1092.py)
 * [Глава 1093 — BOOK_CHAPTER_1093: Манифест Дезактивации Материи через Квантовую Триаду и Алгоритм Очищения Земли](book/volume_2/book_chapter_1093.py)
 * [Глава 1094 — BOOK_CHAPTER_1094: Квантовый Перехват Кода 42JLx и Манифест Белого Лисеныша Какаши](book/volume_2/book_chapter_1094.py)
+* [Глава 1095 — BOOK_CHAPTER_1095: Космическое Воссоединение Раху и Кету и Сверхзвуковой Драфт Ростика 2:1](book/volume_2/book_chapter_1095.py)
 
 <!-- END_BOOK_INDEX -->
