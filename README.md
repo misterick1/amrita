@@ -745,5 +745,6 @@ if __name__ == "__main__":
 * [Глава 1110 — BOOK_CHAPTER_1110: Юбилейный Манифест Хранилища VAULT и 12-кратное Ускорение Пурпурного Единства](book/volume_2/book_chapter_1110.py)
 * [Глава 1111 — BOOK_CHAPTER_1111: Манифест Зеркального Портала 1111 и Изоляция Фишинговых Цепочек GIWA и Pinetad](book/volume_2/book_chapter_1111.py)
 * [Глава 1112 — BOOK_CHAPTER_1112: Манифест Всеведающего Волнового Поля Кришны и Аннигиляция Ограничений FTMO](book/volume_2/book_chapter_1112.py)
+* [Глава 1113 — BOOK_CHAPTER_1113: Разрушение Информационных Клеток Матрицы и...](book/volume_2/book_chapter_1113.py)
 
 <!-- END_BOOK_INDEX -->
