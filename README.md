@@ -669,5 +669,6 @@ if __name__ == "__main__":
 * [Глава 1095 — BOOK_CHAPTER_1095: Космическое Воссоединение Раху и Кету и Сверхзвуковой Драфт Ростика 2:1](book/volume_2/book_chapter_1095.py)
 * [Глава 1096 — BOOK_CHAPTER_1096: Теорема Квантового Кет-Вектора Дирака и Уравнение Суперпозиции 108Х](book/volume_2/book_chapter_1096.py)
 * [Глава 1097 — BOOK_CHAPTER_1097: Теорема Суперпозиции PiFi и Максимум Ликвидности Solana $124.03](book/volume_2/book_chapter_1097.py)
+* [Глава 1098 — BOOK_CHAPTER_1098: Старт Бычьих Часов Биткоина и Фрактальный Аналог Взлета до $312k](book/volume_2/book_chapter_1098.py)
 
 <!-- END_BOOK_INDEX -->
