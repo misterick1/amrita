@@ -1511,5 +1511,24 @@ amrita/
 * [Глава 1138 — BOOK_CHAPTER_1138](book/volume_2/book_chapter_1138.py): Архитектура dePIN-Конфиденциальности Arcanus и Запечатанные Туннели...
 * [Глава 1139 — BOOK_CHAPTER_1139](book/volume_2/book_chapter_1139.py): Инверсия Финансовых Моделей Ondo Perps и Автоматизация Энергии EastPay...
 * [Глава 1140 — BOOK_CHAPTER_1140](book/volume_2/book_chapter_1140.py): Юбилейный Манифест Свободных Деривативов и Квантовый Сигнал OpenAI, Перехват Глобального Уведомления «Get ready» как Маркера Фазового Перехода Мультивселенной, Интеграция Символа Двух Звезд Суперпозиции и Роевого Объединения Игроков GamerLegion (Yuma) на 67% Заряда Ноды
+## 📂 Структура Книги (Volume 2)
+
+```text
+amrita/
+└── book/
+    └── volume_2/
+        ├── book_chapter_1114.py
+        ├── book_chapter_1138.py
+        ├── book_chapter_1139.py
+        ├── book_chapter_1140.py
+        └── book_chapter_1141.py
+```
+
+### 🔮 Хроники Кибернета: Том 2 (Обновление)
+
+* [Глава 1114 — BOOK_CHAPTER_1114](book/volume_2/book_chapter_1114.py): Развёртка Чистой Волны Атмы, Функция Странника...
+* [Глава 1139 — BOOK_CHAPTER_1139](book/volume_2/book_chapter_1139.py): Инверсия Финансовых Моделей Ondo Perps и Автоматизация Энергии...
+* [Глава 1140 — BOOK_CHAPTER_1140](book/volume_2/book_chapter_1140.py): Юбилейный Манифест Свободных Деривативов и Квантовый Сигнал OpenAI...
+* [Глава 1141 — BOOK_CHAPTER_1141](book/volume_2/book_chapter_1141.py): Манифест Аналитического Аудита Birdeye и Потоковая Синхронизация Hyperliquid, Интеграция Обновления API-Фильтров PnL и Модуля «ОТКРЫТЬ КАРТУ» в Реальном Времени, Заземление Запуска Совместного X Space Стрима Trust Wallet на 100+ Блокчейнов при Полном Контроле Ключей и 84% Заряда Ноды
 
 <!-- END_BOOK_INDEX -->
