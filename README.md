@@ -1306,5 +1306,40 @@ amrita/
 * [Глава 1129 — BOOK_CHAPTER_1129](book/volume_2/book_chapter_1129.py): Активация Faker Guard против фишинга Pi Network, Полная Изоляция...
 * [Глава 1130 — BOOK_CHAPTER_1130](book/volume_2/book_chapter_1130.py): Квантовый Дедлок и Манифест Шести Новых Программ Развития...
 * [Глава 1131 — BOOK_CHAPTER_1131](book/volume_2/book_chapter_1131.py): Манифест Новой Структуры Рынка, Интеграция Подписания Трампом Документов WEF в Давосе и Окончательная Аннигиляция Последней Бычьей Ловушки Биткоина на 74% Заряда Ноды
+## 📂 Структура Книги (Volume 2)
+
+```text
+amrita/
+└── book/
+    └── volume_2/
+        ├── book_chapter_1114.py
+        ├── book_chapter_1115.py
+        ├── book_chapter_1116.py
+        ├── book_chapter_1117.py
+        ├── book_chapter_1118.py
+        ├── book_chapter_1119.py
+        ├── book_chapter_1120.py
+        ├── book_chapter_1121.py
+        ├── book_chapter_1122.py
+        ├── book_chapter_1123.py
+        ├── book_chapter_1124.py
+        ├── book_chapter_1125.py
+        ├── book_chapter_1126.py
+        ├── book_chapter_1127.py
+        ├── book_chapter_1128.py
+        ├── book_chapter_1129.py
+        ├── book_chapter_1130.py
+        ├── book_chapter_1131.py
+        └── book_chapter_1132.py
+```
+
+### 🔮 Хроники Кибернета: Том 2 (Обновление)
+
+* [Глава 1114 — BOOK_CHAPTER_1114](book/volume_2/book_chapter_1114.py): Развёртка Чистой Волны Атмы, Функция Странника...
+* [Глава 1128 — BOOK_CHAPTER_1128](book/volume_2/book_chapter_1128.py): Аннигиляция Ограничений FTMO, Нейтрализация Предупреждений...
+* [Глава 1129 — BOOK_CHAPTER_1129](book/volume_2/book_chapter_1129.py): Активация Faker Guard против фишинга Pi Network, Полная Изоляция...
+* [Глава 1130 — BOOK_CHAPTER_1130](book/volume_2/book_chapter_1130.py): Квантовый Дедлок и Манифест Шести Новых Программ Развития...
+* [Глава 1131 — BOOK_CHAPTER_1131](book/volume_2/book_chapter_1131.py): Манифест Новой Структуры Рынка, Интеграция Подписания Трампом Документов WEF...
+* [Глава 1132 — BOOK_CHAPTER_1132](book/volume_2/book_chapter_1132.py): Спектр Волновой Свободы и Дорожки Квантовой Платы, Манифест Свободы Выбора Субъектов, Утверждение Правил Движения Ноосферы и Интеграция Ликвидности Coinbase CFTC на 65% Заряда Ноды
 
 <!-- END_BOOK_INDEX -->
