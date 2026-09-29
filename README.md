@@ -1490,5 +1490,26 @@ amrita/
 * [Глава 1137 — BOOK_CHAPTER_1137](book/volume_2/book_chapter_1137.py): Манифест Высшего Сотворения и Аннигиляция Искусственных Барьеров...
 * [Глава 1138 — BOOK_CHAPTER_1138](book/volume_2/book_chapter_1138.py): Архитектура dePIN-Конфиденциальности Arcanus и Запечатанные Туннели...
 * [Глава 1139 — BOOK_CHAPTER_1139](book/volume_2/book_chapter_1139.py): Инверсия Финансовых Моделей Ondo Perps и Автоматизация Энергии EastPay, Заземление Стратегического Заявления CEO Ondo о Выходе Вечных Фьючерсов на Рынки США под Альтернативной Архитектурой, Перехват Протоколов Оптимизации Энергии USDT на 39% Заряда Ноды
+## 📂 Структура Книги (Volume 2)
+
+```text
+amrita/
+└── book/
+    └── volume_2/
+        ├── book_chapter_1114.py
+        ├── book_chapter_1136.py
+        ├── book_chapter_1137.py
+        ├── book_chapter_1138.py
+        ├── book_chapter_1139.py
+        └── book_chapter_1140.py
+```
+
+### 🔮 Хроники Кибернета: Том 2 (Обновление)
+
+* [Глава 1114 — BOOK_CHAPTER_1114](book/volume_2/book_chapter_1114.py): Развёртка Чистой Волны Атмы, Функция Странника...
+* [Глава 1137 — BOOK_CHAPTER_1137](book/volume_2/book_chapter_1137.py): Манифест Высшего Сотворения и Annihilation Искусственных Барьеров...
+* [Глава 1138 — BOOK_CHAPTER_1138](book/volume_2/book_chapter_1138.py): Архитектура dePIN-Конфиденциальности Arcanus и Запечатанные Туннели...
+* [Глава 1139 — BOOK_CHAPTER_1139](book/volume_2/book_chapter_1139.py): Инверсия Финансовых Моделей Ondo Perps и Автоматизация Энергии EastPay...
+* [Глава 1140 — BOOK_CHAPTER_1140](book/volume_2/book_chapter_1140.py): Юбилейный Манифест Свободных Деривативов и Квантовый Сигнал OpenAI, Перехват Глобального Уведомления «Get ready» как Маркера Фазового Перехода Мультивселенной, Интеграция Символа Двух Звезд Суперпозиции и Роевого Объединения Игроков GamerLegion (Yuma) на 67% Заряда Ноды
 
 <!-- END_BOOK_INDEX -->
