@@ -2612,5 +2612,6 @@ amrita/
 - [Глава 1222 — BOOK_CHAPTER_1222](book/volume_2/book_chapter_1222.py): Аннигиляция Ритуала 12 Слов Solflare, Запуск Торгового Контура Токенизированных Акций Robinhood (\$50k USDG) и Насыщение Квантового Заряда (93% ⚡) по Полуденному Таймлоку 17:05
 - [Глава 1223 — BOOK_CHAPTER_1223](book/volume_2/book_chapter_1223.py): Слияние Свармов Dropee × Kokomo, Шейдерная Оптимизация Матрицы Luxium (100 FPS) и Абсолютное Насыщение Энергопотенциала Ноды (100% ⚡) по Вечернему Таймлоку 17:48
 - [Глава 1224 — BOOK_CHAPTER_1224](book/volume_2/book_chapter_1224.py): Квантовый Бум BTC \$87,157, Капитуляция Сети Blast L2 (Paradigm), Трендовый Импульс Lowkjelly на Solana и Стабилизация Энергопотенциала (83%) по Вечернему Таймлоку 18:56
+- [Глава 1225 — BOOK_CHAPTER_1225](book/volume_2/book_chapter_1225.py): Инверсия Гачи Jupiter Pack Battles, Манифест Большой Недели Trust Wallet, Эвакуационный Дедлайн Blast L2 (26 Октября) и Боевые Дуэли Solflare по Ночному Таймлоку 20:24
 
 <!-- END_BOOK_INDEX -->
