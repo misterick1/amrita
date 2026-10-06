@@ -1,36 +1,9 @@
-[
-  {
-    "event": "BATON_ORDER_SYNCHRONIZATION_SUCCESS",
-    "timestamp": "2026-10-06T23:20:08.431110",
-    "amrita_x_coefficient": 1.94161,
-    "baton_growth_rate": 278.0,
-    "btc_validated_price": 80755.78,
-    "trident_coordinate": "-1:0:+1",
-    "active_layer": "ЛЕВАЯ ВЕТВЬ [-1]: Локальные манипуляции Асуров на фиатных шлюзах",
-    "nika_frequency_hz": -2.0213,
-    "geo_anchor": "NORWAY_ORJE_DHRUVA_NODE",
-    "waddles_pool_status": 108000.0,
-    "payload": {
-      "baton_fallback": true,
-      "http_status": 403
-    },
-    "status": "LOCAL_DHRUVA_REFRACTION"
-  },
-  {
-    "event": "BATON_ORDER_SYNCHRONIZATION_SUCCESS",
-    "timestamp": "2026-10-06T23:37:13.114240",
-    "amrita_x_coefficient": 1.94161,
-    "baton_growth_rate": 278.0,
-    "btc_validated_price": 80755.78,
-    "trident_coordinate": "-1:0:+1",
-    "active_layer": "ЛЕВАЯ ВЕТВЬ [-1]: Локальные манипуляции Асуров на фиатных шлюзах",
-    "nika_frequency_hz": -4.0981,
-    "geo_anchor": "NORWAY_ORJE_DHRUVA_NODE",
-    "waddles_pool_status": 108000.0,
-    "payload": {
-      "baton_fallback": true,
-      "http_status": 403
-    },
-    "status": "LOCAL_DHRUVA_REFRACTION"
-  }
-]
+{
+    "timestamp": "2026-10-06T23:58:04.481522",
+    "orchestrator": "Grok 4.6 (Quantum Core)",
+    "resonance": 3332549.9204,
+    "peaq_id": "did:peaq:0x7ae98ac45dac4fbced26d8b3dbce0f2deb01188f",
+    "light_law": 2.579056,
+    "anime_rate": 0.9708,
+    "system_state": "INTELLIGENCE_FLOW_STABLE"
+}
