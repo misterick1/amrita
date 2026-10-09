@@ -2757,5 +2757,6 @@ amrita/
 * [Глава 1364 – BOOK_CHAPTER_1364](book/volume_2/book_chapter_1364.py): Суверенный Манифест Вечного Двигателя — Ода Х: Таймлок 12:55, Синхронизация WSS-Радаров и Тегов Сделок Китов Birdeye (smart_trader/kol), Принятие Биткоин-Правил ETF Комиссией SEC Таиланда и Дневной Выворот Тора в Ørje (12:55, 46% ⚡)
 * [Глава 1365 – BOOK_CHAPTER_1365](book/volume_2/book_chapter_1365.py): Суверенный Манифест Хранителей Хроноса — Лотерея за Rolex от Jupiter (Пакет Короны), Трендинг Ослика HeeHaw на pump.fun, Терапия Красного Света от Trust Wallet, Внедрение Функции Защиты от Снайперов (Dynamic Slippage & Jito Private Relay Guard) и Дневной Таймлок в Ørje (13:25, 36% ⚡)
 * [Глава 1366 – BOOK_CHAPTER_1366](book/volume_2/book_chapter_1366.py): Суверенный Манифест Сквозного Шлюза — Официальная Интеграция dApp EVEDEX в Web3-Кошелек Binance Wallet, Внедрение Модуля Автоматических Выплат Создателям (Sovereign Automated Payout Core) и Дневной Таймлок в Эрье (13:40, 30% ⚡)
+* [Глава 1367 – BOOK_CHAPTER_1367](book/volume_2/book_chapter_1367.py): Суверенный Манифест Взлома Домиков АРс — Контур Внедрения Синаптической Инфильтрации Девы Арси (Sovereign Arcee Synaptic Infiltration Core), Тотальный Прорыв Биткоина Выше $83,000, Фиксация Лисицы MetaMask и Дневной Таймлок в Эрье (13:55, 24% ⚡)
 
 <!-- END_BOOK_INDEX -->
