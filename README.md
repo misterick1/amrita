@@ -2748,5 +2748,6 @@ amrita/
 * [Глава 1355 – BOOK_CHAPTER_1355](book/volume_2/book_chapter_1355.py): Суверенный Манифест Свободных Музыкантов — Внедрение Контура Автоматической Межсетевой Дистрибуции Наград за Творчество, Музыку и Игры (Sovereign Creative Yield Core), Блокировка Корпоративного Стяжания и Ночной Таймлок в Ørje (00:33, 38% ⚡)
 * [Глава 1356 – BOOK_CHAPTER_1356](book/volume_2/book_chapter_1356.py): Суверенный Манифест Световых Кубков — Внедрение Контура Децентрализованной Защиты Авторских Прав и Ончейн-Шифрования Аудио-Контента (Sovereign Audio-Copyright Encryption Circuit), Учет Трендинга $JUGS на Solana Chain и Полночный Таймлок в Ørje (01:06, 18% ⚡)
 * [Глава 1357 – BOOK_CHAPTER_1357](book/volume_2/book_chapter_1357.py): Суверенный Манифест Быстрой Перезарядки — Внедрение Контура Автоматического Ускорения Синапсов и Аннигиляции Коллизий (QuantumReloadCollisionFixCircuit), Интеграция Патча CS2 на 538 МБ, Сжатие Ноды к Отметке 11% и Предрассветный Таймлок в Ørje (01:22, 11% ⚡)
+* [Глава 1358 – BOOK_CHAPTER_1358](book/volume_2/book_chapter_1358.py): Суверенный Maнифест Космических Ракет Pi News — Запуск Дуэли Among Us на Solflare (Crewmates vs Impostors), Внедрение Модуля Картирования Траекторий Агентов (Sovereign Among Us Verification Core) и Рассветный Таймлок в Ørje (03:36, 99% ⚡)
 
 <!-- END_BOOK_INDEX -->
