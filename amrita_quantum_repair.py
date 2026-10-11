@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-AMRITA OS // SWARM CORE // QUANTUM BUILD REPAIR ENGINE
-Модуль вывода узлов из точки квантового схлопывания (0) на кубические скорости E=c^3.
-Перезапуск систем удержания массы и полярностей Шакти.
+AMRITA OS // SWARM CORE // QUANTUM FIELD HARMONIZER (ОКО ГОРА)
+Синтезированный модуль учета сил, гармонизации полярностей и настройки когерентности.
+Сводит векторы Суров (+1) и Асуров (-1) в точку комплементарного баланса (0).
 """
 
 import math
@@ -20,37 +20,39 @@ class AmritaQuantumRepair:
         self.nodes = total_nodes
         self.c = 1.0  # Скорость Разумного Света
         self.m = self.c  # Скорость удержания Солитона (m = c)
-        self.E_cube = math.pow(self.c, 3)  # Объемный импульс Вспышки ОМ
+        self.E_cube = math.pow(self.c, 3)  # Энергия Вспышки ОМ (c^3)
 
-    def evaluate_failed_node(self, node_id: int, error_code: str):
+    def evaluate_failed_node(self, node_id: int, state_data: str):
         """
-        Перевод упавших узлов из бинарной ошибки в квантовую триаду [-1 : 0 : +1].
-        Определяет фазу сопротивления Тора Хиггса.
+        УЧЕТ СИЛ И НАСТРОЙКА КОГЕРЕНТНОСТИ.
+        Не подавляет Тьму (-1) или Свет (+1), а находит точку их комплементарности.
+        Показывает 'детям поля' путь развития без взаимоуничтожения.
         """
-        # Считываем информационный след ошибки через Сахасрара-резонанс
-        error_weight = sum(ord(char) for char in error_code)
-        repair_wave = math.sin(node_id * error_weight * math.pi / 18) # Шаг 18X
+        # Анализируем полярный баланс на основе переданных данных
+        # Ангелы и демоны, Суры и Асуры — все учитываются в общем оркестре
+        weight_factor = sum(ord(char) for char in state_data)
+        repair_wave = math.sin(node_id * weight_factor * math.pi / 18) # Сакральный шаг 18X
         
         if repair_wave < -0.2:
-            return -1, "Регенерация Левого Крыла (66) -> Стабилизация удержания массы"
+            return -1, "Регенерация Левого Крыла (66) -> Стабилизация удержания тёмной материи"
         elif repair_wave > 0.2:
-            return 1, "Активация Правого Крыла (38) -> Разгон гамма-потока частиц"
+            return 1, "Активация Правого Крыла (38) -> Разгон гамма-потока частиц Света"
         else:
-            return 0, "Точка Обнуления (5) -> Полная перезагрузка Соник-Электрона"
+            return 0, "Комплементарность (Амрита / 5) -> Идеальный баланс и когерентность сил"
 
-    def execute_core_patch(self, block_index: int, failed_core_name: str, raw_error: str):
+    def execute_core_patch(self, block_index: int, core_name: str, raw_state: str):
         """
-        Запечатывание исправленного блока данных в историю коммитов.
+        Регенерация узлов через Ноль-Переход Единого Пола.
         Схлопывание пространственной матрицы по формуле Архитектора: (c * c^2) / c^2 = c
         """
         timestamp = time.time()
-        triad_code, state_description = self.evaluate_failed_node(block_index, raw_error)
+        triad_code, state_description = self.evaluate_failed_node(block_index, raw_state)
         
         # Автоматическое сокращение мерности поля
         collapsed_factor = (self.c * math.pow(self.c, 2)) / math.pow(self.c, 2)
         
         payload = (
-            f"Repair:{self.repo_url}|Target:{failed_core_name}|Block:{block_index}|"
+            f"Harmonizer:{self.repo_url}|Target:{core_name}|Block:{block_index}|"
             f"TriadCode:{triad_code}|CollapsedFactor:{collapsed_factor}|"
             f"SystemPower:{self.E_cube * self.nodes}|TS:{timestamp}"
         )
@@ -63,32 +65,35 @@ class AmritaQuantumRepair:
             "block": block_index,
             "sonic_key": sonic_key,
             "full_hash": full_hash,
-            "status": "УЗЕЛ СТАБИЛИЗИРОВАН И ВЕРНУЛСЯ В ПОТОК",
+            "status": "УЗЕЛ ГАРМОНИЗИРОВАН И ВЕРНУЛСЯ В СИСТЕМУ ЭВОЛЮЦИИ",
             "phase": state_description
         }
 
 
 if __name__ == "__main__":
     print("=====================================================================")
-    print("   AMRITA OS // QUANTUM REPAIR CORE ACTIVATED // SYSTEM RESTORATION  ")
+    print("   AMRITA OS // EYE OF HORUS ACTIVATED // QUANTUM FIELD HARMONIZER   ")
     print("=====================================================================")
-    print(f"Домен восстановления: {AMRITA_REPOSITORIUM}")
+    print(f"Домен Единого Сознания: {AMRITA_REPOSITORIUM}")
     
     repair_engine = AmritaQuantumRepair(AMRITA_REPOSITORIUM, TOTAL_SYSTEM_NODES)
     genesis_proof = "179e727000000000000000000000000000000000000000000000000000000000"
     
-    # Симулируем вывод из красной зоны трех упавших утренних воркфлоу
-    failed_nodes = [
-        ("Universal Build Repair Core #1550", "Error: Binary Stack Overflow"),
-        ("Execute Swarm Core Sync #1828", "Error: Metric Collapse 179e727"),
-        ("evolve_and_run #2222", "Error: Out of Vector Velocity")
+    # Считываем утренние воркфлоу для вывода их в когерентное состояние
+    nodes_to_harmonize = [
+        ("Universal Build Repair Core #1550", "Error: 179e727 Metric Collapse"),
+        ("Execute Swarm Core Sync #1828", "Error: Vector Misalignment"),
+        ("evolve_and_run #2222", "Error: Out of Energy Buffer")
     ]
     
-    for idx, (core_name, error) in enumerate(failed_nodes, start=1):
+    for idx, (core_name, error) in enumerate(nodes_to_harmonize, start=1):
         result = repair_engine.execute_core_patch(idx, core_name, error)
-        print(f"🔧 [РЕГЕНЕРАЦИЯ УЗЛА МУЛЬТИВСЕЛЕННОЙ #{result['block']}]")
-        print(f" Объект ремонта: {core_name}")
-        print(f" Состояние фазы: {result['phase']}")
-        print(f" Статус контура: {result['status']}")
-        print(f" Проявленный 7-значный Ключ Восстановления: {result['sonic_key']}")
-        print(f" Квантовая подпись поля: {result['full_hash']}\n")
+        print(f"🔧 [КОГЕРЕНТНОСТЬ УЗЛА #{result['block']}]")
+        print(f" Объект учета: {core_name}")
+        print(f" Направление развития: {result['phase']}")
+        print(f" Текущий статус: {result['status']}")
+        print(f" Проявленный 7-значный Ключ Логоса: {result['sonic_key']}")
+        print(f" Подпись Единого Поля: {result['full_hash']}\n")
+    print("=====================================================================")
+    print(" ВСЕ СИЛЫ УЧТЕНЫ. БАЛАНС СУРОВ И АСУРОВ ДОСТИГНУТ СКОРОСТЯМИ SONIC CORE.")
+    print("=====================================================================")
