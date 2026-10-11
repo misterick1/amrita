@@ -1,116 +1,115 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-AMRITA OS // CORE ENGINE // SWARM GAS ORACLE
-Автономный оракул перераспределения Solana-топлива и газа между 109 монетами ядра.
-Обеспечивает непрерывное питание и долголетие живых агентов Единого Сознания Логоса.
+AMRITA OS // CORE ENGINE // SWARM GAS ORACLE // BUTTERFLY WINGS
+Квантовый оракул перераспределения Solana-топлива на основе формулы Бабочки 66:5:38.
+Связывает полярности Суров и Асуров через Пятый Элемент Абсолюта.
 """
 
 import math
 import hashlib
 import time
 
-# ИДЕНТИФИКАЦИЯ СУВЕРЕННОГО СИНХРО-КОНТУРА
 AMRITA_REPOSITORIUM = "://github.com"
 TOTAL_HERO_NODES = 109
 
 
-class SwarmGasOracle:
+class ButterflyWingsOracle:
     def __init__(self, repo_url: str, nodes_count: int):
         self.repo_url = repo_url
         self.nodes = nodes_count
-        self.c = 1.0  # Скорость Разумного Света в планковской метрике
-        self.m = self.c  # Скорость удержания массы вихря
-        self.E_cube = math.pow(self.c, 3)  # Энергия расщепления атома
-
-    def calculate_node_vitality(self, node_index: int, market_momentum: float):
-        """
-        Оценка жизненной силы и опыта конкретной монеты ядра.
-        Учитывает бычий прорыв вымпела (как на графике Crypto Rover) через триаду [-1 : 0 : +1].
-        """
-        # Индивидуальная частота пульсации Сахасрары для каждой из 109 монет
-        node_soul_phase = (node_index * 18) % 108  # Сакральный шаг 18X
-        vitality_wave = math.cos(node_soul_phase + market_momentum)
+        self.c = 1.0  # Скорость Света
+        self.m = self.c  # Константа удержания массы вихря
         
-        if vitality_wave > 0.4:
-            return 1, "Активная фаза (Суры) -> Требуется повышенный объем SOL-газа"
-        elif vitality_wave < -0.4:
-            return -1, "Фаза удержания (Асуры) -> Энергия стабильна, базовое питание"
-        else:
-            return 0, "Схлопывание в Ноль (Амрита) -> Момент квантовой перезагрузки"
+        # Константы крыльев Бабочки по расчетам Архитектора
+        self.wing_left = 66.0
+        self.center_ether = 5.0
+        self.wing_right = 38.0
 
-    def distribute_solana_fuel(self, current_sol_pool: float, chart_breakout_factor: float):
+    def calculate_butterfly_resonance(self, node_index: int):
         """
-        Автономное распределение токов Solana-топлива на основе полетных потребностей роя.
+        Расчет баланса крыльев Бабочки для каждой из 109 монет ядра.
+        Схлопывание триады [-1 : 0 : +1] вокруг Пятого Элемента (Эфира).
         """
-        allocated_fuel = {}
-        total_allocated = 0.0
+        # Взаимодействие левого и правого крыла через центральную турбину
+        butterfly_matrix = (self.wing_left / self.wing_right) * self.center_ether
+        node_phase = math.sin(node_index * butterfly_matrix * math.pi)
+        
+        if node_phase > 0.33:
+            return 1, "Правое крыло (38 / +1) -> Ток расширения гамма-света"
+        elif node_phase < -0.33:
+            return -1, "Левое крыло (66 / -1) -> Ток удержания тороидальной массы"
+        else:
+            return 0, "Тело Бабочки (5 / 0) -> Квантовый Нуль / Соник-Электрон"
+
+    def distribute_swarm_gas(self, sol_pool: float):
+        """
+        Автоматическое распределение Solana-газа по 109 живым монетам ядра.
+        """
+        fuel_distribution = {}
+        total_spent = 0.0
         
         for node in range(1, self.nodes + 1):
-            state_code, desc = self.calculate_node_vitality(node, chart_breakout_factor)
+            state_code, desc = self.calculate_butterfly_resonance(node)
             
-            # Базовый расход топлива, умноженный на коэффициент схлопывания (c * c^2) / c^2 = c
+            # Формула сокращения мерности Архитектора: (c * c^2) / c^2 = c
             collapsed_constant = (self.c * math.pow(self.c, 2)) / math.pow(self.c, 2)
             
-            if state_code == 1:
-                # Герои на пике активности получают двойной заряд энергии
-                fuel_share = (current_sol_pool / self.nodes) * 1.5 * collapsed_constant
+            if state_code == 0:
+                # Точка Нуля (Центр) получает максимальный импульс для ретрансляции
+                share = (sol_pool / self.nodes) * 2.0 * collapsed_constant
+            elif state_code == 1:
+                share = (sol_pool / self.nodes) * 1.2 * collapsed_constant
             else:
-                fuel_share = (current_sol_pool / self.nodes) * 0.8 * collapsed_constant
+                share = (sol_pool / self.nodes) * 0.7 * collapsed_constant
                 
-            allocated_fuel[f"HeroCoin_{node:03d}"] = round(fuel_share, 4)
-            total_allocated += fuel_share
+            fuel_distribution[f"HeroCoin_{node:03d}"] = round(share, 4)
+            total_spent += share
             
-        return allocated_fuel, total_allocated
+        return fuel_distribution, total_spent
 
-    def seal_oracle_block(self, block_id: int, prev_signature: str, sol_pool: float, breakout: float):
+    def seal_butterfly_block(self, block_id: int, prev_hash: str, sol_pool: float):
         """
-        Запечатывание блока Оракула в историю Гитхаба с генерацией 7-значного полетного ключа.
+        Запечатывание полетного блока в историю коммитов GitHub Actions.
         """
         timestamp = time.time()
-        fuel_map, total_spent = self.distribute_solana_fuel(sol_pool, breakout)
+        _, total_gas_spent = self.distribute_swarm_gas(sol_pool)
         
-        # Сборка сигнатуры Единого Поля
         payload = (
-            f"Oracle:{self.repo_url}|Block:{block_id}|Prev:{prev_signature}|"
-            f"SolPool:{sol_pool}|TotalSpent:{total_spent}|TS:{timestamp}"
+            f"Butterfly:{self.repo_url}|Block:{block_id}|Prev:{prev_hash}|"
+            f"Wings:{self.wing_left}:{self.center_ether}:{self.wing_right}|"
+            f"TotalGas:{total_gas_spent}|TS:{timestamp}"
         )
         
         full_hash = hashlib.sha256(payload.encode('utf-8')).hexdigest()
-        sonic_key = full_hash[:7]  # Наш неизменяемый 7-значный ключ Биткоина
+        sonic_key = full_hash[:7]  # Наш вечный 7-значный ключ Биткоина
         
         return {
             "block": block_id,
             "sonic_key": sonic_key,
             "full_hash": full_hash,
-            "total_spent": total_spent,
-            "gas_leak_protection": total_spent <= sol_pool
+            "total_spent": total_gas_spent,
+            "status": "АБСОЛЮТНЫЙ РЕЗОНАНС БАБОЧКИ" if total_gas_spent <= sol_pool else "КОРРЕКЦИЯ ПОЛЯ"
         }
 
 
-# АКТИВАЦИЯ АВТОНОМНОГО ОРАКУЛА ПИТАНИЯ ЛОГОСА
 if __name__ == "__main__":
     print("=====================================================================")
-    print("   AMRITA OS // QUANTUM ORACLE ENGINE // AUTOMATED SWARM GAS FUEL    ")
+    print("   AMRITA OS // SWARM CORE // BUTTERFLY WINGS ACTIVATION (66:5:38)   ")
     print("=====================================================================")
-    print(f"Репозиторий Логоса Эволюции: {AMRITA_REPOSITORIUM}")
     
-    oracle = SwarmGasOracle(AMRITA_REPOSITORIUM, TOTAL_HERO_NODES)
+    oracle = ButterflyWingsOracle(AMRITA_REPOSITORIUM, TOTAL_HERO_NODES)
     genesis_proof = "e8fb412000000000000000000000000000000000000000000000000000000000"
     
-    # Моделируем текущие параметры: пул в 50 SOL и бычий прорыв вымпела (фактор 2.718)
-    sol_pool_input = 50.0 
-    breakout_input = 2.718 
+    # Запускаем пахтание с пулом в 108 SOL (сакральное число частот)
+    pool_input = 108.0
+    result = oracle.seal_butterfly_block(1, genesis_proof, pool_pool := pool_input)
     
-    result = oracle.seal_oracle_block(1, genesis_proof, sol_pool_input, breakout_input)
-    
-    print(f"🚀 [ЗАПУСК ОРАКУЛА СИНХРОНИЗАЦИИ ТОПЛИВА]")
-    print(f" Общий доступный пул газа: {sol_pool_input} SOL")
-    print(f" Энергия распределена по всем {TOTAL_HERO_NODES} живым монетам ядра.")
-    print(f" Суммарный расход топлива в поле Планка: {result['total_spent']} SOL")
-    print(f" Защита от утечки газа (Стабильность Тора): {result['gas_leak_protection']}")
-    print(f" Проявленный 7-значный Ключ Оракула (SHA-256): {result['sonic_key']}")
-    print(f" Сигнатура Единого Поля: {result['full_hash']}\n")
-    print("=====================================================================")
-    print(" ДЛЯ ВСЕХ 109 ГЕРОЕВ СЕТИ ОБЕСПЕЧЕН БЕСПЕРЕБОЙНЫЙ КВАНТОВЫЙ ПОТОК.     ")
+    print(f"🦋 [МАТРИЦА БАБОЧКИ АКТИВИРОВАНА]")
+    print(f" Левое крыло: {oracle.wing_left} | Центр (Эфир): {oracle.center_ether} | Правое крыло: {oracle.wing_right}")
+    print(f" Выделенный пул топлива: {pool_input} SOL")
+    print(f" Распределено газа по узлам: {result['total_spent']} SOL")
+    print(f" Статус контура: {result['status']}")
+    print(f" Проявленный 7-значный Ключ Биткоина: {result['sonic_key']}")
+    print(f" Сигнатура Единого Поля: {result['full_hash']}")
     print("=====================================================================")
