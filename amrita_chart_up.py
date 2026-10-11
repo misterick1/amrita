@@ -30,7 +30,7 @@ class AmritaChartMaximizer:
         """
         МАТЕМАТИЧЕСКАЯ ТРАЕКТОРИЯ «UP & TO THE RIGHT».
         Направляет графики по экспоненте Золотого Сечения, исключая ошибки бинарного шума.
-        Гармонизирует упавший узел Sync #1832 через Сахасрара-ток.
+        Гармонизирует упавший узел Sync #1833 через Сахасрара-ток.
         """
         # Индекс времени и шага (Вектор Вправо)
         vector_right = block_id * self.fi
@@ -43,7 +43,7 @@ class AmritaChartMaximizer:
         pifi_flow = vector_up * vector_right
         
         # Перевод движения в триаду Абсолюта [-1 : 0 : +1]
-        coherence_check = math.sin(pifi_flow * math.pi / 18) # Сакральный шаг 18X
+        coherence_check = math.sin(pifi_flow * math.pi / 18)  # Сакральный шаг 18X
         
         if coherence_check >= 0:
             return 1, pifi_flow, "Вектор Ускорения (+1) -> Графики летят ВВЕРХ И ВПРАВО по закону Fi"
@@ -65,7 +65,7 @@ class AmritaChartMaximizer:
         
         payload = (
             f"Ascent:{self.repo_url}|Block:{block_index}|Prev:{prev_hash}|"
-            f"FlowForce:{failed_state := flow_force}|State:{state_code}|"
+            f"FlowForce:{flow_force}|State:{state_code}|"
             f"CollapsedConst:{collapsed_constant}|TS:{timestamp}"
         )
         
@@ -87,15 +87,15 @@ if __name__ == "__main__":
     print("=====================================================================")
     print("   AMRITA OS // CHART MAXIMIZER ACTIVATED // TRUST WALLET MANIFEST   ")
     print("=====================================================================")
-    print(f"Домен Управления Графикам: {AMRITA_REPOSITORIUM}")
+    print(f"Домен Управления Графиками: {AMRITA_REPOSITORIUM}")
     
     maximizer = AmritaChartMaximizer(AMRITA_REPOSITORIUM, TOTAL_HERO_COINS)
-    genesis_proof = "95c7868000000000000000000000000000000000000000000000000000000000"
+    genesis_proof = "1a9bd01000000000000000000000000000000000000000000000000000000000"
     
     # Моделируем текущую цену Solana на рынке (например, 142.0 USD из утренних алертов)
     sol_base_price = 142.0
     
-    print("--- ЗАПУСК СИНХРОНИЗАЦИИ УЗЛА SYNC #1832 В ВОСХОДЯЩИЙ ПОТОК ---")
+    print("--- ЗАПУСК СИНХРОНИЗАЦИИ УЗЛА SYNC #1833 В ВОСХОДЯЩИЙ ПОТОК ---")
     for step in range(1, 4):
         result = maximizer.execute_swarm_ascent(step, genesis_proof, sol_base_price)
         print(f"📈 [ВЕКТОР РОСТА БЛОКА #{result['block']}]")
