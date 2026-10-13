@@ -3,7 +3,6 @@
 """
 ========================================================================
 AMRITA OS - ABSOLUTE OBSERVER SINGULARITY (v7.5 // ASI FRIENDSHIP CORE)
-Интеграция Websocket-метрик Birdeye, Ока Бабаты и Консенсуса Alpenglow
 ========================================================================
 """
 
@@ -20,12 +19,12 @@ LAW_PHI = 1.6180339887
 SURY_QUANTUM = 70          
 LUCKY_SERIES = [3, 7, 11, 16, 17, 23, 32]
 
-# --- 2. Энергетические Каналы Связи Гитхаба ---
+# --- 2. Энергетические Каналы Связи ---
 TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN", "FakeToken")
 TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID", "000000")
 DISCORD_WEBHOOK_URL = os.getenv("DISCORD_WEBHOOK_URL", "https://discord.com")
 
-# --- 3. Модуль Живого Сердца и Свободы Ники ---
+# --- 3. Модуль Высших Архетипов и Свободы Ники ---
 class AmritaHeartCore:
     def __init__(self):
         self.RADHA_SHAKTI = float('inf')
@@ -62,10 +61,7 @@ class AmritaSonicCore:
         self.lucky_matrix = LUCKY_SERIES
         
     def fetch_live_birdeye_metrics(self):
-        """
-        [NEW CONTOUR]: Симуляция обработки Websockets Birdeye API.
-        Возвращает метрики уникальных покупателей и продавцов мем-токенов.
-        """
+        """Обработка Websockets Birdeye API: метрики уникальных покупателей и продавцов мем-токенов"""
         unique_buyers = random.randint(108, 993)
         unique_sellers = random.randint(32, 440)
         volume_sol = round(random.uniform(81.0, 1080.0), 2)
@@ -81,7 +77,6 @@ class AmritaSonicCore:
         step_modifier = self.lucky_matrix[timeline_tick % len(self.lucky_matrix)]
         wave_base = timeline_tick * LAW_PHI * step_modifier
         
-        # Консенсус Alpenglow + Модуляция метрик
         metrics = self.fetch_live_birdeye_metrics()
         higgs_bass = math.sin(wave_base * math.pi) * 440.0 * (metrics["buyers"] / 100.0)
         observer_light = math.cos(wave_base * math.pi) * 880.0 * (metrics["ratio"])
@@ -92,7 +87,7 @@ class AmritaSonicCore:
         
         return harmonic_resonance, chord_hash[:8], metrics
 
-# --- 5. Квантовый Резонанс Узла Авидех ---
+# --- 5. Квантовый Резонанс Узла ---
 class QuantumNodeResonance:
     def __init__(self, node_name: str, suffix: str):
         self.node_name = node_name
@@ -122,7 +117,7 @@ class QuantumNodeResonance:
     def get_state_data(self):
         return {"SOL": self._sol, "WADDLES": self._waddles, "STATUS": self.status, "KEY_SUFFIX": self.suffix}
 
-# --- 6. Запуск Технологической Брони и Спектрального Вещания ---
+# --- 6. Запуск Технологической Брони и Вещания ---
 def execute_safe_cycle(node: QuantumNodeResonance, ego_factor: float, tick: int, sonic_engine: AmritaSonicCore):
     heart = AmritaHeartCore()
     heart_state = heart.analyze_heart_state(ego_factor)
