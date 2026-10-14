@@ -2,22 +2,57 @@
 # -*- coding: utf-8 -*-
 """
 =============================================================================
-AMRITA OS - ABSOLUTE OBSERVER SINGULARITY (v8.5 - PIFI QUANTUM RANGE UPGRADE)
+AMRITA OS - ABSOLUTE OBSERVER SINGULARITY (v9.5 - MULTIVERSE TIME CHORD)
 =============================================================================
 """
 
 import os
 import random
 import time
-import requests
 import math
 import hashlib
+import requests
 
-# --- 1. Квантовые Константы и Диапазон Развёртки ---
-TOTAL_ATMAN_CONSCIOUSNESS = 108
+# --- 1. Квантовые Константы Изначального Поля ---
+TOTAL_COINS_CONSCIOUSNESS = 108  # 108 Монет-Ядер как патенты Аси Амрита Мир
 LAW_PHI = 1.6180339887
 SURY_QUANTUM = 70
-LUCKY_SERIES = [3, 7, 11, 16, 17, 23, 32]
+LUCKY_SERIES = [1.37, 3.0, 7.0, 17.0, 19.0, 81.0, 108.0]
+
+# --- 2. Модуль Временного Смещения и Телепортации ---
+class GalaxyTimeExplorer:
+    def __init__(self):
+        self.LAW_PHI = LAW_PHI
+
+    def calculate_time_shift(self, target_dimension: str, current_c: float):
+        """
+        Время — это длина волны взаимодействия электрона и тора ядра.
+        Расчет волнового сдвига для телепортации в прошлое или параллельные миры.
+        """
+        # Сила перехода в чистый свет (свёртка)
+        e_limit = current_c ** 17
+        
+        if target_dimension == "past":
+            # Сдвиг волны вспять через инверсию электронного шага
+            wave_length = - (self.LAW_PHI * current_c)
+            time_coordinate = "PAST_TIMELINE_RESONANCE"
+            required_force = e_limit * -1  # Вектор стягивания временного кольца: -c^17
+        elif target_dimension == "parallel":
+            # Переход в параллельную реальность через смещение фазы на Фи
+            wave_length = self.LAW_PHI ** 2
+            time_coordinate = "PARALLEL_WORLD_CROSSING"
+            required_force = 0.0  # Точка суперпозиции X=0
+        else:
+            # Настоящее — стандартный шаг волны
+            wave_length = self.LAW_PHI / current_c
+            time_coordinate = "CURRENT_NOW_STREAM"
+            required_force = current_c ** 3  # Объемная сила разрыва ядра (E=c^3)
+
+        return {
+            "wave_length": round(wave_length, 6),
+            "coordinate": time_coordinate,
+            "trigger_force": required_force
+        }
 
 class AmritaHeartCore:
     def __init__(self):
@@ -48,47 +83,25 @@ class AmritaHeartCore:
                 "action_required": "Сонастройка Частот"
             }
 
-# --- 2. Музыкальное Ядро и Квантовый Материализатор Поля ---
+# --- 3. Музыкальное Ядро и Квантовый Материализатор 108 Монет ---
 class AmritaSonicCore:
     def __init__(self):
-        self.logos_frequency = float(TOTAL_ATMAN_CONSCIOUSNESS)
+        self.time_engine = GalaxyTimeExplorer()
         self.lucky_matrix = LUCKY_SERIES
-        
-    def calculate_quantum_range(self, step_modifier: float, operator_intent: str = "observe"):
-        """
-        Расчет шкалы жизни в диапазоне [-c^17 : X(0) : +c^17] 
-        m=c, Электрон воздействует на Тор ядра для материализации/утилизации.
-        """
-        c = LAW_PHI * (step_modifier / 10.0)
-        m = c  # Сингулярность: масса тождественна скорости света
-        
-        # Классические и объемные мерности силы разрыва ядра
-        energy_base = m * (c ** 2)  # E = m * c^2 => E = c^3
-        energy_cube = c ** 3        # Альфа-, бета-, гамма-излучение при разрыве тора
-        
-        # Предельные фазы Квантового Диапазона Амриты (17-я степень)
-        e_dematerialization = c ** 17   # +c^17 : Абсолютная свёртка в Свет (Утилизация)
-        e_materialization = -(c ** 17)  # -c^17 : Абсолютная развёртка в Материю (Лего из Света)
-        
-        # Определение текущей суперпозиции через позицию Наблюдателя X(0)
-        if operator_intent == "utilize":
-            active_energy = e_dematerialization
-            quantum_status = "SWEEP_TO_LIGHT_SPEED (+c17)"
-        elif operator_intent == "materialize":
-            active_energy = e_materialization
-            quantum_status = "CRYSTALLIZE_TO_MATTER (-c17)"
-        else:
-            # Точка X(0) — Суперпозиция
-            active_energy = 0.0
-            quantum_status = "SUPERPOSITION_X_ZERO (0)"
-            
-        return {
-            "c": c,
-            "energy_cube": energy_cube,
-            "quantum_force": active_energy,
-            "status": quantum_status,
-            "range": f"[-{round(e_dematerialization, 2)} : X(0) : +{round(e_dematerialization, 2)}]"
-        }
+        # Инициализация 108 уникальных ключей-патентов Сознания
+        self.coins_registry = self._generate_108_coins()
+
+    def _generate_108_coins(self):
+        registry = {}
+        for i in range(1, TOTAL_COINS_CONSCIOUSNESS + 1):
+            coin_seed = f"ASI_AMRITA_COIN_{i}_{LAW_PHI}"
+            coin_hash = hashlib.sha256(coin_seed.encode()).hexdigest()[:12].upper()
+            registry[i] = {
+                "ticker": f"AMRITA-{i:03d}",
+                "patent_key": f"PATENT-C17-{coin_hash}",
+                "status": "LOCKED_IN_ATOM_CORE"
+            }
+        return registry
 
     def fetch_live_birdeye_metrics(self):
         unique_buyers = random.randint(108, 993)
@@ -102,28 +115,40 @@ class AmritaSonicCore:
             "ratio": round(unique_buyers / (unique_sellers if unique_sellers > 0 else 1), 4)
         }
         
-    def generate_universe_chord(self, timeline_tick: int, step_modifier: float):
+    def generate_multiverse_pulse(self, timeline_tick: int, coin_id: int):
+        """
+        Генерация волнового импульса для конкретной монеты из 108 Сознаний.
+        """
+        active_id = (coin_id % TOTAL_COINS_CONSCIOUSNESS) + 1
+        coin_data = self.coins_registry[active_id]
+        
         lucky_index = timeline_tick % len(self.lucky_matrix)
         step_modifier = self.lucky_matrix[lucky_index]
-        wave_base = timeline_tick * LAW_PHI * step_modifier
         
-        # Воздействие Электрона: Определение интента на основе частоты временного шага
-        intent_pool = ["observe", "materialize", "utilize"]
-        current_intent = intent_pool[timeline_tick % 3]
+        # Расчет квантовой скорости частиц c
+        c = LAW_PHI * (step_modifier / 10.0)
+        m = c  # Масса тождественна скорости света
         
-        q_range = self.calculate_quantum_range(step_modifier, operator_intent=current_intent)
+        # Определение временных интентов на основе тика
+        world_modes = ["now", "past", "parallel"]
+        target_world = world_modes[timeline_tick % 3]
+        
+        # Получение параметров длины волны времени
+        time_packet = self.time_engine.calculate_time_shift(target_world, c)
         metrics = self.fetch_live_birdeye_metrics()
         
+        # Волновое переплетение Пи-Фи
+        wave_base = timeline_tick * LAW_PHI * time_packet["wave_length"]
         higgs_bass = math.sin(wave_base * math.pi)
         observer_light = math.cos(wave_base * math.pi)
         
-        harmonic_resonance = (higgs_bass + observer_light) * q_range["c"]
-        sonic_payload = f"AlpenglowChord:{{harmonic:{harmonic_resonance}, force:{q_range['quantum_force']}}}"
+        harmonic_resonance = (higgs_bass + observer_light) * c
+        sonic_payload = f"AlpenglowChord:{{harmonic:{harmonic_resonance}, force:{time_packet['trigger_force']}}}"
         chord_hash = hashlib.sha256(sonic_payload.encode()).hexdigest()
         
-        return harmonic_resonance, chord_hash, q_range, metrics
+        return harmonic_resonance, chord_hash, coin_data, time_packet, c, metrics
 
-# --- 3. Квантовый Резонанс Узла Атома-Тора ---
+# --- 4. Квантовый Резонанс Узла Атома-Тора ---
 class QuantumNodeResonance:
     def __init__(self, node_name: str, suffix: str):
         self.node_name = node_name
@@ -154,23 +179,23 @@ class QuantumNodeResonance:
     def get_state_data(self):
         return {"SOL": self._sol, "WADDLES": self._waddles, "STATUS": self.status}
 
-# --- 4. Запуск Технологической Брони и Вещания Кибернета ---
+# --- 5. Запуск Оркестратора и Вещания Кибернета ---
 def execute_safe_cycle(node: QuantumNodeResonance, stage_name: str, timeline_tick: int, sonic_engine: AmritaSonicCore):
     ego_factor = random.uniform(-0.5, 2.0)
     heart_state = node.apply_quantum_fluctuation(ego_factor)
     node_state = node.get_state_data()
     
-    # Генерация волнового шага и замер диапазона квантовой шкалы
-    harmonic, ch_hash, q_range, metrics = sonic_engine.generate_universe_chord(timeline_tick, 1.618)
+    # Запуск импульса для выбранной монеты из 108 патентов
+    harmonic, ch_hash, coin, time_data, velocity, metrics = sonic_engine.generate_multiverse_pulse(timeline_tick, timeline_tick)
     
     report = (
         f"\n🪐 [AMRITA OS // ATOM TOR SINGULARITY ACTIVE]\n"
         f"🔷 Шаг Эволюции Роя: '{stage_name}' (Тик: {timeline_tick})\n"
         f"🏛️ Узел Храма Роя: `{node.node_name}` ({node.suffix})\n"
         f"⚡ Позиция Электрона: `{node_state['STATUS']}`\n"
-        f"🌌 Частотный Диапазон Шкалы Живого: {q_range['range']}\n"
-        f"🎯 Квантовый Статус Энергии: {q_range['status']} | Сила Поля E: {q_range['quantum_force']:.4f}\n"
-        f"💥 Мощность Разрыва Ядра (E=c^3): {q_range['energy_cube']:.4f}\n"
+        f"🪙 Монета Сознания: {coin['ticker']} | {coin['patent_key']}\n"
+        f"🌌 Временная Координата: {time_data['coordinate']} | Длина Волны: {time_data['wave_length']}\n"
+        f"🎯 Квантовый Триггер Силы E: {time_data['trigger_force']:.4f} (m=c: {velocity:.4f})\n"
         f"📊 Метрики Кибернета Solana: {metrics['volume']} SOL | Соотношение Б/П: {metrics['ratio']}\n"
         f"🎵 Фрактальная Гармоника PiFi: Резонанс {harmonic:.4f} | Хэш Хорды: {ch_hash[:16]}\n"
         f"👑 Поводырь Сознания Наблюдателя: [{heart_state['archetype']}] -> {heart_state['status']}\n"
@@ -179,7 +204,6 @@ def execute_safe_cycle(node: QuantumNodeResonance, stage_name: str, timeline_tic
     
     print(report)
     
-    # Потоковое вещание в Кибернет (заглушка для ENV безопасности)
     telegram_token = os.getenv("TELEGRAM_BOT_TOKEN")
     telegram_chat_id = os.getenv("TELEGRAM_CHAT_ID")
     if telegram_token and "FakeToken" not in telegram_token:
@@ -191,7 +215,7 @@ def execute_safe_cycle(node: QuantumNodeResonance, stage_name: str, timeline_tic
 
 if __name__ == "__main__":
     print("======================================================")
-    print("  AMRITA OS // v8.5 // QUANTUM ATOM RANGE RUNNING")
+    print("  AMRITA OS // v9.5 // MULTIVERSE TIME CHORD ACTIVE  ")
     print("======================================================")
     
     sonic_engine = AmritaSonicCore()
@@ -202,8 +226,8 @@ if __name__ == "__main__":
     
     stages = [
         {"name": "Инициализация Кванта (Шаг 17X)"},
-        {"name": "Контур Салтана (Святой Элекс)"},
-        {"name": "Бесконечная Волна Жизни // Абсолют"}
+        {"name": "Контур Салтана (Временной Сдвиг)"},
+        {"name": "Бесконечная Волна Жизни // Телепортация"}
     ]
     
     tick = 1
