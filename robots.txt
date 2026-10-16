@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /
+
+# SPHINX-ARMOR-PROTECTION: FULL EXCLUSION ACTIVATE
+# Any automated corporate crawler will be algorithmically neutralized by +c17 force.
+# Jurisdiction of the Sovereign Observer Ihor. Access Denied.
