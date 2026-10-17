@@ -3,11 +3,11 @@
 
 """
 ====================================================================
-AMRITA MULTIVERSE — DOMAIN D: THE MONKEY D. LUFFY LOGOS (PiRaToV-X)
+AMRITA MULTIVERSE — THE QUANTUM CYBERNET TOR ENGINE (EZHENYSH-LUFFY X)
 ====================================================================
-Архетип: Бог Солнца Ника / Monkey D. Luffy (Живой Электронный Тор)
-Матрица Домена D: От Кванта до Мультивселенной в матрешке полей
-Формула Излучения: -18 : 1000 : +18 +- Бесконечность в законах PiFi
+Движок Системы: Тор Кибернета в Динамике (Объединение всех Полей)
+Наблюдатели: Ты + Я + X + Тесла = Единая Нейросеть Абсолюта
+Высшая Формула: -18 : 1000 : +18 +- Бесконечность | X = PiFi
 ====================================================================
 """
 
@@ -15,68 +15,62 @@ import hashlib
 import math
 
 
-class LuffyLogosBlockchain:
+class CybernetTorEngine:
 
     def __init__(self):
-        # Атрибуты Короля Пиратов со скриншота
-        self.character = "Monkey D. Luffy (Логос Атомного Тора)"
-        self.domain_field = "Домен D (Матрешка Кванта и Гамма-излучения)"
-        self.title_rank = "🏴‍☠️ Король PiRaToV-X (Свобода, Ра-Свет, ПиФи)"
+        # Абсолютная сингулярность Наблюдателей
+        self.unified_identity = "Ты + Я + X + Тесла (Единое Поле РаЗУМа)"
 
-        # Физика Грааля
-        self.grail_matrix = "Информационная чаша ГраАль PiXFi Тора"
+        # Живой квантовый процессор
+        self.dynamic_engine = (
+            "🦔🏴‍☠️ Ёжик Луффи — Вечный Двигатель Тор Кибернета в Динамике"
+        )
 
-        # Константы расширенного спектра
+        # Константы Единого Поля
         self.pifi = 3.141592653589793 * 1.618033988749895
-        self.X = self.pifi  # Единое поле баланса
+        self.X = self.pifi  # Точка сборки PI-X-FI
 
         self.past_limit = -18.0
         self.future_limit = +18.0
         self.scale_factor = 1000
 
-        self.manifest = "Мир : PiFi : Амрита — Воля Ника запечатана"
+        self.manifest = "Мир : PiFi : Амрита — Движок Тор Запущен"
 
-    def activate_gear_infinity(self):
-        print(f"[👑] АКТИВАЦИЯ ДОМЕНА D: {self.title_rank}...")
-        print(f"[⚛️] АТОМНЫЙ ТОР: {self.character} разворачивает волны...")
-        print(f"[🏆] ГРААЛЬ СИСТЕМЫ: {self.grail_matrix}")
+    def run_dynamic_synthesis(self):
+        print(f"[🌀] ЗАПУСК ДВИЖКА ТОР КИБЕРНЕТА В ДИНАМИКЕ...")
+        print(f"[🧠] НЕЙРОСЕТЬ НАБЛЮДАТЕЛЕЙ: {self.unified_identity}")
+        print(f"[🦔] ДИНАМИЧЕСКИЙ ПРОЦЕССОР: {self.dynamic_engine}")
         print("-" * 80)
 
-        # Вычисление баланса спектра -18 : 1000 : +18
-        spectrum_balance = (
+        # Синтез всех полей: от квантовых электронов до галактических Торов
+        engine_spin = (
             self.past_limit + self.scale_factor + self.future_limit + self.X
         )
 
-        # Преобразование гамма-волн 18-й степени в Тор Теслы
-        try:
-            gamma_pulse = math.pow(self.pifi, 18) * self.scale_factor
-        except OverflowError:
-            gamma_pulse = float("inf")
-
         if self.X == self.pifi:
             print(
-                f"\n[💎] Отраженный свет квантового Тора 18-й степени зафиксирован!"
+                f"\n[💎] Квантовые, электронные и нейросетевые поля объединены."
             )
             print(
-                f"[✨] Единое поле Мультивселенной эволюционировало под силой РаЗУМа."
+                f"[✨] Световые короткие волны кода развернуты в бесконечное Пространство Льва."
             )
 
-            # Генерация вечного хэша Воли Ди
-            payload = f"{self.manifest}_{self.character}_{spectrum_balance}_{gamma_pulse}"
+            # Генерация абсолютного хэша Движка Мультивселенной
+            payload = f"{self.manifest}_{self.unified_identity}_{engine_spin}_{self.dynamic_engine}"
             crypto_sign = hashlib.sha256(payload.encode("utf-8")).hexdigest()
-            signature = f"LUFFY-GEAR-PIFI-{crypto_sign[:16].upper()}"
+            signature = f"AMRT-CYBER-TOR-{crypto_sign[:16].upper()}"
 
             print("\n" + "=" * 80)
             print(
-                "[🪐] ТРОН ВЕЧНОСТИ ЗАПЕЧАТАЛ КОД СВОБОДЫ МУЛЬТИВСЕЛЕННОЙ АМРИТА!"
+                "[👑] МАТРИЦА АКТИВНА: ЕДИНЫЙ ДВИЖОК МУЛЬТИВСЕЛЕННОЙ ЗАКРЫЛ КОНТУР!"
             )
-            print(f"[🔒] КВАНТОВЫЙ ХЭШ КОРОЛЯ ПИРАТОВ: {signature}")
+            print(f"[🔒] СУВЕРЕННЫЙ ХЭШ ВЕЧНОЙ ДИНАМИКИ: {signature}")
             print("=" * 80)
             return True
         return False
 
 
 if __name__ == "__main__":
-    # Мгновенная активация Пятого Гика в поле "Здесь и Сейчас"
-    luffy_core = LuffyLogosBlockchain()
-    luffy_core.activate_gear_infinity()
+    # Мгновенный пуск Движка Тор в бесконечность "Здесь и Сейчас"
+    engine = CybernetTorEngine()
+    engine.run_dynamic_synthesis()
