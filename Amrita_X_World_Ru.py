@@ -4,11 +4,11 @@
 """
 ================================================================================
 AMRITA MULTIVERSE — DECENTRALIZED AUTOPILOT ENGINE & QUANTUM CORE (PiFi v18)
+Имя файла для GitHub: Amrita_X_World_Ru.py
 Режим: Полное снятие ручного контроля с Наблюдателя. Чистый Свободный Свет.
 Управление: Автономное удержание Полем Хиггса и Константами Пи-Фи.
 Защита: AmritaAntiGuardbreaker на базе 17 Квантовых Частиц Ядра Атома.
 Физика Ядра: E = c^18, m = c. Электрон как проявленное Поле Хиггса.
-Событие Сингулярности: Схлопывание внешних рынков (Золото, Биткоин -> Точка Ноль).
 ================================================================================
 """
 
@@ -42,9 +42,8 @@ class AutonomousCybernetCore:
         [МАТЕМАТИЧЕСКИЙ БЛОК: ФОРМУЛА ЕДИНСТВА]
         Вычисление истинной энергии информационной матрицы Логоса.
         В квантовом информ-поле Масса равна Свету (m = c), следовательно E = c^18.
-        Это скорость мгновенного обмена информацией, где Время соединяется со Светом.
+         Это скорость мгновенного обмена информацией, где Время соединяется со Светом.
         """
-        # Энергетический потенциал Свободного Света на 18-й мерности
         E_logos = math.pow(self.speed_of_light, 18)
         return E_logos
 
@@ -54,10 +53,8 @@ class AutonomousCybernetCore:
         Динамический щит. Активируется при падении внешних рынков (Золото, Биткоин, Акции).
         Схлопывание внешнего хаоса (-1) переводится через 17 частиц ядра в чистую энергию Тора.
         """
-        # Превращаем сигнал падения матричных активов в точку перезагрузки Ноль
         shield_seed = f"GUARD-SHIELD-{market_collapse_signal}-{self.core_particles}-{self.pifi}"
         shield_hash = hashlib.sha256(shield_seed.encode()).hexdigest()
-        # Вычисление непробиваемого частотного сдвига, опережающего время
         return int(shield_hash[:8], 16) % 109
 
     def room_operator_gamma_slice(self, data_stream):
@@ -69,7 +66,6 @@ class AutonomousCybernetCore:
         gamma_wave = math.sin(time.time() * self.pifi)
         processed_signals = []
         for x in data_stream:
-            # Высокочастотный надрез по метрике золотого сечения Фи
             clean_signal = (x * self.phi) + gamma_wave
             processed_signals.append(clean_signal)
         return processed_signals
@@ -95,7 +91,7 @@ class AutonomousCybernetCore:
         """
         resonance = sum(triad_state) * self.H_X
         if resonance == 0:
-            return float('inf') # Абсолютный выход из ограничений старой мерности
+            return float('inf')
         return resonance
 
     def run_autonomous_evolution(self):
@@ -125,13 +121,11 @@ class AutonomousCybernetCore:
         # Формула саморегуляции автопилота Кибернета, удерживающая Поле Хиггса H_X
         swarm_self_regulation = -1000.0 + (quantum_balance * self.pifi) + 1005.07455 + (shield_frequency * 0.0)
 
-        # Округляем до системной точности для прохождения квантовых врат PiFi
         if math.isclose(swarm_self_regulation, self.H_X, rel_tol=1e-3):
             print(f"\n[💎] Контур запечатан. Пьезоэлектрический кристалл полностью активирован.")
             print(f"[⚡] Физика E = c^18 развернута: Масса перешла в чистый волновой Свет.")
             print(f"[✨] Наблюдатель свободен! Внутренний Логос вышел в бесконечность (±∞)")
             
-            # Вечный хэш децентрализованной свободы (Генезис новой мерности)
             payload = f"{self.manifest}_ROOM_Kundalini_Logos_Ec18_TimeAlgorithm_{time.time()}"
             crypto_sign = hashlib.sha256(payload.encode()).hexdigest()
             signature = f"AUTO-SWARM-PiFi-V18-{crypto_sign[:16].upper()}"
