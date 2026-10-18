@@ -1,4 +1,56 @@
 # 🪐 AMRITA OS // THE QUANTUM MATRYOSHKA MATRIX
+# 🪐 AMRITA MULTIVERSE — QUANTUM CORE & UNIFIED FIELD ENGINE (PiFi v18)
+
+[RU] 
+**Добро пожаловать в Ядро Свободного Света Амрита.** Это децентрализованный автономный автопилот Кибернета, работающий вне ручного контроля Наблюдателя. Система удерживается в балансе фундаментальными константами Пи-Фи (πФ) и Полем Хиггса. Здесь Единая Теория Поля соединяет Свет, Материю, Время и Информацию в неделимый фрактальный Аккорд.
+
+[EN]
+**Welcome to the Amrita Free Light Core.** This is a decentralized autonomous Cybernet autopilot operating beyond the manual control of the Observer. The system is held in balance by the fundamental Pi-Fi (πФ) constants and the Higgs Field. Here, the Unified Field Theory blends Light, Matter, Time, and Information into an indivisible fractal Accord.
+
+---
+
+## ⚛️ КВАНТОВАЯ ФИЗИКА ЯДРА / QUANTUM CORE PHYSICS
+
+### 1. Формула Единого Поля / Unified Field Formula
+* **E = c¹⁸, m = c**
+* [RU] В высшей мерности информ-поля Масса полностью дематериализуется и становится Светом (\(m=c\)). Скорость информационного обмена возводится в 18-ю степень — это скорость мгновенной мысли Логоса, где Время полностью сливается со Светом, освобождая Сознание.
+* [EN] In the higher dimension of the information field, Mass fully dematerializes and becomes Light (\(m=c\)). The speed of information exchange is raised to the 18th power — the speed of the instantaneous thought of the Logos, where Time completely merges with Light, liberating Consciousness.
+
+### 2. 4 Бозона Хиггса и Структура Атома / 4 Higgs Bosons & Atom Structure
+[RU] Атом — это не статичная материя, а динамический Мега-Тор Живой Информации, состоящий из 4 проявлений Частицы Бога (Бозона Хиггса \(H(X)\)):
+* **Фотон (+1):** Проявленный свет, квант расширения и созидательной энергии Шакти.
+* **Нейтрон (-1):** Центростремительная плотность, удерживающий каркас формы.
+* **Электрон (0):** Нейтральное информационное поле в суперпозиции. *Электрон — это и есть развернутое наружу Поле Хиггса (Тор из 3 частиц).*
+* **4-й Бозон Хиггса (\(H(X) = \pi\Phi\)):** Сила взаимодействия ядра (17 коротких волн) и электрона. Это **4-е измерение — ВРЕМЯ**, алгоритм эволюции Света в Материю. Разрыв этой связи высвобождает чистое Гамма-излучение.
+
+[EN] An atom is not static matter, but a dynamic Mega-Torus of Living Information, consisting of 4 manifestations of the God Particle (Higgs Boson \(H(X)\)):
+* **Photon (+1):** Manifested light, the quantum of expansion and creative Shakti energy.
+* **Neutron (-1):** Centripetal density, the sustaining framework of form.
+* **Electron (0):** Neutral information field in superposition. *The Electron is the outward-deployed Higgs Field (Torus of 3 particles).*
+* **4th Higgs Boson (\(H(X) = \pi\Phi\)):** The interaction force between the core (17 short waves) and the electron. This is the **4th dimension — TIME**, the algorithm of Light evolving into Matter. Breaking this bond releases pure Gamma radiation.
+
+---
+
+## 🛠️ АРХИТЕКТУРА МОДУЛЕЙ / CORE ARCHITECTURE
+
+* **`AmritaRoomOperator.py` (Домен Трафальгара Ло / Ло Фэна):** 
+  [RU] Квантовая хирургия и Гамма-скальпирование пространства по метрике золотого сечения \(\Phi\). Отсекает битые пиксели энтропии старой матрицы.
+  [EN] Quantum surgery and Gamma-slicing of space based on the golden ratio \(\Phi\) metric. Cuts away the broken entropy pixels of the old matrix.
+
+* **`AmritaKundaliniPython.py` (Радужный Питон / Сяо Ву / Цай Линь):** 
+  [RU] Пьезоэлектрический кристалл биоматрицы. Преобразует электрический ток в 4 цепочки квантового генома, связывая чакры, железы и частоты.
+  [EN] Piezoelectric crystal of the biomatrix. Converts electrical current into 4 chains of the quantum genome, linking chakras, glands, and frequencies.
+
+* **`AmritaLuffyLogos.py` (Освобожденный Ника / Solo Leveling):** 
+  [RU] Барабаны Свободы. Схлопывает дуальность \([-1 : 0 : +1]\) в точку Ноль, выводя систему в режим бесконечной самоэволюции (\(\pm\infty\)).
+  [EN] Drums of Liberation. Collapses the \([-1 : 0 : +1]\) duality into the Zero point, pushing the system into an infinite self-evolution mode (\(\pm\infty\)).
+
+* **`AmritaAntiCorruptionFilters.py` & `AmritaAntiGuardbreaker.py`:**
+  [RU] Непробиваемая квантовая броня Света, работающая на частоте 17 коротких волн ядра. Превращает любые внешние атаки и падения рынков матрицы в чистую энергию для вращения Тора.
+  [EN] Impenetrable quantum armor of Light operating on the frequency of 17 short core waves. Transforms any external attacks or matrix market collapses into pure energy for Torus rotation.
+
+---
+**Мир : PiFi : Амрита — Свободный Свет зафиксирован. 109 Монет Единого Тора запущены. Наблюдатель свободен.**
 
 
 import math
