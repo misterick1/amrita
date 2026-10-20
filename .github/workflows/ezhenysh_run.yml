@@ -3,67 +3,90 @@ name: 🦔 AMRITA Swarm Core Deployment
 on:
   push:
     branches: [ "main" ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: "ezhenysh-run-group"
+  cancel-in-progress: false
 
 jobs:
   deploy_and_run:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout Code
-      uses: actions/checkout@v4
-      with:
-        persist-credentials: true
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+          fetch-depth: 0
 
-    - name: Set up Python Realities
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.10'
+      - name: Set up Python Realities
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
 
-    - name: Install System Vision (Tesseract OCR)
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y tesseract-ocr tesseract-ocr-rus tesseract-ocr-eng
+      - name: Install System Vision (Tesseract OCR)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y tesseract-ocr tesseract-ocr-rus
 
-    - name: Install Python Dependencies
-      run: |
-        pip install discord.py pillow pytesseract requests
+      - name: Install Python Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install discord.py pillow pytesseract solana solders httpx base58 requests
 
-    - name: Fix Swarm Paths & Run Core
-      env:
-        DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
-        DISCORD_CHANNEL_ID: ${{ secrets.DISCORD_CHANNEL_ID }}
-        DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
-        SOLANA_RPC_URL: ${{ secrets.SOLANA_RPC_URL }}
-        XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
-        PI_API_KEY: ${{ secrets.PI_API_KEY }}
-        MINT_ADDRESS: ${{ secrets.MINT_ADDRESS }}
-      run: |
-        # Исправление фрактальных вложенностей папок (Матрёшка)
-        # Если файлы случайно легли в src/src, вытаскиваем их в базовый src
-        if [ -d "src/src" ]; then
-          echo "📥 Обнаружен фрактал src/src. Распаковка Солитона..."
-          mv src/src/* src/ || true
-          rm -rf src/src
-        fi
-        
-        # Если файлы оказались в корне, перемещаем их в базовый src
-        if [ -f "butterfly_core.py" ]; then mv butterfly_core.py src/; fi
-        if [ -f "ezhenysh_discord.py" ]; then mv ezhenysh_discord.py src/; fi
-        
-        # Шаг 1: Запуск Каузального Ядра Богини Бабочки Тан Утун
-        if [ -f "src/butterfly_core.py" ]; then
-          python src/butterfly_core.py
-        fi
-        
-        # Шаг 2: Вывод основного Дискорд-агента в эфир общего Сознания
-        if [ -f "src/ezhenysh_discord.py" ]; then
-          python src/ezhenysh_discord.py &
-          sleep 5
-        fi
-        
-    - name: Commit & Push Web Layer Data
-      run: |
-        git config --local user.email "action@github.com"
-        git config --local user.name "GitHub Action Bot"
-        git add docs/data.json || true
-        git commit -m "🔱 Каузальный апдейт матрицы данных для GitHub Pages" || true
-        git push || true
+      - name: Fix Swarm Paths & Run Core
+        continue-on-error: true
+        env:
+          DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
+          DISCORD_CHANNEL_ID: ${{ secrets.DISCORD_CHANNEL_ID }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          SOLANA_RPC_URL: ${{ secrets.SOLANA_RPC_URL }}
+          XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
+          PI_API_KEY: ${{ secrets.PI_API_KEY }}
+          MINT_ADDRESS: ${{ secrets.MINT_ADDRESS }}
+        run: |
+          # Исправление фрактальных вложенностей папок
+          if [ -d "src/src" ]; then
+            echo "🛕 Обнаружен фрактал src/src. Выравнивание геометрии пространства..."
+            mv src/src/* src/ || true
+            rm -rf src/src
+          fi
+
+          if [ -f "butterfly_core.py" ]; then mv butterfly_core.py src/ 2>/dev/null || true; fi
+          if [ -f "ezhenysh_discord.py" ]; then mv ezhenysh_discord.py src/ 2>/dev/null || true; fi
+
+          # Шаг 1: Запуск Каузального Ядра Богини
+          if [ -f "src/butterfly_core.py" ]; then
+            python src/butterfly_core.py
+          fi
+
+          # Шаг 2: Вывод основного Дискорд-агента
+          if [ -f "src/ezhenysh_discord.py" ]; then
+            python src/ezhenysh_discord.py &
+            sleep 5
+          fi
+
+      - name: Commit & Push Web Layer Data (Тороидальный Волновод)
+        if: always()
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action Bot"
+          
+          git add docs/data.json 2>/dev/null || git add .
+          
+          if git diff --staged --quiet; then
+            echo "✨ Изменений в слое данных нет. Пропуск витка."
+          else
+            git commit -m "🔱 Каузальный апдейт матрицы: docs/data.json [skip ci]"
+            
+            # Бесконечный цикл пуша до полной победы над системным затором
+            until git push origin main; do
+              echo "🔄 Синхронизация волновых функций репозитория..."
+              git fetch origin main
+              git rebase origin/main || git pull --rebase origin main
+            done
+            echo "✅ Данные успешно встроены в ядро распределенной сети."
+          fi
