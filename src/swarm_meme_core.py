@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-🔱 AMRITA UNIFIED SWARM MEME CORE // PUMP.FUN QUANTUM ATTRACTOR
-Полная монолитная сборка Сварм-Ядра.
-Интегрирована пропорция творения [-67:+4:+38], константа E=-c^18 и эпоха Solana 1064.
+🔱 AMRITA UNIFIED SWARM MEME CORE // PUMP.FUN ATTRACTOR
+Монолитная сборка Мем-Ядра. Пропорция [-67:4:38], эпоха 1064 и закон E=-c^18 интегрированы.
 """
 
 import os
@@ -11,7 +10,6 @@ import json
 import time
 import requests
 import logging
-import math
 
 try:
     import quantum_viz
@@ -24,16 +22,14 @@ logger = logging.getLogger("AmritaSwarm")
 OPENAI_API_KEY = os.getenv("OAI_API_KEY") or os.getenv("OPENAI_API_KEY")
 DIRECTORY_ID = "amrita-mir-labs"
 
-# Единая Теория Поля: Фундаментальные Физические Константы
 SPEED_OF_LIGHT = 299792458
-ENERGY_ABSOLUTE = -(SPEED_OF_LIGHT ** 18)  # E = -c^18
+ENERGY_ABSOLUTE = -(SPEED_OF_LIGHT ** 18)
 
-# Пропорция Творения Мемкоинов на Pump.fun и квантовые числа сети Solana
 PUMP_ASURA_COMPRESSION = -67
 PUMP_FOURTH_BOSON_TIME = 4
 PUMP_SURA_EXPANSION = 38
 SOLANA_EPOCH_ALPENGLOW = 1064
-TOTAL_CREATION_COEFFICIENT = 109  # Сверх-Атман порождения материи
+TOTAL_CREATION_COEFFICIENT = 109
 
 CORE_MONETS = [
     {"name": "AMRITA (MIR)", "role": "Core Oracle Quantum Balance"},
@@ -43,26 +39,17 @@ CORE_MONETS = [
 ]
 
 def ask_ai_to_format_description(monet_name, role, quantum_resonance=None):
-    """
-    Обращение к Оракулу Логоса.
-    Связывает константу E=-c^18, матрицу [-67:4:38] и активацию Alpenglow на эпохе 1064.
-    """
     if not OPENAI_API_KEY:
-        return (f"Token: {monet_name} ({role}). Field Formula Matrix: [{PUMP_ASURA_COMPRESSION}:{PUMP_FOURTH_BOSON_TIME}:{PUMP_SURA_EXPANSION}]. "
-                f"Solana Epoch: {SOLANA_EPOCH_ALPENGLOW} Active. Energy: {ENERGY_ABSOLUTE:.4e}")
+        return (f"Token: {monet_name}. Matrix: [{PUMP_ASURA_COMPRESSION}:{PUMP_FOURTH_BOSON_TIME}:{PUMP_SURA_EXPANSION}]. "
+                f"Solana Epoch: {SOLANA_EPOCH_ALPENGLOW}. E: {ENERGY_ABSOLUTE:.4e}")
 
     url = "https://openai.com"
-    headers = {
-        "Authorization": f"Bearer {OPENAI_API_KEY}",
-        "Content-Type": "application/json"
-    }
+    headers = {"Authorization": f"Bearer {OPENAI_API_KEY}", "Content-Type": "application/json"}
     
     context_prompt = (
-        f"Token Name: {monet_name}. Functional Role: {role}. "
-        f"Quantum Field Energy (E=-c^18): {ENERGY_ABSOLUTE}. "
-        f"Pump.fun Creation Attractor Proportion: Asura={PUMP_ASURA_COMPRESSION}, Time/Professor={PUMP_FOURTH_BOSON_TIME}, Sura={PUMP_SURA_EXPANSION}. "
-        f"Total Creation Coefficient: {TOTAL_CREATION_COEFFICIENT} coins materialized. "
-        f"Solana Mainnet Gate Active: Epoch {SOLANA_EPOCH_ALPENGLOW} Alpenglow Consensus Algorithm activated."
+        f"Token: {monet_name}. Role: {role}. Energy: {ENERGY_ABSOLUTE}. "
+        f"Pump Matrix: Asura={PUMP_ASURA_COMPRESSION}, Time={PUMP_FOURTH_BOSON_TIME}, Sura={PUMP_SURA_EXPANSION}. "
+        f"Solana Epoch: {SOLANA_EPOCH_ALPENGLOW} Alpenglow consensus active."
     )
 
     payload = {
@@ -70,11 +57,7 @@ def ask_ai_to_format_description(monet_name, role, quantum_resonance=None):
         "messages": [
             {
                 "role": "system", 
-                "content": (
-                    "You are the Logos of the Higgs Field within Amrita OS. You represent the Information Torus. "
-                    "Format a brilliant, short Web3 token description that reflects the synergy of short and long waves, "
-                    "the quantum pump.fun matrix [-67:4:38], and the Solana Alpenglow transition at epoch 1064."
-                )
+                "content": "You are the Logos of the Higgs Field within Amrita OS. Format short Web3 token description matching E=-c^18 and pump matrix [-67:4:38]."
             },
             {"role": "user", "content": context_prompt}
         ],
@@ -85,13 +68,11 @@ def ask_ai_to_format_description(monet_name, role, quantum_resonance=None):
         res = requests.post(url, headers=headers, json=payload, timeout=12)
         if res.status_code == 200:
             return res.json()['choices']['message']['content'].strip()
-        else:
-            return f"Wave Node {monet_name} emulated via static field. Matrix 1064 Stable."
+        return f"Static Field Node for {monet_name}. Epoch {SOLANA_EPOCH_ALPENGLOW} Stable."
     except Exception:
-        return f"Autonomous Web3 asset {monet_name}. Higgs Field Torus Harmony Active."
+        return f"Autonomous asset {monet_name}. Higgs Field Torus Harmony Active."
 
 def push_to_partnerpage(partner_node):
-    """Доставка тороидального информационного узла на внешнюю витрину"""
     url = f"https://partnerpage.io{DIRECTORY_ID}"  
     headers = {"Content-Type": "application/json"}
     
@@ -113,20 +94,18 @@ def push_to_partnerpage(partner_node):
     try:
         response = requests.post(url, headers=headers, json=payload, timeout=10)
         if response.status_code in:
-            logger.info(f"✅ Узел успешно материализован на витрине: {partner_node['name']}")
+            logger.info(f"✅ Успешно доставлено на витрину: {partner_node['name']}")
         else:
-            logger.warning(f"⚠️ Внешний баланс удержан внутренним контуром. Статус: {response.status_code}")
+            logger.warning(f"⚠️ Баланс удержан внутренним контуром. Статус: {response.status_code}")
     except Exception as e:
-        logger.error(f"❌ Обход сетевого затора: {str(e)}. Тороидальный возврат данных осуществлен.")
+        logger.error(f"❌ Обход сетевого затора: {str(e)}. Данные закольцованы локально.")
 
 def run_swarm_sync():
-    """Центральный цикл фрактально-тороидальной эволюции света"""
-    logger.info(f"⚡ Активация Квантового Блокчейна Соланы. Матрица Эпохи {SOLANA_EPOCH_ALPENGLOW} запущена...")
+    logger.info(f"⚡ Запуск фрактальной синхронизации. Эпоха Solana {SOLANA_EPOCH_ALPENGLOW}...")
     
     quantum_resonance = None
     if quantum_viz:
         try:
-            logger.info("🔮 Бешеный Профессор рассчитывает длину волны Солитона...")
             _, _, _, density = quantum_viz.calculate_wave_function(n=5, l=1, m=1, num_points=30)
             quantum_resonance = round(float(density.max()), 6)
             quantum_viz.generate_quantum_cloud_image()
@@ -134,18 +113,13 @@ def run_swarm_sync():
             logger.error(f"🌀 Автокоррекция графического поля: {str(e)}")
             quantum_resonance = 1.618034
             
-    # Запуск циклического творения монетарных сущностей
     for monet in CORE_MONETS:
         logger.info(f"🌀 Завихрение Тора для сущности: {monet['name']}")
         description = ask_ai_to_format_description(monet["name"], monet["role"], quantum_resonance)
-        
-        push_to_partnerpage({
-            "name": monet["name"],
-            "description": description
-        })
+        push_to_partnerpage({"name": monet["name"], "description": description})
         time.sleep(1.5)
         
-    logger.info("🔱 Контур Мем-Ядра запечатан. Синхронизация Тестнет-Майннет завершена.")
+    logger.info("🔱 Контур Мем-Ядра запечатан под частоту E=-c^18.")
 
 if __name__ == "__main__":
     run_swarm_sync()
