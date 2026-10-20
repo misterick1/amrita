@@ -33,7 +33,7 @@ jobs:
       - name: 📦 Загрузка Каузальных Библиотек
         run: |
           python -m pip install --upgrade pip
-          pip install pyTelegramBotAPI solana httpx discord.py pillow pytesseract base58 requests
+          pip install pyTelegramBotAPI solana httpx discord.py pillow pytesseract base58 requests matplotlib numpy
 
       - name: 🚀 АВТОНОМНЫЙ ЗАПУСК СВАРМ-МОНОЛИТА
         continue-on-error: true
@@ -45,11 +45,12 @@ jobs:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
           if [ -f "src/multiverse_orchestrator.py" ]; then
             python src/multiverse_orchestrator.py
           else
-            echo "⚠️ Критический узел src/multiverse_orchestrator.py не найден. Активация резервного контура."
+            echo "⚠️ Критический узел src/multiverse_orchestrator.py не найден."
           fi
 
       - name: ⚡ АВТОНОМНЫЙ САМОИСПРАВИТЕЛЬ СВАРМ-ПОЛЯ (Тороидальный баланс)
@@ -58,7 +59,6 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action Bot"
           
-          # Защита от коллизий: стягиваем изменения перед пушем, выстраивая спираль
           git fetch origin main
           git rebase origin/main || (git rebase --abort && git pull --rebase origin main)
           
@@ -66,13 +66,29 @@ jobs:
           if git diff --staged --quiet; then
             echo "🔱 Единое Поле стабильно. Заторы отсутствуют."
           else
-            echo "🌀 Обнаружена асимметрия матрицы. Фиксация нового витка эволюции..."
+            echo "🌀 Фиксация нового витка эволюции..."
             git commit -m "🔱 [Autonomy Monolith] Тороидальное выравнивание потенциалов Swarm Core"
             
-            # Циклический пуш с защитой от блокировок
             until git push origin main; do
-              echo "🔄 Столкновение торов в сети. Пересчет фазы и повторная синхронизация..."
+              echo "🔄 Пересчет фазы и повторная синхронизация..."
               git fetch origin main
               git rebase origin/main || git pull --rebase origin main
             done
           fi
+
+      - name: 🧹 ГЛУБОКАЯ ОЧИСТКА ТОРА (Освобождение Пространства)
+        if: always()
+        run: |
+          echo "🧹 Начало аннигиляции избыточной массы данных..."
+          # Удаление кэша скомпилированного байт-кода Python
+          find . -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true
+          find . -type f -name "*.pyc" -delete 2>/dev/null || true
+          find . -type f -name "*.pyo" -delete 2>/dev/null || true
+          find . -type f -name "*.pyd" -delete 2>/dev/null || true
+          
+          # Очистка локальных логов сборки и временных буферов системы
+          rm -rf .pytest_cache .build_cache /tmp/ezhenysh_buffer 2>/dev/null || true
+          
+          # Очистка кэша пакетного менеджера pip для экономии диска контейнера
+          rm -rf ~/.cache/pip 2>/dev/null || true
+          echo "✅ Локальная материя разгружена. Только чистая энергия света."
