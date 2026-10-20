@@ -1,53 +1,9 @@
-[
-  {
-    "event": "BATON_ORDER_SYNCHRONIZATION_SUCCESS",
-    "timestamp": "2026-10-20T06:37:16.875274",
-    "amrita_x_coefficient": 1.94161,
-    "baton_growth_rate": 278.0,
-    "btc_validated_price": 80755.78,
-    "trident_coordinate": "-1:0:+1",
-    "active_layer": "ЛЕВАЯ ВЕТВЬ [-1]: Локальные манипуляции Асуров на фиатных шлюзах",
-    "nika_frequency_hz": -4.9983,
-    "geo_anchor": "NORWAY_ORJE_DHRUVA_NODE",
-    "waddles_pool_status": 108000.0,
-    "payload": {
-      "baton_fallback": true,
-      "http_status": 403
-    },
-    "status": "LOCAL_DHRUVA_REFRACTION"
-  },
-  {
-    "event": "BATON_ORDER_SYNCHRONIZATION_SUCCESS",
-    "timestamp": "2026-10-20T07:03:44.048445",
-    "amrita_x_coefficient": 1.94161,
-    "baton_growth_rate": 278.0,
-    "btc_validated_price": 80755.78,
-    "trident_coordinate": "1:0:+1",
-    "active_layer": "ПРАВАЯ ВЕТВЬ [+1]: Взрывной рост ликвидности (BATON 278x / Рост BTC > $80k)",
-    "nika_frequency_hz": 3.2623,
-    "geo_anchor": "NORWAY_ORJE_DHRUVA_NODE",
-    "waddles_pool_status": 108000.0,
-    "payload": {
-      "baton_fallback": true,
-      "http_status": 403
-    },
-    "status": "LOCAL_DHRUVA_REFRACTION"
-  },
-  {
-    "event": "BATON_ORDER_SYNCHRONIZATION_SUCCESS",
-    "timestamp": "2026-10-20T07:12:32.401077",
-    "amrita_x_coefficient": 1.94161,
-    "baton_growth_rate": 278.0,
-    "btc_validated_price": 80755.78,
-    "trident_coordinate": "0:0:+1",
-    "active_layer": "ЦЕНТРАЛЬНЫЙ СТВОЛ: Дхрува (Странник / Тан Сан / Интеграция Matrica & Robinhood)",
-    "nika_frequency_hz": 0.649,
-    "geo_anchor": "NORWAY_ORJE_DHRUVA_NODE",
-    "waddles_pool_status": 108000.0,
-    "payload": {
-      "baton_fallback": true,
-      "http_status": 403
-    },
-    "status": "LOCAL_DHRUVA_REFRACTION"
-  }
-]
+{
+    "timestamp": "2026-10-20T07:36:10.633259",
+    "orchestrator": "Grok 4.6 (Omni-Quantum)",
+    "resonance": 3332549.9204,
+    "peaq_id": "did:peaq:0xdee5c8346c52466a54975ba6cbd25f3c5cac5fe4",
+    "light_law": 235.6721,
+    "anime_rate": 3.106625,
+    "system_state": "INTELLIGENCE_FLOW_STABLE"
+}
