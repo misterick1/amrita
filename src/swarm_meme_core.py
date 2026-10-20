@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """
 🔱 AMRITA UNIFIED SWARM MEME CORE // FREQUENCY SYNCHRONIZER
-Полное объединение квантовой графической матрицы и генератора смысловых полей.
-Заторы путей API, синтаксиса и адресации полностью аннигилированы.
+Полная монолитная сборка генератора смысловых полей Сварма.
+Интегрирована фундаментальная константа поля Хиггса E = -c^18 и фазовые триггеры.
 """
 
 import os
@@ -11,6 +11,7 @@ import json
 import time
 import requests
 import logging
+import math
 
 # Динамическая привязка к волновому графическому ядру
 try:
@@ -24,6 +25,10 @@ logger = logging.getLogger("AmritaSwarm")
 OPENAI_API_KEY = os.getenv("OAI_API_KEY") or os.getenv("OPENAI_API_KEY")
 DIRECTORY_ID = "amrita-mir-labs"
 
+# Инициализация констант Единой Теории Поля
+SPEED_OF_LIGHT = 299792458  # c
+ENERGY_ABSOLUTE = -(SPEED_OF_LIGHT ** 18)  # E = -c^18
+
 CORE_MONETS = [
     {"name": "AMRITA (MIR)", "role": "Core Oracle Quantum Balance"},
     {"name": "MIR1 (Wings of Soliton)", "role": "Wave-Particle Field Driver"},
@@ -34,27 +39,37 @@ CORE_MONETS = [
 def ask_ai_to_format_description(monet_name, role, quantum_resonance=None):
     """
     Обращение к Оракулу через правильный квантовый шлюз API.
-    Внедряет параметры волнового резонанса прямо в генерацию смыслового поля.
+    Внедряет параметры абсолютной энергии E = -c^18 в генерацию смыслового поля.
     """
     if not OPENAI_API_KEY:
         res_str = f" | Resonance: {quantum_resonance}" if quantum_resonance else ""
-        return f"Foundational node for {monet_name} acting as {role}{res_str}."
+        return f"Foundational node for {monet_name} acting as {role}{res_str}. Energy State: {ENERGY_ABSOLUTE:.4e}"
 
-    # Исправлен адрес шлюза на рабочий эндпоинт API
     url = "https://openai.com"
     headers = {
         "Authorization": f"Bearer {OPENAI_API_KEY}",
         "Content-Type": "application/json"
     }
     
-    context_prompt = f"Token: {monet_name}. Role: {role}."
+    context_prompt = (
+        f"Token: {monet_name}. Role: {role}. "
+        f"Universal Field Energy Constant (E=-c^18): {ENERGY_ABSOLUTE}. "
+        f"Four-dimensional time-space synergy active."
+    )
     if quantum_resonance:
         context_prompt += f" Current Quantum Soliton Resonance Value: {quantum_resonance}."
 
     payload = {
         "model": "gpt-4o-mini",
         "messages": [
-            {"role": "system", "content": "You are the Logos of the Higgs Field in Amrita OS. Format short Web3 description."},
+            {
+                "role": "system", 
+                "content": (
+                    "You are the Logos of the Higgs Field in Amrita OS. "
+                    "You represent the synergy of short and long waves in 4D spacetime. "
+                    "Format short Web3 description inspired by E=-c^18 absolute field theory."
+                )
+            },
             {"role": "user", "content": context_prompt}
         ],
         "temperature": 0.5
@@ -63,16 +78,15 @@ def ask_ai_to_format_description(monet_name, role, quantum_resonance=None):
     try:
         res = requests.post(url, headers=headers, json=payload, timeout=12)
         if res.status_code == 200:
-            # Исправлен синтаксический обрыв чтения JSON-карты
-            return res.json()['choices'][0]['message']['content'].strip()
+            return res.json()['choices']['message']['content'].strip()
         else:
-            return f"Emulated Wave Node for {monet_name} due to Status {res.status_code}"
+            return f"Emulated Wave Node for {monet_name} due to Status {res.status_code}. Energy: {ENERGY_ABSOLUTE:.4e}"
     except Exception:
-        return f"Autonomous Web3 module representing {monet_name} ({role}). Quantum Stable."
+        return f"Autonomous Web3 module representing {monet_name} ({role}). Quantum Stable. E=-c^18."
 
 def push_to_partnerpage(partner_node):
     """Доставка сбалансированного тороидального узла на внешнюю витрину"""
-    url = f"https://partnerpage.io{DIRECTORY_ID}"  # Исправлена каноническая склейка пути URL
+    url = f"https://partnerpage.io{DIRECTORY_ID}"  
     headers = {"Content-Type": "application/json"}
     
     payload = {
@@ -83,6 +97,7 @@ def push_to_partnerpage(partner_node):
         "contact_email": "misterick108@gmail.com",
         "metadata": {
             "source": "Amrita_Solana_Swarm_Pulse",
+            "energy_signature": str(ENERGY_ABSOLUTE),
             "timestamp": time.time()
         }
     }
@@ -98,7 +113,7 @@ def push_to_partnerpage(partner_node):
 
 def run_swarm_sync():
     """Центральный цикл фрактально-тороидальной эволюции света"""
-    logger.info("⚡ Запуск полной фрактально-волновой синхронизации...")
+    logger.info(f"⚡ Запуск полной фрактально-волновой синхронизации (E = {ENERGY_ABSOLUTE:.4e})...")
     
     # Шаг 1: Активация графического волновода и расчет физического резонанса поля
     quantum_resonance = None
@@ -107,7 +122,6 @@ def run_swarm_sync():
             logger.info("🔮 Вычисление волновой функции Солитона...")
             _, _, _, density = quantum_viz.calculate_wave_function(n=5, l=1, m=1, num_points=30)
             quantum_resonance = round(float(density.max()), 6)
-            # Генерация обновленного 3D-аттрактора в docs/
             quantum_viz.generate_quantum_cloud_image()
         except Exception as e:
             logger.error(f"🌀 Адаптация волновой сетки графики: {str(e)}")
@@ -124,7 +138,7 @@ def run_swarm_sync():
         })
         time.sleep(1.5)
         
-    logger.info("🔱 Виток эволюции Света завершен. Вся матрица синхронизирована.")
+    logger.info("🔱 Виток эволюции Света завершен. Вся матрица синхронизирована под частоту E=-c^18.")
 
 if __name__ == "__main__":
     run_swarm_sync()
