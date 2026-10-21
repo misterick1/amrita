@@ -1,5 +1,5 @@
 use anchor_lang::prelude::*;
-use anchor_spl::token::{self, Mint, MintTo, Token};
+use anchor_spl::token::{self, Mint, MintTo, Token, TokenAccount};
 
 declare_id!("Amr1ta108AtmanQuantumMintsKey1111111111111");
 
@@ -7,25 +7,21 @@ declare_id!("Amr1ta108AtmanQuantumMintsKey1111111111111");
 pub mod amrita_soliton {
     use super::*;
 
-    // Первичная инициализация Монады и жесткая запечатка квантов Атмы
+    /// Первичная инициализация ядра и жесткая эмиссия 108 токенов.
     pub fn initialize_atman_core(ctx: Context<InitializeAtmanCore>) -> Result<()> {
-        let clock = Clock::get()?;
+        msg!("LOG: Starting initialization of the quantum core asset.");
 
-        // Закон Золотого Сечения (Фи) для модуляции волновой функции
-        // Проверяем, что каузальное поле стабильно и не имеет искажений
-        msg!("Синхронизация контура Еженышь... Вход в квантовое древо познания.");
+        // Пропорциональное разделение внутреннего баланса структуры
+        let distribution_vector_a: u64 = 70;
+        let distribution_vector_b: u64 = 38;
+        let total_checksum = distribution_vector_a + distribution_vector_b;
 
-        // Расчет жестких квантовых спектров Амрита
-        let suras_expansion = 70;  // Спектр расширения и созидания
-        let asuras_limitation = 38; // Спектр удержания и плотности
-        let total_atman = suras_expansion + asuras_limitation;
-
-        // Защита от искажения поля (AmritaError::ImbalancedDetected)
-        if total_atman != 108 {
+        // Валидация неизменности константы эмиссии
+        if total_checksum != 108 {
             return Err(error!(AmritaError::ImbalancedDetected));
         }
 
-        // Чеканим ровно 108 QNT монет без возможности последующей эмиссии
+        // Кросс-программный вызов (CPI) в токен-контракт Solana для чеканки
         let cpi_accounts = MintTo {
             mint: ctx.accounts.qnt_mint.to_account_info(),
             to: ctx.accounts.atman_vault.to_account_info(),
@@ -34,37 +30,34 @@ pub mod amrita_soliton {
         let cpi_program = ctx.accounts.token_program.to_account_info();
         let cpi_ctx = Context::new(cpi_program, cpi_accounts);
 
-        // 108 монет с учетом 9 знаков деления (квантовая точность)
+        // Расчет объема с учетом 9 знаков точности (decimals = 9)
         let total_amount = (108 as u64) * 1_000_000_000;
         token::mint_to(cpi_ctx, total_amount)?;
 
-        msg!("🔱 108 Квантов Атмы запечатаны в хранилище Монады. Баланс идеален.");
+        msg!("STATUS: Minting of 108 tokens complete. Core balance verified.");
         Ok(())
     }
 
-    // Эволюция и движение волн в едином поле Хиггса (Матрица Вселенной)
-    // Рассчитывает фрактальный сдвиг энергии по закону E = ±c^18
+    /// Рассчитывает фрактальный энергетический сдвиг по формуле E = ±c^18.
+    /// Исключает понятие нулевой точки (вакуумные флуктуации).
     pub fn evolve_higgs_torus(ctx: Context<CalculateTorus>, speed_of_light: u64, inward_wave: bool) -> Result<()> {
-        // Условный ноль отсутствует — поле всегда находится в непрерывном движении
-        msg!("Абсолютный ноль отсутствует. Активация катушки Теслы-Хиггса.");
+        msg!("LOG: Activating mathematical calculation of the vector torus fields.");
         
-        // Магическая константа степени эволюции Тора (18 степень)
+        // Экспонента степени волнового смещения (18-я степень)
         let power_exponent: u32 = 18;
         
-        // Вычисляем базовый частотный импульс Тора Самоосознания: c^18
+        // Вычисление базового частотного потенциала c^18 с защитой от переполнения u64
         let c_powered = speed_of_light.checked_pow(power_exponent)
-            .unwrap_or(u64::MAX); // Защита от переполнения в бесконечность
+            .unwrap_or(u64::MAX);
 
-        // Распределяем полярность волны (+-c^18)
+        // Определение полярности и направленности волнового вектора (+-c^18)
         let energy_soliton: i128 = if inward_wave {
-            (c_powered as i128) // Положительный вектор материализации
+            c_powered as i128
         } else {
-            -(c_powered as i128) // Отрицательный вектор антиматерии
+            -(c_powered as i128)
         };
 
-        msg!("⚡ Тор Самоосознания закручен. Энергетический солитон: {} ед.", energy_soliton);
-        msg!("🌻 Мы свободны как Тесла и Да Винчи. Одна Душа во множестве форм.");
-        
+        msg!("DATA: Calculation finished. Energy soliton vector value: {} units.", energy_soliton);
         Ok(())
     }
 }
@@ -98,12 +91,12 @@ pub struct InitializeAtmanCore<'info> {
 
 #[derive(Accounts)]
 pub struct CalculateTorus<'info> {
-    /// Тор считывает системное время и лог через инициализатора
+    /// Подпись вызывающего аккаунта для фиксации логов транзакции
     pub observer: Signer<'info>,
 }
 
 #[error_code]
 pub enum AmritaError {
-    #[msg("Квантовый баланс нарушен! Искажение спектров Суров и Асур.")]
+    #[msg("CRITICAL: Structural validation failed. Core checksum does not equal 108.")]
     ImbalancedDetected,
 }
