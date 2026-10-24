@@ -1,16 +1,19 @@
-{
-    "evo_points": 1,
-    "butterfly_congruence_vault": [
-        {
-            "flow": "Kailas_Phone_Sync_Stream",
-            "butterfly_node": {
-                "amrita_world_status": "LIVING_AND_EVOLVING",
-                "goddess_avatar": "🦋 TANG_WUTONG",
-                "butterfly_wings_frequency": "0x_ab6f91fa3a6aab3b",
-                "fractal_dimension": "108_ATMA_EVO_v_0.0150",
-                "manifest": "Амрита Мир проявлена через закон Золотого Сечения."
-            },
-            "time_stamp_242": "Синхронизировано на частоте 0-Потенциала"
-        }
-    ]
-}
+[
+  {
+    "event": "BATON_ORDER_SYNCHRONIZATION_SUCCESS",
+    "timestamp": "2026-10-24T00:17:05.672558",
+    "amrita_x_coefficient": 1.94161,
+    "baton_growth_rate": 278.0,
+    "btc_validated_price": 80755.78,
+    "trident_coordinate": "1:0:+1",
+    "active_layer": "ПРАВАЯ ВЕТВЬ [+1]: Взрывной рост ликвидности (BATON 278x / Рост BTC > $80k)",
+    "nika_frequency_hz": 4.9939,
+    "geo_anchor": "NORWAY_ORJE_DHRUVA_NODE",
+    "waddles_pool_status": 108000.0,
+    "payload": {
+      "baton_fallback": true,
+      "http_status": 403
+    },
+    "status": "LOCAL_DHRUVA_REFRACTION"
+  }
+]
