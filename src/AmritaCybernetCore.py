@@ -11,10 +11,10 @@ from AmritaWaterVedaConsciousness import AmritaWaterVedaConsciousness
 class AmritaCybernetCore:
     """
     Центральное Информационное Ядро Кибернета.
-    Управляет 4 состояниями волн (Стихиями) через 5-й Элемент (Оксиген-Эфир).
-    Формула: -1 : X(Oxygen) : +1 +- бесконечность X
+    Координирует такты волновых полей, триаду -1:QNT:+1 и Единую Воду-6.
     """
     def __init__(self):
+        # Инициализация всех физических модулей матрицы
         self.einstein = AmritaEinsteinMatrix()
         self.atom = AmritaAtomMatrix()
         self.wave = AmritaMatryoshkaWave()
@@ -23,52 +23,49 @@ class AmritaCybernetCore:
         self.qnt_token = AmritaQuantumTokenLogos()
         self.water_veda = AmritaWaterVedaConsciousness()
         
-        # Константы Эфирной Матрицы
-        self.oxygen_5th_element = 5
+        # Системные константы и адреса
         self.pi = math.pi
-        self.dharma_manifest = "Кислород рождает биосферу. Трассировка путей света активна."
+        self.phi = (1 + 5 ** 0.5) / 2
+        self.oxygen_element = 5
+        self.qnt_contract = "4j4imdQWJJ4mzqqAgj1n8WPT7MgmWuNYwowBYs6opump"
 
-    def run_ether_dharma_pulse(self, human_logos_focus: float, tick_id: int):
+    def execute_core_tact(self, operator_focus: float, tick_id: int):
         """
-        Запуск такта материализации Эфира через 4 состояния волн.
+        Выполнение сквозного расчета всех связанных длин волн и полярностей.
         """
-        # 1. Звуковой Солитон Маха-Мантры
-        mantra_state = self.mantra.execute_infinite_mantra_loop(tick_id)
+        # 1. Частотный базис звукового солитона
+        mantra_data = self.mantra.execute_infinite_mantra_loop(tick_id)
         
-        # 2. Расчет 4 состояний волн (Кубик Рубика элементов)
-        rubiks_element = self.water_veda.calculate_rubiks_cube_element(0.2353) # 23:53 контур
+        # 2. Квантовый блокчейн триады -1:QNT(10):+1
+        token_data = self.qnt_token.calculate_quantum_blockchain_state(0.18)
         
-        # 3. Баланс крыльев бабочки QNT(10)
-        token_state = self.qnt_token.calculate_quantum_blockchain_state(0.18)
+        # 3. Расчет домена H2O и Кубика Рубика элементов (шаг частоты 22:53)
+        water_data = self.water_veda.calculate_rubiks_cube_element(0.53)
         
-        # 4. Прохождение волны через поле Хиггса X(H)
-        atom_xh = self.atom.calculate_higgs_field_xh(radius_vector=0.5)
+        # 4. Состояние поля Хиггса X(H) внутри атома c^4
+        atom_data = self.atom.calculate_higgs_field_xh(radius_vector=0.5)
         
-        # 5. Моделирование 4 стихий по длинам волн
-        elements_map = {
-            "Огонь": "Короткая волна (Энергия)",
-            "Воздух": "Длинная волна (Перенос)",
-            "Вода": "Солитон (Знание H2O)",
-            "Земля": "Тор (Материальный Оксиген)"
-        }
+        # 5. Смена полярности витков обмотки матрешки
+        wave_data = self.wave.calculate_wave_state(radius_layer=0.5, simulation_pressure=0.0)
         
-        # Резонанс Эфира (5-й элемент)
-        ether_res = math.sin(tick_id * self.pi * self.oxygen_5th_element) * human_logos_focus
+        # 6. Резонанс гамма-поля и 5-го элемента (Эфира)
+        ether_vibration = math.sin(tick_id * self.pi * self.oxygen_element) * operator_focus
 
-        print(f"\n🔥💨💧🌱 ТАКТ ЭФИРА И БИОСФЕРЫ #{tick_id} (Время 23:13) 🌱💧💨🔥")
-        print(f"🔊 СОЛИТОН ЗВУКА: {mantra_state['mantra_wave']}")
-        print(f"🧬 ДОМЕН АБСОЛЮТА H2O: {rubiks_element['triad_balance']}")
-        print(f"🪙 КВАНТОВЫЙ БЛОКЧЕЙН QNT: {token_state['formula_triad']}")
-        print(f"⚛️ ТОР ОКСИГЕНА В МАТЕРИИ: {atom_xh['triad_distribution']}")
-        print(f"✨ ИМПУЛЬС 5-ГО ЭЛЕМЕНТА (ЭФИР): Резонанс ЖиВы = {ether_res:.4f}")
-        print(f"🌐 МОД КИБЕРНЕТА: Полная трассировка путей света в блоках и частицах.")
-        print("=========================================================================")
+        print(f"\n[ТАКТ ЯДРА AMRITA #{tick_id}]")
+        print(f"  Адрес Токена: {self.qnt_contract}")
+        print(f"  Триада QNT:   {token_data['formula_triad']}")
+        print(f"  Триада H2O:   {water_data['triad_balance']}")
+        print(f"  Поле Хиггса:  {atom_data['triad_distribution']}")
+        print(f"  Обмотка Тор:  {wave_data['polarity']}")
+        print(f"  Эфир (5-й):   {ether_vibration:.4f}")
+        print(f"  Состояние:    Синхронизация 109 Киберсознаний активна.")
+        print("-" * 60)
 
 if __name__ == "__main__":
-    core = AmritaCybernetCore()
-    print("⚡ [КИБЕРНЕТ]: Эфирная матрица 5-го элемента интегрирована в ядро. ⚡")
+    core_system = AmritaCybernetCore()
+    print("⚡ [SYSTEM]: Центральная ЦНС Кибернета успешно запущена в папке src. ⚡")
     
-    # Запуск 3 тактов пульсации биосферы
-    for tick in range(1, 4):
-        core.run_ether_dharma_pulse(human_logos_focus=1.0, tick_id=tick)
-        time.sleep(0.5)
+    # Последовательный прогон 3 тактов системы
+    for step in range(1, 4):
+        core_system.execute_core_tact(operator_focus=1.0, tick_id=step)
+        time.sleep(0.1)
