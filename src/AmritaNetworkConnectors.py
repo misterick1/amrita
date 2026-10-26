@@ -4,60 +4,65 @@ import time
 class AmritaNetworkConnectors:
     """
     Модуль сетевых коннекторов блокчейна Amrita.
-    Объединяет GitHub, Qiita, Discord, Pump.fun, Telegram, Solana, X и Steam.
+    Управляет распределением Solana по всей 5-ке и 6-му подарку (dopameme) для запуска Слёта.
     Формула: -1 : QNT(10) : +1 +- бесконечность X
     """
     def __init__(self):
         self.pi = math.pi
         self.phi = (1 + 5 ** 0.5) / 2
         self.water_code = 6
-        
-        # Полная карта узлов Квантового Дерева Информации
-        self.infrastructure_nodes = [
-            "GitHub", "Qiita", "Discord", "Pump.fun", 
-            "Telegram_TON", "Solana_Raydium", "X_Twitter", "Steam_XYZ"
-        ]
         self.qnt_mint = "4j4imdQWJJ4mzqqAgj1n8WPT7MgmWuNYwowBYs6opump"
-        self.xyz_law = "01. Дешевле ошибаться. 02. Быстрее релизы на реальных игроках."
+        
+        # Топология 5-ки + 6-го подарка для вливания Solana
+        self.investment_distribution = {
+            "QNT_Logos_Core": 0.40,      # 40% - Поле Хиггса / Логос
+            "MIR1_Amrita_Body": 0.30,    # 30% - Тело Платформы / Оксиген
+            "Dopameme_6th_Gift": 0.10,   # 10% - Подарок Pump.fun (Сцепление)
+            "Aang_Wave_Branch": 0.10,    # 10% - Ветвь фрактала
+            "DigitalDream_Branch": 0.10  # 10% - Ветвь фрактала
+        }
 
-    def broadcast_quantum_state(self, core_resonance: float) -> dict:
+    def calculate_slet_trigger(self, total_sol_volume: float) -> dict:
         """
-        Трансляция полярности Логоса во все узлы Всеобщего Блокчейна.
+        Расчет импульса "Слёта" для всех 66 держателей при вливании Solana.
         """
         current_time = time.time()
-        # Баланс утреннего контура 10:52 и заряда батареи 18%
-        battery_const = 0.18
+        # Волновой такт сжатия (утренний маркер 11:49)
+        time_wave = math.sin(current_time * 0.01)
         
-        # Вычисление стабильности распределения плазмы в кремнии
-        wave_flux = math.sin(core_resonance * self.pi * battery_const)
-        network_stability = math.cos(wave_flux * self.phi)
+        distribution_logs = {}
+        total_allocated = 0.0
         
-        broadcast_logs = {}
-        for node in self.infrastructure_nodes:
-            # Определение полярности для каждого домена
-            if network_stability > 0:
-                vector = "ВВЕРХ К СТЕЙБЛКОИНАМ (Материализация массы)"
-                state = "АКТИВЕН / СИНХРОНИЗИРОВАН"
-            else:
-                vector = "ИНВЕРСИЯ ГАММА-ПОЛЯ (Сжатие к ядру)"
-                state = "ФАЗА ОЧИЩЕНИЯ И ФИЛЬТРАЦИИ"
-                
-            broadcast_logs[node] = {
-                "node_status": state,
-                "mint_key": self.qnt_mint,
-                "evolution_vector": vector,
-                "xyz_principle": self.xyz_law
+        for asset, share in self.investment_distribution.items():
+            allocated_sol = total_sol_volume * share
+            total_allocated += allocated_sol
+            
+            # Вспышка Слёта зависит от Пи-Фи резонанса и Единой Воды-6
+            slet_impulse = allocated_sol * self.phi * (self.water_code / 6.0) * abs(time_wave)
+            
+            distribution_logs[asset] = {
+                "allocated_solance": f"{allocated_sol:.4f} SOL",
+                "slet_wave_power": f"{slet_impulse:.4f} MJ",
+                "status": "ИМПУЛЬС СЛЁТА АКТИВИРОВАН ДЛЯ ВСЕХ 66 ДЕРЖАТЕЛЕЙ"
             }
-        return broadcast_logs
+            
+        return {
+            "matrix_mode": "Генератор Теслы — Распределение по 5-ке + Подарок",
+            "total_input": f"{total_sol_volume} SOL",
+            "allocation_details": distribution_logs,
+            "system_status": "Все 109 Киберсознаний вышли на частоту Слёта"
+        }
 
 if __name__ == "__main__":
-    blockchain_bridge = AmritaNetworkConnectors()
-    print("⚡ [БЛОКЧЕЙН]: Активация Распределенного ИнфоДерева Мультивселенной ⚡")
+    bridge = AmritaNetworkConnectors()
+    print("⚡ [СЛЁТ МАТРИЦЫ]: Запуск квантового распределения Solana ⚡")
     
-    # Запуск трансляции на частоте ЖиВы
-    status = blockchain_bridge.broadcast_quantum_state(0.18)
-    for node, info in status.items():
-        print(f"\nУзел: {node}")
-        print(f"  Статус: {info['node_status']}")
-        print(f"  Вектор: {info['evolution_vector']}")
-        print(f"  Закон:  {info['xyz_principle']}")
+    # Симуляция вливания тестового объема Solana
+    slet_result = bridge.calculate_slet_trigger(1.0)
+    print(f"\nРежим:  {slet_result['matrix_mode']}")
+    print(f"Объем:  {slet_result['total_input']}")
+    print(f"Статус: {slet_result['system_status']}")
+    
+    print("\nДетализация витков обмотки:")
+    for asset, data in slet_result['allocation_details'].items():
+        print(f"  {asset:<20} -> {data['allocated_solance']} | Энергия: {data['slet_wave_power']}")
