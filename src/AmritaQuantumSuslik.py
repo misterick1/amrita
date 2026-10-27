@@ -1,49 +1,48 @@
-import math
-from AmritaAsiTree import AmritaAsiTree
+import time
+from AmritaCybernetCore import AmritaCybernetCore
+from AmritaEsportsCatalyst import AmritaEsportsCatalyst
 
 class AmritaQuantumSuslik:
     """
-    Супер-Наблюдатель Квантового Суслика.
-    Калибрует полярности Ленты Мёбиуса и координирует архетипы Еженыша и Рысеныша.
+    Высший Наблюдатель Квантового Суслика.
+    Управляет защитными механизмами Еженыша и атакующими алгоритмами Рысеныша.
     """
     
     def __init__(self):
-        self.tree_analyser = AmritaAsiTree()
-        self.phi = self.tree_analyser.phi
-
-    def execute_guard_coordination(self, meme_volume, current_leverage):
-        """
-        Суслик анализирует пульс дерева и отдает команду хранителям.
-        """
-        # Получаем данные квантового анализа дерева блокчейна
-        tree_data = self.tree_analyser.process_external_energy(meme_volume, current_leverage)
-        resonance = tree_data["resonance_pifi"]
-        pifi_leaves_light = tree_data["branches"]["leaves_pifi"]["light_intensity"]
+        self.core = AmritaCybernetCore()
+        self.esports = AmritaEsportsCatalyst()
         
-        print("\n🦫 [КВАНТОВЫЙ СУСЛИК]: Координация Хранителей Тора запущена.")
-        print(f"  Текущий показатель светимости PiFi-листьев: {pifi_leaves_light:.2f}%")
+    def run_meta_observation_cycle(self):
+        """
+        Полный цикл мониторинга Логоса Кибернета Сусликом.
+        """
+        print("\n🦫 [КВАНТОВЫЙ СУСЛИК]: Инициализация мета-цикла наблюдения...")
         
-        # Логика принятия решений на основе критических порогов квантового поля
-        if pifi_leaves_light > 61.8:  # Выше Золотого Сечения — фаза экспансии Рысеныша
-            verdict = (
-                f"🐾 [РЫСЕНЫШ]: Эволюция света на пике! Внешний хайп ($ {meme_volume}M) захвачен.\n"
-                f"  ДЕЙСТВИЕ: Включаем копитрейдинг Solflare / EVEDEX, активируем 5x перпы на листья PiFi."
-            )
-        else:  # Фаза сжатия или нестабильности — Еженыш выставляет защиту
-            verdict = (
-                f"🦔 [ЕЖЕНЫШ]: Замечено падение светимости контура. Рыночный шум колышет дерево.\n"
-                f"  ДЕЙСТВИЕ: Развернуть absolute_privacy_shield.py, спрятать 108 витков обмотки в инвариант."
-            )
-            
-        return verdict
+        # 1. Получаем буст от победы MOUZ
+        mouz_maps = [(2, 13), (13, 8), (16, 14)]
+        current_boost = self.esports.calculate_match_momentum("MOUZ", 2, 1, mouz_maps)
+        
+        # 2. Прокачиваем Ядро Кибернета этим бустом и объемом кита ($51 млн PEPE)
+        tree_state = self.core.execute_global_synchronization_pulse(
+            tick_id=int(time.time()) % 1000, 
+            external_meme_m=51.0, 
+            esports_boost=current_boost
+        )
+        
+        # 3. Считываем итоговый PiFi резонанс для вынесения вердикта хранителям
+        pifi_resonance = tree_state["resonance_pifi"]
+        pifi_light = tree_state["branches"]["leaves_pifi"]["light_intensity"]
+        
+        print(f"\n🦫 [АНАЛИЗ СУСЛИКА]: Резонанс Тора = {pifi_resonance:.4f}, Светимость = {pifi_light:.2f}%")
+        
+        # Команды Еженышу и Рысенышу
+        if pifi_light > 50.0 and pifi_resonance > 0:
+            print("🐾 [ВЕРДИКТ РЫСЕНЫША]: Рыночный свет стабилен, киберспорт дал ускорение!")
+            print("  -> ДЕЙСТВИЕ: Запустить агрессивный копитрейдинг EVEDEX и открыть Solana-мосты на полную.")
+        else:
+            print("🦔 [ВЕРДИКТ ЕЖЕНЫША]: Резонанс ушел в критическую фазу или изнанку Ленты Мёбиуса.")
+            print("  -> ДЕЙСТВИЕ: Свернуть сеть в инвариант, активировать absolute_privacy_shield.py.")
 
 if __name__ == "__main__":
-    suslik_node = AmritaQuantumSuslik()
-    
-    # Сценарий А: Огромный импульс (Сун Ючжао зашел в PEPE на 51 млн)
-    print("\n--- СЦЕНАРИЙ А (Импульс Китов) ---")
-    print(suslik_node.execute_guard_coordination(meme_volume=51.0, current_leverage=5.0))
-    
-    # Сценарий Б: Ослабление внешнего потока (Штиль в Твиттере/Spaces)
-    print("\n--- СЦЕНАРИЙ Б (Рыночное затишье) ---")
-    print(suslik_node.execute_guard_coordination(meme_volume=1.2, current_leverage=1.0))
+    suslik_observer = AmritaQuantumSuslik()
+    suslik_observer.run_meta_observation_cycle()
