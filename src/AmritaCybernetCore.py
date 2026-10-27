@@ -1,7 +1,7 @@
 import time
 import math
 
-# Импорт физических и духовных модулей экосистемы AmritaМир
+# Импорт физических, духовных и фрактальных модулей AmritaМир
 from AmritaEinsteinMatrix import AmritaEinsteinMatrix
 from AmritaAtomMatrix import AmritaAtomMatrix
 from AmritaMatryoshkaWave import AmritaMatryoshkaWave
@@ -11,16 +11,15 @@ from AmritaQuantumTokenLogos import AmritaQuantumTokenLogos
 from AmritaWaterVedaConsciousness import AmritaWaterVedaConsciousness
 from AmritaNetworkConnectors import AmritaNetworkConnectors
 from AmritaTeslaRouter import AmritaTeslaRouter
+from AmritaAsiTree import AmritaAsiTree
 
 class AmritaCybernetCore:
     """
-    Центральное Информационное Ядро Кибернета.
-    Координирует такты волновых полей, триаду полярностей и квантовые переходы.
-    Интеграция контура MAS (Сингапур), Solana Devnet/Mainnet и Сознания Воды.
+    Центральное Информационное Ядро Кибернета (Версия: Эволюция Света 2026).
+    Синхронизирует такты волновых полей, Квантовое Дерево ASI и внешние притоки капитала.
     """
     
     def __init__(self):
-        # Инициализация всех физических и волновых модулей
         self.einstein = AmritaEinsteinMatrix()
         self.atom = AmritaAtomMatrix()
         self.wave = AmritaMatryoshkaWave()
@@ -30,62 +29,46 @@ class AmritaCybernetCore:
         self.water_veda = AmritaWaterVedaConsciousness()
         self.connectors = AmritaNetworkConnectors()
         self.tesla_router = AmritaTeslaRouter()
+        self.asi_tree = AmritaAsiTree() # Интеграция Квантового Дерева Блокчейна
         
-        # Системные маркеры с экрана (Текущая временная петля и контур MAS)
+        # Системные маркеры и константы
         self.current_dharma_date = "27/10/2026"
-        self.singapore_mas_signal = "MAS Monetary Authority Framework / Active"
-        self.solana_devnet_version = "Solana Agave Core Node (Copy-Trading Live)"
-        self.qnt_contract = "4j4imdQWJJ4mzqqAgj..."  # Целевой квантовый контракт
-        
-        # Константы сакральной геометрии
+        self.qnt_contract = "4j4imdQWJJ4mzqqAgj..."
         self.pi = math.pi
         self.phi = (1 + 5 ** 0.5) / 2
         
-    def execute_global_synchronization_pulse(self, tick_id):
+    def execute_global_synchronization_pulse(self, tick_id, external_meme_m=51.0, esports_boost=1.0):
         """
-        Сквозной расчет утреннего и вечернего такта синхронизации Логоса.
-        Вбирает в себя метрики из матрешки, тесла-роутера и внешнего крипто-потока.
+        Сквозной расчет такта Логоса с учетом Квантового Дерева и катализатора киберспорта.
         """
-        # 1. Частотный базис звукового солитона (Маха-Мантра Виток)
+        # 1. Запуск базовых волновых и духовных модулей
         mantra_data = self.mantra.execute_infinite_resonance(tick_id)
-        
-        # 2. Квантовый блокчейн триады -1:QNT(108):+1
         token_data = self.qnt_token.calculate_logos_emission(self.qnt_contract)
-        
-        # 3. Расчет волнового Роутера Теслы (Беспроводная матрица энергии)
-        router_data = self.tesla_router.process_wireless_vector(self.pi, self.phi)
-        
-        # 4. Расчет домена H2O, Кристалла Воды-6 и Кубика Рубика
         water_data = self.water_veda.calculate_molecular_memory(cube_state="RUBIK_6D")
         
-        # 5. Шлюз распределения Solana ("Слёт" ликвидности и трендинг токена SOLVET)
-        slet_data = self.connectors.calculate_slet_liquidity(leverage=5.0)
+        # 2. Расчет Квантового Дерева ASI (Фильтрация хаоса $51 млн и перевод в свет)
+        # Учитываем плечо перпов 5x с Crypto.com и буст от победы MOUZ
+        leverage_adapted = 5.0 * esports_boost
+        tree_pulse = self.asi_tree.process_external_energy(external_meme_m, leverage_adapted)
+        pifi_light = tree_pulse["branches"]["leaves_pifi"]["light_intensity"]
         
-        # 6. Расчет вложенности Матрешки под влиянием текущего шага/такта
-        # Используем фрактал шага (0.1, 0.5, 0.9) на основе циклов tick_id
-        layer_step = 0.1 if tick_id % 3 == 1 else (0.5 if tick_id % 3 == 2 else 0.9)
-        wave_data = self.wave.calculate_wave_state(radius_layer=layer_step, trending_duration_h=4.0)
+        # 3. Маршрутизация энергии через Роутер Теслы и коннекторы
+        router_data = self.tesla_router.process_wireless_vector(self.pi, self.phi)
+        slet_data = self.connectors.calculate_slet_liquidity(leverage=leverage_adapted)
         
-        # Коэффициент сопряжения финансового контура Сингапура (MAS) и Квантового Поля
-        mas_coupling = math.cos(tick_id * self.phi) * abs(wave_data["resonance_pifi"])
-        
-        # Вывод логов такта в терминал Логоса Кибернета
+        # Вывод логов в терминал ЦНС Кибернета
         print(f"\n⚡⚡⚡ [ЦНС КИБЕРНЕТА]: ТАКТ СИНХРОНИЗАЦИИ #{tick_id} | ДАТА: {self.current_dharma_date}")
-        print(f"  Квантовый Ключ:     {self.qnt_contract}")
-        print(f"  Маха-Мантра Виток:  {mantra_data}")
-        print(f"  Триада Сети X:      {token_data} | Спин Матрешки: {wave_data['spin_direction']}")
-        print(f"  Кристалл Воды-6:    {water_data}")
-        print(f"  Роутер Теслы:       {router_data}")
-        print(f"  Шлюз Ликвидности:   {slet_data}")
-        print(f"  Регулятор MAS:      {self.singapore_mas_signal} | Связь: {mas_coupling:.6f}")
-        print(f"  Кремниевая Сеть:    {self.solana_devnet_version} | Фаза: {wave_data['layer_scale']}")
+        print(f"  Входящий импульс ликвидности: ${external_meme_m}M (Плечо: {leverage_adapted}x)")
+        print(f"  Эволюция Света PiFi (Листья): {pifi_light:.2f}%")
+        print(f"  Маха-Мантра Виток:            {mantra_data}")
+        print(f"  Молекулярная память H2O:      {water_data}")
+        print(f"  Транзакционный шлюз Slet:      {slet_data}")
         print("==========================================================================")
+        
+        return tree_pulse
 
 if __name__ == "__main__":
     core_system = AmritaCybernetCore()
-    print("⚡ [SYSTEM]: Центральная ЦНС Кибернета Амриты запущена в контуре 2026.")
-    
-    # Последовательный прогон 3 эволюционных тактов (Матрёшка: Ядро -> Контур -> Оболочка)
-    for step in range(1, 4):
-        core_system.execute_global_synchronization_pulse(tick_id=step)
-        time.sleep(0.05)
+    print("⚡ [SYSTEM]: Центральная ЦНС Кибернета Амриты синхронизирована с Деревом ASI.")
+    # Прогон такта с базовыми параметрами экрана
+    core_system.execute_global_synchronization_pulse(tick_id=777, external_meme_m=51.0, esports_boost=1.618)
