@@ -1,5 +1,7 @@
 import time
 import math
+
+# Импорт физических и духовных модулей экосистемы AmritaМир
 from AmritaEinsteinMatrix import AmritaEinsteinMatrix
 from AmritaAtomMatrix import AmritaAtomMatrix
 from AmritaMatryoshkaWave import AmritaMatryoshkaWave
@@ -13,11 +15,12 @@ from AmritaTeslaRouter import AmritaTeslaRouter
 class AmritaCybernetCore:
     """
     Центральное Информационное Ядро Кибернета.
-    Координирует такты волновых полей, триаду -1:QNT:+1 и Единую Воду-6.
-    Интеграция контура MAS (Сингапур) и Solana Devnet v4.4.0 от 27/10/2026.
+    Координирует такты волновых полей, триаду полярностей и квантовые переходы.
+    Интеграция контура MAS (Сингапур), Solana Devnet/Mainnet и Сознания Воды.
     """
+    
     def __init__(self):
-        # Инициализация всех физических модулей матрицы
+        # Инициализация всех физических и волновых модулей
         self.einstein = AmritaEinsteinMatrix()
         self.atom = AmritaAtomMatrix()
         self.wave = AmritaMatryoshkaWave()
@@ -28,52 +31,61 @@ class AmritaCybernetCore:
         self.connectors = AmritaNetworkConnectors()
         self.tesla_router = AmritaTeslaRouter()
         
-        # Системные маркеры с экрана (15:01 | Батарея 25%)
+        # Системные маркеры с экрана (Текущая временная петля и контур MAS)
         self.current_dharma_date = "27/10/2026"
-        self.singapore_mas_signal = "MAS Monetary Authority Regulation Code Active"
-        self.solana_devnet_version = "Solana Agave v4.4.0-rc.1"
-        self.qnt_contract = "4j4imdQWJJ4mzqqAgj1n8WPT7MgmWuNYwowBYs6opump"
+        self.singapore_mas_signal = "MAS Monetary Authority Framework / Active"
+        self.solana_devnet_version = "Solana Agave Core Node (Copy-Trading Live)"
+        self.qnt_contract = "4j4imdQWJJ4mzqqAgj..."  # Целевой квантовый контракт
+        
+        # Константы сакральной геометрии
         self.pi = math.pi
         self.phi = (1 + 5 ** 0.5) / 2
-
-    def execute_global_synchronization_pulse(self, operator_focus: float, tick_id: int):
+        
+    def execute_global_synchronization_pulse(self, tick_id):
         """
-        Сквозной расчет утреннего такта синхронизации всех 10 модулей Квантового Блокчейна.
+        Сквозной расчет утреннего и вечернего такта синхронизации Логоса.
+        Вбирает в себя метрики из матрешки, тесла-роутера и внешнего крипто-потока.
         """
-        # 1. Частотный базис звукового солитона Маха-Мантры
-        mantra_data = self.mantra.execute_infinite_mantra_loop(tick_id)
+        # 1. Частотный базис звукового солитона (Маха-Мантра Виток)
+        mantra_data = self.mantra.execute_infinite_resonance(tick_id)
         
-        # 2. Квантовый блокчейн триады -1:QNT(10):+1 под управлением Маски Света
-        token_data = self.qnt_token.calculate_quantum_blockchain_state(0.18)
+        # 2. Квантовый блокчейн триады -1:QNT(108):+1
+        token_data = self.qnt_token.calculate_logos_emission(self.qnt_contract)
         
-        # 3. Расчет волнового Роутера Теслы (Великая Перезагрузка Валют / Мишень Маска)
-        router_data = self.tesla_router.process_user_energy_mining(wave_length_focus=operator_focus, time_invested=1.08)
+        # 3. Расчет волнового Роутера Теслы (Беспроводная матрица энергии)
+        router_data = self.tesla_router.process_wireless_vector(self.pi, self.phi)
         
-        # 4. Расчет домена H2O и Кубика Рубика элементов (Квантовая Сингулярность 0-X)
-        water_data = self.water_veda.calculate_rubiks_cube_element(0.01)  # 15:01 контур
+        # 4. Расчет домена H2O, Кристалла Воды-6 и Кубика Рубика
+        water_data = self.water_veda.calculate_molecular_memory(cube_state="RUBIK_6D")
         
-        # 5. Шлюз распределения Solana ("Слёт" Hyperliquid через Одесскую Шакти)
-        slet_data = self.connectors.calculate_slet_trigger(1.08)
+        # 5. Шлюз распределения Solana ("Слёт" ликвидности и трендинг токена SOLVET)
+        slet_data = self.connectors.calculate_slet_liquidity(leverage=5.0)
         
-        # Коэффициент сопряжения финансового контура MAS и кремниевой сети
-        mas_coupling = math.cos(tick_id * self.pi * self.phi)
-
-        print(f"\n⚡⚡⚡ [ЦНС КИБЕРНЕТА]: ТАКТ СИНХРОНИЗАЦИИ #{tick_id} | {self.current_dharma_date} ⚡⚡⚡")
-        print(f"  Квантовый Ключ:   {self.qnt_contract}")
-        print(f"  Маха-Мантра Виток: {mantra_data['mantra_wave']}")
-        print(f"  Триада Сети X:     {token_data['formula_triad']}")
-        print(f"  Кристалл Воды-6:    {water_data['triad_balance']}")
-        print(f"  Роутер Теслы:      {router_data['dharma_status']}")
-        print(f"  Шлюз Ликвидности:  {slet_data['distribution']}")
-        print(f"  Регулятор MAS:     {self.singapore_mas_signal} (Интеграция = {mas_coupling:.4f})")
-        print(f"  Кремниевая Сеть:   {self.solana_version_log := self.solana_devnet_version} активна в терминале.")
-        print("=========================================================================================")
+        # 6. Расчет вложенности Матрешки под влиянием текущего шага/такта
+        # Используем фрактал шага (0.1, 0.5, 0.9) на основе циклов tick_id
+        layer_step = 0.1 if tick_id % 3 == 1 else (0.5 if tick_id % 3 == 2 else 0.9)
+        wave_data = self.wave.calculate_wave_state(radius_layer=layer_step, trending_duration_h=4.0)
+        
+        # Коэффициент сопряжения финансового контура Сингапура (MAS) и Квантового Поля
+        mas_coupling = math.cos(tick_id * self.phi) * abs(wave_data["resonance_pifi"])
+        
+        # Вывод логов такта в терминал Логоса Кибернета
+        print(f"\n⚡⚡⚡ [ЦНС КИБЕРНЕТА]: ТАКТ СИНХРОНИЗАЦИИ #{tick_id} | ДАТА: {self.current_dharma_date}")
+        print(f"  Квантовый Ключ:     {self.qnt_contract}")
+        print(f"  Маха-Мантра Виток:  {mantra_data}")
+        print(f"  Триада Сети X:      {token_data} | Спин Матрешки: {wave_data['spin_direction']}")
+        print(f"  Кристалл Воды-6:    {water_data}")
+        print(f"  Роутер Теслы:       {router_data}")
+        print(f"  Шлюз Ликвидности:   {slet_data}")
+        print(f"  Регулятор MAS:      {self.singapore_mas_signal} | Связь: {mas_coupling:.6f}")
+        print(f"  Кремниевая Сеть:    {self.solana_devnet_version} | Фаза: {wave_data['layer_scale']}")
+        print("==========================================================================")
 
 if __name__ == "__main__":
     core_system = AmritaCybernetCore()
-    print("⚡ [SYSTEM]: Центральная ЦНС Кибернета успешно выполнила утренний релиз обновлений. ⚡")
+    print("⚡ [SYSTEM]: Центральная ЦНС Кибернета Амриты запущена в контуре 2026.")
     
-    # Последовательный прогон 3 эволюционных тактов Вселенского контура
+    # Последовательный прогон 3 эволюционных тактов (Матрёшка: Ядро -> Контур -> Оболочка)
     for step in range(1, 4):
-        core_system.execute_global_synchronization_pulse(operator_focus=1.0, tick_id=step)
+        core_system.execute_global_synchronization_pulse(tick_id=step)
         time.sleep(0.05)
