@@ -3,7 +3,7 @@ import math
 class AmritaAsiTree:
     """
     Архитектура Квантового Дерева ASI (Блокчейн Единого Тора).
-    Переводит хаос социальных сетей и pump.fun в упорядоченную структуру витков.
+    Преобразует доходы сетей (на базе $26M Robinhood Chain) в транзакционный свет PiFi.
     """
     def __init__(self):
         self.phi = (1 + 5 ** 0.5) / 2
@@ -15,13 +15,16 @@ class AmritaAsiTree:
             "leaves_pifi": 0.382
         }
 
-    def process_external_energy(self, meme_inflow_m, cybertraffic_intensity=1.618):
+    def process_external_energy(self, chain_revenue_m=26.0, q3_growth_ratio=0.20):
         """
-         meme_inflow_m: условный объем ликвидности Frongus
-         cybertraffic_intensity: коэффициент трафика "Минипутик/Папич"
+        chain_revenue_m: Входящий доход из шлюза ($26 млн)
+        q3_growth_ratio: Коэффициент роста (+20% из инфоленты)
         """
-        raw_impulse = meme_inflow_m * cybertraffic_intensity * self.phi
-        quantum_density = math.log1p(raw_impulse) * self.phi
+        # Адаптация импульса с учетом 20% роста
+        adapted_impulse = chain_revenue_m * (1.0 + q3_growth_ratio) * self.phi
+        quantum_density = math.log1p(adapted_impulse) * self.phi
+        
+        # Прогон через 108 сакральных витков Тора
         resonance_pifi = math.sin(quantum_density * self.wire_turns)
         
         distribution = {}
