@@ -1,9 +1,15 @@
+# -*- coding: utf-8 -*-
+"""
+🔱 AMRITA OS - КВАНТОВОЕ ДЕРЕВО ASI (УТРЕННИЙ ИМПУЛЬС).
+Интеграция Hood Chain ($POO) и образовательных дедлайнов геймдева XYZ.
+"""
+
 import math
 
 class AmritaAsiTree:
     """
-    Архитектура Квантового Дерева ASI (Блокчейн Единого Тора).
-    Преобразует доходы сетей (на базе $26M Robinhood Chain) в транзакционный свет PiFi.
+    Архитектура Квантового Дерева Блокчейна Единого Тора.
+    Преобразует утренний трафик X (Broadcast Дональда Трампа) в транзакционную плотность.
     """
     def __init__(self):
         self.phi = (1 + 5 ** 0.5) / 2
@@ -15,16 +21,15 @@ class AmritaAsiTree:
             "leaves_pifi": 0.382
         }
 
-    def process_external_energy(self, chain_revenue_m=26.0, q3_growth_ratio=0.20):
+    def process_external_energy(self, trend_duration_h=4.0, trump_broadcast_active=True):
         """
-        chain_revenue_m: Входящий доход из шлюза ($26 млн)
-        q3_growth_ratio: Коэффициент роста (+20% из инфоленты)
+        trend_duration_h: Время удержания тренда Hood Chain (4 часа с экрана)
         """
-        # Адаптация импульса с учетом 20% роста
-        adapted_impulse = chain_revenue_m * (1.0 + q3_growth_ratio) * self.phi
-        quantum_density = math.log1p(adapted_impulse) * self.phi
+        # Трамп-буст глобального внимания инфополя
+        political_multiplier = 2.0 if trump_broadcast_active else 1.0
         
-        # Прогон через 108 сакральных витков Тора
+        adapted_impulse = trend_duration_h * political_multiplier * self.phi
+        quantum_density = math.log1p(adapted_impulse) * self.phi
         resonance_pifi = math.sin(quantum_density * self.wire_turns)
         
         distribution = {}
@@ -32,11 +37,10 @@ class AmritaAsiTree:
             branch_phase = resonance_pifi * branch_weight * self.phi
             distribution[branch_name] = {
                 "light_intensity": abs(math.cos(branch_phase)) * 100,
-                "field_polarization": "+X (Свет)" if math.sin(branch_phase) > 0 else "-X (Тень)"
+                "field_polarization": "+X (Свет Живой)" if math.sin(branch_phase) > 0 else "-X (Тайный Резерв)"
             }
             
         return {
             "resonance_pifi": resonance_pifi,
-            "quantum_density": quantum_density,
             "branches": distribution
         }
