@@ -1,112 +1,84 @@
-# amrita_solana_monitor.yml
+      - name: Run Integrated Solana Scanner
+        env:
+          HELIUS_API_KEY: ${{ secrets.HELIUS_API_KEY }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          SOLANA_TARGET_ADDRESS: ${{ secrets.SOLANA_TARGET_ADDRESS }}
+        run: |
+          cat << 'EOF' > inline_scanner.py
+          import os
+          import sys
+          import requests
 
-name: Amrita Solana Monitor
-on:
-  push:
-    branches:
-      - main
-  workflow_dispatch:
-jobs:
-  solana-rpc-scan:
-    runs-on: ubuntu-latest
+          def send_telegram_message(token, chat_id, text):
+              if not token or not chat_id:
+                  print("[INFO] Telegram token or chat_id is missing.")
+                  return
+              tg_url = f"https://telegram.org{token}/sendMessage"
+              payload = {"chat_id": chat_id, "text": text, "parse_mode": "Markdown"}
+              try:
+                  requests.post(tg_url, json=payload, timeout=10)
+              except Exception as e:
+                  print(f"[ERROR] Failed to send Telegram message: {e}")
 
-    steps:
-    - name: Checkout Code
-      uses: actions/checkout@v4
+          def run_scan():
+              api_key = os.environ.get("HELIUS_API_KEY")
+              tg_token = os.environ.get("TELEGRAM_BOT_TOKEN")
+              tg_chat = os.environ.get("TELEGRAM_CHAT_ID")
+              target_address = os.environ.get("SOLANA_TARGET_ADDRESS")
 
-    - name: Set up Python
-      uses: actions/setup-python@v5
-      with:
+              if not api_key:
+                  err_msg = "❌ [ERROR] HELIUS_API_KEY is missing."
+                  print(err_msg)
+                  send_telegram_message(tg_token, tg_chat, err_msg)
+                  sys.exit(1)
 
-        python-version: '3.10'
+              url = f"https://helius-rpc.com{api_key}"
+              
+              payload = {
+                  "jsonrpc": "2.0",
+                  "id": "amrita-scan-v2",
+                  "method": "getSignaturesForAddress",
+                  "params": [
+                      target_address,
+                      {"limit": 3}
+                  ]
+              }
+              
+              headers = {"Content-Type": "application/json"}
+              print(f"Scanning Solana address: {target_address}")
 
-    - name: Install Dependencies Cleanly
-      run: |
-        python -m pip install --upgrade pip
-        pip install --no-cache-dir requests
-    - name: Run Integrated Solana Scanner
-      env:
-        HELIUS_API_KEY: ${{ secrets.HELIUS_API_KEY }}
-        TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-        TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-        SOLANA_TARGET_ADDRESS: ${{ secrets.SOLANA_TARGET_ADDRESS }}
-      run: |
-        cat << 'EOF' > inline_scanner.py
-        import os
-        import sys
-        import requests
+              try:
+                  response = requests.post(url, json=payload, headers=headers, timeout=15)
+                  response.raise_for_status()
+                  data = response.json()
 
+                  if "result" in data:
+                      txs = data["result"]
+                      if not txs:
+                          send_telegram_message(tg_token, tg_chat, f"🔍 *Amrita Solana Monitor*\nAddress {target_address} has no recent transactions.")
+                          return
+                      
+                      report = f"🔍 *Amrita Solana Monitor*\nRecent transactions for {target_address}:\n"
+                      for i, tx in enumerate(txs):
+                          sig = tx.get("signature", "N/A")
+                          slot = tx.get("slot", "N/A")
+                          report += f"• *Tx #{i}* | Slot: {slot}\n`{sig}`\n"
+                      
+                      print(report)
+                      send_telegram_message(tg_token, tg_chat, report)
+                  else:
+                      err_rpc = "⚠️ RPC returned an error or unexpected structure."
+                      print(err_rpc, data)
+                      send_telegram_message(tg_token, tg_chat, f"{err_rpc}\n{str(data)[:200]}")
 
-        def send_telegram_message(token, chat_id, text):
-            if not token or not chat_id:
-                print("[INFO] Telegram token or chat_id missing, skipping alert.")
-                return
-            tg_url = f"https://telegram.org{token}/sendMessage"
-            payload = {"chat_id": chat_id, "text": text, "parse_mode": "Markdown"}
-            try:
-                requests.post(tg_url, json=payload, timeout=10)
-            except Exception as e:
-                print(f"[ERROR] Failed to send Telegram alert: {e}")
+              except Exception as error:
+                  err_fail = f"❌ RPC Request failed: {error}"
+                  print(err_fail)
+                  send_telegram_message(tg_token, tg_chat, err_fail)
+                  sys.exit(1)
 
-        def run_scan():
-            api_key = os.environ.get("HELIUS_API_KEY")
-            tg_token = os.environ.get("TELEGRAM_BOT_TOKEN")
-            tg_chat = os.environ.get("TELEGRAM_CHAT_ID")
-            target_address = os.environ.get("SOLANA_TARGET_ADDRESS", "J1toso1uCk3RLmjorhTthVwY9vK4WSS9A1s9RFRpatJ")
-
-            if not api_key:
-                err_msg = "❌ [ERROR] HELIUS_API_KEY is missing in GitHub Secrets!"
-
-                print(err_msg)
-                send_telegram_message(tg_token, tg_chat, err_msg)
-                sys.exit(1)
-
-            url = f"https://helius-rpc.com{api_key}"
-
-            payload = {
-                "jsonrpc": "2.0",
-                "id": "amrita-scan-v2",
-                "method": "getTransactionsForAddress",
-                "params": [
-                    target_address,
-                    {"limit": 3}
-                ]
-            }
-            
-            headers = {"Content-Type": "application/json"}
-            print(f"Scanning Solana address: {target_address}")
-            
-
-            try:
-                response = requests.post(url, json=payload, headers=headers, timeout=15)
-                response.raise_for_status()
-                data = response.json()
-
-                if "result" in data:
-                    txs = data["result"]
-                    report = f"🔍 *Amrita Solana Monitor Scan*\nAddress: `{target_address[:8]}...{target_address[-8:]}`\n✅ Status: Success! Found {len(txs)} transactions.\n\n"
-                    for i, tx in enumerate(txs, 1):
-                        sig = tx.get("signature", "unknown")
-                        slot = tx.get("slot", "unknown")
-                        report += f"🔹 *Tx #{i}* | Slot: {slot}\n🔗 [Solscan](https://solscan.io{sig})\n\n"
-                    print(report)
-                    send_telegram_message(tg_token, tg_chat, report)
-                else:
-                    err_rpc = f"⚠️ RPC returned empty result for address {target_address}"
-                    print(err_rpc, data)
-                    send_telegram_message(tg_token, tg_chat, err_rpc)
-
-
-            except Exception as error:
-                err_fail = f"❌ RPC Request failed: {error}"
-                print(err_fail)
-                send_telegram_message(tg_token, tg_chat, err_fail)
-                sys.exit(1)
-
-        if __name__ == "__main__":
-            run_scan()
-        EOF
-        
-        python inline_scanner.py
-
-
+          if __name__ == "__main__":
+              run_scan()
+          EOF
+          python inline_scanner.py
