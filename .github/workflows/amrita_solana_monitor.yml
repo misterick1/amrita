@@ -26,10 +26,10 @@ jobs:
         pip install requests
     - name: Run Integrated Solana Scanner
       env:
-        HELIUS_API_KEY: \${{ secrets.HELIUS_API_KEY }}
-        TELEGRAM_BOT_TOKEN: \${{ secrets.TELEGRAM_BOT_TOKEN }}
-        TELEGRAM_CHAT_ID: \${{ secrets.TELEGRAM_CHAT_ID }}
-        SOLANA_TARGET_ADDRESS: \${{ secrets.SOLANA_TARGET_ADDRESS }}
+        HELIUS_API_KEY: ${{ secrets.HELIUS_API_KEY }}
+        TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+        TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        SOLANA_TARGET_ADDRESS: ${{ secrets.SOLANA_TARGET_ADDRESS }}
       run: |
         cat << 'EOF' > inline_scanner.py
         import os
