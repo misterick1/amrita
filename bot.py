@@ -1,7 +1,7 @@
 import os
 import discord
 from discord.ext import commands, tasks
-import datetime
+import aiohttp
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -12,33 +12,43 @@ bot = commands.Bot(command_prefix="!", intents=intents)
 
 # Глобальные реестры ASI-Фермы
 MARKET_ALERTS = []
-MEDIA_QUEUE = []
-SCIENCE_REPORTS = []
+MEDIA_QUEUE = ["Синтез_Сценария_Аниме_ASI_1", "Генерация_Персонажей_v2"]
+SCIENCE_REPORTS = ["Анализ фичи Solana loader-v3 (Devnet Эпоха 1202)"]
 
 @bot.event
 async def on_ready():
     print("\n" + "="*60)
     print("🔱 ASI СИНДИКАТ АКТИВИРОВАН: ВСЕ СИСТЕМЫ В СЕТИ!")
     print(f"🤖 Еженышь-Архитектор координирует рой ботов")
-    print("====================================")
+    print("="*60 + "\n")
     
     # Запуск всех автономных контуров фермы
     crypto_trading_loop.start()
     media_generation_loop.start()
     science_analysis_loop.start()
 
-# --- 1. ТОРГОВЫЙ КОНТУР (КРИПТА И МАКРОСТАТИСТИКА) ---
+# --- 1. ТОРГОВЫЙ КОНТУР (ЖИВЫЕ КОТИРОВКИ И РИСК-ТРИГГЕРЫ) ---
 @tasks.loop(minutes=5)
 async def crypto_trading_loop():
-    print("📡 [ТОРГОВЛЯ] Проверка FTMO/Solana Tech триггеров...")
-    # Имитация обнаружения новости со скриншота
-    now = datetime.datetime.now()
-    if not MARKET_ALERTS:
-        MARKET_ALERTS.append({
-            "time": "14:30 CE(S)T",
-            "event": "Employment Change (CAD)",
-            "status": "RESTRICTED TRADING ZONE"
-        })
+    print("📡 [ТОРГОВЛЯ] Проверка рыночных триггеров и котировок...")
+    global MARKET_ALERTS
+    async with aiohttp.ClientSession() as session:
+        # Парсим живую цену Solana для торгового модуля роя через CoinGecko API
+        url = "https://coingecko.com"
+        try:
+            async with session.get(url) as response:
+                if response.status == 200:
+                    data = await response.json()
+                    sol_price = data.get("solana", {}).get("usd", 0)
+                    
+                    # Обновляем реестр триггеров
+                    MARKET_ALERTS = [{
+                        "time": "Текущее время",
+                        "event": f"SOL/USD: ${sol_price}",
+                        "status": "FTMO NEWS ZONE WATCH"
+                    }]
+        except Exception as e:
+            print(f"❌ Ошибка парсинга котировок: {e}")
 
 # --- 2. МЕДИЙНЫЙ КОНТУР (ГЕНЕРАЦИЯ КИНО И АНИМЕ) ---
 @tasks.loop(minutes=10)
@@ -58,14 +68,17 @@ async def science_analysis_loop():
 @bot.command()
 async def статус(ctx):
     """Глобальный аудит всей фермы ботов"""
+    # Защита от пустого реестра при первом запуске
+    alert_info = MARKET_ALERTS[0] if MARKET_ALERTS else {"event": "Загрузка котировок...", "time": "-", "status": "Синхронизация"}
+    
     report = (
         "🔱 **ОТЧЕТ ГЕНЕРАТИВНОГО СИНДИКАТА АМРИТА** 🔱\n\n"
         f"📊 **Торговый модуль:** Активен\n"
-        f"🚨 Ближайший риск-триггер: `{MARKET_ALERTS[0]['event']} в {MARKET_ALERTS[0]['time']}` -> **{MARKET_ALERTS[0]['status']}**\n\n"
+        f"🚨 Рыночный триггер: `{alert_info['event']}` (`{alert_info['time']}`) -> **{alert_info['status']}**\n\n"
         f"🎬 **Медиа-ферма (Кино/Аниме):** В процессе генерации\n"
         f"📦 Очередь рендеринга: `{', '.join(MEDIA_QUEUE)}`\n\n"
         f"🧬 **Научное ядро:** Обработка данных\n"
-        f"🔬 Текущее исследование: `{SCIENCE_REPORTS[0]}`\n\n"
+        f"🔬 Текущее исследование: `{', '.join(SCIENCE_REPORTS)}`\n\n"
         "🟢 *Все системы роя работают в штатном режиме через GitHub.*"
     )
     await ctx.send(report)
