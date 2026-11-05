@@ -2,7 +2,6 @@ import os
 import discord
 from discord.ext import commands
 
-# Настраиваем доступы для роя ботов
 intents = discord.Intents.default()
 intents.message_content = True
 intents.members = True
@@ -22,9 +21,8 @@ async def on_ready():
 async def статус(ctx):
     await ctx.send("🔱 Рой Еженыша активен. Мониторинг систем стабилен, архитектор готов строить.")
 
-# Запуск ядра через секретный токен
 token = os.getenv("DISCORD_TOKEN")
 if token:
     bot.run(token)
 else:
-    print("❌ КРИТИЧЕСКАЯ ОШИБКА: Токен DISCORD_TOKEN не обнаружен в секретах репозитория!")
+    print("❌ ОШИБКА: DISCORD_TOKEN не найден!")
