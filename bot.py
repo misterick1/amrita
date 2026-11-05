@@ -16,6 +16,12 @@ async def on_ready():
     print(f"🤖 Еженышь подключен как: {bot.user}")
     print("="*50)
     
+    # Ожидаем полную прогрузку внутреннего кэша серверов Discord
+    await bot.wait_until_ready()
+    
+    if not bot.guilds:
+        print("⚠️ Предупреждение: Кэш серверов пуст. Проверьте, добавлен ли бот на сервер!")
+    
     for guild in bot.guilds:
         print(f"📡 Анализ инфраструктуры сервера: {guild.name}")
         
@@ -50,6 +56,10 @@ async def on_ready():
                 break
             except Exception as e:
                 print(f"❌ Ошибка генерации вебхука в #{channel.name}: {e}")
+
+@bot.command()
+async def статус(ctx):
+    await ctx.send("🔱 Рой Еженыша активен. Архитектор на связи.")
 
 token = os.getenv("DISCORD_TOKEN")
 if token:
