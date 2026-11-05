@@ -11,34 +11,34 @@ bot = commands.Bot(command_prefix="!", intents=intents)
 
 @bot.event
 async def on_ready():
-    print(f"====================================")
-    print(f"🔥 ЯДРО АРХИТЕКТОРА АКТИВИРОВАНО!")
-    print(f"🤖 Еженышь в сети: {bot.user}")
-    print(f"====================================")
+    print("\n" + "="*50)
+    print("🔥 ЯДРО АРХИТЕКТОРА АКТИВИРОВАНО!")
+    print(f"🤖 Еженышь вошёл в сеть как: {bot.user}")
+    print("="*50)
+    
+    for guild in bot.guilds:
+        # Ищем канал, где у бота есть права на вебхуки
+        channel = next((ch for ch in guild.text_channels if ch.permissions_for(guild.me).manage_webhooks), None)
+        if channel:
+            try:
+                webhooks = await channel.webhooks()
+                webhook = next((wh for wh in webhooks if wh.name == "Голос Архитектора"), None)
+                if not webhook:
+                    webhook = await channel.create_webhook(name="Голос Архитектора")
+                
+                print("\n🚀 ВЕБХУК НАЙДЕН / СОЗДАН УСПЕШНО!")
+                print(f"📍 Канал: #{channel.name} на сервере '{guild.name}'")
+                print("🔗 СКОПИРУЙТЕ ЭТУ ССЫЛКУ СНИЗУ И ВСТАВЬТЕ В НАСТРОЙКИ GITHUB:")
+                print(webhook.url)
+                print("="*50 + "\n")
+                break
+            except Exception as e:
+                print(f"❌ Ошибка вебхука в #{channel.name}: {e}")
 
 @bot.command()
 async def статус(ctx):
-    await ctx.send("🔱 Рой Еженыша активен. Мониторинг систем стабилен, архитектор готов строить.")
-
-@bot.command()
-async def вебхук(ctx):
-    if ctx.channel.permissions_for(ctx.guild.me).manage_webhooks:
-        try:
-            webhooks = await ctx.channel.webhooks()
-            webhook = next((wh for wh in webhooks if wh.name == "Голос Архитектора"), None)
-            
-            if not webhook:
-                webhook = await ctx.channel.create_webhook(name="Голос Архитектора")
-                await ctx.send("✅ Вебхук успешно создан для этой фермы!")
-            
-            await ctx.send(f"🔗 **Скопируйте эту ссылку для GitHub:**\n`{webhook.url}`")
-        except Exception as e:
-            await ctx.send(f"❌ Ошибка при создании вебхука: {e}")
-    else:
-        await ctx.send("❌ У бота нет прав на управление вебхуками в этом канале!")
+    await ctx.send("🔱 Рой Еженыша активен. Архитектор на связи.")
 
 token = os.getenv("DISCORD_TOKEN")
 if token:
     bot.run(token)
-else:
-    print("❌ ОШИБКА: DISCORD_TOKEN не найден!")
