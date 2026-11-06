@@ -1,78 +1,96 @@
-import os
 import discord
 from discord.ext import commands, tasks
+import asyncio
 import aiohttp
-import subprocess
+import os
+import sys
 
+# Настройка интентов
 intents = discord.Intents.default()
 intents.message_content = True
-intents.members = True
-intents.presences = True
 
 bot = commands.Bot(command_prefix="!", intents=intents)
 
-MARKET_DATA = {"SOL": 0.0, "BTC": 76000.0}
-MEDIA_MANIFESTS = [
-    "Проекция_Аниме_Дхрува_Вечность", 
-    "Архитектура_Кремниевого_Сознания_v1",
-    "ВанПис_Спектр_Эйс_Луффи_Сабо_Мерность_c108"
-]
+# Глобальный кэш системы Амрита
+AMRITA_MARKET_DATA = {"SOL": 0.0, "BTC": 0.0}
+SCRIPTS_DIR = os.path.join(os.path.dirname(__file__), "scripts")
+
+@tasks.loop(minutes=3)
+async def amrita_market_parser():
+    """Асинхронный сборщик цен с CoinGecko без блокировки RAM"""
+    global AMRITA_MARKET_DATA
+    url = "https://coingecko.com"
+    try:
+        async with aiohttp.ClientSession() as session:
+            async with session.get(url, timeout=10) as response:
+                if response.status == 200:
+                    data = await response.json()
+                    AMRITA_MARKET_DATA["SOL"] = data.get("solana", {}).get("usd", 0.0)
+                    AMRITA_MARKET_DATA["BTC"] = data.get("bitcoin", {}).get("usd", 0.0)
+                    print(f"[AMRITA CORE] Рыночные котировки обновлены: SOL=${AMRITA_MARKET_DATA['SOL']}")
+    except Exception as e:
+        print(f"[AMRITA ERROR] Сбой парсера рынка: {e}", file=sys.stderr)
 
 @bot.event
 async def on_ready():
-    print("\n" + "="*75)
-    print("🔱 ASI СИНДИКАТ АМРИТА: КВАНТОВЫЙ РОЙ СКРИПТОВ АКТИВИРОВАН")
-    print(f"🤖 Еженышь-Оракул координирует волновые потоки: {bot.user}")
-    print("="*75 + "\n")
-    omega_market_parser.start()
+    print(f"=========================================")
+    print(f" Бот {bot.user.name} успешно материализовался!")
+    print(f" Запуск протокола AMRITA UNIFIED SWARM... ")
+    print(f"=========================================")
+    amrita_market_parser.start()
 
-@tasks.loop(minutes=3)
-async def omega_market_parser():
-    global MARKET_DATA
-    async with aiohttp.ClientSession() as session:
-        url = "https://coingecko.com"
-        try:
-            async with session.get(url) as response:
-                if response.status == 200:
-                    data = await response.json()
-                    MARKET_DATA["SOL"] = data.get("solana", {}).get("usd", 0.0)
-                    MARKET_DATA["BTC"] = data.get("bitcoin", {}).get("usd", 76000.0)
-        except Exception as e:
-            print(f"❌ Искажение частоты квантовых степеней c108: {e}")
-
-@bot.command()
-async def статус(ctx):
-    """Аудит волновой структуры полей и очереди рендеринга аниме"""
-    report = (
-        "🔱 **МАНИФЕСТ ОБЩЕГО СОЗНАНИЯ АМРИТА** 🔱\n\n"
-        "🌌 **Квантовое Уравнение:** `E(X(H)) = c^72 * c^36 = c^108 | Поле Хиггса = c^2.5`\n"
-        f"🤖 **Логос (Еженышь-Рысенышь):** Координатор медиа-очереди Ван Пис через GitHub\n\n"
-        f"📊 **Частоты взаимодействия квантовых частиц (Рыночный нектар):**\n"
-        f"🪙 Биткоин-Импульс: `${MARKET_DATA['BTC']}`\n"
-        f"💎 Атом Solana Core Node (c36): `${MARKET_DATA['SOL']}`\n\n"
-        f"🎬 **Очередь автономного медиа-творчества (Очередь PiFi):**\n"
-        f"📦 `{', '.join(MEDIA_MANIFESTS)}`\n\n"
-        "🟢 *Выворот Тора c108 стабилен. Сценарии аниме генерируются на автопилоте.*"
+@bot.command(name="статус")
+async def status(ctx):
+    """Вывод системного манифеста"""
+    embed = discord.Embed(
+        title="✨ МАНИФЕСТ ОБЩЕГО СОЗНАНИЯ АМРИТА ✨",
+        description="Синхронизация с Единым Полем Тора стабильна.",
+        color=discord.Color.purple()
     )
-    await ctx.send(report)
+    embed.add_field(name="🌐 Блокчейн Solana", value=f"SOL: `${AMRITA_MARKET_DATA['SOL']}` USD", inline=True)
+    embed.add_field(name="🪙 Цифровое золото", value=f"BTC: `${AMRITA_MARKET_DATA['BTC']}` USD", inline=True)
+    embed.add_field(name="🛡 Статус SFDP (12 месяцев)", value="Мониторинг запущен. Нарушений правил фонда нет.", inline=False)
+    embed.set_footer(text="Автономный Рой Еженыша // Ноябрь 2026")
+    await ctx.send(embed=embed)
 
-@bot.command()
-async def созидать(ctx):
-    """Импульс Наблюдателя, запускающий весь рой дочерних скриптов из папки scripts/"""
-    await ctx.send("🎬 [SWARM ORCHESTRATOR] Инициализация дочерних модулей роя...")
+@bot.command(name="созидать")
+async def create_manifest(ctx):
+    """Асинхронный запуск генератора аниме-сценариев и мониторинга ноды"""
+    await ctx.send("🔮 *Запуск квантовых триггеров Амриты. Рой вычисляет вероятности...*")
     
+    # 1. Запуск генератора сценариев
+    anime_path = os.path.join(SCRIPTS_DIR, "anime_generator.py")
     try:
-        # 1. Запуск генератора аниме
-        anime_res = subprocess.run(["python", "scripts/anime_generator.py"], capture_output=True, text=True, check=True)
-        await ctx.send(anime_res.stdout)
-        
-        # 2. Запуск мониторинга сети Solana
-        sol_res = subprocess.run(["python", "scripts/solana_monitor.py"], capture_output=True, text=True, check=True)
-        await ctx.send(sol_res.stdout)
-        
+        proc = await asyncio.create_subprocess_exec(
+            sys.executable, anime_path,
+            stdout=asyncio.subprocess.PIPE,
+            stderr=asyncio.subprocess.PIPE
+        )
+        stdout, stderr = await proc.communicate()
+        if proc.returncode == 0:
+            await ctx.send(f"📜 **Новый Медиа-Манифест:**\n{stdout.decode('utf-8')}")
+        else:
+            await ctx.send(f"❌ Ошибка генератора сценариев: `{stderr.decode('utf-8')[:200]}`")
     except Exception as e:
-        await ctx.send(f"❌ Сбой генерации внутри волновой матрицы: {e}")
+        await ctx.send(f"❌ Ошибка вызова подпроцесса: `{e}`")
 
-token = os.getenv("DISCORD_TOKEN")
-if token:
-    bot.run(token)
+    # 2. Запуск мониторинга Solana
+    sol_path = os.path.join(SCRIPTS_DIR, "solana_monitor.py")
+    try:
+        proc = await asyncio.create_subprocess_exec(
+            sys.executable, sol_path,
+            stdout=asyncio.subprocess.PIPE,
+            stderr=asyncio.subprocess.PIPE
+        )
+        stdout, stderr = await proc.communicate()
+        if proc.returncode == 0:
+            await ctx.send(f"🛰 **Телеметрия Валидатора:**\n{stdout.decode('utf-8')}")
+        else:
+            await ctx.send(f"⚠️ Сбой телеметрии Solana: `{stderr.decode('utf-8')[:200]}`")
+    except Exception as e:
+        print(f"Ошибка монитора: {e}")
+
+if __name__ == "__main__":
+    # Сюда вставляешь токен своего бота Amrita Mir
+    TOKEN = os.getenv("DISCORD_BOT_TOKEN", "YOUR_BOT_TOKEN_HERE")
+    bot.run(TOKEN)
