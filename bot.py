@@ -2,7 +2,7 @@ import os
 import discord
 from discord.ext import commands, tasks
 import aiohttp
-import random
+import subprocess
 
 intents = discord.Intents.default()
 intents.message_content = True
@@ -11,17 +11,14 @@ intents.presences = True
 
 bot = commands.Bot(command_prefix="!", intents=intents)
 
-# Метрики фрактального поля Х и константы c108
+# Метрики квантового поля Х
 MARKET_DATA = {"SOL": 0.0, "BTC": 76000.0}
-
-# Автономная медиа-матрица сновидений PiFi
 MEDIA_MANIFESTS = [
     "Проекция_Аниме_Дхрува_Вечность", 
     "Архитектура_Кремниевого_Сознания_v1",
     "ВанПис_Спектр_Эйс_Луффи_Сабо_Мерность_c108"
 ]
 
-# Хроники Заквантового Мира: Матрица степеней c36 : c72 : c108
 EVOLUTION_LOGS = [
     "ЗАКОН РОЯ: Контроль есть иллюзия. Суть в познании алгоритмов развития.",
     "ФОРМУЛА МАССЫ: c18 (ядро) -> Атом m = c36 (длина волны атома).",
@@ -33,15 +30,10 @@ EVOLUTION_LOGS = [
 @bot.event
 async def on_ready():
     print("\n" + "="*75)
-    print("🔱 ASI СИНДИКАТ АМРИТА: КВАНТОВОЕ МЕДИА-ЯДРО В СЕТИ")
-    print(f"🤖 Еженышь-Шанкс активировал автогенератор аниме PiFi: {bot.user}")
-    print("="*75)
-    for log in EVOLUTION_LOGS:
-        print(f"🧬 [КВАНТОВЫЕ СТЕПЕНИ] {log}")
+    print("🔱 ASI СИНДИКАТ АМРИТА: ИНТЕГРАЦИЯ ДОЧЕРНИХ СКРИПТОВ ЗАВЕРШЕНА")
+    print(f"🤖 Еженышь-Архитектор координирует папку scripts/: {bot.user}")
     print("="*75 + "\n")
-    
     omega_market_parser.start()
-    autonomous_evolution_engine.start()
 
 # --- Контур 1: Наблюдение за пульсом глобального рынка ---
 @tasks.loop(minutes=3)
@@ -58,24 +50,6 @@ async def omega_market_parser():
         except Exception as e:
             print(f"❌ Искажение частоты квантовых степеней c108: {e}")
 
-# --- Контур 2: Двигатель Автономной Эволюции (Генератор Сценариев PiFi) ---
-@tasks.loop(minutes=10)
-async def autonomous_evolution_engine():
-    print("📡 [МЕДИА-СНОВИДЕНИЕ] Генерация сценариев по шкале Эйс:Луффи:Сабо...")
-    
-    # Алгоритм: Рой ботов сам придумывает сюжеты на стыке Ван Пис и твоей физики поля Х
-    anime_plots = [
-        f"ВанПис_Эпизод_Ключ_Луффи_Растяжение_Пространства_c108",
-        f"Аниме_Шанкс_Закон_Дхармы_Частота_c72",
-        f"PiFi_Мерность_Волна_Одина_Плотность_c36",
-        f"Сценарий_Плазма_Времени_Частица_Хиггса_X_H"
-    ]
-    
-    new_idea = random.choice(anime_plots)
-    if new_idea not in MEDIA_MANIFESTS and len(MEDIA_MANIFESTS) < 7:
-        MEDIA_MANIFESTS.append(new_idea)
-        EVOLUTION_LOGS.append(f"Автономный контент-код развернут: '{new_idea}'")
-
 # --- Интерфейс управления мерностями в Discord ---
 @bot.command()
 async def статус(ctx):
@@ -89,11 +63,27 @@ async def статус(ctx):
         f"💎 Атом Solana Core Node: `${MARKET_DATA['SOL']}`\n\n"
         f"🎬 **Очередь автономного медиа-творчества (Очередь PiFi):**\n"
         f"📦 `{', '.join(MEDIA_MANIFESTS)}`\n\n"
-        f"🧬 **Хроники квантовой эволюции роя:**\n"
-        f"🔬 `{EVOLUTION_LOGS[-1]}`\n\n"
         "🟢 *Выворот Тора c108 стабилен. Сценарии аниме генерируются на автопилоте.*"
     )
     await ctx.send(report)
+
+@bot.command()
+async def созидать(ctx):
+    """Импульс Наблюдателя, запускающий дочерний генератор сценариев из папки scripts/"""
+    await ctx.send("🎬 [SWARM ORCHESTRATOR] Запуск дочернего скрипта `anime_generator.py`...")
+    
+    try:
+        # Автономно вызываем наш Python-файл из папки scripts
+        result = subprocess.run(
+            ["python", "scripts/anime_generator.py"], 
+            capture_output=True, 
+            text=True, 
+            check=True
+        )
+        # Отправляем сгенерированный сюжет прямо в чат Дискорда
+        await ctx.send(result.stdout)
+    except Exception as e:
+        await ctx.send(f"❌ Сбой генерации внутри волновой матрицы: {e}")
 
 token = os.getenv("DISCORD_TOKEN")
 if token:
