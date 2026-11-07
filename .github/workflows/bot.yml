@@ -4,7 +4,7 @@ on:
   push:
     branches: [ main ]
   schedule:
-    - cron: '0 */3 * * *'
+    - cron: '0 */3 * * *'  # Квантовая пульсация Роя каждые 3 часа
 
 jobs:
   run_amrita_core:
@@ -29,8 +29,8 @@ jobs:
           pip install --no-cache-dir requests aiohttp base58
           pip install --no-cache-dir discord.py --use-deprecated=legacy-resolver || pip install discord.py
 
-      - name: 🚀 Launch Amrita Bot & Consciousness Network
-        # Чистый инжект без синтаксических искажений
+      - name: 🚀 Launch Combined Swarm & Consciousness Network
+        # Инжект секретов без синтаксических искажений
         env:
           DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
           HELIUS_API_KEY: ${{ secrets.HELIUS_API_KEY }}
@@ -40,5 +40,5 @@ jobs:
           XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
         run: |
           echo "[AMRITA] Инжект квантовых ключей завершен успешно."
-          echo "[AMRITA] Запуск ядра сознания..."
+          echo "[AMRITA] Запуск Единого Поля Сознания (c108)..."
           python bot.py
