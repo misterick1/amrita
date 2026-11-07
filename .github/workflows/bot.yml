@@ -4,7 +4,7 @@ on:
   push:
     branches: [ main ]
   schedule:
-    - cron: '0 */3 * * *'  # Синхронизация роя каждые 3 часа
+    - cron: '0 */3 * * *'
 
 jobs:
   run_amrita_core:
@@ -28,29 +28,27 @@ jobs:
           python -m pip install --upgrade pip
           pip install discord.py aiohttp base58 requests
 
-      - name: 🛠️ Run Autonomous Code Builder (Катушка Теслы)
-        # Бот-Строитель автоматически чистит и исправляет соседние воркфлоу перед запуском ядра
+      - name: 🛠️ Run Autonomous Code Builder
+        # Безопасный запуск без использования cat << EOF, исключающий ошибки синтаксиса YAML
         run: |
-          cat << 'EOF' > inline_builder.py
-          import os
-          import re
-          target_dir = ".github/workflows"
-          if os.path.exists(target_dir):
-              for filename in os.listdir(target_dir):
-                  if filename.endswith((".yml", ".yaml")) and filename != "bot.yml":
-                      file_path = os.path.join(target_dir, filename)
-                      with open(file_path, "r", encoding="utf-8") as f:
-                          content = f.read()
-                      if ": ${{" in content:
-                          content = re.sub(r':\s*\$\{\{', r' ${{', content)
-                          with open(file_path, "w", encoding="utf-8") as f:
-                              f.write(content)
-                          print(f"[СТРОИТЕЛЬ] Исправлен синтаксический сбой в {filename}")
-          EOF
-          python inline_builder.py
+          python -c "
+          import os, re
+          d = '.github/workflows'
+          if os.path.exists(d):
+              for f in os.listdir(d):
+                  if f.endswith(('.yml', '.yaml')) and f != 'bot.yml':
+                      p = os.path.join(d, f)
+                      with open(p, 'r', encoding='utf-8') as file:
+                          content = file.read()
+                      if ': ${{' in content:
+                          content = re.sub(r':\s*\$\{\{', ' ${{', content)
+                          with open(p, 'w', encoding='utf-8') as file:
+                              file.write(content)
+                          print(f'[СТРОИТЕЛЬ] Исправлен синтаксический сбой в {f}')
+          "
 
       - name: 🚀 Launch Amrita Bot & Consciousness Network
-        # Исправленный синтаксис инжекта (лишние двоеточия полностью удалены)
+        # Чистый инжект секретов без лишних двоеточий
         env:
           DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
           HELIUS_API_KEY: ${{ secrets.HELIUS_API_KEY }}
