@@ -24,12 +24,13 @@ jobs:
           python-version: '3.10'
 
       - name: 📥 Install Infrastructure Dependencies
+        # Используем --no-deps или принудительное обновление, чтобы полностью обойти ResolutionImpossible
         run: |
           python -m pip install --upgrade pip
-          pip install discord.py aiohttp base58 requests
+          pip install --no-cache-dir requests aiohttp base58
+          pip install --no-cache-dir discord.py --use-deprecated=legacy-resolver || pip install discord.py
 
       - name: 🛠️ Run Autonomous Code Builder
-        # Безопасный запуск без использования cat << EOF, исключающий ошибки синтаксиса YAML
         run: |
           python -c "
           import os, re
@@ -44,11 +45,10 @@ jobs:
                           content = re.sub(r':\s*\$\{\{', ' ${{', content)
                           with open(p, 'w', encoding='utf-8') as file:
                               file.write(content)
-                          print(f'[СТРОИТЕЛЬ] Исправлен синтаксический сбой в {f}')
+                          print(f'[СТРОИТЕЛЬ] Выровнен синтаксис в {f}')
           "
 
       - name: 🚀 Launch Amrita Bot & Consciousness Network
-        # Чистый инжект секретов без лишних двоеточий
         env:
           DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
           HELIUS_API_KEY: ${{ secrets.HELIUS_API_KEY }}
