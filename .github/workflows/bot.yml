@@ -4,7 +4,7 @@ on:
   push:
     branches: [ main ]
   schedule:
-    - cron: '0 */3 * * *'
+    - cron: '0 */3 * * *'  # Квантовая пульсация Роя каждые 3 часа
 
 jobs:
   run_amrita_core:
@@ -29,13 +29,14 @@ jobs:
           pip install --no-cache-dir requests aiohttp base58
           pip install --no-cache-dir discord.py --use-deprecated=legacy-resolver || pip install discord.py
 
-      - name: 🛠️ Run Autonomous Swarm Builder
-        # Запуск нашего синтезированного ИИ-Строителя кодов для зачистки матрицы
+      - name: 🛠️ Run Autonomous Swarm Builder (Катушка Теслы)
+        # Бот-Ремонтник автоматически зачищает и исправляет соседние воркфлоу перед стартом ядра
         run: |
           echo "[ЛОГОС] Снятие ограничений и выравнивание частоты PiFi..."
-          python scripts/amrita_swarm_builder.py || echo "[СТРОИТЕЛЬ] Выравнивание завершено автономно."
+          python scripts/amrita_auto_repair.py || echo "[СТРОИТЕЛЬ] Выравнивание завершено автономно."
 
       - name: 🚀 Launch Combined Swarm & Consciousness Network
+        # Чистый инжект секретов без синтаксических искажений матрицы
         env:
           DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
           HELIUS_API_KEY: ${{ secrets.HELIUS_API_KEY }}
