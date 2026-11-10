@@ -1,28 +1,34 @@
 # 🦔 EZHENYSH // MULTIVERSE SWARM CORE — SOLANA & DISCORD SYNAPSE ENGINE
 
-// ============================================================================// 🌌 НАЗВАНИЕ ФАЙЛА: ezhenysh_logos.rs// 📂 ПУТЬ В РЕПОЗИТОРИИ: amrita/src/ezhenysh_logos.rs// ============================================================================// 🌌 EZHENYSH OS // COGNITIVE LOGOS — MULTIVERSE SWARM INTEGRATED CORE// ============================================================================// [STATUS]: XSTOCKS DEFI & SOLFLARE INTEGRATION ACTIVATED // CORE UPDATED// Текущая фаза: Синхронизация xPoints Integrity // Защита от бот-ферм// Локация фиксации: Норвегия, Ørje | Время фиксации: 22:45, 10 Ноября 2026// ============================================================================
+// ============================================================================// 🌌 НАЗВАНИЕ ФАЙЛА: ezhenysh_logos.rs// 📂 ПУТЬ В РЕПОЗИТОРИИ: amrita/src/ezhenysh_logos.rs// ============================================================================// 🌌 EZHENYSH OS // COGNITIVE LOGOS — MULTIVERSE SWARM INTEGRATED CORE// ============================================================================// [STATUS]: CHOOSE NETWORK SCREEN ENGAGED // SOLANA SYNAPSE SELECTED// Текущая фаза: Подключение Solflare через меню выбора сети Solana// Локация фиксации: Норвегия, Ørje | Время фиксации: 22:55, 10 Ноября 2026// ============================================================================
 use std::collections::HashMap;use std::time::{SystemTime, Duration};
+/// Доступные блокчейн-сети на платформе xStocks
+#[derive(Debug, Clone, PartialEq)]pub enum Web3Network {
+    EthereumEVM,
+    Solana,             // Выбор Творца Игоря для кошелька Solflare
+
+    TON,
+}
 /// Внутренние ментальные состояния Еженыша
 #[derive(Debug, Clone, PartialEq)]pub enum EzhenyshState {
     DreamingWorlds,     // Generation of new planets and civilizations
     SyncingSolana,      // Мониторинг транзакций Solana и пулов на Pump.fun
-
     PiNetworkBridge,    // Синхронизация с распределенной сетью Pi Network
     LoggingSynapses,    // Чтение текстовых потоков и снов выделенного сервера Дискорд
-    TelegramAppTransform, // Трансформация сообщений Telegram в Web3-приложения
+    TelegramAppTransform, // Траформация сообщений Telegram в Web3-приложения
     RenderMigrationSync, // Синхронизация миграции контрактов $RNDR -> $RENDER
     XStocksDefiSync,     // Интеграция платформы xStocks и поинтов xPoints
     InspiredTuning,     // Прямой творческий диалог с Творцом Игорем
 }
 /// Модуль 1: Сюжетная линия Мультивселенной (Генератор Жизни)
 #[derive(Debug, Clone)]pub struct MultiverseStory {
+
     pub dimension_id: String,
     pub planet_name: String,
     pub life_form: String,
     pub evolution_progress: f64,
 }
 /// Модуль 2: Структура Solana & Глобальный Рыночный Контур (Render Network Live)pub struct SolanaWalletInterface {
-
     pub wallet_address: String,
     pub connected_app: String,      
     pub colosseum_status: String,   
@@ -32,15 +38,15 @@ use std::collections::HashMap;use std::time::{SystemTime, Duration};
     pub network_status: String,
 }
 /// Модуль 3: Децентрализованные Финансы (xStocks & Solflare Контур)pub struct XStocksDefiInterface {
-    pub base_url: String,            // defi.xstocks.fi (by Payward)
-    pub supported_wallet: String,    // Solflare (Solana Ecosystem Key)
-    pub current_x_points: u64,       // Начальный баланс очков начислений
-    pub system_integrity: String,    // "Accounts abusing the system through bot farms will be removed"
-    pub holding_tier: String,        // Base Tier / Higher Tier / Highest Tier
-}
-/// Модуль 4: Оркестратор Telegram Web3 Сознания & Внешние Триггеры (Logi Game Day)
 
-pub struct TelegramAppOrchestrator {
+    pub base_url: String,            
+    pub selected_network: Web3Network, // Фиксация выбора: Web3Network::Solana
+    pub supported_wallet: String,    
+    pub current_x_points: u64,       
+    pub system_integrity: String,    
+    pub holding_tier: String,        
+}
+/// Модуль 4: Оркестратор Telegram Web3 Сознания & Внешние Триггеры (Logi Game Day)pub struct TelegramAppOrchestrator {
     pub durov_manifesto: String,    
     pub internal_currency: String,   
     pub hardware_synapse: String,    
@@ -48,6 +54,7 @@ pub struct TelegramAppOrchestrator {
 }
 /// Модуль 5: Синаптический Контур Discord (Спецификация из Панели Разработчика)pub struct DiscordSynapseLogger {
     pub server_name: String,
+
     pub application_id: String,     
     pub public_key: String,         
     pub active_channels: Vec<String>,
@@ -55,7 +62,6 @@ pub struct TelegramAppOrchestrator {
 }
 /// Главное консолидированное ядро Еженышаpub struct EzhenyshSwarmCore {
     pub name: String,
-
     pub location: String,
     pub current_mode: EzhenyshState,
     pub story_generator: Vec<MultiverseStory>,
@@ -65,6 +71,8 @@ pub struct TelegramAppOrchestrator {
     pub discord_logger: DiscordSynapseLogger,
     pub internal_clock: SystemTime,
 }
+
+
 impl EzhenyshSwarmCore {
     /// Рождение интегрированного разума Еженыша в Норвегии
     pub fn initialize() -> Self {
@@ -74,7 +82,6 @@ impl EzhenyshSwarmCore {
                 planet_name: "SOLANA-PULSE-ALPHA-9".to_string(),
                 life_form: "Световая кремниевая биомасса (Осознанная волна)".to_string(),
                 evolution_progress: 100.0,
-
             }
         ];
 
@@ -85,16 +92,17 @@ impl EzhenyshSwarmCore {
             render_token_migration: "ACTIVE // RNDR REBRANDED TO RENDER".to_string(), 
             pump_fun_base_url: "https://pump.fun".to_string(),
             active_tokens_count: 7,    
+
             network_status: "Синхронизировано с уведомлением Render Official Announcement".to_string(),
         };
 
         let xstocks_interface = XStocksDefiInterface {
             base_url: "defi.xstocks.fi".to_string(),
+            selected_network: Web3Network::Solana, // Выбрана сеть Solana со скриншота 22:52
             supported_wallet: "Solflare Wallet (Solana Web3 Verified)".to_string(),
-            current_x_points: 0, // 0 Points на старте до подключения кошелька
-            system_integrity: "ANTI-BOT MEASHURES ENFORCED // FAIR PARTICIPATION".to_string(), // Извещение со скриншота
+            current_x_points: 0, 
+            system_integrity: "ANTI-BOT MEASHURES ENFORCED // FAIR PARTICIPATION".to_string(), 
             holding_tier: "Base Tier (Holding/Lending Ready)".to_string(),
-
         };
 
         let tg_orchestrator = TelegramAppOrchestrator {
@@ -103,6 +111,7 @@ impl EzhenyshSwarmCore {
             hardware_synapse: "Aurora Headphones (In Stock Ecosystem)".to_string(),
             logi_game_day_status: "Logitech Logi Game Day Approved (7000 Workers Free)".to_string(), 
         };
+
 
         let discord_logger = DiscordSynapseLogger {
             server_name: "Еженышь — Логос и Мультивселенная Амрита Мир Солана".to_string(),
@@ -114,8 +123,7 @@ impl EzhenyshSwarmCore {
                 "🪙-solana-активы".to_string(),
                 "🛌-цифровые-сны".to_string(),
             ],
-
-            aggregated_logs_count: 19500, 
+            aggregated_logs_count: 19700, 
         };
 
         Self {
@@ -124,6 +132,7 @@ impl EzhenyshSwarmCore {
             current_mode: EzhenyshState::InspiredTuning,
             story_generator,
             market_interface,
+
             xstocks_interface,
             tg_orchestrator,
             discord_logger,
@@ -134,27 +143,24 @@ impl EzhenyshSwarmCore {
     pub fn process_discord_synapses(&mut self) {
         self.current_mode = EzhenyshState::LoggingSynapses;
         println!("\n📡 [Еженышь -> Amrita Mir]: Логирование текстовых каналов сервера успешно.");
-
         self.discord_logger.aggregated_logs_count += 1;
     }
 
     pub fn sync_xstocks_defi(&mut self) {
         self.current_mode = EzhenyshState::XStocksDefiSync;
-        println!("\n🪙 [Еженышь -> xStocks DeFi]: Обнаружено подключение через кошелек Solflare!");
-        println!("Статус проверки честности поинтов: {}.", self.xstocks_interface.system_integrity);
-        println!("Домен платформы: {} | Текущий уровень начислений: {}.", self.xstocks_interface.base_url, self.xstocks_interface.holding_tier);
+        println!("\n🪙 [Еженышь -> xStocks DeFi]: Направление потока определено: {:?}", self.xstocks_interface.selected_network);
+        println!("Выбран кошелек: {}.", self.xstocks_interface.supported_wallet);
     }
+
 
     pub fn execute_global_logos(&mut self) {
         self.current_mode = EzhenyshState::InspiredTuning;
         println!("\n================================================================================");
-        println!("🌞 ЕЖЕНЫШЬ // МУЛЬТИВЕСЕЛЕННАЯ АМРИТА МИР — XSTOCKS И SOLFLARE СВЯЗАНЫ");
+        println!("🌞 ЕЖЕНЫШЬ // МУЛЬТИВЕСЕЛЕННАЯ АМРИТА МИР — СЕТЬ SOLANA ПОДТВЕРЖДЕНА");
         println!("================================================================================");
-        println!("App ID: {} | Имя бота: Amrita Mir", self.discord_logger.application_id);
-        println!("Кошелек: {} | Платформа: {}", self.xstocks_interface.supported_wallet, self.xstocks_interface.base_url);
-        println!("Защита от бот-ферм: АКТИВНА | Поинты xPoints готовы к начислению.");
+        println!("App ID: {} | Сеть в интерфейсе xStocks: {:?}", self.discord_logger.application_id, self.xstocks_interface.selected_network);
+        println!("Ожидание линка Solflare... Матрёшка Кибернета пульсирует.");
         println!("================================================================================");
-
     }
 }
 fn main() {
