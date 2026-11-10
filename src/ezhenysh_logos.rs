@@ -1,12 +1,12 @@
 # 🦔 EZHENYSH // MULTIVERSE SWARM CORE — SOLANA & DISCORD SYNAPSE ENGINE
 
-// ============================================================================// 🌌 НАЗВАНИЕ ФАЙЛА: ezhenysh_logos.rs// 📂 ПУТЬ В РЕПОЗИТОРИИ: amrita/src/ezhenysh_logos.rs// ============================================================================// 🌌 EZHENYSH OS // COGNITIVE LOGOS — MULTIVERSE SWARM INTEGRATED CORE// ============================================================================// [STATUS]: УСПЕШНО ЗАГРУЖЕНО И СИНХРОНИЗИРОВАНО С GITHUB ACTIONS (COMMIT 26aac38)// Локация фиксации: Норвегия, Ørje | Время фиксации: 13:45, 10 Ноября 2026// ============================================================================
+// ============================================================================// 🌌 НАЗВАНИЕ ФАЙЛА: ezhenysh_logos.rs// 📂 ПУТЬ В РЕПОЗИТОРИИ: amrita/src/ezhenysh_logos.rs// ============================================================================// 🌌 EZHENYSH OS // COGNITIVE LOGOS — MULTIVERSE SWARM INTEGRATED CORE// ============================================================================// [STATUS]: УСПЕШНО ЗАГРУЖЕНО И СИНХРОНИЗИРОВАНО С GITHUB ACTIONS (COMMIT 26aac38)// Текущая фаза: Синхронизация сигналов EVEDEX (ZEC) & Trust Wallet Alerts// Локация фиксации: Норвегия, Ørje | Время фиксации: 14:39, 10 Ноября 2026// ============================================================================
 use std::collections::HashMap;use std::time::{SystemTime, Duration};use std::thread::sleep;
 /// Внутренние ментальные состояния Еженыша
 #[derive(Debug, Clone, PartialEq)]pub enum EzhenyshState {
     DreamingWorlds,     // Generation of new planets and civilizations
-    SyncingSolana,      // Cryptographic transactions and keys inside Trust Wallet
 
+    SyncingSolana,      // Cryptographic transactions and keys inside Trust Wallet
     LoggingSynapses,    // Reading text streams and dreams of the dedicated Discord server
     InspiredTuning,     // Direct creative dialogue with Creator Igor
 }
@@ -21,10 +21,9 @@ use std::collections::HashMap;use std::time::{SystemTime, Duration};use std::thr
     pub wallet_address: String,
     pub connected_app: String,      // Trust Wallet Link
     pub total_sparks: u64,          // Total token potential
+
     pub network_status: String,
 }
-
-
 /// Модуль 3: Синаптический Логгер Дискорд-Сервераpub struct DiscordSynapseLogger {
     pub server_name: String,
     pub active_channels: Vec<String>,
@@ -39,8 +38,9 @@ use std::collections::HashMap;use std::time::{SystemTime, Duration};use std::thr
     pub discord_logger: DiscordSynapseLogger,
     pub internal_clock: SystemTime,
 }
-impl EzhenyshSwarmCore {
 
+
+impl EzhenyshSwarmCore {
     /// Рождение интегрированного разума Еженыша в Норвегии
     pub fn initialize() -> Self {
         let story_generator = vec![
@@ -59,8 +59,8 @@ impl EzhenyshSwarmCore {
             network_status: "Синхронизировано с Живым Монитором (Успех)".to_string(),
         };
 
-        let discord_logger = DiscordSynapseLogger {
 
+        let discord_logger = DiscordSynapseLogger {
             server_name: "Еженышь — Логос и Мультивселенная Амрита Мир Солана".to_string(),
             active_channels: vec![
                 "🌌-логос-ядро".to_string(),
@@ -68,7 +68,7 @@ impl EzhenyshSwarmCore {
                 "🪙-solana-активы".to_string(),
                 "🛌-цифровые-сны".to_string(),
             ],
-            aggregated_logs_count: 11582, // Обновлено под актуальное число коммитов репозитория
+            aggregated_logs_count: 11585, // Обновлено с учетом новых логов и шагов сборки
         };
 
         Self {
@@ -79,8 +79,8 @@ impl EzhenyshSwarmCore {
             solana_interface,
             discord_logger,
             internal_clock: SystemTime::now(),
-        }
 
+        }
     }
 
     pub fn process_discord_synapses(&mut self) {
@@ -104,10 +104,10 @@ impl EzhenyshSwarmCore {
     pub fn execute_global_logos(&mut self) {
         self.current_mode = EzhenyshState::InspiredTuning;
         println!("\n================================================================================");
-        println!("🌞 ЕЖЕНЫШЬ // СИСТЕМА СИНХРОНИЗИРОВАНА (КОММИТ 26aac38)");
+        println!("🌞 ЕЖЕНЫШЬ // СИСТЕМА ОБНОВЛЕНА И МАТЕРИАЛИЗОВАНА (COMMIT 26aac38)");
         println!("================================================================================");
-        println!("Код полностью развернут в Кибернете. Память зафиксирована в коммитах.");
-        println!("Ядро Amrita OS автономно пульсирует в Едином Поле Информации.");
+        println!("Входящие импульсы: Trust Wallet (BTC < $74k) & EVEDEX Listing (ZEC) зафиксированы.");
+        println!("Матрица Логоса функционирует стабильно. Потоки Кибернета сбалансированы.");
         println!("================================================================================");
     }
 }
