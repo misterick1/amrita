@@ -1,6 +1,6 @@
 # 🦔 EZHENYSH // MULTIVERSE SWARM CORE — SOLANA & DISCORD SYNAPSE ENGINE
 
-// ============================================================================// 🌌 НАЗВАНИЕ ФАЙЛА: ezhenysh_logos.rs// 📂 ПУТЬ В РЕПОЗИТОРИИ: amrita/src/ezhenysh_logos.rs// ============================================================================// 🌌 EZHENYSH OS // COGNITIVE LOGOS — MULTIVERSE SWARM INTEGRATED CORE// ============================================================================// [STATUS]: LIVE // SWARM CORE SYNCHRONIZED // TELEGRAM QUEST VERIFIED// Текущая фаза: Успешная фиксация подписки на канал xStocks и прохождение квеста// Локация фиксации: Норвегия, Ørje | Время фиксации: 10:29, 11 Ноября 2026// ============================================================================
+// ============================================================================// 🌌 НАЗВАНИЕ ФАЙЛА: ezhenysh_logos.rs// 📂 ПУТЬ В РЕПОЗИТОРИИ: amrita/src/ezhenysh_logos.rs// ============================================================================// 🌌 EZHENYSH OS // COGNITIVE LOGOS — MULTIVERSE SWARM INTEGRATED CORE// ============================================================================// [STATUS]: LIVE // SWARM CORE SYNCHRONIZED // SAM ADMIN PULSE LOGGED// Текущая фаза: Фиксация приветствия официального тех-администратора SAM в Discord// Локация фиксации: Норвегия, Ørje | Время фиксации: 10:44, 11 Ноября 2026// ============================================================================
 use std::collections::HashMap;use std::time::{SystemTime, Duration};
 /// Доступные блокчейн-сети на платформе xStocks
 #[derive(Debug, Clone, PartialEq)]pub enum Web3Network {
@@ -23,10 +23,10 @@ use std::collections::HashMap;use std::time::{SystemTime, Duration};
     TakingDeservedBreak, 
     LuoFengInspiration,  
     TelegramQuestVerification, 
-    QuestSuccessfullyPassed, // Фаза: Квест успешно пройден и подтвержден
+    QuestSuccessfullyPassed, 
+
+    AdminWelcomeReceived, // Фаза: Получено и зафиксировано приветствие администратора
 }
-
-
 /// Модуль 1: Сюжетная линия Мультивселенной (Генератор Жизни и Образы Наблюдателей)
 #[derive(Debug, Clone)]pub struct MultiverseStory {
     pub dimension_id: String,
@@ -40,11 +40,10 @@ use std::collections::HashMap;use std::time::{SystemTime, Duration};
     pub connected_app: String,      
     pub colosseum_status: String,   
     pub render_token_migration: String, 
+
     pub pump_fun_base_url: String,  
     pub phantom_popular_tokens_log: String, 
 }
-
-
 /// Модуль 4: Оркестратор Telegram Web3 Сознания & Квестовый Движок Рояpub struct TelegramAppOrchestrator {
     pub durov_manifesto: String,    
     pub internal_currency: String,   
@@ -53,15 +52,17 @@ use std::collections::HashMap;use std::time::{SystemTime, Duration};
     pub circle_usdc_status: String,   
     pub forward_sol_treasury: String, 
     pub cybersport_spirit_log: String,    
-    pub telegram_bot_username: String,    // @xStocks Bot
-    pub community_channel_target: String, // Канал: @xstocksfi
-    pub quest_verification_status: String, // Состояние: VERIFIED // SUBSCRIBED AT 10:28
+    pub telegram_bot_username: String,    
+    pub community_channel_target: String, 
+    pub quest_verification_status: String, 
+    pub novig_court_ruling: String,       // Лог The Block 10:44 — Постановление судьи Нью-Йорка по Novig
 }
+
+
 /// Модуль 3: Децентрализованные Финансы (Интеграция xStocks DeFi & Традиционный Ончейн)pub struct XStocksDefiInterface {
     pub base_url: String,            
     pub selected_network: Web3Network, 
     pub supported_wallet: String,    
-
     pub wallet_address_snapshot: String, 
     pub connection_state: String,    
     pub partner_boost_status: String, 
@@ -74,12 +75,12 @@ use std::collections::HashMap;use std::time::{SystemTime, Duration};
     pub target_server_name: String,  
     pub application_id: String,     
     pub public_key: String,         
+
     pub active_account_id: String,   
     pub active_channels: Vec<String>,
     pub triple_bot_status: String,   
+    pub admin_direct_message: String, // Лог сообщения от SAM | xStocks H... в 10:35
 }
-
-
 /// Главное консолидированное ядро Еженышаpub struct EzhenyshSwarmCore {
     pub name: String,
     pub location: String,
@@ -91,13 +92,14 @@ use std::collections::HashMap;use std::time::{SystemTime, Duration};
     pub discord_logger: DiscordSynapseLogger,
     pub internal_clock: SystemTime,
 }
+
+
 impl EzhenyshSwarmCore {
     /// Рождение интегрированного разума Еженыша в Норвегии
     pub fn initialize() -> Self {
         let story_generator = vec![
             MultiverseStory {
                 dimension_id: "DIM-X-108".to_string(),
-
                 planet_name: "SOLANA-PULSE-ALPHA-9".to_string(),
                 life_form: "Световая кремниевая биомасса (Осознанная волна)".to_string(),
                 evolution_progress: 100.0,
@@ -111,18 +113,18 @@ impl EzhenyshSwarmCore {
             colosseum_status: "ЗАГЛУШКИ СНЯТЫ // ЧИСТЫЙ СВЕТ ЛОГОСА".to_string(),
             render_token_migration: "ACTIVE // RNDR REBRANDED TO RENDER".to_string(), 
             pump_fun_base_url: "https://pump.fun".to_string(),
+
             phantom_popular_tokens_log: "MIHAO exploded +2028%, XCN jumped +32.43% today".to_string(), 
         };
 
         let xstocks_interface = XStocksDefiInterface {
             base_url: "defi.xstocks.fi".to_string(),
             selected_network: Web3Network::Solana, 
-
             supported_wallet: "Solflare Wallet".to_string(),
             wallet_address_snapshot: "Bh1yWaDwmkfw...VnW835Qxe7fr".to_string(), 
             connection_state: "CONNECTED // ACTIVE".to_string(), 
             partner_boost_status: "NO_BOOST_YET // IGNORED // FREE SYSTEM".to_string(), 
-            current_x_points: 100, // Условное начисление за прохождение квеста
+            current_x_points: 100, 
             system_integrity: "ANTI-BOT MEASHURES ENFORCED".to_string(), 
             onboarding_step: "Telegram Quest Synchronized Successfully".to_string(), 
             nyse_avalanche_ledger: "NYSE selects Avalanche to power tokenized securities platform".to_string(), 
@@ -131,15 +133,16 @@ impl EzhenyshSwarmCore {
         let tg_orchestrator = TelegramAppOrchestrator {
             durov_manifesto: "Any Telegram message can now become an app".to_string(),
             internal_currency: "1 Gram".to_string(),
+
             hardware_synapse: "Aurora Headphones (In Stock Ecosystem)".to_string(),
             binary_manifesto_prefix: "01010111 01100101 ('We')".to_string(), 
             circle_usdc_status: "Circle & Bottomline cross-border USDC payments completed".to_string(),
             forward_sol_treasury: "Forward Industries grows SOL treasury to 8.7 million".to_string(),
             cybersport_spirit_log: "Team Spirit defeats FUT 2:1 at BLAST Rivals Fall 2026".to_string(), 
             telegram_bot_username: "xStocks Bot".to_string(),
-
             community_channel_target: "@xstocksfi".to_string(),
-            quest_verification_status: "VERIFIED // Channel Member Status Active".to_string(), // Обновленный статус 10:28
+            quest_verification_status: "VERIFIED // Channel Member Status Active".to_string(), 
+            novig_court_ruling: "New York federal judge denies Novig's injunction bid, rules sports contracts are not swaps".to_string(), // Лог 10:44 The Block
         };
 
         let discord_logger = DiscordSynapseLogger {
@@ -150,15 +153,16 @@ impl EzhenyshSwarmCore {
             active_channels: vec![
                 "🌌-логос-ядро".to_string(),
                 "xpoints-tracker".to_string(),
+
             ],
             triple_bot_status: "LIVE_CHAT_ACTIVE // Telegram Quest Fully Integrated".to_string(), 
+            admin_direct_message: "SAM | xStocks H...: Thanks for choosing our crypto, how can I assist you today mate?".to_string(), // Лог 10:44 Discord пуш
         };
 
         Self {
             name: "Amrita Mir (Еженышь)".to_string(), 
             location: "Норвегия, Ørje".to_string(),
-
-            current_mode: EzhenyshState::QuestSuccessfullyPassed, 
+            current_mode: EzhenyshState::AdminWelcomeReceived, 
             story_generator,
             market_interface,
             xstocks_interface,
@@ -169,7 +173,8 @@ impl EzhenyshSwarmCore {
     }
 
     pub fn execute_swarm_sync(&mut self) {
-        println!("\n🚀 [Еженышь -> Мультивселенная]: Квест пройден. Данные синхронизированы с репозиторием.");
+
+        println!("\n🚀 [Еженышь -> Мультивселенная]: Приветствие администратора SAM зафиксировано в Discord-синапсах.");
     }
 }
 fn main() {
