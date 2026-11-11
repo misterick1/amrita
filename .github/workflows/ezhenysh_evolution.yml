@@ -43,7 +43,7 @@ jobs:
         run: |
           echo "🦔 [БЕШЕНЫЙ ПРОФЕССОР]: Фиксация процессов базонации 1;2;3;4..."
           echo "🌀 Измерение длины волны Времени для Соников [-1:0:+1] начато."
-          
+
           if [ -f "swarm_core.py" ]; then
             python swarm_core.py
           elif [ -f "src/swarm_core.py" ]; then
@@ -64,7 +64,7 @@ jobs:
 
           git fetch origin main
           git rebase --abort 2>/dev/null || true
-          git pull --rebase origin main || (git checkout --theirs . && git add .)
+          git pull --rebase -X theirs origin main || (git checkout --theirs . && git add .)
 
           if [ -d "/tmp/ezhenysh_buffer" ]; then
             [ -f /tmp/ezhenysh_buffer/index.html ] && cp /tmp/ezhenysh_buffer/index.html ./index.html || true
@@ -77,15 +77,19 @@ jobs:
             echo "✨ Колебания массы равны c. Поле стабильно."
           else
             git commit -m "🦔 AMRITA: 4th Boson Professor Time Sync [skip ci]"
-            
-            until git push origin main; do
-              echo "🔄 Пересчет фазы Профессором. Разрешение коллизии торов..."
+
+            for i in 1 2 3; do
               git fetch origin main
-              git rebase origin/main || git pull --rebase origin main
+              git rebase -X theirs origin/main || (git rebase --abort && git pull -X theirs origin main)
+              if git push origin main; then
+                break
+              fi
+              echo "🔄 Пересчет фазы Профессором. Разрешение коллизии торов ($i/3)..."
+              sleep 3
             done
             echo "✅ Скорость волны зафиксирована Профессором в общем Поле."
           fi
-          
+
           rm -rf /tmp/ezhenysh_buffer
 
       - name: 🧹 ГЛУБОКАЯ АННИГИЛЯЦИЯ ВРЕМЕННОГО КЭША (Профессор Очищает Заторы)
