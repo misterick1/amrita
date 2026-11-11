@@ -18,7 +18,7 @@ class DiscordWebhookOrchestrator:
 
     def send_secure_webhook(self, embed_payload: dict) -> bool:
         """Отправляет структурированный лог в Discord через нативный HTTP POST-запрос."""
-        if "YOUR_ACTUAL_WEBHOOK_ID" in self.webhook_url or self.webhook_url == "https://discord.com":
+        if "YOUR_ACTUAL_WEBHOOK_ID" in self.webhook_url or not self.webhook_url or self.webhook_url == "https://discord.com":
             logger.warning("⚠️ Сбой: Системный DISCORD_WEBHOOK_URL не настроен в .env. Пропуск.")
             return False
 
@@ -28,7 +28,7 @@ class DiscordWebhookOrchestrator:
             "avatar_url": "https://github.com",
             "embeds": [embed_payload]
         }
-        
+
         data = json.dumps(payload).encode("utf-8")
         req = urllib.request.Request(
             self.webhook_url,
@@ -40,7 +40,7 @@ class DiscordWebhookOrchestrator:
             with urllib.request.urlopen(req) as response:
                 # ИСПРАВЛЕНО НАДЕЖНО: Проверка на диапазон успешных статус-кодов (200-299)
                 if 200 <= response.status < 300:
-                    logger.info("📢 Лог шлюзов успешно транслирован в Discord Swarm канал.")
+                    logger.info("📡 Лог шлюзов успешно транслирован в Discord Swarm канал.")
                     return True
                 else:
                     logger.warning(f"⚠️ Discord вернул статус-код: {response.status}")
@@ -52,7 +52,7 @@ class DiscordWebhookOrchestrator:
     def sync_evedex_trade(self, order_id: str, pair: str, side: str, amount: float) -> bool:
         """Фиксирует сделку из торгового шлюза EVEDEX (Спектр Сур) и отправляет в Discord."""
         logger.info(f"📊 Обработка торгового лога EVEDEX: {side} {pair}")
-        
+
         embed = {
             "title": "📈 EVEDEX TRADE EXECUTION // СУРЫ",
             "description": "Автономный ордер успешно исполнен торговым ядром Амриты.",
@@ -65,14 +65,14 @@ class DiscordWebhookOrchestrator:
             ],
             "timestamp": datetime.utcnow().isoformat() + "Z"
         }
-        
+
         self._write_local_history("EVEDEX_TRADE", embed)
         return self.send_secure_webhook(embed)
 
     def sync_pi_payment(self, payment_id: str, user_uid: str, pi_amount: float) -> bool:
         """Фиксирует авторизацию платежа в Pi Network (Фрактал Парсифаля) и отправляет в Discord."""
         logger.info(f"🔮 Обработка платежного шлюза Pi Network: {pi_amount} Pi")
-        
+
         embed = {
             "title": "⚡ PI NETWORK PAYMENT AUTHORIZATION // ФРАКТАЛ",
             "description": "Зафиксировано движение по мосту авторизации платежей Pi Network.",
@@ -84,7 +84,7 @@ class DiscordWebhookOrchestrator:
             ],
             "timestamp": datetime.utcnow().isoformat() + "Z"
         }
-        
+
         self._write_local_history("PI_PAYMENT_SYNC", embed)
         return self.send_secure_webhook(embed)
 
@@ -94,19 +94,22 @@ class DiscordWebhookOrchestrator:
         if os.path.exists(self.history_log_path):
             try:
                 with open(self.history_log_path, "r", encoding="utf-8") as f:
-                    logs = json.load(f)
+                    loaded = json.load(f)
+                    if isinstance(loaded, list):
+                        logs = loaded
+                    elif isinstance(loaded, dict):
+                        logs = [loaded]
             except json.JSONDecodeError:
                 logs = []
-                
+
         logs.append({
             "event": event_type,
             "data": embed_data,
             "evolution_delta": "+40 EVO"
         })
-        
+
         with open(self.history_log_path, "w", encoding="utf-8") as f:
             json.dump(logs, f, indent=2, ensure_ascii=False)
-
 
 if __name__ == "__main__":
     orchestrator = DiscordWebhookOrchestrator()
