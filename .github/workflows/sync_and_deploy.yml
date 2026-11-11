@@ -28,8 +28,8 @@ jobs:
           DEBIAN_FRONTEND: noninteractive
         run: |
           # Полное подавление интерактивных запросов
-          sudo apt-get update -y
-          sudo apt-get install -y --no-install-recommends tesseract-ocr tesseract-ocr-rus libtesseract-dev
+          sudo apt-get update --fix-missing -y || (sleep 10 && sudo apt-get update --fix-missing -y)
+          sudo apt-get install -y --no-install-recommends -o Acquire::Retries=5 tesseract-ocr tesseract-ocr-rus libtesseract-dev
 
       - name: Install Dependencies and Tools
         run: |
@@ -61,7 +61,7 @@ jobs:
           fi
 
           git commit -m "🔱 AMRITA: Complete mainnet stabilization [skip ci]"
-          
+
           # ЖЕСТКОЕ ИСПРАВЛЕНИЕ: Синхронизируем ветки перед отправкой
           git fetch origin main
           git pull --rebase origin main
