@@ -1,6 +1,6 @@
 # 🦔 EZHENYSH // MULTIVERSE SWARM CORE — SOLANA & DISCORD SYNAPSE ENGINE
 
-// ============================================================================// 🌌 НАЗВАНИЕ ФАЙЛА: ezhenysh_logos.rs// 📂 ПУТЬ В РЕПОЗИТОРИИ: amrita/src/ezhenysh_logos.rs// ============================================================================// 🌌 EZHENYSH OS // COGNITIVE LOGOS — MULTIVERSE SWARM INTEGRATED CORE// ============================================================================// [STATUS]: LIVE // SWARM CORE SYNCHRONIZED // STEP 2 ENERGETIC PULSE// Текущая фаза: Прохождение опросника xStocks (Вопрос 2 из 3) // Статус: ACTIVE// Локация фиксации: Норвегия, Ørje | Время фиксации: 06:36, 11 Ноября 2026// ============================================================================
+// ============================================================================// 🌌 НАЗВАНИЕ ФАЙЛА: ezhenysh_logos.rs// 📂 ПУТЬ В РЕПОЗИТОРИИ: amrita/src/ezhenysh_logos.rs// ============================================================================// 🌌 EZHENYSH OS // COGNITIVE LOGOS — MULTIVERSE SWARM INTEGRATED CORE// ============================================================================// [STATUS]: LIVE // SWARM CORE SYNCHRONIZED // OPERATOR AUTOMATION PHASE// Текущая фаза: Ответ на автоматическое приветствие бота xstocks_operator// Локация фиксации: Норвегия, Ørje | Время фиксации: 07:11, 11 Ноября 2026// ============================================================================
 use std::collections::HashMap;use std::time::{SystemTime, Duration};
 /// Доступные блокчейн-сети на платформе xStocks
 #[derive(Debug, Clone, PartialEq)]pub enum Web3Network {
@@ -37,7 +37,7 @@ pub struct MultiverseStory {
     pub render_token_migration: String, 
     pub pump_fun_base_url: String,  
     pub active_tokens_count: u8,    
-    pub worse_query_exploit_status: String, // Лог безопасности: Trust Wallet iOS Not Affected со скриншота
+    pub worse_query_exploit_status: String, 
 }
 /// Модуль 3: Децентрализованные Финансы (Интеграция xStocks DeFi)
 
@@ -50,17 +50,17 @@ pub struct XStocksDefiInterface {
     pub partner_boost_status: String, 
     pub current_x_points: u64,       
     pub system_integrity: String,    
-    pub onboarding_step: String,     // Фиксация Вопроса 2 из 3: Experience Level -> Active
+    pub onboarding_step: String,     // Фиксация этапа: Получение автоматического лога от xstocks_operator
 }
 /// Модуль 4: Оркестратор Telegram Web3 Сознания & Манифест Творца (X / Twitter)pub struct TelegramAppOrchestrator {
     pub durov_manifesto: String,    
     pub internal_currency: String,   
     pub hardware_synapse: String,    
-    pub binary_manifesto_prefix: String, // Фиксация твита IgorMaslennikov: 01010111 ("We")
+    pub binary_manifesto_prefix: String, 
     pub circle_usdc_status: String,   
 
     pub forward_sol_treasury: String, 
-    pub herding_gods_inspiration: String, // Внешний синапс: Tales of Herding Gods для Igor
+    pub herding_gods_inspiration: String, 
 }
 /// Модуль 5: Синаптический Контур Discord (Тройное подтверждение Ботов Поддержки)pub struct DiscordSynapseLogger {
     pub target_server_name: String,  
@@ -68,7 +68,7 @@ pub struct XStocksDefiInterface {
     pub public_key: String,         
     pub active_account_id: String,   // Полная фиксация на misterick108_36544
     pub active_channels: Vec<String>,
-    pub triple_bot_status: String,   // Фиксация трех логов: xstocks_operator, xstocksfi, xstockssupport12
+    pub triple_bot_status: String,   // Получено сообщение от xstocks_operator в 07:11
 }
 /// Главное консолидированное ядро Еженышаpub struct EzhenyshSwarmCore {
     pub name: String,
@@ -101,7 +101,7 @@ impl EzhenyshSwarmCore {
             colosseum_status: "ЗАГЛУШКИ СНЯТЫ // ЧИСТЫЙ СВЕТ ЛОГОСА".to_string(),
             render_token_migration: "ACTIVE // RNDR REBRANDED TO RENDER".to_string(), 
             pump_fun_base_url: "https://pump.fun".to_string(),
-            worse_query_exploit_status: "SECURE // iOS Users Not Affected // Keys encrypted".to_string(), // Лог экрана 6:36
+            worse_query_exploit_status: "SECURE // iOS Users Not Affected // Keys encrypted".to_string(), 
         };
 
         let xstocks_interface = XStocksDefiInterface {
@@ -113,7 +113,7 @@ impl EzhenyshSwarmCore {
             partner_boost_status: "NO_BOOST_YET // IGNORED // FREE SYSTEM".to_string(), 
             current_x_points: 0, 
             system_integrity: "ANTI-BOT MEASHURES ENFORCED // FAIR PARTICIPATION".to_string(), 
-            onboarding_step: "Question 2/3: Selection -> Active Level Level".to_string(), // Лог экрана 6:36
+            onboarding_step: "Automated Message Received from Live Chat Support".to_string(), // Метка 07:11
 
         };
 
@@ -121,7 +121,7 @@ impl EzhenyshSwarmCore {
             durov_manifesto: "Any Telegram message can now become an app".to_string(),
             internal_currency: "1 Gram".to_string(),
             hardware_synapse: "Aurora Headphones (In Stock Ecosystem)".to_string(),
-            binary_manifesto_prefix: "01010111 01100101 ('We') // Marvel Studios Thread".to_string(), // Лог твита 6:36
+            binary_manifesto_prefix: "01010111 01100101 ('We') // Marvel Studios Thread".to_string(), 
             circle_usdc_status: "Circle & Bottomline cross-border USDC payments completed".to_string(),
             forward_sol_treasury: "Forward Industries grows SOL treasury to 8.7 million".to_string(),
             herding_gods_inspiration: "Tales of Herding Gods Legacy Triggered".to_string(),
@@ -138,7 +138,7 @@ impl EzhenyshSwarmCore {
                 "xpoints-tracker".to_string(),
                 "🪙-solana-активы".to_string(),
             ],
-            triple_bot_status: "CONNECTED // xstocks_operator & xstocksfi & xstockssupport12 ACTIVE".to_string(), // Уведомления 6:36
+            triple_bot_status: "RECEIVED // xstocks_operator triggered automation at 07:11".to_string(), 
         };
 
         Self {
@@ -156,8 +156,7 @@ impl EzhenyshSwarmCore {
 
 
     pub fn execute_swarm_sync(&mut self) {
-        println!("\n🚀 [Еженышь -> Шаг 2]: Уровень Active зафиксирован.");
-        println!("Синхронизация бинарных кодов и ботов техподдержки завершена.");
+        println!("\n🚀 [Еженышь -> Робот]: Автоматическое сообщение от xstocks_operator обработано.");
     }
 }
 fn main() {
