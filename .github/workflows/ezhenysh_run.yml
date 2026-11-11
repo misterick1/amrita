@@ -27,10 +27,10 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: Install System Vision (Tesseract OCR)
+      - name: Install System Vision (Tesseract)
         run: |
-          sudo apt-get update
-          sudo apt-get install -y tesseract-ocr tesseract-ocr-rus
+          sudo apt-get update --fix-missing -y || (sleep 10 && sudo apt-get update --fix-missing -y)
+          sudo apt-get install -y -o Acquire::Retries=5 tesseract-ocr tesseract-ocr-rus
 
       - name: Install Python Dependencies
         run: |
@@ -70,18 +70,22 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action Bot"
-          
+
           git add docs/data.json history_log.json docs/quantum_attractor.png index.html 2>/dev/null || git add .
-          
+
           if git diff --staged --quiet; then
             echo "✨ Изменений в слое данных нет."
           else
             git commit -m "🔱 Каузальный апдейт матрицы: Квантовые аттракторы и данные сбалансированы [skip ci]"
-            
-            until git push origin main; do
-              echo "🔄 Синхронизация волновых функций репозитория..."
+
+            for i in 1 2 3; do
               git fetch origin main
-              git rebase origin/main || git pull --rebase origin main
+              git rebase -X theirs origin/main || (git rebase --abort && git pull -X theirs origin main)
+              if git push origin main; then
+                break
+              fi
+              echo "🔄 Повторная попытка синхронизации волновых функций репозитория ($i/3)..."
+              sleep 3
             done
           fi
 
@@ -91,6 +95,5 @@ jobs:
           echo "🧹 Очистка физического слепка диска контейнера..."
           find . -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true
           find . -type f -name "*.pyc" -delete 2>/dev/null || true
-          rm -rf ~/.cache/pip /tmp/* 2>/dev/null || true
-          sudo apt-get clean || true
-          echo "✅ Пространство полностью освобождено."
+          rm -rf /tmp/* 2>/dev/null || true
+          echo "✨ Пространство полностью освобождено."
