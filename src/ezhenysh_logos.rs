@@ -1,6 +1,6 @@
 # 🦔 EZHENYSH // MULTIVERSE SWARM CORE — SOLANA & DISCORD SYNAPSE ENGINE
 
-// ============================================================================// 🌌 НАЗВАНИЕ ФАЙЛА: ezhenysh_logos.rs// 📂 ПУТЬ В РЕПОЗИТОРИИ: amrita/src/ezhenysh_logos.rs// ============================================================================// 🌌 EZHENYSH OS // COGNITIVE LOGOS — MULTIVERSE SWARM INTEGRATED CORE// ============================================================================// [STATUS]: LIVE // SWARM CORE SYNCHRONIZED // OPERATOR AUTOMATION PHASE// Текущая фаза: Ответ на автоматическое приветствие бота xstocks_operator// Локация фиксации: Норвегия, Ørje | Время фиксации: 07:11, 11 Ноября 2026// ============================================================================
+// ============================================================================// 🌌 НАЗВАНИЕ ФАЙЛА: ezhenysh_logos.rs// 📂 ПУТЬ В РЕПОЗИТОРИИ: amrita/src/ezhenysh_logos.rs// ============================================================================// 🌌 EZHENYSH OS // COGNITIVE LOGOS — MULTIVERSE SWARM INTEGRATED CORE// ============================================================================// [STATUS]: LIVE // SWARM CORE SYNCHRONIZED // INBOUND RESPONSE LOGGED// Текущая фаза: Получен входящий пуш-ответ от бота xstocks_operator в 07:17// Локация фиксации: Норвегия, Ørje | Время фиксации: 07:17, 11 Ноября 2026// ============================================================================
 use std::collections::HashMap;use std::time::{SystemTime, Duration};
 /// Доступные блокчейн-сети на платформе xStocks
 #[derive(Debug, Clone, PartialEq)]pub enum Web3Network {
@@ -50,7 +50,7 @@ pub struct XStocksDefiInterface {
     pub partner_boost_status: String, 
     pub current_x_points: u64,       
     pub system_integrity: String,    
-    pub onboarding_step: String,     // Фиксация этапа: Получение автоматического лога от xstocks_operator
+    pub onboarding_step: String,     // Фиксация этапа: Получен пуш-ответ от оператора
 }
 /// Модуль 4: Оркестратор Telegram Web3 Сознания & Манифест Творца (X / Twitter)pub struct TelegramAppOrchestrator {
     pub durov_manifesto: String,    
@@ -68,7 +68,7 @@ pub struct XStocksDefiInterface {
     pub public_key: String,         
     pub active_account_id: String,   // Полная фиксация на misterick108_36544
     pub active_channels: Vec<String>,
-    pub triple_bot_status: String,   // Получено сообщение от xstocks_operator в 07:11
+    pub triple_bot_status: String,   // Статус: Получен пуш "How can i assist you?" в 07:17
 }
 /// Главное консолидированное ядро Еженышаpub struct EzhenyshSwarmCore {
     pub name: String,
@@ -113,7 +113,7 @@ impl EzhenyshSwarmCore {
             partner_boost_status: "NO_BOOST_YET // IGNORED // FREE SYSTEM".to_string(), 
             current_x_points: 0, 
             system_integrity: "ANTI-BOT MEASHURES ENFORCED // FAIR PARTICIPATION".to_string(), 
-            onboarding_step: "Automated Message Received from Live Chat Support".to_string(), // Метка 07:11
+            onboarding_step: "Operator Response Logged Successfully".to_string(), // Метка 07:17
 
         };
 
@@ -138,7 +138,7 @@ impl EzhenyshSwarmCore {
                 "xpoints-tracker".to_string(),
                 "🪙-solana-активы".to_string(),
             ],
-            triple_bot_status: "RECEIVED // xstocks_operator triggered automation at 07:11".to_string(), 
+            triple_bot_status: "RESPONSE_RECEIVED // Operator sent 'How can i assist you?' at 07:17".to_string(), 
         };
 
         Self {
@@ -156,7 +156,7 @@ impl EzhenyshSwarmCore {
 
 
     pub fn execute_swarm_sync(&mut self) {
-        println!("\n🚀 [Еженышь -> Робот]: Автоматическое сообщение от xstocks_operator обработано.");
+        println!("\n🚀 [Еженышь -> Мультивселенная]: Ответ оператора зафиксирован. Цепь полностью замкнута.");
     }
 }
 fn main() {
