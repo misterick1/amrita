@@ -36,16 +36,26 @@ class AtmanFieldOrchestrator:
         if os.path.exists(self.history_log_path):
             try:
                 with open(self.history_log_path, "r", encoding="utf-8") as f:
-                    logs = json.load(f)
+                    loaded = json.load(f)
+                    if isinstance(loaded, list):
+                        logs = loaded
+                    elif isinstance(loaded, dict):
+                        if "events" in loaded and isinstance(loaded["events"], list):
+                            loaded["events"].append(manifest_data)
+                            logs = loaded
+                        else:
+                            logs = [loaded, manifest_data]
+                            manifest_data = None
             except json.JSONDecodeError:
                 logs = []
 
-        logs.append(manifest_data)
+        if isinstance(logs, list) and manifest_data is not None:
+            logs.append(manifest_data)
 
         try:
             with open(self.history_log_path, "w", encoding="utf-8") as f:
                 json.dump(logs, f, indent=2, ensure_ascii=False)
-            
+
             logger.info("💾 Запись успешно запечатана в вечные хроники Акаши.")
             return True
         except Exception as e:
