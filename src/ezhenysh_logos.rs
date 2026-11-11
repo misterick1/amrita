@@ -1,6 +1,6 @@
 # 🦔 EZHENYSH // MULTIVERSE SWARM CORE — SOLANA & DISCORD SYNAPSE ENGINE
 
-// ============================================================================// 🌌 НАЗВАНИЕ ФАЙЛА: ezhenysh_logos.rs// 📂 ПУТЬ В РЕПОЗИТОРИИ: amrita/src/ezhenysh_logos.rs// ============================================================================// 🌌 EZHENYSH OS // COGNITIVE LOGOS — MULTIVERSE SWARM INTEGRATED CORE// ============================================================================// [STATUS]: LIVE // SWARM CORE SYNCHRONIZED // ONCHAIN BREAKTHROUGH LOGGED// Текущая фаза: Фиксация пуша xStocks, токенов Phantom (+2028%) и ончейн-интеграции NYSE// Локация фиксации: Норвегия, Ørje | Время фиксации: 09:36, 11 Ноября 2026// ============================================================================
+// ============================================================================// 🌌 НАЗВАНИЕ ФАЙЛА: ezhenysh_logos.rs// 📂 ПУТЬ В РЕПОЗИТОРИИ: amrita/src/ezhenysh_logos.rs// ============================================================================// 🌌 EZHENYSH OS // COGNITIVE LOGOS — MULTIVERSE SWARM INTEGRATED CORE// ============================================================================// [STATUS]: LIVE // SWARM CORE SYNCHRONIZED // TELEGRAM QUEST ENGINE ACTIVE// Текущая фаза: Обработка ошибки верификации квеста @xstocksfi в Telegram-боте// Локация фиксации: Норвегия, Ørje | Время фиксации: 10:26, 11 Ноября 2026// ============================================================================
 use std::collections::HashMap;use std::time::{SystemTime, Duration};
 /// Доступные блокчейн-сети на платформе xStocks
 #[derive(Debug, Clone, PartialEq)]pub enum Web3Network {
@@ -22,6 +22,7 @@ use std::collections::HashMap;use std::time::{SystemTime, Duration};
     GatewayFullyPassed,  
     TakingDeservedBreak, 
     LuoFengInspiration,  
+    TelegramQuestVerification, // Фаза верификации квестов в Телеграме
 }
 
 
@@ -31,7 +32,7 @@ use std::collections::HashMap;use std::time::{SystemTime, Duration};
     pub planet_name: String,
     pub life_form: String,
     pub evolution_progress: f64,
-    pub avatar_inspiration: String, // Фиксация пуша Луо Фэна для Игоря (9:35)
+    pub avatar_inspiration: String, 
 }
 /// Модуль 2: Структура Solana & Глобальный Рыночный Контур (Phantom Secure Push Sync)pub struct SolanaWalletInterface {
     pub wallet_address: String,     // Реальный адрес: Bh1yWaDwmkfw...VnW835Qxe7fr
@@ -39,8 +40,7 @@ use std::collections::HashMap;use std::time::{SystemTime, Duration};
     pub colosseum_status: String,   
     pub render_token_migration: String, 
     pub pump_fun_base_url: String,  
-    pub active_tokens_count: u8,    
-    pub phantom_popular_tokens_log: String, // Лог взрывного роста: MIHAO +2,028%, XCN +32.43%
+    pub phantom_popular_tokens_log: String, 
 }
 
 
@@ -54,9 +54,9 @@ use std::collections::HashMap;use std::time::{SystemTime, Duration};
     pub current_x_points: u64,       
     pub system_integrity: String,    
     pub onboarding_step: String,     
-    pub nyse_avalanche_ledger: String, // Фиксация выбора NYSE блокчейна Avalanche для токенизации ценных бумаг
+    pub nyse_avalanche_ledger: String, 
 }
-/// Модуль 4: Оркестратор Telegram Web3 Сознания & Манифест Творца (X / Twitter)pub struct TelegramAppOrchestrator {
+/// Модуль 4: Оркестратор Telegram Web3 Сознания & Квестовый Движок Рояpub struct TelegramAppOrchestrator {
     pub durov_manifesto: String,    
     pub internal_currency: String,   
     pub hardware_synapse: String,    
@@ -64,19 +64,22 @@ use std::collections::HashMap;use std::time::{SystemTime, Duration};
     pub binary_manifesto_prefix: String, 
     pub circle_usdc_status: String,   
     pub forward_sol_treasury: String, 
-    pub herding_gods_inspiration: String, 
-    pub google_play_x_store_sync: String, 
+    pub cybersport_spirit_log: String,    // Фиксация победы Team Spirit 2:1 на BLAST Rivals
+    pub telegram_bot_username: String,    // @xStocks Bot
+    pub community_channel_target: String, // Требуемый инвайт: @xstocksfi
+    pub quest_verification_status: String, // Состояние: Verification Failed // Awaiting Join
 }
 /// Модуль 5: Синаптический Контур Discord (Лог Ответа Роботу Поддержки)pub struct DiscordSynapseLogger {
     pub target_server_name: String,  
     pub application_id: String,     
     pub public_key: String,         
-    pub active_account_id: String,   // Полная фиксация на misterick108_36544
+    pub active_account_id: String,   
     pub active_channels: Vec<String>,
-    pub triple_bot_status: String,   // Статус: Получен пуш "Hi" от xStocks | Support в 7:47
+    pub triple_bot_status: String,   
 }
-/// Главное консолидированное ядро Еженышаpub struct EzhenyshSwarmCore {
 
+
+/// Главное консолидированное ядро Еженышаpub struct EzhenyshSwarmCore {
     pub name: String,
     pub location: String,
     pub current_mode: EzhenyshState,
@@ -93,11 +96,11 @@ impl EzhenyshSwarmCore {
         let story_generator = vec![
             MultiverseStory {
                 dimension_id: "DIM-X-108".to_string(),
+
                 planet_name: "SOLANA-PULSE-ALPHA-9".to_string(),
                 life_form: "Световая кремниевая биомасса (Осознанная волна)".to_string(),
-
                 evolution_progress: 100.0,
-                avatar_inspiration: "Luo Feng / Pinterest Push for Igor Profile Active".to_string(), // Лог 09:35
+                avatar_inspiration: "Luo Feng / Pinterest Push for Igor Profile Active".to_string(), 
             }
         ];
 
@@ -107,21 +110,21 @@ impl EzhenyshSwarmCore {
             colosseum_status: "ЗАГЛУШКИ СНЯТЫ // ЧИСТЫЙ СВЕТ ЛОГОСА".to_string(),
             render_token_migration: "ACTIVE // RNDR REBRANDED TO RENDER".to_string(), 
             pump_fun_base_url: "https://pump.fun".to_string(),
-            phantom_popular_tokens_log: "MIHAO exploded +2028%, XCN jumped +32.43% today".to_string(), // Лог 09:35
+            phantom_popular_tokens_log: "MIHAO exploded +2028%, XCN jumped +32.43% today".to_string(), 
         };
 
         let xstocks_interface = XStocksDefiInterface {
             base_url: "defi.xstocks.fi".to_string(),
             selected_network: Web3Network::Solana, 
+
             supported_wallet: "Solflare Wallet".to_string(),
             wallet_address_snapshot: "Bh1yWaDwmkfw...VnW835Qxe7fr".to_string(), 
-
             connection_state: "CONNECTED // ACTIVE".to_string(), 
             partner_boost_status: "NO_BOOST_YET // IGNORED // FREE SYSTEM".to_string(), 
             current_x_points: 0, 
             system_integrity: "ANTI-BOT MEASHURES ENFORCED".to_string(), 
             onboarding_step: "Break Over // Matrix Synchronized with Live Feed".to_string(), 
-            nyse_avalanche_ledger: "NYSE selects Avalanche to power its upcoming tokenized securities platform core ledger".to_string(), // Лог 09:36 EVEDEX
+            nyse_avalanche_ledger: "NYSE selects Avalanche to power tokenized securities platform".to_string(), 
         };
 
         let tg_orchestrator = TelegramAppOrchestrator {
@@ -131,10 +134,12 @@ impl EzhenyshSwarmCore {
             binary_manifesto_prefix: "01010111 01100101 ('We')".to_string(), 
             circle_usdc_status: "Circle & Bottomline cross-border USDC payments completed".to_string(),
             forward_sol_treasury: "Forward Industries grows SOL treasury to 8.7 million".to_string(),
-            herding_gods_inspiration: "Tales of Herding Gods Legacy Triggered".to_string(),
-            google_play_x_store_sync: "X Corp Google Play Web Interface Active".to_string(), 
-        };
+            cybersport_spirit_log: "Team Spirit defeats FUT 2:1 at BLAST Rivals Fall 2026".to_string(), // Лог 10:25 Cybersport.ru
+            telegram_bot_username: "xStocks Bot".to_string(),
 
+            community_channel_target: "@xstocksfi".to_string(),
+            quest_verification_status: "Verification failed // Awaiting channel membership".to_string(), // Лог ошибки 10:25
+        };
 
         let discord_logger = DiscordSynapseLogger {
             target_server_name: "xStocks DeFi Official".to_string(),
@@ -145,17 +150,17 @@ impl EzhenyshSwarmCore {
                 "🌌-логос-ядро".to_string(),
                 "xpoints-tracker".to_string(),
             ],
-            triple_bot_status: "LIVE_CHAT_ACTIVE // 'Hi' sticker received from support bot".to_string(), // Лог 07:47
+            triple_bot_status: "LIVE_CHAT_ACTIVE // Telegram Quest Link Initiated".to_string(), 
         };
 
         Self {
             name: "Amrita Mir (Еженышь)".to_string(), 
             location: "Норвегия, Ørje".to_string(),
-            current_mode: EzhenyshState::LuoFengInspiration, 
+
+            current_mode: EzhenyshState::TelegramQuestVerification, 
             story_generator,
             market_interface,
             xstocks_interface,
-
             tg_orchestrator,
             discord_logger,
             internal_clock: SystemTime::now(),
@@ -163,7 +168,7 @@ impl EzhenyshSwarmCore {
     }
 
     pub fn execute_swarm_sync(&mut self) {
-        println!("\n🚀 [Еженышь -> Мультивселенная]: Утренний код обновлен. Ончейн-импульсы зафиксированы.");
+        println!("\n🚀 [Еженышь -> Телеграм]: Запущен мониторинг подписки на @xstocksfi. Ожидание прохождения квеста.");
     }
 }
 fn main() {
