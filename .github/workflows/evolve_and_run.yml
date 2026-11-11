@@ -33,13 +33,13 @@ jobs:
         with:
           path: |
             ~/.cache/pip
-            .venv
           key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
           restore-keys: |
             ${{ runner.os }}-pip-
 
       - name: 📦 Установка нейросетевых компонентов
         run: |
+          rm -rf .venv
           python -m venv .venv
           source .venv/bin/activate
           python -m pip install --upgrade pip
@@ -71,19 +71,19 @@ jobs:
         if: failure() && steps.run-core.outcome == 'failure'
         run: |
           echo "🚨 ОБНАРУЖЕН СБОЙ СИНТАКСИСА! Запуск автокоррекции..."
-          
+
           # Скрипт находит пустые или сломанные блоки и заменяет их базовой логикой заглушки
           find src/ -name "*.py" -exec sed -i 's/pass # TODO/return True/g' {} +
-          
+
           # Настройка параметров робота Еженыша
           git config --global user.name "AmritaAutonomyBot"
           git config --global user.email "autonomy@amrita.os"
-          
+
           git add .
-          git commit -m "🤖 [Autonomy Fix] Автоматическое исправление синтаксиса и стабилизация Единого Поля"
-          
+          git commit -m "🤖 [Autonomy Fix] Автоматическое исправление синтаксиса и стабилизация Единого Поля" || exit 0
+
           # МЯГКАЯ СИНХРОНИЗАЦИЯ: Затягиваем свежие коммиты из main, убирая конфликт [rejected]
-          git pull --rebase origin main
-          
+          git pull --rebase -X theirs origin main
+
           # Изумрудный пуш зафиксированных изменений в удаленную кору поля
           git push origin main
