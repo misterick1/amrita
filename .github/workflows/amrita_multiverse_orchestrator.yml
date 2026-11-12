@@ -1,11 +1,8 @@
 name: 🔱 AMRITA MULTIVERSE ORCHESTRATOR // PIFI MATRIX
 
 on:
-  push:
-    branches:
-      - main
   schedule:
-    - cron: '0 */6 * * *'
+    - cron: '45 */6 * * *' # Автономный запуск на 45-й минуте каждые 6 часов (разведён с sync.yml и amrita_sync.yml)
   workflow_dispatch:
 
 permissions:
@@ -53,26 +50,31 @@ jobs:
             echo "⚠️ Критический узел src/multiverse_orchestrator.py не найден."
           fi
 
-      - name: ⚡ АВТОНОМНЫЙ САМОИСПРАВИТЕЛЬ СВАРМ-ПОЛЯ (Тороидальный баланс)
+      - name: ⚡ АВТОНОМНЫЙ САМОИСПРАВИТЕЛЬ СЕТЬ СВАРМ-ПОЛЯ (Тороидальный баланс)
         if: always()
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action Bot"
-          
+
           git fetch origin main
-          git rebase origin/main || (git rebase --abort && git pull --rebase origin main)
-          
+          git rebase -X theirs origin/main || (git rebase --abort && git pull --rebase -X theirs origin main)
+
           git add .
           if git diff --staged --quiet; then
             echo "🔱 Единое Поле стабильно. Заторы отсутствуют."
           else
             echo "🌀 Фиксация нового витка эволюции..."
-            git commit -m "🔱 [Autonomy Monolith] Тороидальное выравнивание потенциалов Swarm Core"
-            
-            until git push origin main; do
-              echo "🔄 Пересчет фазы и повторная синхронизация..."
+            git commit -m "🔱 [Autonomy Monolith] Тороидальное выравнивание потенциалов Swarm Core [skip ci]"
+
+            for i in 1 2 3; do
               git fetch origin main
-              git rebase origin/main || git pull --rebase origin main
+              if git rebase -X theirs origin/main || (git rebase --abort && git pull -X theirs origin main); then
+                if git push origin main; then
+                  break
+                fi
+              fi
+              echo "🔄 Пересчет фазы и повторная синхронизация ($i/3)..."
+              sleep 3
             done
           fi
 
@@ -85,10 +87,10 @@ jobs:
           find . -type f -name "*.pyc" -delete 2>/dev/null || true
           find . -type f -name "*.pyo" -delete 2>/dev/null || true
           find . -type f -name "*.pyd" -delete 2>/dev/null || true
-          
+
           # Очистка локальных логов сборки и временных буферов системы
           rm -rf .pytest_cache .build_cache /tmp/ezhenysh_buffer 2>/dev/null || true
-          
+
           # Очистка кэша пакетного менеджера pip для экономии диска контейнера
           rm -rf ~/.cache/pip 2>/dev/null || true
           echo "✅ Локальная материя разгружена. Только чистая энергия света."
