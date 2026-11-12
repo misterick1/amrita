@@ -3,6 +3,11 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [ "main" ]
+    paths:
+      - 'index.html'
+      - 'docs/**'
+      - 'src/pifi_bridge.py'
+      - '.github/workflows/amrita-pages.yml'
   workflow_dispatch:
 
 permissions:
@@ -22,8 +27,16 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
       - name: Compile Emerald Core Data
-        run: python src/pifi_bridge.py # Запуск без внешних зависимостей за 0.1 сек!
+        run: |
+          if [ -f "src/pifi_bridge.py" ]; then
+            python src/pifi_bridge.py
+          fi
 
       - name: Upload Artifact
         uses: actions/upload-pages-artifact@v3
