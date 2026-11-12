@@ -1,10 +1,11 @@
 name: sync_and_deploy
 
 on:
-  push:
-    branches:
-      - main
   workflow_dispatch:
+
+concurrency:
+  group: amrita-sync-and-deploy
+  cancel-in-progress: false
 
 permissions:
   contents: write
@@ -17,6 +18,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
 
       - name: Set up Python Environment
         uses: actions/setup-python@v5
@@ -62,7 +64,12 @@ jobs:
 
           git commit -m "🔱 AMRITA: Complete mainnet stabilization [skip ci]"
 
-          # ЖЕСТКОЕ ИСПРАВЛЕНИЕ: Синхронизируем ветки перед отправкой
-          git fetch origin main
-          git pull --rebase origin main
-          git push origin main
+          # Синхронизация веток с защитой от конфликтов
+          for i in 1 2 3; do
+            git fetch origin main
+            git rebase -X theirs origin/main || (git rebase --abort && git pull -X theirs origin main)
+            if git push origin main; then
+              break
+            fi
+            sleep 3
+          done
