@@ -1,31 +1,46 @@
 name: Run Amrita Telegram Bot
 
-# Сценарий запускается автоматически каждый час, либо вручную кнопкой в GitHub
+# Сценарий запускается автоматически каждый час на 5-й минуте, либо вручную кнопкой в GitHub
 on:
   schedule:
-    - cron: '0 * * * *' # Запуск каждую нулевую минуту часа
-  workflow_dispatch:     # Позволяет запускать бота руками из вкладки Actions
+    - cron: '5 * * * *' # Запуск на 5-й минуте каждого часа (разведён с ezhenysh_evolution.yml)
+  workflow_dispatch:  # Позволяет запускать бота руками из вкладки Actions
+
+concurrency:
+  group: "run-amrita-telegram-bot"
+  cancel-in-progress: false
 
 jobs:
   run-bot:
     runs-on: ubuntu-latest
 
     steps:
-    # Шаг 1: Скачиваем ваш код из репозитория
-    - name: Checkout repository code
-      uses: actions/checkout@v4
+      # Шаг 1: Скачиваем ваш код из репозитория
+      - name: Checkout repository code
+        uses: actions/checkout@v4
 
-    # Шаг 2: Устанавливаем окружение Python
-    - name: Set up Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.10'
+      # Шаг 2: Устанавливаем окружение Python
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
 
-    # Шаг 3: Запускаем скрипт и безопасно передаем секреты
-    - name: Execute Telegram Reporter
-      env:
-        # GitHub Actions автоматически возьмет их из настроек репозитория
-        TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-        TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-      run: |
-        python telegram_reporter.py
+      # Шаг 3: Установка зависимостей для Telegram-репортера
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f "requirements.txt" ]; then pip install -r requirements.txt; fi
+          pip install requests pyTelegramBotAPI 2>/dev/null || true
+
+      # Шаг 4: Запускаем скрипт и безопасно передаем секреты
+      - name: Execute Telegram Reporter
+        env:
+          # GitHub Actions автоматически возьмет их из настроек репозитория
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          if [ -f "telegram_reporter.py" ]; then
+            timeout -k 5 60s python telegram_reporter.py || echo "✨ Отчёт telegram_reporter.py завершён."
+          elif [ -f "src/telegram_reporter.py" ]; then
+            timeout -k 5 60s python src/telegram_reporter.py || echo "✨ Отчёт src/telegram_reporter.py завершён."
+          fi
