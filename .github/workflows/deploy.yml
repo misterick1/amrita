@@ -1,9 +1,7 @@
 name: pages build and deployment
 
 on:
-  push:
-    branches: [ "main", "master" ]
-  workflow_dispatch: # Добавляет кнопку ручной сборки
+  workflow_dispatch: # Запуск вручную по требованию (основной авто-деплой объединён в amrita-pages.yml)
 
 permissions:
   contents: read
