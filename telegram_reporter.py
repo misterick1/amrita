@@ -21,7 +21,7 @@ class AmritaTelegramReporter:
     def send_telegram_alert(self, message: str):
         """Прямая отправка логов в Telegram-канал через Bot API"""
         if not self.tg_token or not self.chat_id:
-            print("❌ Ошибка: Переменные TELEGRAM_BOT_TOKEN или TELEGRAM_CHAT_ID не найдены в секретах!")
+            print("❌ Ошибка: Переменные TELEGRAM_BOT_TOKEN или TELEGRAM_CHAT_ID не найдены в секретах!", flush=True)
             return
 
         url = f"https://telegram.org{self.tg_token}/sendMessage"
@@ -39,12 +39,12 @@ class AmritaTelegramReporter:
             )
             with urllib.request.urlopen(req) as response:
                 if response.getcode() == 200:
-                    print("📲 Сигнал успешно доставлен оператору в Telegram!")
+                    print("📲 Сигнал успешно доставлен оператору в Telegram!", flush=True)
         except Exception as e:
-            print(f"❌ Ошибка отправки в Telegram: {e}")
+            print(f"❌ Ошибка отправки в Telegram: {e}", flush=True)
 
     def scan_and_report(self):
-        print(f"\n🛸 Запуск сканирования сети через RPC...")
+        print("\n🛸 Запуск сканирования сети через RPC...", flush=True)
         self.anti_ban_delay()
 
         # Имитируем находку токена (например, Elonius)
@@ -55,7 +55,7 @@ class AmritaTelegramReporter:
             "score": 85
         }
 
-        print(f"👁️ Перехвачен токен: {token['name']}")
+        print(f"👁️ Перехвачен токен: {token['name']}", flush=True)
 
         # Если токен проходит фильтр хайпа
         if any(re.search(p, token["name"].lower()) for p in self.hype_patterns):
