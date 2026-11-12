@@ -5,10 +5,15 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
+  workflow_dispatch:
 
 # Явно открываем шлюз на запись для встроенного токена автоматизации
 permissions:
   contents: write
+
+concurrency:
+  group: "evolve-and-run-loop"
+  cancel-in-progress: false
 
 jobs:
   evolution_loop:
@@ -80,10 +85,14 @@ jobs:
           git config --global user.email "autonomy@amrita.os"
 
           git add .
-          git commit -m "🤖 [Autonomy Fix] Автоматическое исправление синтаксиса и стабилизация Единого Поля" || exit 0
+          git commit -m "🤖 [Autonomy Fix] Автоматическое исправление синтаксиса и стабилизация Единого Поля [skip ci]" || exit 0
 
-          # МЯГКАЯ СИНХРОНИЗАЦИЯ: Затягиваем свежие коммиты из main, убирая конфликт [rejected]
-          git pull --rebase -X theirs origin main
-
-          # Изумрудный пуш зафиксированных изменений в удаленную кору поля
-          git push origin main
+          # МЯГКАЯ СИНХРОНИЗАЦИЯ И ПУШ: Затягиваем свежие коммиты из main с защитой от конфликтов
+          for i in 1 2 3; do
+            git fetch origin main
+            git rebase -X theirs origin/main || (git rebase --abort && git pull -X theirs origin main)
+            if git push origin main; then
+              break
+            fi
+            sleep 3
+          done
