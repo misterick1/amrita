@@ -8,9 +8,9 @@ import json
 class AmritaTelegramReporter:
     def __init__(self):
         # Автоматически подтягиваем секреты из GitHub Secrets / Окружения
-        self.tg_token = os.environ.get("TELEGRAM_BOT_TOKEN") 
-        self.chat_id = os.environ.get("TELEGRAM_CHAT_ID")
-        
+        self.tg_token = (os.environ.get("TELEGRAM_BOT_TOKEN") or "").strip()
+        self.chat_id = (os.environ.get("TELEGRAM_CHAT_ID") or "").strip()
+
         self.target_platform = "pump.fun"
         self.hype_patterns = [r"elon", r"grok", r"odyssey", r"amrita"]
 
@@ -30,10 +30,10 @@ class AmritaTelegramReporter:
             "text": message,
             "parse_mode": "Markdown"
         }
-        
+
         try:
             req = urllib.request.Request(
-                url, 
+                url,
                 data=json.dumps(payload).encode('utf-8'),
                 headers={'Content-Type': 'application/json'}
             )
@@ -46,7 +46,7 @@ class AmritaTelegramReporter:
     def scan_and_report(self):
         print(f"\n🛸 Запуск сканирования сети через RPC...")
         self.anti_ban_delay()
-        
+
         # Имитируем находку токена (например, Elonius)
         token = {
             "name": "Elonius Odyssey",
@@ -54,21 +54,21 @@ class AmritaTelegramReporter:
             "creator": "HTX_Safe_Node",
             "score": 85
         }
-        
+
         print(f"👁️ Перехвачен токен: {token['name']}")
-        
+
         # Если токен проходит фильтр хайпа
         if any(re.search(p, token["name"].lower()) for p in self.hype_patterns):
             # Формируем красивый киберпанк-отчет для вашего канала
             alert_text = (
-                f"⚡️ *[AMRITA OS | ALIVE SIGNAL]* ⚡️\n\n"
-                f"🪐 *Платформа:* {self.target_platform}\n"
-                f"💎 *Токен:* {token['name']} ({token['symbol']})\n"
+                f"⚡ *[AMRITA OS | ALIVE SIGNAL]* ⚡\n\n"
+                f"🌐 *Платформа:* {self.target_platform}\n"
+                f"🪙 *Токен:* {token['name']} ({token['symbol']})\n"
                 f"👤 *Создатель:* `{token['creator']}`\n"
-                f"📊 *ИИ-Скоринг (xAI Grok):* `{token['score']}/100`\n\n"
+                f"📊 *ИИ-Скоринг (xAI Grok):* `{token['score']}/100`\n"
                 f"🚀 _Статус: Токен одобрен. Запуск сбора монеток на Solana!_"
             )
-            
+
             # Отправляем в Telegram
             self.send_telegram_alert(alert_text)
 
