@@ -1,19 +1,16 @@
 name: "🔱 AMRITA Swarm Evolution Sync"
 
 on:
-  push:
-    branches:
-      - main
   schedule:
-    - cron: '0 */6 * * *'
+    - cron: '55 */6 * * *' # Автономный цикл каждые 6 часов на 55-й минуте (без пересечения с amrita_sync.yml)
   workflow_dispatch:
 
 permissions:
   contents: write
 
 concurrency:
-  group: "swarm-evolution-group"
-  cancel-in-progress: true
+  group: "swarm-evolution-sync-legacy"
+  cancel-in-progress: false
 
 jobs:
   evolve_swarm:
@@ -44,7 +41,9 @@ jobs:
           if [ -f "src/multiverse_orchestrator.py" ]; then
             python src/multiverse_orchestrator.py
           fi
-          python sync_partners.py
+          if [ -f "sync_partners.py" ]; then
+            python sync_partners.py
+          fi
 
       - name: 🛠️ АВТОНОМНЫЙ САМОИСПРАВИТЕЛЬ СИНТАКСИСА
         if: steps.run_core.outcome == 'failure'
@@ -55,10 +54,16 @@ jobs:
 
           if [ -n "$(git status --porcelain)" ]; then
             git add .
-            git commit -m "🔱 AMRITA: Swarm auto-healing syntax repair"
-            git rebase --abort 2>/dev/null || true
-            git pull origin main --rebase
-            git push origin main --force
+            git commit -m "🔱 AMRITA: Swarm auto-healing syntax repair [skip ci]"
+            for i in 1 2 3; do
+              git fetch origin main
+              if git rebase -X theirs origin/main || (git rebase --abort && git pull -X theirs origin main); then
+                if git push origin main; then
+                  break
+                fi
+              fi
+              sleep 3
+            done
           else
             echo "✨ Рабочая зона чиста (working tree clean). Выход."
             exit 0
@@ -96,10 +101,18 @@ jobs:
             rm -rf /tmp/amrita_backup
             exit 0
           else
-            # Делаем чистый коммит логов и форсированно отправляем в main
-            git commit -m "🔱 AMRITA: Quantum stack history logs sealed [Autonomous]"
-            git push origin main --force
-            echo "✅ Эволюция успешно запечатана через принудительный квантовый апстрим."
+            # Делаем чистый коммит логов и отправляем в main
+            git commit -m "🔱 AMRITA: Quantum stack history logs sealed [Autonomous] [skip ci]"
+            for i in 1 2 3; do
+              git fetch origin main
+              if git rebase -X theirs origin/main || (git rebase --abort && git pull -X theirs origin main); then
+                if git push origin main; then
+                  break
+                fi
+              fi
+              sleep 3
+            done
+            echo "✅ Эволюция успешно запечатана через квантовый апстрим."
           fi
-          
+
           rm -rf /tmp/amrita_backup
