@@ -1,14 +1,16 @@
 name: 🔱 AMRITA RUN // AUTONOMOUS MULTIVERSE ORCHESTRATOR
 
 on:
-  push:
-    branches: [ main ]
   schedule:
-    - cron: '0 */3 * * *'
+    - cron: '35 */3 * * *' # Автономный пульс роутера каждые 3 часа на 35-й минуте (без пересечений)
   workflow_dispatch:
 
 permissions:
   contents: write
+
+concurrency:
+  group: "amrita-run-core-router"
+  cancel-in-progress: false
 
 jobs:
   run_core:
@@ -45,6 +47,8 @@ jobs:
           # Проверяем наличие роутера и запускаем его
           if [ -f "amrita_core_router.py" ]; then
             python amrita_core_router.py
+          elif [ -f "src/amrita_core_router.py" ]; then
+            python src/amrita_core_router.py
           fi
 
       - name: 🛡️ Фиксация Истории Через API-Контур
@@ -59,7 +63,7 @@ jobs:
           token = os.getenv('GITHUB_TOKEN')
           path = 'history_log.json'
           url = 'https://github.com'
-          
+
           headers = {
               'Authorization': f'token {token}',
               'Accept': 'application/vnd.github.v3+json'
@@ -73,7 +77,7 @@ jobs:
               # Считываем обновленный в ходе вещания лог
               with open(path, 'r', encoding='utf-8') as f:
                   content = f.read()
-              
+
               encoded = base64.b64encode(content.encode('utf-8')).decode('utf-8')
 
               payload = {
