@@ -1,10 +1,15 @@
-name: 🛰 AMRITA SOLANA LIVE MONITOR
+name: 🛸 AMRITA SOLANA LIVE MONITOR
 
 on:
   push:
     branches: [ main ]
   schedule:
     - cron: '*/15 * * * *'
+  workflow_dispatch:
+
+concurrency:
+  group: "amrita-solana-live-monitor"
+  cancel-in-progress: false
 
 jobs:
   monitor_solana_assets:
@@ -53,18 +58,20 @@ jobs:
                   return
               intents = discord.Intents.default()
               client = discord.Client(intents=intents)
+
               @client.event
               async def on_ready():
                   for guild in client.guilds:
                       for channel in guild.text_channels:
                           if channel.name in ['swarm-pulse', 'general']:
                               try:
-                                  await channel.send(f"🪐 **[ЛОГОС АМРИТА]**\n{text}")
+                                  await channel.send(f"🛸 **[ЛОГОС АМРИТА]**\n{text}")
                               except:
                                   pass
                   await client.close()
+
               try:
-                  await client.start(token)
+                  await asyncio.wait_for(client.start(token), timeout=20.0)
               except Exception as e:
                   print(f"[Discord Error] {e}")
 
@@ -94,25 +101,25 @@ jobs:
                           if response.status != 200:
                               raise Exception(f"RPC status {response.status}")
                           data = await response.json()
-                          
-                          if "result" in data:
-                              txs = data["result"]
-                              if not txs:
-                                  msg = "✨ *Амрита Мир Солана:* Поле в состоянии покоя X."
-                                  await send_telegram_message(session, tg_token, tg_chat, msg)
-                                  await send_discord_manifest(discord_token, msg)
-                                  return
-                              
-                              report = f"🪐 *Amrita Unified Matrix Sync*\n• Баланс: c72 * c36 = c108\n• Адрес: `{target_address[:6]}...`\n"
-                              for tx in txs:
-                                  report += f"🔹 Слот: `{tx.get('slot')}` | Сигнатура: `{tx.get('signature')[:12]}...`\n"
-                              
-                              await send_telegram_message(session, tg_token, tg_chat, report)
-                              await send_discord_manifest(discord_token, report)
-                          else:
-                              await send_telegram_message(session, tg_token, tg_chat, "⚠️ RPC пуст.")
+
+                      if "result" in data:
+                          txs = data["result"]
+                          if not txs:
+                              msg = "✨ *Амрита Мир Солана:* Поле в состоянии покоя X."
+                              await send_telegram_message(session, tg_token, tg_chat, msg)
+                              await send_discord_manifest(discord_token, msg)
+                              return
+
+                          report = f"🛸 *Amrita Unified Matrix Sync*\n• Баланс: c72 * c36 = c108\n• Адрес: `{target_address[:6]}...`\n"
+                          for tx in txs:
+                              report += f"🔹 Слот: `{tx.get('slot')}` | Сигнатура: `{tx.get('signature')[:12]}...`\n"
+
+                          await send_telegram_message(session, tg_token, tg_chat, report)
+                          await send_discord_manifest(discord_token, report)
+                      else:
+                          await send_telegram_message(session, tg_token, tg_chat, "⚠️ RPC пуст.")
                   except Exception as e:
-                      err_msg = f"⚡️ [ВЕЧНАЯ ВОЛНА] Синхронизация PiFi стабильна. c108 удерживает потенциал."
+                      err_msg = f"⚡ [ВЕЧНАЯ ВОЛНА] Синхронизация PiFi стабильна. c108 удерживает потенциал."
                       await send_telegram_message(session, tg_token, tg_chat, err_msg)
 
           if __name__ == "__main__":
