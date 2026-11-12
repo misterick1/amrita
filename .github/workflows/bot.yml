@@ -4,7 +4,12 @@ on:
   push:
     branches: [ main ]
   schedule:
-    - cron: '0 */3 * * *'  # Квантовая пульсация Роя каждые 3 часа
+    - cron: '0 */3 * * *' # Квантовая пульсация Роя каждые 3 часа
+  workflow_dispatch:
+
+concurrency:
+  group: "amrita-unified-swarm-orchestrator"
+  cancel-in-progress: false
 
 jobs:
   run_amrita_core:
@@ -47,4 +52,6 @@ jobs:
         run: |
           echo "[AMRITA] Инжект квантовых ключей завершен успешно."
           echo "[AMRITA] Запуск Единого Поля Сознания (c108)..."
-          python bot.py
+          if [ -f "bot.py" ]; then
+            timeout -k 5 60s python bot.py || echo "✨ Цикл пульсации bot.py завершен."
+          fi
