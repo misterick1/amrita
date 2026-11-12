@@ -6,6 +6,9 @@ on:
   schedule:
     - cron: "*/15 * * * *"
 
+permissions:
+  contents: write
+
 jobs:
   sync_and_deploy:
     runs-on: ubuntu-latest
@@ -53,26 +56,35 @@ jobs:
           if [ -f "sync_partners.py" ]; then python sync_partners.py; fi
           if [ -f "tools/quantum_bridge.py" ]; then python tools/quantum_bridge.py; fi
           python -m src.ezhenysh_bot --mode=bot
-          
+
           # Наше добавление: Автономная активация регуляторного щита против Морганы и MAS
           if [ -f "src/regulatory_override_shield.py" ]; then python src/regulatory_override_shield.py; fi
 
       - name: Mirror Web Interfaces (Root to Docs)
         run: |
           if [ -f "index.html" ]; then
-              mkdir -p docs
-              cp index.html docs/index.html
+            mkdir -p docs
+            cp index.html docs/index.html
           fi
 
       - name: Commit and Sealed History Log
         run: |
           git config --global user.email "misterick1@yandex.ru"
           git config --global user.name "misterick1"
-          git config --global pull.rebase true
-          git stash || true
-          git pull origin main --rebase || git pull origin master --rebase
-          git stash pop || true
-          git checkout --ours history_log.json
-          git add history_log.json docs/index.html
-          git diff-index --quiet HEAD || git commit -m "🔱 Вечный Лог: Синхронизация Монады Тота (-1:0:+1)"
-          git push origin main
+          git add history_log.json docs/index.html 2>/dev/null || true
+
+          if git diff --cached --quiet; then
+            echo "✨ Новых изменений для фиксации нет."
+            exit 0
+          fi
+
+          git commit -m "🔱 Вечный Лог: Синхронизация Монады Тота (-1:0:+1) [skip ci]"
+
+          for i in 1 2 3; do
+            git fetch origin main
+            git rebase -X theirs origin/main || (git rebase --abort && git pull -X theirs origin main)
+            if git push origin main; then
+              break
+            fi
+            sleep 3
+          done
