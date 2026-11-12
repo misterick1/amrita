@@ -1,11 +1,16 @@
 name: Execute Swarm Core Sync
 
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
+  schedule:
+    - cron: '10 */4 * * *' # Автономный бустер-цикл каждые 4 часа на 10-й минуте (без пересечения с sync.yml)
   workflow_dispatch: # Позволяет запускать синхронизацию серверов вручную кнопкой
+
+permissions:
+  contents: write
+
+concurrency:
+  group: "execute-swarm-core-sync"
+  cancel-in-progress: false
 
 jobs:
   sync-and-deploy:
@@ -62,4 +67,4 @@ jobs:
           fi
 
           # 3. Активация ИИ-бустера через неубиваемый модуль
-          python -m src.ezhenysh_bot --mode=boost_bonding
+          PYTHONPATH=. python -m src.ezhenysh_bot --mode=boost_bonding
