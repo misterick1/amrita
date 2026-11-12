@@ -1,12 +1,7 @@
 name: Deploy AMRITA Dashboard to Pages
 
 on:
-  push:
-    branches:
-      - main
-    paths:
-      - 'docs/**'
-  workflow_dispatch:
+  workflow_dispatch: # Запуск вручную по требованию (валидация Pi Network и деплой объединены в amrita-pages.yml)
 
 permissions:
   contents: write
