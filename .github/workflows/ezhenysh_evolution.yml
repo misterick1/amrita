@@ -1,10 +1,8 @@
 name: "🦔 Ezhenysh Swarm Evolution"
 
 on:
-  push:
-    branches: [ main ]
   schedule:
-    - cron: '*/15 * * * *'
+    - cron: '0 * * * *' # Автономный пульс Профессора каждый час ровно в 00 минут (без пересечений с другими циклами)
   workflow_dispatch:
 
 permissions:
@@ -36,8 +34,10 @@ jobs:
       - name: Run Swarm Core Logic & Invoke Professor Node
         continue-on-error: true
         env:
-          ALL_REPOS_SECRETS: ${{ toJson(secrets) }}
           XAI_API_KEY: ${{ secrets.XAI_API_KEY }}
+          SOLANA_RPC_URL: ${{ secrets.SOLANA_RPC_URL }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           PROFESSOR_OBSERVER: "4th_Higgs_Boson_Time"
           C18_SPEED_WAVE: "-299792458^18"
         run: |
@@ -80,9 +80,10 @@ jobs:
 
             for i in 1 2 3; do
               git fetch origin main
-              git rebase -X theirs origin/main || (git rebase --abort && git pull -X theirs origin main)
-              if git push origin main; then
-                break
+              if git rebase -X theirs origin/main || (git rebase --abort && git pull -X theirs origin main); then
+                if git push origin main; then
+                  break
+                fi
               fi
               echo "🔄 Пересчет фазы Профессором. Разрешение коллизии торов ($i/3)..."
               sleep 3
