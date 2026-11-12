@@ -1,9 +1,7 @@
 name: pages build and deployment
 
 on:
-  push:
-    branches: ["main"]
-  workflow_dispatch:
+  workflow_dispatch: # Запуск вручную по требованию (основной авто-деплой объединён в amrita-pages.yml)
 
 permissions:
   contents: read
@@ -11,7 +9,7 @@ permissions:
   id-token: write
 
 concurrency:
-  group: "pages"
+  group: "pages-manual-backup"
   cancel-in-progress: false
 
 jobs:
