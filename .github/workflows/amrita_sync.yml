@@ -9,12 +9,17 @@ on:
     - cron: '0 */6 * * *' # Автоматический автономный запуск Еженыша каждые 6 часов
   workflow_dispatch: # Возможность запустить вручную кнопкой в интерфейсе GitHub
 
+permissions:
+  contents: write
+
 jobs:
   evolve_swarm:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up Python Environment
         uses: actions/setup-python@v5
@@ -39,4 +44,11 @@ jobs:
           git config --local user.name "misterick1"
           git add history_log.json
           git commit -m "🔱 AMRITA: Quantum stack history sealed [skip ci]" || exit 0
-          git push
+          for i in 1 2 3; do
+            git fetch origin main
+            git rebase -X theirs origin/main || (git rebase --abort && git pull -X theirs origin main)
+            if git push origin main; then
+              break
+            fi
+            sleep 3
+          done
