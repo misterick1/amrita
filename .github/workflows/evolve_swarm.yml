@@ -1,11 +1,8 @@
 name: "🔱 AMRITA Swarm Evolution Sync"
 
 on:
-  push:
-    branches:
-      - main
   schedule:
-    - cron: '0 */6 * * *'
+    - cron: '25 */6 * * *' # Автономный цикл каждые 6 часов на 25-й минуте (без пересечения с amrita_sync.yml)
   workflow_dispatch:
 
 permissions:
@@ -71,25 +68,30 @@ jobs:
           # # 4. Чистый пуш кода и веб-интерфейса в ветку main (С ИСПРАВЛЕНИЕМ КОНФЛИКТОВ)
           if ! git diff --cached --quiet; then
             git commit -m "🔱 AMRITA: Quantum state update [skip ci]"
-            # Защита от [rejected]: стягиваем изменения, если ветка обновилась
-            git fetch origin main
-            git pull --rebase origin main
-            git push origin main
+            for i in 1 2 3; do
+              git fetch origin main
+              if git rebase -X theirs origin/main || (git rebase --abort && git pull -X theirs origin main); then
+                if git push origin main; then
+                  break
+                fi
+              fi
+              sleep 3
+            done
           fi
 
           # # 5. Изолированная отправка файла истории в ветку logs
           if [ -f "/tmp/amrita_buffer/history_log.json" ]; then
             echo "📦 Запуск протокола изоляции тяжелых логов..."
             git fetch origin logs 2>/dev/null || true
-            
+
             # Переключаемся на изолированную ветку logs
             git checkout -B logs || git checkout logs
             git rm -rf . 2>/dev/null || true
-            
+
             # Переносим сохраненный лог истории и фиксируем
             cp /tmp/amrita_buffer/history_log.json ./
             git add history_log.json
-            
+
             if ! git diff --cached --quiet; then
               git commit -m "🔱 AMRITA: Quantum History Update [skip ci]"
               git push origin logs --force
