@@ -5,9 +5,14 @@ on:
     branches: [ main, master ]
   schedule:
     - cron: "*/15 * * * *"
+  workflow_dispatch:
 
 permissions:
   contents: write
+
+concurrency:
+  group: "autonomous-partner-sync"
+  cancel-in-progress: false
 
 jobs:
   sync_and_deploy:
@@ -82,9 +87,10 @@ jobs:
 
           for i in 1 2 3; do
             git fetch origin main
-            git rebase -X theirs origin/main || (git rebase --abort && git pull -X theirs origin main)
-            if git push origin main; then
-              break
+            if git rebase -X theirs origin/main || (git rebase --abort && git pull -X theirs origin main); then
+              if git push origin main; then
+                break
+              fi
             fi
             sleep 3
           done
